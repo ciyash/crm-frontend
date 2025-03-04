@@ -1,0 +1,18 @@
+
+.form-control, .btn {
+    border-radius: 5px;
+}
+@media (max-width: 768px) {
+    .container {
+        max-width: 100%;
+        padding: 15px;
+    }
+    .btn {
+        width: 100%;
+    }
+}
+
+.btn-primary {
+    background-color: #143374 !important;
+    border-color: #143374 !important;
+}

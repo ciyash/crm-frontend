@@ -1,0 +1,126 @@
+<h4 class="text-center mb-4 pt-5" style="color: #3C3C3C;
+font-size: 20px;
+font-family: Poppins;
+font-weight: 500;
+
+text-decoration: underline;
+word-wrap: break-word">Parcel Loading Offline</h4>
+<div class="container pt-5 pb-5" style="border: 1px solid #7C7C7C;">
+    <div class="container">
+        <form [formGroup]="bookingParcel" >
+            <div class="row g-3">
+                <div class="col-md-4 col-sm-12">
+                    <label class="form-label">From booking date</label>
+                    <input type="date" class="form-control" formControlName="startDate">
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <label class="form-label">From city</label>
+                    <input type="text" class="form-control"  formControlName="fromCity">
+                </div>
+                <div class="col-md-4 col-sm-12">
+                    <label class="form-label">To city</label>
+                    <input type="text" class="form-control" formControlName="toCity">
+                </div>
+                <div class="col-md-3 col-sm-12">
+                    <label class="form-label">To booking date</label>
+                    <input type="date" class="form-control"  formControlName="endDate">
+                </div>
+                <div class="col-md-3 col-sm-12">
+                    <label class="form-label">Book Branch</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="col-md-3 col-sm-12">
+                    <label class="form-label">GRN No</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="col-md-3 col-sm-12">
+                    <div class="">
+                        <button class="btn btn-primary " type="submit"
+                            style="height: calc(2.25rem + 2px); width: 10rem; margin-top: 1.8rem;" (click)="onLoad()" >Load</button>
+                    </div>
+                     <!-- <button class="btn btn-primary w-100" type="submit" (click)="onLoad()" >Load</button> -->
+                </div>
+        
+            </div>
+           </form>
+    </div>
+    <div class="container pb-3">
+        <div class="row pt-3">
+            <div class="col-md-4 col-sm-12">
+                <label class="form-label">Loading date</label>
+                <input type="date" class="form-control">
+            </div>
+            <div class="col-md-2 col-sm-12">
+                <label class="form-label">vehical Number</label>
+                <input type="text" class="form-control" >
+            </div>
+            <div class="col-md-2 col-sm-12">
+                <label class="form-label">Conductor name</label>
+                <input type="text" class="form-control">
+            </div>
+            <div class="col-md-2 col-sm-12">
+                <label class="form-label">Conductor No</label>
+                <input type="text" class="form-control">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <label class="form-label">Remark</label>
+                <input type="text" class="form-control">
+            </div>
+            <div class="col-md-3 ">
+                <label class="form-label">Drop Branch</label>
+                <input type="text" class="form-control">
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button class="btn btn-primary " type="button"
+                    style="height: calc(2.25rem + 2px); width: 10rem;">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+       
+       
+
+
+<h4 class="text-center mb-4 pt-5" style="color: #3C3C3C;
+font-size: 20px;
+font-family: Poppins;
+font-weight: 500;
+text-decoration: underline;
+word-wrap: break-word">Parcel Loading Offline Report</h4>
+
+<div class="container mb-5 pt-5 pt-5  " style="border: 1px solid #7C7C7C;">
+    <div class="row g-3">
+        <div class="col-md-4 col-sm-12">
+            <label class="form-label">From booking date</label>
+            <input type="date" class="form-control">
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <label class="form-label">From city</label>
+            <input type="text" class="form-control" value="Vijayawada">
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <label class="form-label">Book Branch</label>
+            <input type="text" class="form-control">
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <label class="form-label">To booking date</label>
+            <input type="date" class="form-control">
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <label class="form-label">To city</label>
+            <input type="text" class="form-control">
+        </div>
+        <div class="col-md-4 col-sm-12">
+
+        <div class="d-flex justify-content-start pt-2 my-4 ">
+            <button class="btn btn-primary " style="width: 10rem;">Load</button>
+        </div>
+     
+        </div>
+    </div>
+   
+</div>

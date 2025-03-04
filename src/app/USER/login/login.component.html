@@ -1,0 +1,33 @@
+
+ <div class="d-flex justify-content-center pt-5">
+  <div class="login-container">
+    <div class="left-side">
+      <img src="../../../assets/login.png" alt="Delivery Image">
+    </div>
+
+    <div class="right-side">
+      <img src="../../../assets/tittlelogo.svg" alt="Company Logo" class="logo">
+      <h6 class="company-name">SREE KALESWARI LOGISTICS</h6>
+      <div class="welcome-text">Welcome</div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <label class="form-label">User Id / Mobile Number</label>
+        <div class="input-group">
+          <i class="fas fa-user"></i>
+          <!-- <input type="text" class="form-control" formControlName="identifier" placeholder="Enter Email or Mobile"> -->
+          <input type="text" formControlName="identifier" autocomplete="off" placeholder="Username">
+        </div>
+        <label class="form-label mt-3">Password</label>
+        <div class="input-group">
+          <i class="fas fa-lock"></i>
+          <input type="password" formControlName="password" autocomplete="new-password" placeholder="Password">
+        </div>
+        <div class="forgot-password">Forgot your password?</div>
+        <button type="submit" class="btn btn-login" [disabled]="loginForm.invalid">LOGIN</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+

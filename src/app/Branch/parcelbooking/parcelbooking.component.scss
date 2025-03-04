@@ -1,0 +1,117 @@
+.navbar {
+    background-color: #0d2d6c;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+.navbar .nav-link, .navbar .navbar-brand {
+    color: white;
+}
+.card {
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 80px;
+}
+.btn-primary {
+    background-color: #0d2d6c;
+    border: none;
+}
+.btn-secondary {
+    background-color: #6c757d;
+}
+
+.navbar>.container, .navbar>.container-fluid, .navbar>.container-lg, .navbar>.container-md, .navbar>.container-sm, .navbar>.container-xl, .navbar>.container-xxl {
+    display: flex
+;
+    flex-wrap: inherit;
+    align-items: center;
+    justify-content: center;
+}
+.navbar-nav .nav-item {
+    margin-right: 90px; /* Adjust the spacing as needed */
+}
+.navbar-nav .nav-item {
+    margin: 0 80px;
+}
+
+.form-label::after {
+    content: " *"; 
+    color: red;
+    font-weight: bold;
+}
+.form-label{
+    color: #3C3C3C;
+font-size: 13.17px;
+font-family: Poppins;
+font-weight: 500;
+word-wrap: break-word
+}
+// lkadnclkadnknd
+
+  td{
+    background: #8FA0C4;
+    color: white;
+  }
+  .primary{
+    background-color: brown;
+    position: sticky;
+  }
+
+   th {
+    background: #143374;
+    color: white;
+    border-radius: 0;
+    top: 0;
+    padding: 10px;
+  }
+
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    /* Table Header (Dark Blue) */
+    .table thead tr {
+        background-color: #143374 !important; /* Dark Blue */
+        color: white !important;
+    }
+
+    .table th {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #ccc;
+    }
+
+    /* Normal Table Rows */
+    .table tbody tr {
+        background-color: #2B478B !important; /* Slightly lighter blue */
+        color: white;
+    }
+
+    .table tbody td {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #ccc;
+    }
+
+    .table tbody .highlight-row td {
+        background-color: #354F9E !important; /* Different shade of blue */
+        font-weight: bold;
+        color: white;
+    }
+
+    .table tbody input.form-control {
+        background-color: #B0C4DE !important; /* Light Blue */
+        border: 1px solid #ccc;
+        color: black;
+    }
+
+    /* Delete Button */
+    .text-danger {
+        color: red !important;
+    }
+
+  
