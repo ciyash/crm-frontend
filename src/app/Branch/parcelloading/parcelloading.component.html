@@ -13,10 +13,15 @@ word-wrap: break-word">Parcel Loading Offline</h4>
                     <label class="form-label">From booking date</label>
                     <input type="date" class="form-control" formControlName="startDate">
                 </div>
-                <div class="col-md-4 col-sm-12">
-                    <label class="form-label">From city</label>
-                    <input type="text" class="form-control"  formControlName="fromCity">
+                
+                <div class="col-md-4 col-sm-12 pt-3">
+                    <select class="form-select form-select-lg " >
+                        <option selected disabled>Select From city</option>
+                        <option *ngFor="let city of cities" [value]="city.cityName">{{ city.cityName }}</option>
+                      </select>
+                      
                 </div>
+
                 <div class="col-md-4 col-sm-12">
                     <label class="form-label">To city</label>
                     <input type="text" class="form-control" formControlName="toCity">

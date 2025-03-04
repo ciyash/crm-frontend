@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -17,11 +17,19 @@ export class ServiceService {
     const apiUrl = `${this.baseUrl}/${endpoint}`;
     return this.http.post(apiUrl, data);
   }
+
+  getData(endpoint: string, paramsObj?: any): Observable<any> {
+    const apiUrl = `${this.baseUrl}/${endpoint.replace(/^\/+/, '')}`; // Ensure no leading slash
+    let params = new HttpParams();
+    if (paramsObj) {
+      Object.keys(paramsObj).forEach((key) => {
+        params = params.append(key, paramsObj[key]);
+      });
+    }
   
-  getData(endpoint: string, data: any): Observable<any> {
-    const apiUrl = `${this.baseUrl}/${endpoint}`;
-    return this.http.get(apiUrl, data);
+    return this.http.get(apiUrl, { params });
   }
+  
 
   // Save data to localStorage
   saveAdminData(data: any) {
