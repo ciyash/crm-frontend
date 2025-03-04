@@ -48,7 +48,7 @@ export class ParcelloadingComponent implements OnInit {
       }
     });
   }
-
+// shbhzbchbdcbzcgit
   getCities() {
     this.service.getData('multi-router/cities:', this.citiesData).subscribe({
       next: (response: any) => {
