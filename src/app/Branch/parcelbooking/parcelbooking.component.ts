@@ -1,10 +1,7 @@
 import { Component,OnInit } from '@angular/core';
-import { ServiceService } from 'src/app/service.service';
 import { ChangeDetectorRef } from '@angular/core'
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
-
-
-
+import { BranchService } from 'src/app/service/branch.service';
 @Component({
   selector: 'app-parcelbooking',
   templateUrl: './parcelbooking.component.html',
@@ -16,7 +13,7 @@ export class ParcelbookingComponent {
   bookingForm!: FormGroup;
   showTable: boolean = false;
 
-  constructor(private fb: FormBuilder, private service: ServiceService, private cdr: ChangeDetectorRef) {}
+  constructor(private fb: FormBuilder, private service: BranchService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.adminData = this.service.getAdminData();
@@ -57,16 +54,12 @@ export class ParcelbookingComponent {
         Remark: [''],
       });
     }
-    
-
-  
-
   onSubmit() {
-    console.log("Submit button clicked!"); // ✅ Debugging
+    console.log("Submit button clicked!"); 
     if (!this.showTable) {
-      this.showTable = true; // ✅ Ensures table appears on FIRST CLICK
+      this.showTable = true; 
     }
-    this.cdr.detectChanges(); // ✅ Forces immediate UI update
+    this.cdr.detectChanges(); 
   }
 
   addRow() {
@@ -92,12 +85,14 @@ export class ParcelbookingComponent {
       location: this.adminData?.branch || '', 
       dispatchType: formValues.dispatchType,
       bookingType: formValues.bookingType,
+
       quantity: formValues.quantity,
       packageType: formValues.packageType,
       contains: formValues.contains || 0,
       weight: formValues.weight,
       unitPrice: formValues.unitPrice,
       totalPrice: formValues.totalPrice,
+      
       senderName: formValues.senderName,
       senderMobile: formValues.senderMobile,
       senderAddress: formValues.senderAddress,

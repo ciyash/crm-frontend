@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ServiceService } from 'src/app/service.service';
+import { Router } from '@angular/router';
+import { BranchService } from 'src/app/service/branch.service';
+
 
 @Component({
   selector: 'app-login',
@@ -11,7 +13,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   errorMessage: string = '';
 
-  constructor(private fb: FormBuilder, private apiservice: ServiceService) {
+  constructor(private fb: FormBuilder, private apiservice: BranchService, private route :Router) {
     this.loginForm = this.fb.group({
       identifier: ['', Validators.required],
       password: ['', Validators.required],
@@ -30,8 +32,8 @@ export class LoginComponent {
   
     this.apiservice.postData('subadmin-auth/login', loginData).subscribe({
       next: (response) => {
-        console.log('Login successful:', response);
-        // Save login data if needed
+        console.log('Login successful:', response); 
+        this.route.navigateByUrl('/booking');
         this.apiservice.saveAdminData(response);
   
         // Redirect or show success message

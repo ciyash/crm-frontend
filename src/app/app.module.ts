@@ -8,6 +8,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './USER/login/login.component';
 import { ParcelbookingComponent } from './Branch/parcelbooking/parcelbooking.component';
 import { ParcelloadingComponent } from './Branch/parcelloading/parcelloading.component';
+import { HeaderComponent } from './USER/header/header.component';
+import { ProfileComponent } from './USER/profile/profile.component';
 
 
 @NgModule({
@@ -16,7 +18,9 @@ import { ParcelloadingComponent } from './Branch/parcelloading/parcelloading.com
     SignupComponent,
     LoginComponent,
     ParcelbookingComponent,
-    ParcelloadingComponent
+    ParcelloadingComponent,
+    HeaderComponent,
+    ProfileComponent
     
     
   ],

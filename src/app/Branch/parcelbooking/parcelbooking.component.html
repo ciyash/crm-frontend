@@ -1,27 +1,4 @@
-<nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fas fa-box"></i> Parcel Booking</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fas fa-user-tie"></i> Parcel Agent</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fas fa-file-alt"></i> Parcel Report</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa fa-bars" aria-hidden="true"></i>
-                    Others</a>
-            </li>
-        </ul>
-
-    </div>
-</nav>
+<app-header></app-header>
 
 <div class="container" style="padding-top: 8%;">
     <div class="row">
@@ -100,62 +77,60 @@
 
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                     <label class="form-label">From City </label>
-                    <input type="text" class="form-control" formControlName="fromCity"  />
-                </div>
+                    <input type="text" class="form-control form-select-lg " formControlName="fromCity"  />
+                </div> -->
                 <div class="col-md-6">
                     <label class="form-label">To City </label>
-                    <select class="form-select"  formControlName="toCity">
+                    <select class="form-select form-select-lg"  formControlName="toCity">
                         <option selected>Hyderabad</option>
                         <option selected>jangoan</option>
-
                     </select>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col-md-6">
                     <label class="form-label">Pickup Branch </label>
-                    <input type="text" class="form-control" formControlName="pickUpBranch"  />
+                    <input type="text" class="form-control form-select-lg" formControlName="pickUpBranch"  />
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Drop Branch </label>
-                    <input type="text" class="form-control" formControlName="dropBranch" />
+                    <input type="text" class="form-control form-select-lg" formControlName="dropBranch" />
                                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col-md-6">
                     <label class="form-label">Dispatch Type </label>
-                    <input type="text" class="form-control" formControlName="dispatchType"  />
+                    <input type="text" class="form-control form-select-lg" formControlName="dispatchType"  />
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Booking Type </label>
-                    <select class="form-select" formControlName="bookingType">
+                    <select class="form-select form-select-lg" formControlName="bookingType">
                       <option value="paid">Paid</option>
                       <option value="toPay">To Pay</option>
                     </select>
                 </div>
             </div>
-            <!-- First row with "Add" button -->
             <div class="row mt-3">
                 <div class="col-md-2">
                     <label class="form-label">Quantity</label>
-          <input type="number" class="form-control" formControlName="quantity" value="1" />
+          <input type="number" class="form-control form-control-lg" formControlName="quantity" value="1" />
                 </div>
                 <div class="col-md-2">
                     <label class="form-label">Package Type</label>
-                    <select class="form-select" formControlName="packageType">
+                    <select class="form-select form-select-lg" formControlName="packageType">
                         <option value="paid">Paid1</option>
                         <option value="toPay">To Pay1</option>
                       </select>
                 </div>
                 <div class="col-md-1">
                     <label class="form-label">Contains</label>
-                    <input type="text" class="form-control" formControlName="contains" />
+                    <input type="text" class="form-control form-select-lg" formControlName="contains" />
                 </div>
                 <div class="col-md-2">
                     <label class="form-label">Weight</label>
-                    <select class="form-select" formControlName="weight">
+                    <select class="form-select form-select-lg" formControlName="weight">
                         <option selected  >30</option>
                         <option selected > 10</option>
 
@@ -163,27 +138,24 @@
                 </div>
                 <div class="col-md-1">
                     <label class="form-label">Unit Price</label>
-                    <input type="text" class="form-control" formControlName="unitPrice" />
+                    <input type="text" class="form-control form-select-lg" formControlName="unitPrice" />
                 </div>
              
                 <div class="col-md-2">
                     <label class="form-label">Total Price</label>
-                    <input type="text" class="form-control" formControlName="totalPrice" />
+                    <input type="text" class="form-control form-select-lg" formControlName="totalPrice" />
                 </div>
-                <div class="col-md-2" style="padding-top: 2.6%;">
-                    <button class="btn btn-light border rounded text-primary fw-bold btn-sm" type="button"
+                <div class="col-md-2" >
+                    <button class="btn btn-light border rounded text-primary fw-bold btn-lg" type="button"
                         (click)="addRow()">
                         Add <span class="fw-bold">+</span>
                     </button>
-                    <!-- <button type="button" class="btn btn-primary btn-sm mx-2">SUBMIT</button> -->
-                    <button type="button" class="btn btn-primary btn-sm mx-2" (click)="onSubmit()">SUBMIT</button>
-
-                    <!-- <button type="button" class="btn btn-primary btn-sm mx-2" (click)="onSubmit()">SUBMIT</button> -->
+                    <button type="button" class="btn btn-primary " (click)="onSubmit()">SUBMIT</button>
 
                 </div>
             </div>
             <!-- Dynamically added rows with "Delete" button -->
-            <!-- <div *ngFor="let row of formRows; let i = index" class="row mt-3">
+            <div *ngFor="let row of formRows; let i = index" class="row mt-3">
                 <div class="col-md-2">
                     <label class="form-label">Quantity</label>
                     <input type="number" class="form-control" value="1">
@@ -194,56 +166,60 @@
                         <option selected>Select Package Type</option>
                     </select>
                 </div>
+                <div class="col-md-1">
+                    <label class="form-label">Contains</label>
+                    <input type="text" class="form-control form-select-lg " formControlName="contains" />
+                </div>
                 <div class="col-md-2">
                     <label class="form-label">Weight</label>
-                    <select class="form-select">
+                    <select class="form-select form-select-lg ">
                         <option selected>10-20 Kgs</option>
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <label class="form-label">Unit Price</label>
-                    <input type="text" class="form-control" >
+                    <input type="text" class="form-control form-select-lg " >
                 </div>
                 <div class="col-md-2">
                     <label class="form-label">Total Price</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control form-select-lg ">
                 </div>
                 <div class="col-md-2" style="padding-top: 2.6%;">
                     <button type="button" class="btn btn-danger btn-sm mx-2" (click)="deleteRow(i)">Delete</button>
                 </div>
-            </div> -->
+            </div>
             <div class="container mt-5 mt-5">
                 <div class="row">
                     <div class="col-lg-9">
                         <div class="row mt-3">
                             <div class="col-md-2">
                                 <label class="form-label">Receipt No </label>
-                                <input type="text" class="form-control" formControlName="receiptNo">
+                                <input type="text" class="form-control form-select-lg " formControlName="receiptNo">
                             </div>
                             <div class="col-md-2">
                                 <label class="form-label">E-Way Bill No </label>
-                                <input type="text" class="form-control" formControlName="eWayBillNo" >
+                                <input type="text" class="form-control form-select-lg " formControlName="eWayBillNo" >
                             </div>
                             <div class="col-md-8">
                                 <label class="form-label">Remark </label>
-                                <input type="text" class="form-control" placeholder="Provide Any Govt ID Proof" formControlName="Remark">
+                                <input type="text" class="form-control form-select-lg " placeholder="Provide Any Govt ID Proof" formControlName="Remark">
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-3">
                                 <label class="form-label">Sender Name </label>
-                                <input type="text" class="form-control" formControlName="senderName">
+                                <input type="text" class="form-control form-select-lg " formControlName="senderName">
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label">Sender Mobile Number </label>
-                                <input type="text" class="form-control" formControlName="senderMobile">
+                                <input type="text" class="form-control form-select-lg " formControlName="senderMobile">
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label">Sender Address </label>
-                                <input type="text" class="form-control" formControlName="senderAddress">                            </div>
+                                <input type="text" class="form-control form-select-lg " formControlName="senderAddress">                            </div>
                             <div class="col-md-3">
                                 <label class="form-label">Sender GST No(0)</label>
-                                <input type="text" class="form-control" formControlName="senderGST">                            </div>
+                                <input type="text" class="form-control form-select-lg " formControlName="senderGST">                            </div>
                         </div>
 
                         <div class="form-check mt-3">
@@ -256,24 +232,23 @@
                         <div class="row mt-3">
                             <div class="col-md-3">
                                 <label class="form-label">Receiver Name </label>
-                                <input type="text" class="form-control" formControlName="receiverName">
+                                <input type="text" class="form-control form-select-lg " formControlName="receiverName">
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label">Receiver Mobile Number </label>
-                                <input type="text" class="form-control" formControlName="receiverMobile">
+                                <input type="text" class="form-control form-select-lg " formControlName="receiverMobile">
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label">Receiver Address </label>
-                                <input type="text" class="form-control" formControlName="receiverAddress">
+                                <input type="text" class="form-control form-select-lg " formControlName="receiverAddress">
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label">Receiver GST No(0)</label>
-                                <input type="text" class="form-control" formControlName="ReceiverGST ">
+                                <input type="text" class="form-control form-select-lg " formControlName="ReceiverGST ">
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="row">
                 <div class="col-md-10">
