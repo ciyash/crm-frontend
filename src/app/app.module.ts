@@ -3,14 +3,29 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SignupComponent } from './USER/signup/signup.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './USER/login/login.component';
 import { ParcelbookingComponent } from './Branch/parcelbooking/parcelbooking.component';
 import { ParcelloadingComponent } from './Branch/parcelloading/parcelloading.component';
 import { HeaderComponent } from './USER/header/header.component';
 import { ProfileComponent } from './USER/profile/profile.component';
-
+import { BookingReportComponent } from './Branch/booking-report/booking-report.component';
+import { TableModule } from 'primeng/table';
+import { FooterComponent } from './USER/footer/footer.component';
+import { MessagesModule } from 'primeng/messages';
+import { MessageService } from 'primeng/api';
+import { PrintGrnNumberComponent } from './Branch/print-grn-number/print-grn-number.component';
+import { DialogModule } from 'primeng/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { QRCodeModule } from 'angularx-qrcode';
+import { ToastModule } from 'primeng/toast';
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
+import { SearchGrnNumberComponent } from './Branch/Widgets/search-grn-number/search-grn-number.component';
+import { ParcelOnloadingComponent } from './Branch/parcel-onloading/parcel-onloading.component';
+import { ParcelLoadingDataComponent } from './Branch/parcel-loading-data/parcel-loading-data.component';
+import { ParcelOnLoadingDataComponent } from './Branch/parcel-on-loading-data/parcel-on-loading-data.component';
 
 @NgModule({
   declarations: [
@@ -20,17 +35,24 @@ import { ProfileComponent } from './USER/profile/profile.component';
     ParcelbookingComponent,
     ParcelloadingComponent,
     HeaderComponent,
-    ProfileComponent
+    ProfileComponent,
+    BookingReportComponent,
+    FooterComponent,
+    PrintGrnNumberComponent,
+    SearchGrnNumberComponent,
+    ParcelOnloadingComponent,
+    ParcelLoadingDataComponent,
+    ParcelOnLoadingDataComponent
     
     
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule,
-    HttpClientModule,
+    ReactiveFormsModule, FormsModule,
+    HttpClientModule, TableModule, MessagesModule, DialogModule, BrowserAnimationsModule, QRCodeModule, ToastModule, ButtonModule, RippleModule
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -14,18 +14,15 @@ word-wrap: break-word
 }
 // lkadnclkadnknd
 
-  td{
-    background: #8FA0C4;
-    color: white;
-  }
+
   .primary{
     background-color: brown;
     position: sticky;
   }
 
    th {
-    background: #143374;
-    color: white;
+    // background: #143374;
+    // color: white;
     border-radius: 0;
     top: 0;
     padding: 10px;
@@ -68,7 +65,7 @@ word-wrap: break-word
     }
 
     .table tbody input.form-control {
-        background-color: #B0C4DE !important; /* Light Blue */
+        // background-color: #B0C4DE !important; 
         border: 1px solid #ccc;
         color: black;
     }

@@ -1,0 +1,19 @@
+/* Add border to each row and column */
+::ng-deep tr.custom-row {
+    border: 1px solid #e0e0e0;
+}
+
+::ng-deep tr.custom-row td {
+    border: 1px solid #e0e0e0;
+    padding: 8px;
+    text-align: center;
+}
+
+/* Optional: Alternate row background color for better readability */
+::ng-deep tr.custom-row:nth-child(even) {
+    background-color: #fafafa;
+}
+
+::ng-deep tr.custom-row:nth-child(odd) {
+    background-color: #ffffff;
+}

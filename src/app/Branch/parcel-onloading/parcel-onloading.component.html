@@ -5,7 +5,7 @@ font-size: 20px;
 font-family: Poppins;
 font-weight: 500;
 text-decoration: underline;
-word-wrap: break-word">Parcel Loading Offline</h4>
+word-wrap: break-word">Parcel UnLoading Offline</h4>
 
 <!-- <form class="row mb-3" (ngSubmit)="searchUser()">
     <div class="col-md-6 p-3 input-field">
@@ -39,43 +39,53 @@ word-wrap: break-word">Parcel Loading Offline</h4>
         <form [formGroup]="form">
             <div class="row g-3">
               <div class="col-md-4 col-sm-12">
-                <label class="form-label">From Booking Date</label>
-                <input type="date" class="form-control form-control-sm" formControlName="startDate">
+                <label class="form-label">From Date</label>
+                <input type="date" class="form-control form-control-sm" formControlName="fromDate">
               </div>
+
               
               <div class="col-md-4 col-sm-12">
                 <label class="form-label">From City</label>
-                <select class="form-select form-select-sm" formControlName="fromCity">
-                  <option value="" selected>Select City</option>
-                  <option *ngFor="let city of cities" [value]="city.cityName">{{ city.cityName }}</option>
-                </select>
-              </div>
-              
-              <div class="col-md-4 col-sm-12">
-                <label class="form-label">To City</label>
                 <div class="border rounded p-2" style="max-height: 150px; overflow-y: auto;"> 
                   <div *ngFor="let city of cities">
                     <input type="checkbox"
                       [value]="city.cityName"
                       (change)="onToCityChange($event, city.cityName)"
-                      [checked]="toCityArray.value.includes(city.cityName)" />
+                      [checked]="fromCityArray.value.includes(city.cityName)" />
                     {{ city.cityName }}
                   </div>
                 </div>
-              </div>              
+              </div> 
+              
+              <div class="col-md-4 col-sm-12">
+                <label class="form-label">To City</label>
+                <select class="form-select form-select-sm" formControlName="toCity">
+                  <option value="" selected>Select City</option>
+                  <option *ngFor="let city of cities" [value]="city.cityName">{{ city.cityName }}</option>
+                </select>
+              </div>
+                           
               
               <div class="col-md-3 col-sm-12">
-                <label class="form-label">To Booking Date</label>
-                <input type="date" class="form-control form-control-sm" formControlName="endDate">
+                <label class="form-label">To Date</label>
+                <input type="date" class="form-control form-control-sm" formControlName="toDate">
               </div>
               
               <div class="col-md-3 col-sm-12">
-                <label class="form-label">Book Branch</label>
-                <select class="form-select form-select-sm" formControlName="pickUpBranch">
+                <label class="form-label">Branch</label>
+                <select class="form-select form-select-sm" formControlName="branch">
                     <option value="" selected>Select Branch</option>
                   <option *ngFor="let branch of branchdata" [value]="branch.name">{{ branch.name }}</option>
                 </select>
               </div>
+
+              <div class="col-md-3 col-sm-12">
+                <label class="form-label">Vehicle Number</label>
+                <select class="form-select form-select-sm mb-3" formControlName="vehicleNo" aria-label="Large select example">
+                    <option value="" selected>Select Vehicle Number</option>
+                    <option *ngFor="let vehicle of vehicle" [value]="vehicle.vehicleNo">{{ vehicle.vehicleNo }}</option>
+                </select>
+            </div>
           
               <div class="col-md-3 col-sm-12">
                 <div class="mt-4">
@@ -113,7 +123,7 @@ word-wrap: break-word">Parcel Loading Offline</h4>
                   <td>{{ row.receiverName }} <br><small>{{row.receiverMobile}}</small></td>
                   <td>{{ row.toCity }}</td>
                   <td>{{ row.bookingDate | date:'dd/MM/yyyy' }}</td>
-                  <td> {{row.bookingType}} </td>
+                  <td> </td>
                   <td> </td>
                   <td>{{ row.grandTotal }}</td>
                 </tr>
@@ -127,39 +137,14 @@ word-wrap: break-word">Parcel Loading Offline</h4>
     <form [formGroup]="form1">
         <div class="container pb-3">
                 <div class="row pt-3">
-                    <div class="col-md-4 col-sm-12">
-                        <label class="form-label">Loading date</label>
-                        <input type="date" class="form-control form-select-sm" formControlName="loadingDate">
-                    </div>
-                    <div class="col-md-3 col-sm-12">
-                        <label class="form-label">Vehicle Number</label>
-                        <select class="form-select form-select-sm mb-3" formControlName="vehicalNumber" aria-label="Large select example">
-                            <option value="" selected>Select Vehicle Number</option>
-                            <option *ngFor="let vehicle of vehicle" [value]="vehicle.vehicleNo">{{ vehicle.vehicleNo }}</option>
-                        </select>
-                    </div>
+                   
                     
-                    <div class="col-md-2 col-sm-12">
-                        <label class="form-label">Conductor name</label>
-                        <input type="text" class="form-control form-select-sm " formControlName="driverName">
-                    </div>
-                    <div class="col-md-2 col-sm-12">
-                        <label class="form-label">Conductor No</label>
-                        <input type="text" class="form-control form-select-sm " formControlName="driverNo">
-                    </div>
+                 
                 </div>
         
             </div>
                 <div class="container">
                     <div class="row">
-                        <!-- <div class="col-md-6">
-                            <label class="form-label">Remark</label>
-                            <input type="text" class="form-control form-select-lg ">
-                        </div>
-                        <div class="col-md-3 ">
-                            <label class="form-label">Drop Branch</label>
-                            <input type="text" class="form-control form-select-lg ">
-                        </div> -->
                         <div class="col-md-3 d-flex align-items-end">
                             <button class="btn btn-primary btn-sm " type="button"
                                 style=" width: 10rem;" (click)="ParcelLoad()">Save</button>

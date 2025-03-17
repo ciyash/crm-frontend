@@ -8,7 +8,10 @@ import { BranchService } from 'src/app/service/branch.service';
 })
 export class ProfileComponent {
   profileData:any
-constructor( private service:BranchService){}
+constructor( private api:BranchService){}
+
+ngOnInit(){
 
 }
-//fhvjdfjx
+
+}

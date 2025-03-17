@@ -1,266 +1,169 @@
-<app-header></app-header>
-
-<div class="container" style="padding-top: 8%;">
-    <div class="row">
-        <div class="col-lg-10">
-            <div class="row">
-                <div class="col-md-3">
-                    <select class="form-select">
-                        <option selected>L.R No / GRN No</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <input type="text" class="form-control" placeholder="Search">
-                </div>
-                <div class="col-md-3">
-                    <button class="btn btn-secondary">Clear</button>
-                    <button class="btn btn-primary mx-4">Load</button>
-                </div>
-            </div>
-        </div>
-    </div>
+<app-header> </app-header>
+<div class="container" style="padding-top: 4%;">
+    <app-search-grn-number></app-search-grn-number>
 </div>
+
 <div class="container mt-4">
     <div class="card p-4">
-        <form [formGroup]="bookingForm">
-            <div class="container mt-4" *ngIf="showTable">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr >
-                            <th >No.</th>
-                            <th >Parcel Type</th>
-                            <th>Quantity</th>
-                            <th>Item Contains</th>
-                            <th>Actual Weight</th>
-                            <th>Weight</th>
-                            <th>Unit Price</th>
-                            <th>Total Price</th>
-                            <th><i class="fa fa-trash-o text-danger " aria-hidden="true"></i></th>
-                        </tr>
-                    </thead>
-            
-                    <tbody>
-                        <tr >
-                            <td>1</td>
-                            <td>Cover</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>5KG</td>
-                            <td>5.01KG</td>
-                            <td>10</td>
-                            <td>10</td>
-                            <td>
-                                <button class="btn btn-sm text-danger border-0"><i class="bi bi-trash"></i></button>
-                            </td>
-                        </tr>
-            
-                        <tr class="highlight-row" >
-                            <td colspan="2">GST (+)</td>
-                            <td colspan="2">Service charge(+)</td>
-                            <td>Hamali charge(+)</td>
-                            <td>Door Delivery charge(+)</td>
-                            <td>Door Pickup charge(+)</td>
-                            <td>Value of goods</td>
-                            <td>Grand Total</td>
-                        </tr>
-                        <tr >
-                            <td colspan="2"><input type="text" class="form-control form-control-sm bg-light" formControlName=""></td>
-                            <td colspan="2"><input type="text" class="form-control form-control-sm bg-light" formControlName="serviceCharge"></td>
-                            <td><input type="text" class="form-control form-control-sm bg-light" formControlName="hamaliCharge"></td>
-                            <td><input type="text" class="form-control form-control-sm bg-light" formControlName="doorDeliveryCharge" ></td>
-                            <td><input type="text" class="form-control form-control-sm bg-light" formControlName="doorPickupCharge"></td>
-                            <td><input type="text" class="form-control form-control-sm bg-light" formControlName="valueOfGoods"></td>
-                            <td class="fw-bold text-white text-center" ></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-            </div>
+        <form [formGroup]="form">
+            <div *ngIf="bookingSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
+                Successfully created booking!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
             <div class="row">
-                <!-- <div class="col-md-6">
+                <!-- <div class="col-md-4">
                     <label class="form-label">From City </label>
-                    <input type="text" class="form-control form-select-lg " formControlName="fromCity"  />
+                    <select class="form-select form-select-sm"  formControlName="fromCity">
+                        <option value="" selected>Select City</option>
+                        <option *ngFor="let row2 of citydata" value="{{row2.cityName}}"> {{row2.cityName}} </option>
+                    </select>
                 </div> -->
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label class="form-label">To City </label>
-                    <select class="form-select form-select-lg"  formControlName="toCity">
-                        <option selected>Hyderabad</option>
-                        <option selected>jangoan</option>
+                    <input type="text" class="form-control form-select-sm" formControlName="fromCity" [(ngModel)]="pfdata.city" hidden>
+                    <input type="text" class="form-control form-select-sm" formControlName="pickUpBranch" [(ngModel)]="pfdata.name" hidden>
+                    <select class="form-select form-select-sm"  formControlName="toCity">
+                        <option value="" selected>Select City</option>
+                        <option *ngFor="let row of citydata" value="{{row.cityName}}"> {{row.cityName}} </option>
+                    </select>
+                    <!-- <input class="form-control form-select-sm" list="datalistOptions" id="exampleDataList" formControlName="toCity" placeholder="Type to search...">
+                    <datalist id="datalistOptions">
+                    <option *ngFor="let row of citydata" value="{{row.cityName}}"> {{row.cityName}} </option>
+                    </datalist> -->
+                </div>
+                <!-- <div class="col-md-4">
+                    <label class="form-label">Pickup Branch </label>
+                    <select class="form-select form-select-sm"  formControlName="pickUpBranch">
+                        <option value="" selected>Select Pickup Branch</option>
+                        <option *ngFor="let row4 of branchdata" value="{{row4.name}}"> {{row4.name}} </option>
+                    </select>
+                </div> -->
+                <div class="col-md-4">
+                    <label class="form-label">Drop Branch </label>
+                    <select class="form-select form-select-sm"  formControlName="dropBranch">
+                        <option value="" selected>Select Drop Branch</option>
+                        <option *ngFor="let row1 of branchdata" value="{{row1.name}}"> {{row1.name}} </option>
                     </select>
                 </div>
-            </div>
-            <div class="row mt-3">
-                <div class="col-md-6">
-                    <label class="form-label">Pickup Branch </label>
-                    <input type="text" class="form-control form-select-lg" formControlName="pickUpBranch"  />
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Drop Branch </label>
-                    <input type="text" class="form-control form-select-lg" formControlName="dropBranch" />
-                                </div>
-            </div>
-            <div class="row mt-3">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label class="form-label">Dispatch Type </label>
-                    <input type="text" class="form-control form-select-lg" formControlName="dispatchType"  />
+                    <!-- <input type="text" class="form-control form-select-sm" formControlName="dispatchType"  /> -->
+                    <select class="form-select form-select-sm" formControlName="dispatchType">
+                        <option value="" selected>Select Dispatch Type</option>
+                        <option value="Door Delivery">Door Delivery</option>
+                        <option value="Branch Delivery">Branch Delivery</option>
+                      <option value="Express">Express</option>
+                      <option value="Normal">Normal</option>
+                    </select>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label class="form-label">Booking Type </label>
-                    <select class="form-select form-select-lg" formControlName="bookingType">
+                    <select class="form-select form-select-sm" formControlName="bookingType">
+                        <option value="" selected>Select Booking Type</option>
                       <option value="paid">Paid</option>
                       <option value="toPay">To Pay</option>
+                      <option value="credit">Credit</option>
+                      <option value="toPay">Free Sample</option>
                     </select>
                 </div>
             </div>
-            <div class="row mt-3">
-                <div class="col-md-2">
-                    <label class="form-label">Quantity</label>
-          <input type="number" class="form-control form-control-lg" formControlName="quantity" value="1" />
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label">Package Type</label>
-                    <select class="form-select form-select-lg" formControlName="packageType">
-                        <option value="paid">Paid1</option>
-                        <option value="toPay">To Pay1</option>
-                      </select>
-                </div>
-                <div class="col-md-1">
-                    <label class="form-label">Contains</label>
-                    <input type="text" class="form-control form-select-lg" formControlName="contains" />
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label">Weight</label>
-                    <select class="form-select form-select-lg" formControlName="weight">
-                        <option selected  >30</option>
-                        <option selected > 10</option>
 
-                    </select>
+            <h5 class="mt-3">Items</h5>
+            <div formArrayName="packages">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Qty</th>
+                                <th>Package</th>
+                                <th>Contains</th>
+                                <th>Weight</th>
+                                <th>Unit Price</th>
+                                <th>Total Price</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of packages.controls; let i = index" [formGroupName]="i">
+                                <td><input type="number" class="form-control form-select-sm" formControlName="quantity"  (input)="calculateTotal(i)"></td>
+                                <td>
+                                    <select class="form-control form-select-sm" formControlName="packageType">
+                                        <option value="Box">Box</option>
+                                        <option value="Box">Cotton</option>
+                                        <option value="Box">Cover</option>
+                                    </select>
+                                </td>
+                                <td><input type="number" class="form-control form-select-sm" formControlName="contains"></td>
+                                <td><input type="number" class="form-control form-select-sm" formControlName="weight"></td>
+                                <td><input type="number" class="form-control form-select-sm" formControlName="unitPrice" (input)="calculateTotal(i)"></td>
+                                <td><input type="number" class="form-control form-select-sm" formControlName="totalPrice" readonly></td>
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-sm" (click)="removeBarcodeData(i)">Remove</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="col-md-1">
-                    <label class="form-label">Unit Price</label>
-                    <input type="text" class="form-control form-select-lg" formControlName="unitPrice" />
-                </div>
-             
-                <div class="col-md-2">
-                    <label class="form-label">Total Price</label>
-                    <input type="text" class="form-control form-select-lg" formControlName="totalPrice" />
-                </div>
-                <div class="col-md-2" >
-                    <button class="btn btn-light border rounded text-primary fw-bold btn-lg" type="button"
-                        (click)="addRow()">
-                        Add <span class="fw-bold">+</span>
-                    </button>
-                    <button type="button" class="btn btn-primary " (click)="onSubmit()">SUBMIT</button>
+            </div>
+            <button type="button" class="btn btn-danger btn-sm" (click)="addOrderItem()">Add +</button>
 
-                </div>
-            </div>
-            <!-- Dynamically added rows with "Delete" button -->
-            <div *ngFor="let row of formRows; let i = index" class="row mt-3">
-                <div class="col-md-2">
-                    <label class="form-label">Quantity</label>
-                    <input type="number" class="form-control" value="1">
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label">Package Type</label>
-                    <select class="form-select">
-                        <option selected>Select Package Type</option>
-                    </select>
-                </div>
-                <div class="col-md-1">
-                    <label class="form-label">Contains</label>
-                    <input type="text" class="form-control form-select-lg " formControlName="contains" />
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label">Weight</label>
-                    <select class="form-select form-select-lg ">
-                        <option selected>10-20 Kgs</option>
-                    </select>
-                </div>
-                <div class="col-md-1">
-                    <label class="form-label">Unit Price</label>
-                    <input type="text" class="form-control form-select-lg " >
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label">Total Price</label>
-                    <input type="text" class="form-control form-select-lg ">
-                </div>
-                <div class="col-md-2" style="padding-top: 2.6%;">
-                    <button type="button" class="btn btn-danger btn-sm mx-2" (click)="deleteRow(i)">Delete</button>
-                </div>
-            </div>
             <div class="container mt-5 mt-5">
                 <div class="row">
-                    <div class="col-lg-9">
-                        <div class="row mt-3">
-                            <div class="col-md-2">
-                                <label class="form-label">Receipt No </label>
-                                <input type="text" class="form-control form-select-lg " formControlName="receiptNo">
-                            </div>
-                            <div class="col-md-2">
-                                <label class="form-label">E-Way Bill No </label>
-                                <input type="text" class="form-control form-select-lg " formControlName="eWayBillNo" >
-                            </div>
-                            <div class="col-md-8">
-                                <label class="form-label">Remark </label>
-                                <input type="text" class="form-control form-select-lg " placeholder="Provide Any Govt ID Proof" formControlName="Remark">
-                            </div>
-                        </div>
+                    <div class="col-lg-12">
                         <div class="row mt-3">
                             <div class="col-md-3">
                                 <label class="form-label">Sender Name </label>
-                                <input type="text" class="form-control form-select-lg " formControlName="senderName">
+                                <input type="text" class="form-control form-select-sm " formControlName="senderName">
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label">Sender Mobile Number </label>
-                                <input type="text" class="form-control form-select-lg " formControlName="senderMobile">
+                                <input type="number" class="form-control form-select-sm " formControlName="senderMobile">
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label">Sender Address </label>
-                                <input type="text" class="form-control form-select-lg " formControlName="senderAddress">                            </div>
+                                <input type="text" class="form-control form-select-sm" formControlName="senderAddress">
+                            </div>
                             <div class="col-md-3">
                                 <label class="form-label">Sender GST No(0)</label>
-                                <input type="text" class="form-control form-select-lg " formControlName="senderGST">                            </div>
+                                <input type="text" class="form-control form-select-sm " formControlName="senderGST"> 
+                            </div>
                         </div>
 
                         <div class="form-check mt-3">
-                            <input class="form-check-input" type="checkbox" id="sameAsSender" formControlName="senderAddress">
+                            <input class="form-check-input" type="checkbox" id="sameAsSender" (change)="toggleSameAsSender($event)">
                             <label class="form-check-label" for="sameAsSender">
-                                Same as Sender Details
+                              Same as Receiver Details
                             </label>
-                        </div>
+                          </div>
 
-                        <div class="row mt-3">
+                        <div class="row mt-3" >
                             <div class="col-md-3">
                                 <label class="form-label">Receiver Name </label>
-                                <input type="text" class="form-control form-select-lg " formControlName="receiverName">
+                                <input type="text" class="form-control form-select-sm " formControlName="receiverName">
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label">Receiver Mobile Number </label>
-                                <input type="text" class="form-control form-select-lg " formControlName="receiverMobile">
+                                <input type="number" class="form-control form-select-sm " formControlName="receiverMobile">
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label">Receiver Address </label>
-                                <input type="text" class="form-control form-select-lg " formControlName="receiverAddress">
+                                <input type="text" class="form-control form-select-sm " formControlName="receiverAddress">
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label">Receiver GST No(0)</label>
-                                <input type="text" class="form-control form-select-lg " formControlName="ReceiverGST ">
+                                <input type="text" class="form-control form-select-sm " formControlName="receiverGst">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+           
             <div class="row">
                 <div class="col-md-10">
                     <div class="row">
-                        <div class="col-md-2">
-                            <div class="mt-4">
-                                <button type="button" class="btn btn-light btn-lg">Cancel</button>
-                            </div>
-                        </div>
                         <div class="col-md-5 pt-1">
                             <div class="d-grid gap-2 col-12 mx-auto mt-4">
-                                <button type="button" class="btn btn-primary" (click)="onBook()">Submit</button>
+                                <button type="button" class="btn btn-primary" (click)="add()">Submit</button>
                             </div>
                         </div>
                     </div>

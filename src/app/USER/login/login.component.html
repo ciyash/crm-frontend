@@ -10,7 +10,7 @@
       <h6 class="company-name">SREE KALESWARI LOGISTICS</h6>
       <div class="welcome-text">Welcome</div>
 
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <label class="form-label">User Id / Mobile Number</label>
         <div class="input-group">
           <i class="fas fa-user"></i>
@@ -23,7 +23,7 @@
           <input type="password" formControlName="password" autocomplete="new-password" placeholder="Password">
         </div>
         <div class="forgot-password">Forgot your password?</div>
-        <button type="submit" class="btn btn-login" [disabled]="loginForm.invalid" >LOGIN</button>
+        <button type="submit" class="btn btn-login" [disabled]="form.invalid" >LOGIN</button>
       </form>
     </div>
   </div>
