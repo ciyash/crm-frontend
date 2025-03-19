@@ -11,17 +11,15 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
             <div class="row">
-                <!-- <div class="col-md-4">
+                <div class="col-md-4">
                     <label class="form-label">From City </label>
                     <select class="form-select form-select-sm"  formControlName="fromCity">
                         <option value="" selected>Select City</option>
                         <option *ngFor="let row2 of citydata" value="{{row2.cityName}}"> {{row2.cityName}} </option>
                     </select>
-                </div> -->
+                </div>
                 <div class="col-md-4">
                     <label class="form-label">To City </label>
-                    <input type="text" class="form-control form-select-sm" formControlName="fromCity" [(ngModel)]="pfdata.city" hidden>
-                    <input type="text" class="form-control form-select-sm" formControlName="pickUpBranch" [(ngModel)]="pfdata.name" hidden>
                     <select class="form-select form-select-sm"  formControlName="toCity">
                         <option value="" selected>Select City</option>
                         <option *ngFor="let row of citydata" value="{{row.cityName}}"> {{row.cityName}} </option>
@@ -31,13 +29,13 @@
                     <option *ngFor="let row of citydata" value="{{row.cityName}}"> {{row.cityName}} </option>
                     </datalist> -->
                 </div>
-                <!-- <div class="col-md-4">
+                <div class="col-md-4">
                     <label class="form-label">Pickup Branch </label>
                     <select class="form-select form-select-sm"  formControlName="pickUpBranch">
                         <option value="" selected>Select Pickup Branch</option>
                         <option *ngFor="let row4 of branchdata" value="{{row4.name}}"> {{row4.name}} </option>
                     </select>
-                </div> -->
+                </div>
                 <div class="col-md-4">
                     <label class="form-label">Drop Branch </label>
                     <select class="form-select form-select-sm"  formControlName="dropBranch">
@@ -88,6 +86,7 @@
                                 <td><input type="number" class="form-control form-select-sm" formControlName="quantity"  (input)="calculateTotal(i)"></td>
                                 <td>
                                     <select class="form-control form-select-sm" formControlName="packageType">
+                                        <option value="" selected>Select</option>
                                         <option value="Box">Box</option>
                                         <option value="Box">Cotton</option>
                                         <option value="Box">Cover</option>

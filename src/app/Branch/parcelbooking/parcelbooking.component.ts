@@ -47,7 +47,7 @@ export class ParcelbookingComponent {
   
     // get city's
     this.api.GetCities().subscribe((res:any)=>{
-      console.log(res);
+      console.log('citys',res);
       this.citydata=res;
     });
     //get branches

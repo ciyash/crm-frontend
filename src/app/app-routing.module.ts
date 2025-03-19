@@ -9,19 +9,31 @@ import { PrintGrnNumberComponent } from './Branch/print-grn-number/print-grn-num
 import { ParcelOnloadingComponent } from './Branch/parcel-onloading/parcel-onloading.component';
 import { ParcelLoadingDataComponent } from './Branch/parcel-loading-data/parcel-loading-data.component';
 import { ParcelOnLoadingDataComponent } from './Branch/parcel-on-loading-data/parcel-on-loading-data.component';
+import { authGuard } from './service/auth.guard';
+import { CreateBranchComponent } from './pages/Admin/create-branch/create-branch.component';
+import { CreateEmployeeComponent } from './pages/Admin/create-employee/create-employee.component';
 
 
 const routes: Routes = [
   {path:"login",component:LoginComponent },
   {path:"",component:LoginComponent },
-  {path:"signup",component:SignupComponent },
-  {path:"booking",component:ParcelbookingComponent },
-  {path:'parcelloading',component:ParcelloadingComponent},
-  {path:'bookingreport',component:BookingReportComponent},
-  {path:'printgrn/:grnNumber',component:PrintGrnNumberComponent},
-  {path:'parcelloadingdata',component:ParcelLoadingDataComponent},
-  {path:'parcelunloading',component:ParcelOnloadingComponent},
-  {path:'parcelonloadingdata',component:ParcelOnLoadingDataComponent},
+  {path:"signup",component:SignupComponent, canActivate: [authGuard] },
+
+  //Admin Component
+
+  //Branch Component
+  {path:"booking",component:ParcelbookingComponent, canActivate: [authGuard] },
+  {path:'parcelloading',component:ParcelloadingComponent, canActivate: [authGuard]},
+  {path:'bookingreport',component:BookingReportComponent, canActivate: [authGuard]},
+  {path:'printgrn/:grnNumber',component:PrintGrnNumberComponent, canActivate: [authGuard]},
+  {path:'parcelloadingdata',component:ParcelLoadingDataComponent, canActivate: [authGuard]},
+  {path:'parcelunloading',component:ParcelOnloadingComponent, canActivate: [authGuard]},
+  {path:'parcelonloadingdata',component:ParcelOnLoadingDataComponent, canActivate: [authGuard]},
+
+  //Routing components
+  { path: 'createbranch', component: CreateBranchComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
+  { path: 'createemployee', component: CreateEmployeeComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
+  
 ];
 
 @NgModule({

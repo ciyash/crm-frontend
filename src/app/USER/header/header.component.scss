@@ -1,37 +1,71 @@
 .navbar {
-    background-color: #0d2d6c;
+    background-color: #034f92;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 1rem;
     position: fixed;
-    width: 100%;
     top: 0;
-    left: 0;
+    width: 100%;
     z-index: 1000;
-}
-.navbar .nav-link, .navbar .navbar-brand {
-    color: white;
-}
-.card {
-    padding: 20px;
-    border-radius: 10px;
-    margin-top: 80px;
-}
-.btn-primary {
-    background-color: #0d2d6c;
-    border: none;
-}
-.btn-secondary {
-    background-color: #6c757d;
-}
-
-.navbar>.container, .navbar>.container-fluid, .navbar>.container-lg, .navbar>.container-md, .navbar>.container-sm, .navbar>.container-xl, .navbar>.container-xxl {
-    display: flex
-;
-    flex-wrap: inherit;
-    align-items: center;
-    justify-content: center;
-}
-.navbar-nav .nav-item {
-    margin-right: 60px; /* Adjust the spacing as needed */
-}
-.navbar-nav .nav-item {
-    margin: 0 60px;
-}
+  
+    .layout-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+  
+      .layout-menuitem-category {
+        position: relative;
+  
+        .layout-menuitem-root-text, a {
+          padding: 12px;
+          font-size: 16px;
+          font-weight: 500;
+          color: #ffffff;
+          cursor: pointer;
+          text-decoration: none;
+          transition: background-color 0.3s, color 0.3s;
+  
+          &:hover {
+            background-color: #056bb5;
+            border-radius: 6px;
+          }
+        }
+  
+        .submenu {
+          display: none;
+          position: absolute;
+          top: 100%; /* Position directly below parent */
+          left: 0;
+          width: 100%; /* Ensure submenu width matches parent */
+          background-color: #056bb5;
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+          border-radius: 0 0 6px 6px;
+          z-index: 999;
+          width: 200px;
+          li {
+            width: 100%;
+  
+            a {
+              padding: 12px;
+              color: #ffffff;
+              text-decoration: none;
+              display: block;
+              font-size: 14px;
+              transition: background-color 0.3s;
+  
+              &:hover {
+                background-color: #045b99;
+              }
+            }
+          }
+        }
+  
+        &:hover .submenu {
+          display: block;
+        }
+      }
+    }
+  }
+  

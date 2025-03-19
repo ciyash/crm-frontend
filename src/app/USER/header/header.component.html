@@ -1,38 +1,35 @@
-<nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="collapsibleNavbar">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/booking"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+      <span class="navbar-toggler-icon" style="color: aliceblue;"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="layout-menu d-flex align-items-center" role="menu" (keydown)="onKeydown($event)">
+        <li *ngFor="let item of model" class="layout-menuitem-category" [attr.role]="item.items ? 'menu' : null">
+          <!-- ✅ Use 'a' instead of 'div' for better click handling -->
+          <a *ngIf="!item.items" 
+             [routerLink]="item.routerLink" 
+             class="layout-menuitem-root-text">
+            {{ item.label }}
+          </a>
+          
+          <div *ngIf="item.items" class="layout-menuitem-root-text">
+            {{ item.label }}
+          </div>
+          
+          <!-- ✅ Submenu Items -->
+          <ul *ngIf="item.items" class="submenu" role="menu">
+            <li *ngFor="let child of item.items">
+              <a [routerLink]="child.routerLink">{{ child.label }}</a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" ><i class="fas fa-box"></i> Parcel Booking</a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" routerLink="/booking">Parcel Booking</a></li>
-                    <li><a class="dropdown-item" routerLink="/parcelloading">Parcel Loading</a></li>
-                    <li><a class="dropdown-item" routerLink="/parcelunloading">Parcel UnLoading</a></li>
-                    <!-- <li><a class="dropdown-item" routerLink="/parcelloadingdata">Parcel Loading Data</a></li> -->
-                    <li><a class="dropdown-item" routerLink="/bookingreport">Booking Report</a></li>
-                  </ul>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fas fa-user-tie"></i> Parcel Agent</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fas fa-file-alt"></i> Parcel Report</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa fa-bars" aria-hidden="true"></i>
-                    Others</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" (click)="logout()" ><i class="fa fa-bars" aria-hidden="true"></i>
-                    Logout</a>
-            </li>
-        </ul>
-      </div>
+          </ul>
+        </li>
+
+        <!-- ✅ Logout Button -->
+        <li (click)="logout()" style="cursor: pointer; color:#fff; font-size: 14px;"> 
+          <i class="pi pi-sign-out"></i> Logout
+        </li>
+      </ul>
     </div>
+  </div>
 </nav>

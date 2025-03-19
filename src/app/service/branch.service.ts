@@ -52,7 +52,7 @@ export class BranchService {
         'Authorization': 'Bearer ' + token1
       })
     }
-      return this.http.get<any>(AUTH_API + 'multi-router/cities', httpOptions);
+      return this.http.get(AUTH_API + 'multi-router/cities', httpOptions);
   }
 
   GetBranch(){
@@ -63,7 +63,7 @@ export class BranchService {
         'Authorization': 'Bearer ' + token1
       })
     }
-      return this.http.get<any>(AUTH_API + 'branch', httpOptions);
+      return this.http.get(AUTH_API + 'branch', httpOptions);
   }
 
 

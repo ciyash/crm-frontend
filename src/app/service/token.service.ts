@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
+
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,39 +23,61 @@ export class TokenService {
   }
 
   public saveToken(token: string): void {
-    window.localStorage.removeItem(TOKEN_KEY);
     window.localStorage.setItem(TOKEN_KEY, token);
     this.token = token;
+    console.log(this.token);
   }
 
-
   public getToken(): string | null {
-    const token = this.token;
-    console.log('Token retrieved:', token);
-    return token;
+    return localStorage.getItem(TOKEN_KEY);
   }
 
   public saveUser(user: any): void {
-    this.user = user;
-    window.localStorage.removeItem(USER_KEY);
     window.localStorage.setItem(USER_KEY, JSON.stringify(user));
+    this.user = user;
   }
 
   public getUser(): any {
-    const user = window.localStorage.getItem(USER_KEY);
-    this.user = user ? JSON.parse(user) : null;
+    try {
+      this.user = JSON.parse(localStorage.getItem(USER_KEY) || 'null');
+    } catch (error) {
+      console.error('Invalid JSON format in localStorage:', error);
+      this.user = null;
+    }
     return this.user;
   }
-
-  isLogged() {
-    return this.user ? true : false;
+  
+  
+  public getRole(): string | null {
+    const user = this.getUser();
+    return user ? user.role : null;
   }
 
- 
-  isAdmin() {
-  this.user = this.getUser();
-  return this.user && this.user.usertype == 'admin';
-}
+  isLogged(): boolean {
+    return !!(this.getToken() && this.getUser());
+  }
 
+  isAdmin(): boolean {
+    return this.getRole() === 'admin';
+  }
 
+  isSubAdmin(): boolean {
+    return this.getRole() === 'subadmin';
+  }
+
+  isEmployee(): boolean {
+    return this.getRole() === 'employee';
+  }
+
+  isAccountant(): boolean {
+    return this.getRole() === 'accountant';
+  }
+
+  isSuperviser(): boolean {
+    return this.getRole() === 'superviser';
+  }
+
+  isDriver(): boolean {
+    return this.getRole() === 'driver';
+  }
 }

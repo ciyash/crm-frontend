@@ -58,7 +58,6 @@ export class ParcelloadingComponent implements OnInit {
     this.getCities();
     this. getVehicleData();
     this.branchData();
-    this.branchData();
   }
 
   

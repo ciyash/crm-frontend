@@ -26,6 +26,8 @@ import { SearchGrnNumberComponent } from './Branch/Widgets/search-grn-number/sea
 import { ParcelOnloadingComponent } from './Branch/parcel-onloading/parcel-onloading.component';
 import { ParcelLoadingDataComponent } from './Branch/parcel-loading-data/parcel-loading-data.component';
 import { ParcelOnLoadingDataComponent } from './Branch/parcel-on-loading-data/parcel-on-loading-data.component';
+import { CreateBranchComponent } from './pages/Admin/create-branch/create-branch.component';
+import { CreateEmployeeComponent } from './pages/Admin/create-employee/create-employee.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { ParcelOnLoadingDataComponent } from './Branch/parcel-on-loading-data/pa
     SearchGrnNumberComponent,
     ParcelOnloadingComponent,
     ParcelLoadingDataComponent,
-    ParcelOnLoadingDataComponent
+    ParcelOnLoadingDataComponent,
+    CreateBranchComponent,
+    CreateEmployeeComponent
     
     
   ],
