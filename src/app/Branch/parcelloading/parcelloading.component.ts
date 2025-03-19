@@ -37,7 +37,6 @@ export class ParcelloadingComponent implements OnInit {
       this.form1 = this.fb.group({
         fromBranch: ['', Validators.required],
         toBranch: ['', Validators.required],
-        loadingDate: ['', Validators.required],
         vehicalNumber: ['', Validators.required],
         driverName: ['', Validators.required],
         driverNo: ['', Validators.required],
@@ -52,7 +51,7 @@ export class ParcelloadingComponent implements OnInit {
     
   }
   ngOnInit() {
-    this.searchTerm = this.activeroute.snapshot.params['grnNumber'];
+    this.searchTerm = this.activeroute.snapshot.params['grnNo'];
     this.adminData = this.token.getToken();
     console.log('Admin Data:', this.adminData);
     this.getCities();
@@ -128,7 +127,7 @@ export class ParcelloadingComponent implements OnInit {
   
           // ✅ Set `toCity`, `grnNo`, and `lrNumber` as FormArray
           this.setFormArray('toCity', this.data.map((d: any) => d.toCity));
-          this.setFormArray('grnNo', this.data.map((d: any) => d.grnNumber));
+          this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
           this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
         }
       },
@@ -152,7 +151,6 @@ export class ParcelloadingComponent implements OnInit {
     const payload = {
       fromBranch: this.form1.value.fromBranch,
       toBranch: this.form1.value.toBranch,
-      loadingDate: this.form1.value.loadingDate,
       vehicalNumber: this.form1.value.vehicalNumber,
       driverName: this.form1.value.driverName,
       driverNo: this.form1.value.driverNo,
@@ -170,7 +168,12 @@ export class ParcelloadingComponent implements OnInit {
     this.api.ParcelLoading(payload).subscribe({
       next: (response: any) => {
         console.log('Parcel loaded successfully:', response);
-        alert('Parcel Loaded Successfully!');
+        // alert('Parcel Loaded Successfully!');
+        setTimeout(() => {
+          this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+            this.router.navigate(['/parcelloading']);
+          });
+        }, 1000);
       },
       error: (error: any) => {
         console.error('Parcel loading failed:', error);

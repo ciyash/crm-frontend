@@ -25,6 +25,13 @@ export class HeaderComponent implements OnInit {
         { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/createbranch'] },
         { label: 'Create Branch', icon: 'pi pi-user-edit', routerLink: ['/createbranch'] },
         { label: 'Create Employee', icon: 'pi pi-fw pi-user-edit', routerLink: ['/createemployee'] },
+        {
+          label: 'Setting',
+          icon: 'pi pi-fw pi-database',
+          items: [
+            { label: 'Profile', routerLink: ['/adminprofile'] },
+          ]
+        },
       ];
     }
   

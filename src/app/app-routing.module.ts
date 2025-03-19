@@ -12,6 +12,7 @@ import { ParcelOnLoadingDataComponent } from './Branch/parcel-on-loading-data/pa
 import { authGuard } from './service/auth.guard';
 import { CreateBranchComponent } from './pages/Admin/create-branch/create-branch.component';
 import { CreateEmployeeComponent } from './pages/Admin/create-employee/create-employee.component';
+import { AdminProfileComponent } from './pages/Admin/admin-profile/admin-profile.component';
 
 
 const routes: Routes = [
@@ -33,6 +34,7 @@ const routes: Routes = [
   //Routing components
   { path: 'createbranch', component: CreateBranchComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   { path: 'createemployee', component: CreateEmployeeComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
+  { path: 'adminprofile', component: AdminProfileComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   
 ];
 

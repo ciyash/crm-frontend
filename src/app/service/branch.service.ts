@@ -204,7 +204,6 @@ FilterParcelLoading(value:{
 ParcelLoading(value:{
   fromBranch: string;
   toBranch:string;
-  loadingDate: string;
   vehicalNumber:string;
   driverName:string;
   driverNo:string;
@@ -227,7 +226,6 @@ ParcelLoading(value:{
     AUTH_API + 'parcel-loading',  { 
       "fromBranch": value.fromBranch,
       "toBranch": value.toBranch,
-    "loadingDate": value.loadingDate,
     "vehicalNumber": value.vehicalNumber,
     "driverName": value.driverName,
     "driverNo": value.driverNo,

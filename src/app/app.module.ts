@@ -28,6 +28,7 @@ import { ParcelLoadingDataComponent } from './Branch/parcel-loading-data/parcel-
 import { ParcelOnLoadingDataComponent } from './Branch/parcel-on-loading-data/parcel-on-loading-data.component';
 import { CreateBranchComponent } from './pages/Admin/create-branch/create-branch.component';
 import { CreateEmployeeComponent } from './pages/Admin/create-employee/create-employee.component';
+import { AdminProfileComponent } from './pages/Admin/admin-profile/admin-profile.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { CreateEmployeeComponent } from './pages/Admin/create-employee/create-em
     ParcelLoadingDataComponent,
     ParcelOnLoadingDataComponent,
     CreateBranchComponent,
-    CreateEmployeeComponent
+    CreateEmployeeComponent,
+    AdminProfileComponent
     
     
   ],

@@ -89,8 +89,72 @@ export class AdminService {
     );
   }
 
-  
-  
+
+   GetProfileData(){
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1
+        })
+      }
+        return this.http.get<any>(AUTH_API + 'subadmin-auth/profile', httpOptions);
+    }
+
+    UpdateAdminProfile(value: {
+      companyName: string;
+      name: string;
+      username: string;
+      location: string;
+      address: string;
+      phone: string;
+      email: string;
+      role: string;
+    
+    }) {
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1
+        })
+      };
+      return this.http.patch(
+        AUTH_API + 'subadmin-auth/update-profile',   { 
+          "companyName":value.companyName, 
+          "name":value.name, 
+          "username":value.username, 
+          "location":value.location, 
+          "address":value.address, 
+          "phone":value.phone, 
+          "email":value.email, 
+          "role":value.role, 
+        },
+        httpOptions
+      );
+    }
+
+    ChangePassword(value: {
+      oldPassword: string;
+      newPassword: string;
+    }){
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1
+        })
+      };
+      return this.http.post(
+        AUTH_API + 'subadmin-auth/change-password',
+        { 
+        "oldPassword":value.oldPassword, 
+        "newPassword":value.newPassword, 
+      },
+         httpOptions 
+      );
+    }
+    
 
 
 
