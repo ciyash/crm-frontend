@@ -55,6 +55,8 @@ export class BranchService {
       return this.http.get(AUTH_API + 'multi-router/cities', httpOptions);
   }
 
+
+  
   GetBranch(){
     const token1 = this.token.getToken();
     const httpOptions = {
@@ -349,7 +351,46 @@ ParcelOfflineReport(value:{
 }
 
 
+patchData(endpoint: string, data: any): Observable<any> {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
   
+  const apiUrl = `${AUTH_API}${'parcel-loading/branch-to-branch'}`; 
+  return this.http.patch(apiUrl, data, httpOptions);
 }
 
+  
+
+
+
+// parcel -branch
+postBranchLoading(value: {
+  fromBookingDate: string;
+  toBookingDate: string;
+  fromBranch: string;
+}): Observable<any> {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+
+  return this.http.post(
+    AUTH_API + 'parcel-loading/branch-to-branch',  
+    {
+      "fromBookingDate": value.fromBookingDate,
+      "toBookingDate": value.toBookingDate,
+      "fromBranch": value.fromBranch
+    },
+    httpOptions
+  );
+}
+}
 
