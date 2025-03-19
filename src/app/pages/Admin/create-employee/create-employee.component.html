@@ -16,7 +16,7 @@
                 <label class="form-label">Select Branch</label>
                 <select class="form-select form-select-sm" formControlName="branchId">
                     <option value="" selected>Select Branch</option>
-                  <option *ngFor="let branch of branchdata" [value]="branch.id">{{ branch.name }}</option>
+                  <option *ngFor="let branch of branchdata" [value]="branch._id">{{ branch.name }}</option>
                 </select>
                 </div>
                 <div class="col-md-3 col-sm-12">
