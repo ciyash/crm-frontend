@@ -12,6 +12,8 @@ import { ParcelOnLoadingDataComponent } from './Branch/parcel-on-loading-data/pa
 import { authGuard } from './service/auth.guard';
 import { CreateBranchComponent } from './pages/Admin/create-branch/create-branch.component';
 import { CreateEmployeeComponent } from './pages/Admin/create-employee/create-employee.component';
+import { ProfileComponent } from './USER/profile/profile.component';
+import { ParcelBranchComponent } from './Branch/parcel-branch/parcel-branch.component';
 
 
 const routes: Routes = [
@@ -29,6 +31,11 @@ const routes: Routes = [
   {path:'parcelloadingdata',component:ParcelLoadingDataComponent, canActivate: [authGuard]},
   {path:'parcelunloading',component:ParcelOnloadingComponent, canActivate: [authGuard]},
   {path:'parcelonloadingdata',component:ParcelOnLoadingDataComponent, canActivate: [authGuard]},
+  { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
+  { path: 'parcel-branch', component: ParcelBranchComponent, canActivate: [authGuard] },
+
+
+
 
   //Routing components
   { path: 'createbranch', component: CreateBranchComponent, canActivate: [authGuard], data: { roles: ['admin'] }},

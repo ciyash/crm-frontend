@@ -1,0 +1,41 @@
+<div class="container mt-5 pt-5 pb-5">
+    <h5 class="text-center fw-bold">Parcel Branch To Branch Loading</h5>
+    <div class="border rounded p-4" style="margin-top: 4rem;">
+        <form [formGroup]="branchForm">
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label class="form-label">From Booking Date</label>
+                    <input type="date" class="form-control" formControlName="fromBookingDate">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">To Booking Date</label>
+                    <input type="date" class="form-control" formControlName="toBookingDate">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">From Branch</label>
+                    <select class="form-select" formControlName="fromBranch">
+                        <option value="" selected>Select Branch</option>
+                        <option *ngFor="let branch of citydata" [value]="branch.name">{{ branch.name }}</option>
+                    </select>
+                </div>           
+                <div class="col-md-3 d-flex align-items-end">
+                    <button type="button" class="btn btn-primary w-100" (click)="submitBranchLoading()">Load</button>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-md-3">
+                <label class="form-label">Vehicle No</label>
+                <input type="text" class="form-control">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Unload Branch</label>
+                <input type="text" class="form-control">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Remark</label>
+                <input type="text" class="form-control">
+            </div>
+        </div>
+    </div>
+</div>

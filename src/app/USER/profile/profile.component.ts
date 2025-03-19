@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+
+import { Component, OnInit } from '@angular/core';
 import { BranchService } from 'src/app/service/branch.service';
 
 @Component({
@@ -6,12 +7,44 @@ import { BranchService } from 'src/app/service/branch.service';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent {
-  profileData:any
-constructor( private api:BranchService){}
+export class ProfileComponent implements OnInit {
+  profileData: any = null;
+  loading: boolean = false;
+  errorMessage: string = '';
 
-ngOnInit(){
+  constructor(private api: BranchService) {}
 
+  ngOnInit() {
+    this.getProfileData();
+  }
+
+
+
+  getProfileData() {
+    try {
+      this.api.GetProfileData().subscribe({
+        next: (response: any) => {
+          console.log('Profile Data:', response);
+          this.profileData = response; 
+          this.loading = false;
+        },
+      });
+    } catch (error) {
+      
+    }
+  }
 }
 
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
