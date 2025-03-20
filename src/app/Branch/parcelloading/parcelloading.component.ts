@@ -36,6 +36,7 @@ export class ParcelloadingComponent implements OnInit {
       });
 
       this.form1 = this.fb.group({
+        loadingType: ['offload'],
         fromBranch: ['', Validators.required],
         toBranch: ['', Validators.required],
         vehicalNumber: ['', Validators.required],
@@ -192,6 +193,7 @@ export class ParcelloadingComponent implements OnInit {
 
   ParcelLoad() {
     const payload = {
+      loadingType: this.form1.value.loadingType,
       fromBranch: this.form1.value.fromBranch,
       toBranch: this.form1.value.toBranch,
       vehicalNumber: this.form1.value.vehicalNumber,

@@ -31,16 +31,16 @@
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">Pickup Branch </label>
-                    <select class="form-select form-select-sm"  formControlName="pickUpBranch">
+                    <select class="form-select form-select-sm" formControlName="pickUpBranch">
                         <option value="" selected>Select Pickup Branch</option>
-                        <option *ngFor="let row4 of branchdata" value="{{row4.name}}"> {{row4.name}} </option>
+                        <option *ngFor="let row4 of branchdata" [value]="row4.branchUniqueId"> {{ row4.name }} </option>
                     </select>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">Drop Branch </label>
-                    <select class="form-select form-select-sm"  formControlName="dropBranch">
+                    <select class="form-select form-select-sm" formControlName="dropBranch">
                         <option value="" selected>Select Drop Branch</option>
-                        <option *ngFor="let row1 of branchdata" value="{{row1.name}}"> {{row1.name}} </option>
+                        <option *ngFor="let row1 of branchdata" value="{{row1.branchUniqueId}}"> {{row1.name}} </option>
                     </select>
                 </div>
                 <div class="col-md-4">
@@ -86,13 +86,13 @@
                                 <td><input type="number" class="form-control form-select-sm" formControlName="quantity"  (input)="calculateTotal(i)"></td>
                                 <td>
                                     <select class="form-control form-select-sm" formControlName="packageType">
-                                        <option value="" selected>Select</option>
+                                        <option value="" selected>Select Package Type</option>
                                         <option value="Box">Box</option>
                                         <option value="Box">Cotton</option>
                                         <option value="Box">Cover</option>
                                     </select>
                                 </td>
-                                <td><input type="number" class="form-control form-select-sm" formControlName="contains"></td>
+                                <td><input type="text" class="form-control form-select-sm" formControlName="contains"></td>
                                 <td><input type="number" class="form-control form-select-sm" formControlName="weight"></td>
                                 <td><input type="number" class="form-control form-select-sm" formControlName="unitPrice" (input)="calculateTotal(i)"></td>
                                 <td><input type="number" class="form-control form-select-sm" formControlName="totalPrice" readonly></td>
@@ -173,4 +173,11 @@
     </div>
 </div>
 
+
+
+<div class="container mt-5">
+    <div class="row">
+
+    </div>
+</div>
 

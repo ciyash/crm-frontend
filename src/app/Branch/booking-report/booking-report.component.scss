@@ -17,3 +17,24 @@
 ::ng-deep tr.custom-row:nth-child(odd) {
     background-color: #ffffff;
 }
+
+
+.custom-row td {
+    padding: 10px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.p-datatable-scrollable-body {
+    overflow-y: auto;
+}
+
+a {
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}

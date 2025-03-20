@@ -59,7 +59,7 @@ export class HeaderComponent implements OnInit {
           items: [
             { label: 'Parcel Booking', routerLink: ['/booking'] },
             { label: 'Offline Loading', routerLink: ['/parcelloading'] },
-            { label: 'Branch to Branch Loading', routerLink: ['/booking'] },
+            { label: 'Branch to Branch Loading', routerLink: ['/parcel-branch'] },
             { label: 'Booking Report', routerLink: ['/bookingreport'] },
             { label: 'Parcel Unloading', routerLink: ['/parcelunloading'] },
           ]

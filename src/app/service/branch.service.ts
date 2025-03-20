@@ -147,7 +147,7 @@ export class BranchService {
   }
 
   
-BookingsPage(page: number, perPage: number) {
+BookingsPage(page: number, limit: number) {
   const token1 = this.token.getToken();
   const httpOptions = {
     headers: new HttpHeaders({
@@ -155,9 +155,9 @@ BookingsPage(page: number, perPage: number) {
       'Authorization': 'Bearer ' + token1
     })
   };
-  const pageDetails = `page=${page}&per_page=${perPage}`;
+  const pageDetails = `page=${page}&limit=${limit}`;
   return this.http.get(
-    AUTH_API + `Admin/booking/pages?${pageDetails}`,
+    AUTH_API + `booking/pages?${pageDetails}`,
     httpOptions
   );
 }
@@ -171,7 +171,7 @@ GetGRNnumber(id:any){
     })
   }
   return this.http.get(
-    AUTH_API + 'booking/grnNumber/'+id,
+    AUTH_API + 'booking/grnNo/'+id,
     httpOptions
   );   
 }
@@ -204,6 +204,7 @@ FilterParcelLoading(value:{
 }
 
 ParcelLoading(value:{
+  loadingType:string;
   fromBranch: string;
   toBranch:string;
   vehicalNumber:string;
@@ -226,6 +227,7 @@ ParcelLoading(value:{
   };
   return this.http.post(
     AUTH_API + 'parcel-loading',  { 
+      "loadingType": value.loadingType,
       "fromBranch": value.fromBranch,
       "toBranch": value.toBranch,
     "vehicalNumber": value.vehicalNumber,
@@ -330,7 +332,7 @@ ParcelOfflineReport(value:{
   fromBookingDate: string;
   toBookingDate:string;
   fromCity: string;
-  toCity: string;
+  toCity: [];
 }){
   const token1 = this.token.getToken();
   const httpOptions = {
@@ -340,7 +342,7 @@ ParcelOfflineReport(value:{
     })
   };
   return this.http.post(
-    AUTH_API + 'parcel-loading/offline-report',  { 
+    AUTH_API + 'parcel-loading/parcel-offline-report',  { 
       "fromBookingDate": value.fromBookingDate,
       "toBookingDate": value.toBookingDate,
     "fromCity": value.fromCity,
@@ -349,22 +351,6 @@ ParcelOfflineReport(value:{
      httpOptions 
   );
 }
-
-
-patchData(endpoint: string, data: any): Observable<any> {
-  const token1 = this.token.getToken();
-  const httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token1
-    })
-  };
-  
-  const apiUrl = `${AUTH_API}${'parcel-loading/branch-to-branch'}`; 
-  return this.http.patch(apiUrl, data, httpOptions);
-}
-
-  
 
 
 
@@ -383,7 +369,7 @@ postBranchLoading(value: {
   };
 
   return this.http.post(
-    AUTH_API + 'parcel-loading/branch-to-branch',  
+    AUTH_API + 'parcel-loading/branch-to-branch-load',  
     {
       "fromBookingDate": value.fromBookingDate,
       "toBookingDate": value.toBookingDate,
@@ -392,5 +378,46 @@ postBranchLoading(value: {
     httpOptions
   );
 }
+
+BranchtoBranchLoad(value: {
+  loadingType: string;
+  lrNumber: [];
+  grnNo: [];
+  fromBookingDate:string;
+  toBookingDate:string;
+  fromBranch:string;
+  toBranch:string;
+  vehicalNumber:string;
+  remarks:string;
+
+}): Observable<any> {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+
+  return this.http.post(
+    AUTH_API + 'parcel-loading/branch-to-branch-post',  
+    {
+      "loadingType": value.loadingType,
+      "lrNumber": value.lrNumber,
+      "grnNo": value.grnNo,
+      "fromBookingDate": value.fromBookingDate,
+      "toBookingDate": value.toBookingDate,
+      "fromBranch": value.fromBranch,
+      "toBranch":value.toBranch,
+      "vehicalNumber":value.vehicalNumber,
+      "remarks":value.remarks
+    },
+    httpOptions
+  );
+}
+
+
+
+
 }
 

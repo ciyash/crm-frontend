@@ -22,11 +22,12 @@ export class ParcelbookingComponent {
   total1:any;
   pfdata:any;
   bookingSuccess: boolean = false;
+  gdata:any;
   constructor(private fb: FormBuilder, private api: BranchService, private token:TokenService, private cdr: ChangeDetectorRef, private activate:ActivatedRoute, private router:Router) {
     this.form = this.fb.group({
       fromCity: [''],
       toCity: ['', Validators.required],
-      pickUpBranch:[''],
+      pickUpBranch: ['', Validators.required],
       dropBranch: ['', Validators.required],
       dispatchType: ['', Validators.required],
       bookingType: ['', Validators.required],
@@ -57,10 +58,12 @@ export class ParcelbookingComponent {
     });
 this.getProfileData();
     
-
     this.addOrderItem()
 
   }
+
+  
+
 getProfileData(){
   this.api.GetProfileData().subscribe((res:any)=>{
     console.log('profile',res);
@@ -110,7 +113,7 @@ getProfileData(){
         contains: item.contains,
         weight: item.weight,
         unitPrice: item.unitPrice,
-        totalPrice:item.totalPrice
+        totalPrice: item.totalPrice
       }));
   
       const val: any = {
@@ -132,23 +135,26 @@ getProfileData(){
       };
   
       console.log('Final data to submit:', val);
-      
-      // Call API to save data
-      this.api.createBooking(val).subscribe((response:any) => {
-        console.log('Order saved successfully', response);
-        this.bookingSuccess = true;
-        this.form.reset();
-        setTimeout(() => {
-          this.bookingSuccess = false;
-          this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-            this.router.navigate(['/booking']);
-          });
-        }, 1000);
-      }, error => {
-        console.error('Error saving order', error);
-      });
+  
+      // ✅ Call API to save data
+      this.api.createBooking(val).subscribe(
+        (response: any) => {
+          console.log('Parcel saved successfully', response);
+          this.bookingSuccess = true;
+          this.form.reset();
+          this.gdata=response;
+          // ✅ Redirect to print page using grnNo
+          if (this.gdata.grnNo) {
+            this.router.navigate(['/printgrn', this.gdata.grnNo]);
+          }
+        },
+        (error) => {
+          console.error('Error saving order', error);
+        }
+      );
     }
   }
+  
   
   toggleSameAsSender(event: any) {
     if (event.target.checked) {
@@ -168,6 +174,7 @@ getProfileData(){
     }
   }
 
+  
 
 
 }
