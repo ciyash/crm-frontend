@@ -366,15 +366,27 @@ patchData(endpoint: string, data: any): Observable<any> {
   return this.http.patch(apiUrl, data, httpOptions);
 }
 
-  
+
+  // profile update
+  profileData(endpoint: string, data: any): Observable<any> {
+    const token1 = this.token.getToken();
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token1
+      })
+    };
+    const apiUrl = `${AUTH_API}${'subadmin-auth/update-profile'}`; // Ensures no leading slash
+    return this.http.patch(apiUrl, data, httpOptions);
+  }
 
 
 
 // parcel -branch
 postBranchLoading(value: {
-  fromBookingDate: string;
-  toBookingDate: string;
-  fromBranch: string;
+  fromDate: string;
+  toDate: string;
+  pickUpBranch: string;
 }): Observable<any> {
   const token1 = this.token.getToken();
   const httpOptions = {
@@ -385,14 +397,15 @@ postBranchLoading(value: {
   };
 
   return this.http.post(
-    AUTH_API + 'parcel-loading/branch-to-branch',  
+    AUTH_API + 'booking/branch-to-branch',  
     {
-      "fromBookingDate": value.fromBookingDate,
-      "toBookingDate": value.toBookingDate,
-      "fromBranch": value.fromBranch
+      "fromDate": value.fromDate,  
+      "toDate": value.toDate,
+      "pickUpBranch": value.pickUpBranch
     },
     httpOptions
   );
 }
+
 }
 

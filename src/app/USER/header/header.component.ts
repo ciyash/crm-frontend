@@ -47,6 +47,8 @@ export class HeaderComponent implements OnInit {
             { label: 'Branch to Branch Loading', routerLink: ['/booking'] },
             { label: 'Booking Report', routerLink: ['/bookingreport'] },
             { label: 'Parcel Unloading', routerLink: ['/parcelunloading'] },
+            { label: 'Parcel to Branch', routerLink: ['/parcel-branch'] },
+
           ]
         },
         { label: 'Parcel Agent', icon: 'pi pi-fw pi-file', routerLink: ['/booking'] },

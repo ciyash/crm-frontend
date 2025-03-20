@@ -1,3 +1,4 @@
+<app-header></app-header>
 <div class="container mt-5 pt-5 pb-5">
     <h5 class="text-center fw-bold">Parcel Branch To Branch Loading</h5>
     <div class="border rounded p-4" style="margin-top: 4rem;">
@@ -5,15 +6,15 @@
             <div class="row mb-3">
                 <div class="col-md-3">
                     <label class="form-label">From Booking Date</label>
-                    <input type="date" class="form-control" formControlName="fromBookingDate">
+                    <input type="date" class="form-control" formControlName="fromDate">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">To Booking Date</label>
-                    <input type="date" class="form-control" formControlName="toBookingDate">
+                    <input type="date" class="form-control" formControlName="toDate">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">From Branch</label>
-                    <select class="form-select" formControlName="fromBranch">
+                    <select class="form-select" formControlName="pickUpBranch">
                         <option value="" selected>Select Branch</option>
                         <option *ngFor="let branch of citydata" [value]="branch.name">{{ branch.name }}</option>
                     </select>
@@ -26,16 +27,27 @@
         <div class="row">
             <div class="col-md-3">
                 <label class="form-label">Vehicle No</label>
-                <input type="text" class="form-control">
-            </div>
-            <div class="col-md-3">
+                <select class="form-select" formControlName="vehicleNo">
+                    <option value="" selected>Select Branch</option>
+                    <option *ngFor="let branch of vehicle" [value]="branch.name">{{ branch.vehicleNo }}</option>
+                </select>          
+              </div>
+              <div class="col-md-3">
                 <label class="form-label">Unload Branch</label>
-                <input type="text" class="form-control">
-            </div>
-            <div class="col-md-6">
+                <div *ngFor="let item of pickBranch">
+                  <input type="text" class="form-control" [value]="item.pickUpBranch">
+                </div>
+              </div>
+            
+            <div class="col-md-3">
                 <label class="form-label">Remark</label>
                 <input type="text" class="form-control">
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="button" class="btn btn-primary w-100">Save</button>
             </div>
         </div>
     </div>
 </div>
+
+

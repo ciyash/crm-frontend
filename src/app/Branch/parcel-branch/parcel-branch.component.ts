@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { BranchService } from 'src/app/service/branch.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -8,19 +8,20 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./parcel-branch.component.scss']
 })
 export class ParcelBranchComponent implements OnInit {
-  citydata: any = []; // Ensure it's initialized to prevent undefined errors
+  citydata: any = []; 
   branchForm: FormGroup;
+  vehicle: any;
+  pickBranch: any;
 
-  constructor(private api: BranchService, private fb: FormBuilder) {
+  constructor(private api: BranchService, private fb: FormBuilder,) {
     this.branchForm = this.fb.group({
-      fromBookingDate: ['', Validators.required],
-      toBookingDate: ['', Validators.required],
-      fromBranch: ['', Validators.required]
+      fromDate: ['', Validators.required],
+      toDate: ['', Validators.required],
+      pickUpBranch: ['', Validators.required]
     });
   }
 
   ngOnInit() {
-    // Fetch branch data and assign it properly
     this.api.GetBranch().subscribe({
       next: (res: any) => {
         this.citydata = res;
@@ -28,22 +29,33 @@ export class ParcelBranchComponent implements OnInit {
       },
       error: (err) => console.error('Error fetching branch data:', err)
     });
+    this.getvehicleData()
   }
 
   submitBranchLoading() {
-    if (this.branchForm.valid) {
       this.api.postBranchLoading(this.branchForm.value).subscribe({
         next: (response) => {
           console.log('Branch loading data submitted successfully:', response);
+          this.pickBranch=response
           alert('Branch Loading Data Submitted Successfully');
           console.log('Form Data:', this.branchForm.value);
-
         },
         error: (error) => {
-          console.error('Error submitting branch loading data:', error);
           alert('Error in submitting branch loading data');
         }
       });
     }
+
+    getvehicleData() {
+      this.api.VehicleData().subscribe({
+        next: (response: any) => {
+          console.log('Vehicle:', response);
+          this.vehicle = response; 
+        },
+        error: (error: any) => {
+          console.error('Error fetching vehicle data:', error);
+        }
+      });
+    }
   }
-}
+
