@@ -6,33 +6,7 @@ font-family: Poppins;
 font-weight: 500;
 text-decoration: underline;
 word-wrap: break-word">Parcel UnLoading Offline</h4>
-<!-- new change -->
-<!-- <form class="row mb-3" (ngSubmit)="searchUser()">
-    <div class="col-md-6 p-3 input-field">
-      <label for="searchTerm">Search by User ID <span class="text-danger">*</span></label>
-      <input
-        required
-        type="text"
-        id="searchTerm"
-        name="searchTerm"
-        placeholder="Enter User ID"
-        [(ngModel)]="searchTerm" 
-        class="form-control"
-      />
-    </div>
-  
-    <div class="text-center mt-4">
-      <button type="submit" class="btn btn-sm btn-primary">
-        Search <i class="pi pi-search"></i>
-      </button>
-    </div>
-  </form>
 
-  <div *ngIf="data2 && data2.length > 0">
-    <pre>{{data2}}</pre> 
-  </div>  -->
-
-  
 <div class="container pt-5 pb-5" style="border: 1px solid #7C7C7C;">
   <p-toast [showTransformOptions]="'translateY(100%)'" [showTransitionOptions]="'1000ms'" [hideTransitionOptions]="'1000ms'" [showTransformOptions]="'translateX(100%)'" ></p-toast>
     <div class="container">
@@ -96,52 +70,42 @@ word-wrap: break-word">Parcel UnLoading Offline</h4>
           </form>
           
           <!-- Data Table -->
-          <div class="table-responsive mt-4" *ngIf="data">
-            <table class="table table-bordered table-striped">
-              <thead>
-                <tr>
-                  <th>S.No</th>
-                  <th>LR No</th>
-                  <th>Book by Branch</th>
-                  <th>Drop Branch</th>
-                  <th>Sender</th>
-                  <th>Receiver</th>
-                  <th>City Name</th>
-                  <th>Transaction Date</th>
-                  <th>Paid Type</th>
-                  <th>Qty</th>
-                  <th>Charge</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let row of data; let i=index">
-                <td>{{ i+1 }}</td>
-                  <td>{{ row.lrNumber }}</td>
-                  <td>{{ row.pickUpBranch }}</td>
-                  <td>{{ row.dropBranch}}</td>
-                  <td>{{ row.senderName }} <br><small>{{row.senderMobile}}</small></td>
-                  <td>{{ row.receiverName }} <br><small>{{row.receiverMobile}}</small></td>
-                  <td>{{ row.toCity }}</td>
-                  <td>{{ row.bookingDate | date:'dd/MM/yyyy' }}</td>
-                  <td> </td>
-                  <td> </td>
-                  <td>{{ row.grandTotal }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        
+          <!-- Data Table -->
+          <!-- Data Table -->
+            <div class="table-responsive mt-4" *ngIf="data">
+              <table class="table table-bordered table-striped">
+                  <thead>
+                      <tr>
+                        <th> <input  type="checkbox" (change)="onSelectAllChange($event)" [checked]="allSelected" /> Select All </th>
+                          <th>S.No</th>
+                          <th>LR No</th>
+                          <th>Book by Branch</th>
+                          <th>Drop Branch</th>
+                          <th>From City</th>
+                          <th>To City</th>
+                          <th>Booking Date</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let row of data; let i = index">
+                          <td> <input type="checkbox" (change)="onGrnNoChange($event, row.grnNo)" [checked]="form1.get('grnNo')?.value.includes(row.grnNo)"/>  </td>
+                          <td>{{ i + 1 }}</td>
+                          <td>{{ row.lrNumber }}</td>
+                          <td>{{ row.fromBranch }}</td>
+                          <td>{{ row.toBranch }}</td>
+                          <td>{{ row.fromCity }}</td>
+                          <td>{{ row.toCity }}</td>
+                          <td>{{ row.toBookingDate | date:'dd/MM/yyyy' }}</td>
+                      </tr>
+                  </tbody>
+              </table>
+            </div>
+
           
     </div>
     
     <form [formGroup]="form1">
         <div class="container pb-3">
-                <div class="row pt-3">
-                   
-                    
-                 
-                </div>
-        
             </div>
                 <div class="container">
                     <div class="row">

@@ -109,7 +109,6 @@ export class AdminService {
       address: string;
       phone: string;
       email: string;
-      role: string;
     
     }) {
       const token1 = this.token.getToken();
@@ -128,7 +127,6 @@ export class AdminService {
           "address":value.address, 
           "phone":value.phone, 
           "email":value.email, 
-          "role":value.role, 
         },
         httpOptions
       );
@@ -154,6 +152,112 @@ export class AdminService {
          httpOptions 
       );
     }
+
+    createVehicle(value: {
+      vehicleNo: string;
+      vehicleType: string;
+      registrationNo: string;
+      date: string;
+      RC: string;
+      polutionExpDate: string;
+      fuelType: string;
+      branch: string;
+      vehicleStatus: string;
+    }) {
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1 // ✅ Added space after 'Bearer'
+        })
+      };
+    
+      return this.http.post(
+        AUTH_API + 'vehicle',  
+        { 
+          vehicleNo: value.vehicleNo,
+          vehicleType: value.vehicleType,
+          registrationNo: value.registrationNo,
+          date: value.date,
+          RC: value.RC,
+          polutionExpDate: value.polutionExpDate,
+          fuelType: value.fuelType,
+          branch: value.branch,
+          vehicleStatus: value.vehicleStatus,
+        },
+        httpOptions 
+      );
+    }
+
+    UpdateVehicle(id: any, value: {
+      vehicleNo: string;
+      vehicleType: string;
+      registrationNo: string;
+      date: string;
+      RC: string;
+      polutionExpDate: string;
+      fuelType: string;
+      branch: string;
+      vehicleStatus: string;
+    }) {
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1
+        })
+      };
+      return this.http.patch(
+        AUTH_API + 'vehicle/' + id,
+        {
+          vehicleNo: value.vehicleNo,
+          vehicleType: value.vehicleType,
+          registrationNo: value.registrationNo,
+          date: value.date,
+          RC: value.RC,
+          polutionExpDate: value.polutionExpDate,
+          fuelType: value.fuelType,
+          branch: value.branch,
+          vehicleStatus: value.vehicleStatus,
+      },
+        httpOptions
+      );
+    }
+
+    createCityname(value: {
+      cityName: string;
+      state: string;
+    }) {
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1 // ✅ Added space after 'Bearer'
+        })
+      };
+    
+      return this.http.post(
+        AUTH_API + 'multi-router/cities',  
+        { 
+          cityName: value.cityName,
+          state: value.state,
+        },
+        httpOptions 
+      );
+    }
+    
+
+    GetEmployeesData(){
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1
+        })
+      }
+        return this.http.get(AUTH_API + 'subadmin-auth/subadmins', httpOptions);
+    }
+
     
 
 

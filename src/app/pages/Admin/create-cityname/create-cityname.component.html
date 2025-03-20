@@ -1,0 +1,66 @@
+<app-header></app-header>
+
+<h4 class="text-center mb-4 pt-5 mt-4" style="color: #3C3C3C;font-size: 20px;font-family: Poppins;font-weight: 500;text-decoration: underline;word-wrap: break-word">Create City</h4>
+<p-toast></p-toast>
+  
+<form [formGroup]="form">
+    <div class="container pb-3">
+            <div class="row pt-3">
+                <div class="col-md-3 col-sm-12">
+                    <label class="form-label">Select State</label> 
+                    <select class="form-select form-select-sm" formControlName="state">
+                        <option value="" selected>Select State</option>
+                      <option value="Andhra Pradesh">Andhra Pradesh</option>
+                      <option value="Telangana">Telangana</option>
+                      <option value="Karnataka">Karnataka</option>
+                      <option value="Tamilnadu">Tamilnadu</option>
+                      <option value="Maharastra">Maharastra</option>
+                      <option value="Kerala">Kerala</option>
+                    </select>
+                </div>
+                <div class="col-md-3 col-sm-12">
+                    <label class="form-label">City Name</label>
+                    <input type="text" class="form-control form-select-sm " formControlName="cityName">
+                </div>
+                
+            </div>
+    
+        </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button class="btn btn-primary btn-sm " type="button"
+                            style=" width: 10rem;" (click)="Add()" [disabled]="!form.valid">Submit</button>
+                    </div>
+                </div>
+            </div>
+</form>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="table-responsive">
+            <div *ngIf="loading" class="text-center">
+                <img src="assets/loading.gif" alt=""  style="height:40px;">
+                <p class="text-danger text-center">Please Wait ....</p>
+            </div>
+                <table class="table" *ngIf="!loading">
+                    <thead>
+                        <th>S.no</th>
+                        <th>State</th>
+                        <th>City</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of bdata; let i=index">
+                            <td>{{i + 1}}</td>
+                            <td> {{row.state}} </td>
+                            <td> {{row.cityName}} </td>
+                            <td> <i class="fa fa-edit"></i> </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            
+        </div>
+    </div>
+</div>

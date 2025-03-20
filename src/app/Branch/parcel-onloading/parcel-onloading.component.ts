@@ -25,6 +25,7 @@ export class ParcelOnloadingComponent {
     data2:any;
     data1:any;
     LoadSuccess: boolean = false;
+    allSelected: boolean = false;
     constructor(private api: BranchService, private fb: FormBuilder, private messageService:MessageService, private router:Router, private activeroute:ActivatedRoute) {
         this.form = this.fb.group({
           fromDate: ['', Validators.required],
@@ -40,11 +41,13 @@ export class ParcelOnloadingComponent {
           toBookingDate: ['', Validators.required],
           fromCity: this.fb.array([], Validators.required),
           toCity: ['', Validators.required],
-          branch:['', Validators.required],
+          branch: ['', Validators.required],
           vehicleNo: ['', Validators.required],
-          grnNo: this.fb.array([], Validators.required),
-          bookingType:["Topay"],
+          grnNo: this.fb.array([], Validators.required), // ✅ FormArray for GRN numbers
+          bookingType: ['Topay'],
         });
+        
+        
       
     }
     ngOnInit() {
@@ -140,6 +143,48 @@ export class ParcelOnloadingComponent {
       });
     }
     
+    onGrnNoChange(event: any, grnNo: string) {
+      const formArray = this.form1.get('grnNo') as FormArray;
+    
+      if (event.target.checked) {
+        // Add if not already selected
+        if (!formArray.value.includes(grnNo)) {
+          formArray.push(this.fb.control(grnNo));
+        }
+      } else {
+        // Remove if unchecked
+        const index = formArray.value.indexOf(grnNo);
+        if (index > -1) {
+          formArray.removeAt(index);
+        }
+      }
+    
+      // ✅ Update "Select All" status based on selected values
+      this.allSelected = this.data.length === formArray.value.length;
+      console.log('Selected GRN Numbers:', formArray.value);
+    }
+    
+    // ✅ Handle "Select All" checkbox
+    onSelectAllChange(event: any) {
+      const formArray = this.form1.get('grnNo') as FormArray;
+    
+      if (event.target.checked) {
+        // ✅ Select all if checked
+        this.data.forEach((row:any) => {
+          if (!formArray.value.includes(row.grnNo)) {
+            formArray.push(this.fb.control(row.grnNo));
+          }
+        });
+      } else {
+        // ✅ Deselect all if unchecked
+        formArray.clear();
+      }
+    
+      // ✅ Update "Select All" status
+      this.allSelected = event.target.checked;
+      console.log('All GRN Numbers Selected:', formArray.value);
+    }
+    
   
     ParcelLoad() {
       const payload = {
@@ -149,16 +194,15 @@ export class ParcelOnloadingComponent {
         toCity: this.form1.value.toCity,
         branch: this.data[0]?.branch || this.form.value.branch,
         vehicleNo: this.form1.value.vehicleNo,
-        grnNo: this.form1.value.grnNo,
-        bookingType:this.form1.value.bookingType,
+        grnNo: this.form1.value.grnNo, // ✅ Only selected GRN numbers
+        bookingType: this.form1.value.bookingType,
       };
     
       console.log('Final Payload:', payload);
-      
+    
       this.api.ParcelUnLoading(payload).subscribe({
         next: (response: any) => {
           console.log('Parcel loaded successfully:', response);
-          // alert('Parcel Loaded Successfully!');
           setTimeout(() => {
             this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
               this.router.navigate(['/parcelunloading']);
@@ -171,6 +215,8 @@ export class ParcelOnloadingComponent {
         },
       });
     }
+    
+    
     
   
   

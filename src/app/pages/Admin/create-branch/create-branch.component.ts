@@ -13,7 +13,9 @@ import { BranchService } from 'src/app/service/branch.service';
 export class CreateBranchComponent {
   form:FormGroup;
   branchdata:any;
-  constructor(private fb:FormBuilder, private api:AdminService, private messageService:MessageService, private router:Router){
+  data:any;
+  loading:boolean=true;
+  constructor(private fb:FormBuilder, private api:AdminService, private messageService:MessageService, private router:Router, private bapi:BranchService){
       this.form = this.fb.group({
         name: ['', Validators.required],
         branchType: ['', Validators.required],
@@ -30,6 +32,11 @@ export class CreateBranchComponent {
   }
 
   ngOnInit(){
+    this.bapi.GetBranch().subscribe((res:any)=>{
+      console.log(res);
+      this.data=res;
+      this.loading=false;
+    })
 
   }
 

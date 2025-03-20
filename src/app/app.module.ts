@@ -30,6 +30,8 @@ import { CreateBranchComponent } from './pages/Admin/create-branch/create-branch
 import { CreateEmployeeComponent } from './pages/Admin/create-employee/create-employee.component';
 import { AdminProfileComponent } from './pages/Admin/admin-profile/admin-profile.component';
 import { ParcelBranchComponent } from './Branch/parcel-branch/parcel-branch.component';
+import { CreateVehicleComponent } from './pages/Admin/create-vehicle/create-vehicle.component';
+import { CreateCitynameComponent } from './pages/Admin/create-cityname/create-cityname.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,9 @@ import { ParcelBranchComponent } from './Branch/parcel-branch/parcel-branch.comp
     CreateBranchComponent,
     CreateEmployeeComponent,
     AdminProfileComponent,
-    ParcelBranchComponent
+    ParcelBranchComponent,
+    CreateVehicleComponent,
+    CreateCitynameComponent
     
     
   ],

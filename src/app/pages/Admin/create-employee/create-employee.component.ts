@@ -14,6 +14,8 @@ export class CreateEmployeeComponent {
 
    form:FormGroup;
     branchdata:any;
+    edata:any;
+    loading:boolean=true;
     constructor(private fb:FormBuilder, private api:AdminService, private messageService:MessageService, private router:Router, private bapi:BranchService){
         this.form = this.fb.group({
           name: ['', Validators.required],
@@ -30,6 +32,14 @@ export class CreateEmployeeComponent {
   
     ngOnInit(){
       this.branchData();
+      this.api.GetEmployeesData().subscribe((res:any)=>{
+        console.log('empdata',res);
+        this.edata=res;
+        this.loading=false;
+      });
+    }
+    togglePassword(index: number): void {
+      this.edata[index].showPassword = !this.edata[index].showPassword;
     }
   
     branchData() {
