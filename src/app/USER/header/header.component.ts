@@ -23,13 +23,21 @@ export class HeaderComponent implements OnInit {
     if (this.token.isAdmin()) {
       this.model = [
         { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['/createbranch'] },
-        { label: 'Create Branch', icon: 'pi pi-user-edit', routerLink: ['/createbranch'] },
-        { label: 'Create Employee', icon: 'pi pi-fw pi-user-edit', routerLink: ['/createemployee'] },
+        {
+          label: 'Create Data',
+          icon: 'pi pi-user',
+          items: [
+            { label: 'Add Branch', icon: 'pi pi-user-edit', routerLink: ['/createbranch'] },
+            { label: 'Add Employee', icon: 'pi pi-fw pi-user-edit', routerLink: ['/createemployee'] },
+            { label: 'Add Vehicle', icon: 'pi pi-fw pi-user-edit', routerLink: ['/createvehicle'] },
+          ]
+        },
         {
           label: 'Setting',
           icon: 'pi pi-fw pi-database',
           items: [
             { label: 'Profile', routerLink: ['/adminprofile'] },
+            { label: 'Add City', icon: 'pi pi-fw pi-user-edit', routerLink: ['/createcity'] },
           ]
         },
       ];

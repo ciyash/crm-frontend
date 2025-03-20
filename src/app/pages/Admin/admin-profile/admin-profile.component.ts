@@ -31,7 +31,6 @@ export class AdminProfileComponent {
       address: ['', ], 
       email: ['', ], 
       phone: ['', ], 
-      role: ['', ], 
     });
     this.form1 = this.fb.group({
       oldPassword: ['', Validators.required], 
@@ -86,7 +85,6 @@ export class AdminProfileComponent {
         address: this.form.value.address,
         phone: this.form.value.phone,
         email: this.form.value.email,
-        role: this.form.value.role,
       };
       this.api.UpdateAdminProfile(val).subscribe(
         (a: any) => {

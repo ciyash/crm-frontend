@@ -69,4 +69,48 @@
 </form>
 
 
-<app-footer></app-footer>
+<div class="container mt-5 mb-2">
+    <div class="row">
+        <div class="table-responsive">
+            <div *ngIf="loading" class="text-center">
+                <img src="assets/loading.gif" alt=""  style="height:40px;">
+                <p class="text-danger text-center">Please Wait ....</p>
+            </div>
+                <table class="table table-striped table-bordered" *ngIf="!loading">
+                    <thead class="p-2">
+                        <th>S.no</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Location</th>
+                        <th>Role</th>
+                        <th>Username</th>
+                        <th>Password</th>
+                        <th>Branch</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of edata; let i=index">
+                            <td>{{i + 1}}</td>
+                            <td> {{row.name}} </td>
+                            <td> {{row.phone}} </td>
+                            <td> {{row.email}} </td>
+                            <td> {{row.location}} </td>
+                            <td> {{row.role}} </td>
+                            <td> {{row.username}} </td>
+                            <td>
+                                {{ row.showPassword ? row.password : '******' }}
+                                <button type="button" (click)="togglePassword(i)" class="btn btn-sm">
+                                  <i class="fa" [ngClass]="row.showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                                </button>
+                              </td>
+                            <td>{{ row.branchId?.name || 'N/A' }} </td>
+                            <td> <i class="fa fa-edit"></i> </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            
+        </div>
+    </div>
+</div>

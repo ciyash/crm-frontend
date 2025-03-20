@@ -65,6 +65,7 @@ word-wrap: break-word">Parcel Loading Offline</h4>
             <table class="table table-bordered table-striped">
               <thead>
                 <tr>
+                  <th> <input  type="checkbox" (change)="onSelectAllChange($event)" [checked]="allSelected" /> Select All </th>
                   <th>S.No</th>
                   <th>LR No</th>
                   <th>Book by Branch</th>
@@ -80,6 +81,7 @@ word-wrap: break-word">Parcel Loading Offline</h4>
               </thead>
               <tbody>
                 <tr *ngFor="let row of data; let i=index">
+                  <td> <input type="checkbox" (change)="onGrnNoChange($event, row.grnNo)" [checked]="form1.get('grnNo')?.value.includes(row.grnNo)"/>  </td>
                 <td>{{ i+1 }}</td>
                   <td>{{ row.lrNumber }}</td>
                   <td>{{ row.pickUpBranch }}</td>
@@ -89,7 +91,7 @@ word-wrap: break-word">Parcel Loading Offline</h4>
                   <td>{{ row.toCity }}</td>
                   <td>{{ row.bookingDate | date:'dd/MM/yyyy' }}</td>
                   <td> {{row.bookingType}} </td>
-                  <td> </td>
+                  <td> {{row.totalQuantity}} </td>
                   <td>{{ row.grandTotal }}</td>
                 </tr>
               </tbody>

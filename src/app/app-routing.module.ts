@@ -15,14 +15,14 @@ import { CreateEmployeeComponent } from './pages/Admin/create-employee/create-em
 import { AdminProfileComponent } from './pages/Admin/admin-profile/admin-profile.component';
 import { ProfileComponent } from './USER/profile/profile.component';
 import { ParcelBranchComponent } from './Branch/parcel-branch/parcel-branch.component';
+import { CreateVehicleComponent } from './pages/Admin/create-vehicle/create-vehicle.component';
+import { CreateCitynameComponent } from './pages/Admin/create-cityname/create-cityname.component';
 
 
 const routes: Routes = [
   {path:"login",component:LoginComponent },
   {path:"",component:LoginComponent },
   {path:"signup",component:SignupComponent, canActivate: [authGuard] },
-
-  //Admin Component
 
   //Branch Component
   {path:"booking",component:ParcelbookingComponent, canActivate: [authGuard] },
@@ -35,13 +35,12 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
   { path: 'parcel-branch', component: ParcelBranchComponent, canActivate: [authGuard] },
 
-
-
-
-  //Routing components
+  //Admin Routing components
   { path: 'createbranch', component: CreateBranchComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   { path: 'createemployee', component: CreateEmployeeComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   { path: 'adminprofile', component: AdminProfileComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
+  { path: 'createvehicle', component: CreateVehicleComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
+  { path: 'createcity', component: CreateCitynameComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   
 ];
 
