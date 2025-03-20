@@ -47,8 +47,8 @@ export class CreateVehicleComponent {
                 polutionExpDate: [''],
                 fuelType: [''],
                 branch: [''],
-                vehicleStatus: ['active'],
-                  });
+                vehicleStatus: ['active']
+              });
       }
     
       ngOnInit(){
@@ -104,6 +104,8 @@ export class CreateVehicleComponent {
         });
       }
 
+      
+
       edit(id:any) {
         console.log(this.form1.value);
         if (this.form1.valid) {
@@ -123,15 +125,16 @@ export class CreateVehicleComponent {
               if (a?.data) {
                 console.log(a);
                 this.messageService.add({ severity: 'success', summary: 'success', detail: 'Vehicle Update Successfully' });
+               
+              } else {
+                console.log(a);
+                // this.errorMessage = a.msg.message;
+                this.msg = 'Vehicle Successfully Updated !!!';
                 setTimeout(() => {
                   this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
                     this.router.navigate(['/createvehicle']);
                   });
                   }, 1000);
-              } else {
-                console.log(a);
-                // this.errorMessage = a.msg.message;
-                this.msg = 'Vehicle Successfully Updated !!!';
               }
             },
             (err: any) => {

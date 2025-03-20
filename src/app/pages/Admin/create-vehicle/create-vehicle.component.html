@@ -5,12 +5,13 @@
   
 <form [formGroup]="form">
     <div class="container pb-3">
+        {{msg}}
             <div class="row pt-3">
                 <div class="col-md-3 col-sm-12">
                 <label class="form-label">Select Branch</label>
                 <select class="form-select form-select-sm" formControlName="branch">
                     <option value="" selected>Select Branch</option>
-                  <option *ngFor="let branch of branchdata" [value]="branch._id">{{ branch.name }}</option>
+                  <option *ngFor="let branch of branchdata" [value]="branch.name">{{ branch.name }}</option>
                 </select>
                 </div>
                 <div class="col-md-3 col-sm-12">
@@ -74,19 +75,21 @@
                 <p class="text-danger text-center">Please Wait ....</p>
             </div>
                 <table class="table table-striped table-bordered" *ngIf="!loading">
-                    <thead class="p-2">
-                        <th>S.no</th>
-                        <th>vehicle No</th>
-                        <th>Type</th>
-                        <th>Fuel</th>
-                        <th>Branch</th>
-                        <th>RC</th>
-                        <th>Reg No</th>
-                        <th>Pollution Exp Date</th>
-                        <th>Action</th>
+                    <thead >
+                        <tr class="p-2 text-center" >
+                            <th>S.no</th>
+                            <th>vehicle No</th>
+                            <th>Type</th>
+                            <th>Fuel</th>
+                            <th>Branch</th>
+                            <th>RC</th>
+                            <th>Reg No</th>
+                            <th>Pollution Exp Date</th>
+                            <th>Action</th>
+                        </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let row of vdata; let i=index">
+                        <tr *ngFor="let row of vdata; let i=index" class="text-center">
                             <td>{{i + 1}}</td>
                             <td> {{row.vehicleNo}} </td>
                             <td> {{row.vehicleType}} </td>
@@ -114,8 +117,8 @@
                             <div class="col-md-3 col-sm-12">
                                 <label class="form-label">Select Branch</label>
                                 <select class="form-select form-select-sm" formControlName="branch">
-                                    <option value="" selected> {{repd.branch}} </option>
-                                  <option *ngFor="let branch of branchdata" [value]="branch._id">{{ branch.name }}</option>
+                                    <option value=""> {{repd.branch}} </option>
+                                  <option *ngFor="let branch of branchdata" [value]="branch.name">{{ branch.name }}</option>
                                 </select>
                                 </div>
                                 <div class="col-md-3 col-sm-12">
@@ -125,7 +128,7 @@
                                 <div class="col-md-3 col-sm-12">
                                     <label class="form-label">Vehicle Type</label> 
                                     <select class="form-select form-select-sm" formControlName="vehicleType">
-                                        <option value="" selected> {{repd.vehicleType}} </option>
+                                        <option value=""> {{repd.vehicleType}} </option>
                                       <option value="Bus">Bus</option>
                                       <option value="Lorry">Lorry</option>
                                       <option value="Tempo">Tempo</option>
@@ -151,7 +154,7 @@
                                 <div class="col-md-3 col-sm-12">
                                     <label class="form-label">Fuel Type</label> 
                                     <select class="form-select form-select-sm" formControlName="fuelType">
-                                        <option value="" selected> {{repd.fuelType}} </option>
+                                        <option value=""> {{repd.fuelType}} </option>
                                       <option value="Petrol">Petrol</option>
                                       <option value="Disel">Disel</option>
                                     </select>
@@ -159,7 +162,7 @@
                     </div>
      
                     <div class="col-12 md:col-12 text-center mt-3">
-                        <button pButton type="button" class="btn btn-sm btn-success" (click)="edit(repd?.id)">Submit</button>
+                        <button pButton type="button" class="btn btn-sm btn-success" (click)="edit(repd?._id)">Submit</button>
                     </div>
             </form>
         </div>

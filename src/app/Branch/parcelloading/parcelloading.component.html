@@ -48,7 +48,7 @@ word-wrap: break-word">Parcel Loading Offline</h4>
                 <label class="form-label">Book Branch</label>
                 <select class="form-select form-select-sm" formControlName="pickUpBranch">
                     <option value="" selected>Select Branch</option>
-                  <option *ngFor="let branch of branchdata" [value]="branch.name">{{ branch.name }}</option>
+                  <option *ngFor="let branch of branchdata" [value]="branch.branchUniqueId">{{ branch.name }}</option>
                 </select>
               </div>
           

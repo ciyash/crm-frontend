@@ -45,13 +45,15 @@
             </div>
                 <table class="table" *ngIf="!loading">
                     <thead>
-                        <th>S.no</th>
-                        <th>State</th>
-                        <th>City</th>
-                        <th>Action</th>
+                        <tr class="p-2 text-center" >
+                            <th>S.no</th>
+                            <th>State</th>
+                            <th>City</th>
+                            <th>Action</th>
+                        </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let row of bdata; let i=index">
+                        <tr *ngFor="let row of bdata; let i=index" class="text-center">
                             <td>{{i + 1}}</td>
                             <td> {{row.state}} </td>
                             <td> {{row.cityName}} </td>

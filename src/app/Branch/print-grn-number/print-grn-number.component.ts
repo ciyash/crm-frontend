@@ -10,7 +10,7 @@ import { BranchService } from 'src/app/service/branch.service';
   styleUrls: ['./print-grn-number.component.scss']
 })
 export class PrintGrnNumberComponent {
-  @Input() grnNumber: string = ''; // Receive grnNumber from parent
+  @Input() grnNo: string = ''; // Receive grnNumber from parent
   qrData: string = '';
   data1: any;
   loading: boolean = false;
@@ -18,7 +18,7 @@ id:any;
   constructor(private api: BranchService, private activeroute:ActivatedRoute) {}
 
   ngOnInit(){
-    this.id = this.activeroute.snapshot.params['grnNumber'];
+    this.id = this.activeroute.snapshot.params['grnNo'];
     this.api.GetGRNnumber(this.id).subscribe(
           (res: any) => {
             console.log('API Response:', res);
@@ -28,7 +28,7 @@ id:any;
               this.qrData = String(this.id).trim(); 
               console.log('QR Data Set:', this.qrData);
             } else {
-              console.error('Invalid QR Data:', this.grnNumber);
+              console.error('Invalid QR Data:', this.grnNo);
             }
           },
           (err: any) => {

@@ -3,93 +3,99 @@
     <div class="card" *ngIf="loading">
       <p class="text-danger">Data Loading Wait...</p>
     </div>
+    
+<div *ngIf="!loading">
     <div class="hide-on-print hide-on-pdf"> 
       <!-- <button type="button" class="btn btn-sm btn-primary m-2 " (click)="downloadAsPDF()"><i class="pi pi-file-pdf"></i> PDF</button>   -->
       <button type="button" class="btn btn-sm btn-danger" (click)="printPage()"><i class="pi pi-print"></i> Print</button>
       <button type="button" class="btn btn-sm btn-primary ml-2" routerLink="/bookingreport"><i class="pi pi-print"></i> Back to New Booking</button>
     </div>
 <!-- Order Details -->
-<div class="col-12 mb-5 m-3" *ngIf="data1">
-  <div id="printSection">
-    <h4 class="text-center mb-3"><u>Receipt</u></h4>
-    <div class="col-md-12 col-xs-12 text-right">
-      <h6>
-        LR No: {{data1.lrNumber}} <br>
-        Date: {{data1.bookingDate | date:'dd/MMM/yyyy'}}
-      </h6>
-    </div>
-    <div class="row">
-      <div class="col-md-5 col-xs-6 col-sm-6">
-        <h6>To,</h6>
-        <p>
-          {{data1.receiverName}} <br>
-          {{data1.receiverAddress}} <br>
-          Ph: {{data1.receiverMobile}} <br>
-          <span class="text-primary">Branch: {{data1.toCity}}</span>
-        </p>
+
+  <div class="col-12 mb-5 m-3" *ngIf="data1">
+    <div id="printSection">
+      <h4 class="text-center mb-3"><u>Receipt</u></h4>
+      <div class="col-md-12 col-xs-12 text-right">
+        <h6>
+          LR No: {{data1.lrNumber}} <br>
+          Date: {{data1.bookingDate | date:'dd/MMM/yyyy'}}
+        </h6>
       </div>
-      <div class="col-md-5 col-xs-6 col-sm-6">
-        <h6>From,</h6>
-        <p>
-          {{data1.senderName}} <br>
-          {{data1.senderAddress}} <br>
-          Ph: {{data1.senderMobile}} <br>
-          <span class="text-danger">Branch: {{data1.fromCity}}</span>
-        </p>
-      </div>
-      <div class="col-md-2 col-xs-6 col-sm-6">
-        <div *ngIf="qrData" class="qr-code mt-3">
-          <qrcode 
-            *ngIf="qrData"
-            [qrdata]="qrData" 
-            [width]="150" 
-            [errorCorrectionLevel]="'M'">
-          </qrcode>
+      <div class="row">
+        <div class="col-md-6 col-xs-6 col-sm-6">
+          <h6>To,</h6>
+          <p>
+            {{data1.receiverName}} <br>
+            {{data1.receiverAddress}} <br>
+            Ph: {{data1.receiverMobile}} <br>
+            <span class="text-primary">Branch: {{data1.toCity}}</span>
+          </p>
+        </div>
+        <div class="col-md-6 col-xs-6 col-sm-6">
+          <h6>From,</h6>
+          <p>
+            {{data1.senderName}} <br>
+            {{data1.senderAddress}} <br>
+            Ph: {{data1.senderMobile}} <br>
+            <span class="text-danger">Branch: {{data1.fromCity}}</span>
+          </p>
+        </div>
+        <div class="col-md-6 col-xs-6 col-sm-6 mt-3">
+          <div *ngIf="qrData" class="qr-code mt-3">
+          <h4 class="text-center"> {{data1.lrNumber}} </h4>
+            <qrcode 
+              *ngIf="qrData"
+              [qrdata]="qrData" 
+              [width]="300" 
+              [errorCorrectionLevel]="'M'" class="text-center">
+            </qrcode>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="">
-    <!-- <div class="table-responsive" >
-      <table class="table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Qty</th>
-            <th>Package</th>
-            <th>Contains</th>
-            <th>Weight</th>
-            <th>Unit Price</th>
-            <th>Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let rd of data1.packages; let i = index">
-            <td class="text-primary">{{ i + 1 }}</td>
-            <td class="text-primary">{{ rd.quantity }}</td>
-            <td class="text-primary">{{ rd.packageType }}</td>
-            <td class="text-primary">{{ rd.contains }}</td>
-            <td class="text-primary">{{ rd.weight }}</td>
-            <td class="text-primary">{{ rd.unitPrice | currency: 'INR': true: '1.0-1' }}</td>
-            <td class="text-success">{{ rd.totalPrice | currency: 'INR': true: '1.0-1' }}</td>
-          </tr>
-
   
+    <div class="">
+      <!-- <div class="table-responsive" >
+        <table class="table">
+          <thead>
             <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td class="text-primary"></td>
-              <td class="" class="text-primary">Total Amount</td>
-              <td class="text-primary">{{data1.grandTotal | currency:'INR':true:'1.0-1'}}</td>
+              <th>#</th>
+              <th>Qty</th>
+              <th>Package</th>
+              <th>Contains</th>
+              <th>Weight</th>
+              <th>Unit Price</th>
+              <th>Total</th>
             </tr>
-
-        </tbody>
-      </table>
-      
-     </div> -->
-   </div>
-
+          </thead>
+          <tbody>
+            <tr *ngFor="let rd of data1.packages; let i = index">
+              <td class="text-primary">{{ i + 1 }}</td>
+              <td class="text-primary">{{ rd.quantity }}</td>
+              <td class="text-primary">{{ rd.packageType }}</td>
+              <td class="text-primary">{{ rd.contains }}</td>
+              <td class="text-primary">{{ rd.weight }}</td>
+              <td class="text-primary">{{ rd.unitPrice | currency: 'INR': true: '1.0-1' }}</td>
+              <td class="text-success">{{ rd.totalPrice | currency: 'INR': true: '1.0-1' }}</td>
+            </tr>
+  
+    
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="text-primary"></td>
+                <td class="" class="text-primary">Total Amount</td>
+                <td class="text-primary">{{data1.grandTotal | currency:'INR':true:'1.0-1'}}</td>
+              </tr>
+  
+          </tbody>
+        </table>
+        
+       </div> -->
+     </div>
+  
+  </div>
 </div>
+

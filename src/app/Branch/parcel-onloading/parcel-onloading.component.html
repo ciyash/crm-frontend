@@ -49,7 +49,7 @@ word-wrap: break-word">Parcel UnLoading Offline</h4>
                 <label class="form-label">Branch</label>
                 <select class="form-select form-select-sm" formControlName="branch">
                     <option value="" selected>Select Branch</option>
-                  <option *ngFor="let branch of branchdata" [value]="branch.name">{{ branch.name }}</option>
+                  <option *ngFor="let branch of branchdata" [value]="branch.branchUniqueId">{{ branch.name }}</option>
                 </select>
               </div>
               <!-- //new file -->

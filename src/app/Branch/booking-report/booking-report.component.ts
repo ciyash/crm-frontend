@@ -15,7 +15,7 @@ interface Column {
 })
 export class BookingReportComponent {
   data1:any;
-  totalRecords: number = 0;
+  totalBookings: number = 0;
   loading: boolean = true;
 
   visible: boolean = false;
@@ -30,6 +30,7 @@ export class BookingReportComponent {
 
   ngOnInit(){
     this.getbookingData();
+    this.loadUsers({ first: 0, rows: 10 });
   }
 
   getbookingData(){
@@ -44,16 +45,16 @@ export class BookingReportComponent {
     this.router.navigate(['/printgrn/'+id]);
   }
 
-  // loadUsers(event: any) {
-  //   const first = event.first;  
-  //   const rows = event.rows;    
-  //   const page = Math.floor(first / rows) + 1; 
-  //   const perPage = rows;  
-  //   this.api.BookingsPage(page, perPage).subscribe((res: any) => {
-  //     console.log(res);
-  //     this.data1 = res; 
-  //     this.totalRecords = res.data.count; 
-  //   });
-  // }
+  loadUsers(event: any) {
+    const first = event.first;  
+    const rows = event.rows;    
+    const page = Math.floor(first / rows) + 1; 
+    const perPage = rows;  
+    this.api.BookingsPage(page, perPage).subscribe((res: any) => {
+      console.log(res);
+      this.data1 = res; 
+      this.totalBookings = res.count; 
+    });
+  }
 
 }
