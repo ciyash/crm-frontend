@@ -68,6 +68,48 @@ export class BranchService {
       return this.http.get(AUTH_API + 'branch', httpOptions);
   }
 
+  GetBranchbyCity(cityName: any) {
+    const token1 = this.token.getToken();
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token1
+      })
+    };
+    return this.http.get(AUTH_API + 'branch/city/' + encodeURIComponent(cityName), httpOptions);
+  }
+  
+
+  FilterBookingServiceCharges(value: { fromCity: string; toCity: string }) {
+    const token1 = this.token.getToken();
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token1
+      })
+    };
+    return this.http.post(AUTH_API + 'extra-charge/filter-city-wise', 
+      { 
+        fromCity: value.fromCity,
+        toCity: value.toCity
+      }, 
+      httpOptions
+    );
+  }
+
+  searchUser(qry:string) {
+    const token1 = this.token.getToken();
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token1
+      })
+    };
+    return this.http.get(
+      AUTH_API + `booking/users/search?query=${qry}`,
+      httpOptions
+    );
+  }
 
   createBooking(value:{
     bookedBy: string;
@@ -89,6 +131,13 @@ export class BranchService {
     receiverGst:string;
     adminUniqueId:string;
     packages: [];
+    serviceCharges:number;
+    hamaliCharges:number;
+    doorDeliveryCharges:number;
+    doorPickupCharges:number;
+    valueOfGoods:number;
+    grandTotal:number;
+
   }){
     const token1 = this.token.getToken();
     const httpOptions = {
@@ -118,6 +167,12 @@ export class BranchService {
       "reciverGst":value.receiverGst,
       "adminUniqueId": value.adminUniqueId,
       "packages":value.packages, 
+      "serviceCharges": value.serviceCharges,
+      "hamaliCharges": value.hamaliCharges,
+      "doorDeliveryCharges": value.doorDeliveryCharges,
+      "doorPickupCharges":value.doorPickupCharges,
+      "valueOfGoods": value.valueOfGoods,
+      "grandTotal":value.grandTotal, 
       },
        httpOptions 
     );
@@ -416,7 +471,68 @@ BranchtoBranchLoad(value: {
   );
 }
 
+//packages type apis
+packageType(value:{
+  name:string;
+}){
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'multi-router/package-types',  { 
+      "name": value.name,
+    },
+     httpOptions 
+  );
+}
 
+GetPAckagesType(){
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  }
+    return this.http.get<any>(AUTH_API + 'multi-router/package-types', httpOptions);
+}
+
+UpdatePackagestype(id: any, value: {
+      name: string;
+    }) {
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1
+        })
+      };
+      return this.http.patch(
+        AUTH_API + 'multi-router/package-types/' + id,
+        {
+          name: value.name,
+      },
+        httpOptions
+      );
+    }
+
+    DeletePackagesType(id:any){
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1
+        })
+      }
+      return this.http.delete(
+        AUTH_API + 'multi-router/package-types/'+id,
+        httpOptions
+      );
+    }
 
 
 }

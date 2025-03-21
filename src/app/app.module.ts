@@ -32,6 +32,7 @@ import { AdminProfileComponent } from './pages/Admin/admin-profile/admin-profile
 import { ParcelBranchComponent } from './Branch/parcel-branch/parcel-branch.component';
 import { CreateVehicleComponent } from './pages/Admin/create-vehicle/create-vehicle.component';
 import { CreateCitynameComponent } from './pages/Admin/create-cityname/create-cityname.component';
+import { AddPackagesTypeComponent } from './Branch/add-packages-type/add-packages-type.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { CreateCitynameComponent } from './pages/Admin/create-cityname/create-ci
     AdminProfileComponent,
     ParcelBranchComponent,
     CreateVehicleComponent,
-    CreateCitynameComponent
+    CreateCitynameComponent,
+    AddPackagesTypeComponent
     
     
   ],

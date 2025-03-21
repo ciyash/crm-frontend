@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { AdminService } from 'src/app/service/admin.service';
 import { BranchService } from 'src/app/service/branch.service';
@@ -15,7 +15,9 @@ export class CreateBranchComponent {
   branchdata:any;
   data:any;
   loading:boolean=true;
-  constructor(private fb:FormBuilder, private api:AdminService, private messageService:MessageService, private router:Router, private bapi:BranchService){
+  id:any;
+  ubdata:any;
+  constructor(private fb:FormBuilder, private api:AdminService, private messageService:MessageService, private router:Router, private bapi:BranchService, private activeroute:ActivatedRoute){
       this.form = this.fb.group({
         name: ['', Validators.required],
         branchType: ['', Validators.required],
@@ -32,15 +34,21 @@ export class CreateBranchComponent {
   }
 
   ngOnInit(){
+    this.id = this.activeroute.snapshot.params['name'];
     this.bapi.GetBranch().subscribe((res:any)=>{
-      console.log(res);
+      console.log('branch',res);
       this.data=res;
       this.loading=false;
     })
 
   }
 
-
+getbranchemployees(id:any){
+  this.api.GetUnderBranchEmployees(id).subscribe((res:any)=>{
+    console.log('underbranch',res);
+    this.ubdata=res;
+  });
+}
 
   Add() {
     const payload = {

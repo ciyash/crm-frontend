@@ -13,34 +13,30 @@
             <div class="row">
                 <div class="col-md-4">
                     <label class="form-label">From City </label>
-                    <select class="form-select form-select-sm"  formControlName="fromCity">
+                    <select class="form-select form-select-sm"  formControlName="fromCity" (change)="onFromcitySelect($event)" >
                         <option value="" selected>Select City</option>
                         <option *ngFor="let row2 of citydata" value="{{row2.cityName}}"> {{row2.cityName}} </option>
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <label class="form-label">To City </label>
-                    <select class="form-select form-select-sm"  formControlName="toCity">
-                        <option value="" selected>Select City</option>
-                        <option *ngFor="let row of citydata" value="{{row.cityName}}"> {{row.cityName}} </option>
-                    </select>
-                    <!-- <input class="form-control form-select-sm" list="datalistOptions" id="exampleDataList" formControlName="toCity" placeholder="Type to search...">
-                    <datalist id="datalistOptions">
-                    <option *ngFor="let row of citydata" value="{{row.cityName}}"> {{row.cityName}} </option>
-                    </datalist> -->
-                </div>
-                <div class="col-md-4">
                     <label class="form-label">Pickup Branch </label>
                     <select class="form-select form-select-sm" formControlName="pickUpBranch">
                         <option value="" selected>Select Pickup Branch</option>
-                        <option *ngFor="let row4 of branchdata" [value]="row4.branchUniqueId"> {{ row4.name }} </option>
+                        <option *ngFor="let row4 of pdata" [value]="row4.branchUniqueId"> {{ row4.name }} </option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">To City </label>
+                    <select class="form-select form-select-sm"  formControlName="toCity" (change)="onTocitySelect($event)">
+                        <option value="" selected>Select City</option>
+                        <option *ngFor="let row of citydata" value="{{row.cityName}}"> {{row.cityName}} </option>
                     </select>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">Drop Branch </label>
                     <select class="form-select form-select-sm" formControlName="dropBranch">
                         <option value="" selected>Select Drop Branch</option>
-                        <option *ngFor="let row1 of branchdata" value="{{row1.branchUniqueId}}"> {{row1.name}} </option>
+                        <option *ngFor="let row1 of tbcdata" value="{{row1.branchUniqueId}}"> {{row1.name}} </option>
                     </select>
                 </div>
                 <div class="col-md-4">
@@ -87,9 +83,7 @@
                                 <td>
                                     <select class="form-control form-select-sm" formControlName="packageType">
                                         <option value="" selected>Select Package Type</option>
-                                        <option value="Box">Box</option>
-                                        <option value="Box">Cotton</option>
-                                        <option value="Box">Cover</option>
+                                        <option *ngFor="let pack of packdata" value="{{pack.name}}">{{pack.name}}</option>
                                     </select>
                                 </td>
                                 <td><input type="text" class="form-control form-select-sm" formControlName="contains"></td>
@@ -105,27 +99,58 @@
                 </div>
             </div>
             <button type="button" class="btn btn-danger btn-sm" (click)="addOrderItem()">Add +</button>
+            <tr>
+                <th>GSt(+)</th>
+                <th>Service Charges(+)</th>
+                <th>Hamali Charges(+)</th>
+                <th>Door Delivery Charges(+)</th>
+                <th>Door Pickup Charges(+)</th>
+                <th>Value of Goods</th>
+                <th>Grand Total</th>
+            </tr>
+            <tr>
+                <th><input type="number" class="form-control form-select-sm" readonly></th>
+                <th><input type="number" class="form-control form-select-sm" value="{{sdata}}" formControlName="serviceCharges" (input)="calculateGrandTotal()"></th>
+                <th><input type="number" class="form-control form-select-sm" formControlName="hamaliCharges" (input)="calculateGrandTotal()"></th>
+                <th><input type="number" class="form-control form-select-sm" formControlName="doorDeliveryCharges" (input)="calculateGrandTotal()"></th>
+                <th><input type="number" class="form-control form-select-sm" formControlName="doorPickupCharges" (input)="calculateGrandTotal()"></th>
+                <th><input type="number" class="form-control form-select-sm" formControlName="valueOfGoods" (input)="calculateGrandTotal()"></th>
+                <th><input type="number" class="form-control form-select-sm" [value]="form.get('grandTotal')?.value" readonly></th>
+            </tr>   
 
             <div class="container mt-5 mt-5">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="row mt-3">
                             <div class="col-md-3">
-                                <label class="form-label">Sender Name </label>
-                                <input type="text" class="form-control form-select-sm " formControlName="senderName">
+                          <!-- Sender Name Input -->
+                            <label class="form-label">Sender Name</label>
+                            <input type="text" class="form-control form-select-sm" formControlName="senderName"
+                                [(ngModel)]="searchTerm" (input)="searchUser()" (blur)="hideDropdown()">
+
+                            <!-- Dropdown for Suggestions -->
+                            <ul *ngIf="showDropdown && userList.length" class="dropdown-menu show">
+                            <li *ngFor="let user of userList" class="dropdown-item" (click)="selectUser(user)">
+                                {{ user.name }}
+                            </li>
+                            </ul>
                             </div>
+                            <!-- Other Fields (Auto-populated) -->
                             <div class="col-md-3">
-                                <label class="form-label">Sender Mobile Number </label>
-                                <input type="number" class="form-control form-select-sm " formControlName="senderMobile">
+                            <label class="form-label">Sender Mobile Number</label>
+                            <input type="number" class="form-control form-select-sm" formControlName="senderMobile">
                             </div>
+
                             <div class="col-md-3">
-                                <label class="form-label">Sender Address </label>
-                                <input type="text" class="form-control form-select-sm" formControlName="senderAddress">
+                            <label class="form-label">Sender Address</label>
+                            <input type="text" class="form-control form-select-sm" formControlName="senderAddress">
                             </div>
+
                             <div class="col-md-3">
-                                <label class="form-label">Sender GST No(0)</label>
-                                <input type="text" class="form-control form-select-sm " formControlName="senderGST"> 
+                            <label class="form-label">Sender GST No(0)</label>
+                            <input type="text" class="form-control form-select-sm" formControlName="senderGST">
                             </div>
+
                         </div>
 
                         <div class="form-check mt-3">
@@ -166,9 +191,9 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
+            
         </form>
     </div>
 </div>
