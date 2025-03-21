@@ -66,7 +66,13 @@ export class HeaderComponent implements OnInit {
         },
         { label: 'Parcel Agent', icon: 'pi pi-fw pi-file', routerLink: ['/booking'] },
         { label: 'Parcel Report', icon: 'pi pi-fw pi-file', routerLink: ['/booking'] },
-        { label: 'Others', icon: 'pi pi-fw pi-file', routerLink: ['/booking'] },
+        {
+          label: 'Others',
+          icon: 'pi pi-fw pi-database',
+          items: [
+            { label: 'Add Packages Type', routerLink: ['/addpackagestype'] },
+          ]
+        },
       ];
     }
   

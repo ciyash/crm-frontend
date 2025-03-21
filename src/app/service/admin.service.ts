@@ -153,6 +153,48 @@ export class AdminService {
       );
     }
 
+    Forgotemailentry(value: {
+      email: string;
+    }){
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1
+        })
+      };
+      return this.http.post(
+        AUTH_API + 'subadmin-auth/forgot-password',
+        { 
+        "email":value.email, 
+      },
+         httpOptions 
+      );
+    }
+
+    resetPassword(value: {
+      email: string;
+      otp: number;
+      newPassword: string;
+    }){
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1
+        })
+      };
+      return this.http.post(
+        AUTH_API + 'subadmin-auth/reset-password',
+        { 
+        "email":value.email, 
+        "otp":value.otp, 
+        "newPassword":value.newPassword, 
+      },
+         httpOptions 
+      );
+    }
+
     createVehicle(value: {
       vehicleNo: string;
       vehicleType: string;
@@ -259,7 +301,19 @@ export class AdminService {
     }
 
     
-
+  GetUnderBranchEmployees(id:any){
+    const token1 = this.token.getToken();
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token1
+      })
+    }
+    return this.http.get(
+      AUTH_API + 'subadmin-auth/branch-wise/'+id,
+      httpOptions
+    );   
+  }
 
 
 

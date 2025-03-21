@@ -23,6 +23,19 @@ export class ParcelbookingComponent {
   pfdata:any;
   bookingSuccess: boolean = false;
   gdata:any;
+  packdata:any;
+  fbcdata:any;
+  tbcdata:any;
+  pdata:any;
+  form1:FormGroup;
+  sdata: number = 0;
+  searchTerm: string = '';       // For binding with input field
+  searchResult: any[] = [];
+  idselectmsg: string = '';
+  regname: any[] = [];
+  errorMessage: string = '';
+  userList: any[] = [];
+  showDropdown:boolean=true;
   constructor(private fb: FormBuilder, private api: BranchService, private token:TokenService, private cdr: ChangeDetectorRef, private activate:ActivatedRoute, private router:Router) {
     this.form = this.fb.group({
       fromCity: [''],
@@ -38,9 +51,21 @@ export class ParcelbookingComponent {
       receiverName: [''],
       receiverMobile: [''],
       receiverAddress: [''],
-      receiverGST: [''],
-      packages: this.fb.array([])
-    });
+      receiverGst: [''],
+      serviceCharges: [0],  // ₹10 per item
+      hamaliCharges: [0],
+      doorDeliveryCharges: [0],
+      doorPickupCharges: [0],
+      valueOfGoods: [0],
+      grandTotal: [0],
+      packages: this.fb.array([]),
+        });
+     
+        this.form1 = this.fb.group({
+          fromCity: [''],
+          toCity: ['', Validators.required],
+            });
+
    }
 
   ngOnInit() {
@@ -56,8 +81,13 @@ export class ParcelbookingComponent {
       console.log(res);
       this.branchdata=res;
     });
-this.getProfileData();
-    
+    //get Packages
+    this.api.GetPAckagesType().subscribe((res:any)=>{
+      console.log(res);
+      this.packdata=res;
+    });
+
+    this.getProfileData();
     this.addOrderItem()
 
   }
@@ -70,6 +100,75 @@ getProfileData(){
     this.pfdata=res.branchId;
   });
 }
+
+fetchServiceCharges() {
+  const fromCity = this.form.get('fromCity')?.value;
+  const toCity = this.form.get('toCity')?.value;
+
+  if (fromCity && toCity) {
+    this.api.FilterBookingServiceCharges({ fromCity, toCity }).subscribe(
+      (res: any) => {
+        console.log('Service Charges:', res);
+
+        if (res && res.length > 0) {
+          const chargeData = res[0]; // First item in the array
+          this.sdata = chargeData.serviceCharge || 0;
+
+          // Update form with service charges and recalculate total
+          this.form.patchValue({ serviceCharges: this.sdata });
+          this.calculateGrandTotal();
+        } else {
+          console.warn('No service charge found for the given cities.');
+          this.form.patchValue({ serviceCharges: 0 });
+          this.calculateGrandTotal();
+        }
+      },
+      (error: any) => {
+        console.error('Error fetching service charges:', error);
+      }
+    );
+  } else {
+    console.warn('Both fromCity and toCity must be selected.');
+  }
+}
+
+
+onFromcitySelect(event: any) {
+  const cityName = event.target.value;
+  if (cityName) {
+    this.api.GetBranchbyCity(cityName).subscribe(
+      (res: any) => {
+        console.log('Branches for selected city:', res);
+        this.pdata = res;
+        this.fetchServiceCharges(); // Fetch service charges
+      },
+      (error: any) => {
+        console.error('Error fetching branches:', error);
+      }
+    );
+  } else {
+    this.pdata = [];
+  }
+}
+
+onTocitySelect(event: any) {
+  const cityName = event.target.value;
+  if (cityName) {
+    this.api.GetBranchbyCity(cityName).subscribe(
+      (res: any) => {
+        console.log('Branches for selected city:', res);
+        this.tbcdata = res;
+        this.fetchServiceCharges(); // Fetch service charges
+      },
+      (error: any) => {
+        console.error('Error fetching branches:', error);
+      }
+    );
+  } else {
+    this.tbcdata = [];
+  }
+}
+
 
 
   get packages(): FormArray {
@@ -87,20 +186,50 @@ getProfileData(){
         totalPrice: [0],
       })
     );
+    this.calculateGrandTotal();
   }
 
   removeBarcodeData(index: number) {
     this.packages.removeAt(index);
+    this.calculateGrandTotal();
   }
 
   calculateTotal(index: number) {
-    const item = this.packages.at(index);
-    const quantity = item.get('quantity')?.value || 0;
-    const unitPrice = item.get('unitPrice')?.value || 0;
-    const total = quantity * unitPrice;
+    const packageArray = this.form.get('packages') as FormArray;
+    const packageForm = packageArray.at(index);
   
-    item.get('totalPrice')?.setValue(total); // Update form control
+    const quantity = packageForm.get('quantity')?.value || 0;
+    const unitPrice = packageForm.get('unitPrice')?.value || 0;
+    
+    const totalPrice = quantity * unitPrice;
+    packageForm.get('totalPrice')?.setValue(totalPrice);
+  
+    this.calculateGrandTotal();
   }
+
+  calculateGrandTotal() {
+    const packageArray = this.form.get('packages') as FormArray;
+    
+    // Calculate total price from all packages
+    let totalValue = 0;
+    packageArray.controls.forEach((pkg) => {
+      totalValue += pkg.get('totalPrice')?.value || 0;
+    });
+  
+    // Get charges from form inputs
+    const serviceCharges = this.form.get('serviceCharges')?.value || 0;
+    const hamaliCharges = this.form.get('hamaliCharges')?.value || 0;
+    const doorDeliveryCharges = this.form.get('doorDeliveryCharges')?.value || 0;
+    const doorPickupCharges = this.form.get('doorPickupCharges')?.value || 0;
+    const valueOfGoods = this.form.get('valueOfGoods')?.value || 0;
+  
+    // Calculate Grand Total
+    const grandTotal = totalValue + serviceCharges + hamaliCharges + doorDeliveryCharges + doorPickupCharges + valueOfGoods;
+  
+    // Update Grand Total without triggering another event
+    this.form.get('grandTotal')?.setValue(grandTotal, { emitEvent: false });
+  }
+  
 
   add() {
     console.log(this.form.value);
@@ -132,6 +261,12 @@ getProfileData(){
         receiverAddress: this.form.value.receiverAddress,
         receiverGst: this.form.value.receiverGST,
         packages: orderDataToSend,
+        serviceCharges: this.form.value.serviceCharges,
+      hamaliCharges: this.form.value.hamaliCharges,
+      doorDeliveryCharges: this.form.value.doorDeliveryCharges,
+      doorPickupCharges: this.form.value.doorPickupCharges,
+      valueOfGoods: this.form.value.valueOfGoods,
+      grandTotal: this.form.value.grandTotal
       };
   
       console.log('Final data to submit:', val);
@@ -153,6 +288,52 @@ getProfileData(){
         }
       );
     }
+  }
+
+  searchUser(): void {
+    if (this.searchTerm && this.searchTerm.trim() !== '') {
+      this.api.searchUser(this.searchTerm.trim()).subscribe(
+        (res: any) => {
+          console.log('API Response:', res);
+          
+          // Check if data is available
+          if (res && res && Array.isArray(res) && res.length > 0) {
+            this.userList = res;  // Store the list of users for dropdown
+            this.showDropdown = true; // Show dropdown suggestions
+            this.errorMessage = '';
+          } else {
+            this.userList = [];
+            this.showDropdown = false;
+            this.errorMessage = 'No results found for the given search term.';
+          }
+        },
+        (err: any) => {
+          this.userList = [];
+          this.showDropdown = false;
+          this.errorMessage = err.error?.message || 'An error occurred while searching.';
+        }
+      );
+    } else {
+      this.userList = [];
+      this.showDropdown = false;
+      this.errorMessage = 'Please enter a valid search term.';
+    }
+  }
+
+  selectUser(user: any): void {
+    this.searchTerm = user.name; // Set selected name in input
+    this.form.patchValue({
+      senderMobile: user.phone,
+      senderAddress: user.address,
+      senderGST: user.gst
+    });
+    this.showDropdown = false; // Hide dropdown after selection
+  }
+  
+  hideDropdown(): void {
+    setTimeout(() => {
+      this.showDropdown = false;
+    }, 200); // Delay to allow click event on dropdown items
   }
   
   

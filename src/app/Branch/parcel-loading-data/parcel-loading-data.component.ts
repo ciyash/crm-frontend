@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BranchService } from 'src/app/service/branch.service';
 
@@ -9,10 +9,10 @@ import { BranchService } from 'src/app/service/branch.service';
 })
 export class ParcelLoadingDataComponent {
   data1:any;
-  loading:boolean=true;
+  // loading:boolean=true;
   form1:FormGroup;
   cities:any;
-  constructor(private api:BranchService, private fb:FormBuilder){
+  constructor(private api:BranchService, private fb:FormBuilder, private cd: ChangeDetectorRef){
             this.form1 = this.fb.group({
               fromBookingDate: ['', Validators.required],
               toBookingDate: ['', Validators.required],
@@ -60,32 +60,46 @@ export class ParcelLoadingDataComponent {
       console.log('Selected To Cities:', this.toCityArray.value);
     }
     
-
-  ParcelLoad() {
-    const payload = {
-      fromBookingDate: this.form1.value.fromBookingDate,
-      toBookingDate: this.form1.value.toBookingDate,
-      fromCity: this.form1.value.fromCity,
-      toCity: this.form1.value.toCity
-    };
+    ParcelLoad() {
+      const payload = {
+        fromBookingDate: this.form1.value.fromBookingDate,
+        toBookingDate: this.form1.value.toBookingDate,
+        fromCity: this.form1.value.fromCity,
+        toCity: this.form1.value.toCity
+      };
   
-    console.log('Final Payload:', payload);
+      console.log('Final Payload:', payload);
   
-    this.loading = true; // ✅ Show loading state
-    
-    this.api.ParcelOfflineReport(payload).subscribe({
-      next: (response: any) => {
-        console.log('Parcel loaded successfully:', response);
-        this.data1 = response; // ✅ Assign API response directly to data1
-        this.loading = false; // ✅ Stop loading state
-      },
-      error: (error: any) => {
-        console.error('Parcel loading failed:', error);
-        alert('NO Parcel Loading. Please try again.');
-        this.loading = false;
-      }
-    });
-  }
+      this.api.ParcelOfflineReport(payload).subscribe({
+        next: (response: any) => {
+          console.log('API Response:', response);
+  
+          if (response?.bookingDetails?.length > 0) {
+            // Merge `bookingDetails` with `parcelLoadingDetails`
+            this.data1 = response.bookingDetails.map((booking:any) => {
+              // Find driver details for the corresponding booking
+              const driverData = response.parcelLoadingDetails.find(
+                (parcel:any) => parcel.grnNo.includes(parseInt(booking.lrNumber.split('/').pop())) // Extract GRN No from `lrNumber`
+              );
+  
+              return {
+                ...booking,
+                driverName: driverData ? driverData.driverName : 'N/A' // Add `driverName`
+              };
+            });
+          } else {
+            this.data1 = [];
+          }
+  
+          this.cd.detectChanges(); // 🔄 Trigger Change Detection
+        },
+        error: (error: any) => {
+          console.error('Parcel loading failed:', error);
+          alert('No Parcel Loading. Please try again.');
+          this.data1 = []; // Clear table on error
+        }
+      });
+    }
   
 
 }

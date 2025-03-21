@@ -51,44 +51,45 @@ word-wrap: break-word">Parcel Loading Offline Report</h4>
 
 
 <div class="container mt-4">
-            <!-- <div *ngIf="loading" class="text-center">
-                <img src="assets/loading.gif" alt=""  style="height:40px;">
-                <p class="text-danger text-center">Please Wait ....</p>
-            </div> -->
-            <div class="">
-                <p-table [value]="data1"  *ngIf="data1 && data1.length > 0" scrollHeight="76vh" [scrollable]="true" 
-            styleClass="p-datatable-gridlines p-datatable-striped">
+    <p-table *ngIf="data1?.length > 0" [value]="data1" scrollHeight="76vh" [scrollable]="true"
+        styleClass="p-datatable-gridlines p-datatable-striped">
         
         <ng-template pTemplate="header">
             <tr class="bg-white">
-            <th>S.No</th>
-            <th>LR No</th>
-            <th>Particulers</th>
-            <th>QTY</th>
-            <th>VOG</th>
-            <th>Amount</th>
+                <th>S.No</th>
+                <th>LR No</th>
+                <th>Particulars</th>
+                <th>QTY</th>
+                <th>VOG</th>
+                <th>Amount</th>
             </tr>
         </ng-template>
 
         <ng-template pTemplate="body" let-row let-i="rowIndex">
             <tr class="custom-row">
-            <td>{{ i + 1 }}</td>
-            <td>{{ row.lrNumber }}</td>
-            <td></td>
-            <td>{{ row.totalQuantity }}</td>
-            <td>{{ row.valueOfGoods }}</td>
-            <td>{{ row.grandTotal }}</td>
+                <td>{{ i + 1 }}</td>
+                <td>{{ row.lrNumber }}</td>
+                <td>{{ row.totalQuantity }} -  <span *ngFor="let pkg of row.packages; let last = last">
+                    {{ pkg.packageType }}<span *ngIf="!last">, </span>
+                </span> </td>
+                <td>{{ row.totalQuantity }}</td>
+                <td>{{ row.valueOfGoods }}</td>
+                <td>{{ row.grandTotal }}</td>
             </tr>
             <tr>
-            <td colspan="6">
-                <strong>Driver Name:</strong> {{ row.driverName }}
-            </td>
+                <td colspan="5">
+                    <strong>Driver Name:</strong> {{ row.driverName }}
+                </td>
             </tr>
         </ng-template>
-        </p-table>
+    </p-table>
 
+    <div *ngIf="data1?.length === 0" class="text-center text-danger">
+        <p>No Parcel Data Found</p>
     </div>
-    
 </div>
+
+
+ 
 
 <app-footer></app-footer>
