@@ -32,6 +32,14 @@ import { AdminProfileComponent } from './pages/Admin/admin-profile/admin-profile
 import { ParcelBranchComponent } from './Branch/parcel-branch/parcel-branch.component';
 import { CreateVehicleComponent } from './pages/Admin/create-vehicle/create-vehicle.component';
 import { CreateCitynameComponent } from './pages/Admin/create-cityname/create-cityname.component';
+import { ParcelStatusComponent } from './Branch/parcel-status/parcel-status.component';
+import { ToastrModule } from 'ngx-toastr';
+import { DropDownListComponent, DropDownListModule, FilteringEventArgs } from '@syncfusion/ej2-angular-dropdowns';
+
+
+
+
+
 
 @NgModule({
   declarations: [
@@ -54,7 +62,8 @@ import { CreateCitynameComponent } from './pages/Admin/create-cityname/create-ci
     AdminProfileComponent,
     ParcelBranchComponent,
     CreateVehicleComponent,
-    CreateCitynameComponent
+    CreateCitynameComponent,
+    ParcelStatusComponent
     
     
   ],
@@ -62,7 +71,20 @@ import { CreateCitynameComponent } from './pages/Admin/create-cityname/create-ci
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule, FormsModule,
-    HttpClientModule, TableModule, MessagesModule, DialogModule, BrowserAnimationsModule, QRCodeModule, ToastModule, ButtonModule, RippleModule
+    HttpClientModule, TableModule,
+     MessagesModule, DialogModule, 
+     BrowserAnimationsModule,
+      QRCodeModule, ToastModule,
+       ButtonModule, RippleModule,
+       DropDownListModule,
+       
+          ToastrModule.forRoot({
+      positionClass: 'toast-top-right', // Toast appears in the top-right
+      timeOut: 3000, // Toast disappears after 3 seconds
+      closeButton: true, // Show close button
+      progressBar: true, // Show progress bar
+    }),
+       
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

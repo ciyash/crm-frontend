@@ -17,6 +17,7 @@ import { ProfileComponent } from './USER/profile/profile.component';
 import { ParcelBranchComponent } from './Branch/parcel-branch/parcel-branch.component';
 import { CreateVehicleComponent } from './pages/Admin/create-vehicle/create-vehicle.component';
 import { CreateCitynameComponent } from './pages/Admin/create-cityname/create-cityname.component';
+import { ParcelStatusComponent } from './Branch/parcel-status/parcel-status.component';
 
 
 const routes: Routes = [
@@ -34,6 +35,8 @@ const routes: Routes = [
   {path:'parcelonloadingdata',component:ParcelOnLoadingDataComponent, canActivate: [authGuard]},
   { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
   { path: 'parcel-branch', component: ParcelBranchComponent, canActivate: [authGuard] },
+  { path: 'parcelstatus', component: ParcelStatusComponent, canActivate: [authGuard] },
+
 
   //Admin Routing components
   { path: 'createbranch', component: CreateBranchComponent, canActivate: [authGuard], data: { roles: ['admin'] }},

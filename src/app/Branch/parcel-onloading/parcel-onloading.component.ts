@@ -32,7 +32,7 @@ export class ParcelOnloadingComponent {
           toDate: ['', Validators.required],
           fromCity: this.fb.array([], Validators.required),
           toCity: ['', Validators.required],
-          vehicleNo: ['', Validators.required],
+          vehicalNumber: ['', Validators.required],
           branch: ['', Validators.required],
         });
   
@@ -45,6 +45,7 @@ export class ParcelOnloadingComponent {
           vehicleNo: ['', Validators.required],
           grnNo: this.fb.array([], Validators.required), // ✅ FormArray for GRN numbers
           bookingType: ['Topay'],
+          lrNumber:this.fb.array([], Validators.required),
         });
         
         
@@ -92,13 +93,14 @@ export class ParcelOnloadingComponent {
     }
    
     onLoad() {
+      debugger;
       const formValues = this.form.value;
       const payload = {
         fromDate: this.form.value.fromDate,
         toDate: this.form.value.toDate,
         fromCity: this.form.value.fromCity,
         toCity: this.form.value.toCity,
-        vehicleNo: this.form.value.vehicleNo,
+        vehicalNumber: this.form.value.vehicalNumber,
         branch: this.form.value.branch,
       };
       
@@ -118,7 +120,7 @@ export class ParcelOnloadingComponent {
               fromBookingDate: this.form.value.fromDate,
               toBookingDate: this.form.value.toDate,
               toCity: this.form.value.toCity,
-              vehicleNo: this.form.value.vehicleNo,
+              vehicalNumber: this.form.value.vehicalNumber,
             });
     
             // ✅ Set `toCity`, `grnNo`, and `lrNumber` as FormArray
@@ -133,6 +135,8 @@ export class ParcelOnloadingComponent {
         },
       });
     }
+
+
   
     setFormArray(controlName: string, values: any[]) {
       const formArray = this.form1.get(controlName) as FormArray;
@@ -187,6 +191,7 @@ export class ParcelOnloadingComponent {
     
   
     ParcelLoad() {
+      debugger;
       const payload = {
         fromBookingDate: this.form1.value.fromBookingDate,
         toBookingDate: this.form1.value.toBookingDate,
@@ -196,6 +201,8 @@ export class ParcelOnloadingComponent {
         vehicleNo: this.form1.value.vehicleNo,
         grnNo: this.form1.value.grnNo, // ✅ Only selected GRN numbers
         bookingType: this.form1.value.bookingType,
+        lrNumber:this.form1.value.lrNumber,
+        
       };
     
       console.log('Final Payload:', payload);
@@ -245,3 +252,12 @@ export class ParcelOnloadingComponent {
     }
 
 }
+
+
+
+
+
+
+
+
+

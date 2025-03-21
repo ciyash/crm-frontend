@@ -16,7 +16,7 @@
                     <label class="form-label">From Branch</label>
                     <select class="form-select" formControlName="pickUpBranch">
                         <option value="" selected>Select Branch</option>
-                        <option *ngFor="let branch of citydata" [value]="branch.name">{{ branch.name }}</option>
+                        <option *ngFor="let branch of branchdata" [value]="branch.name">{{ branch.name }}</option>
                     </select>
                 </div>           
                 <div class="col-md-3 d-flex align-items-end">
@@ -24,7 +24,7 @@
                 </div>
             </div>
         </form>
-        <div class="row">
+         <div class="row">
             <div class="col-md-3">
                 <label class="form-label">Vehicle No</label>
                 <select class="form-select" formControlName="vehicleNo">
@@ -35,19 +35,25 @@
               <div class="col-md-3">
                 <label class="form-label">Unload Branch</label>
                 <div *ngFor="let item of pickBranch">
-                  <input type="text" class="form-control" [value]="item.pickUpBranch">
+                  <input type="text" class="form-control" [value]="item.pickUpBranch" formControlName="fromBranch">
                 </div>
               </div>
             
             <div class="col-md-3">
                 <label class="form-label">Remark</label>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" formControlName="remarks">
             </div>
             <div class="col-md-3 d-flex align-items-end">
-                <button type="button" class="btn btn-primary w-100">Save</button>
+                <button type="button" class="btn btn-primary w-100" >Save</button>
             </div>
-        </div>
+        </div> 
     </div>
+
+
+    
 </div>
+
+
+
 
 

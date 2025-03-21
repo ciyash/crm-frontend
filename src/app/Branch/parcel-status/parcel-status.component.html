@@ -1,0 +1,109 @@
+<app-header></app-header>
+    <div class="container">
+        <h3 class="text-center mb-4">Parcel Status Details</h3>
+        <!-- <div class="text-center mb-3">
+            <label class="fw-bold">GRN No :</label>
+            <input type="text" class="form-control d-inline-block" placeholder="Enter GRN No">
+            <button class="btn btn-primary">Load</button>
+        </div> -->
+        <div class="container" >
+            <div class="row">
+                <div class="col-lg-12">
+                    <form class="row mb-3" (ngSubmit)="searchUser()">
+                       <div class="row">
+                            <div class="col-md-3">
+                                <select class="form-select">
+                                    <option selected>L.R No / GRN No</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <input required type="text" id="searchTerm" name="searchTerm" placeholder="Enter GRN Number"  class="form-control" [(ngModel)]="searchTerm" />
+        
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-primary mx-4" type="submit">Load</button>
+                            </div>
+                       </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="container" *ngFor="let user of data2;">
+            <div class="card mb-3">
+                <div class="card-header d-flex justify-content-center ">Parcel Details (Main GRN No : {{user.grnNo}})</div>
+                <div class="card-body bg-light">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>GRN No:</strong> {{user.grnNo}}</p>
+                            <!-- <p><strong>Parcel Status:</strong>{{user.bookingStatus}}</p> -->
+                            <p><strong>Booking Status:</strong> 
+                                <span [ngSwitch]="user.bookingStatus">
+                                  <span *ngSwitchCase="0">Booking Branch</span>
+                                  <span *ngSwitchCase="1">Departed / Shipped</span>
+                                  <span *ngSwitchCase="2">Arrived at Delivery App</span>
+                                  <span *ngSwitchCase="3">Parcel Missing</span>
+                                  <span *ngSwitchCase="4">Delivered</span>
+                                  <span *ngSwitchCase="5">Cancelled</span>
+                                  <span *ngSwitchDefault>Unknown Status</span>
+                                </span>
+                              </p>
+                              
+                            <p><strong>From City:</strong> {{user.fromCity}}</p>
+                            <p><strong>From Branch:</strong> {{user.pickUpBranch}}</p>
+                            <p><strong>Sender Name:</strong> {{user.senderName}}</p>
+                            <p><strong>Receiver Name:</strong> {{user.receiverName}}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Booking Type:</strong> {{user.bookingType}}</p>
+                            <!-- <p><strong>Booking Status:</strong> Delivered</p> -->
+                            <p><strong>To City:</strong> {{user.toCity}}</p>
+                            <p><strong>To Branch:</strong> {{user.dropBranch
+}}                            </p>
+                            <p><strong>Sender No.:</strong> {{user.senderMobile}} </p>
+                            <p><strong>Receiver No.:</strong> {{user.receiverMobile}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mb-3">
+                <div class="card-header d-flex justify-content-center">Booking Details</div>
+                <div class="card-body bg-light">
+                    <!-- <p><strong>Booking Date:</strong>    {{user.bookingDate}} 13-11-2024 01:49 PM</p> -->
+                    <p><strong>Booking Date:</strong> {{ user.bookingDate | date: 'dd-MM-yyyy hh:mm a' }}</p>
+
+                    <p><strong>Booked By User:</strong> {{user.bookedBy}}</p>
+                    <p><strong>Booked By Branch:</strong> {{user.pickUpBranch}}</p>
+                </div>
+            </div>
+            
+            <div class="card mb-3">
+                <div class="card-header d-flex justify-content-center">Loading Details</div>
+                <div class="card-body bg-light">
+                    <p><strong>Loading Date:</strong> {{user.loadingDate| date: 'dd-MM-yyyy hh:mm a'}}</p>
+                    <p><strong>Loaded By User:</strong> sk.mahesh</p>
+                    <p><strong>Loaded By Branch:</strong> Gajuwaka</p>
+                </div>
+            </div>
+            
+            <div class="card mb-3">
+                <div class="card-header d-flex justify-content-center">Unloading Details</div>
+                <div class="card-body bg-light">
+                    <p><strong>Unloading Date:</strong> {{user.unloadingDate|date: 'dd-MM-yyyy hh:mm a'}}</p>
+                    <p><strong>Unloaded By User:</strong> sk.naresh</p>
+                    <p><strong>Unloaded By Branch:</strong> {{user.dropBranch}}</p> 
+                </div>
+            </div>
+        </div>
+     
+        
+        <div class="card mb-3" *ngFor="let user of data2">
+            <div class="card-header d-flex justify-content-center">Delivery Details</div>
+            <div class="card-body bg-light">
+                <p><strong>Delivery Date:</strong> {{user.deliveryDate|date: 'dd-MM-yyyy hh:mm a'}}</p>
+                <p><strong>Delivered By User:</strong> {{user.deliveryEmployee}}                    </p>
+                <p><strong>Delivered By Branch:</strong> {{user.dropBranch}}</p>
+            </div>
+        </div>
+    </div>
+

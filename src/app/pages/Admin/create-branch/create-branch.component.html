@@ -31,10 +31,16 @@
                 <div class="col-md-3 col-sm-12">
                     <label class="form-label">Phone</label>
                     <input type="text" class="form-control form-select-sm " formControlName="phone">
+                    <div *ngIf="form.get('phone')?.invalid && form.get('phone')?.touched" class="text-danger">
+                        Invalid phone number (must be 10 digits starting from 6-9)
+                    </div>
                 </div>
                 <div class="col-md-3 col-sm-12">
                     <label class="form-label">Alternate Phone</label>
                     <input type="text" class="form-control form-select-sm " formControlName="alternateMobile">
+                    <div *ngIf="form.get('alternateMobile')?.invalid && form.get('alternateMobile')?.touched" class="text-danger">
+                        Invalid phone number (must be 10 digits starting from 6-9)
+                    </div>
                 </div>
                 <div class="col-md-3 col-sm-12">
                     <label class="form-label">Email</label>

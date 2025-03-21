@@ -5,7 +5,7 @@
 <h4 class="text-center mb-4 pt-5 mt-4" style="color: #3C3C3C;font-size: 20px;font-family: Poppins;font-weight: 500;text-decoration: underline;word-wrap: break-word">Create Employee</h4>
 <p-toast></p-toast>
   
-<form [formGroup]="form">
+<form [formGroup]="form"  >
     <div class="container pb-3">
             <div class="row pt-3">
                 <div class="col-md-3 col-sm-12">
@@ -31,10 +31,20 @@
                     <label class="form-label">Location</label>
                     <input type="text" class="form-control form-select-sm " formControlName="location">
                 </div>
-                <div class="col-md-3 col-sm-12">
+                <!-- <div class="col-md-3 col-sm-12">
                     <label class="form-label">Phone</label>
                     <input type="text" class="form-control form-select-sm " formControlName="phone">
+                </div> -->
+                <div class="col-md-3 col-sm-12">
+                    <label class="form-label">Phone</label>
+                    <input type="text" class="form-control form-select-sm" formControlName="phone">
+                    
+                    <!-- Error message when input is invalid -->
+                    <div *ngIf="form.get('phone')?.invalid && form.get('phone')?.touched" class="text-danger">
+                        Invalid phone number (must be 10 digits starting from 6-9)
+                    </div>
                 </div>
+                
                 <div class="col-md-3 col-sm-12">
                     <label class="form-label">Email</label>
                     <input type="text" class="form-control form-select-sm " formControlName="email">

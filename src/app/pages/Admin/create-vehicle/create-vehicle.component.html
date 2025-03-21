@@ -95,7 +95,7 @@
                             <td> {{row.RC}} </td>
                             <td> {{row.registrationNo}} </td>
                             <td> {{row.polutionExpDate | date:'dd/MMM/YYYY' }} </td>
-                            <td> <a (click)="showDialog(row)"> <i class="fa fa-edit"></i></a>  </td>
+                            <td> <a (click)="showDialog(row) " data-bs-toggle="modal" data-bs-target="#myModal" >  <i class="fa fa-edit"></i></a>  </td>
                         </tr>
                     </tbody>
 
@@ -106,7 +106,7 @@
 </div>
 
 
-<p-dialog header="" [(visible)]="visible" [modal]="true" [style]="{ width: '100vw' }" [draggable]="false" [resizable]="false" style="background-color: aliceblue;">
+<!-- <p-dialog header="" [(visible)]="visible" [modal]="true" [style]="{ width: '100vw' }" [draggable]="false" [resizable]="false" style="background-color: aliceblue;">
     <div class="card m-5 p-5" *ngIf="repd">
              <span class="text-primary">{{repd.vehicleNo}}</span>  
                <form [formGroup]="form1" >
@@ -163,5 +163,86 @@
                     </div>
             </form>
         </div>
-</p-dialog>
+</p-dialog> -->
+
+
+<!-- Button to Open the Modal -->
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+    Open Extra Large Modal
+  </button> -->
+  
+  <!-- The Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl"> <!-- Extra Large Modal -->
+      <div class="modal-content">
+        <!-- <div class="modal-header"> -->
+          <!-- <h5 class="modal-title" id="myModalLabel">Extra Large Modal</h5> -->
+          <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="margin-left: 65rem;"></button> -->
+        <!-- </div> -->
+        <div class="modal-body">
+            <div class="card m-5 p-5" *ngIf="repd">
+                <span class="text-primary">{{repd.vehicleNo}}</span>  
+                  <form [formGroup]="form1" >
+                       <div class="row">
+                               <div class="col-md-3 col-sm-12">
+                                   <label class="form-label">Select Branch</label>
+                                   <select class="form-select form-select-sm" formControlName="branch">
+                                       <option value="" selected> {{repd.branch}} </option>
+                                     <option *ngFor="let branch of branchdata" [value]="branch._id">{{ branch.name }}</option>
+                                   </select>
+                                   </div>
+                                   <div class="col-md-3 col-sm-12">
+                                       <label class="form-label">Vehicle Number</label>
+                                       <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.vehicleNo"  formControlName="vehicleNo">
+                                   </div>
+                                   <div class="col-md-3 col-sm-12">
+                                       <label class="form-label">Vehicle Type</label> 
+                                       <select class="form-select form-select-sm" formControlName="vehicleType">
+                                           <option value="" selected> {{repd.vehicleType}} </option>
+                                         <option value="Bus">Bus</option>
+                                         <option value="Lorry">Lorry</option>
+                                         <option value="Tempo">Tempo</option>
+                                         <option value="Truck">Small Truck</option>
+                                       </select>
+                                   </div>
+                                   <div class="col-md-3 col-sm-12">
+                                       <label class="form-label">Registration Number</label>
+                                       <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.registrationNo"  formControlName="registrationNo">
+                                   </div>
+                                   <div class="col-md-3 col-sm-12">
+                                       <label class="form-label">Register Date</label>
+                                       <input type="date" class="form-control form-select-sm " [(ngModel)]="repd.date"  formControlName="date">
+                                   </div>
+                                   <div class="col-md-3 col-sm-12">
+                                       <label class="form-label">Rc Number</label>
+                                       <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.RC"  formControlName="RC">
+                                   </div>
+                                   <div class="col-md-3 col-sm-12">
+                                       <label class="form-label">Pollution Exp Date</label>
+                                       <input type="date" class="form-control form-select-sm " [(ngModel)]="repd.polutionExpDate"  formControlName="polutionExpDate">
+                                   </div>
+                                   <div class="col-md-3 col-sm-12">
+                                       <label class="form-label">Fuel Type</label> 
+                                       <select class="form-select form-select-sm" formControlName="fuelType">
+                                           <option value="" selected> {{repd.fuelType}} </option>
+                                         <option value="Petrol">Petrol</option>
+                                         <option value="Disel">Disel</option>
+                                       </select>
+                                   </div>
+                       </div>
+        
+                       <div class="col-12 md:col-12 text-center mt-3">
+                           <button pButton type="button" class="btn btn-sm btn-success" (click)="edit(repd?.id)">Submit</button>
+                       </div>
+               </form>
+           </div>        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
 

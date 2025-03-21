@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { AdminService } from 'src/app/service/admin.service';
 import { BranchService } from 'src/app/service/branch.service';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-create-employee',
@@ -16,15 +18,17 @@ export class CreateEmployeeComponent {
     branchdata:any;
     edata:any;
     loading:boolean=true;
-    constructor(private fb:FormBuilder, private api:AdminService, private messageService:MessageService, private router:Router, private bapi:BranchService){
+    constructor(private fb:FormBuilder, private api:AdminService, 
+      private messageService:MessageService, private router:Router, private bapi:BranchService,private toastr: ToastrService){
         this.form = this.fb.group({
           name: ['', Validators.required],
           username: ['', Validators.required],
           branchId: ['', Validators.required],
           location: ['', Validators.required],
           password: ['', Validators.required],
-          phone: ['', Validators.required],
-          email: ['', Validators.required],
+          phone: ['', [Validators.required,Validators.pattern(/^[6-9]\d{9}$/) // Ensures only numbers and starts with 6-9
+          ]],
+          email: ['', [Validators.required, Validators.email]],
           documents: ['', Validators.required],
           role: ['', Validators.required],
             });
@@ -72,7 +76,10 @@ export class CreateEmployeeComponent {
       this.api.createEmployee(payload).subscribe({
         next: (response: any) => {
           console.log('Parcel loaded successfully:', response);
+
           this.messageService.add({ severity: 'success', summary: 'success', detail: 'Create Employee successfully' });
+          this.toastr.success('Success Create Employee', 'Success!');
+
           setTimeout(() => {
            this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
              this.router.navigate(['/createemployee']);
@@ -82,8 +89,27 @@ export class CreateEmployeeComponent {
         error: (error: any) => {
           console.error('Create Employee failed:', error);
           alert('Create Employee Failed. Please try again.');
+    this.toastr.error('Create Employee Failed', 'Oops!');
         },
       });
     }
 
+
+
+ 
+    
+    sanitizePhoneNumber() {
+      let phoneControl = this.form.get('phone');
+      if (phoneControl) {
+        phoneControl.setValue(phoneControl.value.replace(/[^0-9]/g, ''), { emitEvent: false });
+      }
+    }
+    
 }
+
+
+
+    
+  
+
+

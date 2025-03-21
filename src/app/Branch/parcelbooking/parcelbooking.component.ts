@@ -22,6 +22,7 @@ export class ParcelbookingComponent {
   total1:any;
   pfdata:any;
   bookingSuccess: boolean = false;
+  names: any;
   constructor(private fb: FormBuilder, private api: BranchService, private token:TokenService, private cdr: ChangeDetectorRef, private activate:ActivatedRoute, private router:Router) {
     this.form = this.fb.group({
       fromCity: [''],
@@ -56,9 +57,8 @@ export class ParcelbookingComponent {
       this.branchdata=res;
     });
 this.getProfileData();
-    
-
-    this.addOrderItem()
+    this.addOrderItem();
+    this.searchNames();
 
   }
 getProfileData(){
@@ -166,6 +166,20 @@ getProfileData(){
         receiverGST: '',
       });
     }
+  }
+
+
+
+  searchNames() {
+    this.api.getNames().subscribe({
+      next: (response: any) => {
+        console.log('searchbynames:', response);
+        this.names = response; 
+      },
+      error: (error: any) => {
+        console.error('Error fetching searchbynames data:', error);
+      }
+    });
   }
 
 

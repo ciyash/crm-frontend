@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
 import { AdminService } from 'src/app/service/admin.service';
 import { BranchService } from 'src/app/service/branch.service';
@@ -15,15 +16,17 @@ export class CreateBranchComponent {
   branchdata:any;
   data:any;
   loading:boolean=true;
-  constructor(private fb:FormBuilder, private api:AdminService, private messageService:MessageService, private router:Router, private bapi:BranchService){
+  constructor(private fb:FormBuilder, private api:AdminService, private messageService:MessageService, private router:Router, private bapi:BranchService,private toast:ToastrService){
       this.form = this.fb.group({
         name: ['', Validators.required],
         branchType: ['', Validators.required],
         city: ['', Validators.required],
         location: ['', Validators.required],
         address: ['', Validators.required],
-        phone: ['', Validators.required],
-        email: ['', Validators.required],
+        
+        phone: ['', [Validators.required,Validators.pattern(/^[6-9]\d{9}$/) // Ensures only numbers and starts with 6-9
+      ]],
+      email: ['', [Validators.required, Validators.email]],
         pincode: ['', Validators.required],
         state: ['', Validators.required],
         country:['India'],
@@ -62,6 +65,8 @@ export class CreateBranchComponent {
     this.api.createBranch(payload).subscribe({
       next: (response: any) => {
         console.log('Parcel loaded successfully:', response);
+        this.toast.success('Success Created Branch', 'Success!');
+
         this.messageService.add({ severity: 'success', summary: 'success', detail: 'Create Branch successfully' });
         setTimeout(() => {
          this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
@@ -71,10 +76,25 @@ export class CreateBranchComponent {
       },
       error: (error: any) => {
         console.error('Create Branch failed:', error);
-        alert('Create Branch Failed. Please try again.');
+        this.toast.error('Create Branch Failed', 'Oops!');
       },
     });
   }
+
+
+ 
+
+  sanitizePhoneNumber() {
+    let phoneControl = this.form.get('phone');
+    if (phoneControl) {
+      phoneControl.setValue(phoneControl.value.replace(/[^0-9]/g, ''), { emitEvent: false });
+    }
+  }
+
+  }
+
+
+
   
 
-}
+

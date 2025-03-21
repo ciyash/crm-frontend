@@ -55,7 +55,7 @@ word-wrap: break-word">Parcel UnLoading Offline</h4>
               <!-- //new file -->
               <div class="col-md-3 col-sm-12">
                 <label class="form-label">Vehicle Number</label>
-                <select class="form-select form-select-sm mb-3" formControlName="vehicleNo" aria-label="Large select example">
+                <select class="form-select form-select-sm mb-3" formControlName="vehicalNumber" aria-label="Large select example">
                     <option value="" selected>Select Vehicle Number</option>
                     <option *ngFor="let vehicle of vehicle" [value]="vehicle.vehicleNo">{{ vehicle.vehicleNo }}</option>
                 </select>
@@ -78,11 +78,12 @@ word-wrap: break-word">Parcel UnLoading Offline</h4>
                       <tr>
                         <th> <input  type="checkbox" (change)="onSelectAllChange($event)" [checked]="allSelected" /> Select All </th>
                           <th>S.No</th>
-                          <th>LR No</th>
+                          <th>lrNumber</th>
                           <th>Book by Branch</th>
                           <th>Drop Branch</th>
                           <th>From City</th>
                           <th>To City</th>
+                          <th> vehicleNo</th>
                           <th>Booking Date</th>
                       </tr>
                   </thead>
@@ -95,13 +96,12 @@ word-wrap: break-word">Parcel UnLoading Offline</h4>
                           <td>{{ row.toBranch }}</td>
                           <td>{{ row.fromCity }}</td>
                           <td>{{ row.toCity }}</td>
+                          <td>{{ row.vehicalNumber }}</td>
                           <td>{{ row.toBookingDate | date:'dd/MM/yyyy' }}</td>
                       </tr>
                   </tbody>
               </table>
             </div>
-
-          
     </div>
     
     <form [formGroup]="form1">
@@ -119,3 +119,8 @@ word-wrap: break-word">Parcel UnLoading Offline</h4>
 </div>
 
 <app-parcel-loading-data></app-parcel-loading-data>
+
+
+
+
+

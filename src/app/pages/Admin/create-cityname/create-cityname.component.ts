@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { AdminService } from 'src/app/service/admin.service';
 import { BranchService } from 'src/app/service/branch.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-cityname',
@@ -14,7 +15,7 @@ export class CreateCitynameComponent {
         bdata:any;
         form:FormGroup;
         loading:boolean=true;
-        constructor(private fb:FormBuilder, private api:AdminService, private messageService:MessageService, private router:Router, private bapi:BranchService){
+        constructor(private fb:FormBuilder, private api:AdminService, private messageService:MessageService, private router:Router, private bapi:BranchService,private toastr:ToastrService){
             this.form = this.fb.group({
               cityName: ['', Validators.required],
               state: ['', Validators.required],
@@ -41,6 +42,8 @@ export class CreateCitynameComponent {
             next: (response: any) => {
               console.log('Parcel loaded successfully:', response);
               this.messageService.add({ severity: 'success', summary: 'success', detail: 'Create City successfully' });
+                            this.toastr.success('Success create city', 'Success!');
+
               setTimeout(() => {
                this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
                  this.router.navigate(['/createcity']);
@@ -50,6 +53,7 @@ export class CreateCitynameComponent {
             error: (error: any) => {
               console.error('Create City failed:', error);
               alert('Create City Failed. Please try again.');
+              
             },
           });
         }

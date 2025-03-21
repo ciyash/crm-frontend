@@ -12,20 +12,23 @@ export class ParcelBranchComponent implements OnInit {
   branchForm: FormGroup;
   vehicle: any;
   pickBranch: any;
+  branchdata: any;
 
   constructor(private api: BranchService, private fb: FormBuilder,) {
+
     this.branchForm = this.fb.group({
       fromDate: ['', Validators.required],
       toDate: ['', Validators.required],
       pickUpBranch: ['', Validators.required]
     });
+
   }
 
   ngOnInit() {
     this.api.GetBranch().subscribe({
       next: (res: any) => {
-        this.citydata = res;
-        console.log('Branch data fetched successfully:', this.citydata);
+        this.branchdata = res;
+        console.log('Branch data fetched successfully:', res);
       },
       error: (err) => console.error('Error fetching branch data:', err)
     });
@@ -46,6 +49,8 @@ export class ParcelBranchComponent implements OnInit {
       });
     }
 
+
+
     getvehicleData() {
       this.api.VehicleData().subscribe({
         next: (response: any) => {
@@ -57,5 +62,22 @@ export class ParcelBranchComponent implements OnInit {
         }
       });
     }
+
+    // posting the branchdata
+    // postBranch(){
+    //   this.api.postBranchData(this.branchForm.value).subscribe({
+    //     next: (response) => {
+    //       console.log('Branch data submitted successfully:', response);
+    //       this.pickBranch=response
+    //       alert('Branch Loading Data Submitted Successfully');
+    //       console.log('Form Data:', this.branchForm.value);
+    //     },
+    //     error: (error) => {
+    //       alert('Error in submitting branch loading data');
+    //     }
+    //   });
+
+    // }
+   
   }
 

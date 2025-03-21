@@ -146,6 +146,11 @@ export class BranchService {
       return this.http.get<any>(AUTH_API + 'booking', httpOptions);
   }
 
+
+
+
+  
+
   
 BookingsPage(page: number, perPage: number) {
   const token1 = this.token.getToken();
@@ -162,6 +167,7 @@ BookingsPage(page: number, perPage: number) {
   );
 }
 
+
 GetGRNnumber(id:any){
   const token1 = this.token.getToken();
   const httpOptions = {
@@ -171,10 +177,11 @@ GetGRNnumber(id:any){
     })
   }
   return this.http.get(
-    AUTH_API + 'booking/grnNumber/'+id,
+    AUTH_API + 'booking/grnNo/'+id,
     httpOptions
   );   
 }
+
 
 FilterParcelLoading(value:{
   startDate: string;
@@ -271,7 +278,7 @@ FilterParcelUnLoading(value:{
   toDate:string;
   fromCity: [];
   toCity: string;
-  vehicleNo:string;
+  vehicalNumber:string;
   branch:string;
 }){
   const token1 = this.token.getToken();
@@ -282,12 +289,12 @@ FilterParcelUnLoading(value:{
     })
   };
   return this.http.post(
-    AUTH_API + 'parcel-loading/parcel-filter-Unloading',  { 
+    AUTH_API + 'parcel-unloading/parcel-filter-Unloading',  { 
       "fromDate": value.fromDate,
       "toDate": value.toDate,
     "fromCity": value.fromCity,
     "toCity": value.toCity,
-    "vehicleNo": value.vehicleNo,
+    "vehicalNumber": value.vehicalNumber,
     "branch": value.branch,
     },
      httpOptions 
@@ -303,6 +310,7 @@ ParcelUnLoading(value:{
   vehicleNo:string;
   grnNo: [];
   bookingType:string;
+  lrNumber:[]
 }){
   const token1 = this.token.getToken();
   const httpOptions = {
@@ -321,6 +329,7 @@ ParcelUnLoading(value:{
   "vehicleNo": value.vehicleNo,
   "grnNo": value.grnNo,
   "bookingType":value.bookingType,
+  "lrNumber":value.lrNumber
     },
      httpOptions 
   );
@@ -379,6 +388,18 @@ patchData(endpoint: string, data: any): Observable<any> {
   }
 
 
+// GNR NO FILTER
+
+GNRfilter(){
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  }
+    return this.http.get<any>(AUTH_API + 'booking/pages', httpOptions);
+}
 
 // parcel -branch
 postBranchLoading(value: {
@@ -395,7 +416,7 @@ postBranchLoading(value: {
   };
 
   return this.http.post(
-    AUTH_API + 'booking/branch-to-branch',  
+    AUTH_API + 'parcel-loading/branch-to-branch-load',  
     {
       "fromDate": value.fromDate,  
       "toDate": value.toDate,
@@ -403,6 +424,18 @@ postBranchLoading(value: {
     },
     httpOptions
   );
+}
+
+// get search by names by data 
+getNames(){
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  }
+    return this.http.get<any>(AUTH_API + 'booking/search/query', httpOptions);
 }
 
 }
