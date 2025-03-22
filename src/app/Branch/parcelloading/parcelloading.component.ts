@@ -26,6 +26,7 @@ export class ParcelloadingComponent implements OnInit {
   data1:any;
   LoadSuccess: boolean = false;
   allSelected: boolean = false;
+  tbcdata:any;
   constructor(private api: BranchService, private token:TokenService, private fb: FormBuilder, private messageService:MessageService, private router:Router, private activeroute:ActivatedRoute) {
       this.form = this.fb.group({
         startDate: ['', Validators.required],
@@ -189,6 +190,23 @@ export class ParcelloadingComponent implements OnInit {
     // ✅ Update "Select All" status
     this.allSelected = event.target.checked;
     console.log('All GRN Numbers Selected:', formArray.value);
+  }
+
+  onFromcitySelect(event: any) {
+    const cityName = event.target.value;
+    if (cityName) {
+      this.api.GetBranchbyCity(cityName).subscribe(
+        (res: any) => {
+          console.log('Branches for selected city:', res);
+          this.tbcdata = res;
+        },
+        (error: any) => {
+          console.error('Error fetching branches:', error);
+        }
+      );
+    } else {
+      this.tbcdata = [];
+    }
   }
 
   ParcelLoad() {

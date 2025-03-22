@@ -20,7 +20,7 @@ word-wrap: break-word">Parcel Loading Offline</h4>
               
               <div class="col-md-4 col-sm-12">
                 <label class="form-label">From City</label>
-                <select class="form-select form-select-sm" formControlName="fromCity">
+                <select class="form-select form-select-sm" formControlName="fromCity" (change)="onFromcitySelect($event)">
                   <option value="" selected>Select City</option>
                   <option *ngFor="let city of cities" [value]="city.cityName">{{ city.cityName }}</option>
                 </select>
@@ -48,7 +48,7 @@ word-wrap: break-word">Parcel Loading Offline</h4>
                 <label class="form-label">Book Branch</label>
                 <select class="form-select form-select-sm" formControlName="pickUpBranch">
                     <option value="" selected>Select Branch</option>
-                  <option *ngFor="let branch of branchdata" [value]="branch.branchUniqueId">{{ branch.name }}</option>
+                  <option *ngFor="let branch of tbcdata" [value]="branch.branchUniqueId">{{ branch.name }}</option>
                 </select>
               </div>
           

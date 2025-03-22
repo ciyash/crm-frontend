@@ -33,7 +33,7 @@ word-wrap: break-word">Parcel UnLoading Offline</h4>
               
               <div class="col-md-4 col-sm-12">
                 <label class="form-label">To City</label>
-                <select class="form-select form-select-sm" formControlName="toCity">
+                <select class="form-select form-select-sm" formControlName="toCity" (change)="onTocitySelect($event)">
                   <option value="" selected>Select City</option>
                   <option *ngFor="let city of cities" [value]="city.cityName">{{ city.cityName }}</option>
                 </select>
@@ -49,13 +49,13 @@ word-wrap: break-word">Parcel UnLoading Offline</h4>
                 <label class="form-label">Branch</label>
                 <select class="form-select form-select-sm" formControlName="branch">
                     <option value="" selected>Select Branch</option>
-                  <option *ngFor="let branch of branchdata" [value]="branch.branchUniqueId">{{ branch.name }}</option>
+                  <option *ngFor="let branch of tbcdata" [value]="branch.branchUniqueId">{{ branch.name }}</option>
                 </select>
               </div>
               <!-- //new file -->
               <div class="col-md-3 col-sm-12">
                 <label class="form-label">Vehicle Number</label>
-                <select class="form-select form-select-sm mb-3" formControlName="vehicleNo" aria-label="Large select example">
+                <select class="form-select form-select-sm mb-3" formControlName="vehicalNumber" aria-label="Large select example">
                     <option value="" selected>Select Vehicle Number</option>
                     <option *ngFor="let vehicle of vehicle" [value]="vehicle.vehicleNo">{{ vehicle.vehicleNo }}</option>
                 </select>

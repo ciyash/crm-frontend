@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./parcel-branch.component.scss']
 })
 export class ParcelBranchComponent implements OnInit {
-  citydata: any = []; // Ensure it's initialized to prevent undefined errors
+  citydata: any = []; // Ensure it's initialized to prevent undefined 
   form: FormGroup;
   vdata:any;
   data:any;

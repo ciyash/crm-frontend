@@ -17,6 +17,15 @@ export class CreateBranchComponent {
   loading:boolean=true;
   id:any;
   ubdata:any;
+  form1:FormGroup;
+  errorsMessage:string='';
+  msg:string='';
+  visible: boolean = false;
+  repd:any;
+  showDialog(row:any) {
+      this.visible = true;
+      this.repd=row;
+  }
   constructor(private fb:FormBuilder, private api:AdminService, private messageService:MessageService, private router:Router, private bapi:BranchService, private activeroute:ActivatedRoute){
       this.form = this.fb.group({
         name: ['', Validators.required],
@@ -31,6 +40,20 @@ export class CreateBranchComponent {
         country:['India'],
         alternateMobile: ['', Validators.required],
           });
+
+          this.form1 = this.fb.group({
+            name: ['', ],
+            branchType: ['',],
+            city: ['',],
+            location: ['',],
+            address: ['',],
+            phone: ['',],
+            email: ['', ],
+            pincode: ['', ],
+            state: ['', ],
+            country:['India'],
+            alternateMobile: ['', ],
+              });
   }
 
   ngOnInit(){
@@ -83,6 +106,74 @@ getbranchemployees(id:any){
       },
     });
   }
-  
+
+
+  edit(id:any) {
+    console.log(this.form1.value);
+    if (this.form1.valid) {
+      const val = {
+        name: this.form1.value.name,
+      branchType: this.form1.value.branchType,
+      city: this.form1.value.city,
+      location: this.form1.value.location,
+      address: this.form1.value.address,
+      phone: this.form1.value.phone,
+      email: this.form1.value.email,
+      pincode: this.form1.value.pincode,
+      state: this.form1.value.state,
+      country: this.form1.value.country,
+      alternateMobile: this.form1.value.alternateMobile,
+      };
+      this.api.UpdateBranch(id, val).subscribe(
+        (a: any) => {
+          if (a?.data) {
+            console.log(a);
+            this.messageService.add({ severity: 'success', summary: 'success', detail: 'Branch Update Successfully' });
+           
+          } else {
+            console.log(a);
+            // this.errorMessage = a.msg.message;
+            this.msg = 'Branch Successfully Updated !!!';
+            setTimeout(() => {
+              this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                this.router.navigate(['/createbranch']);
+              });
+              }, 1000);
+          }
+        },
+        (err: any) => {
+          this.messageService.add({ severity: 'error', summary: 'error', detail: 'Branch not added' });
+          this.errorsMessage = err.error.message;
+        },
+      );
+    }
+
+    return false;
+  }
+
+  Delete(id:any) {
+    this.api.DeleteBranch(id).subscribe(
+      (a: any) => {
+        if (a) {
+          console.log('deletedid',a);
+          this.messageService.add({ severity: 'success', summary: 'success', detail: 'Delete Branch Type Successfully' });
+          setTimeout(() => {
+            this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+              this.router.navigate(['/createbranch']);
+            });
+            }, 1000);
+        } else {
+          console.log(a);
+          // this.errorMessage = a.msg.message;
+          this.msg = 'Branch Successfully Updated !!!';
+        }
+      },
+      (err: any) => {
+        this.messageService.add({ severity: 'error', summary: 'error', detail: 'Delete Branch Type Somthing wrong' });
+      },
+    );
+  return false;
+}
+
 
 }

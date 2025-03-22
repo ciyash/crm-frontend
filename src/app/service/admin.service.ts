@@ -53,6 +53,60 @@ export class AdminService {
   }
 
 
+  UpdateBranch(id: any, value: {
+    name: string;
+    branchType: string;
+    city: string;
+    location: string;
+    address: string;
+    phone: number;
+    email: string;
+    pincode: number;
+    state: string;
+    country: string;
+    alternateMobile: number;
+  }) {
+    const token1 = this.token.getToken();
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token1
+      })
+    };
+    return this.http.patch(
+      AUTH_API + 'branch/update/' + id,
+      {
+        "name": value.name,
+        "branchType": value.branchType,
+        "city": value.city,
+        "location": value.location,
+        "address": value.address,
+        "phone": value.phone,
+        "email": value.email,
+        "pincode": value.pincode,
+        "state": value.state,
+        "country": value.country,
+        "alternateMobile": value.alternateMobile
+    },
+      httpOptions
+    );
+  }
+
+
+    DeleteBranch(id:any){
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1
+        })
+      }
+      return this.http.delete(
+        AUTH_API + 'branch/delete/'+id,
+        httpOptions
+      );
+    }
+
   createEmployee(value: {
     name: string;
     username: string;
@@ -76,14 +130,14 @@ export class AdminService {
       AUTH_API + 'subadmin-auth/signup',  
       { 
         name: value.name,
-        username: value.username,
-        branchId: value.branchId,
-        location: value.location,
-        phone: value.phone,
-        email: value.email,
-        password: value.password,
-        documents: value.documents,
-        role: value.role,
+        'username': value.username,
+        'branchId': value.branchId,
+        'location': value.location,
+        'phone': value.phone,
+        'email': value.email,
+        'password': value.password,
+        'documents': value.documents,
+        'role': value.role,
       },
       httpOptions 
     );
@@ -266,6 +320,20 @@ export class AdminService {
       );
     }
 
+    DeleteVehicleData(id:any){
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1
+        })
+      }
+      return this.http.delete(
+        AUTH_API + 'vehicle/'+id,
+        httpOptions
+      );
+    }
+
     createCityname(value: {
       cityName: string;
       state: string;
@@ -281,10 +349,45 @@ export class AdminService {
       return this.http.post(
         AUTH_API + 'multi-router/cities',  
         { 
-          cityName: value.cityName,
-          state: value.state,
+          "cityName": value.cityName,
+          "state": value.state,
         },
         httpOptions 
+      );
+    }
+
+    UpdateCityname(id: any, value: {
+      cityName: string;
+      state: string;
+    }) {
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1
+        })
+      };
+      return this.http.patch(
+        AUTH_API + 'multi-router/cities/' + id,
+        {
+          "cityName": value.cityName,
+          "state": value.state,
+      },
+        httpOptions
+      );
+    }
+
+    DeleteCityname(id:any){
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1
+        })
+      }
+      return this.http.delete(
+        AUTH_API + 'multi-router/cities/'+id,
+        httpOptions
       );
     }
     

@@ -98,7 +98,7 @@
                             <td> {{row.alternateMobile}} </td>
                             <td> {{row.email}} </td>
                             <td> {{row.state}} </td>
-                            <td> <i class="fa fa-edit"></i> </td>
+                            <td> <a (click)="showDialog(row)" class="text-primary p-2" style="cursor: pointer;"> <i class="fa fa-edit"></i></a> <a (click)="Delete(row._id)" class="text-danger" style="cursor: pointer;"> <i class="fa fa-trash"></i></a> </td>
                         </tr>
                     </tbody>
 
@@ -107,3 +107,66 @@
         </div>
     </div>
 </div>
+
+
+<p-dialog header="" [(visible)]="visible" [modal]="true" [style]="{ width: '100vw' }" [draggable]="false" [resizable]="false" style="background-color: aliceblue;">
+    <div class="card m-5 p-5" *ngIf="repd">
+             <span class="text-primary">{{repd.name}}</span>  
+             <form [formGroup]="form1">
+                <div class="container pb-3">
+                        <div class="row pt-3">
+                            <div class="col-md-3 col-sm-12">
+                                <label class="form-label">Name</label>
+                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.name" formControlName="name">
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label class="form-label">Branch Type</label>
+                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.branchType" formControlName="branchType">
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label class="form-label">City</label>
+                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.city" formControlName="city">
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label class="form-label">Location</label>
+                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.location" formControlName="location">
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label class="form-label">Address</label>
+                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.address" formControlName="address">
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label class="form-label">Phone</label>
+                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.phone" formControlName="phone">
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label class="form-label">Alternate Phone</label>
+                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.alternateMobile" formControlName="alternateMobile">
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label class="form-label">Email</label>
+                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.email" formControlName="email">
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label class="form-label">Pin Code</label>
+                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.pincode" formControlName="pincode">
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label class="form-label">State</label> 
+                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.state" formControlName="state">
+                            </div>
+                            
+                        </div>
+                
+                    </div>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-3 d-flex align-items-end">
+                                    <button class="btn btn-primary btn-sm " type="button"
+                                        style=" width: 10rem;" (click)="edit(repd?._id)" >Submit</button>
+                                </div>
+                            </div>
+                        </div>
+            </form>
+        </div>
+</p-dialog>

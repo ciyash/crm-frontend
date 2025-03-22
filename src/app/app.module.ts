@@ -33,6 +33,7 @@ import { ParcelBranchComponent } from './Branch/parcel-branch/parcel-branch.comp
 import { CreateVehicleComponent } from './pages/Admin/create-vehicle/create-vehicle.component';
 import { CreateCitynameComponent } from './pages/Admin/create-cityname/create-cityname.component';
 import { AddPackagesTypeComponent } from './Branch/add-packages-type/add-packages-type.component';
+import { VoucerOfflineListComponent } from './Branch/voucer-offline-list/voucer-offline-list.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { AddPackagesTypeComponent } from './Branch/add-packages-type/add-package
     ParcelBranchComponent,
     CreateVehicleComponent,
     CreateCitynameComponent,
-    AddPackagesTypeComponent
+    AddPackagesTypeComponent,
+    VoucerOfflineListComponent
     
     
   ],

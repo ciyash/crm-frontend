@@ -147,4 +147,28 @@ export class CreateVehicleComponent {
         return false;
       }
 
+      Delete(id:any) {
+        this.api.DeleteVehicleData(id).subscribe(
+          (a: any) => {
+            if (a) {
+              console.log('deletedid',a);
+              this.messageService.add({ severity: 'success', summary: 'success', detail: 'Delete Vehicle Type Successfully' });
+              setTimeout(() => {
+                this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                  this.router.navigate(['/createvehicle']);
+                });
+                }, 1000);
+            } else {
+              console.log(a);
+              // this.errorMessage = a.msg.message;
+              this.msg = 'Vehicle Successfully Updated !!!';
+            }
+          },
+          (err: any) => {
+            this.messageService.add({ severity: 'error', summary: 'error', detail: 'Delete Vehicle Type Somthing wrong' });
+          },
+        );
+      return false;
+    }
+
 }

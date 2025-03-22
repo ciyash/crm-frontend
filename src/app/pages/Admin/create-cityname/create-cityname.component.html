@@ -57,7 +57,7 @@
                             <td>{{i + 1}}</td>
                             <td> {{row.state}} </td>
                             <td> {{row.cityName}} </td>
-                            <td> <i class="fa fa-edit"></i> </td>
+                            <td> <a (click)="showDialog(row)"  class="text-primary p-2" style="cursor: pointer;">  <i class="fa fa-edit"></i> </a> <a (click)="Delete(row._id)" class="text-danger" style="cursor: pointer;"> <i class="fa fa-trash"></i> </a> </td>
                         </tr>
                     </tbody>
 
@@ -66,3 +66,34 @@
         </div>
     </div>
 </div>
+
+<p-dialog header="" [(visible)]="visible" [modal]="true" [style]="{ width: '100vw' }" [draggable]="false" [resizable]="false" style="background-color: aliceblue;">
+    <div class="card m-5 p-5" *ngIf="repd">
+             <span class="text-primary">{{repd.cityName}}</span>  
+               <form [formGroup]="form1" >
+                    <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <label class="form-label">State</label> 
+                                    <select class="form-select form-select-sm" formControlName="state">
+                                        <option value=""> {{repd.state}} </option>
+                                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                        <option value="Telangana">Telangana</option>
+                                        <option value="Karnataka">Karnataka</option>
+                                        <option value="Tamilnadu">Tamilnadu</option>
+                                        <option value="Maharastra">Maharastra</option>
+                                        <option value="Kerala">Kerala</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12 col-sm-12">
+                                    <label class="form-label">City Name</label>
+                                    <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.cityName"  formControlName="cityName">
+                                </div>
+                               
+                    </div>
+     
+                    <div class="col-12 md:col-12 text-center mt-3">
+                        <button pButton type="button" class="btn btn-sm btn-success" (click)="edit(repd?._id)">Submit</button>
+                    </div>
+            </form>
+        </div>
+</p-dialog>

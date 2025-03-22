@@ -323,12 +323,13 @@ VehicleData(){
     return this.http.get<any>(AUTH_API + 'vehicle', httpOptions);
 }
 
+
 FilterParcelUnLoading(value:{
   fromDate: string;
   toDate:string;
   fromCity: [];
   toCity: string;
-  vehicleNo:string;
+  vehicalNumber:string;
   branch:string;
 }){
   const token1 = this.token.getToken();
@@ -339,12 +340,12 @@ FilterParcelUnLoading(value:{
     })
   };
   return this.http.post(
-    AUTH_API + 'parcel-loading/parcel-filter-Unloading',  { 
+    AUTH_API + 'parcel-unloading/parcel-filter-Unloading',  { 
       "fromDate": value.fromDate,
       "toDate": value.toDate,
     "fromCity": value.fromCity,
     "toCity": value.toCity,
-    "vehicleNo": value.vehicleNo,
+    "vehicalNumber": value.vehicalNumber,
     "branch": value.branch,
     },
      httpOptions 

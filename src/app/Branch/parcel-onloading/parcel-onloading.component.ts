@@ -26,13 +26,14 @@ export class ParcelOnloadingComponent {
     data1:any;
     LoadSuccess: boolean = false;
     allSelected: boolean = false;
+    tbcdata:any;
     constructor(private api: BranchService, private fb: FormBuilder, private messageService:MessageService, private router:Router, private activeroute:ActivatedRoute) {
         this.form = this.fb.group({
           fromDate: ['', Validators.required],
           toDate: ['', Validators.required],
           fromCity: this.fb.array([], Validators.required),
           toCity: ['', Validators.required],
-          vehicleNo: ['', Validators.required],
+          vehicalNumber: ['', Validators.required],
           branch: ['', Validators.required],
         });
   
@@ -98,7 +99,7 @@ export class ParcelOnloadingComponent {
         toDate: this.form.value.toDate,
         fromCity: this.form.value.fromCity,
         toCity: this.form.value.toCity,
-        vehicleNo: this.form.value.vehicleNo,
+        vehicalNumber: this.form.value.vehicalNumber,
         branch: this.form.value.branch,
       };
       
@@ -183,6 +184,23 @@ export class ParcelOnloadingComponent {
       // ✅ Update "Select All" status
       this.allSelected = event.target.checked;
       console.log('All GRN Numbers Selected:', formArray.value);
+    }
+
+    onTocitySelect(event: any) {
+      const cityName = event.target.value;
+      if (cityName) {
+        this.api.GetBranchbyCity(cityName).subscribe(
+          (res: any) => {
+            console.log('Branches for selected city:', res);
+            this.tbcdata = res;
+          },
+          (error: any) => {
+            console.error('Error fetching branches:', error);
+          }
+        );
+      } else {
+        this.tbcdata = [];
+      }
     }
     
   
