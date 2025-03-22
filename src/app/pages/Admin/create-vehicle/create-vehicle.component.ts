@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
 import { AdminService } from 'src/app/service/admin.service';
 import { BranchService } from 'src/app/service/branch.service';
@@ -25,7 +26,8 @@ export class CreateVehicleComponent {
           this.visible = true;
           this.repd=row;
       }
-      constructor(private fb:FormBuilder, private api:AdminService, private messageService:MessageService, private router:Router, private bapi:BranchService){
+      constructor(private fb:FormBuilder, private api:AdminService,
+         private messageService:MessageService, private router:Router, private bapi:BranchService ,private toastr:ToastrService){
           this.form = this.fb.group({
             vehicleNo: ['', Validators.required],
             vehicleType: ['', Validators.required],
@@ -91,6 +93,8 @@ export class CreateVehicleComponent {
           next: (response: any) => {
             console.log('Parcel loaded successfully:', response);
             this.messageService.add({ severity: 'success', summary: 'success', detail: 'Create Vehicle successfully' });
+            this.toastr.success('Profile Successfully Updated ', 'Success');
+
             setTimeout(() => {
              this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
                this.router.navigate(['/createvehicle']);

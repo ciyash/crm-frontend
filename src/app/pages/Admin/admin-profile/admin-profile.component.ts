@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Toast,  } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
 import { AdminService } from 'src/app/service/admin.service';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-admin-profile',
@@ -22,7 +25,9 @@ export class AdminProfileComponent {
   showDialog() {
       this.visible = true;
   }
-  constructor(private api:AdminService, private activeroute:ActivatedRoute, private fb:FormBuilder, private messageService:MessageService, private router:Router){
+  constructor(private api:AdminService, private activeroute:ActivatedRoute, 
+    private fb:FormBuilder, private messageService:MessageService,
+     private router:Router , private toastr:ToastrService){
     this.form = this.fb.group({
       companyName: ['', ], 
       name: ['', ], 
@@ -65,6 +70,7 @@ export class AdminProfileComponent {
             console.log(a);
             // this.errorMessage = a.msg.message;
             this.msg1 = 'Password Successfully Updated !!!';
+
           }
         },
         (err: any) => {
@@ -100,6 +106,8 @@ export class AdminProfileComponent {
             console.log(a);
             // this.errorMessage = a.msg.message;
             this.msg = 'Profile Successfully Updated !!!';
+            this.toastr.success('Profile Successfully Updated ', 'Success');
+
           }
         },
         (err: any) => {

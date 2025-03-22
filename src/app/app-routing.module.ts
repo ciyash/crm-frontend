@@ -18,6 +18,7 @@ import { ParcelBranchComponent } from './Branch/parcel-branch/parcel-branch.comp
 import { CreateVehicleComponent } from './pages/Admin/create-vehicle/create-vehicle.component';
 import { CreateCitynameComponent } from './pages/Admin/create-cityname/create-cityname.component';
 import { AddPackagesTypeComponent } from './Branch/add-packages-type/add-packages-type.component';
+import { SearchGrnNumberComponent } from './Branch/Widgets/search-grn-number/search-grn-number.component';
 
 
 const routes: Routes = [
@@ -36,6 +37,9 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
   { path: 'parcel-branch', component: ParcelBranchComponent, canActivate: [authGuard] },
   { path: 'addpackagestype', component: AddPackagesTypeComponent, canActivate: [authGuard] },
+  { path: 'searchgrn', component: SearchGrnNumberComponent, canActivate: [authGuard] },
+
+
 
      //Admin Routing components
   { path: 'createbranch', component: CreateBranchComponent, canActivate: [authGuard], data: { roles: ['admin'] }},

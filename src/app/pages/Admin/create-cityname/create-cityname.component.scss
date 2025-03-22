@@ -1,0 +1,99 @@
+/* Page container */
+
+
+/* Header styling */
+h4.text-center {
+    color: #3C3C3C;
+    font-size: 22px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    text-decoration: underline;
+    margin-bottom: 20px;
+}
+
+/* Form fields */
+.form-label {
+    font-weight: 600;
+    color: #333;
+}
+
+.form-control, .form-select {
+    border-radius: 8px;
+    border: 2px solid #ddd;
+    padding: 10px;
+    font-size: 14px;
+    transition: all 0.3s ease-in-out;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Submit button */
+.btn-primary {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    background: linear-gradient(to right, #007bff, #0056b3);
+    border: none;
+    color: white;
+    transition: all 0.3s ease-in-out;
+    font-weight: bold;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(to right, #0056b3, #007bff);
+    transform: scale(1.05);
+}
+
+/* Loading message */
+.text-danger {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Table styling */
+.table {
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.table th {
+    background: #007bff;
+    color: white;
+    padding: 12px;
+    text-align: left;
+}
+
+.table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Table row hover effect */
+.table tbody tr:hover {
+    background: rgba(0, 123, 255, 0.1);
+    cursor: pointer;
+}
+
+/* Edit icon */
+.fa-edit {
+    color: #007bff;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.fa-edit:hover {
+    transform: scale(1.2);
+}
+.card {
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: none;
+    background: #ffffff;
+    margin-top: 5%;
+}
