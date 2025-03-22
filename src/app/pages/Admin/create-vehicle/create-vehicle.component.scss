@@ -1,19 +1,42 @@
-.p-dialog .p-dialog-header {
-    background-color: #f4f4f4;
-    color: #333;
-    font-weight: bold;
-  }
-  
-  .p-dialog .p-button {
-    width: 150px;
-  }
-  
-  .p-dropdown {
-    width: 100%;
-  }
-  
-  .p-button-success {
-    background-color: #28a745;
-    border-color: #28a745;
-  }
-  
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  background-color: #ffffff;
+}
+
+thead {
+  background-color: #195590;
+  color: white;
+}
+
+thead th {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+tbody td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.fa-edit {
+  cursor: pointer;
+  color: #007bff;
+  transition: color 0.3s ease-in-out;
+}
+
+.fa-edit:hover {
+  color: #0056b3;
+}

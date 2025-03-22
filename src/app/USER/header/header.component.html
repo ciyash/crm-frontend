@@ -6,28 +6,32 @@
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
       <ul class="layout-menu d-flex align-items-center" role="menu" (keydown)="onKeydown($event)">
         <li *ngFor="let item of model" class="layout-menuitem-category" [attr.role]="item.items ? 'menu' : null">
-          <!-- ✅ Use 'a' instead of 'div' for better click handling -->
-          <a *ngIf="!item.items" 
-             [routerLink]="item.routerLink" 
-             class="layout-menuitem-root-text">
+          <a *ngIf="!item.items" [routerLink]="item.routerLink" class="layout-menuitem-root-text">
             {{ item.label }}
           </a>
-          
           <div *ngIf="item.items" class="layout-menuitem-root-text">
             {{ item.label }}
           </div>
-          
-          <!-- ✅ Submenu Items -->
-          <ul *ngIf="item.items" class="submenu" role="menu">
+          <ul *ngIf="item.items" class="submenu no-style" role="menu">
             <li *ngFor="let child of item.items">
               <a [routerLink]="child.routerLink">{{ child.label }}</a>
             </li>
           </ul>
         </li>
 
-        <!-- ✅ Logout Button -->
         <li (click)="logout()" style="cursor: pointer; color:#fff; font-size: 14px;"> 
           <i class="pi pi-sign-out"></i> Logout
+        </li>
+      </ul>
+
+      <!-- ✅ Right-aligned section -->
+      <ul class="navbar-nav ms-auto d-flex align-items-center">
+        <li *ngIf="data" class="nav-item text-white" style="margin-right: 10px;">
+          <span>{{ data.companyName }}</span>
+        </li>
+        <li *ngIf="data" class="nav-item text-white" ><i class="fa fa-user" aria-hidden="true"></i>&nbsp;
+
+          <span>{{ data.username }}</span>
         </li>
       </ul>
     </div>

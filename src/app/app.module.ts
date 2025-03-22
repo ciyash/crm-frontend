@@ -34,6 +34,9 @@ import { CreateVehicleComponent } from './pages/Admin/create-vehicle/create-vehi
 import { CreateCitynameComponent } from './pages/Admin/create-cityname/create-cityname.component';
 import { AddPackagesTypeComponent } from './Branch/add-packages-type/add-packages-type.component';
 import { VoucerOfflineListComponent } from './Branch/voucer-offline-list/voucer-offline-list.component';
+import { ToastrModule } from 'ngx-toastr';
+
+
 
 @NgModule({
   declarations: [
@@ -66,7 +69,15 @@ import { VoucerOfflineListComponent } from './Branch/voucer-offline-list/voucer-
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule, FormsModule,
-    HttpClientModule, TableModule, MessagesModule, DialogModule, BrowserAnimationsModule, QRCodeModule, ToastModule, ButtonModule, RippleModule
+    HttpClientModule, TableModule, MessagesModule,
+     DialogModule, BrowserAnimationsModule, QRCodeModule, ToastModule, ButtonModule, RippleModule,
+     ToastrModule.forRoot({
+      positionClass: 'toast-top-right', // Toast appears in the top-right
+      timeOut: 3000, // Toast disappears after 3 seconds
+      closeButton: true, // Show close button
+      progressBar: true, // Show progress bar
+      preventDuplicates: true, // Prevent duplicate toasts
+    }),
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

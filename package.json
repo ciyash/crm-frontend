@@ -10,7 +10,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^16.2.0",
+    "@angular/animations": "^16.2.12",
     "@angular/common": "^16.2.0",
     "@angular/compiler": "^16.2.0",
     "@angular/core": "^16.2.0",
@@ -22,6 +22,7 @@
     "angularx-qrcode": "^16.0.0",
     "crypto-js": "^4.2.0",
     "ngx-qrcode2": "^9.0.0",
+    "ngx-toastr": "^19.0.0",
     "primeicons": "^7.0.0",
     "primeng": "^16.9.1",
     "rxjs": "~7.8.0",
