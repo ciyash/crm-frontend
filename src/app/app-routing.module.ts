@@ -25,7 +25,7 @@ const routes: Routes = [
   {path:"",component:LoginComponent },
   {path:"signup",component:SignupComponent, canActivate: [authGuard] },
 
-  //Branch Component
+  //Branch type Component
   {path:"booking",component:ParcelbookingComponent, canActivate: [authGuard] },
   {path:'parcelloading',component:ParcelloadingComponent, canActivate: [authGuard]},
   {path:'bookingreport',component:BookingReportComponent, canActivate: [authGuard]},
@@ -37,7 +37,7 @@ const routes: Routes = [
   { path: 'parcel-branch', component: ParcelBranchComponent, canActivate: [authGuard] },
   { path: 'addpackagestype', component: AddPackagesTypeComponent, canActivate: [authGuard] },
 
-  //Admin Routing components
+     //Admin Routing components
   { path: 'createbranch', component: CreateBranchComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   { path: 'createemployee', component: CreateEmployeeComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   { path: 'adminprofile', component: AdminProfileComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
