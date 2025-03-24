@@ -13,6 +13,7 @@ const AUTH_API = 'https://cargo-backend-bpq4.onrender.com/'
 export class BranchService {
   private baseUrl = environment.baseUrl
   private storageKey = 'adminData';
+  AUTH_API: any;
 
   constructor(private http: HttpClient ,private route:Router, private token:TokenService ) {}
 
@@ -536,5 +537,22 @@ UpdatePackagestype(id: any, value: {
     }
 
 
+
+
+// branch/branchUniqueId/HYAM2687
+
+getbranchId(id: any) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.get(AUTH_API + 'branch/branchUniqueId/' + id, httpOptions);
 }
+
+}
+
+
 

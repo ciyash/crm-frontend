@@ -35,6 +35,8 @@ import { CreateCitynameComponent } from './pages/Admin/create-cityname/create-ci
 import { AddPackagesTypeComponent } from './Branch/add-packages-type/add-packages-type.component';
 import { VoucerOfflineListComponent } from './Branch/voucer-offline-list/voucer-offline-list.component';
 import { ToastrModule } from 'ngx-toastr';
+import { FilterGrnComponent } from './Branch/filter-grn/filter-grn.component';
+
 
 
 
@@ -61,7 +63,8 @@ import { ToastrModule } from 'ngx-toastr';
     CreateVehicleComponent,
     CreateCitynameComponent,
     AddPackagesTypeComponent,
-    VoucerOfflineListComponent
+    VoucerOfflineListComponent,
+    FilterGrnComponent
     
     
   ],

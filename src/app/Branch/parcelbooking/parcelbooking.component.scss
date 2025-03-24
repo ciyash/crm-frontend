@@ -75,4 +75,60 @@ word-wrap: break-word
         color: red !important;
     }
 
+
+
+
+
+    td{
+        background: #8FA0C4;
+        color: white;
+      }
+      .primary{
+        background-color: brown;
+        position: sticky;
+      }
+    
+       th {
+        background: #143374;
+        color: white;
+        border-radius: 0;
+        top: 0;
+        padding: 10px;
+      }
+    
+    
+       
+    
+      .table thead tr {
+        background-color: #143374 !important;
+        color: white !important;
+        text-align: center;
+    }
+    
+    
+    .table tbody tr:nth-child(odd) {
+        background-color: #2B478B !important;
+    }
+    .table tbody tr:nth-child(even) {
+        background-color: #3C5898 !important;
+    }
+    .table tbody td {
+        color: white;
+    }
+    .table input.form-control {
+        background-color: #B0C4DE !important;
+        border: none;
+        color: black;
+        text-align: center;
+    }
+    .text-danger {
+        color: red !important;
+    }
+    
+    .done {
+        background-color: #143374 !important;
+        color: white !important;
+    
+}
+
   

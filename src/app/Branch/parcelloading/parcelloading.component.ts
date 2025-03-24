@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { ServiceService } from 'src/app/service.service';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {  OnInit } from '@angular/core';
+declare var $: any;
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BranchService } from 'src/app/service/branch.service';
 import { TokenService } from 'src/app/service/token.service';
 import { MessageService } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Toast } from 'primeng/toast';
+
+declare const SlimSelect: any; // Declare SlimSelect from the global scope
 @Component({
   selector: 'app-parcelloading',
   templateUrl: './parcelloading.component.html',
@@ -27,6 +30,20 @@ export class ParcelloadingComponent implements OnInit {
   LoadSuccess: boolean = false;
   allSelected: boolean = false;
   tbcdata:any;
+   @ViewChild('selectElem') selectElem!: ElementRef;
+  @ViewChild('demoSelect') demoSelect!: ElementRef;
+  
+
+  ngAfterViewInit(): void {
+    new SlimSelect({
+      select: this.demoSelect.nativeElement
+    });
+
+    setTimeout(() => {
+      $(this.selectElem.nativeElement).select2(); // Initialize select2 after view renders
+    }, 0);
+  }
+
   constructor(private api: BranchService, private token:TokenService, private fb: FormBuilder, private messageService:MessageService, private router:Router, private activeroute:ActivatedRoute) {
       this.form = this.fb.group({
         startDate: ['', Validators.required],
@@ -34,6 +51,7 @@ export class ParcelloadingComponent implements OnInit {
         fromCity: ['', Validators.required],
         toCity: this.fb.array([], Validators.required),
         pickUpBranch: ['', Validators.required],
+        
       });
 
       this.form1 = this.fb.group({
@@ -46,11 +64,13 @@ export class ParcelloadingComponent implements OnInit {
         fromBookingDate: ['', Validators.required],
         toBookingDate: ['', Validators.required],
         fromCity: ['', Validators.required],
+        
         userName:['Test'],
         toCity: this.fb.array([], Validators.required),
         grnNo: this.fb.array([], Validators.required),
         lrNumber: this.fb.array([], Validators.required),
       });
+
     
   }
   ngOnInit() {
@@ -263,7 +283,7 @@ export class ParcelloadingComponent implements OnInit {
   branchData() {
     this.api.getData('branch').subscribe({
       next: (response: any) => {
-        console.log('Branch Data:', response);
+        console.log('Branch Datakajdkjanfjandfnaf:', response);
         this.branchdata = response; // Ensure response contains an array of branches
       },
       error: (error: any) => {
@@ -271,7 +291,9 @@ export class ParcelloadingComponent implements OnInit {
       }
     });
   }
+  }
   
-    }
+
+    
 
 

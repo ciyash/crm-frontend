@@ -1,0 +1,238 @@
+<app-header></app-header>
+<div class="container mt-5 pt-5">
+    <div class="col-lg-12">
+        <form class="row mb-3 align-items-center" (ngSubmit)="searchUser()">
+            <div class="col-md-2">
+                <label for="searchTerm" class="form-label ">GRN Number</label>
+            </div>
+            <div class="col-md-4">
+                <input required type="text" id="searchTerm" name="searchTerm" placeholder="Enter GRN Number"
+                    class="form-control" [(ngModel)]="searchTerm" />
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-primary ms-3" type="submit">Load</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="container" *ngFor="let user of data2;">
+    <div class="card mb-3">
+        <div class="card-header">Parcel Details (Main GRN No :{{user.grnNo}} )</div>
+        <div class="card-body bg-light">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>GRN No:</strong> {{user.grnNo}}</p>
+                    <p><strong>Parcel Status:</strong>
+                        <span [ngSwitch]="user.bookingStatus">
+                            <span *ngSwitchCase="0">Booking Branch</span>
+                            <span *ngSwitchCase="1">Departed / Shipped</span>
+                            <span *ngSwitchCase="2">Arrived at Delivery App</span>
+                            <span *ngSwitchCase="3">Parcel Missing</span>
+                            <span *ngSwitchCase="4">Delivered</span>
+                            <span *ngSwitchCase="5">Cancelled</span>
+                            <span *ngSwitchDefault>Unknown Status</span>
+                        </span>
+                    </p>
+
+                    <p><strong>From City:</strong> {{user.fromCity}}</p>
+                    <p><strong>From Branch:</strong> {{user.pickUpBranch}}</p>
+                    <p><strong>Sender Name:</strong> {{user.senderName}}</p>
+                    <p><strong>Receiver Name:</strong> {{user.receiverName}}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Booking Type:</strong> {{user.bookingType}}</p>
+                    <!-- <p><strong>Booking Status:</strong> Delivered</p> -->
+                    <p><strong>To City:</strong> {{user.toCity}}</p>
+                    <p><strong>To Branch:</strong> {{user.dropBranch}}</p>
+                    <p><strong>Sender No.:</strong> {{user.senderMobile}}</p>
+                    <p><strong>Receiver No.:</strong> {{user.receiverMobile}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header">Booking Details</div>
+        <div class="card-body bg-light">
+            <p><strong>Booking Date:</strong> {{ user.bookingDate | date: 'dd-MM-yyyy hh:mm a' }}</p>
+            <p><strong>Booked By User:</strong>{{user.bookedBy}}</p>
+            <p><strong>Booked By Branch:</strong> {{user.bookbranchid}}</p>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header">Loading Details</div>
+        <div class="card-body bg-light">
+            <p><strong>Loading Date:</strong> {{user.loadingDate|date:'dd-mm-yyyy hh:mm a'}}</p>
+            <p><strong>Loaded By User:</strong> sk.mahesh</p>
+            <p><strong>Loaded By Branch:</strong> </p>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header">Unloading Details</div>
+        <div class="card-body bg-light">
+            <p><strong>Unloading Date:</strong> {{user.unloadingDate|date:'dd-MM-yyyy hh:mm a'}}</p>
+            <p><strong>Unloaded By User:</strong> sk.naresh</p>
+            <p><strong>Unloaded By Branch:</strong> Lak-Di-Kapool</p>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header">Delivery Details</div>
+        <div class="card-body bg-light">
+            <p><strong>Delivery Date:</strong> {{user.deliveryDate| date: 'dd-MM-yyyy hh:mm a' }}</p>
+            <p><strong>Delivered By User:</strong> {{user.deliveryEmployee}}</p>
+            <p><strong>Delivered By Branch:</strong>{{user.dropBranch}}</p>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<div class=" container-fluid">
+    <p class="text-end">3/24/25, 3:10 PM</p>
+    <h2 class="header" style="  font-size: 36px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: bold;
+        color: #333;">SREE KALESWARI LOGISTICS</h2>
+    <p class="sub-header">Address: VIJAYAWADA - Hanuman Peta</p>
+    <p class="sub-header">Phone No: 7799701271</p>
+    <h4 class="text-center">Dispatched Stock Report</h4>
+    <p class="text-center">Prepared By: <strong>SK.SATIISH</strong></p>
+
+    <div class="container-fluid d-flex justify-content-evenly">
+        <div class="row">
+            <p><strong>Dispatch No:</strong> 11993</p>
+            <p><strong>Vehicle No:</strong> AP16TJ 1126</p>
+            <p><strong>From City:</strong> Vijayawada</p>
+        </div>
+        <div>
+            <p><strong>Generate Date:</strong> 24-03-2025</p>
+            <p><strong>Print Date:</strong> 24-03-2025 03:10 PM</p>
+            <p><strong>To City:</strong> Visakhapatnam</p>
+        </div>
+    </div>
+
+
+    <table class="table table-bordered" style="    border: 2px solid black;
+    ">
+        <thead>
+            <tr>
+                <th>Sr. No</th>
+                <th>GNR</th>
+                <th>Booking Date</th>
+                <th>Destination</th>
+                <th>Bus No</th>
+                <th>Sender</th>
+                <th>Receiver</th>
+                <th>Receiver No.</th>
+                <th>Type</th>
+                <th>Pkgs Details</th>
+                <th>Parcel Contains</th>
+                <th>Qty</th>
+                <th>Amount</th>
+                <th>Remarks</th>
+                <th>Receiver Sign</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>SKHP/17427</td>
+                <td>22-03-2025 03:30 PM</td>
+                <td>Visakhapatnam (VIZAG-Seethammampet)</td>
+                <td>AP16TJ 1126</td>
+                <td>MR VEERENDRA</td>
+                <td>MR A SANTOSH KUMAR</td>
+                <td>7702913447</td>
+                <td>Paid</td>
+                <td>1-Bike</td>
+                <td>HERO HONDA VEH NO MH 04 DL 0249 (NO DAMAGE CLAIM)</td>
+                <td>1</td>
+                <td>1300</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>SKHP/17438</td>
+                <td>22-03-2025 06:29 PM</td>
+                <td>Visakhapatnam (VIZAG-Seethammampet)</td>
+                <td>AP16TJ 1126</td>
+                <td>MARUTHIRAM PRINT PACK</td>
+                <td>VIZAG ART PRINTERS</td>
+                <td>9866116749</td>
+                <td>ToPay</td>
+                <td>4-PB</td>
+                <td>PAPER</td>
+                <td>4</td>
+                <td>410</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>SKHP/17441</td>
+                <td>22-03-2025 07:05 PM</td>
+                <td>Visakhapatnam (VIZAG-Seethammampet)</td>
+                <td>AP16TJ 1126</td>
+                <td>MARUTHIRAM PRINT PACK</td>
+                <td>RAINBOW PRINT PACK</td>
+                <td>8688677889</td>
+                <td>ToPay</td>
+                <td>2-PB</td>
+                <td>PAPER</td>
+                <td>2</td>
+                <td>210</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="container-fluid d-flex justify-content-end">
+    <table class="invoice-table">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Total</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Paid</td>
+                <td>1</td>
+                <td>1300</td>
+            </tr>
+            <tr>
+                <td>ToPay</td>
+                <td>55</td>
+                <td>6690</td>
+            </tr>
+            <tr class="total-row">
+                <td><strong>Total</strong></td>
+                <td><strong>56</strong></td>
+                <td><strong>7990</strong></td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+<div class="container-fluid">
+    <div class="remarks">
+        <p><strong>Loading Remarks :-</strong></p>
+        <p><strong>Driver Name :</strong> anjaneyulu - 9899999999</p>
+        <p><strong>Cleaner Name :</strong></p>
+    </div>
+    <button class="btn btn-primary d-print-none" onclick="window.print()">Print Report</button>
+
+</div>
+

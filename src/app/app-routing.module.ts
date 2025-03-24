@@ -20,6 +20,7 @@ import { CreateCitynameComponent } from './pages/Admin/create-cityname/create-ci
 import { AddPackagesTypeComponent } from './Branch/add-packages-type/add-packages-type.component';
 import { SearchGrnNumberComponent } from './Branch/Widgets/search-grn-number/search-grn-number.component';
 import { VoucerOfflineListComponent } from './Branch/voucer-offline-list/voucer-offline-list.component';
+import { FilterGrnComponent } from './Branch/filter-grn/filter-grn.component';
 
 
 const routes: Routes = [
@@ -39,6 +40,8 @@ const routes: Routes = [
   { path: 'parcel-branch', component: ParcelBranchComponent, canActivate: [authGuard] },
   { path: 'addpackagestype', component: AddPackagesTypeComponent, canActivate: [authGuard] },
   { path: 'searchgrn', component: SearchGrnNumberComponent, canActivate: [authGuard] },
+  { path: 'gnrnumber', component: FilterGrnComponent, canActivate: [authGuard] },
+
 
 
   { path: 'voucherslistoffline', component: VoucerOfflineListComponent, canActivate: [authGuard] },

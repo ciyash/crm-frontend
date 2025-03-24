@@ -3,3 +3,8 @@
     border-bottom: 1px solid #ccc;
   }
   
+
+
+::ng-deep .ss-main .ss-multi-selected .ss-values .ss-value {
+  background-color: #034F92 !important;
+}

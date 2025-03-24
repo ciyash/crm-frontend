@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BranchService } from 'src/app/service/branch.service';
 import { TokenService } from 'src/app/service/token.service';
 import { HeaderComponent } from "../../USER/header/header.component";
+
 @Component({
   selector: 'app-parcelbooking',
   templateUrl: './parcelbooking.component.html',
@@ -36,6 +37,10 @@ export class ParcelbookingComponent {
   errorMessage: string = '';
   userList: any[] = [];
   showDropdown:boolean=true;
+
+
+ 
+
   constructor(private fb: FormBuilder, private api: BranchService, private token:TokenService, private cdr: ChangeDetectorRef, private activate:ActivatedRoute, private router:Router) {
     this.form = this.fb.group({
       fromCity: [''],

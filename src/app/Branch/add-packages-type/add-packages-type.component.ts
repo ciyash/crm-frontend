@@ -55,6 +55,7 @@ export class AddPackagesTypeComponent {
         next: (response: any) => {
           console.log('Parcel loaded successfully:', response);
           this.messageService.add({ severity: 'success', summary: 'success', detail: 'Create Packages Type successfully' });
+          
           setTimeout(() => {
            this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
              this.router.navigate(['/addpackagestype']);
