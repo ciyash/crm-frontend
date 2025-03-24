@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
 
 const AUTH_API = 'https://cargo-backend-bpq4.onrender.com/'
@@ -11,7 +10,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class AuthService {
-  private jwtHelper = new JwtHelperService();
+
   constructor(private http:HttpClient) { }
 
   login(identifier: string, password: string): Observable<any> {
@@ -23,10 +22,6 @@ export class AuthService {
       },
       httpOptions
     );
-  }
-
-  decodeToken(token: string) {
-    return this.jwtHelper.decodeToken(token);
   }
 
   

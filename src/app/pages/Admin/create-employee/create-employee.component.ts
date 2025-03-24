@@ -36,11 +36,8 @@ export class CreateEmployeeComponent {
       this.api.GetEmployeesData().subscribe((res: any) => {
         console.log('empdata', res);
         this.edata = res.map((employee: any) => {
-          if (employee.token) {
-            const decoded = this.auth.decodeToken(employee.token);
-            employee.password = decoded.password || 'N/A';
-          }
-          employee.showPassword = false; // Initialize show/hide password
+         
+          employee.showPassword = false; // Initialize show/hide 
           return employee;
         });
         this.loading = false;

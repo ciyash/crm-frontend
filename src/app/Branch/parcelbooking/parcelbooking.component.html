@@ -88,7 +88,10 @@
                                 <td><input type="number" class="form-control form-select-sm" formControlName="unitPrice" (input)="calculateTotal(i)"></td>
                                 <td><input type="number" class="form-control form-select-sm" formControlName="totalPrice" readonly></td>
                                 <td>
+                                    <button type="button" class="btn btn-success btn-sm" (click)="addOrderItem()">Add +</button>
+
                                     <a class="text-danger" style="cursor: pointer;" (click)="removeBarcodeData(i)"> <i class="fa fa-trash"></i> </a>
+
                                 </td>
                             </tr>
                         </tbody>
@@ -97,6 +100,8 @@
             </div>
             <button type="button" class="btn btn-danger btn-sm" (click)="addOrderItem()">Add +</button>
             <tr style="font-size: small;">
+            <!-- <button type="button" class="btn btn-danger btn-sm" (click)="addOrderItem()">Add +</button> -->
+            <tr>
                 <th>GSt(+)</th>
                 <th>Service Charges(+)</th>
                 <th>Hamali Charges(+)</th>
@@ -197,9 +202,12 @@
 
 
 
-<div class="container mt-5">
-    <div class="row">
 
-    </div>
-</div>
+
+  
+  
+
+
+
+
 

@@ -1,26 +1,25 @@
-<div class="container" >
-    <div class="row">
-        <div class="col-lg-12">
-            <form class="row mb-3" (ngSubmit)="searchUser()">
-               <div class="row">
-                    <div class="col-md-3">
-                        <select class="form-select">
-                            <option selected>L.R No / GRN No</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <input required type="text" id="searchTerm" name="searchTerm" placeholder="Enter GRN Number"  class="form-control" [(ngModel)]="searchTerm" />
-
-                    </div>
-                    <div class="col-md-3">
-                        <button class="btn btn-secondary">Clear</button>
-                        <button class="btn btn-primary mx-4" type="submit">Load</button>
-                    </div>
-               </div>
-            </form>
-        </div>
-    </div>
+<div class="container d-flex justify-content-center">
+  <div class="col-lg-6">
+      <form class="row mt-4 text-center" (ngSubmit)="searchUser()">
+          <div class="row justify-content-center">
+              <div class="col-md-4 mb-2">
+                  <select class="form-select">
+                      <option selected>L.R No / GRN No</option>
+                  </select>
+              </div>
+              <div class="col-md-4 mb-2">
+                  <input required type="text" id="searchTerm" name="searchTerm" placeholder="Enter GRN Number"
+                      class="form-control" [(ngModel)]="searchTerm" />
+              </div>
+              <div class="col-md-4">
+                  <button type="button" class="btn btn-secondary me-2">Clear</button>
+                  <button class="btn btn-primary" type="submit">Load</button>
+              </div>
+          </div>
+      </form>
+  </div>
 </div>
+
 
  <!-- Search Results -->
  <div *ngIf="data2" class="mt-4">

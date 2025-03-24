@@ -38,6 +38,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { AddDispatchTypeComponent } from './pages/Admin/add-dispatch-type/add-dispatch-type.component';
 import { AddExtraChargesComponent } from './pages/Admin/add-extra-charges/add-extra-charges.component';
 import { BrachToBranchUnloadingComponent } from './Branch/brach-to-branch-unloading/brach-to-branch-unloading.component';
+import { FilterGrnComponent } from './Branch/filter-grn/filter-grn.component';
+
 
 
 
@@ -67,7 +69,8 @@ import { BrachToBranchUnloadingComponent } from './Branch/brach-to-branch-unload
     VoucerOfflineListComponent,
     AddDispatchTypeComponent,
     AddExtraChargesComponent,
-    BrachToBranchUnloadingComponent
+    BrachToBranchUnloadingComponent,
+    FilterGrnComponent
     
     
   ],

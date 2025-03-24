@@ -19,13 +19,16 @@ word-wrap: break-word">Parcel Loading Offline</h4>
               </div>
               
               <div class="col-md-4 col-sm-12">
-                <label class="form-label">From City</label>
-                <select class="form-select form-select-sm" formControlName="fromCity" (change)="onFromcitySelect($event)">
-                  <option value="" selected>Select City</option>
-                  <option *ngFor="let city of cities" [value]="city.cityName">{{ city.cityName }}</option>
-                </select>
-              </div>
-              
+                    <form >
+                      <label class="form-label">From City</label>
+                      <select #selectElem class="form-control select2" formControlName="fromCity" (change)="onFromcitySelect($event)">
+                        <option value="" selected>Select City</option>
+                        <option *ngFor="let city of cities" [value]="city.cityName">{{ city.cityName }}</option>
+                      </select>
+                    </form>
+                </div>
+                
+<!--               
               <div class="col-md-4 col-sm-12">
                 <label class="form-label">To City</label>
                 <div class="border rounded p-2" style="max-height: 150px; overflow-y: auto;"> 
@@ -37,7 +40,16 @@ word-wrap: break-word">Parcel Loading Offline</h4>
                     {{ city.cityName }}
                   </div>
                 </div>
-              </div>              
+              </div>               -->
+
+              <div class="col-md-4 col-sm-12">
+                <label class="form-label">To City</label>
+                  <select #demoSelect multiple class="form-control" formControlName="toCityArray">
+                    <option *ngFor="let city of cities" [value]="city.cityName">
+                      {{ city.cityName }}
+                    </option>
+                  </select>
+              </div>
               
               <div class="col-md-3 col-sm-12">
                 <label class="form-label">To Booking Date</label>
@@ -146,4 +158,12 @@ word-wrap: break-word">Parcel Loading Offline</h4>
     </form>
 </div>
 
+
+
+
+
+
+
+  
+  
 <app-parcel-loading-data></app-parcel-loading-data>
