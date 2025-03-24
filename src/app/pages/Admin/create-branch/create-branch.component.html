@@ -18,7 +18,10 @@
                 </div>
                 <div class="col-md-3 col-sm-12">
                     <label class="form-label">City</label>
-                    <input type="text" class="form-control form-select-sm " formControlName="city">
+                       <select class="form-select" formControlName="city">
+                        <option value="" selected>Select City</option>
+                        <option *ngFor="let branch of citydata" [value]="branch.cityName">{{ branch.cityName }}</option>
+                    </select>
                 </div>
                 <div class="col-md-3 col-sm-12">
                     <label class="form-label">Location</label>
@@ -52,7 +55,15 @@
                 </div>
                 <div class="col-md-3 col-sm-12">
                     <label class="form-label">State</label> 
-                    <input type="text" class="form-control form-select-sm " formControlName="state">
+                    <select class="form-select form-select-sm" formControlName="state">
+                        <option value="" selected> Select State </option>
+                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                        <option value="Telangana">Telangana</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Tamilnadu">Tamilnadu</option>
+                        <option value="Maharastra">Maharastra</option>
+                        <option value="Kerala">Kerala</option>
+                    </select>
                 </div>
                 
             </div>

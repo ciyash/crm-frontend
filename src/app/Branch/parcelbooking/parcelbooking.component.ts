@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BranchService } from 'src/app/service/branch.service';
 import { TokenService } from 'src/app/service/token.service';
 import { HeaderComponent } from "../../USER/header/header.component";
+import { AdminService } from 'src/app/service/admin.service';
 @Component({
   selector: 'app-parcelbooking',
   templateUrl: './parcelbooking.component.html',
@@ -36,7 +37,8 @@ export class ParcelbookingComponent {
   errorMessage: string = '';
   userList: any[] = [];
   showDropdown:boolean=true;
-  constructor(private fb: FormBuilder, private api: BranchService, private token:TokenService, private cdr: ChangeDetectorRef, private activate:ActivatedRoute, private router:Router) {
+  dptype:any;
+  constructor(private fb: FormBuilder, private api: BranchService, private token:TokenService, private cdr: ChangeDetectorRef, private activate:ActivatedRoute, private router:Router, private admin:AdminService) {
     this.form = this.fb.group({
       fromCity: [''],
       toCity: ['', Validators.required],
@@ -85,6 +87,11 @@ export class ParcelbookingComponent {
     this.api.GetPAckagesType().subscribe((res:any)=>{
       console.log(res);
       this.packdata=res;
+    });
+
+    this.admin.GetDispatchtypeData().subscribe((res:any)=>{
+      console.log(res);
+      this.dptype=res;
     });
 
     this.getProfileData();
@@ -221,10 +228,10 @@ onTocitySelect(event: any) {
     const hamaliCharges = this.form.get('hamaliCharges')?.value || 0;
     const doorDeliveryCharges = this.form.get('doorDeliveryCharges')?.value || 0;
     const doorPickupCharges = this.form.get('doorPickupCharges')?.value || 0;
-    const valueOfGoods = this.form.get('valueOfGoods')?.value || 0;
+    // const valueOfGoods = this.form.get('valueOfGoods')?.value || 0;
   
     // Calculate Grand Total
-    const grandTotal = totalValue + serviceCharges + hamaliCharges + doorDeliveryCharges + doorPickupCharges + valueOfGoods;
+    const grandTotal = totalValue + serviceCharges + hamaliCharges + doorDeliveryCharges + doorPickupCharges ;
   
     // Update Grand Total without triggering another event
     this.form.get('grandTotal')?.setValue(grandTotal, { emitEvent: false });

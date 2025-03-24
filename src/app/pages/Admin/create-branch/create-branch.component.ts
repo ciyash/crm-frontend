@@ -26,6 +26,7 @@ export class CreateBranchComponent {
       this.visible = true;
       this.repd=row;
   }
+  citydata:any;
   constructor(private fb:FormBuilder, private api:AdminService, private messageService:MessageService, private router:Router, private bapi:BranchService, private activeroute:ActivatedRoute){
       this.form = this.fb.group({
         name: ['', Validators.required],
@@ -62,6 +63,10 @@ export class CreateBranchComponent {
       console.log('branch',res);
       this.data=res;
       this.loading=false;
+    });
+    this.bapi.GetCities().subscribe((res:any)=>{
+      console.log('city',res);
+      this.citydata=res;
     })
 
   }

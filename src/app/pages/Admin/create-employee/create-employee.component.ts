@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { AdminService } from 'src/app/service/admin.service';
+import { AuthService } from 'src/app/service/auth.service';
 import { BranchService } from 'src/app/service/branch.service';
 
 @Component({
@@ -16,7 +17,7 @@ export class CreateEmployeeComponent {
     branchdata:any;
     edata:any;
     loading:boolean=true;
-    constructor(private fb:FormBuilder, private api:AdminService, private messageService:MessageService, private router:Router, private bapi:BranchService){
+    constructor(private fb:FormBuilder, private api:AdminService, private messageService:MessageService, private router:Router, private bapi:BranchService, private auth:AuthService){
         this.form = this.fb.group({
           name: ['', Validators.required],
           username: ['', Validators.required],
@@ -32,13 +33,21 @@ export class CreateEmployeeComponent {
   
     ngOnInit(){
       this.branchData();
-      this.api.GetEmployeesData().subscribe((res:any)=>{
-        console.log('empdata',res);
-        this.edata=res;
-        this.loading=false;
+      this.api.GetEmployeesData().subscribe((res: any) => {
+        console.log('empdata', res);
+        this.edata = res.map((employee: any) => {
+          if (employee.token) {
+            const decoded = this.auth.decodeToken(employee.token);
+            employee.password = decoded.password || 'N/A';
+          }
+          employee.showPassword = false; // Initialize show/hide password
+          return employee;
+        });
+        this.loading = false;
       });
     }
-    togglePassword(index: number): void {
+    
+    togglePassword(index: number) {
       this.edata[index].showPassword = !this.edata[index].showPassword;
     }
   

@@ -472,6 +472,65 @@ BranchtoBranchLoad(value: {
   );
 }
 
+//branch to branch unloading apis
+postBranchtobranchUnLoadingFilter(value: {
+  fromLoadingDate: string;
+  toLoadingDate: string;
+  fromBranch: string;
+  toBranch:string;
+}): Observable<any> {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+
+  return this.http.post(
+    AUTH_API + 'parcel-unloading/branch-to-branch-load',  
+    {
+      "fromLoadingDate": value.fromLoadingDate,  
+      "toLoadingDate": value.toLoadingDate,
+      "fromBranch": value.fromBranch,
+      "toBranch": value.toBranch,
+    },
+    httpOptions
+  );
+}
+
+BranchtobranchUnLoading(value: {
+  grnNo: string;
+  lrNumber: string;
+  fromDate: string;
+  toDate:string;
+  branch:string;
+  unloadBranch:string;
+  remarks:string;
+}): Observable<any> {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+
+  return this.http.post(
+    AUTH_API + 'parcel-unloading/branch-to-branch-post',  
+    {
+      "grnNo": value.grnNo,  
+      "lrNumber": value.lrNumber,
+      "fromDate": value.fromDate,
+      "toDate": value.toDate,
+      "branch":value.branch,
+      "unloadBranch":value.unloadBranch,
+      "remarks": value.remarks,
+    },
+    httpOptions
+  );
+}
+
 //packages type apis
 packageType(value:{
   name:string;
@@ -533,6 +592,48 @@ UpdatePackagestype(id: any, value: {
         AUTH_API + 'multi-router/package-types/'+id,
         httpOptions
       );
+    }
+
+    //Parcel Vouchers details
+    ParcelVouchersDetails(value: {
+      fromBookingDate: string;
+      toBookingDate: string;
+      vehicalNumber: string;
+      fromCity:string;
+      toCity:string;
+      fromBranch:string;
+    }): Observable<any> {
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1
+        })
+      };
+    
+      return this.http.post(
+        AUTH_API + 'parcel-loading/offline-parcel-voucher-details',  
+        {
+          "fromBookingDate": value.fromBookingDate,  
+          "toBookingDate": value.toBookingDate,
+          "vehicalNumber": value.vehicalNumber,
+          "fromCity": value.fromCity,
+          "toCity":value.toCity,
+          "fromBranch": value.fromBranch,
+        },
+        httpOptions
+      );
+    }
+
+    GetVouchersListData(id:any){
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1
+        })
+      }
+        return this.http.get<any>(AUTH_API + 'parcel-loading/vocherNoUnique/'+id, httpOptions);
     }
 
 

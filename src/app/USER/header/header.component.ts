@@ -60,11 +60,9 @@ export class HeaderComponent implements OnInit {
           icon: 'pi pi-fw pi-database',
           items: [
             { label: 'Profile', routerLink: ['/adminprofile'] },
-            {
-              label: 'Add City',
-              icon: 'pi pi-fw pi-user-edit',
-              routerLink: ['/createcity'],
-            },
+            { label: 'Add City', icon: 'pi pi-fw pi-user-edit', routerLink: ['/createcity'] },
+            { label: 'Add Dispatch Type', icon: 'pi pi-fw pi-user-edit', routerLink: ['/adddispatchtype']},
+            { label: 'Add Charges', icon: 'pi pi-fw pi-user-edit', routerLink: ['/addextracharges'] },
           ],
         },
       ];
@@ -98,9 +96,10 @@ export class HeaderComponent implements OnInit {
           items: [
             { label: 'Parcel Booking', routerLink: ['/booking'] },
             { label: 'Offline Loading', routerLink: ['/parcelloading'] },
-            { label: 'Branch to Branch Loading', routerLink: ['/booking'] },
-            { label: 'Booking Report', routerLink: ['/bookingreport'] },
             { label: 'Parcel Unloading', routerLink: ['/parcelunloading'] },
+            { label: 'Branch to Branch Loading', routerLink: ['/parcel-branch'] },
+            { label: 'Booking Report', routerLink: ['/bookingreport'] },
+            { label: 'Branch to Branch Unloading', routerLink: ['/barnchtobranchunloading'] },
             { label: 'Vouchers List Offline', routerLink: ['/voucherslistoffline'] },
           ],
         },

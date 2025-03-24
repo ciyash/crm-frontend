@@ -1,0 +1,124 @@
+<app-header></app-header>
+<div class="mb-5">
+
+</div>
+<form [formGroup]="form">
+    <div class="container card pb-5 mb-5">
+            <div class="row pt-3 d-flex justify-content-center">
+                <h4 class="text-center  " style="color: #3C3C3C">Create Extra Charges</h4>
+                <div class="col-md-3 col-sm-12">
+                    <label class="form-label">From City </label>
+                    <select class="form-select form-select-sm"  formControlName="fromCity" >
+                        <option value="" selected>Select City</option>
+                        <option *ngFor="let row2 of citydata" value="{{row2.cityName}}"> {{row2.cityName}} </option>
+                    </select>
+                </div>
+                <div class="col-md-3 col-sm-12">
+                    <label class="form-label">To City </label>
+                    <select class="form-select form-select-sm"  formControlName="toCity" >
+                        <option value="" selected>Select City</option>
+                        <option *ngFor="let row of citydata" value="{{row.cityName}}"> {{row.cityName}} </option>
+                    </select>
+                </div>
+                <div class="col-md-3 col-sm-12">
+                    <label class="form-label"> Service Charges</label>
+                    <input type="text" class="form-control form-select-sm " formControlName="serviceCharge">
+                </div>
+                <div class="col-md-3 col-sm-12">
+                    <label class="form-label"> Loading Charges</label>
+                    <input type="text" class="form-control form-select-sm " formControlName="loadingCharge">
+                </div>
+                <div class="col-md-3 col-sm-12">
+                    <label class="form-label"> Cartage Charges</label>
+                    <input type="text" class="form-control form-select-sm " formControlName="cartageCharge">
+                </div>
+                <div class="col-md-3 col-sm-12">
+                    <button class="btn btn-primary btn-sm  " type="button"
+                            style=" width: 10rem; margin-top: 1.9rem;" (click)="Add()" [disabled]="!form.valid">Submit</button>
+                </div>
+            </div>
+        </div>
+</form>
+
+
+<div class="container mt-5 " >
+    <div class="row">
+        <div class="table-responsive">
+            <div *ngIf="loading" class="text-center">
+                <img src="assets/loading.gif" alt=""  style="height:40px;">
+                <p class="text-danger text-center">Please Wait ....</p>
+            </div>
+                <table class="table" *ngIf="!loading">
+                    <thead>
+                        <th>S.no</th>
+                        <th>From City</th>
+                        <th>To City</th>
+                        <th>Service Charges</th>
+                        <th>Loading Charges</th>
+                        <th>Cartage Charges </th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of data; let i=index">
+                            <td>{{i + 1}}</td>
+                            <td> {{row.fromCity}} </td>
+                            <td> {{row.toCity}} </td>
+                            <td> {{row.serviceCharge}} </td>
+                            <td> {{row.loadingCharge}} </td>
+                            <td> {{row.cartageCharge}} </td>
+                            <td> <a class="text-primary p-2" (click)="showDialog(row)" style="cursor: pointer;">  <i class="fa fa-edit"></i> </a> <a class="text-danger" (click)="Delete(row._id)" style="cursor: pointer;"> <i class="fa fa-trash"></i> </a> </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="" [(visible)]="visible" [modal]="true" [style]="{ width: '100vw' }" [draggable]="false" [resizable]="false" style="background-color: aliceblue;">
+    <div class="card m-5 p-5" *ngIf="repd">
+             <span class="text-primary">{{repd.fromCity}}</span>  
+               <form [formGroup]="form1" >
+                <div class="container card pb-5 mb-5">
+                    <div class="row pt-3 d-flex justify-content-center">
+                        <h4 class="text-center  " style="color: #3C3C3C">Create Extra Charges</h4>
+                        <div class="col-md-3 col-sm-12">
+                            <label class="form-label">From City </label>
+                            <select class="form-select form-select-sm"  formControlName="fromCity" >
+                                <option value=""> {{repd.fromCity}} </option>
+                                <option *ngFor="let row2 of citydata" value="{{row2.cityName}}"> {{row2.cityName}} </option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                            <label class="form-label">To City </label>
+                            <select class="form-select form-select-sm"  formControlName="toCity" >
+                                <option value=""> {{repd.toCity}} </option>
+                                <option *ngFor="let row of citydata" value="{{row.cityName}}"> {{row.cityName}} </option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                            <label class="form-label"> Service Charges</label>
+                            <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.serviceCharge" formControlName="serviceCharge">
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                            <label class="form-label"> Loading Charges</label>
+                            <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.loadingCharge" formControlName="loadingCharge">
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                            <label class="form-label"> Cartage Charges</label>
+                            <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.cartageCharge" formControlName="cartageCharge">
+                        </div>
+                        <div class="col-12 md:col-12 text-center mt-3">
+                            <button pButton type="button" class="btn btn-sm btn-success" (click)="edit(repd?._id)">Submit</button>
+                        </div>
+                    </div>
+                </div>
+     
+                    
+            </form>
+        </div>
+</p-dialog>
+
+
+<app-footer></app-footer>
+

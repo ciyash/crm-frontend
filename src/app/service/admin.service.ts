@@ -334,6 +334,7 @@ export class AdminService {
       );
     }
 
+    //city name apis
     createCityname(value: {
       cityName: string;
       state: string;
@@ -390,8 +391,154 @@ export class AdminService {
         httpOptions
       );
     }
-    
 
+    //add dispatch type
+    createdispatch(value: {
+      name: string;
+    }) {
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1 // ✅ Added space after 'Bearer'
+        })
+      };
+    
+      return this.http.post(
+        AUTH_API + 'multi-router/dispatch-types',  
+        { 
+          "name": value.name,
+        },
+        httpOptions 
+      );
+    }
+
+    GetDispatchtypeData(){
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1
+        })
+      }
+        return this.http.get(AUTH_API + 'multi-router/dispatch-types', httpOptions);
+    }
+
+    Updatedispatch(id: any, value: {
+      name: string;
+    }) {
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1
+        })
+      };
+      return this.http.patch(
+        AUTH_API + 'multi-router/dispatch-types/' + id,
+        {
+          "name": value.name,
+      },
+        httpOptions
+      );
+    }
+
+    Deletedispatch(id:any){
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1
+        })
+      }
+      return this.http.delete(
+        AUTH_API + 'multi-router/dispatch-types/'+id,
+        httpOptions
+      );
+    }
+    
+    //add extra charges
+    creatextracharges(value: {
+      fromCity: string;
+      toCity:string;
+      serviceCharge:string;
+      loadingCharge:string;
+      cartageCharge:string;
+    }) {
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1 // ✅ Added space after 'Bearer'
+        })
+      };
+    
+      return this.http.post(
+        AUTH_API + 'extra-charge',  
+        { 
+          "fromCity": value.fromCity,
+          "toCity": value.toCity,
+          "serviceCharge": value.serviceCharge,
+          "loadingCharge": value.loadingCharge,
+          "cartageCharge": value.cartageCharge,
+        },
+        httpOptions 
+      );
+    }
+
+    GetextrachargesData(){
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1
+        })
+      }
+        return this.http.get(AUTH_API + 'extra-charge', httpOptions);
+    }
+
+    Updateextracharges(id: any, value: {
+      fromCity: string;
+      toCity:string;
+      serviceCharge:string;
+      loadingCharge:string;
+      cartageCharge:string;
+    }) {
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1
+        })
+      };
+      return this.http.patch(
+        AUTH_API + 'extra-charge/' + id,
+        {
+          "fromCity": value.fromCity,
+          "toCity": value.toCity,
+          "serviceCharge": value.serviceCharge,
+          "loadingCharge": value.loadingCharge,
+          "cartageCharge": value.cartageCharge,
+      },
+        httpOptions
+      );
+    }
+
+    Deletecharges(id:any){
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1
+        })
+      }
+      return this.http.delete(
+        AUTH_API + 'extra-charge/'+id,
+        httpOptions
+      );
+    }
+
+//Employees Apis
     GetEmployeesData(){
       const token1 = this.token.getToken();
       const httpOptions = {

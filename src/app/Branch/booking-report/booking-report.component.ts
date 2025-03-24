@@ -34,12 +34,13 @@ export class BookingReportComponent {
   }
 
   getbookingData(){
-    this.api.GetBookings().subscribe((res)=>{
+    this.api.GetBookings().subscribe((res:any) => {
       console.log(res);
-      this.data1=res;
-      this.loading=false;
-    })
+      this.data1 = res.data;  
+      this.loading = false;
+    });
   }
+  
 
   orderinvoice(id:any){
     this.router.navigate(['/printgrn/'+id]);
@@ -50,11 +51,13 @@ export class BookingReportComponent {
     const rows = event.rows;    
     const page = Math.floor(first / rows) + 1; 
     const perPage = rows;  
+  
     this.api.BookingsPage(page, perPage).subscribe((res: any) => {
       console.log(res);
-      this.data1 = res; 
+      this.data1 = res;  // Assign only the array
       this.totalBookings = res.count; 
     });
   }
+  
 
 }

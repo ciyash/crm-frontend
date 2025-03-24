@@ -16,6 +16,7 @@ export class ParcelBranchComponent implements OnInit {
   form1:FormGroup;
   LoadSuccess: boolean = false;
   allSelected: boolean = false;
+  pdata:any;
   constructor(private api: BranchService, private fb: FormBuilder, private router:Router) {
     this.form = this.fb.group({
       fromBookingDate: ['', Validators.required],
@@ -48,6 +49,10 @@ export class ParcelBranchComponent implements OnInit {
     this.api.VehicleData().subscribe((res:any)=>{
         console.log('vdata',res);
         this.vdata=res;
+    });
+    this.api.GetProfileData().subscribe((res:any)=>{
+      console.log('profile',res);
+      this.pdata=res.branchId;
     })
   }
 

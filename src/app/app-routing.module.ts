@@ -20,6 +20,9 @@ import { CreateCitynameComponent } from './pages/Admin/create-cityname/create-ci
 import { AddPackagesTypeComponent } from './Branch/add-packages-type/add-packages-type.component';
 import { SearchGrnNumberComponent } from './Branch/Widgets/search-grn-number/search-grn-number.component';
 import { VoucerOfflineListComponent } from './Branch/voucer-offline-list/voucer-offline-list.component';
+import { AddDispatchTypeComponent } from './pages/Admin/add-dispatch-type/add-dispatch-type.component';
+import { AddExtraChargesComponent } from './pages/Admin/add-extra-charges/add-extra-charges.component';
+import { BrachToBranchUnloadingComponent } from './Branch/brach-to-branch-unloading/brach-to-branch-unloading.component';
 
 
 const routes: Routes = [
@@ -37,6 +40,7 @@ const routes: Routes = [
   {path:'parcelonloadingdata',component:ParcelOnLoadingDataComponent, canActivate: [authGuard]},
   { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
   { path: 'parcel-branch', component: ParcelBranchComponent, canActivate: [authGuard] },
+  { path: 'barnchtobranchunloading', component: BrachToBranchUnloadingComponent, canActivate: [authGuard] },
   { path: 'addpackagestype', component: AddPackagesTypeComponent, canActivate: [authGuard] },
   { path: 'searchgrn', component: SearchGrnNumberComponent, canActivate: [authGuard] },
 
@@ -49,6 +53,8 @@ const routes: Routes = [
   { path: 'adminprofile', component: AdminProfileComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   { path: 'createvehicle', component: CreateVehicleComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   { path: 'createcity', component: CreateCitynameComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
+  { path: 'adddispatchtype', component: AddDispatchTypeComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
+  { path: 'addextracharges', component: AddExtraChargesComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   
 ];
 

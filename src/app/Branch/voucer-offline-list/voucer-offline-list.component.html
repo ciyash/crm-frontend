@@ -1,8 +1,88 @@
 <app-header></app-header>
 
-<h4 class="text-center mb-4 pt-5 mt-4" style="color: #3C3C3C;
-font-size: 20px;
-font-family: Poppins;
-font-weight: 500;
-text-decoration: underline;
-word-wrap: break-word">Offline Parcel Voucher Details</h4>
+<div class="container mt-5 pt-5 pb-5">
+    <h5 class="text-center fw-bold text-danger"><u>Offline Parcel Voucher Details</u></h5>
+    <div class="border rounded p-4" style="margin-top: 2rem;">
+        <form [formGroup]="form">
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label class="form-label">From Booking Date</label>
+                    <input type="date" class="form-control" formControlName="fromBookingDate">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">To Booking Date</label>
+                    <input type="date" class="form-control" formControlName="toBookingDate">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">From City </label>
+                    <select class="form-select form-select-sm"  formControlName="fromCity" (change)="onFromcitySelect($event)" >
+                        <option value="" selected>Select City</option>
+                        <option *ngFor="let row2 of citydata" value="{{row2.cityName}}"> {{row2.cityName}} </option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">From City </label>
+                    <select class="form-select form-select-sm"  formControlName="toCity" >
+                        <option value="" selected>Select City</option>
+                        <option *ngFor="let row1 of citydata" value="{{row1.cityName}}"> {{row1.cityName}} </option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">From Branch</label>
+                    <select class="form-select" formControlName="fromBranch">
+                        <option value="" selected>Select Branch</option>
+                        <option *ngFor="let branch of cbdata" [value]="branch.branchUniqueId">{{ branch.name }}</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Vehicles</label>
+                    <select class="form-select" formControlName="vehicalNumber">
+                        <option value="" selected>Select Branch</option>
+                        <option *ngFor="let vvda of vdata" [value]="vvda.vehicleNo">{{ vvda.vehicleNo }}</option>
+                    </select>
+                </div>             
+                <div class="col-md-2 mt-2 d-flex align-items-end text-center">
+                    <button type="button" class="btn btn-success w-100" (click)="VoucherLoad()">Load</button>
+                </div>
+            </div>
+        </form>
+     
+
+            <div class="table-responsive mt-4" *ngIf="data">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>S.No</th>
+                      <th>Voucher No</th>
+                      <th>From City</th>
+                      <th>To city</th>
+                      <th>Generate Date</th>
+                      <th>Bus No</th>
+                      <th>Total Parcel</th>
+                      <th>Total Qty</th>
+                      <th>Total Charges</th>
+                      <th>Print</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of data.parcels; let i=index">
+                    <td>{{ i+1 }}</td>
+                    <td (click)="getvouchersdata(row.vocherNoUnique)"> {{row.vocherNoUnique}} </td>
+                      <td>{{ row.fromCity }}</td>
+                      <td>{{ row.toCity }}</td>
+                      <td>{{ row.toBookingDate | date:'dd/MMM/YYYY'}}</td>
+                      <td>{{ row.vehicalNumber }}</td>
+                      <td> {{row.parcelPackages}} </td>
+                      <td>{{ row.grnNo.length }}</td>
+                      <td> {{row.parcelCharge}} </td>
+                      <td> Print </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            
+            
+        </div>
+
+</div>

@@ -35,6 +35,9 @@ import { CreateCitynameComponent } from './pages/Admin/create-cityname/create-ci
 import { AddPackagesTypeComponent } from './Branch/add-packages-type/add-packages-type.component';
 import { VoucerOfflineListComponent } from './Branch/voucer-offline-list/voucer-offline-list.component';
 import { ToastrModule } from 'ngx-toastr';
+import { AddDispatchTypeComponent } from './pages/Admin/add-dispatch-type/add-dispatch-type.component';
+import { AddExtraChargesComponent } from './pages/Admin/add-extra-charges/add-extra-charges.component';
+import { BrachToBranchUnloadingComponent } from './Branch/brach-to-branch-unloading/brach-to-branch-unloading.component';
 
 
 
@@ -61,7 +64,10 @@ import { ToastrModule } from 'ngx-toastr';
     CreateVehicleComponent,
     CreateCitynameComponent,
     AddPackagesTypeComponent,
-    VoucerOfflineListComponent
+    VoucerOfflineListComponent,
+    AddDispatchTypeComponent,
+    AddExtraChargesComponent,
+    BrachToBranchUnloadingComponent
     
     
   ],
