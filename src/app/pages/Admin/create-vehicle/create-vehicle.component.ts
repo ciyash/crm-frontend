@@ -26,8 +26,7 @@ export class CreateVehicleComponent {
           this.visible = true;
           this.repd=row;
       }
-      constructor(private fb:FormBuilder, private api:AdminService,
-         private messageService:MessageService, private router:Router, private bapi:BranchService ,private toastr:ToastrService){
+      constructor(private fb:FormBuilder, private api:AdminService, private router:Router, private bapi:BranchService ,private toastr:ToastrService){
           this.form = this.fb.group({
             vehicleNo: ['', Validators.required],
             vehicleType: ['', Validators.required],
@@ -92,7 +91,6 @@ export class CreateVehicleComponent {
         this.api.createVehicle(payload).subscribe({
           next: (response: any) => {
             console.log('Parcel loaded successfully:', response);
-            this.messageService.add({ severity: 'success', summary: 'success', detail: 'Create Vehicle successfully' });
             this.toastr.success('Profile Successfully Updated ', 'Success');
 
             setTimeout(() => {
@@ -128,7 +126,6 @@ export class CreateVehicleComponent {
             (a: any) => {
               if (a?.data) {
                 console.log(a);
-                this.messageService.add({ severity: 'success', summary: 'success', detail: 'Vehicle Update Successfully' });
                
               } else {
                 console.log(a);
@@ -142,7 +139,6 @@ export class CreateVehicleComponent {
               }
             },
             (err: any) => {
-              this.messageService.add({ severity: 'error', summary: 'error', detail: 'Vehicle not added' });
               this.errorsMessage = err.error.message;
             },
           );
@@ -156,7 +152,6 @@ export class CreateVehicleComponent {
           (a: any) => {
             if (a) {
               console.log('deletedid',a);
-              this.messageService.add({ severity: 'success', summary: 'success', detail: 'Delete Vehicle Type Successfully' });
               setTimeout(() => {
                 this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
                   this.router.navigate(['/createvehicle']);
@@ -169,7 +164,6 @@ export class CreateVehicleComponent {
             }
           },
           (err: any) => {
-            this.messageService.add({ severity: 'error', summary: 'error', detail: 'Delete Vehicle Type Somthing wrong' });
           },
         );
       return false;
