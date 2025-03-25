@@ -8,7 +8,9 @@ import { HeaderComponent } from "../../USER/header/header.component";
 import { AdminService } from 'src/app/service/admin.service';
 import { ToastrService } from 'ngx-toastr';
 declare var $: any;
+declare const SlimSelect: any; 
 import {  ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+
 
 
 @Component({
@@ -44,22 +46,40 @@ export class ParcelbookingComponent {
   showDropdown:boolean=true;
   dptype:any;
   @ViewChild('selectElem') selectElem!: ElementRef;
-  @ViewChild('demoSelect') demoSelect!: ElementRef;
+  cdata: any;
+  grnNo: any;
+
+  // @ViewChild('demoSelect') demoSelect!: ElementRef;
+  // ngAfterViewInit(): void {
+  //   new SlimSelect({
+  //     select: this.demoSelect.nativeElement
+  //   });
+
+  //   setTimeout(() => {
+  //     $(this.selectElem.nativeElement).select2(); 
+  //   }, 0);
+  //   setTimeout(() => {
+  //     $(this.selectElem2.nativeElement).select2(); 
+  //   }, 0);
+  //   setTimeout(() => {
+  //     $(this.bookingtype.nativeElement).select2(); 
+  //   }, 0);
+  //   setTimeout(() => {
+  //     $(this.droupbranch.nativeElement).select2(); 
+  //   }, 0);
+  //   setTimeout(() => {
+  //     $(this.pickupbranch.nativeElement).select2(); 
+  //   }, 0);
+  //   setTimeout(() => {
+  //     $(this.dispatchtype.nativeElement).select2(); 
+  //   }, 0);
+  
+  // }
 
 
-
-  ngAfterViewInit(): void {
-    // new SlimSelect({
-    //   select: this.demoSelect.nativeElement
-    // });
-
-    setTimeout(() => {
-      $(this.selectElem.nativeElement).select2(); 
-    }, 0);
-  }
 
   constructor(private fb: FormBuilder, private api: BranchService, private token:TokenService,
-     private cdr: ChangeDetectorRef, private activate:ActivatedRoute,private toastr:ToastrService, 
+     private cdr: ChangeDetectorRef,  private route: ActivatedRoute,private toastr:ToastrService, 
      private router:Router, private admin:AdminService) {
     this.form = this.fb.group({
       fromCity: [''],
@@ -96,14 +116,24 @@ export class ParcelbookingComponent {
     // const id = this.activate.snapshot.paramMap.get('id');
   
     // get city's
+    this.route.paramMap.subscribe(params => {
+      this.grnNo = params.get('grnNo') || '';
+      console.log('Retrieved grnNo:', this.grnNo);
+    });
+  
+  
+
+
     this.api.GetCities().subscribe((res:any)=>{
       console.log('citys',res);
       this.citydata=res;
+      console.log(this.citydata,"ldjknzjdfnsdnfsidfnsidjf")
     });
     //get branches
     this.api.GetBranch().subscribe((res:any)=>{
       console.log(res);
       this.branchdata=res;
+      
     });
     //get Packages
     this.api.GetPAckagesType().subscribe((res:any)=>{
@@ -121,6 +151,25 @@ export class ParcelbookingComponent {
 
   }
 
+  
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      $(this.selectElem.nativeElement).select2();
+
+      $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
+        const selectedCity = event.params.data.id;  // Gets selected value
+        console.log('Selected City:', selectedCity);
+
+        this.form.patchValue({ fromCity: selectedCity });  // ✅ Manually update the form
+        console.log('Updated form value:', this.form.value);
+
+        this.onFromcitySelect({ target: { value: selectedCity } });  // Trigger API call
+      });
+    }, 0);
+  }
+ 
+  
+    
 getProfileData(){
   this.api.GetProfileData().subscribe((res:any)=>{
     console.log('profile',res);
@@ -160,6 +209,7 @@ fetchServiceCharges() {
 }
 
 
+
 onFromcitySelect(event: any) {
   const cityName = event.target.value;
   if (cityName) {
@@ -167,7 +217,7 @@ onFromcitySelect(event: any) {
       (res: any) => {
         console.log('Branches for selected city:', res);
         this.pdata = res;
-        this.fetchServiceCharges(); // Fetch service charges
+        this.fetchServiceCharges();
       },
       (error: any) => {
         console.error('Error fetching branches:', error);
@@ -178,14 +228,19 @@ onFromcitySelect(event: any) {
   }
 }
 
+
 onTocitySelect(event: any) {
+  console.log('Event triggered:', event);
+  console.log('Selected City:', event.target.value);
   const cityName = event.target.value;
   if (cityName) {
     this.api.GetBranchbyCity(cityName).subscribe(
       (res: any) => {
         console.log('Branches for selected city:', res);
+
         this.tbcdata = res;
         this.fetchServiceCharges(); // Fetch service charges
+       
       },
       (error: any) => {
         console.error('Error fetching branches:', error);
@@ -194,6 +249,7 @@ onTocitySelect(event: any) {
   } else {
     this.tbcdata = [];
   }
+  
 }
 
 
@@ -258,11 +314,77 @@ onTocitySelect(event: any) {
   }
   
 
+  // add() {
+  //   console.log(this.form.value);
+  
+  //   if (this.form.valid) {
+  //     // Extract package data from form
+  //     const orderDataToSend = this.packages.value.map((item: any) => ({
+  //       quantity: item.quantity,
+  //       packageType: item.packageType,
+  //       contains: item.contains,
+  //       weight: item.weight,
+  //       unitPrice: item.unitPrice,
+  //       totalPrice: item.totalPrice
+  //     }));
+  
+  //     const val: any = {
+  //       fromCity: this.form.value.fromCity,
+  //       toCity: this.form.value.toCity,
+  //       pickUpBranch: this.form.value.pickUpBranch,
+  //       dropBranch: this.form.value.dropBranch,
+  //       dispatchType: this.form.value.dispatchType,
+  //       bookingType: this.form.value.bookingType,
+  //       senderName: this.form.value.senderName,
+  //       senderMobile: this.form.value.senderMobile,
+  //       senderAddress: this.form.value.senderAddress,
+  //       senderGst: this.form.value.senderGST,
+  //       receiverName: this.form.value.receiverName,
+  //       receiverMobile: this.form.value.receiverMobile,
+  //       receiverAddress: this.form.value.receiverAddress,
+  //       receiverGst: this.form.value.receiverGST,
+  //       packages: orderDataToSend,
+  //       serviceCharges: this.form.value.serviceCharges,
+  //     hamaliCharges: this.form.value.hamaliCharges,
+  //     doorDeliveryCharges: this.form.value.doorDeliveryCharges,
+  //     doorPickupCharges: this.form.value.doorPickupCharges,
+  //     valueOfGoods: this.form.value.valueOfGoods,
+  //     grandTotal: this.form.value.grandTotal
+  //     };
+  
+  //     console.log('Final data to submit:', val);
+  
+  //     // ✅ Call API to save data
+  //     this.api.createBooking(val).subscribe(
+  //       (response: any) => {
+  //         console.log('Parcel saved successfully', response);
+  //         // this.toastr.success('Parcel Booked Successfully', 'Success');
+  //         this.form.reset();
+  //         this.gdata=response;
+  //         console.log(this.gdata,"gdata")
+  //         // ✅ Redirect to print page using grnNo
+  //         this.toastr.success('Parcel Booked Successfully ', 'Success');
+
+  //         if (this.gdata && this.gdata.grnNo) {
+  //           this.router.navigate(['/printgrn', this.gdata.grnNo]);  // ✅ Correctly passing grnNo
+  //         } else {
+  //           console.error('grnNo is missing. Navigation aborted.');
+  //         }
+
+  //       },
+  //       (error) => {
+  //         console.error('Error saving order', error);
+  //         this.toastr.error('Failed to Booked the parcel. Please try again.', 'Error');
+
+  //       }
+  //     );
+  //   }
+  // }
+
   add() {
     console.log(this.form.value);
   
     if (this.form.valid) {
-      // Extract package data from form
       const orderDataToSend = this.packages.value.map((item: any) => ({
         quantity: item.quantity,
         packageType: item.packageType,
@@ -289,11 +411,11 @@ onTocitySelect(event: any) {
         receiverGst: this.form.value.receiverGST,
         packages: orderDataToSend,
         serviceCharges: this.form.value.serviceCharges,
-      hamaliCharges: this.form.value.hamaliCharges,
-      doorDeliveryCharges: this.form.value.doorDeliveryCharges,
-      doorPickupCharges: this.form.value.doorPickupCharges,
-      valueOfGoods: this.form.value.valueOfGoods,
-      grandTotal: this.form.value.grandTotal
+        hamaliCharges: this.form.value.hamaliCharges,
+        doorDeliveryCharges: this.form.value.doorDeliveryCharges,
+        doorPickupCharges: this.form.value.doorPickupCharges,
+        valueOfGoods: this.form.value.valueOfGoods,
+        grandTotal: this.form.value.grandTotal
       };
   
       console.log('Final data to submit:', val);
@@ -301,28 +423,32 @@ onTocitySelect(event: any) {
       // ✅ Call API to save data
       this.api.createBooking(val).subscribe(
         (response: any) => {
-          console.log('Parcel saved successfully', response);
+          console.log('Parcel saved successfully:', response);
+  
+          if (response && response.grnNo) {
+            this.gdata = response; // ✅ Assign response to gdata
+            console.log('GRN Data:', this.gdata);
+  
+            this.toastr.success('Parcel Booked Successfully', 'Success');
+  
+            // ✅ Redirect to print page using grnNo
+            console.log('API Response:', response);
 
-          this.bookingSuccess = true;
-          this.form.reset();
-          this.gdata=response;
-          // ✅ Redirect to print page using grnNo
-          this.toastr.success('Parcel Booked Successfully ', 'Success');
 
-          if (this.gdata.grnNo) {
             this.router.navigate(['/printgrn', this.gdata.grnNo]);
+          } else {
+            console.error('Error: grnNo not found in response.');
+            this.toastr.error('Booking successful, but grnNo is missing.', 'Warning');
           }
-
         },
         (error) => {
-          console.error('Error saving order', error);
-          this.toastr.error('Failed to Booked the parcel. Please try again.', 'Error');
-
+          console.error('Error saving order:', error);
+          this.toastr.error('Failed to book the parcel. Please try again.', 'Error');
         }
       );
     }
   }
-
+  
   searchUser(): void {
     if (this.searchTerm && this.searchTerm.trim() !== '') {
       this.api.searchUser(this.searchTerm.trim()).subscribe(

@@ -30,7 +30,7 @@ export class BranchService {
     const apiUrl = `${this.baseUrl}/${endpoint}`;
     return this.http.post(apiUrl, data);
   }
-
+//
   GetProfileData(){
     const token1 = this.token.getToken();
     const httpOptions = {
@@ -69,16 +69,17 @@ export class BranchService {
       return this.http.get(AUTH_API + 'branch', httpOptions);
   }
 
-  GetBranchbyCity(cityName: any) {
-    const token1 = this.token.getToken();
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token1
-      })
-    };
-    return this.http.get(AUTH_API + 'branch/city/' + encodeURIComponent(cityName), httpOptions);
-  }
+    GetBranchbyCity(cityName: any) {
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1
+        })
+      };
+      return this.http.get(AUTH_API + 'branch/city/' + encodeURIComponent(cityName), httpOptions);
+      
+    }
   
 
   FilterBookingServiceCharges(value: { fromCity: string; toCity: string }) {

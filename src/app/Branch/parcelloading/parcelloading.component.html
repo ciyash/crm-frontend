@@ -19,13 +19,11 @@ word-wrap: break-word">Parcel Loading Offline</h4>
               </div>
               
               <div class="col-md-4 col-sm-12">
-                    <form >
                       <label class="form-label">From City</label>
                       <select #selectElem class="form-control select2" formControlName="fromCity" (change)="onFromcitySelect($event)">
                         <option value="" selected>Select City</option>
                         <option *ngFor="let city of cities" [value]="city.cityName">{{ city.cityName }}</option>
                       </select>
-                    </form>
                 </div>
                 
               <div class="col-md-4 col-sm-12">
@@ -40,6 +38,7 @@ word-wrap: break-word">Parcel Loading Offline</h4>
               <div class="col-md-3 col-sm-12">
                 <label class="form-label">To Booking Date</label>
                 <input type="date" class="form-control form-control-sm" formControlName="endDate">
+                
               </div>
               
               <div class="col-md-3 col-sm-12">
