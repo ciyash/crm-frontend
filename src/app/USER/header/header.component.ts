@@ -98,7 +98,7 @@ export class HeaderComponent implements OnInit {
             { label: 'Offline Loading', routerLink: ['/parcelloading'] },
             { label: 'Parcel Unloading', routerLink: ['/parcelunloading'] },
             { label: 'Branch to Branch Loading', routerLink: ['/parcel-branch'] },
-            { label: 'Booking Report', routerLink: ['/bookingreport'] },
+            { label: 'Parcel Status', routerLink: ['/gnrnumberstatus'] },
             { label: 'Branch to Branch Unloading', routerLink: ['/barnchtobranchunloading'] },
             { label: 'Vouchers List Offline', routerLink: ['/voucherslistoffline'] },
           ],
@@ -109,9 +109,11 @@ export class HeaderComponent implements OnInit {
           routerLink: ['/booking'],
         },
         {
-          label: 'Parcel Report',
-          icon: 'pi pi-fw pi-file',
-          routerLink: ['/booking'],
+          label: 'Bookings',
+          icon: 'pi pi-fw pi-database',
+          items: [
+            { label: 'Booking Report', routerLink: ['/bookingreport'] },
+          ],
         },
         { label: 'Others', icon: 'pi pi-fw pi-file', routerLink: ['/booking'] },
       ];

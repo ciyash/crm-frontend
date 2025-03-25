@@ -36,6 +36,7 @@
           <th>Sender</th>
           <th>Receiver</th>
           <th>Charges</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -49,6 +50,7 @@
           <td> {{user.senderName}} <br> {{user.senderMobile}} </td>
           <td> {{user.receiverName}} <br> {{user.receiverMobile}} </td>
           <td> {{user.grandTotal}} </td>
+          <td style="cursor: pointer;" (click)="updateParcelStatus(user.grnNo)">Received</td>
         </tr>
       </tbody>
     </table>

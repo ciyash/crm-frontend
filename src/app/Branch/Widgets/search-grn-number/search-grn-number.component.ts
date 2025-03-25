@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BranchService } from 'src/app/service/branch.service';
 
 @Component({
@@ -14,12 +15,39 @@ export class SearchGrnNumberComponent {
   idselectmsg: string = '';
   regname: any[] = [];
   errorMessage: string = '';
-  constructor(private api:BranchService, private activeroute:ActivatedRoute){}
-
-  ngOnInit(): void {
-    this.searchTerm = this.activeroute.snapshot.params['grnNumber'];
+  updata:any;
+  form:FormGroup;
+  constructor(private api:BranchService, private activeroute:ActivatedRoute, private fb:FormBuilder, private router:Router){
+     this.form = this.fb.group({
+            grnNo: ['', Validators.required],
+              });
   }
 
+  ngOnInit(): void {
+    this.searchTerm = this.activeroute.snapshot.params['grnNo'];
+  }
+
+  updateParcelStatus(grnNo: string) {
+    const payload = {
+      grnNo: grnNo, 
+    };
+  
+    console.log('Final Payload:', payload);
+    this.api.ReceivedParcelUpdate(payload).subscribe(
+      (res: any) => {
+        console.log('Update Status:', res);
+        this.updata = res;
+        setTimeout(() => {
+          this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+            this.router.navigate(['/booking']);
+          });
+        }, 500);
+      },
+      (error) => {
+        console.error('Error updating status:', error);
+      }
+    );
+  }
   
   searchUser(): void {
     if (this.searchTerm && this.searchTerm.trim() !== '') {

@@ -24,6 +24,7 @@ import { AddDispatchTypeComponent } from './pages/Admin/add-dispatch-type/add-di
 import { AddExtraChargesComponent } from './pages/Admin/add-extra-charges/add-extra-charges.component';
 import { BrachToBranchUnloadingComponent } from './Branch/brach-to-branch-unloading/brach-to-branch-unloading.component';
 import { FilterGrnComponent } from './Branch/filter-grn/filter-grn.component';
+import { PrintVoucherslistDataComponent } from './Branch/print-voucherslist-data/print-voucherslist-data.component';
 
 
 const routes: Routes = [
@@ -44,7 +45,8 @@ const routes: Routes = [
   { path: 'barnchtobranchunloading', component: BrachToBranchUnloadingComponent, canActivate: [authGuard] },
   { path: 'addpackagestype', component: AddPackagesTypeComponent, canActivate: [authGuard] },
   { path: 'searchgrn', component: SearchGrnNumberComponent, canActivate: [authGuard] },
-  { path: 'gnrnumber/:vocherNoUnique', component: FilterGrnComponent, canActivate: [authGuard] },
+  { path: 'gnrnumberstatus', component: FilterGrnComponent, canActivate: [authGuard] },
+  { path: 'printvouchersdata/:vocherNoUnique', component: PrintVoucherslistDataComponent, canActivate: [authGuard] },
 
 
 

@@ -121,12 +121,6 @@ export class ParcelbookingComponent {
 
   }
 
-  
- 
-  
-
-
-    
 getProfileData(){
   this.api.GetProfileData().subscribe((res:any)=>{
     console.log('profile',res);
@@ -316,7 +310,7 @@ onTocitySelect(event: any) {
           this.toastr.success('Parcel Booked Successfully ', 'Success');
 
           if (this.gdata.grnNo) {
-            this.router.navigate(['/printgr', this.gdata.grnNo]);
+            this.router.navigate(['/printgrn', this.gdata.grnNo]);
           }
 
         },
@@ -394,7 +388,6 @@ onTocitySelect(event: any) {
     }
   }
 
-  
 
 
 }
