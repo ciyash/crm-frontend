@@ -1,14 +1,13 @@
-import {  OnInit } from '@angular/core';
-declare var $: any;
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import {  OnInit,AfterViewInit, Component, ElementRef, ViewChild  } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BranchService } from 'src/app/service/branch.service';
 import { TokenService } from 'src/app/service/token.service';
 import { MessageService } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Toast } from 'primeng/toast';
+declare var $: any;
+declare const SlimSelect: any; 
 
-declare const SlimSelect: any; // Declare SlimSelect from the global scope
 @Component({
   selector: 'app-parcelloading',
   templateUrl: './parcelloading.component.html',

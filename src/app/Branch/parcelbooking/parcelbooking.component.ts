@@ -6,6 +6,10 @@ import { BranchService } from 'src/app/service/branch.service';
 import { TokenService } from 'src/app/service/token.service';
 import { HeaderComponent } from "../../USER/header/header.component";
 import { AdminService } from 'src/app/service/admin.service';
+import { ToastrService } from 'ngx-toastr';
+declare var $: any;
+import {  ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+
 
 @Component({
   selector: 'app-parcelbooking',
@@ -39,7 +43,24 @@ export class ParcelbookingComponent {
   userList: any[] = [];
   showDropdown:boolean=true;
   dptype:any;
-  constructor(private fb: FormBuilder, private api: BranchService, private token:TokenService, private cdr: ChangeDetectorRef, private activate:ActivatedRoute, private router:Router, private admin:AdminService) {
+  @ViewChild('selectElem') selectElem!: ElementRef;
+  @ViewChild('demoSelect') demoSelect!: ElementRef;
+
+
+
+  ngAfterViewInit(): void {
+    // new SlimSelect({
+    //   select: this.demoSelect.nativeElement
+    // });
+
+    setTimeout(() => {
+      $(this.selectElem.nativeElement).select2(); 
+    }, 0);
+  }
+
+  constructor(private fb: FormBuilder, private api: BranchService, private token:TokenService,
+     private cdr: ChangeDetectorRef, private activate:ActivatedRoute,private toastr:ToastrService, 
+     private router:Router, private admin:AdminService) {
     this.form = this.fb.group({
       fromCity: [''],
       toCity: ['', Validators.required],
@@ -101,7 +122,11 @@ export class ParcelbookingComponent {
   }
 
   
+ 
+  
 
+
+    
 getProfileData(){
   this.api.GetProfileData().subscribe((res:any)=>{
     console.log('profile',res);
@@ -283,16 +308,22 @@ onTocitySelect(event: any) {
       this.api.createBooking(val).subscribe(
         (response: any) => {
           console.log('Parcel saved successfully', response);
+
           this.bookingSuccess = true;
           this.form.reset();
           this.gdata=response;
           // ✅ Redirect to print page using grnNo
+          this.toastr.success('Parcel Booked Successfully ', 'Success');
+
           if (this.gdata.grnNo) {
-            this.router.navigate(['/printgrn', this.gdata.grnNo]);
+            this.router.navigate(['/printgr', this.gdata.grnNo]);
           }
+
         },
         (error) => {
           console.error('Error saving order', error);
+          this.toastr.error('Failed to Booked the parcel. Please try again.', 'Error');
+
         }
       );
     }

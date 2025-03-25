@@ -5,6 +5,8 @@ import { MessageService } from 'primeng/api';
 import { AdminService } from 'src/app/service/admin.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { BranchService } from 'src/app/service/branch.service';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-create-employee',
@@ -17,7 +19,9 @@ export class CreateEmployeeComponent {
     branchdata:any;
     edata:any;
     loading:boolean=true;
-    constructor(private fb:FormBuilder, private api:AdminService, private messageService:MessageService, private router:Router, private bapi:BranchService, private auth:AuthService){
+    constructor(private fb:FormBuilder, private api:AdminService,
+       private messageService:MessageService, private router:Router,
+        private bapi:BranchService, private auth:AuthService, private toastr: ToastrService){
         this.form = this.fb.group({
           name: ['', Validators.required],
           username: ['', Validators.required],
@@ -78,7 +82,9 @@ export class CreateEmployeeComponent {
       this.api.createEmployee(payload).subscribe({
         next: (response: any) => {
           console.log('Parcel loaded successfully:', response);
-          this.messageService.add({ severity: 'success', summary: 'success', detail: 'Create Employee successfully' });
+          this.toastr.success('Parcel loaded successfully', 'Success');
+
+          // this.messageService.add({ severity: 'success', summary: 'success', detail: 'Create Employee successfully' });
           setTimeout(() => {
            this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
              this.router.navigate(['/createemployee']);

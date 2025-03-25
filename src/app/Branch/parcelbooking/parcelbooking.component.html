@@ -11,13 +11,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
             <div class="row">
-                <div class="col-md-4">
-                    <label class="form-label">From City </label>
-                    <select class="form-select form-select-sm"  formControlName="fromCity" (change)="onFromcitySelect($event)" >
+                   <div class="col-md-4">
+                    <label class="form-label">From City</label>
+                    <select #selectElem class="form-select form-select-sm select2" formControlName="fromCity" (change)="onFromcitySelect($event)">
                         <option value="" selected>Select City</option>
-                        <option *ngFor="let row2 of citydata" value="{{row2.cityName}}"> {{row2.cityName}} </option>
+                        <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
                     </select>
                 </div>
+                
                 <div class="col-md-4">
                     <label class="form-label">Pickup Branch </label>
                     <select class="form-select form-select-sm" formControlName="pickUpBranch">
@@ -25,13 +26,25 @@
                         <option *ngFor="let row4 of pdata" [value]="row4.branchUniqueId"> {{ row4.name }} </option>
                     </select>
                 </div>
-                <div class="col-md-4">
-                    <label class="form-label">To City </label>
-                    <select class="form-select form-select-sm"  formControlName="toCity" (change)="onTocitySelect($event)">
-                        <option value="" selected>Select City</option>
-                        <option *ngFor="let row of citydata" value="{{row.cityName}}"> {{row.cityName}} </option>
-                    </select>
-                </div>
+                
+
+
+   <div class="col-md-4">
+  <label class="form-label">To City</label>
+  <select 
+    class="form-select form-select-sm" 
+    formControlName="toCity" 
+    multiple #selectElem
+    (change)="onTocitySelect($event)">
+      <option *ngFor="let row of citydata" [value]="row.cityName">
+        {{ row.cityName }}
+      </option>
+  </select>
+</div>
+
+
+
+
                 <div class="col-md-4">
                     <label class="form-label">Drop Branch </label>
                     <select class="form-select form-select-sm" formControlName="dropBranch">
@@ -76,7 +89,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of packages.controls; let i = index" [formGroupName]="i">
-                                <td><input type="number" class="form-control form-select-sm" formControlName="quantity"  (input)="calculateTotal(i)"></td>
+                                <td><input type="number" class="form-control form-select-sm "  formControlName="quantity"  (input)="calculateTotal(i)"></td>
                                 <td>
                                     <select class="form-control form-select-sm" formControlName="packageType">
                                         <option value="" selected>Select Package Type</option>
@@ -90,7 +103,7 @@
                                 <td>
                                     <button type="button" class="btn btn-success btn-sm" (click)="addOrderItem()">Add +</button>
 
-                                    <a class="text-danger" style="cursor: pointer;" (click)="removeBarcodeData(i)"> <i class="fa fa-trash"></i> </a>
+                                    <a class="text-white" style="cursor: pointer;" (click)="removeBarcodeData(i)"> <i class="fa fa-trash"></i> </a>
 
                                 </td>
                             </tr>
@@ -98,10 +111,10 @@
                     </table>
                 </div>
             </div>
-            <button type="button" class="btn btn-danger btn-sm" (click)="addOrderItem()">Add +</button>
+            <!-- <button type="button" class="btn btn-danger btn-sm" (click)="addOrderItem()">Add +</button> -->
             <tr style="font-size: small;">
             <!-- <button type="button" class="btn btn-danger btn-sm" (click)="addOrderItem()">Add +</button> -->
-            <tr>
+            <tr style="font-size: 13px;">
                 <th>GSt(+)</th>
                 <th>Service Charges(+)</th>
                 <th>Hamali Charges(+)</th>
