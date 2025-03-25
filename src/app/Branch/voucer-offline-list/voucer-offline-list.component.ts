@@ -137,4 +137,8 @@ export class VoucerOfflineListComponent {
           });
         }
 
+        printgrnData(id:any){
+          this.router.navigateByUrl('/gnrnumber/'+id);
+        }
+
 }

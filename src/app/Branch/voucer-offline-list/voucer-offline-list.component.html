@@ -75,7 +75,7 @@
                       <td> {{row.parcelPackages}} </td>
                       <td>{{ row.grnNo.length }}</td>
                       <td> {{row.parcelCharge}} </td>
-                      <td> Print </td>
+                      <td style="cursor: pointer; color: red;" (click)="printgrnData(row.vocherNoUnique)"> <i class="fa fa-print"></i> </td>
                     </tr>
                   </tbody>
                 </table>
