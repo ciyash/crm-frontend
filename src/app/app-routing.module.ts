@@ -44,7 +44,7 @@ const routes: Routes = [
   { path: 'barnchtobranchunloading', component: BrachToBranchUnloadingComponent, canActivate: [authGuard] },
   { path: 'addpackagestype', component: AddPackagesTypeComponent, canActivate: [authGuard] },
   { path: 'searchgrn', component: SearchGrnNumberComponent, canActivate: [authGuard] },
-  { path: 'gnrnumber', component: FilterGrnComponent, canActivate: [authGuard] },
+  { path: 'gnrnumber/:vocherNoUnique', component: FilterGrnComponent, canActivate: [authGuard] },
 
 
 
