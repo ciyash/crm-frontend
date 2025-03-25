@@ -11,43 +11,46 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
             <div class="row">
-                   <div class="col-md-4">
+
+                
+                <div class="col-md-4">
                     <label class="form-label">From City</label>
-                    <select #selectElem class="form-select form-select-sm select2" formControlName="fromCity" (change)="onFromcitySelect($event)">
+                    <!-- <select #selectElem class="form-select form-select-sm" formControlName="fromCity" (change)="onFromcitySelect($event)">
+                        <select #selectElem class="form-select form-select-sm" formControlName="fromCity" (change)="onTocitySelect($event)">
+
+                        <option value="" selected>Select City</option>
+                        <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
+                    </select> -->
+                    <select #selectElem class="form-select form-select-sm" formControlName="fromCity">
                         <option value="" selected>Select City</option>
                         <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
                     </select>
+                    
+                    
                 </div>
-                
+
+
+
                 <div class="col-md-4">
                     <label class="form-label">Pickup Branch </label>
-                    <select class="form-select form-select-sm" formControlName="pickUpBranch">
+                    <select #pickupbranch class="form-select form-select-sm" formControlName="pickUpBranch">
                         <option value="" selected>Select Pickup Branch</option>
                         <option *ngFor="let row4 of pdata" [value]="row4.branchUniqueId"> {{ row4.name }} </option>
                     </select>
                 </div>
                 
-
-
-   <div class="col-md-4">
-  <label class="form-label">To City</label>
-  <select 
-    class="form-select form-select-sm" 
-    formControlName="toCity" 
-    multiple #selectElem
-    (change)="onTocitySelect($event)">
-      <option *ngFor="let row of citydata" [value]="row.cityName">
-        {{ row.cityName }}
-      </option>
-  </select>
-</div>
-
-
+                <div class="col-md-4">
+                    <label class="form-label">To City </label>
+                    <select #selectElem2 class="form-select form-select-sm"  formControlName="toCity" (change)="onTocitySelect($event)">
+                        <option value="" selected>Select City</option>
+                        <option *ngFor="let row of citydata" value="{{row.cityName}}"> {{row.cityName}} </option>
+                    </select>
+                </div>
 
 
                 <div class="col-md-4">
                     <label class="form-label">Drop Branch </label>
-                    <select class="form-select form-select-sm" formControlName="dropBranch">
+                    <select #droupbranch class="form-select form-select-sm" formControlName="dropBranch">
                         <option value="" selected>Select Drop Branch</option>
                         <option *ngFor="let row1 of tbcdata" value="{{row1.branchUniqueId}}"> {{row1.name}} </option>
                     </select>
@@ -55,14 +58,14 @@
                 <div class="col-md-4">
                     <label class="form-label">Dispatch Type </label>
                     <!-- <input type="text" class="form-control form-select-sm" formControlName="dispatchType"  /> -->
-                    <select class="form-select form-select-sm" formControlName="dispatchType">
+                    <select #dispatchtype class="form-select form-select-sm" formControlName="dispatchType">
                         <option value="" selected>Select Dispatch Type</option>
                         <option *ngFor="let dp of dptype" value="{{dp.name}}">{{dp.name}}</option>
                     </select>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">Booking Type </label>
-                    <select class="form-select form-select-sm" formControlName="bookingType">
+                    <select #bookingtype class="form-select form-select-sm" formControlName="bookingType">
                         <option value="" selected>Select Booking Type</option>
                       <option value="paid">Paid</option>
                       <option value="toPay">To Pay</option>

@@ -5,6 +5,7 @@ import { TokenService } from 'src/app/service/token.service';
 import { MessageService } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Toast } from 'primeng/toast';
+import { ToastrService } from 'ngx-toastr';
 declare var $: any;
 declare const SlimSelect: any; 
 
@@ -43,7 +44,9 @@ export class ParcelloadingComponent implements OnInit {
     }, 0);
   }
 
-  constructor(private api: BranchService, private token:TokenService, private fb: FormBuilder, private messageService:MessageService, private router:Router, private activeroute:ActivatedRoute) {
+  constructor(private api: BranchService, private token:TokenService,
+     private fb: FormBuilder, private messageService:MessageService,
+      private router:Router, private activeroute:ActivatedRoute,private toast:ToastrService) {
       this.form = this.fb.group({
         startDate: ['', Validators.required],
         endDate: ['', Validators.required],
@@ -90,7 +93,8 @@ export class ParcelloadingComponent implements OnInit {
       },
       error: (error: any) => {
         console.error('Error fetching cities:', error);
-        alert('Failed to fetch cities data.');
+        this.toast.error('Failed to fetch cities data.', 'Error');
+
       },
     });
   
@@ -129,7 +133,9 @@ export class ParcelloadingComponent implements OnInit {
     this.api.FilterParcelLoading(payload).subscribe({
       next: (response: any) => {
         console.log('Booking successful:', response);
-        this.messageService.add({ severity: 'success', summary: 'success', detail: 'Load successfully' });
+        // this.messageService.add({ severity: 'success', summary: 'success', detail: 'Load successfully' });
+        this.toast.success('Booking successful ', 'Success');
+
         this.data = response || [];
         // alert('Booking Successful!');
         this.LoadSuccess = true;
@@ -155,7 +161,7 @@ export class ParcelloadingComponent implements OnInit {
       },
       error: (error: any) => {
         console.error('Booking failed:', error);
-        alert('Booking Failed. Please try again.');
+        this.toast.error('Booking Failed. Please try again.', 'Error');
       },
     });
   }
@@ -250,7 +256,7 @@ export class ParcelloadingComponent implements OnInit {
     this.api.ParcelLoading(payload).subscribe({
       next: (response: any) => {
         console.log('Parcel loaded successfully:', response);
-        // alert('Parcel Loaded Successfully!');
+        this.toast.success('Parcel loaded successfully','Success')
         setTimeout(() => {
           this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
             this.router.navigate(['/parcelloading']);
@@ -259,7 +265,8 @@ export class ParcelloadingComponent implements OnInit {
       },
       error: (error: any) => {
         console.error('Parcel loading failed:', error);
-        alert('Parcel Loading Failed. Please try again.');
+        this.toast.error('Parcel Loading Failed. Please try again', 'Error')
+
       },
     });
   }
