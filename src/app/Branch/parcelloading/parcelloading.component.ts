@@ -34,15 +34,7 @@ export class ParcelloadingComponent implements OnInit {
   @ViewChild('demoSelect') demoSelect!: ElementRef;
   
 
-  ngAfterViewInit(): void {
-    new SlimSelect({
-      select: this.demoSelect.nativeElement
-    });
 
-    setTimeout(() => {
-      $(this.selectElem.nativeElement).select2(); // Initialize select2 after view renders
-    }, 0);
-  }
 
   constructor(private api: BranchService, private token:TokenService,
      private fb: FormBuilder, private messageService:MessageService,
@@ -52,6 +44,7 @@ export class ParcelloadingComponent implements OnInit {
         endDate: ['', Validators.required],
         fromCity: ['', Validators.required],
         toCity: this.fb.array([], Validators.required),
+
         pickUpBranch: ['', Validators.required],
         
       });
@@ -100,24 +93,21 @@ export class ParcelloadingComponent implements OnInit {
   
   }
 
-  get toCityArray() {
-    return this.form.get('toCity') as FormArray;
-  }
+ onToCityChange(event: any) {
+  const selectedOptions = Array.from(event.target.selectedOptions).map((option: any) => option.value);
 
-  onToCityChange(event: any, cityName: string) {
-    if (event.target.checked) {
-      // ✅ Push value to FormArray if checked
-      this.toCityArray.push(this.fb.control(cityName));
-    } else {
-      // ✅ Remove value from FormArray if unchecked
-      const index = this.toCityArray.controls.findIndex(control => control.value === cityName);
-      if (index >= 0) {
-        this.toCityArray.removeAt(index);
-      }
-    }
-    console.log('Selected To Cities:', this.toCityArray.value);
-  }
+  const toCityArray = this.form.get('toCity') as FormArray;
+  toCityArray.clear(); // ✅ Clear old values before updating
+
+  selectedOptions.forEach(city => toCityArray.push(new FormControl(city)));
+
+  console.log('Selected To Cities:', toCityArray.value);
+}
+
  
+
+
+
   onLoad() {
     const formValues = this.form.value;
     const payload = {
@@ -217,6 +207,34 @@ export class ParcelloadingComponent implements OnInit {
     console.log('All GRN Numbers Selected:', formArray.value);
   }
 
+
+  ngAfterViewInit(): void {
+    new SlimSelect({
+         select: this.demoSelect.nativeElement
+      });
+      
+    setTimeout(() => {
+      $(this.selectElem.nativeElement).select2();
+
+      $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
+        const selectedCity = event.params.data.id;  // Gets selected value
+        console.log('Selected City:', selectedCity);
+
+        this.form.patchValue({ fromCity: selectedCity });  // ✅ Manually update the form
+        console.log('Updated form value:', this.form.value);
+
+        this.onFromcitySelect({ target: { value: selectedCity } });  // Trigger API call
+      });
+    }, 0);
+  }
+
+
+
+
+
+
+
+  // jkasdbksabd
   onFromcitySelect(event: any) {
     const cityName = event.target.value;
     if (cityName) {
@@ -233,6 +251,8 @@ export class ParcelloadingComponent implements OnInit {
       this.tbcdata = [];
     }
   }
+
+
 
   ParcelLoad() {
     const payload = {

@@ -37,7 +37,6 @@ const routes: Routes = [
   {path:'parcelloading',component:ParcelloadingComponent, canActivate: [authGuard]},
   {path:'bookingreport',component:BookingReportComponent, canActivate: [authGuard]},
   { path: 'printgrn/:grnNo', component: PrintGrnNumberComponent, canActivate: [authGuard] },
-
   {path:'parcelloadingdata',component:ParcelLoadingDataComponent, canActivate: [authGuard]},
   {path:'parcelunloading',component:ParcelOnloadingComponent, canActivate: [authGuard]},
   {path:'parcelonloadingdata',component:ParcelOnLoadingDataComponent, canActivate: [authGuard]},
@@ -48,10 +47,6 @@ const routes: Routes = [
   { path: 'searchgrn', component: SearchGrnNumberComponent, canActivate: [authGuard] },
   { path: 'gnrnumberstatus', component: FilterGrnComponent, canActivate: [authGuard] },
   { path: 'printvouchersdata/:vocherNoUnique', component: PrintVoucherslistDataComponent, canActivate: [authGuard] },
-
-
-
-
   { path: 'voucherslistoffline', component: VoucerOfflineListComponent, canActivate: [authGuard] },
 
      //Admin Routing components

@@ -69,6 +69,7 @@ export class BranchService {
       return this.http.get(AUTH_API + 'branch', httpOptions);
   }
 
+  
     GetBranchbyCity(cityName: any) {
       const token1 = this.token.getToken();
       const httpOptions = {
@@ -81,6 +82,9 @@ export class BranchService {
       
     }
   
+
+
+
 
   FilterBookingServiceCharges(value: { fromCity: string; toCity: string }) {
     const token1 = this.token.getToken();

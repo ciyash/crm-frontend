@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
 import { AdminService } from 'src/app/service/admin.service';
 import { BranchService } from 'src/app/service/branch.service';
+
 
 @Component({
   selector: 'app-create-branch',
@@ -22,12 +24,10 @@ export class CreateBranchComponent {
   msg:string='';
   visible: boolean = false;
   repd:any;
-  showDialog(row:any) {
-      this.visible = true;
-      this.repd=row;
-  }
+
   citydata:any;
-  constructor(private fb:FormBuilder, private api:AdminService, private messageService:MessageService, private router:Router, private bapi:BranchService, private activeroute:ActivatedRoute){
+  constructor(private fb:FormBuilder, private api:AdminService, private messageService:MessageService,
+     private router:Router, private bapi:BranchService, private activeroute:ActivatedRoute,private toast:ToastrService){
       this.form = this.fb.group({
         name: ['', Validators.required],
         branchType: ['', Validators.required],
@@ -62,7 +62,6 @@ export class CreateBranchComponent {
     this.bapi.GetBranch().subscribe((res:any)=>{
       console.log('branch',res);
       this.data=res;
-      this.loading=false;
     });
     this.bapi.GetCities().subscribe((res:any)=>{
       console.log('city',res);
@@ -70,6 +69,27 @@ export class CreateBranchComponent {
     })
 
   }
+
+  onEdit(row: any) {
+    this.visible = true; // Show the edi
+    this.repd = row; // Store selected row data
+    this.form1.patchValue({
+      name: row.name,
+      branchType: row.branchType,
+      city: row.city,
+      location: row.location,
+      address: row.address,
+      phone: row.phone,
+      email: row.email,
+      pincode: row.pincode,
+      state: row.state,
+      country: row.country || 'India', // Default to India if empty
+      alternateMobile: row.alternateMobile,
+    });
+  
+    console.log('Editing row:', row);
+  }
+  
 
 getbranchemployees(id:any){
   this.api.GetUnderBranchEmployees(id).subscribe((res:any)=>{
@@ -97,8 +117,8 @@ getbranchemployees(id:any){
     
     this.api.createBranch(payload).subscribe({
       next: (response: any) => {
-        console.log('Parcel loaded successfully:', response);
-        this.messageService.add({ severity: 'success', summary: 'success', detail: 'Create Branch successfully' });
+        console.log('Parcel loaded dat:', response);
+        this.toast.success("success")
         setTimeout(() => {
          this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
            this.router.navigate(['/createbranch']);
@@ -133,11 +153,9 @@ getbranchemployees(id:any){
         (a: any) => {
           if (a?.data) {
             console.log(a);
-            this.messageService.add({ severity: 'success', summary: 'success', detail: 'Branch Update Successfully' });
            
           } else {
             console.log(a);
-            // this.errorMessage = a.msg.message;
             this.msg = 'Branch Successfully Updated !!!';
             setTimeout(() => {
               this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
@@ -147,7 +165,6 @@ getbranchemployees(id:any){
           }
         },
         (err: any) => {
-          this.messageService.add({ severity: 'error', summary: 'error', detail: 'Branch not added' });
           this.errorsMessage = err.error.message;
         },
       );
@@ -161,7 +178,7 @@ getbranchemployees(id:any){
       (a: any) => {
         if (a) {
           console.log('deletedid',a);
-          this.messageService.add({ severity: 'success', summary: 'success', detail: 'Delete Branch Type Successfully' });
+          // this.messageService.add({ severity: 'success', summary: 'success', detail: 'Delete Branch Type Successfully' });
           setTimeout(() => {
             this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
               this.router.navigate(['/createbranch']);
@@ -174,7 +191,7 @@ getbranchemployees(id:any){
         }
       },
       (err: any) => {
-        this.messageService.add({ severity: 'error', summary: 'error', detail: 'Delete Branch Type Somthing wrong' });
+        // this.messageService.add({ severity: 'error', summary: 'error', detail: 'Delete Branch Type Somthing wrong' });
       },
     );
   return false;

@@ -49,6 +49,14 @@
                             <input type="text" class="form-control form-select-sm input-style" [(ngModel)]="data.email"
                                 formControlName="email">
                         </div>
+
+                        <div class="col-md-6 col-sm-12">
+                            <label class="form-label text-white">Branch</label>
+                            <select #selectElem class="form-select form-select-sm fromCity" formControlName="branchUniqueId">
+                                <option value="" selected>Select Branch</option>
+                                <option *ngFor="let row2 of ALLbranchdata" [value]="row2.branchUniqueId">{{ row2.branchUniqueId }}</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="d-flex justify-content-between mt-3">

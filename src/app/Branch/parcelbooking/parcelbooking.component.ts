@@ -48,6 +48,7 @@ export class ParcelbookingComponent {
   @ViewChild('selectElem') selectElem!: ElementRef;
   cdata: any;
   grnNo: any;
+  grnnumber: any;
 
   // @ViewChild('demoSelect') demoSelect!: ElementRef;
   // ngAfterViewInit(): void {
@@ -114,16 +115,6 @@ export class ParcelbookingComponent {
 
   ngOnInit() {
     // const id = this.activate.snapshot.paramMap.get('id');
-  
-    // get city's
-    this.route.paramMap.subscribe(params => {
-      this.grnNo = params.get('grnNo') || '';
-      console.log('Retrieved grnNo:', this.grnNo);
-    });
-  
-  
-
-
     this.api.GetCities().subscribe((res:any)=>{
       console.log('citys',res);
       this.citydata=res;
@@ -174,6 +165,7 @@ getProfileData(){
   this.api.GetProfileData().subscribe((res:any)=>{
     console.log('profile',res);
     this.pfdata=res.branchId;
+    console.log(this.pfdata,"branchid")
   });
 }
 
@@ -312,78 +304,10 @@ onTocitySelect(event: any) {
     // Update Grand Total without triggering another event
     this.form.get('grandTotal')?.setValue(grandTotal, { emitEvent: false });
   }
-  
 
-  // add() {
-  //   console.log(this.form.value);
   
-  //   if (this.form.valid) {
-  //     // Extract package data from form
-  //     const orderDataToSend = this.packages.value.map((item: any) => ({
-  //       quantity: item.quantity,
-  //       packageType: item.packageType,
-  //       contains: item.contains,
-  //       weight: item.weight,
-  //       unitPrice: item.unitPrice,
-  //       totalPrice: item.totalPrice
-  //     }));
-  
-  //     const val: any = {
-  //       fromCity: this.form.value.fromCity,
-  //       toCity: this.form.value.toCity,
-  //       pickUpBranch: this.form.value.pickUpBranch,
-  //       dropBranch: this.form.value.dropBranch,
-  //       dispatchType: this.form.value.dispatchType,
-  //       bookingType: this.form.value.bookingType,
-  //       senderName: this.form.value.senderName,
-  //       senderMobile: this.form.value.senderMobile,
-  //       senderAddress: this.form.value.senderAddress,
-  //       senderGst: this.form.value.senderGST,
-  //       receiverName: this.form.value.receiverName,
-  //       receiverMobile: this.form.value.receiverMobile,
-  //       receiverAddress: this.form.value.receiverAddress,
-  //       receiverGst: this.form.value.receiverGST,
-  //       packages: orderDataToSend,
-  //       serviceCharges: this.form.value.serviceCharges,
-  //     hamaliCharges: this.form.value.hamaliCharges,
-  //     doorDeliveryCharges: this.form.value.doorDeliveryCharges,
-  //     doorPickupCharges: this.form.value.doorPickupCharges,
-  //     valueOfGoods: this.form.value.valueOfGoods,
-  //     grandTotal: this.form.value.grandTotal
-  //     };
-  
-  //     console.log('Final data to submit:', val);
-  
-  //     // ✅ Call API to save data
-  //     this.api.createBooking(val).subscribe(
-  //       (response: any) => {
-  //         console.log('Parcel saved successfully', response);
-  //         // this.toastr.success('Parcel Booked Successfully', 'Success');
-  //         this.form.reset();
-  //         this.gdata=response;
-  //         console.log(this.gdata,"gdata")
-  //         // ✅ Redirect to print page using grnNo
-  //         this.toastr.success('Parcel Booked Successfully ', 'Success');
-
-  //         if (this.gdata && this.gdata.grnNo) {
-  //           this.router.navigate(['/printgrn', this.gdata.grnNo]);  // ✅ Correctly passing grnNo
-  //         } else {
-  //           console.error('grnNo is missing. Navigation aborted.');
-  //         }
-
-  //       },
-  //       (error) => {
-  //         console.error('Error saving order', error);
-  //         this.toastr.error('Failed to Booked the parcel. Please try again.', 'Error');
-
-  //       }
-  //     );
-  //   }
-  // }
-
   add() {
-    console.log(this.form.value);
-  
+    console.log("Form Data Before Submission:", this.form.value);
     if (this.form.valid) {
       const orderDataToSend = this.packages.value.map((item: any) => ({
         quantity: item.quantity,
@@ -393,7 +317,7 @@ onTocitySelect(event: any) {
         unitPrice: item.unitPrice,
         totalPrice: item.totalPrice
       }));
-  
+
       const val: any = {
         fromCity: this.form.value.fromCity,
         toCity: this.form.value.toCity,
@@ -418,35 +342,29 @@ onTocitySelect(event: any) {
         grandTotal: this.form.value.grandTotal
       };
   
-      console.log('Final data to submit:', val);
-  
+      console.log("Final Data to Submit:", val);
       // ✅ Call API to save data
       this.api.createBooking(val).subscribe(
         (response: any) => {
-          console.log('Parcel saved successfully:', response);
-  
-          if (response && response.grnNo) {
-            this.gdata = response; // ✅ Assign response to gdata
-            console.log('GRN Data:', this.gdata);
-  
-            this.toastr.success('Parcel Booked Successfully', 'Success');
-  
-            // ✅ Redirect to print page using grnNo
-            console.log('API Response:', response);
-
-
-            this.router.navigate(['/printgrn', this.gdata.grnNo]);
+          console.log("Parcel saved successfully:", response);
+      
+          if (response && response.data && response.data.grnNo) { 
+            this.gdata = response.data;
+            console.log("grnNumber:", this.gdata.grnNo);
+            this.toastr.success("Parcel Booked Successfully", "Success");
+            this.router.navigateByUrl(`/printgrn/${this.gdata.grnNo}`); 
           } else {
-            console.error('Error: grnNo not found in response.');
-            this.toastr.error('Booking successful, but grnNo is missing.', 'Warning');
+            console.error("❌ Error: grnNo not found in response.");
+            this.toastr.error("Booking successful, but grnNo is missing.", "Warning");
           }
         },
         (error) => {
-          console.error('Error saving order:', error);
-          this.toastr.error('Failed to book the parcel. Please try again.', 'Error');
+          console.error("❌ Error saving order:", error);
+          this.toastr.error("Failed to book the parcel. Please try again.", "Error");
         }
       );
-    }
+      
+      }
   }
   
   searchUser(): void {

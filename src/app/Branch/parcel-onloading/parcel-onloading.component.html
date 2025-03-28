@@ -17,7 +17,6 @@ word-wrap: break-word">Parcel UnLoading Offline</h4>
                 <input type="date" class="form-control form-control-sm" formControlName="fromDate">
               </div>
 
-              
               <div class="col-md-4 col-sm-12">
                 <label class="form-label">From City</label>
                 <div class="border rounded p-2" style="max-height: 150px; overflow-y: auto;"> 
@@ -87,17 +86,23 @@ word-wrap: break-word">Parcel UnLoading Offline</h4>
                       </tr>
                   </thead>
                   <tbody>
-                      <tr *ngFor="let row of data; let i = index">
-                          <td> <input type="checkbox" (change)="onGrnNoChange($event, row.grnNo)" [checked]="form1.get('grnNo')?.value.includes(row.grnNo)"/>  </td>
-                          <td>{{ i + 1 }}</td>
-                          <td>{{ row.lrNumber }}</td>
-                          <td>{{ row.fromBranch }}</td>
-                          <td>{{ row.toBranch }}</td>
-                          <td>{{ row.fromCity }}</td>
-                          <td>{{ row.toCity }}</td>
-                          <td>{{ row.toBookingDate | date:'dd/MM/yyyy' }}</td>
-                      </tr>
+                    <tr  *ngFor="let row of data; let i = index">
+                      
+                      <td>
+                        <input type="checkbox" 
+                          (change)="onGrnNoChange($event, row.grnNo[0])"
+                          [checked]="form1.get('grnNo')?.value.includes(row.grnNo[0])"/>  
+                      </td>
+                      <td>{{ i + 1 }}</td>
+                      <td>{{ row.lrNumber?.[0] }}</td>  <!-- Handle array safely -->
+                      <td>{{ row.fromBranch }}</td>
+                      <td>{{ row.toBranch }}</td>
+                      <td>{{ row.fromCity }}</td>
+                      <td>{{ row.toCity?.[0] }}</td>  <!-- Handle array safely -->
+                      <td>{{ row.toBookingDate | date:'dd/MM/yyyy' }}</td>
+                    </tr>
                   </tbody>
+                  
               </table>
             </div>
 

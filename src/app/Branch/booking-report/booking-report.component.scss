@@ -38,3 +38,12 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+th {
+    background-color: #f8f9fa; /* Light gray background */
+    color: #333; /* Dark text */
+    padding: 12px; /* Add some padding */
+    text-align: left; /* Align text to the left */
+    border-bottom: 2px solid #dee2e6; /* Add a border at the bottom */
+    font-weight: bold; /* Make text bold */
+}

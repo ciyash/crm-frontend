@@ -2,186 +2,209 @@
 
 
 
-<h4 class="text-center mb-4 pt-5 mt-4" style="color: #3C3C3C;font-size: 20px;font-family: Poppins;font-weight: 500;text-decoration: underline;word-wrap: break-word">Create Branch</h4>
-<p-toast></p-toast>
-  
+<h4 class="text-center mb-4 pt-5 mt-4"
+    style="color: #3C3C3C;font-size: 20px;font-family: Poppins;font-weight: 500;text-decoration: underline;word-wrap: break-word">
+    Create Branch</h4>
+
 <form [formGroup]="form">
     <div class="container pb-3">
-            <div class="row pt-3">
-                <div class="col-md-3 col-sm-12">
-                    <label class="form-label">Name</label>
-                    <input type="text" class="form-control form-select-sm " formControlName="name">
-                </div>
-                <div class="col-md-3 col-sm-12">
-                    <label class="form-label">Branch Type</label>
-                    <input type="text" class="form-control form-select-sm " formControlName="branchType">
-                </div>
-                <div class="col-md-3 col-sm-12">
-                    <label class="form-label">City</label>
-                       <select class="form-select" formControlName="city">
-                        <option value="" selected>Select City</option>
-                        <option *ngFor="let branch of citydata" [value]="branch.cityName">{{ branch.cityName }}</option>
-                    </select>
-                </div>
-                <div class="col-md-3 col-sm-12">
-                    <label class="form-label">Location</label>
-                    <input type="text" class="form-control form-select-sm " formControlName="location">
-                </div>
-                <div class="col-md-3 col-sm-12">
-                    <label class="form-label">Address</label>
-                    <input type="text" class="form-control form-select-sm " formControlName="address">
-                </div>
-                <div class="col-md-3 col-sm-12">
-                    <label class="form-label">Phone</label>
-                    <input type="text" class="form-control form-select-sm " formControlName="phone">
-                    <div *ngIf="form.get('phone')?.invalid && form.get('phone')?.touched" class="text-danger">
-                        Invalid phone number (must be 10 digits starting from 6-9)
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-12">
-                    <label class="form-label">Alternate Phone</label>
-                    <input type="text" class="form-control form-select-sm " formControlName="alternateMobile">
-                    <div *ngIf="form.get('alternateMobile')?.invalid && form.get('alternateMobile')?.touched" class="text-danger">
-                        Invalid phone number (must be 10 digits starting from 6-9)
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-12">
-                    <label class="form-label">Email</label>
-                    <input type="text" class="form-control form-select-sm " formControlName="email">
-                </div>
-                <div class="col-md-3 col-sm-12">
-                    <label class="form-label">Pin Code</label>
-                    <input type="text" class="form-control form-select-sm " formControlName="pincode">
-                </div>
-                <div class="col-md-3 col-sm-12">
-                    <label class="form-label">State</label> 
-                    <select class="form-select form-select-sm" formControlName="state">
-                        <option value="" selected> Select State </option>
-                        <option value="Andhra Pradesh">Andhra Pradesh</option>
-                        <option value="Telangana">Telangana</option>
-                        <option value="Karnataka">Karnataka</option>
-                        <option value="Tamilnadu">Tamilnadu</option>
-                        <option value="Maharastra">Maharastra</option>
-                        <option value="Kerala">Kerala</option>
-                    </select>
-                </div>
-                
+        <div class="row pt-3">
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control form-select-sm " formControlName="name">
             </div>
-    
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Branch Type</label>
+                <input type="text" class="form-control form-select-sm " formControlName="branchType">
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">City</label>
+                <select class="form-select" formControlName="city">
+                    <option value="" selected>Select City</option>
+                    <option *ngFor="let branch of citydata" [value]="branch.cityName">{{ branch.cityName }}</option>
+                </select>
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Location</label>
+                <input type="text" class="form-control form-select-sm " formControlName="location">
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Address</label>
+                <input type="text" class="form-control form-select-sm " formControlName="address">
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Phone</label>
+                <input type="text" class="form-control form-select-sm " formControlName="phone">
+                <div *ngIf="form.get('phone')?.invalid && form.get('phone')?.touched" class="text-danger">
+                    Invalid phone number (must be 10 digits starting from 6-9)
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Alternate Phone</label>
+                <input type="text" class="form-control form-select-sm " formControlName="alternateMobile">
+                <div *ngIf="form.get('alternateMobile')?.invalid && form.get('alternateMobile')?.touched"
+                    class="text-danger">
+                    Invalid phone number (must be 10 digits starting from 6-9)
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Email</label>
+                <input type="text" class="form-control form-select-sm " formControlName="email">
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Pin Code</label>
+                <input type="text" class="form-control form-select-sm " formControlName="pincode">
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">State</label>
+                <select class="form-select form-select-sm" formControlName="state">
+                    <option value="" selected> Select State </option>
+                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                    <option value="Telangana">Telangana</option>
+                    <option value="Karnataka">Karnataka</option>
+                    <option value="Tamilnadu">Tamilnadu</option>
+                    <option value="Maharastra">Maharastra</option>
+                    <option value="Kerala">Kerala</option>
+                </select>
+            </div>
         </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-3 d-flex align-items-end">
-                        <button class="btn btn-primary btn-sm " type="button"
-                            style=" width: 10rem;" (click)="Add()" [disabled]="!form.valid">Submit</button>
-                    </div>
-                </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 d-flex align-items-end">
+                <button class="btn btn-primary btn-sm " type="button" style=" width: 10rem;" (click)="Add()"
+                    [disabled]="!form.valid">Submit</button>
             </div>
+        </div>
+    </div>
 </form>
 
 
 <div class="container mt-5 mb-2">
     <div class="row">
         <div class="table-responsive">
-            <div *ngIf="loading" class="text-center">
-                <img src="assets/loading.gif" alt=""  style="height:40px;">
-                <p class="text-danger text-center">Please Wait ....</p>
-            </div>
-                <table class="table table-striped table-bordered" *ngIf="!loading">
-                    <thead class="p-2">
-                        <th>S.no</th>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th>City</th>
-                        <th>Location</th>
-                        <th>Address</th>
-                        <th>Phone</th>
-                        <th>Phone1</th>
-                        <th>Email</th>
-                        <th>State</th>
-                        <th>Action</th>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let row of data; let i=index">
-                            <td>{{i + 1}}</td>
-                            <td> {{row.name}} </td>
-                            <td> {{row.branchType}} </td>
-                            <td> {{row.city}} </td>
-                            <td> {{row.location}} </td>
-                            <td> {{row.address}} </td>
-                            <td> {{row.phone}} </td>
-                            <td> {{row.alternateMobile}} </td>
-                            <td> {{row.email}} </td>
-                            <td> {{row.state}} </td>
-                            <td> <a (click)="showDialog(row)" class="text-primary p-2" style="cursor: pointer;"> <i class="fa fa-edit"></i></a> <a (click)="Delete(row._id)" class="text-danger" style="cursor: pointer;"> <i class="fa fa-trash"></i></a> </td>
-                        </tr>
-                    </tbody>
-
-                </table>
-            
+            <table class="table table-striped table-bordered">
+                <thead class="p-2">
+                    <th>S.no</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>City</th>
+                    <th>Location</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                    <th>Phone1</th>
+                    <th>Email</th>
+                    <th>State</th>
+                    <th>Action</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let row of data; let i=index">
+                        <td>{{i + 1}}</td>
+                        <td> {{row.name}} </td>
+                        <td> {{row.branchType}} </td>
+                        <td> {{row.city}} </td>
+                        <td> {{row.location}} </td>
+                        <td> {{row.address}} </td>
+                        <td> {{row.phone}} </td>
+                        <td> {{row.alternateMobile}} </td>
+                        <td> {{row.email}} </td>
+                        <td> {{row.state}} </td>
+                        <td>
+                            <a (click)="onEdit(row)" data-bs-toggle="modal" href="#exampleModalToggle"
+                                class="text-primary p-2" style="cursor: pointer;">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            <a (click)="Delete(row._id)" class="text-danger" style="cursor: pointer;">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
+<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+    tabindex="-1" *ngIf="repd">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel">Modal 1</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card m-5 p-5">
+                    <div *ngIf="visible">
+                        <h3>Edit Branch</h3>
+                        <form [formGroup]="form1">
+                            <div class="container pb-3">
+                                <div class="row pt-3">
+                                    <div class="col-md-3 col-sm-12">
+                                        <label>Name:</label>
+                                        <input type="text" formControlName="name" class="form-control" />
+                                    </div>
+                                    <div class="col-md-3 col-sm-12">
+                                        <label>Branch Type:</label>
+                                        <input type="text" formControlName="branchType" class="form-control" />
+                                    </div>
+                                    <div class="col-md-3 col-sm-12">
 
+                                        <label>City:</label>
+                                        <input type="text" formControlName="city" class="form-control" />
+                                    </div>
+                                    <div class="col-md-3 col-sm-12">
 
-<p-dialog header="" [(visible)]="visible" [modal]="true" [style]="{ width: '100vw' }" [draggable]="false" [resizable]="false" style="background-color: aliceblue;">
-    <div class="card m-5 p-5" *ngIf="repd">
-             <span class="text-primary">{{repd.name}}</span>  
-             <form [formGroup]="form1">
-                <div class="container pb-3">
-                        <div class="row pt-3">
-                            <div class="col-md-3 col-sm-12">
-                                <label class="form-label">Name</label>
-                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.name" formControlName="name">
-                            </div>
-                            <div class="col-md-3 col-sm-12">
-                                <label class="form-label">Branch Type</label>
-                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.branchType" formControlName="branchType">
-                            </div>
-                            <div class="col-md-3 col-sm-12">
-                                <label class="form-label">City</label>
-                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.city" formControlName="city">
-                            </div>
-                            <div class="col-md-3 col-sm-12">
-                                <label class="form-label">Location</label>
-                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.location" formControlName="location">
-                            </div>
-                            <div class="col-md-3 col-sm-12">
-                                <label class="form-label">Address</label>
-                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.address" formControlName="address">
-                            </div>
-                            <div class="col-md-3 col-sm-12">
-                                <label class="form-label">Phone</label>
-                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.phone" formControlName="phone">
-                            </div>
-                            <div class="col-md-3 col-sm-12">
-                                <label class="form-label">Alternate Phone</label>
-                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.alternateMobile" formControlName="alternateMobile">
-                            </div>
-                            <div class="col-md-3 col-sm-12">
-                                <label class="form-label">Email</label>
-                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.email" formControlName="email">
-                            </div>
-                            <div class="col-md-3 col-sm-12">
-                                <label class="form-label">Pin Code</label>
-                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.pincode" formControlName="pincode">
-                            </div>
-                            <div class="col-md-3 col-sm-12">
-                                <label class="form-label">State</label> 
-                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.state" formControlName="state">
-                            </div>
-                            
-                        </div>
-                
-                    </div>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-3 d-flex align-items-end">
-                                    <button class="btn btn-primary btn-sm " type="button"
-                                        style=" width: 10rem;" (click)="edit(repd?._id)" >Submit</button>
+                                        <label>Location:</label>
+                                        <input type="text" formControlName="location" class="form-control" />
+                                    </div>
+                                    <div class="col-md-3 col-sm-12">
+
+                                        <label>Address:</label>
+                                        <input type="text" formControlName="address" class="form-control" />
+                                    </div>
+                                    <div class="col-md-3 col-sm-12">
+
+                                        <label>Phone:</label>
+                                        <input type="text" formControlName="phone" class="form-control" />
+                                    </div>
+                                    <div class="col-md-3 col-sm-12">
+
+                                        <label>Email:</label>
+                                        <input type="email" formControlName="email" class="form-control" />
+                                    </div>
+                                    <div class="col-md-3 col-sm-12">
+
+                                        <label>Pincode:</label>
+                                        <input type="text" formControlName="pincode" class="form-control" />
+                                    </div>
+                                    <div class="col-md-3 col-sm-12">
+
+                                        <label>State:</label>
+                                        <input type="text" formControlName="state" class="form-control" />
+                                    </div>
+                                    <div class="col-md-3 col-sm-12">
+
+                                        <label>Country:</label>
+                                        <input type="text" formControlName="country" class="form-control" />
+                                    </div>
+                                    <div class="col-md-3 col-sm-12">
+
+                                        <label>Alternate Mobile:</label>
+                                        <input type="text" formControlName="alternateMobile" class="form-control" />
+                                    </div>
+                                    <div class="col-md-3 col-sm-12">
+
+                                    <button type="button" (click)="edit(repd._id)"
+                                        class="btn btn-success">Update</button>
+                                    </div>
+                                  
                                 </div>
                             </div>
-                        </div>
-            </form>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer"></div>
         </div>
-</p-dialog>
+    </div>
+</div>
