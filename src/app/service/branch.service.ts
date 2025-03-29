@@ -673,6 +673,35 @@ ReceivedParcelUpdate(value: {
   );
 }
 
+ParcelBookingReport(value: {
+  fromDate: string;
+  toDate: string;
+  fromCity: string;
+  toCity: string;
+  bookingStatus: string;
+  bookingType: string;
+}) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'booking/parcel-booking-reports',
+    {
+      fromDate: value.fromDate,
+      toDate: value.toDate,
+      fromCity: value.fromCity,
+      toCity: value.toCity,
+      bookingStatus: value.bookingStatus,
+      bookingType: value.bookingType,
+  },
+    httpOptions
+  );
+}
+
 
 }
 
