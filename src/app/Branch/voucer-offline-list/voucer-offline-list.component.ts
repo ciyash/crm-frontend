@@ -30,8 +30,6 @@ export class VoucerOfflineListComponent {
           toCity: ['', Validators.required],
           fromBranch: ['', Validators.required],
         });
-    
-    
       }
     
       ngOnInit() {
@@ -60,6 +58,7 @@ export class VoucerOfflineListComponent {
         this.api.GetVouchersListData(id).subscribe((res)=>{
             console.log('vouchersdata',res);
             this.vldata=res;
+            console.log("thisvladata:",this.vldata)
         })
       }
     

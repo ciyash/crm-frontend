@@ -1,23 +1,19 @@
 <app-header> </app-header>
-
 <div class="container" style="padding-top: 8%;">
     <app-search-grn-number></app-search-grn-number>
 </div>
 <div class="container mt-4">
-            <div *ngIf="loading" class="text-center">
-                <img src="assets/loading.gif" alt=""  style="height:40px;">
-                <p class="text-danger text-center">Please Wait ....</p>
-            </div>
+    <div *ngIf="loading" class="text-center">
+        <img src="assets/loading.gif" alt="" style="height:40px;">
+        <p class="text-danger text-center">Please Wait ....</p>
+    </div>
     <div class="">
-        <p-table [value]="data1" *ngIf="!loading" 
-        scrollHeight="76vh" 
-        [rows]="10"
-        [lazy]="true"
-        (onLazyLoad)="loadUsers($event)"
-        [totalRecords]="totalBookings" styleClass="p-datatable-gridlines p-datatable-striped"> 
+        <p-table [value]="data1" *ngIf="!loading" scrollHeight="76vh" [rows]="10" [lazy]="true"
+            (onLazyLoad)="loadUsers($event)" [totalRecords]="totalBookings"
+            styleClass="p-datatable-gridlines p-datatable-striped">
             <ng-template pTemplate="header">
                 <tr >
-                    <th>S.No</th>
+                    <th >S.No</th>
                     <th>Date</th>
                     <th>LR No</th>
                     <th>From</th>
@@ -54,20 +50,18 @@
                             <i class="fa fa-check-circle mb-2 text-warning" title="Received Branch"></i> Received Branch
                         </ng-container>
                         <ng-container *ngIf="row.bookingStatus=='4'">
-                            <i class="fa fa-check-circle mb-2 text-success" title="Package Delivered"></i> Package Delivered
+                            <i class="fa fa-check-circle mb-2 text-success" title="Package Delivered"></i> Package
+                            Delivered
                         </ng-container>
                         <ng-container *ngIf="row.bookingStatus=='5'">
                             <i class="pi pi-times-circle mb-2 text-danger" title="Package Cancel"></i> Package Cancel
                         </ng-container>
                     </td>
                 </tr>
-                
             </ng-template>
         </p-table>
     </div>
-    
 </div>
-
 <p-dialog [(visible)]="visible" [modal]="true" label="Show" [dismissableMask]="true" [style]="{ width: '100rem' }">
     <ng-container *ngIf="repd">
         <div class="container">
@@ -77,16 +71,3 @@
         </div>
     </ng-container>
 </p-dialog>
-
-
-
-
-
-
-
-
-
-  
-
-
-

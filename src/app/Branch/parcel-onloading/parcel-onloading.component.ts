@@ -91,50 +91,43 @@ export class ParcelOnloadingComponent {
       }
       console.log('Selected To Cities:', this.fromCityArray.value);
     }
+
+
+
+
    
     onLoad() {
       const formValues = this.form.value;
       const payload = {
-        fromDate: this.form.value.fromDate,
-        toDate: this.form.value.toDate,
-        fromCity: this.form.value.fromCity,
-        toCity: this.form.value.toCity,
-        vehicalNumber: this.form.value.vehicalNumber,
-        branch: this.form.value.branch,
+        fromDate: formValues.fromDate,
+        toDate: formValues.toDate,
+        fromCity: formValues.fromCity,
+        toCity: formValues.toCity,
+        vehicalNumber: formValues.vehicalNumber,
+        branch: Array.isArray(formValues.branch) ? formValues.branch : [formValues.branch], // Ensure it's an array
       };
-      
+    
       console.log('Final Booking Data:', payload);
-      
+    
       this.api.FilterParcelUnLoading(payload).subscribe({
         next: (response: any) => {
           console.log('Booking successful:', response);
-          this.messageService.add({ severity: 'success', summary: 'success', detail: 'Load successfully' });
-          this.data = response || [];
-          // alert('Booking Successful!');
+      this.data = Object.values(response);
+
+          // Ensure response is an array
+          this.data = Array.isArray(response) ? response : [response];
+      
+          console.log(this.data, "Processed booking data");
           this.LoadSuccess = true;
-          // ✅ Assign loaded data to form1 fields
-          if (this.data.length > 0) {
-            this.form1.patchValue({
-              branch: this.data[0].branch,
-              fromBookingDate: this.form.value.fromDate,
-              toBookingDate: this.form.value.toDate,
-              toCity: this.form.value.toCity,
-              vehicleNo: this.form.value.vehicleNo,
-            });
-    
-            // ✅ Set `toCity`, `grnNo`, and `lrNumber` as FormArray
-            this.setFormArray('fromCity', this.data.map((d: any) => d.fromCity));
-            // this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
-            this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo).flat());
-          }
         },
         error: (error: any) => {
           console.error('Booking failed:', error);
           alert('Booking Failed. Please try again.');
         },
       });
+      // hsdbhdbs.
     }
-  
+    
     setFormArray(controlName: string, values: any[]) {
       const formArray = this.form1.get(controlName) as FormArray;
       formArray.clear(); // ✅ Clear previous values

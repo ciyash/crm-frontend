@@ -15,17 +15,11 @@
                 
                 <div class="col-md-4">
                     <label class="form-label">From City</label>
-                    <!-- <select #selectElem class="form-select form-select-sm" formControlName="fromCity" (change)="onFromcitySelect($event)">
-                        <select #selectElem class="form-select form-select-sm" formControlName="fromCity" (change)="onTocitySelect($event)">
-
-                        <option value="" selected>Select City</option>
-                        <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
-                    </select> -->
+                
                     <select #selectElem class="form-select form-select-sm" formControlName="fromCity">
                         <option value="" selected>Select City</option>
                         <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
                     </select>
-                    
                     
                 </div>
 

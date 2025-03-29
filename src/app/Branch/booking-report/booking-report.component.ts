@@ -33,19 +33,29 @@ export class BookingReportComponent {
     this.loadUsers({ first: 0, rows: 10 });
   }
 
-  getbookingData(){
-    this.api.GetBookings().subscribe((res:any) => {
+  getbookingData() {
+    this.api.GetBookings().subscribe((res: any) => {
       console.log(res);
-      this.data1 = res.data;  
+      
+      if (Array.isArray(res.data)) {  // Ensure it's an array
+        this.data1 = res.data;
+      } else {
+        console.error("Error: Expected an array but received", res.data);
+        this.data1 = [];  // Prevent issues
+      }
+  
       this.loading = false;
     });
   }
+  
   
 
   orderinvoice(id:any){
     this.router.navigate(['/printgrn/'+id]);
   }
 
+ 
+  
   loadUsers(event: any) {
     const first = event.first;  
     const rows = event.rows;    
@@ -54,10 +64,15 @@ export class BookingReportComponent {
   
     this.api.BookingsPage(page, perPage).subscribe((res: any) => {
       console.log(res);
-      this.data1 = res;  // Assign only the array
-      this.totalBookings = res.count; 
+      
+      if (Array.isArray(res.bookings)) {  // Ensure `res.data` is an array
+        this.data1 = res.bookings; 
+        this.totalBookings = res.count; 
+      } else {
+        console.error("Error: Expected an array but received", res.bookings);
+        this.data1 = [];  // Set an empty array to prevent issues
+      }
     });
   }
   
-
 }

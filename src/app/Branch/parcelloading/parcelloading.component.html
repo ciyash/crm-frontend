@@ -28,11 +28,17 @@ word-wrap: break-word">Parcel Loading Offline</h4>
                 
               <div class="col-md-4 col-sm-12">
                 <label class="form-label">To City</label>
-                  <select #demoSelect multiple class="form-control" formControlName="toCityArray">
+                  <!-- <select #demoSelect multiple class="form-control" formControlName="toCityArray">
+                    <option *ngFor="let city of cities" [value]="city.cityName">
+                      {{ city.cityName }}
+                    </option>
+                  </select> -->
+                  <select #demoSelect multiple class="form-control" (change)="onToCityChange($event)">
                     <option *ngFor="let city of cities" [value]="city.cityName">
                       {{ city.cityName }}
                     </option>
                   </select>
+                  
               </div>
               
               <div class="col-md-3 col-sm-12">
@@ -118,7 +124,7 @@ word-wrap: break-word">Parcel Loading Offline</h4>
                         <input type="text" class="form-control form-select-sm " formControlName="driverName">
                     </div>
                     <div class="col-md-2 col-sm-12">
-                        <label class="form-label">Conductor No</label>
+                        <label class="form-label">Conductor Number</label>
                         <input type="text" class="form-control form-select-sm " formControlName="driverNo">
                     </div>
                 </div>

@@ -22,6 +22,7 @@ export class AdminProfileComponent {
   errorMessage1: string = '';
   form1:FormGroup;
   visible: boolean = false;
+  ALLbranchdata: any;
   showDialog() {
       this.visible = true;
   }
@@ -52,7 +53,15 @@ export class AdminProfileComponent {
       //   password: this.data.password
       // });
     });
+    this.api.ALLGetBranch().subscribe((res:any)=>{
+      console.log(res);
+      this.ALLbranchdata=res;
+      console.log("GET ALL BRANCHES:",this.ALLbranchdata);
+      
+      
+    });
   }
+  
 
   changePassword(){
     console.log(this.form1.value);

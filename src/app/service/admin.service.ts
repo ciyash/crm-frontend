@@ -73,6 +73,7 @@ export class AdminService {
         'Authorization': 'Bearer ' + token1
       })
     };
+
     return this.http.patch(
       AUTH_API + 'branch/update/' + id,
       {
@@ -90,6 +91,18 @@ export class AdminService {
     },
       httpOptions
     );
+  }
+
+
+  ALLGetBranch(){
+    const token1 = this.token.getToken();
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token1
+      })
+    }
+      return this.http.get(AUTH_API + 'branch', httpOptions);
   }
 
 

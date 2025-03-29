@@ -1,101 +1,206 @@
+<div class=" container-fluid ">
+  <h4 class="text-center">SREE KALESWARI LOGISTICS</h4>
+  <p class="text-center">Address: VIJAYAWADA - Hanuman Peta Phone No: 7799701271</p>
+  <!-- <p class="fw-bold text-center ">LR No: {{data1.lrNumber}} </p> -->
 
-<!-- Loading Spinner -->
-    <div class="card" *ngIf="loading">
-      <p class="text-danger">Data Loading Wait...</p>
-    </div>
+
+  <div class="container mt-3">
+    <h4 class=" fw-bold">SENDER'S COPY</h4>
+    <div class="table-responsive mt-3">
+      <table class="table table-bordered text-white table-custom">
+        <thead class="table-header">
+          <tr>
+            <th>Sender Details</th>
+            <th>Receiver Details</th>
+            <th>{{ data1.bookingDate | date: 'dd/MM/yyyy' }}</th>
+          </tr>
+        </thead>
+        
+        <tbody>
+          <tr>
+            <td>
+              <p class="fw-bold" style="font-size: 15px; text-transform: uppercase;">
+                {{ data1.senderName }}
+              <p class="fw-bold">{{data1.senderMobile}}
+               </p>
+            </td>
+            
+            
+            <td>
+              <p class="fw-bold">{{data1.receiverName}} </p>
+              <p class="fw-bold">{{data1.receiverMobile}}</p>
+            </td>
+            <td>
+              <div class="d-flex justify-content-center align-items-center ">
+                <div *ngIf="qrData" class="qr-code text-center">
+                  <h6>{{ data1.lrNumber }}</h6>
+                  <qrcode *ngIf="qrData" [qrdata]="qrData" [width]="100" [errorCorrectionLevel]="'M'">
+                  </qrcode>
+                </div>
+              </div>
+            </td>
+          </tr>
+          
+        </tbody>
+
+        <table class="pavan" style="width: 100%;" >
+          <tr>
+              <th colspan="1">Details of Contents</th>
+              <th colspan="1">No of Article</th>
+          </tr>
+          <tr>
+              <th>
+                <p>akljcndsn</p>
+              <p>lksdn</p>
+              </th>
+              <th>
+                <p>kjsbcjhbsd</p>
+                <p>kjsbcjhbsd</p>
+              </th>
+          </tr>
+          <tr>
+            <p>sendersign</p>
+            <td>
+              <h6>BOOKED AT OWNER'S RISK ONLY</h6>
+            </td>
+          </tr>
+      </table>
+      
+      
+      </table>
+ 
     
-<div *ngIf="!loading">
-    <div class="hide-on-print hide-on-pdf"> 
-      <!-- <button type="button" class="btn btn-sm btn-primary m-2 " (click)="downloadAsPDF()"><i class="pi pi-file-pdf"></i> PDF</button>   -->
-      <button type="button" class="btn btn-sm btn-danger" (click)="printPage()"><i class="pi pi-print"></i> Print</button>
-      <button type="button" class="btn btn-sm btn-primary ml-2" routerLink="/bookingreport"><i class="pi pi-print"></i> Back to New Booking</button>
     </div>
-<!-- Order Details -->
+    <h4 class="text-end fw-bold">CONSIGMENT COPY</h4>
+    <div class="table-responsive mt-3">
+      <table class="table table-bordered text-white table-custom">
+        <thead class="table-header">
+          <tr>
+            <th>Sender Details</th>
+            <th>Receiver Details</th>
+            <!-- <th>{{data1.bookingDate
+                }}</th> -->
+            <th>{{ data1.bookingDate | date: 'dd/MM/yyyy' }}</th>
 
-  <div class="col-12 mb-5 m-3" *ngIf="data1">
-    <div id="printSection">
-      <h4 class="text-center mb-3"><u>Receipt</u></h4>
-      <div class="col-md-12 col-xs-12 text-right">
-        <h6>
-          LR No: {{data1.lrNumber}} <br>
-          Date: {{data1.bookingDate | date:'dd/MMM/yyyy'}}
-        </h6>
-      </div>
-      <div class="row">
-        <div class="col-md-6 col-xs-6 col-sm-6">
-          <h6>To,</h6>
-          <p>
-            {{data1.receiverName}} <br>
-            {{data1.receiverAddress}} <br>
-            Ph: {{data1.receiverMobile}} <br>
-            <span class="text-primary">Branch: {{data1.toCity}}</span>
-          </p>
-        </div>
-        <div class="col-md-6 col-xs-6 col-sm-6">
-          <h6>From,</h6>
-          <p>
-            {{data1.senderName}} <br>
-            {{data1.senderAddress}} <br>
-            Ph: {{data1.senderMobile}} <br>
-            <span class="text-danger">Branch: {{data1.fromCity}}</span>
-          </p>
-        </div>
-        <div class="col-md-6 col-xs-6 col-sm-6 mt-3">
-          <div *ngIf="qrData" class="qr-code mt-3">
-          <h4 class="text-center"> {{data1.lrNumber}} </h4>
-            <qrcode 
-              *ngIf="qrData"
-              [qrdata]="qrData" 
-              [width]="300" 
-              [errorCorrectionLevel]="'M'" class="text-center">
-            </qrcode>
-          </div>
-        </div>
-      </div>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <p class="fw-bold" style="font-size: 15px; text-transform: uppercase;">
+                {{ data1.senderName }}
+              <p class="fw-bold">{{data1.senderMobile}} </p>
+            </td>
+            <td>
+              <p class="fw-bold">{{data1.receiverName}} </p>
+              <p class="fw-bold">{{data1.receiverMobile}}</p>
+            </td>
+            
+            <td>
+              <div class="d-flex justify-content-center align-items-center ">
+                <div *ngIf="qrData" class="qr-code text-center">
+                  <h6>{{ data1.lrNumber }}</h6>
+                  <qrcode *ngIf="qrData" [qrdata]="qrData" [width]="100" [errorCorrectionLevel]="'M'">
+                  </qrcode>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+  </div>
+
+
+
+
+
+  <div class="container-fluid d-flex justify-content-evenly" *ngIf="data1">
+    <div class="row">
+      <!-- <p class="fw-bold">To</p> -->
+      <!-- <p class="fw-bold" style="font-size: 20px; text-transform: uppercase;">
+      {{ data1.senderName }}
+  </p> -->
+      <!-- <p class="fw-bold">{{data1.senderMobile}}  </p> -->
+      <!-- <p class="fw-bold">Date: {{data1.bookingDate | date:'dd/MMM/yyyy'}} </p> 
+       <p class="fw-bold">{{data1.toCity}}</p> 
+      <p class="fw-bold">{{data1.grnNo}}</p> 
+      <p class="fw-bold">{{data1.dropBranchname}}</p> -->
+    </div>
+    <div>
+      <!-- <p class="fw-bold">From</p> -->
+      <!-- <p class="fw-bold">{{data1.senderAddress}}  </p> -->
+      <!-- <p class="fw-bold">{{data1.receiverName}} </p>
+    <p class="fw-bold">{{data1.receiverMobile}}</p> -->
+      <!-- <p class="fw-bold">{{data1.receiverAddress}} </p>
+    <p class="fw-bold">{{data1.senderMobile}}  </p>
+     <p class="fw-bold">{{data1.pickUpBranchname}}  </p>
+    <p class="fw-bold">{{data1.fromCity}}  </p> -->
+    </div>
+  </div>
+
+
+  <div class="d-flex justify-content-end">
+    <h6 class="text-end">SenderSign</h6>&nbsp;&nbsp;
+    <hr class="text-end" style="border: 1px solid #1a1818; width: 10%;">
+  </div>
+
+  <div *ngIf="!loading">
+    <div class="hide-on-print hide-on-pdf">
+      <!-- <button type="button" class="btn btn-sm btn-primary m-2 " (click)="downloadAsPDF()"><i class="pi pi-file-pdf"></i> PDF</button>   -->
+      <button type="button" class="btn btn-sm btn-danger" (click)="printPage()"><i class="pi pi-print"></i>
+        Print</button>
+      <button type="button" class="btn btn-sm btn-primary ml-2" routerLink="/bookingreport"><i class="pi pi-print"></i>
+        Back to New Booking</button>
+    </div>
+
+
+
+    
+
+
   
-    <div class="">
-      <!-- <div class="table-responsive" >
-        <table class="table">
+    
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Table Borders</title>
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse; /* Ensures proper border rendering */
+            }
+            th, td {
+                border: 1px solid black; /* Adds border to cells */
+                padding: 8px;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+    
+        <table class="mb-5">
           <thead>
             <tr>
-              <th>#</th>
-              <th>Qty</th>
-              <th>Package</th>
-              <th>Contains</th>
-              <th>Weight</th>
-              <th>Unit Price</th>
-              <th>Total</th>
+              <th colspan="5">Person</th>
+              <th rowspan="3">Id</th>
+            </tr>
+            <tr>
+              <th colspan="2">Name</th>
+              <th rowspan="2">Age</th>
+              <th colspan="2">Job</th>
+            </tr>
+            <tr>
+              <th>First</th>
+              <th>Last</th>
+              <th>Position</th>
+              <th>Age</th>
             </tr>
           </thead>
-          <tbody>
-            <tr *ngFor="let rd of data1.packages; let i = index">
-              <td class="text-primary">{{ i + 1 }}</td>
-              <td class="text-primary">{{ rd.quantity }}</td>
-              <td class="text-primary">{{ rd.packageType }}</td>
-              <td class="text-primary">{{ rd.contains }}</td>
-              <td class="text-primary">{{ rd.weight }}</td>
-              <td class="text-primary">{{ rd.unitPrice | currency: 'INR': true: '1.0-1' }}</td>
-              <td class="text-success">{{ rd.totalPrice | currency: 'INR': true: '1.0-1' }}</td>
-            </tr>
-  
-    
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td class="text-primary"></td>
-                <td class="" class="text-primary">Total Amount</td>
-                <td class="text-primary">{{data1.grandTotal | currency:'INR':true:'1.0-1'}}</td>
-              </tr>
-  
-          </tbody>
         </table>
-        
-       </div> -->
-     </div>
-  
-  </div>
-</div>
-
+    
+    </body>
+    </html>
+    

@@ -53,6 +53,8 @@ export class ParcelBranchComponent implements OnInit {
     this.api.GetProfileData().subscribe((res:any)=>{
       console.log('profile',res);
       this.pdata=res.branchId;
+      console.log("branchDETAILS",this.pdata);
+      
     })
   }
 
