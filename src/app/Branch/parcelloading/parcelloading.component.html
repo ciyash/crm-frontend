@@ -28,11 +28,6 @@ word-wrap: break-word">Parcel Loading Offline</h4>
                 
               <div class="col-md-4 col-sm-12">
                 <label class="form-label">To City</label>
-                  <!-- <select #demoSelect multiple class="form-control" formControlName="toCityArray">
-                    <option *ngFor="let city of cities" [value]="city.cityName">
-                      {{ city.cityName }}
-                    </option>
-                  </select> -->
                   <select #demoSelect multiple class="form-control" (change)="onToCityChange($event)">
                     <option *ngFor="let city of cities" [value]="city.cityName">
                       {{ city.cityName }}
@@ -49,10 +44,11 @@ word-wrap: break-word">Parcel Loading Offline</h4>
               
               <div class="col-md-3 col-sm-12">
                 <label class="form-label">Book Branch</label>
-                <select class="form-select form-select-sm" formControlName="pickUpBranch">
-                    <option value="" selected>Select Branch</option>
+                <select #branchselect class="form-select form-select-sm" formControlName="pickUpBranch">
+                  <option value="" selected>Select Branch</option>
                   <option *ngFor="let branch of tbcdata" [value]="branch.branchUniqueId">{{ branch.name }}</option>
                 </select>
+                
               </div>
           
               <div class="col-md-3 col-sm-12">
@@ -112,12 +108,17 @@ word-wrap: break-word">Parcel Loading Offline</h4>
                         <input type="date" class="form-control form-select-sm" formControlName="loadingDate">
                     </div> -->
                     <div class="col-md-3 col-sm-12">
-                        <label class="form-label">Vehicle Number</label>
-                        <select class="form-select form-select-sm mb-3" formControlName="vehicalNumber" aria-label="Large select example">
-                            <option value="" selected>Select Vehicle Number</option>
-                            <option *ngFor="let vehicle of vehicle" [value]="vehicle.vehicleNo">{{ vehicle.vehicleNo }}</option>
-                        </select>
+                      <label class="form-label">Vehicle Number</label>
+                      <!-- <select #SelectVechicle class="form-select form-select-sm mb-3" formControlName="vehicleNumber" aria-label="Large select example">
+                        <option value="" selected>Select Vehicle Number</option>
+                        <option *ngFor="let vehicle of vehicle" [value]="vehicle.vehicleNo">{{ vehicle.vehicleNo }}</option>
+                      </select> -->
+                      <select #SelectVechicle class="form-select form-select-sm mb-3" formControlName="vehicalNumber">
+                        <option value="" selected>Select Vehicle Number</option>
+                        <option *ngFor="let vehicle of vehicle" [value]="vehicle.vehicleNo">{{ vehicle.vehicleNo }}</option>
+                      </select>
                     </div>
+                    
                     
                     <div class="col-md-2 col-sm-12">
                         <label class="form-label">Conductor name</label>

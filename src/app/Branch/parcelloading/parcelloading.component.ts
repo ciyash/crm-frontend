@@ -31,10 +31,11 @@ export class ParcelloadingComponent implements OnInit {
   allSelected: boolean = false;
   tbcdata:any;
    @ViewChild('selectElem') selectElem!: ElementRef;
+   @ViewChild('branchselect') branchselect!: ElementRef;
+   @ViewChild('SelectVechicle')SelectVechicle!:ElementRef;
   @ViewChild('demoSelect') demoSelect!: ElementRef;
+  BranchSelect: any;
   
-
-
 
   constructor(private api: BranchService, private token:TokenService,
      private fb: FormBuilder, private messageService:MessageService,
@@ -208,25 +209,52 @@ export class ParcelloadingComponent implements OnInit {
   }
 
 
+ 
   ngAfterViewInit(): void {
+    // Initialize SlimSelect
     new SlimSelect({
-         select: this.demoSelect.nativeElement
-      });
-      
+      select: this.demoSelect.nativeElement
+    });
+  
     setTimeout(() => {
+      // Initialize select2 for From City
       $(this.selectElem.nativeElement).select2();
-
       $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
-        const selectedCity = event.params.data.id;  // Gets selected value
+        const selectedCity = event.params.data.id;  // Get selected value
         console.log('Selected City:', selectedCity);
-
-        this.form.patchValue({ fromCity: selectedCity });  // ✅ Manually update the form
+  
+        this.form.patchValue({ fromCity: selectedCity });  // Manually update the form
         console.log('Updated form value:', this.form.value);
-
+  
         this.onFromcitySelect({ target: { value: selectedCity } });  // Trigger API call
+      });
+  
+      // Initialize select2 for Branch selection
+      $(this.branchselect.nativeElement).select2();
+      $(this.branchselect.nativeElement).on('select2:select', (event: any) => {
+        const selectedDropBranch = event.params.data.id;
+        console.log('Selected Drop Branch:', selectedDropBranch);
+  
+        this.form.patchValue({ pickUpBranch: selectedDropBranch });  // Update form value
+        console.log('Updated form value:', this.form.value);
+        this.BranchSelect({ target: { value: selectedDropBranch } });
+      });
+  
+      // Initialize select2 for Vehicle Number
+      $(this.SelectVechicle.nativeElement).select2();
+      $(this.SelectVechicle.nativeElement).on('select2:select', (event: any) => {
+        const selectedVehicle = event.params.data.id;  // Get selected value
+        console.log('Selected Vehicle:', selectedVehicle);
+  
+        // Update Angular form control with selected vehicle number
+        this.form1.patchValue({ vehicalNumber: selectedVehicle });
+  
+        // You can also log to see if it's updating the form control properly
+        console.log('Updated form value:', this.form1.value);
       });
     }, 0);
   }
+  
 
 
 

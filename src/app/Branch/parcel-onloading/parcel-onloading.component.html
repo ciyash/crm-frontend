@@ -1,5 +1,4 @@
 <app-header></app-header>
-
 <h4 class="text-center mb-4 pt-5 mt-5" style="color: #3C3C3C;
 font-size: 20px;
 font-family: Poppins;
@@ -8,7 +7,6 @@ text-decoration: underline;
 word-wrap: break-word">Parcel UnLoading Offline</h4>
 
 <div class="container pt-5 pb-5" style="border: 1px solid #7C7C7C;">
-  <p-toast [showTransformOptions]="'translateY(100%)'" [showTransitionOptions]="'1000ms'" [hideTransitionOptions]="'1000ms'" [showTransformOptions]="'translateX(100%)'" ></p-toast>
     <div class="container">
         <form [formGroup]="form">
             <div class="row g-3">
@@ -19,39 +17,48 @@ word-wrap: break-word">Parcel UnLoading Offline</h4>
 
               <div class="col-md-4 col-sm-12">
                 <label class="form-label">From City</label>
-                <div class="border rounded p-2" style="max-height: 150px; overflow-y: auto;"> 
-                  <div *ngFor="let city of cities">
-                    <input type="checkbox"
-                      [value]="city.cityName"
-                      (change)="onToCityChange($event, city.cityName)"
-                      [checked]="fromCityArray.value.includes(city.cityName)" />
+                <select #demoSelect multiple class="form-control" (change)="onFromCityChange($event)">
+                  <option *ngFor="let city of cities" [value]="city.cityName">
                     {{ city.cityName }}
-                  </div>
-                </div>
+                  </option>
+                </select>
               </div> 
               
               <div class="col-md-4 col-sm-12">
                 <label class="form-label">To City</label>
-                <select class="form-select form-select-sm" formControlName="toCity" (change)="onTocitySelect($event)">
+                <select #selectElem class="form-select form-select-sm" formControlName="toCity" >
                   <option value="" selected>Select City</option>
                   <option *ngFor="let city of cities" [value]="city.cityName">{{ city.cityName }}</option>
                 </select>
               </div>
-                           
               
+          
               <div class="col-md-3 col-sm-12">
                 <label class="form-label">To Date</label>
                 <input type="date" class="form-control form-control-sm" formControlName="toDate">
               </div>
               
+              <!-- <div class="col-md-3 col-sm-12">
+                <label class="form-label">Branch</label>
+                <select  #branch  class="form-select form-select-sm" formControlName="branch">
+                  <option     value="" selected>Select Branch</option> 
+                  <option *ngFor="let branch of tbcdata" [value]="branch.branchUniqueId">
+                    {{ branch.name }}
+                  </option>
+                </select>
+              </div> -->
               <div class="col-md-3 col-sm-12">
                 <label class="form-label">Branch</label>
-                <select class="form-select form-select-sm" formControlName="branch">
-                    <option value="" selected>Select Branch</option>
-                  <option *ngFor="let branch of tbcdata" [value]="branch.branchUniqueId">{{ branch.name }}</option>
+                <select #branch class="form-select form-select-sm" formControlName="branch">
+                  <option value="" selected >Select Branch</option>
+                  <option *ngFor="let branch of tbcdata" [value]="branch.branchUniqueId">
+                    {{ branch.name }}
+                  </option>
                 </select>
               </div>
-              <!-- //new file -->
+              
+              
+              
               <div class="col-md-3 col-sm-12">
                 <label class="form-label">Vehicle Number</label>
                 <select class="form-select form-select-sm mb-3" formControlName="vehicalNumber" aria-label="Large select example">
@@ -71,42 +78,40 @@ word-wrap: break-word">Parcel UnLoading Offline</h4>
           <!-- Data Table -->
           <!-- Data Table -->
           <!-- Data Table -->
-            <div class="table-responsive mt-4" *ngIf="data">
-              <table class="table table-bordered table-striped">
-                  <thead>
-                      <tr>
-                        <th> <input  type="checkbox" (change)="onSelectAllChange($event)" [checked]="allSelected" /> Select All </th>
-                          <th>S.No</th>
-                          <th>LR No</th>
-                          <th>Book by Branch</th>
-                          <th>Drop Branch</th>
-                          <th>From City</th>
-                          <th>To City</th>
-                          <th>Booking Date</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                    <tr  *ngFor="let row of data; let i = index">
-                      
-                      <td>
-                        <input type="checkbox" 
-                          (change)="onGrnNoChange($event, row.grnNo[0])"
-                          [checked]="form1.get('grnNo')?.value.includes(row.grnNo[0])"/>  
-                      </td>
-                      <td>{{ i + 1 }}</td>
-                      <td>{{ row.lrNumber?.[0] }}</td>  <!-- Handle array safely -->
-                      <td>{{ row.fromBranch }}</td>
-                      <td>{{ row.toBranch }}</td>
-                      <td>{{ row.fromCity }}</td>
-                      <td>{{ row.toCity?.[0] }}</td>  <!-- Handle array safely -->
-                      <td>{{ row.toBookingDate | date:'dd/MM/yyyy' }}</td>
-                    </tr>
-                  </tbody>
-                  
-              </table>
-            </div>
-
-          
+          <div class="table-responsive mt-4" *ngIf="data && data.length > 0">
+            <table class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th><input type="checkbox" (change)="onSelectAllChange($event)" [checked]="allSelected" /> Select All</th>
+                  <th>S.No</th>
+                  <th>LR No</th>
+                  <th>Book by Branch</th>
+                  <th>Drop Branch</th>
+                  <th>From City</th>
+                  <th>To City</th>
+                  <th>Booking Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of data.bookings; let i = index">
+                  <td>
+                    <input
+                      type="checkbox"
+                      (change)="onGrnNoChange($event, row?.grnNo?.[0])"
+                      [checked]="form1.get('grnNo')?.value.includes(row?.grnNo?.[0])"
+                    />
+                  </td>
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ row?.lrNumber?.[0] || 'N/A' }}</td>
+                  <td>{{ row?.fromBranch }}</td>
+                  <td>{{ row?.toBranch }}</td>
+                  <td>{{ row?.fromCity }}</td>
+                  <td>{{ row?.toCity }}</td>
+                  <td>{{ row?.bookingDate  }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
     </div>
     
     <form [formGroup]="form1">
