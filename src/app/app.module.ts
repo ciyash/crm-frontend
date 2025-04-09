@@ -42,6 +42,8 @@ import { FilterGrnComponent } from './Branch/filter-grn/filter-grn.component';
 
 import { PrintVoucherslistDataComponent } from './Branch/print-voucherslist-data/print-voucherslist-data.component';
 import { ParcelBookingReportComponent } from './Branch/Reports/parcel-booking-report/parcel-booking-report.component';
+import { DispatchedReportComponent } from './Branch/dispatched-report/dispatched-report.component';
+import { BranchReportsDashboardComponent } from './Branch/Reports/branch-reports-dashboard/branch-reports-dashboard.component';
 
 
 
@@ -75,7 +77,9 @@ import { ParcelBookingReportComponent } from './Branch/Reports/parcel-booking-re
     BrachToBranchUnloadingComponent,
     FilterGrnComponent,
     PrintVoucherslistDataComponent,
-    ParcelBookingReportComponent
+    ParcelBookingReportComponent,
+    DispatchedReportComponent,
+    BranchReportsDashboardComponent
     
     
   ],

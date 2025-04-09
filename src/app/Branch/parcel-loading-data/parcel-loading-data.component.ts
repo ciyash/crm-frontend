@@ -73,6 +73,7 @@ export class ParcelLoadingDataComponent {
     selectedOptions.forEach(city => toCityArray.push(new FormControl(city)));
     console.log('Selected To Cities:', toCityArray.value);
   }
+  
   ParcelLoad() {
     console.log("Before Load: Payload being sent", {
       fromBookingDate: this.form1.value.fromBookingDate,

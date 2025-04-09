@@ -109,10 +109,12 @@ export class HeaderComponent implements OnInit {
           routerLink: ['/booking'],
         },
         {
-          label: 'Bookings',
+          label: 'Parcel Report',
           icon: 'pi pi-fw pi-database',
           items: [
             { label: 'Booking Report', routerLink: ['/bookingreport'] },
+            { label: 'Booking Report', routerLink: ['/reportsdashboard'] },
+            { label: 'Dispatched Report', routerLink: ['/dispatchedreport'] },
           ],
         },
         { label: 'Others', icon: 'pi pi-fw pi-file', routerLink: ['/booking'] },
