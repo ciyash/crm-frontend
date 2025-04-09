@@ -9,7 +9,6 @@ word-wrap: break-word">Parcel Loading Offline</h4>
 
   
 <div class="container pt-5 pb-5" style="border: 1px solid #7C7C7C;">
-  <p-toast [showTransformOptions]="'translateY(100%)'" [showTransitionOptions]="'1000ms'" [hideTransitionOptions]="'1000ms'" [showTransformOptions]="'translateX(100%)'" ></p-toast>
     <div class="container">
         <form [formGroup]="form">
             <div class="row g-3">
@@ -20,7 +19,7 @@ word-wrap: break-word">Parcel Loading Offline</h4>
               
               <div class="col-md-4 col-sm-12">
                       <label class="form-label">From City</label>
-                      <select #selectElem class="form-control select2" formControlName="fromCity" (change)="onFromcitySelect($event)">
+                      <select #selectElem class="form-control select2" formControlName="fromCity"  (change)="onFromcitySelect($event)">
                         <option value="" selected>Select City</option>
                         <option *ngFor="let city of cities" [value]="city.cityName">{{ city.cityName }}</option>
                       </select>
@@ -69,7 +68,7 @@ word-wrap: break-word">Parcel Loading Offline</h4>
                   <th>LR No</th>
                   <th>Book by Branch</th>
                   <th>Drop Branch</th>
-                  <th>Sender</th>
+                  <th>senderName</th>
                   <th>Receiver</th>
                   <th>City Name</th>
                   <th>Transaction Date</th>
@@ -78,41 +77,56 @@ word-wrap: break-word">Parcel Loading Offline</h4>
                   <th>Charge</th>
                 </tr>
               </thead>
-              <tbody>
+              <!-- <tbody>
                 <tr *ngFor="let row of data; let i=index">
                   <td> <input type="checkbox" (change)="onGrnNoChange($event, row.grnNo)" [checked]="form1.get('grnNo')?.value.includes(row.grnNo)"/>  </td>
                 <td>{{ i+1 }}</td>
                   <td>{{ row.lrNumber }}</td>
-                  <td>{{ row.pickUpBranch }}</td>
-                  <td>{{ row.dropBranch}}</td>
-                  <td>{{ row.senderName }} <br><small>{{row.senderMobile}}</small></td>
+                  <td>{{ row.pickUpBranchname }}</td>
+                  <td>{{ row.dropBranchname}}</td>
+                  <td>{{ row.senderName }} </td>
                   <td>{{ row.receiverName }} <br><small>{{row.receiverMobile}}</small></td>
                   <td>{{ row.toCity }}</td>
                   <td>{{ row.bookingDate | date:'dd/MM/yyyy' }}</td>
                   <td> {{row.bookingType}} </td>
                   <td> {{row.totalQuantity}} </td>
                   <td>{{ row.grandTotal }}</td>
+
+                </tr>
+              </tbody> -->
+              <tbody>
+                <tr *ngFor="let row of data; let i = index">
+                  <td>
+                    <input 
+                      type="checkbox"
+                      [checked]="form1.get('grnNo')?.value.includes(row.grnNo)"
+                      (change)="onGrnNoChange($event, row.grnNo)" 
+                    />
+                  </td>
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ row.lrNumber }}</td>
+                  <td>{{ row.pickUpBranch }}</td>
+                  <td>{{ row.dropBranch }}</td>
+                  <td>{{ row.senderName }}</td>
+                  <td>{{ row.receiverName }}</td>
+                  <td>{{ row.toCity }}</td>
+                  <td>{{ row.bookingDate | date: 'dd-MM-yyyy' }}</td>
+                  <td>{{ row.paymentType }}</td>
+                  <td>{{ row.totalQuantity }}</td>
+                  <td>{{ row.totalAmount }}</td>
                 </tr>
               </tbody>
+              
             </table>
           </div>
-        
-          
     </div>
     
     <form [formGroup]="form1">
         <div class="container pb-3">
                 <div class="row pt-3">
-                    <!-- <div class="col-md-4 col-sm-12">
-                        <label class="form-label">Loading date</label>
-                        <input type="date" class="form-control form-select-sm" formControlName="loadingDate">
-                    </div> -->
                     <div class="col-md-3 col-sm-12">
                       <label class="form-label">Vehicle Number</label>
-                      <!-- <select #SelectVechicle class="form-select form-select-sm mb-3" formControlName="vehicleNumber" aria-label="Large select example">
-                        <option value="" selected>Select Vehicle Number</option>
-                        <option *ngFor="let vehicle of vehicle" [value]="vehicle.vehicleNo">{{ vehicle.vehicleNo }}</option>
-                      </select> -->
+                     
                       <select #SelectVechicle class="form-select form-select-sm mb-3" formControlName="vehicalNumber">
                         <option value="" selected>Select Vehicle Number</option>
                         <option *ngFor="let vehicle of vehicle" [value]="vehicle.vehicleNo">{{ vehicle.vehicleNo }}</option>
@@ -133,14 +147,6 @@ word-wrap: break-word">Parcel Loading Offline</h4>
             </div>
                 <div class="container">
                     <div class="row">
-                        <!-- <div class="col-md-6">
-                            <label class="form-label">Remark</label>
-                            <input type="text" class="form-control form-select-lg ">
-                        </div>
-                        <div class="col-md-3 ">
-                            <label class="form-label">Drop Branch</label>
-                            <input type="text" class="form-control form-select-lg ">
-                        </div> -->
                         <div class="col-md-3 d-flex align-items-end">
                             <button class="btn btn-primary btn-sm " type="button"
                                 style=" width: 10rem;" (click)="ParcelLoad()">Save</button>
@@ -149,13 +155,4 @@ word-wrap: break-word">Parcel Loading Offline</h4>
                 </div>
     </form>
 </div>
-
-
-
-
-
-
-
-  
-  
 <app-parcel-loading-data></app-parcel-loading-data>

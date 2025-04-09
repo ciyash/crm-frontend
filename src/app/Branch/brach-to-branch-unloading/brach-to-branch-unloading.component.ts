@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component,ViewChild,ElementRef } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BranchService } from 'src/app/service/branch.service';
+import { ToastrService } from 'ngx-toastr';
+declare var $: any;
+declare const SlimSelect: any; 
 
 @Component({
   selector: 'app-brach-to-branch-unloading',
@@ -18,7 +21,9 @@ export class BrachToBranchUnloadingComponent {
     LoadSuccess: boolean = false;
     allSelected: boolean = false;
     pdata:any;
-    constructor(private api: BranchService, private fb: FormBuilder, private router:Router) {
+    @ViewChild('fromBranch') fromBranch!: ElementRef;
+    @ViewChild('toBranch') toBranch!: ElementRef;
+    constructor(private api: BranchService, private fb: FormBuilder, private router:Router,private toast:ToastrService) {
       this.form = this.fb.group({
         fromLoadingDate: ['', Validators.required],
         toLoadingDate: ['', Validators.required],
@@ -55,42 +60,112 @@ export class BrachToBranchUnloadingComponent {
         this.pdata=res.branchId;
       })
     }
+
+   
+    
   
-    loaddata(){
-        const payload = {
-          fromLoadingDate: this.form.value.fromLoadingDate,
-          toLoadingDate: this.form.value.toLoadingDate,
-          fromBranch: this.form.value.fromBranch,
-          toBranch: this.form.value.toBranch,
-        };
-        console.log('Final Payload:', payload);
-        this.api.postBranchtobranchUnLoadingFilter(payload).subscribe({
-          next: (response: any) => {
-            console.log('loaded successfully:', response);
-            alert('Parcel Loaded Successfully!');
-            this.data=response;
-            this.LoadSuccess = true;
-          // ✅ Assign loaded data to form1 fields
+    
+    ngAfterViewInit(): void {
+      setTimeout(() => {
+        // From Branch select2
+        $(this.fromBranch.nativeElement).select2();
+        $(this.fromBranch.nativeElement).on('select2:select', (event: any) => {
+          const selected = event.params.data.id;
+          this.form.get('fromBranch')?.setValue(selected); // Use `form` not `form1`
+          console.log('Selected From Branch:', selected);
+        });
+    
+        // To Branch select2
+        $(this.toBranch.nativeElement).select2();
+        $(this.toBranch.nativeElement).on('select2:select', (event: any) => {
+          const selected = event.params.data.id;
+          this.form.get('toBranch')?.setValue(selected);
+          console.log('Selected To Branch:', selected);
+        });
+      }, 0);
+    }
+    
+
+    loaddata() {
+      if (this.form.invalid) {
+
+        return;
+      }
+    
+      const payload = {
+        fromLoadingDate: this.form.value.fromLoadingDate,
+        toLoadingDate: this.form.value.toLoadingDate,
+        fromBranch: this.form.value.fromBranch,
+        toBranch: this.form.value.toBranch,
+      };
+    
+      console.log('Final Payload:', payload);
+    
+      this.api.postBranchtobranchUnLoadingFilter(payload).subscribe({
+        next: (response: any) => {
+          console.log('loaded successfully:', response);
+          this.toast.success('ParcelBranch to Branch Unloaded Successfully', 'Success');
+
+          this.data = response;
+          this.LoadSuccess = true;
+    
           if (this.data.length > 0) {
             this.form1.patchValue({
-              fromDate: this.form.value.fromLoadingDate,
-              toDate: this.form.value.toLoadingDate,
-              branch:this.form.value.fromBranch,
-              unloadBranch:this.form.value.toBranch,
+              fromDate: payload.fromLoadingDate,
+              toDate: payload.toLoadingDate,
+              branch: payload.fromBranch,
+              unloadBranch: payload.toBranch,
             });
     
-            // ✅ Set `toCity`, `grnNo`, and `lrNumber` as FormArray
             this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
             this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
           }
-          },
-          error: (error: any) => {
-            console.error('loading failed:', error);
-            alert('NO Parcel Loading . Please try again.');
-          },
-        });
-      
+        },
+        error: (error: any) => {
+          console.error('loading failed:', error);
+          this.toast.error('NO Parcel Loading. Please try again.', 'failed');
+
+        },
+      });
     }
+    
+
+  
+    // loaddata(){
+    //     const payload = {
+    //       fromLoadingDate: this.form.value.fromLoadingDate,
+    //       toLoadingDate: this.form.value.toLoadingDate,
+    //       fromBranch: this.form.value.fromBranch,
+    //       toBranch: this.form.value.toBranch,
+    //     };
+    //     console.log('Final Payload:', payload);
+    //     this.api.postBranchtobranchUnLoadingFilter(payload).subscribe({
+    //       next: (response: any) => {
+    //         console.log('loaded successfully:', response);
+    //         alert('Parcel Loaded Successfully!');
+    //         this.data=response;
+    //         this.LoadSuccess = true;
+    //       // ✅ Assign loaded data to form1 fields
+    //       if (this.data.length > 0) {
+    //         this.form1.patchValue({
+    //           fromDate: this.form.value.fromLoadingDate,
+    //           toDate: this.form.value.toLoadingDate,
+    //           branch:this.form.value.fromBranch,
+    //           unloadBranch:this.form.value.toBranch,
+    //         });
+    
+    //         // ✅ Set `toCity`, `grnNo`, and `lrNumber` as FormArray
+    //         this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
+    //         this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
+    //       }
+    //       },
+    //       error: (error: any) => {
+    //         console.error('loading failed:', error);
+    //         alert('NO Parcel Loading . Please try again.');
+    //       },
+    //     });
+      
+    // }
   
      setFormArray(controlName: string, values: any[]) {
         const formArray = this.form1.get(controlName) as FormArray;

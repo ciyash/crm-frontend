@@ -252,7 +252,7 @@ FilterParcelLoading(value:{
     })
   };
   return this.http.post(
-    AUTH_API + 'booking/filterDates',  { 
+    AUTH_API + 'parcel-loading/parcel-loding-load',  { 
       "startDate": value.startDate,
       "endDate": value.endDate,
     "fromCity": value.fromCity,
@@ -274,7 +274,8 @@ ParcelLoading(value:{
   fromBookingDate:string;
   toBookingDate:string;
   fromCity:string;
-  userName:string;
+  // userName:string;
+  senderName:string,
   toCity: [];
   grnNo: [];
   lrNumber : [];
@@ -297,7 +298,8 @@ ParcelLoading(value:{
     "fromBookingDate": value.fromBookingDate,
   "toBookingDate": value.toBookingDate,
   "fromCity": value.fromCity,
-  "userName": value.userName,
+  // "userName": value.userName,
+  'senderName':value.senderName,
   "toCity": value.toCity,
   "grnNo": value.grnNo,
   "lrNumber": value.lrNumber,
@@ -364,7 +366,7 @@ ParcelUnLoading(value:{
   fromCity: [];
   toCity:string;
   branch:string;
-  vehicleNo:string;
+  vehicalNumber:string;
   grnNo: [];
   bookingType:string;
 }){
@@ -382,7 +384,7 @@ ParcelUnLoading(value:{
   "fromCity": value.fromCity,
   "toCity": value.toCity,
   "branch": value.branch,
-  "vehicleNo": value.vehicleNo,
+  "vehicalNumber": value.vehicalNumber,
   "grnNo": value.grnNo,
   "bookingType":value.bookingType,
     },

@@ -7,124 +7,127 @@ text-decoration: underline;
 word-wrap: break-word">Parcel UnLoading Offline</h4>
 
 <div class="container pt-5 pb-5" style="border: 1px solid #7C7C7C;">
-    <div class="container">
-        <form [formGroup]="form">
-            <div class="row g-3">
-              <div class="col-md-4 col-sm-12">
-                <label class="form-label">From Date</label>
-                <input type="date" class="form-control form-control-sm" formControlName="fromDate">
-              </div>
+  <div class="container">
+    <form [formGroup]="form">
+      <div class="row g-3">
+        <div class="col-md-4 col-sm-12">
+          <label class="form-label">From Date</label>
+          <input type="date" class="form-control form-control-sm" formControlName="fromDate">
+        </div>
+        <div class="col-md-4 col-sm-12">
+          <label class="form-label">From City</label>
+          <select #demoSelect multiple class="form-control" (change)="onFromCityChange($event)"
+            formControlName="fromCity">
+            <option *ngFor="let city of cities" [value]="city.cityName">
+              {{ city.cityName }}
+            </option>
+          </select>
+        </div>
 
-              <div class="col-md-4 col-sm-12">
-                <label class="form-label">From City</label>
-                <select #demoSelect multiple class="form-control" (change)="onFromCityChange($event)">
-                  <option *ngFor="let city of cities" [value]="city.cityName">
-                    {{ city.cityName }}
-                  </option>
-                </select>
-              </div> 
-              
-              <div class="col-md-4 col-sm-12">
-                <label class="form-label">To City</label>
-                <select #selectElem class="form-select form-select-sm" formControlName="toCity" >
-                  <option value="" selected>Select City</option>
-                  <option *ngFor="let city of cities" [value]="city.cityName">{{ city.cityName }}</option>
-                </select>
-              </div>
-              
-          
-              <div class="col-md-3 col-sm-12">
-                <label class="form-label">To Date</label>
-                <input type="date" class="form-control form-control-sm" formControlName="toDate">
-              </div>
-              
-              <!-- <div class="col-md-3 col-sm-12">
-                <label class="form-label">Branch</label>
-                <select  #branch  class="form-select form-select-sm" formControlName="branch">
-                  <option     value="" selected>Select Branch</option> 
-                  <option *ngFor="let branch of tbcdata" [value]="branch.branchUniqueId">
-                    {{ branch.name }}
-                  </option>
-                </select>
-              </div> -->
-              <div class="col-md-3 col-sm-12">
-                <label class="form-label">Branch</label>
-                <select #branch class="form-select form-select-sm" formControlName="branch">
-                  <option value="" selected >Select Branch</option>
-                  <option *ngFor="let branch of tbcdata" [value]="branch.branchUniqueId">
-                    {{ branch.name }}
-                  </option>
-                </select>
-              </div>
-              
-              
-              
-              <div class="col-md-3 col-sm-12">
-                <label class="form-label">Vehicle Number</label>
-                <select class="form-select form-select-sm mb-3" formControlName="vehicalNumber" aria-label="Large select example">
-                    <option value="" selected>Select Vehicle Number</option>
-                    <option *ngFor="let vehicle of vehicle" [value]="vehicle.vehicleNo">{{ vehicle.vehicleNo }}</option>
-                </select>
-            </div>
-          
-              <div class="col-md-3 col-sm-12">
-                <div class="mt-4">
-                  <button class="btn btn-primary btn-sm" pRipple  (click)="onLoad()" style="width: 10rem;">Load</button>
-                </div>
-              </div>
-            </div>
-          </form>
-          
-          <!-- Data Table -->
-          <!-- Data Table -->
-          <!-- Data Table -->
-          <div class="table-responsive mt-4" *ngIf="data && data.length > 0">
-            <table class="table table-bordered table-striped">
-              <thead>
-                <tr>
-                  <th><input type="checkbox" (change)="onSelectAllChange($event)" [checked]="allSelected" /> Select All</th>
-                  <th>S.No</th>
-                  <th>LR No</th>
-                  <th>Book by Branch</th>
-                  <th>Drop Branch</th>
-                  <th>From City</th>
-                  <th>To City</th>
-                  <th>Booking Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let row of data.bookings; let i = index">
-                  <td>
-                    <input
-                      type="checkbox"
-                      (change)="onGrnNoChange($event, row?.grnNo?.[0])"
-                      [checked]="form1.get('grnNo')?.value.includes(row?.grnNo?.[0])"
-                    />
-                  </td>
-                  <td>{{ i + 1 }}</td>
-                  <td>{{ row?.lrNumber?.[0] || 'N/A' }}</td>
-                  <td>{{ row?.fromBranch }}</td>
-                  <td>{{ row?.toBranch }}</td>
-                  <td>{{ row?.fromCity }}</td>
-                  <td>{{ row?.toCity }}</td>
-                  <td>{{ row?.bookingDate  }}</td>
-                </tr>
-              </tbody>
-            </table>
+        <!-- <div class="col-md-4 col-sm-12">
+          <label class="form-label">To City</label>
+          <select #selectElem class="form-select form-select-sm" formControlName="toCity">
+            <option value="" selected>Select City</option>
+            <option *ngFor="let city of cities" [value]="city.cityName">{{ city.cityName }}</option>
+          </select>
+        </div> -->
+        <div class="col-md-4 col-sm-12">
+          <label class="form-label">To City</label>
+          <select #selectElem class="form-select form-select-sm" formControlName="toCity">
+            <option value="" selected>Select City</option>
+            <option *ngFor="let city of cities" [value]="city.cityName">
+              {{ city.cityName }}
+            </option>
+          </select>
+        </div>
+        
+        <div class="col-md-3 col-sm-12">
+          <label class="form-label">To Date</label>
+          <input type="date" class="form-control form-control-sm" formControlName="toDate">
+        </div>
+
+
+        <div class="col-md-3 col-sm-12">
+          <label class="form-label">Branch</label>
+          <select #branch class="form-select form-select-sm" formControlName="branch">
+            <option value="" selected>Select Branch</option>
+            <option *ngFor="let branch of tbcdata" [value]="branch.branchUniqueId">
+              {{ branch.name }}
+            </option>
+          </select>
+
+        </div>
+
+
+        <div class="col-md-3 col-sm-12">
+          <label class="form-label">Vehicle Number</label>
+          <select #selectvehicle class="form-select form-select-sm mb-3" formControlName="vehicalNumber"
+            aria-label="Large select example">
+            <option value="" selected>Select Vehicle Number</option>
+            <option *ngFor="let vehicle of vehicle" [value]="vehicle.vehicleNo">{{ vehicle.vehicleNo }}</option>
+          </select>
+        </div>
+
+        <div class="col-md-3 col-sm-12">
+          <div class="mt-4">
+            <button class="btn btn-primary btn-sm" pRipple (click)="onLoad()" style="width: 10rem;">Load</button>
           </div>
-    </div>
-    
-    <form [formGroup]="form1">
-        <div class="container pb-3">
-            </div>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-3 d-flex align-items-end">
-                            <button class="btn btn-primary btn-sm " type="button"
-                                style=" width: 10rem;" (click)="ParcelLoad()">Save</button>
-                        </div>
-                    </div>
-                </div>
+        </div>
+      </div>
     </form>
-</div>
 
+    <!-- Data Table -->
+ 
+    <div class="table-responsive mt-4" *ngIf="bookings?.length > 0">
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>
+              <input type="checkbox" (change)="onSelectAllChange($event)" [checked]="allSelected" />
+              Select All
+            </th>
+            <th>S.No</th>
+            <th>GRN No</th>
+            <th>Book by Branch</th>
+            <th>Drop Branch</th>
+            <th>From City</th>
+            <th>To City</th>
+            <th>Booking Date</th>
+            <th>senderName</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of bookings; let i = index">
+            <td>
+              <input type="checkbox" (change)="onGrnNoChange($event, row?.grnNo)"
+                [checked]="form1.get('grnNo')?.value.includes(row?.grnNo)" />
+            </td>
+            <td>{{ i + 1 }}</td>
+            <td>{{ row?.grnNo }}</td>
+            <td>{{ row?.pickUpBranch }}</td>
+            <td>{{ row?.dropBranch }}</td>
+            <td>{{ row?.fromCity }}</td>
+            <td>{{ row?.toCity }}</td>
+            <td>{{ row?.bookingDate | date: 'short' }}</td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <form [formGroup]="form1">
+    <div class="container pb-3">
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 d-flex align-items-end">
+          <button class="btn btn-primary btn-sm " type="button" style=" width: 10rem;"
+            (click)="ParcelLoad()">Save</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
