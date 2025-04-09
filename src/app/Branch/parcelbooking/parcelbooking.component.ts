@@ -96,7 +96,6 @@ export class ParcelbookingComponent {
     this.api.GetCities().subscribe((res:any)=>{
       console.log('citys',res);
       this.citydata=res;
-      console.log(this.citydata,"ldjknzjdfnsdnfsidfnsidjf")
     });
     //get branches
     this.api.GetBranch().subscribe((res:any)=>{

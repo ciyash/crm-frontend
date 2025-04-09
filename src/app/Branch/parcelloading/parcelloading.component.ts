@@ -8,7 +8,6 @@ import { Toast } from 'primeng/toast';
 import { ToastrService } from 'ngx-toastr';
 declare var $: any;
 declare const SlimSelect: any; 
-
 @Component({
   selector: 'app-parcelloading',
   templateUrl: './parcelloading.component.html',
@@ -40,14 +39,19 @@ export class ParcelloadingComponent implements OnInit {
   constructor(private api: BranchService, private token:TokenService,
      private fb: FormBuilder, private messageService:MessageService,
       private router:Router, private activeroute:ActivatedRoute,private toast:ToastrService) {
+      // this.form = this.fb.group({
+      //   startDate: ['', Validators.required],
+      //   endDate: ['', Validators.required],
+      //   fromCity: ['', Validators.required],
+      //   toCity: this.fb.array([], Validators.required),
+
+      //   pickUpBranch: ['', Validators.required],
       this.form = this.fb.group({
         startDate: ['', Validators.required],
         endDate: ['', Validators.required],
-        fromCity: ['', Validators.required],
-        toCity: this.fb.array([], Validators.required),
-
-        pickUpBranch: ['', Validators.required],
-        
+        fromCity: [''],                // Remove Validators.required
+        toCity: this.fb.array([]),     // No Validators.required
+        pickUpBranch: [''],            // Remove Validators.required
       });
 
       this.form1 = this.fb.group({
@@ -60,8 +64,8 @@ export class ParcelloadingComponent implements OnInit {
         fromBookingDate: ['', Validators.required],
         toBookingDate: ['', Validators.required],
         fromCity: ['', Validators.required],
-        
-        userName:['Test'],
+        // userName:['Test'],
+        senderName:['',Validators.required],
         toCity: this.fb.array([], Validators.required),
         grnNo: this.fb.array([], Validators.required),
         lrNumber: this.fb.array([], Validators.required),
@@ -105,32 +109,85 @@ export class ParcelloadingComponent implements OnInit {
   console.log('Selected To Cities:', toCityArray.value);
 }
 
- 
 
+  // onLoad() {
+  //   const formValues = this.form.value;
+  //   const payload = {
+  //     startDate: this.form.value.startDate,
+  //     endDate: this.form.value.endDate,
+  //     fromCity: this.form.value.fromCity,
+  //     toCity: this.form.value.toCity,
+  //     pickUpBranch: this.form.value.pickUpBranch
+  //   };
+    
+  //   console.log('Final Booking Data:', payload);
+    
+  //   this.api.FilterParcelLoading(payload).subscribe({
+  //     next: (response: any) => {
+  //       console.log('Booking successful:', response);
+  //       // this.messageService.add({ severity: 'success', summary: 'success', detail: 'Load successfully' });
+  //       this.toast.success('Booking successful ', 'Success');
 
+  //       this.data = response || [];
+  //       // alert('Booking Successful!');
+  //       this.LoadSuccess = true;
+  //       // ✅ Assign loaded data to form1 fields
+  //       if (this.data.length > 0) {
+  //         this.form1.patchValue({
+  //           fromBranch: this.data[0].pickUpBranch,
+  //           toBranch: this.data[0].dropBranch,
+  //           fromBookingDate: this.form.value.startDate,
+  //           toBookingDate: this.form.value.endDate,
+  //           fromCity: this.form.value.fromCity,
+  //           loadingDate: '', // You can keep it empty for user input
+  //           vehicalNumber: '',
+  //           driverName: '',
+  //           driverNo: '',
+  //         });
+  
+  //         // ✅ Set `toCity`, `grnNo`, and `lrNumber` as FormArray
+  //         this.setFormArray('toCity', this.data.map((d: any) => d.toCity));
+  //         this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
+  //         this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
+  //       }
+  //     },
+  //     error: (error: any) => {
+  //       console.error('Booking failed:', error);
+  //       this.toast.error('Booking Failed. Please try again.', 'Error');
+  //     },
+  //   });
+  // }
 
   onLoad() {
     const formValues = this.form.value;
-    const payload = {
-      startDate: this.form.value.startDate,
-      endDate: this.form.value.endDate,
-      fromCity: this.form.value.fromCity,
-      toCity: this.form.value.toCity,
-      pickUpBranch: this.form.value.pickUpBranch
+  
+    const payload: any = {
+      startDate: formValues.startDate,
+      endDate: formValues.endDate
     };
+    if (formValues.fromCity) {
+      payload.fromCity = formValues.fromCity;
+    }
     
+    
+    if (formValues.toCity && formValues.toCity.length > 0) {
+      payload.toCity = formValues.toCity;
+    }
+  
+    if (formValues.pickUpBranch) {
+      payload.pickUpBranch = formValues.pickUpBranch;
+    }
+
+  
     console.log('Final Booking Data:', payload);
-    
+  
     this.api.FilterParcelLoading(payload).subscribe({
       next: (response: any) => {
         console.log('Booking successful:', response);
-        // this.messageService.add({ severity: 'success', summary: 'success', detail: 'Load successfully' });
         this.toast.success('Booking successful ', 'Success');
-
         this.data = response || [];
-        // alert('Booking Successful!');
         this.LoadSuccess = true;
-        // ✅ Assign loaded data to form1 fields
+  
         if (this.data.length > 0) {
           this.form1.patchValue({
             fromBranch: this.data[0].pickUpBranch,
@@ -138,13 +195,12 @@ export class ParcelloadingComponent implements OnInit {
             fromBookingDate: this.form.value.startDate,
             toBookingDate: this.form.value.endDate,
             fromCity: this.form.value.fromCity,
-            loadingDate: '', // You can keep it empty for user input
-            vehicalNumber: '',
-            driverName: '',
-            driverNo: '',
+            // senderName:this.form.value.senderName,
+            senderName: this.data[0]?.senderName || ''
+
+            
           });
   
-          // ✅ Set `toCity`, `grnNo`, and `lrNumber` as FormArray
           this.setFormArray('toCity', this.data.map((d: any) => d.toCity));
           this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
           this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
@@ -156,11 +212,10 @@ export class ParcelloadingComponent implements OnInit {
       },
     });
   }
-
+  
   setFormArray(controlName: string, values: any[]) {
     const formArray = this.form1.get(controlName) as FormArray;
     formArray.clear(); // ✅ Clear previous values
-  
     values.forEach(value => {
       formArray.push(this.fb.control(value));
     });
@@ -168,7 +223,6 @@ export class ParcelloadingComponent implements OnInit {
 
   onGrnNoChange(event: any, grnNo: string) {
     const formArray = this.form1.get('grnNo') as FormArray;
-  
     if (event.target.checked) {
       // Add if not already selected
       if (!formArray.value.includes(grnNo)) {
@@ -222,19 +276,14 @@ export class ParcelloadingComponent implements OnInit {
       $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
         const selectedCity = event.params.data.id;  // Get selected value
         console.log('Selected City:', selectedCity);
-  
         this.form.patchValue({ fromCity: selectedCity });  // Manually update the form
         console.log('Updated form value:', this.form.value);
-  
         this.onFromcitySelect({ target: { value: selectedCity } });  // Trigger API call
       });
-  
-      // Initialize select2 for Branch selection
       $(this.branchselect.nativeElement).select2();
       $(this.branchselect.nativeElement).on('select2:select', (event: any) => {
         const selectedDropBranch = event.params.data.id;
         console.log('Selected Drop Branch:', selectedDropBranch);
-  
         this.form.patchValue({ pickUpBranch: selectedDropBranch });  // Update form value
         console.log('Updated form value:', this.form.value);
         this.BranchSelect({ target: { value: selectedDropBranch } });
@@ -245,12 +294,8 @@ export class ParcelloadingComponent implements OnInit {
       $(this.SelectVechicle.nativeElement).on('select2:select', (event: any) => {
         const selectedVehicle = event.params.data.id;  // Get selected value
         console.log('Selected Vehicle:', selectedVehicle);
-  
-        // Update Angular form control with selected vehicle number
-        this.form1.patchValue({ vehicalNumber: selectedVehicle });
-  
-        // You can also log to see if it's updating the form control properly
-        console.log('Updated form value:', this.form1.value);
+          this.form1.patchValue({ vehicalNumber: selectedVehicle });
+          console.log('Updated form value:', this.form1.value);
       });
     }, 0);
   }
@@ -293,7 +338,7 @@ export class ParcelloadingComponent implements OnInit {
       fromBookingDate: this.form1.value.fromBookingDate,
       toBookingDate: this.form1.value.toBookingDate,
       fromCity: this.form1.value.fromCity,
-      userName: this.form1.value.userName,
+      senderName:this.form1.value.senderName,
       toCity: this.form1.value.toCity,
       grnNo: this.form1.value.grnNo,
       lrNumber: this.form1.value.lrNumber,
@@ -318,9 +363,6 @@ export class ParcelloadingComponent implements OnInit {
       },
     });
   }
-  
-
- 
 
   getVehicleData() {
     this.api.getData('Vehicle').subscribe({
