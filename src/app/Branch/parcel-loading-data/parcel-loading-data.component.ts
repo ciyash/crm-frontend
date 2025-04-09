@@ -4,7 +4,6 @@ import { BranchService } from 'src/app/service/branch.service';
 declare var $: any;
 declare const SlimSelect: any; 
 
-
 @Component({
   selector: 'app-parcel-loading-data',
   templateUrl: './parcel-loading-data.component.html',
@@ -16,8 +15,6 @@ export class ParcelLoadingDataComponent {
   cities: any;
   @ViewChild('selectElem') selectElem!: ElementRef;
   @ViewChild('demoSelect') demoSelect!: ElementRef;
-
-
   constructor(
     private api: BranchService,
     private fb: FormBuilder,

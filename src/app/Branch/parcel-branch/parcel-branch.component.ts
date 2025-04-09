@@ -1,7 +1,11 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit,ElementRef, ViewChild  } from '@angular/core';
+
 import { BranchService } from 'src/app/service/branch.service';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+declare var $: any;
+declare const SlimSelect: any; 
 
 @Component({
   selector: 'app-parcel-branch',
@@ -17,7 +21,11 @@ export class ParcelBranchComponent implements OnInit {
   LoadSuccess: boolean = false;
   allSelected: boolean = false;
   pdata:any;
-  constructor(private api: BranchService, private fb: FormBuilder, private router:Router) {
+  @ViewChild('toBranch') toBranch!: ElementRef;
+  @ViewChild('vehicle') vehicle!: ElementRef;
+
+
+  constructor(private api: BranchService, private fb: FormBuilder, private router:Router,private toast:ToastrService) {
     this.form = this.fb.group({
       fromBookingDate: ['', Validators.required],
       toBookingDate: ['', Validators.required],
@@ -58,6 +66,29 @@ export class ParcelBranchComponent implements OnInit {
     })
   }
 
+  ngAfterViewInit(): void {
+  setTimeout(() => {
+      $(this.toBranch.nativeElement).select2();
+      $(this.toBranch.nativeElement).on('select2:select', (event: any) => {
+        const selectedBranch = event.params.data.id;
+        this.form1.get('toBranch')?.setValue(selectedBranch);
+        console.log('Selected To Branch:', selectedBranch);
+      });
+      $(this.vehicle.nativeElement).select2();
+      $(this.vehicle.nativeElement).on('select2:select', (event: any) => {
+        const selectedVehicle = event.params.data.id;
+        this.form1.get('vehicalNumber')?.setValue(selectedVehicle);
+        console.log('Selected Vehicle Number:', selectedVehicle);
+      });
+  }, 0);}
+  
+
+
+
+
+
+  
+
   loaddata(){
       const payload = {
         fromBookingDate: this.form.value.fromBookingDate,
@@ -68,7 +99,9 @@ export class ParcelBranchComponent implements OnInit {
       this.api.postBranchLoading(payload).subscribe({
         next: (response: any) => {
           console.log('loaded successfully:', response);
-          alert('Parcel Loaded Successfully!');
+      
+          this.toast.success('ParcelBranch to Branch loaded Successfully', 'Success');
+
           this.data=response;
           this.LoadSuccess = true;
         // ✅ Assign loaded data to form1 fields
@@ -91,7 +124,8 @@ export class ParcelBranchComponent implements OnInit {
         },
         error: (error: any) => {
           console.error('loading failed:', error);
-          alert('NO Parcel Loading . Please try again.');
+          this.toast.error('NO Parcel Loading', 'failed');
+
         },
       });
     
