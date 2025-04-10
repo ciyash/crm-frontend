@@ -681,6 +681,8 @@ ReceivedParcelUpdate(value: {
   );
 }
 
+//reports Apis
+
 ParcelBookingReport(value: {
   fromDate: string;
   toDate: string;
@@ -709,6 +711,433 @@ ParcelBookingReport(value: {
     httpOptions
   );
 }
+
+AllParcelBookingReport(value: {
+  startDate:string;
+  fromDate: string;
+  fromCity: string;
+  toCity: string;
+  pickUpBranch:string;
+  dropBranch:string;
+  bookingStatus: string;
+  vehicalNumber: string;
+}) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'booking/all-parcel-booking-report',
+    {
+      startDate:value.startDate,
+      fromDate: value.fromDate,
+      fromCity: value.fromCity,
+      toCity: value.toCity,
+      pickUpBranch: value.pickUpBranch,
+      dropBranch: value.dropBranch,
+      bookingStatus: value.bookingStatus,
+      vehicalNumber: value.vehicalNumber,
+  },
+    httpOptions
+  );
+}
+
+ParcelReportSno(value: {
+  fromDate: string;
+  toDate: string;
+  fromCity: string;
+  toCity: string;
+}) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'booking/parcel-report-serialNo',
+    {
+      fromDate: value.fromDate,
+      toDate: value.toDate,
+      fromCity: value.fromCity,
+      toCity: value.toCity,
+  },
+    httpOptions
+  );
+}
+
+ParcelBookingSummeryReport(value: {
+  fromDate: string;
+  toDate: string;
+  fromCity: string;
+  toCity: string;
+  pickUpBranch:string;
+  dropBranch:string;
+}) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'booking/parcel-booking-summary-report',
+    {
+      fromDate: value.fromDate,
+      toDate: value.toDate,
+      fromCity: value.fromCity,
+      toCity: value.toCity,
+      pickUpBranch: value.pickUpBranch,
+      dropBranch: value.dropBranch,
+  },
+    httpOptions
+  );
+}
+
+ParcelBookingMobileNumber(value: {
+  fromDate: string;
+  toDate: string;
+  senderMobile: string;
+  receiverMobile: string;
+  bookingType:string;
+  bookingStatus:string;
+}) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'booking/parcel-booking-mobileNumber',
+    {
+      fromDate: value.fromDate,
+      toDate: value.toDate,
+      senderMobile: value.senderMobile,
+      receiverMobile: value.receiverMobile,
+      bookingType: value.bookingType,
+      bookingStatus: value.bookingStatus,
+  },
+    httpOptions
+  );
+}
+
+ParcelBookingRegularCustomer(value: {
+  fromDate: string;
+  toDate: string;
+  fromCity: string;
+  toCity: string;
+  pickUpBranch:string;
+  dropBranch:string;
+}) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'booking/regular-customer-booking',
+    {
+      fromDate: value.fromDate,
+      toDate: value.toDate,
+      fromCity: value.fromCity,
+      toCity: value.toCity,
+      pickUpBranch: value.pickUpBranch,
+      dropBranch: value.dropBranch,
+  },
+    httpOptions
+  );
+}
+
+ParcelBranchWiseReport(value: {
+  fromDate: string;
+  toDate: string;
+  fromCity: string;
+  pickUpBranch: string;
+  bookedBy:string;
+}) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'booking/branch-Wise-collection-report',
+    {
+      fromDate: value.fromDate,
+      toDate: value.toDate,
+      pickUpBranch: value.pickUpBranch,
+      bookedBy: value.bookedBy,
+  },
+    httpOptions
+  );
+}
+
+SenderRecevierGstReport(value: {
+  fromDate: string;
+  toDate: string;
+  pickUpBranch: string;
+  branchName: string;
+}) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'booking/sender-receiver-gst-report',
+    {
+      fromDate: value.fromDate,
+      toDate: value.toDate,
+      pickUpBranch: value.pickUpBranch,
+      branchName: value.branchName,
+  },
+    httpOptions
+  );
+}
+
+PendingDeliveryStockReport(value: {
+  fromCity: string;
+  toCity: string;
+  pickUpBranch:string;
+  dropBranch:string;
+}) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'booking/pending-delivery-stock-report',
+    {
+      fromCity: value.fromCity,
+      toCity: value.toCity,
+      pickUpBranch: value.pickUpBranch,
+      dropBranch: value.dropBranch,
+  },
+    httpOptions
+  );
+}
+
+PendingDeliveryLuggageReport(value: {
+  fromDate: string;
+  toDate: string;
+  fromCity: string;
+  toCity: string;
+  pickUpBranch:string;
+  dropBranch:string;
+  bookingType:string;
+}) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'booking/pending-delivery-luggage-report',
+    {
+      fromDate: value.fromDate,
+      toDate: value.toDate,
+      fromCity: value.fromCity,
+      toCity: value.toCity,
+      pickUpBranch: value.pickUpBranch,
+      dropBranch: value.dropBranch,
+      bookingType:value.bookingType,
+  },
+    httpOptions
+  );
+}
+
+ParcelReceivedStockReport(value: {
+  fromDate: string;
+  toDate: string;
+  fromCity: string;
+  toCity: string;
+  pickUpBranch:string;
+  dropBranch:string;
+  receiverName:string;
+}) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'booking/parcel-received-stock-report',
+    {
+      fromDate: value.fromDate,
+      toDate: value.toDate,
+      fromCity: value.fromCity,
+      toCity: value.toCity,
+      pickUpBranch: value.pickUpBranch,
+      dropBranch: value.dropBranch,
+      receiverName:value.receiverName,
+  },
+    httpOptions
+  );
+}
+
+DeliveryStockReport(value: {
+  fromDate: string;
+  toDate: string;
+  fromCity: string;
+  toCity: string;
+  pickUpBranch:string;
+  dropBranch:string;
+  receiverName:string;
+}) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'booking/delivered-stock-report',
+    {
+      fromDate: value.fromDate,
+      toDate: value.toDate,
+      fromCity: value.fromCity,
+      toCity: value.toCity,
+      pickUpBranch: value.pickUpBranch,
+      dropBranch: value.dropBranch,
+      receiverName:value.receiverName,
+  },
+    httpOptions
+  );
+}
+
+DispatchedMemoReport(value: {
+  fromDate: string;
+  toDate: string;
+  fromCity: string;
+  toCity: string;
+  pickUpBranch:string;
+  dropBranch:string;
+  vehicalNumber:string;
+}) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'booking/dispatched-memo-report',
+    {
+      fromDate: value.fromDate,
+      toDate: value.toDate,
+      fromCity: value.fromCity,
+      toCity: value.toCity,
+      pickUpBranch: value.pickUpBranch,
+      dropBranch: value.dropBranch,
+      vehicalNumber:value.vehicalNumber,
+  },
+    httpOptions
+  );
+}
+
+ParcelIncomingReport(value: {
+  fromDate: string;
+  toDate: string;
+  fromCity: string;
+  toCity: string;
+  pickUpBranch:string;
+  dropBranch:string;
+}) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'booking/parcel-incoming-luggages-report',
+    {
+      fromDate: value.fromDate,
+      toDate: value.toDate,
+      fromCity: value.fromCity,
+      toCity: value.toCity,
+      pickUpBranch: value.pickUpBranch,
+      dropBranch: value.dropBranch,
+  },
+    httpOptions
+  );
+}
+
+PendingDispatchedStockReport(value: {
+  fromCity: string;
+  toCity: string;
+  pickUpBranch:string;
+}) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'booking/pending-dispatch-stock-report',
+    {
+      fromCity: value.fromCity,
+      toCity: value.toCity,
+      pickUpBranch: value.pickUpBranch,
+  },
+    httpOptions
+  );
+}
+
+//parcel dispatched report 
+DispatchedReport(value:{
+  fromDate: string;
+  toDate:string;
+  fromCity: string;
+  toCity: string;
+  fromBranch:string;
+}){
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'dispatched-stock-report',  { 
+      "fromDate": value.fromDate,
+      "toDate": value.toDate,
+    "fromCity": value.fromCity,
+    "toCity": value.toCity,
+    "fromBranch": value.fromBranch,
+    },
+     httpOptions 
+  );
+}
+
+//CF Master Apis
+
 
 
 }
