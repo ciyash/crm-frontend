@@ -39,6 +39,8 @@ import { AddDispatchTypeComponent } from './pages/Admin/add-dispatch-type/add-di
 import { AddExtraChargesComponent } from './pages/Admin/add-extra-charges/add-extra-charges.component';
 import { BrachToBranchUnloadingComponent } from './Branch/brach-to-branch-unloading/brach-to-branch-unloading.component';
 import { FilterGrnComponent } from './Branch/filter-grn/filter-grn.component';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
+
 
 import { PrintVoucherslistDataComponent } from './Branch/print-voucherslist-data/print-voucherslist-data.component';
 import { ParcelBookingReportComponent } from './Branch/Reports/parcel-booking-report/parcel-booking-report.component';
@@ -84,7 +86,7 @@ import { ParcelBookingReportComponent } from './Branch/Reports/parcel-booking-re
     AppRoutingModule,
     ReactiveFormsModule, FormsModule,
     HttpClientModule, TableModule, MessagesModule,
-     DialogModule, BrowserAnimationsModule, QRCodeModule, ToastModule, ButtonModule, RippleModule,
+     DialogModule, BrowserAnimationsModule, QRCodeModule, ToastModule, ButtonModule, RippleModule,ZXingScannerModule,
      ToastrModule.forRoot({
       positionClass: 'toast-top-right', // Toast appears in the top-right
       timeOut: 3000, // Toast disappears after 3 seconds
