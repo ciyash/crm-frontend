@@ -106,7 +106,11 @@ export class HeaderComponent implements OnInit {
         {
           label: 'Parcel Agent',
           icon: 'pi pi-fw pi-file',
-          routerLink: ['/booking'],
+          items: [
+            { label: 'CF Master', routerLink: ['/bookingreport'] },
+            { label: 'CF Voucher Generate', routerLink: ['/reportsdashboard'] },
+            { label: 'CF Voucher Details', routerLink: ['/reportsdashboard'] },
+          ],
         },
         {
           label: 'Parcel Report',
@@ -114,7 +118,16 @@ export class HeaderComponent implements OnInit {
           items: [
             { label: 'Booking Report', routerLink: ['/bookingreport'] },
             { label: 'Booking Report', routerLink: ['/reportsdashboard'] },
-            { label: 'Dispatched Report', routerLink: ['/dispatchedreport'] },
+            { label: 'Cancel Report', routerLink: ['/reportsdashboard'] },
+            { label: 'GST Report', routerLink: ['/reportsdashboard'] },
+            { label: 'Pending Delivery Report', routerLink: ['/reportsdashboard'] },
+            { label: 'Pending Delivery Luggage Report', routerLink: ['/reportsdashboard'] },
+            { label: 'Dispatched Stock Report', routerLink: ['/dispatchedreport'] },
+            { label: 'Received Stock Report', routerLink: ['/reportsdashboard'] },
+            { label: 'Delivered Report', routerLink: ['/reportsdashboard'] },
+            { label: 'Pending Dispatched Stock Report', routerLink: ['/reportsdashboard'] },
+            { label: 'Dispatched Memo Report', routerLink: ['/reportsdashboard'] },
+            { label: 'Parcel Incoming Report', routerLink: ['/reportsdashboard'] },
           ],
         },
         { label: 'Others', icon: 'pi pi-fw pi-file', routerLink: ['/booking'] },
