@@ -27,6 +27,13 @@ import { FilterGrnComponent } from './Branch/filter-grn/filter-grn.component';
 import { PrintVoucherslistDataComponent } from './Branch/print-voucherslist-data/print-voucherslist-data.component';
 import { DispatchedReportComponent } from './Branch/dispatched-report/dispatched-report.component';
 import { BranchReportsDashboardComponent } from './Branch/Reports/branch-reports-dashboard/branch-reports-dashboard.component';
+import { ParcelBookingReportComponent } from './Branch/Reports/parcel-booking-report/parcel-booking-report.component';
+import { AllParcelBookingReportComponent } from './Branch/Reports/all-parcel-booking-report/all-parcel-booking-report.component';
+import { ParcelbookingSerialnoComponent } from './Branch/Reports/parcelbooking-serialno/parcelbooking-serialno.component';
+import { ParcelBookingMobileComponent } from './Branch/Reports/parcel-booking-mobile/parcel-booking-mobile.component';
+import { ParcelCancelComponent } from './Branch/Reports/parcel-cancel/parcel-cancel.component';
+import { RegularcustomerBookingComponent } from './Branch/Reports/regularcustomer-booking/regularcustomer-booking.component';
+import { ParcelBookingSummaryComponent } from './Branch/Reports/parcel-booking-summary/parcel-booking-summary.component';
 
 
 const routes: Routes = [
@@ -50,8 +57,25 @@ const routes: Routes = [
   { path: 'gnrnumberstatus', component: FilterGrnComponent, canActivate: [authGuard] },
   { path: 'printvouchersdata/:vocherNoUnique', component: PrintVoucherslistDataComponent, canActivate: [authGuard] },
   { path: 'voucherslistoffline', component: VoucerOfflineListComponent, canActivate: [authGuard] },
+
+  // Reports
   { path: 'dispatchedreport', component: DispatchedReportComponent, canActivate: [authGuard] },
   { path: 'reportsdashboard', component: BranchReportsDashboardComponent, canActivate: [authGuard] },
+    { path: 'reports', component: ParcelBookingReportComponent, canActivate: [authGuard] },
+    { path: 'allpercelbooking', component: AllParcelBookingReportComponent, canActivate: [authGuard] },
+    { path: 'bookingserial', component: ParcelbookingSerialnoComponent, canActivate: [authGuard] },
+    { path: 'bookingmobile', component: ParcelBookingMobileComponent, canActivate: [authGuard] },
+    { path: 'parcelcancel', component: ParcelCancelComponent, canActivate: [authGuard] },
+    { path: 'regularcustmer', component: RegularcustomerBookingComponent, canActivate: [authGuard] },
+    { path: 'bookingsummary', component: ParcelBookingSummaryComponent, canActivate: [authGuard] },
+    
+
+
+
+
+
+
+
 
      //Admin Routing components
   { path: 'createbranch', component: CreateBranchComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
@@ -61,6 +85,8 @@ const routes: Routes = [
   { path: 'createcity', component: CreateCitynameComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   { path: 'adddispatchtype', component: AddDispatchTypeComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   { path: 'addextracharges', component: AddExtraChargesComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
+
+
   
 ];
 

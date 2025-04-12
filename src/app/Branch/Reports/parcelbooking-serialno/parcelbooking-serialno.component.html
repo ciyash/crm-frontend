@@ -1,0 +1,52 @@
+<div class="container my-4 p-3 border rounded bg-light" *ngIf="data2?.length">
+  <h5 class="text-center fw-bold">SREE KALESWARI LOGISTICS</h5>
+  <h6 class="text-center text-decoration-underline">Parcel Booking Report With Serial No</h6>
+
+  <div class="d-flex justify-content-between mt-3">
+    <div>
+      <strong>Print Date :</strong> {{ today | date: 'dd-MM-yyyy' }}
+      <strong>Time :</strong> {{ today | date: 'shortTime' }}
+    </div>
+  </div>
+
+  <div class="table-responsive mt-3">
+    <table class="table table-bordered table-sm table-striped">
+      <thead class="table-secondary text-center">
+        <tr>
+          <th>S.NO</th>
+          <th>GRN No</th>
+          <th>Date</th>
+          <th>Source</th>
+          <th>Destination</th>
+          <th>Package Details</th>
+          <th>Pkgs</th>
+          <th>Amount</th>
+          <!-- <th>Sender</th>
+          <th>Receiver</th> -->
+        </tr>
+      </thead>
+      <tbody class="text-center align-middle">
+        <tr *ngFor="let item of data2; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ item.grnNo }}</td>
+          <td>{{ item.bookingDate | date: 'dd-MM-yyyy' }}</td>
+          <td>{{ item.fromCity }}</td>
+          <td>{{ item.toCity }}</td>
+          <td>
+            <div *ngFor="let pkg of item.packages">
+              {{ pkg.packageType }} - Qty: {{ pkg.quantity }}, Wt: {{ pkg.weight }}kg
+            </div>
+          </td>
+          <td>{{ item.packages?.length }}</td>
+          <td>{{ item.grandTotal | number: '1.2-2' }}</td>
+          <!-- <td>{{ item.senderName }}<br>{{ item.senderMobile }}</td>
+          <td>{{ item.receiverName }}<br>{{ item.receiverMobile }}</td> -->
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="container my-4 p-3 border rounded bg-light text-center" *ngIf="!data2?.length">
+  <p>No parcel booking data available.</p>
+</div>
