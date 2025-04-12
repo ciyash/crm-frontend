@@ -44,6 +44,17 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 import { PrintVoucherslistDataComponent } from './Branch/print-voucherslist-data/print-voucherslist-data.component';
 import { ParcelBookingReportComponent } from './Branch/Reports/parcel-booking-report/parcel-booking-report.component';
+import { DispatchedReportComponent } from './Branch/dispatched-report/dispatched-report.component';
+import { BranchReportsDashboardComponent } from './Branch/Reports/branch-reports-dashboard/branch-reports-dashboard.component';
+import { BranchCollectionReportComponent } from './Branch/Reports/branch-collection-report/branch-collection-report.component';
+import { SenderReceiverGstReportComponent } from './Branch/Reports/sender-receiver-gst-report/sender-receiver-gst-report.component';
+import { PendingDeliveryStockReportComponent } from './Branch/Reports/pending-delivery-stock-report/pending-delivery-stock-report.component';
+import { PendingDeliveryLuggageReportComponent } from './Branch/Reports/pending-delivery-luggage-report/pending-delivery-luggage-report.component';
+import { ParcelReceivedStockReportComponent } from './Branch/Reports/parcel-received-stock-report/parcel-received-stock-report.component';
+import { DeliveredStockReportComponent } from './Branch/Reports/delivered-stock-report/delivered-stock-report.component';
+import { PendingDispatchedStockReportComponent } from './Branch/Reports/pending-dispatched-stock-report/pending-dispatched-stock-report.component';
+import { DispatchedMemoReportComponent } from './Branch/Reports/dispatched-memo-report/dispatched-memo-report.component';
+import { ParcelIncomingLauggageReportComponent } from './Branch/Reports/parcel-incoming-lauggage-report/parcel-incoming-lauggage-report.component';
 
 
 
@@ -77,7 +88,18 @@ import { ParcelBookingReportComponent } from './Branch/Reports/parcel-booking-re
     BrachToBranchUnloadingComponent,
     FilterGrnComponent,
     PrintVoucherslistDataComponent,
-    ParcelBookingReportComponent
+    ParcelBookingReportComponent,
+    DispatchedReportComponent,
+    BranchReportsDashboardComponent,
+    BranchCollectionReportComponent,
+    SenderReceiverGstReportComponent,
+    PendingDeliveryStockReportComponent,
+    PendingDeliveryLuggageReportComponent,
+    ParcelReceivedStockReportComponent,
+    DeliveredStockReportComponent,
+    PendingDispatchedStockReportComponent,
+    DispatchedMemoReportComponent,
+    ParcelIncomingLauggageReportComponent
     
     
   ],
