@@ -3,11 +3,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { BranchService } from 'src/app/service/branch.service';
+import { HeaderComponent } from "../../USER/header/header.component";
 
 @Component({
   selector: 'app-add-packages-type',
   templateUrl: './add-packages-type.component.html',
-  styleUrls: ['./add-packages-type.component.scss']
+  styleUrls: ['./add-packages-type.component.scss'],
 })
 export class AddPackagesTypeComponent {
 

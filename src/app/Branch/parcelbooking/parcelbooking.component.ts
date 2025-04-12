@@ -11,9 +11,6 @@ declare var $: any;
 declare const SlimSelect: any; 
 import {  ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 
-
-
-
 @Component({
   selector: 'app-parcelbooking',
   templateUrl: './parcelbooking.component.html',

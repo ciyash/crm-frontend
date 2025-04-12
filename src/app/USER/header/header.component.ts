@@ -107,7 +107,7 @@ export class HeaderComponent implements OnInit {
           label: 'Parcel Agent',
           icon: 'pi pi-fw pi-file',
           items: [
-            { label: 'CF Master', routerLink: ['/bookingreport'] },
+            { label: 'CF Master', routerLink: ['/getcfmasterdata'] },
             { label: 'CF Voucher Generate', routerLink: ['/reportsdashboard'] },
             { label: 'CF Voucher Details', routerLink: ['/reportsdashboard'] },
           ],

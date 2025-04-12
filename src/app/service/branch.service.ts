@@ -1135,7 +1135,171 @@ DispatchedReport(value:{
 }
 
 //CF Master Apis
+AddCfmaster(value:{
+  gst: string;
+  country: string;
+  state:string;
+  city: string;
+  code: string;
+  name:string;
+  email:string;
+  phone:number;
+  address:string;
+  senderName:string;
+  senderMobile:string;
+  creditDaysLimit:string;
+  exDate:string;
 
+}){
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'cfmaster',  { 
+      "gst": value.gst,
+      "country": value.country,
+      "state": value.state,
+      "city": value.city,
+      "code": value.code,
+      "name": value.name,
+      "email": value.email,
+      "phone": value.phone,
+      "address": value.address,
+      "senderName": value.senderName,
+      "senderMobile": value.senderMobile,
+      "creditDaysLimit": value.creditDaysLimit,
+      "exDate": value.exDate,
+    },
+     httpOptions 
+  );
+}
+
+GetcfmasterData(){
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  }
+  return this.http.get(
+    AUTH_API + 'cfmaster',
+    httpOptions
+  );   
+}
+
+UpdateCfmaster(id: any, value:{
+  gst: string;
+  state:string;
+  city: string;
+  code: string;
+  name:string;
+  email:string;
+  phone:number;
+  address:string;
+  senderName:string;
+  senderMobile:string;
+  creditDaysLimit:string;
+  exDate:string;
+  isActive:string;
+  isPostPaid:string;
+
+}){
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.patch(
+    AUTH_API + 'cfmaster/'+id,  { 
+      "gst": value.gst,
+      "state": value.state,
+      "city": value.city,
+      "code": value.code,
+      "name": value.name,
+      "email": value.email,
+      "phone": value.phone,
+      "address": value.address,
+      "senderName": value.senderName,
+      "senderMobile": value.senderMobile,
+      "creditDaysLimit": value.creditDaysLimit,
+      "exDate": value.exDate,
+      "isActive": value.isActive,
+      "isPostPaid": value.isPostPaid,
+    },
+     httpOptions 
+  );
+}
+
+
+DeleteCfmaster(id:any){
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  }
+  return this.http.delete(
+    AUTH_API + 'cfmaster/'+id,
+    httpOptions
+  );
+}
+
+AddCfmasterCharges(value:{
+  agentName: string;
+  chargeName: string;
+  fromCity:string;
+  toCity: string;
+  charge: string;
+  modeOnPrice:string;
+  itemName:string;
+  dispatchType:number;
+  isActive:string;
+
+}){
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'cfextra-charge',  { 
+      "agentName": value.agentName,
+      "chargeName": value.chargeName,
+      "fromCity": value.fromCity,
+      "toCity": value.toCity,
+      "charge": value.charge,
+      "modeOnPrice": value.modeOnPrice,
+      "itemName": value.itemName,
+      "dispatchType": value.dispatchType,
+      "isActive": value.isActive,
+    },
+     httpOptions 
+  );
+}
+
+GetCFMasterChargesID(id:any){
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  }
+  return this.http.get(
+    AUTH_API + 'cfextra-charge/'+id,
+    httpOptions
+  );
+}
 
 
 }

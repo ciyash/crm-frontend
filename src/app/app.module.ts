@@ -53,6 +53,9 @@ import { DeliveredStockReportComponent } from './Branch/Reports/delivered-stock-
 import { PendingDispatchedStockReportComponent } from './Branch/Reports/pending-dispatched-stock-report/pending-dispatched-stock-report.component';
 import { DispatchedMemoReportComponent } from './Branch/Reports/dispatched-memo-report/dispatched-memo-report.component';
 import { ParcelIncomingLauggageReportComponent } from './Branch/Reports/parcel-incoming-lauggage-report/parcel-incoming-lauggage-report.component';
+import { AddCfmasterComponent } from './Branch/Cfmaster/add-cfmaster/add-cfmaster.component';
+import { GetCfmasterDataComponent } from './Branch/Cfmaster/get-cfmaster-data/get-cfmaster-data.component';
+import { SetChargesComponent } from './Branch/Cfmaster/set-charges/set-charges.component';
 
 
 
@@ -97,7 +100,10 @@ import { ParcelIncomingLauggageReportComponent } from './Branch/Reports/parcel-i
     DeliveredStockReportComponent,
     PendingDispatchedStockReportComponent,
     DispatchedMemoReportComponent,
-    ParcelIncomingLauggageReportComponent
+    ParcelIncomingLauggageReportComponent,
+    AddCfmasterComponent,
+    GetCfmasterDataComponent,
+    SetChargesComponent
     
     
   ],
