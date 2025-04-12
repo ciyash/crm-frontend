@@ -56,6 +56,7 @@ import { ParcelIncomingLauggageReportComponent } from './Branch/Reports/parcel-i
 import { AddCfmasterComponent } from './Branch/Cfmaster/add-cfmaster/add-cfmaster.component';
 import { GetCfmasterDataComponent } from './Branch/Cfmaster/get-cfmaster-data/get-cfmaster-data.component';
 import { SetChargesComponent } from './Branch/Cfmaster/set-charges/set-charges.component';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 
 
@@ -111,7 +112,7 @@ import { SetChargesComponent } from './Branch/Cfmaster/set-charges/set-charges.c
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule, FormsModule,
-    HttpClientModule, TableModule, MessagesModule,
+    HttpClientModule, TableModule, MessagesModule,ZXingScannerModule,
      DialogModule, BrowserAnimationsModule, QRCodeModule, ToastModule, ButtonModule, RippleModule,
      ToastrModule.forRoot({
       positionClass: 'toast-top-right', // Toast appears in the top-right

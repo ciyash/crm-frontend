@@ -237,6 +237,8 @@ GetGRNnumber(id:any){
   );   
 }
 
+
+
 FilterParcelLoading(value:{
   startDate: string;
   endDate:string;
@@ -710,9 +712,47 @@ ParcelBookingReport(value: {
   );
 }
 
+
+
+
+// parcel cancel
+ParcelCancelReport(value: {
+  fromDate: string;
+  toDate: string;
+  fromCity: string;
+  toCity: string;
+  bookingType: string;
+}) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'booking/parcel-cancel-report',
+    {
+      fromDate: value.fromDate,
+      toDate: value.toDate,
+      fromCity: value.fromCity,
+      toCity: value.toCity,
+      bookingType: value.bookingType,
+  },
+    httpOptions
+  );
+}
+
+
+
+
+
+
+
+
 AllParcelBookingReport(value: {
   startDate:string;
-  fromDate: string;
+  endDate: string;
   fromCity: string;
   toCity: string;
   pickUpBranch:string;
@@ -731,7 +771,7 @@ AllParcelBookingReport(value: {
     AUTH_API + 'booking/all-parcel-booking-report',
     {
       startDate:value.startDate,
-      fromDate: value.fromDate,
+      endDate: value.endDate,
       fromCity: value.fromCity,
       toCity: value.toCity,
       pickUpBranch: value.pickUpBranch,
