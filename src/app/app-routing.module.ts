@@ -27,9 +27,6 @@ import { FilterGrnComponent } from './Branch/filter-grn/filter-grn.component';
 import { PrintVoucherslistDataComponent } from './Branch/print-voucherslist-data/print-voucherslist-data.component';
 import { DispatchedReportComponent } from './Branch/dispatched-report/dispatched-report.component';
 import { BranchReportsDashboardComponent } from './Branch/Reports/branch-reports-dashboard/branch-reports-dashboard.component';
-import { AddCfmasterComponent } from './Branch/Cfmaster/add-cfmaster/add-cfmaster.component';
-import { GetCfmasterDataComponent } from './Branch/Cfmaster/get-cfmaster-data/get-cfmaster-data.component';
-import { SetChargesComponent } from './Branch/Cfmaster/set-charges/set-charges.component';
 
 
 const routes: Routes = [
@@ -53,13 +50,10 @@ const routes: Routes = [
   { path: 'gnrnumberstatus', component: FilterGrnComponent, canActivate: [authGuard] },
   { path: 'printvouchersdata/:vocherNoUnique', component: PrintVoucherslistDataComponent, canActivate: [authGuard] },
   { path: 'voucherslistoffline', component: VoucerOfflineListComponent, canActivate: [authGuard] },
+
+  // Reports
   { path: 'dispatchedreport', component: DispatchedReportComponent, canActivate: [authGuard] },
   { path: 'reportsdashboard', component: BranchReportsDashboardComponent, canActivate: [authGuard] },
-
-  //cfmaster comoponenets
-  { path: 'addcfmaster', component: AddCfmasterComponent, canActivate: [authGuard] },
-  { path: 'getcfmasterdata', component: GetCfmasterDataComponent, canActivate: [authGuard] },
-  { path: 'setcharges/:id', component: SetChargesComponent, canActivate: [authGuard] },
 
      //Admin Routing components
   { path: 'createbranch', component: CreateBranchComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
@@ -69,6 +63,8 @@ const routes: Routes = [
   { path: 'createcity', component: CreateCitynameComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   { path: 'adddispatchtype', component: AddDispatchTypeComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   { path: 'addextracharges', component: AddExtraChargesComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
+
+
   
 ];
 

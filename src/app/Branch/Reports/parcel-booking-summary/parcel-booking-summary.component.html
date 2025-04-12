@@ -1,0 +1,55 @@
+<div class="container my-4 p-3 border rounded bg-light" style="background-color: #e3eaf8" *ngFor="let item of data5; let i = index">
+    <h5 class="text-center fw-bold">SREE KALESWARI LOGISTICS</h5>
+    <h6 class="text-center text-decoration-underline">All Parcel Booking Details Report</h6>
+  
+    <div class="d-flex justify-content-between mt-3">
+      <div><strong>From :</strong> 11-04-2025 <strong>To :</strong> 12-04-2025</div>
+      <div><strong>Print Date :</strong> {{ today | date: 'dd-MM-yyyy' }} <strong>Time :</strong> {{ today | date: 'shortTime' }}</div>
+    </div>
+
+  
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-sm table-striped">
+      <thead class="table-secondary text-center align-middle">
+        <tr>
+          <th>S.NO</th>
+          <th>Date</th>
+          <th>From Branch Name</th>
+          <th>Total LR</th>
+          <th>Total Qty</th>
+          <th>Credit For</th>
+          <th>Hamali Paid</th>
+          <th>ToPaid</th>
+          <th>Hamali ToPaid</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody class="text-center align-middle">
+        <tr *ngFor="let item of data5; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ item.bookingDate | date: 'dd-MM-yyyy' }}</td>
+          <td>{{ item.pickUpBranchname || '-' }}</td>
+          <td>{{ item.lrNumber || '-' }}</td>
+          <td>{{ item.totalQuantity || 0 }}</td>
+          <td>{{ item.bookingType || '-' }}</td>
+          <td>{{ item.hamaliCharge || 0 }}</td>
+          <td>{{ item.grandTotal || 0 }}</td>
+          <td>{{ item.hamaliCharge || 0 }}</td>
+          <td>{{ item.grandTotal || 0 }}</td>
+        </tr>
+
+        <!-- Total Row -->
+        <tr class="fw-bold bg-light" *ngFor="let item of data5; let i = index" >
+          <td colspan="9" class="text-end">Total:</td>
+      <td>{{item.grandTotal}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- No data fallback -->
+<div class="container my-4 p-3 border rounded bg-light text-center" *ngIf="!data5?.length">
+  <p>No parcel booking data available.</p>
+</div>

@@ -1,90 +1,425 @@
 <app-header></app-header>
-
-<div class="container mt-5 pt-5 pb-5">
-    <h5 class="text-center fw-bold text-danger"><u>BOOKING REPORT</u></h5>
-    <div class="border rounded p-4" style="margin-top: 2rem;">
-        <form [formGroup]="form">
-            <div class="row mb-3">
-                <div class="col-md-3">
-                    <label class="form-label">From Booking Date</label>
-                    <input type="date" class="form-control" formControlName="fromDate">
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">To Booking Date</label>
-                    <input type="date" class="form-control" formControlName="toDate">
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">From City </label>
-                    <select class="form-select form-select-sm"  formControlName="fromCity" >
-                        <option value="" selected>Select City</option>
-                        <option *ngFor="let row2 of citydata" value="{{row2.cityName}}"> {{row2.cityName}} </option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">From City </label>
-                    <select class="form-select form-select-sm"  formControlName="toCity" >
-                        <option value="" selected>Select City</option>
-                        <option *ngFor="let row1 of citydata" value="{{row1.cityName}}"> {{row1.cityName}} </option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Booking Status</label>
-                    <select class="form-select" formControlName="bookingStatus">
-                        <option value="" selected>Booking Status</option>
-                        <option value="Topay"> Topay </option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Booking Type</label>
-                    <select class="form-select" formControlName="bookingType">
-                        <option value="" selected>Booking Type</option>
-                        <option  value="paid"> Paid </option>
-                    </select>
-                </div>             
-                <div class="col-md-2 mt-2 d-flex align-items-end text-center">
-                    <button type="button" class="btn btn-success w-100" (click)="VoucherLoad()">Load</button>
-                </div>
-            </div>
-        </form>
-     <!-- fetch data -->
-
-            <div class="table-responsive mt-4" *ngIf="data">
-                <table class="table table-bordered table-striped">
-                  <thead>
-                    <tr>
-                      <th>S.No</th>
-                      <th>Voucher No</th>
-                      <th>From City</th>
-                      <th>To city</th>
-                      <th>Generate Date</th>
-                      <th>Bus No</th>
-                      <th>Total Parcel</th>
-                      <th>Total Qty</th>
-                      <th>Total Charges</th>
-                      <th>Print</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let row of data.parcels; let i=index">
-                    <td>{{ i+1 }}</td>
-                    <!-- <td  (click)="getvouchersdata(row.vocherNoUnique)"> {{row.vocherNoUnique}} </td> -->
-                    <td style="cursor: pointer; text-decoration: underline; color: blue;">
-                        {{ row.vocherNoUnique }}
-                      </td>
-                      
-                      <td>{{ row.fromCity }}</td>
-                      <td>{{ row.toCity }}</td>
-                      <td>{{ row.toBookingDate | date:'dd/MMM/YYYY'}}</td>
-                      <td>{{ row.vehicalNumber }}</td>
-                      <td> {{row.parcelPackages}} </td>
-                      <td>{{ row.grnNo.length }}</td>
-                      <td> {{row.parcelCharge}} </td>
-                      <td style="cursor: pointer; color: red;"
-                       (click)="printgrnData(row.vocherNoUnique)"  > <i class="fa fa-print"></i> </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            <!-- test -->
+<div class="container mt-5 pt-5">
+  <h5 class="text-center fw-bold text-danger"><u>PARCEL BOOKING REPORT</u></h5>
+  <div class="border p-3" style="margin-top: 2rem;">
+    <!-- Parcel Booking Report -->
+    <form [formGroup]="form" novalidate>
+      <div class="row mb-3 mt-4">
+        <div class="col-md-3">
+          <label class="form-label">From Booking Date</label>
+          <input type="date" class="form-control" formControlName="fromDate">
+          <div *ngIf="form.get('fromDate')?.invalid && form.get('fromDate')?.touched" class="text-danger">
+            From Date is required
+          </div>
         </div>
+        <div class="col-md-3">
+          <label class="form-label">To Booking Date</label>
+          <input type="date" class="form-control" formControlName="toDate">
+          <div *ngIf="form.get('toDate')?.invalid && form.get('toDate')?.touched" class="text-danger">
+            To Date is required
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">From City</label>
+          <select class="form-select form-select-sm" formControlName="fromCity">
+            <option value="" selected>Select City</option>
+            <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">To City</label>
+          <select class="form-select form-select-sm" formControlName="toCity">
+            <option value="" selected>Select City</option>
+            <option *ngFor="let row1 of citydata" [value]="row1.cityName">{{ row1.cityName }}</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Booking Status</label>
+          <select class="form-select" formControlName="bookingStatus">
+            <option value="" selected>Booking Status</option>
+            <option value="0">Booking</option>
+            <option value="1">Loading</option>
+            <option value="2">Unloading</option>
+            <option value="3">Missing</option>
+            <option value="4">Delivery</option>
+            <option value="5">Cancel</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Booking Type</label>
+          <select class="form-select" formControlName="bookingType">
+            <option value="" selected>Select Booking Type</option>
+            <option value="paid">Paid</option>
+            <option value="toPay">To Pay</option>
+            <option value="credit">Credit</option>
+            <option value="CLR">CLR</option>
+            <option value="freeSample">Free Sample</option>
+          </select>
+        </div>
+        <div class="col-md-2 mt-2 d-flex align-items-end text-center">
+          <button type="button" class="btn btn-success w-100" (click)="parcelbooking()" [disabled]="!form.valid" >Load</button>
+        </div>
+      </div>
+    </form>
+    <hr class="mt-5 pb-4">
+
+    <!-- All Parcel Booking Report -->
+    <div class="container mt-1 pb-4">
+      <h5 class="text-center fw-bold text-danger"><u>All Parcel Booking Report</u></h5>
+      <div class="rounded p-4" style="margin-top: 2rem;">
+        <form [formGroup]="form1">
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label class="form-label">Start Date</label>
+              <input type="date" class="form-control" formControlName="startDate">
+              <div *ngIf="form1.get('startDate')?.invalid && form1.get('startDate')?.touched" class="text-danger">
+                Start Date is required
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">End Date</label>
+              <input type="date" class="form-control" formControlName="endDate">
+              <div *ngIf="form1.get('endDate')?.invalid && form1.get('endDate')?.touched" class="text-danger">
+                End Date is required
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">From City</label>
+              <select #allParcelfromcity class="form-select form-select-sm" formControlName="fromCity">
+                <option value="" selected>Select City</option>
+                <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">To City</label>
+              <select #allParceltocity class="form-select form-select-sm" formControlName="toCity">
+                <option value="" selected>Select City</option>
+                <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">PickUpBranch</label>
+              <select #allParcelPickupbranch class="form-select" formControlName="pickUpBranch">
+                <option value="" selected>PickUpBranch</option>
+                <option *ngFor="let row2 of branchdata" [value]="row2.branchUniqueId">{{ row2.name }}</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Drop Branch</label>
+              <select #allParcelDroupBranch class="form-select" formControlName="dropBranch">
+                <option value="" selected>Drop Branch</option>
+                <option *ngFor="let row2 of branchdata" [value]="row2.branchUniqueId">{{ row2.name }}</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Booking Status</label>
+              <select class="form-select" formControlName="bookingStatus">
+                <option value="" selected>Booking Status</option>
+                <option value="0">Booking</option>
+                <option value="1">Loading</option>
+                <option value="2">Unloading</option>
+                <option value="3">Missing</option>
+                <option value="4">Delivery</option>
+                <option value="5">Cancel</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Vehicle Number</label>
+              <select #vechicle class="form-select" formControlName="vehicalNumber">
+                <option value="" selected>Vehicle Number</option>
+                <option *ngFor="let row2 of allgetvechicle" [value]="row2.vehicleNo">{{ row2.vehicleNo }}</option>
+              </select>
+            </div>
+            <div class="d-grid gap-2 col-2 mx-auto mt-4">
+              <button type="button" class="btn btn-success w-100" (click)="AllParcelBooking()">Load</button>
+            </div>
+          </div>
+        </form>
+        <hr class="mt-5">
+      </div>
+    </div>
+
+    <!-- Parcel Booking Report With Serial No -->
+    <div class="container">
+      <h5 class="text-center fw-bold text-danger"><u>Parcel Booking Report With Serial No</u></h5>
+      <div class="rounded p-4" style="margin-top: 1rem;">
+        <form [formGroup]="form3">
+          <div class="row">
+            <div class="col-md-6">
+              <label class="form-label">From Booking Date</label>
+              <input type="date" class="form-control" formControlName="fromDate">
+              <div *ngIf="form3.get('fromDate')?.invalid && form3.get('fromDate')?.touched" class="text-danger">
+                From Date is required
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">To Booking Date</label>
+              <input type="date" class="form-control" formControlName="toDate">
+              <div *ngIf="form3.get('toDate')?.invalid && form3.get('toDate')?.touched" class="text-danger">
+                To Date is required
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">From City</label>
+              <select #allparecleserial class="form-select form-select-sm" formControlName="fromCity">
+                <option value="" selected>Select City</option>
+                <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">To City</label>
+              <select #allparcelcity class="form-select form-select-sm" formControlName="toCity">
+                <option value="" selected>Select City</option>
+                <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
+              </select>
+            </div>
+            <div class="d-grid gap-2 col-2 mx-auto mt-4">
+              <button type="button" class="btn btn-success w-100" (click)="parcelbookingserieno()">Load</button>
+            </div>
+          </div>
+        </form>
+        <hr class="mt-5 pb-4">
+      </div>
+    </div>
+
+    <!-- Parcel Cancel Report -->
+    <div class="container mt-1">
+      <h5 class="text-center fw-bold text-danger"><u>Parcel Cancel Report</u></h5>
+      <div class="rounded p-4" style="margin-top: 1rem;">
+        <form [formGroup]="form7">
+          <div class="row mb-2">
+            <div class="col-md-6">
+              <label class="form-label">From Booking Date</label>
+              <input type="date" class="form-control" formControlName="fromDate">
+              <div *ngIf="form7.get('fromDate')?.invalid && form7.get('fromDate')?.touched" class="text-danger">
+                From Date is required
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">To Booking Date</label>
+              <input type="date" class="form-control" formControlName="toDate">
+              <div *ngIf="form7.get('toDate')?.invalid && form7.get('toDate')?.touched" class="text-danger">
+                To Date is required
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">From City</label>
+              <select #cancelfromcity class="form-select form-select-sm" formControlName="fromCity">
+                <option value="" selected>Select City</option>
+                <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">To City</label>
+              <select #canceltocity class="form-select form-select-sm" formControlName="toCity">
+                <option value="" selected>Select City</option>
+                <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Booking Status</label>
+                <select class="form-select" formControlName="bookingType">
+                  <option value="" selected>Booking Status</option>
+                  <option value="0">Booking</option>
+                  <option value="1">Loading</option>
+                  <option value="2">Unloading</option>
+                  <option value="3">Missing</option>
+                  <option value="4">Delivery</option>
+                  <option value="5">Cancel</option>
+                </select>
+            </div>
+           
+            <div class="d-grid gap-2 col-2 mx-auto mt-4">
+              <button type="button" class="btn btn-success w-100" (click)="cancelReport()">Load</button>
+            </div>
+          </div>
+        </form>
+        <hr class="mt-5 pb-4">
+      </div>
+    </div>
+
+    <!-- Parcel Booking Summary Report -->
+    <div class="container mt-1">
+      <h5 class="text-center fw-bold text-danger"><u>Parcel Booking Summary Report</u></h5>
+      <div class="rounded p-4" style="margin-top: 1rem;">
+        <form [formGroup]="form6">
+          <div class="row mb-2">
+            <div class="col-md-6">
+              <label class="form-label">From Booking Date</label>
+
+              <input type="date" class="form-control" formControlName="fromDate">
+              <div *ngIf="form6.get('fromDate')?.invalid && form6.get('fromDate')?.touched" class="text-danger">
+                From Date is required
+              </div>
+              
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">To Booking Date</label>
+              <input type="date" class="form-control" formControlName="toDate">
+              <div *ngIf="form6.get('toDate')?.invalid && form6.get('toDate')?.touched" class="text-danger">
+                To Date is required
+              </div>            </div>
+            <div class="col-md-6">
+              <label class="form-label">From City</label>
+              <select #summaryfromcity class="form-select form-select-sm" formControlName="fromCity">
+                <option value="" selected>Select City</option>
+                <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">To City</label>
+              <select #summarytocity class="form-select form-select-sm" formControlName="toCity">
+                <option value="" selected>Select City</option>
+                <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">PickUpBranch</label>
+              <select #summarypickup class="form-select" formControlName="pickUpBranch">
+                <option value="" selected>PickUpBranch</option>
+                <option *ngFor="let row2 of branchdata" [value]="row2.branchUniqueId">{{ row2.name }}</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Drop Branch</label>
+              <select #summarydroup class="form-select" formControlName="dropBranch">
+                <option value="" selected>Drop Branch</option>
+                <option *ngFor="let row2 of branchdata" [value]="row2.branchUniqueId">{{ row2.name }}</option>
+              </select>
+            </div>
+            <div class="d-grid gap-2 col-2 mx-auto mt-4">
+              <button type="button" class="btn btn-success w-100" (click)="BookingSummeryReport()">Load</button>
+            </div>
+          </div>
+        </form>
+        <hr class="mt-5 pb-4">
+      </div>
+    </div>
+
+    <!-- Parcel Booking Details On Mobile Number -->
+    <div class="container mt-1">
+      <h5 class="text-center fw-bold text-danger"><u>Parcel Booking Details On Mobile Number</u></h5>
+      <div class="rounded p-4" style="margin-top: 1rem;">
+        <form [formGroup]="form4">
+          <div class="row mb-2">
+        
+            <div class="col-md-6 mb-3">
+              <label class="form-label">From Booking Date</label>
+              <input type="date" class="form-control" formControlName="fromDate">
+              <div *ngIf="form4.get('fromDate')?.invalid && form4.get('fromDate')?.touched" class="text-danger">
+                From Date is required
+              </div>
+            </div>
+        
+            <div class="col-md-6 mb-3">
+              <label class="form-label">To Booking Date</label>
+              <input type="date" class="form-control" formControlName="toDate">
+              <div *ngIf="form4.get('toDate')?.invalid && form4.get('toDate')?.touched" class="text-danger">
+                To Date is required
+              </div>
+            </div>
+        
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Sender Mobile</label>
+              <input type="text" class="form-control" placeholder="Enter Sender Mobile" formControlName="senderMobile">
+            </div>
+        
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Receiver Mobile</label>
+              <input type="text" class="form-control" placeholder="Enter Receiver Mobile" formControlName="receiverMobile">
+            </div>
+        
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Booking Type</label>
+              <select class="form-select" formControlName="bookingType">
+                <option value="">Select Booking Type</option>
+                <option value="paid">Paid</option>
+                <option value="toPay">To Pay</option>
+                <option value="credit">Credit</option>
+                <option value="CLR">CLR</option>
+                <option value="freeSample">Free Sample</option>
+              </select>
+            </div>
+        
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Booking Status</label>
+              <select class="form-select" formControlName="bookingStatus">
+                <option value="">Booking Status</option>
+                <option value="0">Booking</option>
+                <option value="1">Loading</option>
+                <option value="2">Unloading</option>
+                <option value="3">Missing</option>
+                <option value="4">Delivery</option>
+                <option value="5">Cancel</option>
+              </select>
+            </div>
+        
+            <div class="col-12 text-center mt-3">
+              <button type="button" class="btn btn-success px-5" (click)="parcelbookingsmobile()">Load</button>
+            </div>
+        
+          </div>
+        </form>
+        
+        <hr class="mt-5 pb-4">
+      </div>
+    </div>
+
+    <!-- Regular Customer Booking -->
+    <div class="container mt-1">
+      <h5 class="text-center fw-bold text-danger"><u>Regular Customer Booking</u></h5>
+      <div class="rounded p-4" style="margin-top: 1rem;">
+        <form [formGroup]="form5">
+          <div class="row mb-2">
+            <div class="col-md-6">
+              <label class="form-label">From Booking Date</label>
+              <input type="date" class="form-control" formControlName="fromDate">
+              <div *ngIf="form5.get('fromDate')?.invalid && form5.get('fromDate')?.touched" class="text-danger">
+                From Date is required
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">To Booking Date</label>
+              <input type="date" class="form-control" formControlName="toDate">
+              <div *ngIf="form5.get('toDate')?.invalid && form5.get('toDate')?.touched" class="text-danger">
+                To Date is required
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">From City</label>
+              <select #customerfromcity class="form-select form-select-sm" formControlName="fromCity">
+                <option value="" selected>Select City</option>
+                <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">To City</label>
+              <select #customertocity class="form-select form-select-sm" formControlName="toCity">
+                <option value="" selected>Select City</option>
+                <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">PickUpBranch</label>
+              <select #customerPickupbranch class="form-select" formControlName="pickUpBranch">
+                <option value="" selected>PickUpBranch</option>
+                <option *ngFor="let row2 of branchdata" [value]="row2.branchUniqueId">{{ row2.name }}</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Drop Branch</label>
+              <select #customerDroupBranch class="form-select" formControlName="dropBranch">
+                <option value="" selected>Drop Branch</option>
+                <option *ngFor="let row2 of branchdata" [value]="row2.branchUniqueId">{{ row2.name }}</option>
+              </select>
+            </div>
+            <div class="d-grid gap-2 col-2 mx-auto mt-4">
+              <button type="button" class="btn btn-success w-100" (click)="bookingCustomer()">Load</button>
+            </div>
+          </div>
+        </form>
+        <hr class="mt-5 pb-4">
+      </div>
+    </div>
+  </div>
 </div>

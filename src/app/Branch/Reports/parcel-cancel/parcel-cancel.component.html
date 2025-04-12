@@ -1,0 +1,69 @@
+<p>parcel-cancel works!</p>
+<div class="container my-4 p-3 border rounded bg-light" style="background-color: #e3eaf8" *ngIf="data4?.length">
+    <h5 class="text-center fw-bold">SREE KALESWARI LOGISTICS</h5>
+    <h6 class="text-center text-decoration-underline">Parcel Cancel Report</h6>
+  
+    <div class="d-flex justify-content-between mb-2">
+      <div>
+        <strong>From :</strong> {{ fromDate | date: 'dd-MM-yyyy' }}
+        <strong>To :</strong> {{ toDate | date: 'dd-MM-yyyy' }}
+      </div>
+      <div><strong>Print By :</strong> {{ printBy }}</div>
+    </div>
+  
+    <div class="d-flex justify-content-end mb-2">
+      <strong>Print Date :</strong> {{ today | date: 'dd-MM-yyyy' }}
+      <strong>Time :</strong> {{ today | date: 'shortTime' }}
+    </div>
+  
+    <div class="table-responsive">
+      <table class="table table-bordered table-sm table-striped">
+        <thead class="table-secondary text-center align-middle">
+          <tr>
+            <th>No.</th>
+            <th>GRN No</th>
+            <th>Manual Ticket No</th>
+            <th>Booking Date</th>
+            <th>Cancel Date</th>
+            <th>From City</th>
+            <th>To City</th>
+            <th>Sender Name</th>
+            <th>Receiver Name</th>
+            <th>Qty</th>
+            <th>Amount</th>
+            <th>Can. Charge</th>
+            <th>Net Amount</th>
+            <th>Cancel By</th>
+          </tr>
+        </thead>
+        <tbody class="text-center align-middle">
+          <tr *ngFor="let item of data4; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.grnNo }}</td>
+            <td>{{ item.manualTicketNo || '-' }}</td>
+            <td>{{ item.bookingDate | date: 'dd-MM-yyyy hh:mm a' }}</td>
+            <td>{{ item.cancelDate | date: 'dd-MM-yyyy hh:mm a' }}</td>
+            <td>{{ item.fromCity }}</td>
+            <td>{{ item.toCity }}</td>
+            <td>{{ item.senderName }}</td>
+            <td>{{ item.receiverName }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.grandTotal | number: '1.2-2' }}</td>
+            <td>{{ item.refundCharge | number: '1.2-2' }}</td>
+            <td>{{ item.refundAmount | number: '1.2-2' }}</td>
+            <td>{{ item.cancelByUser || '-' }}</td>
+          </tr>
+          <tr *ngIf="!data4?.length">
+            <td colspan="14" class="text-center">No data4 available</td>
+          </tr>
+          <!-- Group Totals row -->
+      
+          <!-- Final Total row -->
+     
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="container my-4 p-3 border rounded bg-light text-center" *ngIf="!data4?.length">
+    <p>No parcel cancel data4 available.</p>
+  </div>

@@ -4,6 +4,7 @@
   <!-- <p class="fw-bold text-center ">LR No: {{data1.lrNumber}} </p> -->
 
 
+
   <div class="container mt-3">
     <h4 class=" fw-bold">SENDER'S COPY</h4>
     <div class="table-responsive mt-3">
@@ -31,71 +32,54 @@
               <p class="fw-bold">{{data1.receiverMobile}}</p>
             </td>
             <td>
-              <div class="d-flex justify-content-center align-items-center ">
-                <div *ngIf="qrData" class="qr-code text-center">
+                <div *ngIf="qrData" class="qr-code ">
                   <h6>{{ data1.lrNumber }}</h6>
-                  <qrcode *ngIf="qrData" [qrdata]="qrData" [width]="100" [errorCorrectionLevel]="'M'">
-                  </qrcode>
+                  <qrcode *ngIf="qrData" [qrdata]="qrData" [width]="50" [errorCorrectionLevel]="'M'"></qrcode>
                 </div>
-              </div>
             </td>
           </tr>
+          <tr class="text-primary">
+            <th colspan="1" width="25%">Details of Contents</th>
+                <th colspan="1" width="25%">No of Article</th>
+                <th colspan="1" width="50%">No of Article</th>
+          </tr >
+          <tr *ngFor="let cdata of data1.packages">
+            <th >
+            <span> {{cdata.contains}} <br></span> 
+            </th>
+            <th>
+              <span> {{cdata.quantity}} <br></span> 
+            </th>
+            <th>
+              <p>Freight Charges: {{data1.serviceCharge}}            </p>
+            <p>Door devilery Changers: {{data1.doorDeliveryCharge}}</p>
+            <p>LR Changers: {{data1.hamaliCharge}}</p>
+            <p>NETAMOUNT: {{data1.grandTotal | currency:'INR':true:'1.0-0'}}</p>
+            </th>
+          </tr>
+       <tr>
+        <th>Sender's Signture &nbsp;</th>
+       </tr>
           
         </tbody>
-        <tr class="text-primary">
-          <th colspan="1" width="25%">Details of Contents</th>
-              <th colspan="1" width="25%">No of Article</th>
-              <th colspan="1" width="50%">No of Article</th>
-        </tr>
-        <tr>
-          <th>
-            <p>akljcndsn</p>
-             <p>lksdn</p>
-          </th>
-          <th>
-            <p>akljcndsn</p>
-          <p>lksdn</p>
-          </th>
-          <th>
-            <p>akljcndsn</p>
-          <p>lksdn</p>
-          </th>
-        </tr>
-
-        <!-- <table class="pavan" style="width: 100%;" >
+  
      
-          <tr>
-              <th>
-                <p>akljcndsn</p>
-              <p>lksdn</p>
-              </th>
-              <th>
-                <p>kjsbcjhbsd</p>
-                <p>kjsbcjhbsd</p>
-              </th>
-          </tr>
-          <tr>
-            <p>sendersign</p>
-            <td>
-              <h6>BOOKED AT OWNER'S RISK ONLY</h6>
-            </td>
-          </tr>
-      </table> -->
-      
-      
+
+     
+  
       </table>
  
     
     </div>
-    <h4 class="text-end fw-bold">CONSIGMENT COPY</h4>
-    <div class="table-responsive mt-3">
+    <!-- <h4 class="text-end fw-bold">CONSIGMENT COPY</h4> -->
+    <!-- <div class="table-responsive mt-3">
       <table class="table table-bordered text-white table-custom">
         <thead class="table-header">
           <tr>
             <th>Sender Details</th>
             <th>Receiver Details</th>
-            <!-- <th>{{data1.bookingDate
-                }}</th> -->
+            <th>{{data1.bookingDate
+                }}</th>
             <th>{{ data1.bookingDate | date: 'dd/MM/yyyy' }}</th>
 
           </tr>
@@ -116,15 +100,16 @@
               <div class="d-flex justify-content-center align-items-center ">
                 <div *ngIf="qrData" class="qr-code text-center">
                   <h6>{{ data1.lrNumber }}</h6>
-                  <qrcode *ngIf="qrData" [qrdata]="qrData" [width]="100" [errorCorrectionLevel]="'M'">
-                  </qrcode>
+                  <qrcode *ngIf="qrData" [qrdata]="qrData" [width]="50" [errorCorrectionLevel]="'M'"></qrcode>
+
+
                 </div>
               </div>
             </td>
           </tr>
         </tbody>
       </table>
-    </div>
+    </div> -->
   </div>
 
 

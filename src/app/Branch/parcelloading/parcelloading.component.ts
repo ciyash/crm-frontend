@@ -28,6 +28,8 @@ export class ParcelloadingComponent implements OnInit {
   data1:any;
   LoadSuccess: boolean = false;
   allSelected: boolean = false;
+  qrdata: string = '';
+  showScanner: boolean = false;
   tbcdata:any;
    @ViewChild('selectElem') selectElem!: ElementRef;
    @ViewChild('branchselect') branchselect!: ElementRef;
@@ -95,8 +97,13 @@ export class ParcelloadingComponent implements OnInit {
 
       },
     });
-  
+
   }
+
+
+
+
+
 
  onToCityChange(event: any) {
   const selectedOptions = Array.from(event.target.selectedOptions).map((option: any) => option.value);
@@ -301,7 +308,44 @@ export class ParcelloadingComponent implements OnInit {
   }
   
 
+  openScanner() {
+    this.showScanner = true;
+  }
 
+  closeScanner() {
+    this.showScanner = false;
+  }
+
+  handleQrCodeResult(result: string) {
+    this.closeScanner();
+  
+    // Don't set this.data = result directly here (it's just a string)
+    this.getQRdata(result);
+  }
+  
+
+  getQRdata(id: any) {
+    this.api.GetGRNnumber(id).subscribe((res: any) => {
+      console.log(res, 'qrdata');
+  
+      let newData: any[] = [];
+  
+      if (Array.isArray(res)) {
+        newData = res;
+      } else if (res && typeof res === 'object') {
+        newData = [res];
+      }
+  
+      // Merge newData with existing this.data
+      this.data = [...this.data || [], ...newData];
+  
+      console.log(this.data, 'Merged scanned data');
+    });
+  }
+  
+  
+  
+  
 
 
 
