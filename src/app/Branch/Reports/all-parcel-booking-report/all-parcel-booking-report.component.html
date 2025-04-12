@@ -1,0 +1,51 @@
+<div class="container my-4 p-3 border rounded bg-light" *ngIf="data1?.data?.length">
+    <h5 class="text-center fw-bold">SREE KALESWARI LOGISTICS</h5>
+    <h6 class="text-center text-decoration-underline">All Parcel Booking Details Report</h6>
+  
+    <div class="d-flex justify-content-between mt-3">
+      <div><strong>From :</strong> 11-04-2025 <strong>To :</strong> 12-04-2025</div>
+      <div><strong>Print Date :</strong> {{ today | date: 'dd-MM-yyyy' }} <strong>Time :</strong> {{ today | date: 'shortTime' }}</div>
+    </div>
+  
+    <div class="table-responsive mt-3">
+      <table class="table table-bordered table-sm table-striped">
+        <thead class="table-secondary text-center">
+          <tr>
+            <th>No</th>
+            <th>GRN No</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>From City</th>
+            <th>To City</th>
+            <th>Type</th>
+            <th>From Branch</th>
+            <th>To Branch</th>
+            <th>Sender Name</th>
+            <th>Receiver Name</th>
+            <th>Qty</th>
+            <th>Amount</th>
+            <th>Hamali Charge</th>
+          </tr>
+        </thead>
+        <tbody class="text-center align-middle">
+          <tr *ngFor="let row of data1.data; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ row.lrNumber }}</td>
+            <td>{{ row.bookingDate | date: 'dd-MM-yyyy' }}</td>
+            <td>{{ row.bookingStatus === 0 ? 'Loading' : 'Unknown' }}</td>
+            <td>{{ row.fromCity }}</td>
+            <td>{{ row.toCity }}</td>
+            <td>{{ row.bookingType | titlecase }}</td>
+            <td>{{ row.pickUpBranchname }}</td>
+            <td>{{ row.dropBranchname || 'N/A' }}</td>
+            <td>{{ row.senderName }}<br>{{ row.senderMobile }}</td>
+            <td>{{ row.receiverName }}<br>{{ row.receiverMobile }}</td>
+            <td>{{ row.totalQuantity }}</td>
+            <td>{{ row.grandTotal | number: '1.2-2' }}</td>
+            <td>{{ row.hamaliCharge | number: '1.2-2' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

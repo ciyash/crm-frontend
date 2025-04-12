@@ -1,0 +1,68 @@
+<div class="container my-4 p-3 border rounded bg-light" style="background-color: #e3eaf8" *ngIf="data?.length">
+    <h5 class="text-center fw-bold">SREE KALESWARI LOGISTICS</h5>
+    <h6 class="text-center text-decoration-underline">All Parcel Booking Details Report</h6>
+  
+    <div class="d-flex justify-content-between mt-3">
+      <div>
+        <strong>From :</strong> {{ fromDate ? (fromDate | date: 'dd-MM-yyyy') : 'N/A' }}
+        <strong>To :</strong> {{ toDate ? (toDate | date: 'dd-MM-yyyy') : 'N/A' }}
+      </div>
+      <div>
+        <strong>Print Date :</strong> {{ today | date: 'dd-MM-yyyy' }}
+        <strong>Time :</strong> {{ today | date: 'shortTime' }}
+      </div>
+    </div>
+  
+    <div class="table-responsive">
+      <table class="table table-bordered table-sm table-striped">
+        <thead class="table-secondary text-center align-middle">
+          <tr>
+            <th>S.NO</th>
+            <th>GRN.NO</th>
+            <th>Booking Date</th>
+            <th>From City</th>
+            <th>To City</th>
+            <th>Sender Name</th>
+            <th>Sender No</th>
+            <th>Receiver</th>
+            <th>Receiver No</th>
+            <th>Delivery Date</th>
+            <th>Type</th>
+            <th>Qty</th>
+            <th>Total Amt</th>
+          </tr>
+        </thead>
+        <tbody class="text-center align-middle">
+          <tr *ngFor="let item of data; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.grnNo || '-' }}</td>
+            <td>{{ item.bookingDate | date: 'dd-MM-yyyy' }}</td>
+            <td>{{ item.fromCity || '-' }}</td>
+            <td>{{ item.toCity || '-' }}</td>
+            <td>{{ item.senderName || '-' }}</td>
+            <td>{{ item.senderMobile || '-' }}</td>
+            <td>{{ item.receiverName || '-' }}</td>
+            <td>{{ item.receiverMobile || '-' }}</td>
+            <td>{{ item.deliveryDate ? (item.deliveryDate | date: 'dd-MM-yyyy') : '-' }}</td>
+            <td>{{ item.bookingType || '-' }}</td>
+            <td>{{ item.totalQuantity || 0 }}</td>
+            <td>{{ item.grandTotal | number: '1.2-2' }}</td>
+          </tr>
+          <tr *ngIf="!data?.length">
+            <td colspan="13" class="text-center">No data available</td>
+          </tr>
+          <!-- Total Row -->
+          <tr class="fw-bold bg-light" *ngIf="data?.length">
+            <td colspan="11" class="text-end">Total:</td>
+            <!-- <td>{{ data.reduce((sum, x) => sum + (x.totalQuantity || 0), 0) }}</td>
+            <td>{{ data.reduce((sum, x) => sum + (x.grandTotal || 0), 0) | number: '1.2-2' }}</td> -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <!-- No data fallback -->
+  <div class="container my-4 p-3 border rounded bg-light text-center" *ngIf="!data?.length">
+    <p>No parcel booking data available.</p>
+  </div>

@@ -55,6 +55,12 @@ import { DeliveredStockReportComponent } from './Branch/Reports/delivered-stock-
 import { PendingDispatchedStockReportComponent } from './Branch/Reports/pending-dispatched-stock-report/pending-dispatched-stock-report.component';
 import { DispatchedMemoReportComponent } from './Branch/Reports/dispatched-memo-report/dispatched-memo-report.component';
 import { ParcelIncomingLauggageReportComponent } from './Branch/Reports/parcel-incoming-lauggage-report/parcel-incoming-lauggage-report.component';
+import { AllParcelBookingReportComponent } from './Branch/Reports/all-parcel-booking-report/all-parcel-booking-report.component';
+import { ParcelbookingSerialnoComponent } from './Branch/Reports/parcelbooking-serialno/parcelbooking-serialno.component';
+import { ParcelBookingMobileComponent } from './Branch/Reports/parcel-booking-mobile/parcel-booking-mobile.component';
+import { RegularcustomerBookingComponent } from './Branch/Reports/regularcustomer-booking/regularcustomer-booking.component';
+import { ParcelCancelComponent } from './Branch/Reports/parcel-cancel/parcel-cancel.component';
+import { ParcelBookingSummaryComponent } from './Branch/Reports/parcel-booking-summary/parcel-booking-summary.component';
 
 
 
@@ -99,7 +105,13 @@ import { ParcelIncomingLauggageReportComponent } from './Branch/Reports/parcel-i
     DeliveredStockReportComponent,
     PendingDispatchedStockReportComponent,
     DispatchedMemoReportComponent,
-    ParcelIncomingLauggageReportComponent
+    ParcelIncomingLauggageReportComponent,
+    AllParcelBookingReportComponent,
+    ParcelbookingSerialnoComponent,
+    ParcelBookingMobileComponent,
+    RegularcustomerBookingComponent,
+    ParcelCancelComponent,
+    ParcelBookingSummaryComponent
     
     
   ],
