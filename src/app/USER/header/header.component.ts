@@ -91,7 +91,7 @@ export class HeaderComponent implements OnInit {
           routerLink: ['/booking'],
         },
         {
-          label: 'Bookings',
+          label: 'Bookings ▼',
           icon: 'pi pi-fw pi-database',
           items: [
             { label: 'Parcel Booking', routerLink: ['/booking'] },
@@ -101,10 +101,11 @@ export class HeaderComponent implements OnInit {
             { label: 'Parcel Status', routerLink: ['/gnrnumberstatus'] },
             { label: 'Branch to Branch Unloading', routerLink: ['/barnchtobranchunloading'] },
             { label: 'Vouchers List Offline', routerLink: ['/voucherslistoffline'] },
-          ],
+          ]
         },
+        
         {
-          label: 'Parcel Agent',
+          label: 'Parcel Agent ▼',
           icon: 'pi pi-fw pi-file',
           items: [
             { label: 'CF Master', routerLink: ['/bookingreport'] },
@@ -113,11 +114,11 @@ export class HeaderComponent implements OnInit {
           ],
         },
         {
-          label: 'Parcel Report',
+          label: 'Parcel Report ▼',
           icon: 'pi pi-fw pi-database',
           items: [
-            { label: 'Booking Report', routerLink: ['/bookingreport'] },
-            { label: 'Booking Report', routerLink: ['/reportsdashboard'] },
+            { label: 'Today Booking Report', routerLink: ['/bookingreport'] },
+            { label: 'Booking Report ', routerLink: ['/reportsdashboard'] },
             { label: 'Cancel Report', routerLink: ['/reportsdashboard'] },
             { label: 'GST Report', routerLink: ['/reportsdashboard'] },
             { label: 'Pending Delivery Report', routerLink: ['/reportsdashboard'] },

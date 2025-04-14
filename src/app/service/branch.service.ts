@@ -840,10 +840,13 @@ ParcelBookingSummeryReport(value: {
 ParcelBookingMobileNumber(value: {
   fromDate: string;
   toDate: string;
-  senderMobile: string;
-  receiverMobile: string;
+  mobile: string;
+  reportType: string;
   bookingType:string;
   bookingStatus:string;
+
+
+
 }) {
   const token1 = this.token.getToken();
   const httpOptions = {
@@ -857,8 +860,8 @@ ParcelBookingMobileNumber(value: {
     {
       fromDate: value.fromDate,
       toDate: value.toDate,
-      senderMobile: value.senderMobile,
-      receiverMobile: value.receiverMobile,
+      mobile: value.mobile,
+      reportType: value.reportType,
       bookingType: value.bookingType,
       bookingStatus: value.bookingStatus,
   },

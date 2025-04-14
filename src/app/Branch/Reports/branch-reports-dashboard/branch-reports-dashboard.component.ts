@@ -131,11 +131,12 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
     this.form4 = this.fb.group({
       fromDate: ['', Validators.required],
       toDate: ['', Validators.required],
-      senderMobile: [],
-      receiverMobile:[''],
+      mobile: ['', Validators.required],
+      reportType:[''],
       bookingType: [''],
       bookingStatus: [''],
       
+
     });
 
 
@@ -205,6 +206,8 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
       initializeSelect2(this.canceltocity, this.form7, 'toCity');
       initializeSelect2(this.cancelpickup, this.form7, 'pickUpBranch');
       initializeSelect2(this.canceldrop, this.form7, 'dropBranch');
+      
+
     });
   }
 
@@ -308,8 +311,8 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
     const payload3 = {
       fromDate: this.form4.value.fromDate,
       toDate: this.form4.value.toDate,
-      senderMobile: this.form4.value.senderMobile,
-      receiverMobile: this.form4.value.receiverMobile,
+      mobile: this.form4.value.mobile,
+      reportType: this.form4.value.reportType,
       bookingType: this.form4.value.bookingType,
       bookingStatus: this.form4.value.bookingStatus,
     };
@@ -350,7 +353,7 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
         this.customerdata = response;
         console.log('Parcel Booking customerdata:', this.customerdata);
         this.router.navigateByUrl('/regularcustmer', {
-          state: { data2: response },
+          state: { data7: response },
         });
       },
       error: (error: any) => {

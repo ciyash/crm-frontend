@@ -1,1 +1,63 @@
-<p>regularcustomer-booking works!</p>
+<div *ngIf="data?.length; else noData" class="container my-4 p-3 border rounded bg-light" style="background-color: #e3eaf8">
+    <h5 class="text-center fw-bold">SREE KALESWARI LOGISTICS</h5>
+    <h6 class="text-center text-decoration-underline">All Parcel Booking Details Report</h6>
+  
+    <div class="d-flex justify-content-between mt-3">
+      <div>
+        <strong>From :</strong> {{ fromDate | date: 'dd-MM-yyyy' }} 
+        <strong>To :</strong> {{ toDate | date: 'dd-MM-yyyy' }}
+      </div>
+      <div>
+        <strong>Print Date :</strong> {{ today | date: 'dd-MM-yyyy' }} 
+        <strong>Time :</strong> {{ today | date: 'shortTime' }}
+      </div>
+    </div>
+  
+    <div class="table-responsive mt-3">
+      <table class="table table-bordered table-sm table-striped">
+        <thead class="table-secondary text-center align-middle">
+          <tr>
+            <th>S.NO</th>
+            <th>From City</th>
+            <th>From Branch</th>
+            <th>To City</th>
+            <th>To Branch</th>
+            <th>Book Date</th>
+            <th>From Party</th>
+            <th>To Party</th>
+            <th>Total Qty</th>
+            <th>Total Charge</th>
+          </tr>
+        </thead>
+        <tbody class="text-center align-middle">
+          <tr *ngFor="let item of data; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.fromCity }}</td>
+            <td>{{ item.pickUpBranchname }}</td>
+            <td>{{ item.toCity }}</td>
+            <td>{{ item.dropBranchname }}</td>
+            <td>{{ item.bookingDate | date: 'dd-MM-yyyy' }}</td>
+            <td>{{ item.senderName }}</td>
+            <td>--</td>
+            <td>{{ item.totalQuantity }}</td>
+            <td>{{ item.grandTotal | number: '1.2-2' }}</td>
+          </tr>
+        </tbody>
+        <tfoot class="table-light text-center fw-bold">
+          <tr>
+            <td colspan="8">Grand Total</td>
+            <td>{{ data7?.allTotalQuantity }}</td>
+            <td>{{ data7?.allGrandTotal | number: '1.2-2' }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  
+  <!-- No data fallback -->
+  <ng-template #noData>
+    <div class="container my-4 p-3 border rounded bg-light text-center">
+      <p>{{ message }}</p>
+    </div>
+  </ng-template>
+  
