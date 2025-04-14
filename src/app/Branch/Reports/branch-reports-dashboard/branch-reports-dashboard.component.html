@@ -320,14 +320,26 @@
             </div>
         
             <div class="col-md-6 mb-3">
-              <label class="form-label">Sender Mobile</label>
-              <input type="text" class="form-control" placeholder="Enter Sender Mobile" formControlName="senderMobile">
+              <label class="form-label">Mobile Number</label>
+              <input type="text" class="form-control" placeholder="Enter Sender Mobile" formControlName="mobile">
             </div>
         
-            <div class="col-md-6 mb-3">
-              <label class="form-label">Receiver Mobile</label>
-              <input type="text" class="form-control" placeholder="Enter Receiver Mobile" formControlName="receiverMobile">
+            <div class="col-md-6 mb-3 d-flex align-items-center">
+              <label class="me-3 fw-semibold">Report Type :</label>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="reportType" id="reportAll" value="ALL" checked    >
+                <label class="form-check-label" for="reportAll">ALL</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="reportType"  formControlName="reportType" id="reportSender" value="Sender">
+                <label class="form-check-label" for="reportSender">Sender Mobile</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="reportType" formControlName="reportType"  id="reportReceiver" value="Receiver">
+                <label class="form-check-label" for="reportReceiver">Receiver Mobile</label>
+              </div>
             </div>
+            
         
             <div class="col-md-6 mb-3">
               <label class="form-label">Booking Type</label>
