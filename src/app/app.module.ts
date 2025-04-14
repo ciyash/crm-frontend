@@ -57,6 +57,8 @@ import { AddCfmasterComponent } from './Branch/Cfmaster/add-cfmaster/add-cfmaste
 import { GetCfmasterDataComponent } from './Branch/Cfmaster/get-cfmaster-data/get-cfmaster-data.component';
 import { SetChargesComponent } from './Branch/Cfmaster/set-charges/set-charges.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { CreditVoucherGenerateComponent } from './Branch/Cfmaster/credit-voucher-generate/credit-voucher-generate.component';
+import { VoucherDetailsCfmasterComponent } from './Branch/Cfmaster/voucher-details-cfmaster/voucher-details-cfmaster.component';
 
 
 
@@ -104,7 +106,9 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
     ParcelIncomingLauggageReportComponent,
     AddCfmasterComponent,
     GetCfmasterDataComponent,
-    SetChargesComponent
+    SetChargesComponent,
+    CreditVoucherGenerateComponent,
+    VoucherDetailsCfmasterComponent
     
     
   ],

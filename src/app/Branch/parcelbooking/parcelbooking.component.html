@@ -14,7 +14,7 @@
                 <div class="col-md-4">
                     <label class="form-label">From City</label>
                     <select #selectElem class="form-select form-select-sm" formControlName="fromCity">
-                      <option value="{{pfdata.city}}" selected >{{pfdata.city}}</option>
+                      <option value="" selected >Select City</option>
                       <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
                     </select>
                   </div>
@@ -22,8 +22,8 @@
                   <div class="col-md-4">
                     <label class="form-label">Pickup Branch</label>
                     <select #pickupbranch class="form-select form-select-sm" formControlName="pickUpBranch">
-                      <!-- <option value="" selected>Select Pickup Branch</option> -->
-                      <option value="{{pfdata.branchUniqueId}}"  selected>{{pfdata.name}}</option>
+                      <option value="" selected>Select Pickup Branch</option>
+                      <!-- <option value="{{pfdata.branchUniqueId}}"  selected>{{pfdata.name}}</option> -->
                       <option *ngFor="let row4 of pdata" [value]="row4.branchUniqueId"> {{ row4.name }} </option>
                     </select>
                   </div>

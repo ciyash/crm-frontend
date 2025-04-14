@@ -27,12 +27,68 @@
                             <td> {{row.name}} </td>
                             <td> {{row.city}} </td>
                             <td> <span *ngIf="row.isPostPaid==false">Postpaid</span> <span *ngIf="row.isPostPaid==true">Prepaid</span></td>
-                            <td (click)="showDialog1(row)" style="cursor: pointer; color: rgb(7, 68, 181);"> <u> Set Charges</u>  </td>
+                            <td> <span (click)="showDialog1(row)" style="cursor: pointer; color: rgb(7, 68, 181); padding-right: 20px;"><u> Set Charges</u></span>
+                                <a (click)="getsetcharges(row._id)" style="cursor: pointer;"><i class="fa fa-eye"> </i></a> 
+                              </td>
                             <td> <span *ngIf="row.isActive==false" class="text-success">Active</span> <span *ngIf="row.isActive==true" class="text-danger">Inactive</span> </td>
                             <td> <a (click)="showDialog(row)" style="cursor: pointer;" class="p-2"><i class="fa fa-edit"></i></a> <a  class="text-danger" style="cursor: pointer;" (click)="Delete(row._id)"><i class="fa fa-trash"></i></a>  </td>
                         </tr>
                     </tbody>
+                    
+                    <!-- Bootstrap Modal -->
+<div class="modal fade" id="chargesModal" tabindex="-1" aria-labelledby="chargesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="chargesModalLabel">View Charges Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+  
+        <div class="modal-body">
+          <div *ngIf="scdata.length > 0; else noData">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped text-center">
+                <thead class="table-dark">
+                  <tr>
+                    <th>Charge Name</th>
+                    <th>Charge</th>
+                    <th>Dispatch Type</th>
+                    <th>Form City</th>
+                    <th>To City</th>
+                    <th>Mode</th>
+                    <th>Item Name</th>
+                    <!-- Add more headers if needed -->
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let charge of scdata; let i = index">
+                    <td>{{ charge.chargeName }}</td>
+                    <td>{{ charge.charge }}</td>
+                    <td>{{ charge.dispatchType }}</td>
+                    <td>{{ charge.fromCity }}</td>
+                    <td>{{ charge.toCity }}</td>
+                    <td>{{ charge.modeOnPrice }}</td>
+                    <td>{{ charge.itemName }}</td>
+                    <!-- Add more cells if needed -->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+  
+          <ng-template #noData>
+            <p class="text-center text-muted">No charge details available.</p>
+          </ng-template>
+        </div>
+  
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  
                 </table>
             
         </div>

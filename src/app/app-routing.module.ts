@@ -27,6 +27,9 @@ import { FilterGrnComponent } from './Branch/filter-grn/filter-grn.component';
 import { PrintVoucherslistDataComponent } from './Branch/print-voucherslist-data/print-voucherslist-data.component';
 import { DispatchedReportComponent } from './Branch/dispatched-report/dispatched-report.component';
 import { BranchReportsDashboardComponent } from './Branch/Reports/branch-reports-dashboard/branch-reports-dashboard.component';
+import { GetCfmasterDataComponent } from './Branch/Cfmaster/get-cfmaster-data/get-cfmaster-data.component';
+import { CreditVoucherGenerateComponent } from './Branch/Cfmaster/credit-voucher-generate/credit-voucher-generate.component';
+import { VoucherDetailsCfmasterComponent } from './Branch/Cfmaster/voucher-details-cfmaster/voucher-details-cfmaster.component';
 
 
 const routes: Routes = [
@@ -50,6 +53,11 @@ const routes: Routes = [
   { path: 'gnrnumberstatus', component: FilterGrnComponent, canActivate: [authGuard] },
   { path: 'printvouchersdata/:vocherNoUnique', component: PrintVoucherslistDataComponent, canActivate: [authGuard] },
   { path: 'voucherslistoffline', component: VoucerOfflineListComponent, canActivate: [authGuard] },
+
+  //cf master
+  { path: 'getcfmasterdata', component: GetCfmasterDataComponent, canActivate: [authGuard] },
+  { path: 'creditvouchergenerate', component: CreditVoucherGenerateComponent, canActivate: [authGuard] },
+  { path: 'voucherdetailscf', component: VoucherDetailsCfmasterComponent, canActivate: [authGuard] },
 
   // Reports
   { path: 'dispatchedreport', component: DispatchedReportComponent, canActivate: [authGuard] },
