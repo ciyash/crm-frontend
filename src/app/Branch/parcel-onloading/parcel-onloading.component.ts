@@ -1,11 +1,5 @@
-import { Component } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import {  FormArray,  FormBuilder,  FormControl,  FormGroup,  Validators,} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { BranchService } from 'src/app/service/branch.service';
@@ -44,13 +38,17 @@ export class ParcelOnloadingComponent {
   onVehicleSelect: any;
   apiResponse: any;
   bookings: any;
+  bkdata: any[] = [];
+  summary: any = {};
+  qrdata: string = '';
+  showScanner: boolean = false;
   constructor(
     private api: BranchService,
     private fb: FormBuilder,
     private messageService: MessageService,
     private router: Router,
     private activeroute: ActivatedRoute,
-    private toastr: ToastrService
+    private toastr: ToastrService, private cdRef: ChangeDetectorRef
   ) {
     this.form = this.fb.group({
       fromDate: ['', Validators.required],
@@ -62,14 +60,14 @@ export class ParcelOnloadingComponent {
 
     });
     this.form1 = this.fb.group({
-      fromBookingDate: ['', Validators.required],
-      toBookingDate: ['', Validators.required],
-      fromCity: this.fb.array([], Validators.required),
-      toCity: ['', Validators.required], // ✅ Ensure toCity is a FormControl, NOT a FormArray
-      branch: ['', Validators.required],
-      vehicalNumber: ['', Validators.required],
-      grnNo: this.fb.array([], Validators.required),
-      bookingType: ['Topay'],
+      fromBookingDate: ['', ],
+      toBookingDate: ['', ],
+      fromCity: this.fb.array([]),
+      toCity: ['', ], // ✅ Ensure toCity is a FormControl, NOT a FormArray
+      branch: ['', ],
+      vehicalNumber: ['', ],
+      grnNo: this.fb.array([],),
+      bookingType: [''],
     });
   }
   ngOnInit() {
@@ -148,47 +146,115 @@ export class ParcelOnloadingComponent {
   //   });
   // }
 //   
-  onLoad() {
-    if (this.form.invalid) {
-      this.toastr.error('Please fill all required fields', 'Validation Error');
-      return;
-    }
-  
-    const formValues = this.form.value;
-  
-    const payload = {
-      fromDate: formValues.fromDate,
-      toDate: formValues.toDate,
-      fromCity: formValues.fromCity.length ? formValues.fromCity : [],
-      toCity: formValues.toCity || '',
-      vehicalNumber: formValues.vehicalNumber || '',
-      branch: formValues.branch || '',
-    };
-  
-    console.log('Final Booking Data:', payload);
-  
-    this.api.FilterParcelUnLoading(payload).subscribe({
-      next: (response: any) => {
-        console.log('API Response:', response);
-  
-        if (response?.data?.length) {
-          this.apiResponse = response.data;
-          this.bookings = response.data[0]?.bookings || [];
-          this.LoadSuccess = true;
-          this.toastr.success('Parcel unloaded Successfully', 'Success');
-        } else {
-          this.apiResponse = [];
-          this.bookings = [];
-          this.LoadSuccess = false;
-          this.toastr.info('No customer bookings found.', 'Info');
-        }
-      },
-      error: (error: any) => {
-        console.error('Booking failed:', error);
-        this.toastr.error('Parcel unloading Failed', 'Error');
-      },
-    });
+
+onLoad() {
+  if (this.form.invalid) {
+    this.toastr.error('Please fill all required fields', 'Validation Error');
+    return;
   }
+
+  const formValues = this.form.value;
+
+  const payload = {
+    fromDate: formValues.fromDate,
+    toDate: formValues.toDate,
+    fromCity: formValues.fromCity.length ? formValues.fromCity : [],
+    toCity: formValues.toCity || '',
+    vehicalNumber: formValues.vehicalNumber || '',
+    branch: formValues.branch || '',
+  };
+
+  this.api.FilterParcelUnLoading(payload).subscribe({
+    next: (response: any) => {
+      console.log('dataload', response)
+      if (response?.data?.length) {
+        this.apiResponse = response.data || [];
+
+        // Combine all bookings into one array
+        this.bkdata = this.apiResponse.flatMap((item: any) => item.bookings);
+
+        // Prepare summary
+        this.summary = {};
+        this.apiResponse.forEach((item: any) => {
+          this.summary[item.bookingType] = {
+            totalQuantity: item.totalQuantity,
+            totalGrandTotal: item.totalGrandTotal,
+          };
+        });
+
+        this.LoadSuccess = true;
+        if (this.bkdata.length > 0) {
+          this.form1.patchValue({
+            branch: this.bkdata[0].branch,            
+          });
+          this.setFormArray('bookingType', this.bkdata.map((d: any) => d.bookingType));
+          this.setFormArray('grnNo', this.bkdata.map((d: any) => d.grnNo));
+          this.setFormArray('lrNumber', this.bkdata.map((d: any) => d.lrNumber));
+        }
+        this.toastr.success('Parcel unloaded Successfully', 'Success');
+      } else {
+        this.apiResponse = [];
+        this.bkdata = [];
+        this.summary = {};
+        this.LoadSuccess = false;
+        this.toastr.info('No customer bookings found.', 'Info');
+      }
+    },
+    error: (error: any) => {
+      console.error('Booking failed:', error);
+      this.toastr.error('Parcel unloading Failed', 'Error');
+    },
+  });
+}
+
+openScanner() {
+  this.showScanner = true;
+}
+
+closeScanner() {
+  this.showScanner = false;
+}
+
+handleQrCodeResult(result: string) {
+  this.closeScanner();
+
+  // Don't set this.data = result directly here (it's just a string)
+  this.getQRdata(result);
+}
+
+
+getQRdata(id: string) {
+  this.api.GetQrUnloadGRNnumber(id).subscribe(
+    (res: any) => {
+      console.log('Scanned QR data:', res);
+
+      let newData: any[] = [];
+
+      // Normalize based on your API structure
+      if (res?.data?.length) {
+        this.apiResponse = res.data || [];
+
+        // Combine all bookings into one array
+        this.bkdata = this.apiResponse.flatMap((item: any) => item.bookings);
+      } else if (Array.isArray(res)) {
+        newData = res;
+      } else if (typeof res === 'object') {
+        newData = [res];
+      }
+
+      this.bkdata = [...this.bkdata, ...newData]; // avoid push()
+
+      this.toastr.success('Parcel Unloaded successfully', 'Success');
+      this.cdRef.detectChanges(); // Ensure UI refresh if needed
+    },
+    (err) => {
+      this.toastr.error('Parcel already Unloaded or Error occurred', 'Error');
+    }
+  );
+}
+
+
+
   
   onTocitySelect(event: any) {
     console.log('Event triggered:', event);
@@ -249,31 +315,30 @@ export class ParcelOnloadingComponent {
 
   onGrnNoChange(event: any, grnNo: string) {
     const formArray = this.form1.get('grnNo') as FormArray;
-
     if (event.target.checked) {
+      // Add if not already selected
       if (!formArray.value.includes(grnNo)) {
         formArray.push(this.fb.control(grnNo));
       }
     } else {
+      // Remove if unchecked
       const index = formArray.value.indexOf(grnNo);
       if (index > -1) {
         formArray.removeAt(index);
       }
     }
-
-    // ✅ Update select all checkbox
-    const bookingsLength = this.bookings?.length || 0;
-    this.allSelected =
-      bookingsLength > 0 && formArray.value.length === bookingsLength;
-    console.log('Selected GRNs:', formArray.value);
+  
+    // ✅ Update "Select All" status based on selected values
+    this.allSelected = this.bkdata.length === formArray.value.length;
+    console.log('Selected GRN Numbers:', formArray.value);
   }
 
   onSelectAllChange(event: any) {
     const formArray = this.form1.get('grnNo') as FormArray;
     formArray.clear();
 
-    if (event.target.checked && this.bookings?.length > 0) {
-      this.bookings.forEach((row: any) => {
+    if (event.target.checked && this.bkdata?.length > 0) {
+      this.bkdata.forEach((row: any) => {
         const grn = row?.grnNo;
         if (grn && !formArray.value.includes(grn)) {
           formArray.push(this.fb.control(grn));
@@ -296,13 +361,14 @@ export class ParcelOnloadingComponent {
       },
     });
   }
+
   ParcelLoad() {
     const payload = {
       fromBookingDate: this.form1.value.fromBookingDate,
       toBookingDate: this.form1.value.toBookingDate,
       fromCity: this.form1.value.fromCity,
       toCity: this.form1.value.toCity,
-      branch: this.form1.value.branch || this.bookings[0]?.branch,
+      branch: this.form1.value.branch,
       vehicalNumber: this.form1.value.vehicalNumber,
       grnNo: this.form1.value.grnNo, // ✅ This must be an array!
       bookingType: this.form1.value.bookingType,

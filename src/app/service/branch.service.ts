@@ -237,6 +237,33 @@ GetGRNnumber(id:any){
   );   
 }
 
+GetQrGRNnumber(id:any){
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  }
+  return this.http.get(
+    AUTH_API + 'parcel-loading/grnNo/'+id,
+    httpOptions
+  );   
+}
+
+GetQrUnloadGRNnumber(id:any){
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  }
+  return this.http.get(
+    AUTH_API + 'parcel-unloading/grnNo/'+id,
+    httpOptions
+  );   
+}
 
 
 FilterParcelLoading(value:{

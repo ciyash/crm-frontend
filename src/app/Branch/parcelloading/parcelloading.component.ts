@@ -58,19 +58,19 @@ export class ParcelloadingComponent implements OnInit {
 
       this.form1 = this.fb.group({
         loadingType: ['offload'],
-        fromBranch: ['', Validators.required],
-        toBranch: ['', Validators.required],
+        fromBranch: ['', ],
+        toBranch: ['',],
         vehicalNumber: ['', Validators.required],
         driverName: ['', Validators.required],
         driverNo: ['', Validators.required],
-        fromBookingDate: ['', Validators.required],
-        toBookingDate: ['', Validators.required],
-        fromCity: ['', Validators.required],
+        fromBookingDate: ['',],
+        toBookingDate: ['', ],
+        fromCity: ['', ],
         // userName:['Test'],
-        senderName:['',Validators.required],
-        toCity: this.fb.array([], Validators.required),
-        grnNo: this.fb.array([], Validators.required),
-        lrNumber: this.fb.array([], Validators.required),
+        senderName:['',],
+        toCity: this.fb.array([], ),
+        grnNo: this.fb.array([], ),
+        lrNumber: this.fb.array([], ),
       });
 
     
@@ -100,11 +100,6 @@ export class ParcelloadingComponent implements OnInit {
 
   }
 
-
-
-
-
-
  onToCityChange(event: any) {
   const selectedOptions = Array.from(event.target.selectedOptions).map((option: any) => option.value);
 
@@ -116,54 +111,6 @@ export class ParcelloadingComponent implements OnInit {
   console.log('Selected To Cities:', toCityArray.value);
 }
 
-
-  // onLoad() {
-  //   const formValues = this.form.value;
-  //   const payload = {
-  //     startDate: this.form.value.startDate,
-  //     endDate: this.form.value.endDate,
-  //     fromCity: this.form.value.fromCity,
-  //     toCity: this.form.value.toCity,
-  //     pickUpBranch: this.form.value.pickUpBranch
-  //   };
-    
-  //   console.log('Final Booking Data:', payload);
-    
-  //   this.api.FilterParcelLoading(payload).subscribe({
-  //     next: (response: any) => {
-  //       console.log('Booking successful:', response);
-  //       // this.messageService.add({ severity: 'success', summary: 'success', detail: 'Load successfully' });
-  //       this.toast.success('Booking successful ', 'Success');
-
-  //       this.data = response || [];
-  //       // alert('Booking Successful!');
-  //       this.LoadSuccess = true;
-  //       // ✅ Assign loaded data to form1 fields
-  //       if (this.data.length > 0) {
-  //         this.form1.patchValue({
-  //           fromBranch: this.data[0].pickUpBranch,
-  //           toBranch: this.data[0].dropBranch,
-  //           fromBookingDate: this.form.value.startDate,
-  //           toBookingDate: this.form.value.endDate,
-  //           fromCity: this.form.value.fromCity,
-  //           loadingDate: '', // You can keep it empty for user input
-  //           vehicalNumber: '',
-  //           driverName: '',
-  //           driverNo: '',
-  //         });
-  
-  //         // ✅ Set `toCity`, `grnNo`, and `lrNumber` as FormArray
-  //         this.setFormArray('toCity', this.data.map((d: any) => d.toCity));
-  //         this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
-  //         this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
-  //       }
-  //     },
-  //     error: (error: any) => {
-  //       console.error('Booking failed:', error);
-  //       this.toast.error('Booking Failed. Please try again.', 'Error');
-  //     },
-  //   });
-  // }
 
   onLoad() {
     const formValues = this.form.value;
@@ -325,32 +272,44 @@ export class ParcelloadingComponent implements OnInit {
   
 
   getQRdata(id: any) {
-    this.api.GetGRNnumber(id).subscribe((res: any) => {
+    this.api.GetQrGRNnumber(id).subscribe((res: any) => {
       console.log(res, 'qrdata');
   
       let newData: any[] = [];
   
+      // Handle both object and array data responses
       if (Array.isArray(res)) {
         newData = res;
       } else if (res && typeof res === 'object') {
-        newData = [res];
+        // If it has grnNo or any parcel identifiers, push it even if success is false
+        if (res.grnNo || res.lrNumber) {
+          newData = [res];
+        }
       }
   
-      // Merge newData with existing this.data
-      this.data = [...this.data || [], ...newData];
+      // Merge data to the table
+      if (newData.length > 0) {
+        this.data = [...this.data || [], ...newData];
+        this.form1.patchValue({
+          senderName: this.data[0]?.senderName || ''            
+        });
+        this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
+        this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
+      }
   
-      console.log(this.data, 'Merged scanned data');
+      // Show toast depending on success/failure
+      if (res.success) {
+       
+        this.toast.success(res.message || 'Parcel loaded successfully', 'Success');
+      } else {
+        this.toast.success(res.message || 'Parcel loaded successfully', 'Success');
+      }
+    }, err => {
+      this.toast.error('Parcel already loaded', 'Error');
     });
   }
   
   
-  
-  
-
-
-
-
-
   // jkasdbksabd
   onFromcitySelect(event: any) {
     const cityName = event.target.value;
