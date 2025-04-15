@@ -212,6 +212,34 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
   }
 
   // Parcel Booking Report
+  // parcelbooking() {
+  //   if (this.form.invalid) {
+  //     this.form.markAllAsTouched();
+  //     this.toast.error('Please fill all required fields');
+  //     return;
+  //   }
+  //   const payload = {
+  //     fromDate: this.form.value.fromDate,
+  //     toDate: this.form.value.toDate,
+  //     fromCity: this.form.value.fromCity,
+  //     toCity: this.form.value.toCity,
+  //     bookingStatus: this.form.value.bookingStatus,
+  //     bookingType: this.form.value.bookingType,
+  //   };
+  //   console.log("parcelbooing:",payload);
+    
+  //   this.api.ParcelBookingReport(payload).subscribe({
+  //     next: (response: any) => {
+  //       console.log('Parcel reports1:', response);
+  //       this.router.navigateByUrl('/reports', { state: { data10: response } });
+  //     },
+  //     error: (error: any) => {
+  //       console.error('Parcel loading failed:', error);
+  //       this.toast.error('Parcel Loading Failed. Please try again.');
+  //     },
+  //   });
+  // }
+
   parcelbooking() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -226,11 +254,11 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
       bookingStatus: this.form.value.bookingStatus,
       bookingType: this.form.value.bookingType,
     };
-    console.log("parcelbooing:",payload);
-    
+    console.log('parcelbooing:', payload);
+  
     this.api.ParcelBookingReport(payload).subscribe({
       next: (response: any) => {
-        console.log('Parcel loaded successfully:', response);
+        console.log('Parcel reports1:', response);
         this.router.navigateByUrl('/reports', { state: { data: response } });
       },
       error: (error: any) => {
@@ -239,7 +267,6 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
       },
     });
   }
-
   // All Parcel Booking Report
   AllParcelBooking() {
     if (this.form1.invalid) {

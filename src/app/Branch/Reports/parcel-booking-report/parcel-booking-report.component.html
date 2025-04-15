@@ -1,58 +1,57 @@
 <div class="report-container">
-    <h5 class="text-center">SREE KALESWARI LOGISTICS</h5>
-    <h5 class="text-center">Parcel Booking Report</h5>
-  
-    <div class="table-responsive">
-      <table class="table table-bordered table-striped">
-        <thead>
-          <tr>
-            <th scope="col">S.No</th>
-            <th scope="col">GRN No</th>
-            <th scope="col">Manual Ticket No</th>
-            <th scope="col">Status</th>
-            <th scope="col">Date</th>
-            <th scope="col">From Branch</th>
-            <th scope="col">To Branch</th>
-            <th scope="col">Booked By Branch</th>
-            <th scope="col">Sender Name</th>
-            <th scope="col">Receiver Name</th>
-            <th scope="col">Agent</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Weight</th>
-            <th scope="col">Charge</th>
-            <th scope="col">Hamali</th>
-            <th scope="col">Value of Goods</th>
-            <th scope="col">Invoice No</th>
-            <th scope="col">E-way Bill No</th>
-          </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of data; let i = index">
-                <td>{{ i + 1 }}</td>
-                <td>{{ item.grnNo || '-' }}</td>
-                <td>{{ item.manualTicketNo || '-' }}</td>
-                <td>{{ item.bookingStatus  }}</td>
-                <td>{{ item.bookingDate | date:'dd-MM-yyyy hh:mm a' }}</td>
-                <td>{{ item.pickUpBranchname || '-' }}</td>
-                <td>{{ item.dropBranchname || '-' }}</td>
-                <td>{{ item.pickUpBranchname || '-' }}</td>
-                <td>{{ item.senderName }}</td>
-                <td>{{ item.receiverName }}</td>
-                <td>{{ item.agent || '-' }}</td>
-                <td>{{ item.totalQuantity || '-' }}</td>
-                <td>
-                    <span *ngFor="let pkg of item.packages; let last = last">
-                      {{ pkg.weight || '-' }}<span *ngIf="!last">, </span>
-                    </span>
-                  </td>
-                  
-                <td>{{ item.grandTotal || '-' }}</td>
-                <td>{{ item.hamaliCharge || '-' }}</td>
-                <td>{{ item.valOfGoods || '-' }}</td>
-                <td>{{ item.invoiceNo || '-' }}</td>
-                <td>{{ item.ewayBillNo || '-' }}</td>
-              </tr>
-        </tbody>
-      </table>
-    </div>
+  <h5 class="text-center">SREE KALESWARI LOGISTICS</h5>
+  <h5 class="text-center">Parcel Booking Report</h5>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th scope="col">S.No</th>
+          <th scope="col">GRN No</th>
+          <th scope="col">Manual Ticket No</th>
+          <th scope="col">Status</th>
+          <th scope="col">Date</th>
+          <th scope="col">From Branch</th>
+          <th scope="col">To Branch</th>
+          <th scope="col">Booked By Branch</th>
+          <th scope="col">Sender Name</th>
+          <th scope="col">Receiver Name</th>
+          <th scope="col">Agent</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Weight</th>
+          <th scope="col">Charge</th>
+          <th scope="col">Hamali</th>
+          <th scope="col">Value of Goods</th>
+          <th scope="col">Invoice No</th>
+          <th scope="col">E-way Bill No</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of data; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ item.grnNo || '-' }}</td>
+          <td>{{ item.manualTicketNo || '-' }}</td>
+          <td>{{ item.bookingStatus || '-' }}</td>
+          <td>{{ item.bookingDate | date:'dd-MM-yyyy hh:mm a' }}</td>
+          <td>{{ item.pickUpBranchname || '-' }}</td>
+          <td>{{ item.dropBranchname || '-' }}</td>
+          <td>{{ item.pickUpBranchname || '-' }}</td>
+          <td>{{ item.senderName || '-' }}</td>
+          <td>{{ item.receiverName || '-' }}</td>
+          <td>{{ item.agent || '-' }}</td>
+          <td>{{ item.totalQuantity || '-' }}</td>
+          <td>
+            <span *ngFor="let pkg of item.packages; let last = last">
+              {{ pkg.weight || '-' }}<span *ngIf="!last">, </span>
+            </span>
+          </td>
+          <td>{{ item.grandTotal || '-' }}</td>
+          <td>{{ item.hamaliCharge || '-' }}</td>
+          <td>{{ item.valueOfGoods || '-' }}</td>
+          <td>{{ item.invoiceNo || '-' }}</td>
+          <td>{{ item.eWayBillNo || '-' }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+</div>

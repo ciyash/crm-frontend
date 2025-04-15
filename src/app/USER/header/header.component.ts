@@ -99,6 +99,7 @@ export class HeaderComponent implements OnInit {
             { label: 'Parcel Unloading', routerLink: ['/parcelunloading'] },
             { label: 'Branch to Branch Loading', routerLink: ['/parcel-branch'] },
             { label: 'Parcel Status', routerLink: ['/gnrnumberstatus'] },
+            { label: 'Cancel Booking', routerLink: ['/cancel-booking'] },
             { label: 'Branch to Branch Unloading', routerLink: ['/barnchtobranchunloading'] },
             { label: 'Vouchers List Offline', routerLink: ['/voucherslistoffline'] },
           ]
@@ -129,6 +130,9 @@ export class HeaderComponent implements OnInit {
             { label: 'Pending Dispatched Stock Report', routerLink: ['/reportsdashboard'] },
             { label: 'Dispatched Memo Report', routerLink: ['/reportsdashboard'] },
             { label: 'Parcel Incoming Report', routerLink: ['/reportsdashboard'] },
+
+
+            
           ],
         },
         { label: 'Others', icon: 'pi pi-fw pi-file', routerLink: ['/booking'] },

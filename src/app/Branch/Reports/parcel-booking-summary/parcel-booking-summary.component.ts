@@ -26,4 +26,17 @@ export class ParcelBookingSummaryComponent {
 
     console.log('summary:', this.data5);
   }
+
+  getTotalQty(): number {
+    return this.data5?.reduce((sum: number, item: any) => sum + (item.totalQuantity || 0), 0) || 0;
+  }
+  
+  getTotalHamali(): number {
+    return this.data5?.reduce((sum: number, item: any) => sum + (item.hamaliCharge || 0), 0) || 0;
+  }
+  
+  getTotalGrand(): number {
+    return this.data5?.reduce((sum: number, item: any) => sum + (item.grandTotal || 0), 0) || 0;
+  }
+  // 
 }

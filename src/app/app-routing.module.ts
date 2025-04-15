@@ -33,6 +33,14 @@ import { VoucherDetailsCfmasterComponent } from './Branch/Cfmaster/voucher-detai
 import { AddCfmasterComponent } from './Branch/Cfmaster/add-cfmaster/add-cfmaster.component';
 
 
+import { RegularcustomerBookingComponent } from './Branch/Reports/regularcustomer-booking/regularcustomer-booking.component';
+import { ParcelBookingMobileComponent } from './Branch/Reports/parcel-booking-mobile/parcel-booking-mobile.component';
+import { ParcelBookingReportComponent } from './Branch/Reports/parcel-booking-report/parcel-booking-report.component';
+import { AllParcelBookingReportComponent } from './Branch/Reports/all-parcel-booking-report/all-parcel-booking-report.component';
+import { ParcelbookingSerialnoComponent } from './Branch/Reports/parcelbooking-serialno/parcelbooking-serialno.component';
+import { ParcelCancelComponent } from './Branch/Reports/parcel-cancel/parcel-cancel.component';
+import { ParcelBookingSummaryComponent } from './Branch/Reports/parcel-booking-summary/parcel-booking-summary.component';
+import { CancelBookingComponent } from './Branch/cancel-booking/cancel-booking.component';
 const routes: Routes = [
   {path:"login",component:LoginComponent },
   {path:"",component:LoginComponent },
@@ -44,6 +52,8 @@ const routes: Routes = [
   {path:'bookingreport',component:BookingReportComponent, canActivate: [authGuard]},
   { path: 'printgrn/:grnNo', component: PrintGrnNumberComponent, canActivate: [authGuard] },
   {path:'parcelloadingdata',component:ParcelLoadingDataComponent, canActivate: [authGuard]},
+  {path:'cancel-booking',component:CancelBookingComponent, canActivate: [authGuard]},
+
   {path:'parcelunloading',component:ParcelOnloadingComponent, canActivate: [authGuard]},
   {path:'parcelonloadingdata',component:ParcelOnLoadingDataComponent, canActivate: [authGuard]},
   { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
@@ -64,6 +74,20 @@ const routes: Routes = [
   // Reports
   { path: 'dispatchedreport', component: DispatchedReportComponent, canActivate: [authGuard] },
   { path: 'reportsdashboard', component: BranchReportsDashboardComponent, canActivate: [authGuard] },
+  { path: 'regularcustmer', component: RegularcustomerBookingComponent, canActivate: [authGuard] },
+  { path: 'bookingserial', component: ParcelbookingSerialnoComponent, canActivate: [authGuard] },
+  { path: 'reports', component: ParcelBookingReportComponent, canActivate: [authGuard] },
+  {path:'allpercelbooking',component:AllParcelBookingReportComponent,canActivate: [authGuard] },
+  {path:'bookingmobile',component:ParcelBookingMobileComponent, canActivate: [authGuard]},
+  {path:'parcelcancel',component:ParcelCancelComponent, canActivate: [authGuard]},
+  {path:'bookingsummary',component:ParcelBookingSummaryComponent, canActivate: [authGuard]},
+  
+
+
+
+
+
+
 
      //Admin Routing components
   { path: 'createbranch', component: CreateBranchComponent, canActivate: [authGuard], data: { roles: ['admin'] }},

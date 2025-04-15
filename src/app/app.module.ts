@@ -62,9 +62,26 @@ import { VoucherDetailsCfmasterComponent } from './Branch/Cfmaster/voucher-detai
 
 
 
+import { ParcelBookingMobileComponent } from './Branch/Reports/parcel-booking-mobile/parcel-booking-mobile.component';
+import { ParcelBookingSummaryComponent } from './Branch/Reports/parcel-booking-summary/parcel-booking-summary.component';
+import { ParcelCancelComponent } from './Branch/Reports/parcel-cancel/parcel-cancel.component';
+import { ParcelbookingSerialnoComponent } from './Branch/Reports/parcelbooking-serialno/parcelbooking-serialno.component';
+import { AllParcelBookingReportComponent } from './Branch/Reports/all-parcel-booking-report/all-parcel-booking-report.component';
+import { RegularcustomerBookingComponent } from './Branch/Reports/regularcustomer-booking/regularcustomer-booking.component';
+import { CancelBookingComponent } from './Branch/cancel-booking/cancel-booking.component';
 
 @NgModule({
   declarations: [
+    // reports
+
+    ParcelBookingMobileComponent,
+    ParcelBookingSummaryComponent,
+    RegularcustomerBookingComponent,
+    ParcelCancelComponent,
+    ParcelbookingSerialnoComponent,
+    AllParcelBookingReportComponent,
+
+
     AppComponent,
     SignupComponent,
     LoginComponent,
@@ -108,7 +125,8 @@ import { VoucherDetailsCfmasterComponent } from './Branch/Cfmaster/voucher-detai
     GetCfmasterDataComponent,
     SetChargesComponent,
     CreditVoucherGenerateComponent,
-    VoucherDetailsCfmasterComponent
+    VoucherDetailsCfmasterComponent,
+    CancelBookingComponent,
     
     
   ],
