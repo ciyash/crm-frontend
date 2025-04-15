@@ -41,19 +41,14 @@
     </form>
     </div>
       
-   <!-- Search Results -->
-
-
-  <!-- Error Message -->
+   
   <div *ngIf="errorMessage" class="text-danger mt-3">
     {{ errorMessage }}
   </div>
 
 
-    <!-- Form Table Section -->
     <div class="section-border"  >
       <div class="row g-3" *ngFor="let items of data2">
-        <!-- Loop these divs to render form fields -->
         <div class="col-md-4">
           <label class="form-label">GRN No/LR No</label>
           <input type="text" class="form-control" [ngModel]="items.toCity">
