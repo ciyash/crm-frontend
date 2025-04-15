@@ -1297,6 +1297,20 @@ GetcfmasterData(){
   );   
 }
 
+searchCfUser(qry:string) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.get(
+    AUTH_API + `cfmaster?query=${qry}`,
+    httpOptions
+  );
+}
+
 UpdateCfmaster(id: any, value:{
   gst: string;
   state:string;
@@ -1458,6 +1472,50 @@ VoucherGenerate(value:{
       "consignor": value.consignor,
       "bookingStatus": value.bookingStatus,
       "charge": value.charge,
+    },
+     httpOptions 
+  );
+}
+
+VoucherDetailsLoad(value:{
+  fromDate: string;
+  toDate: string;
+  senderName:string;
+}){
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'voucher-generate/voucher-details',  { 
+      "fromDate": value.fromDate,
+      "toDate": value.toDate,
+      "senderName": value.senderName,
+    },
+     httpOptions 
+  );
+}
+
+GetVoucherDetails(value:{
+  fromDate: string;
+  toDate: string;
+  senderName:string;
+}){
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'voucher-generate/voucher-details-print',  { 
+      "fromDate": value.fromDate,
+      "toDate": value.toDate,
+      "senderName": value.senderName,
     },
      httpOptions 
   );

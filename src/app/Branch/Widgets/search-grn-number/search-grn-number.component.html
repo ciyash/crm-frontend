@@ -12,7 +12,7 @@
                       class="form-control" [(ngModel)]="searchTerm" />
               </div>
               <div class="col-md-4">
-                  <button type="button" class="btn btn-secondary me-2">Clear</button>
+                <button type="button" class="btn btn-secondary me-2" (click)="clearSearch()">Clear</button>
                   <button class="btn btn-primary" type="submit">Load</button>
               </div>
           </div>
@@ -42,15 +42,35 @@
       <tbody>
         <tr *ngFor="let user of data2;">
           <td >{{ user.bookingDate | date:'dd/MM/YYYY' }}</td>
-          <td style="cursor: pointer; color: blueviolet;">{{ user.lrNumber }}</td>
+          <td style="cursor: pointer; color: blueviolet;" (click)="orderinvoice(user.grnNo)">{{ user.lrNumber }} </td>
           <td>{{ user.pickUpBranch }}</td>
           <td>{{ user.dropBranch }}</td>
           <td>{{ user.fromCity }}</td>
           <td>{{ user.toCity }}</td>
           <td> {{user.senderName}} <br> {{user.senderMobile}} </td>
           <td> {{user.receiverName}} <br> {{user.receiverMobile}} </td>
-          <td> {{user.grandTotal}} </td>
-          <td style="cursor: pointer;" (click)="updateParcelStatus(user.grnNo)">Received</td>
+          <td> {{user.grandTotal | currency:'INR':true:'1.0-1' }} </td>
+          <td style="cursor: pointer;" (click)="updateParcelStatus(user.grnNo)">
+            <ng-container *ngIf="user.bookingStatus=='0'">
+              <i class="fa fa-times-circle mb-2 text-danger" title="Booked"></i>Parcel Booked
+          </ng-container>
+          <ng-container *ngIf="user.bookingStatus=='1'">
+              <i class="fa fa-check-circle mb-2 text-success" title="Parcel Load"></i> Parcel Load
+          </ng-container>
+          <ng-container *ngIf="user.bookingStatus=='2'">
+              <i class="fa fa-check-circle mb-2 text-primary" title="Parcel OnLoad"></i> Parcel OnLoad
+          </ng-container>
+          <ng-container *ngIf="user.bookingStatus=='3'">
+              <i class="fa fa-check-circle mb-2 text-warning" title="Parcel Missing"></i> Parcel Missing 
+          </ng-container>
+          <ng-container *ngIf="user.bookingStatus=='4'">
+              <i class="fa fa-check-circle mb-2 text-success" title="Parcel Delivered"></i> Parcel
+              Delivered
+          </ng-container>
+          <ng-container *ngIf="user.bookingStatus=='5'">
+              <i class="pi pi-times-circle mb-2 text-danger" title="Parcel Cancel"></i> Parcel Cancel
+          </ng-container>
+          </td>
         </tr>
       </tbody>
     </table>

@@ -17,6 +17,7 @@ export class SearchGrnNumberComponent {
   errorMessage: string = '';
   updata:any;
   form:FormGroup;
+  qrData: string = '';
   constructor(private api:BranchService, private activeroute:ActivatedRoute, private fb:FormBuilder, private router:Router){
      this.form = this.fb.group({
             grnNo: ['', Validators.required],
@@ -60,6 +61,7 @@ export class SearchGrnNumberComponent {
           // If `res` is an object, extract the data into an array
           if (res && Array.isArray(res.data)) {
             this.data2 = res.data;
+           
             this.errorMessage = '';
           } else if (res && typeof res === 'object') {
             this.data2 = [res]; // Wrap the object into an array
@@ -80,6 +82,14 @@ export class SearchGrnNumberComponent {
     }
   }
   
-  
+  clearSearch(): void {
+  this.searchTerm = '';
+  this.data2 = [];
+  this.errorMessage = '';
+}
+
+orderinvoice(id:any){
+  this.router.navigate(['/printgrn/'+id]);
+}
 
 }

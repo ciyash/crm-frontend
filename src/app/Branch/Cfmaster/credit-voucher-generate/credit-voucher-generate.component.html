@@ -25,9 +25,66 @@
                         </ul>            
                 </div>
                 <div class="col-md-12 text-center">
-                    <button type="button" class="btn btn-danger" (click)="VoucherLoad()" data-bs-dismiss="modal">Load</button>
+                    <button type="button" class="btn btn-danger btn-sm m-3" (click)="VoucherLoad()" data-bs-dismiss="modal">Load</button>
+                    <button type="button" class="btn btn-primary btn-sm" (click)="VoucherGenerate()" data-bs-dismiss="modal">Save</button>
                 </div>
             </div>
         
      </form>
+
+     <div class="mt-4" *ngIf="vldata">
+        <div class="table-responsive" >
+                <table class="table table-striped table-bordered" >
+                    <thead>
+                        <tr class="p-2 text-center" style="font-size: 12px;" >
+                            <th>S.no</th>
+                            <th>GRN No</th>
+                            <th>Agent</th>
+                            <th>From Branch</th>
+                            <th>Drop Branch</th>
+                            <th>Consignor</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Charge</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of vldata; let i=index" class="text-center" style="font-size: 12px;">
+                            <td>{{i + 1}}</td>
+                            <td> {{row.lrNumber}} </td>
+                            <td> {{row.senderName}} </td>
+                            <td> {{row.pickUpBranchname}} </td>
+                            <td> {{row.dropBranchname}} </td>
+                            <td> {{row.senderName}} </td>
+                            <td> 
+                                <ng-container *ngIf="row.bookingStatus=='0'">
+                                    Parcel Booked
+                                </ng-container>
+                                <ng-container *ngIf="row.bookingStatus=='1'">
+                                     Parcel Load
+                                </ng-container>
+                                <ng-container *ngIf="row.bookingStatus=='2'">
+                                  Parcel OnLoad
+                                </ng-container>
+                                <ng-container *ngIf="row.bookingStatus=='3'">
+                                     Parcel Missing 
+                                </ng-container>
+                                <ng-container *ngIf="row.bookingStatus=='4'">
+                                    Parcel Delivered
+                                </ng-container>
+                                <ng-container *ngIf="row.bookingStatus=='5'">
+                                     Parcel Cancel
+                                </ng-container>
+                            </td>
+                            <td> {{row.bookingTime | date:'dd/MMM/YYYY'}} </td>
+                            <td> {{row.grandTotal | currency:'INR':true:'1.0-1'}} </td>
+                        </tr>
+                    </tbody>
+              
+                </table>
+            
+        </div>
+    </div>
 </div>
+
+

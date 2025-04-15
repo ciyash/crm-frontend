@@ -1,1 +1,65 @@
-<p>voucher-details-cfmaster works!</p>
+<app-header> </app-header>
+<h4 class="text-center mb-4 pt-5 mt-4" style="color: #d10909;font-size: 20px;font-family: Poppins;font-weight: 500;text-decoration: underline;word-wrap: break-word">Parcel Agent Voucher Detail</h4>
+
+<div class="container p-5" style="border:#3C3C3C 1px solid; border-radius: 15px; background-color: aliceblue;">
+    <form [formGroup]="form">
+            <div class="row g-3">
+                <div class="col-md-4 col-sm-12">
+                    <label class="form-label">From Date</label>
+                    <input type="date" class="form-control form-control-sm" formControlName="fromDate">
+                </div>
+        
+                <div class="col-md-4 col-sm-12">
+                    <label class="form-label">To Date</label>
+                    <input type="date" class="form-control form-control-sm" formControlName="toDate">
+                </div>
+        
+                <div class="col-md-4 col-sm-12">
+                    <label class="form-label">Sender Name</label>
+                    <input type="text" class="form-control form-select-sm" formControlName="senderName"  [(ngModel)]="searchTerm" (input)="searchUser()" (blur)="hideDropdown()">
+                        <!-- Dropdown for Suggestions -->
+                        <ul *ngIf="showDropdown && userList.length" class="dropdown-menu show">
+                            <li *ngFor="let user of userList" class="dropdown-item" (click)="selectUser(user)">
+                                {{ user.name }}
+                            </li>
+                        </ul>            
+                </div>
+                <div class="col-md-12 text-center">
+                    <button type="button" class="btn btn-danger btn-sm m-3" (click)="VoucherDetailsLoad()" data-bs-dismiss="modal">Load</button>
+                    <!-- <button type="button" class="btn btn-primary btn-sm" (click)="VoucherGenerate()" data-bs-dismiss="modal">Save</button> -->
+                </div>
+            </div>
+        
+     </form>
+
+     <div class="mt-4" *ngIf="vldata">
+        <div class="table-responsive" >
+                <table class="table table-striped table-bordered" >
+                    <thead>
+                        <tr class="p-2 text-center" style="font-size: 12px;" >
+                            <th>S.no</th>
+                            <th>Voucher No</th>
+                            <th>Agent Name</th>
+                            <th>No Of Parcel</th>
+                            <th>Amount</th>
+                            <th>Print</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of vldata; let i=index" class="text-center" style="font-size: 12px;">
+                            <td>{{i + 1}}</td>
+                            <td> {{row.lrNumber}} </td>
+                            <td> {{row.senderName}} </td>
+                            <td> {{row.numberOfPackages}} </td>
+                            <td> {{row.grandTotal | currency:'INR':true:'1.0-1'}} </td>
+                            <td> <i class="fa fa-print"></i> </td>
+                        </tr>
+                    </tbody>
+              
+                </table>
+            
+        </div>
+    </div>
+</div>
+
+

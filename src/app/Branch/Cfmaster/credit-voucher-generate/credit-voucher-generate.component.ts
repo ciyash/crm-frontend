@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { BranchService } from 'src/app/service/branch.service';
 
@@ -13,13 +14,27 @@ export class CreditVoucherGenerateComponent {
   vldata:any;
   userList: any[] = [];
   showDropdown:boolean=true;
-  searchTerm: string = ''; 
-  constructor(private api:BranchService, private fb:FormBuilder, private toast:ToastrService){
+  searchTerm: string = '';
+  loading:boolean=true; 
+  form1:FormGroup;
+  constructor(private api:BranchService, private fb:FormBuilder, private toast:ToastrService, private router:Router){
      this.form = this.fb.group({
       fromDate: ['', Validators.required],
       toDate: ['', Validators.required],
       senderName: ['', Validators.required],               
           });
+
+          this.form1 = this.fb.group({
+            fromDate: ['', ],
+            toDate: ['', ],
+            grnNo: ['', ],   
+            creditForAgent: ['', ],
+            fromBranch: ['', ],
+            toBranch: ['', ],    
+            consignor: ['', ],
+            bookingStatus: ['', ],
+            charge: ['', ],                
+                });
   }
 
   ngOnInit(){
@@ -38,8 +53,58 @@ export class CreditVoucherGenerateComponent {
     this.api.LoadVouchers(payload).subscribe({
       next: (response: any) => {
         console.log('Parcel loaded successfully:', response);
-        this.toast.success('Parcel loaded successfully','Success');
+        this.toast.success('Vouchers loaded successfully','Success');
         this.vldata=response;
+
+        if (this.vldata.length > 0) {
+          this.form1.patchValue({
+            fromDate: this.form.value.fromDate,
+            toDate: this.form.value.toDate,
+            grnNo: this.vldata[0]?.grnNo,
+            creditForAgent: this.form.value.senderName,
+            fromBranch: this.vldata[0]?.pickUpBranchname,
+            toBranch:this.vldata[0]?.dropBranchname,
+            consignor: this.form.value.senderName,
+            bookingStatus: this.vldata[0]?.bookingStatus,
+            charge: this.vldata[0]?.grandTotal,
+            
+          });
+  
+        }
+        
+      },
+      error: (error: any) => {
+        console.error('Parcel loading failed:', error);
+        this.toast.error('Parcel Loading Failed. Please try again', 'Error')
+
+      },
+    });
+  }
+
+  VoucherGenerate() {
+    const payload = {
+      fromDate: this.form1.value.fromDate,
+      toDate: this.form1.value.toDate,
+      grnNo: this.form1.value.grnNo,
+      creditForAgent: this.form1.value.creditForAgent,
+      fromBranch: this.form1.value.fromBranch,
+      toBranch: this.form1.value.toBranch,
+      consignor: this.form1.value.consignor,
+      bookingStatus: this.form1.value.bookingStatus,
+      charge: this.form1.value.charge,
+    };
+  
+    console.log('Final Payload:', payload);
+    
+    this.api.VoucherGenerate(payload).subscribe({
+      next: (response: any) => {
+        console.log('Parcel loaded successfully:', response);
+        this.toast.success('Credit Voucher Successfully Generated','Success')
+        setTimeout(() => {
+          this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+            this.router.navigate(['/creditvouchergenerate']);
+          });
+        }, 1000);
       },
       error: (error: any) => {
         console.error('Parcel loading failed:', error);
@@ -52,10 +117,10 @@ export class CreditVoucherGenerateComponent {
   searchUser(): void {
     const searchTerm = this.form.get('senderName')?.value?.trim();
     if (searchTerm) {
-      this.api.searchUser(searchTerm).subscribe(
+      this.api.searchCfUser(searchTerm).subscribe(
         (res: any) => {
           console.log('API Response:', res);
-          this.userList = res.length ? res : [];
+          this.userList = res.data.length ? res.data : [];
           this.showDropdown = !!this.userList.length;
         },
         (err: any) => {
