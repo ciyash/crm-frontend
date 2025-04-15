@@ -1389,6 +1389,63 @@ GetCFMasterChargesID(id:any){
   );
 }
 
+//cf master voucher generate apis
+LoadVouchers(value:{
+  fromDate: string;
+  toDate: string;
+  senderName:string;
+}){
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'voucher-generate/credit-voucher-generate',  { 
+      "fromDate": value.fromDate,
+      "toDate": value.toDate,
+      "senderName": value.senderName,
+    },
+     httpOptions 
+  );
+}
+
+VoucherGenerate(value:{
+  fromDate: string;
+  toDate: string;
+  grnNo:string;
+  creditForAgent:string;
+  fromBranch:string;
+  toBranch:string;
+  consignor:string;
+  bookingStatus:string;
+  charge:string;
+}){
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'voucher-generate',  { 
+      "fromDate": value.fromDate,
+      "toDate": value.toDate,
+      "grnNo": value.grnNo,
+      "creditForAgent": value.creditForAgent,
+      "fromBranch": value.fromBranch,
+      "toBranch": value.toBranch,
+      "consignor": value.consignor,
+      "bookingStatus": value.bookingStatus,
+      "charge": value.charge,
+    },
+     httpOptions 
+  );
+}
+
 
 }
 
