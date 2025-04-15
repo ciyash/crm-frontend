@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BranchService } from 'src/app/service/branch.service';
@@ -15,7 +16,7 @@ export class PrintGrnNumberComponent {
   data1: any;
   loading: boolean = false;
 id:any;
-  constructor(private api: BranchService, private activeroute:ActivatedRoute) {}
+  constructor(private api: BranchService, private activeroute:ActivatedRoute, private location: Location) {}
 
   ngOnInit(){
     this.id = this.activeroute.snapshot.params['grnNo'];
@@ -67,6 +68,10 @@ id:any;
   printPage() {
       window.print()
     
+  }
+
+  goBack() {
+    this.location.back();
   }
   
 

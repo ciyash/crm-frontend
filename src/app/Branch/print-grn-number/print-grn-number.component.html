@@ -5,7 +5,7 @@
 
 
 
-  <div class="container mt-3">
+  <div class="container-fluid mt-3">
     <h4 class=" fw-bold">SENDER'S COPY</h4>
     <div class="table-responsive mt-3">
       <table class="table table-bordered text-white table-custom">
@@ -33,7 +33,7 @@
             </td>
             <td>
               <div *ngIf="qrData" class="qr-code ">
-                <h6>{{ data1.lrNumber }}</h6>
+                <h6>LR No: {{ data1.lrNumber }}</h6>
                 <qrcode *ngIf="qrData" [qrdata]="qrData" [width]="50" [errorCorrectionLevel]="'M'"></qrcode>
               </div>
             </td>
@@ -68,71 +68,35 @@
           <!-- <tr rowspan="1 " > -->
 
 
-            <!-- <tr>
-              <td rowspan="5">Row-spanning cell</td>
-              <td>
-                <div *ngIf="qrData" class="qr-code  ">
-                  <qrcode *ngIf="qrData" [qrdata]="qrData" [width]="130" [errorCorrectionLevel]="'M'"></qrcode>
-                  <h6>NRNO/GRNO:{{ data1.lrNumber }}</h6>
-                </div>
-              </td>
-            </tr> -->
-          
-          <!-- </tr> -->
+        
         </tfoot>
 
 
 
       </table>
 
+      <div class="d-flex justify-content-end">
+        <h6 class="text-end">SenderSign</h6>&nbsp;&nbsp;
+        <hr class="text-end" style="border: 1px solid #1a1818; width: 10%;">
+      </div>
+
+      <h6><u>Terms & Conditions</u></h6>
+      <div class="d-flex justify-content-center">
+         <p><i class="fa fa-arrow-right"></i> The Consignments are Packed, carried at Owner's risk. The Company does not know the contents <br>
+          <i class="fa fa-arrow-right"></i> The Consignor is reponsible to provide the forms<br>
+          <i class="fa fa-arrow-right"></i> The Owners of the consignments are lible to pay all the taxes, cess or duties that may be levied by the Government Authorities at the time of checking within 24 Hours.
+        </p>
+      </div>
 
 <div class="d-flex justify-content-center">
   <div *ngIf="qrData" class="qr-code">
     <qrcode *ngIf="qrData" [qrdata]="qrData" class="bg-light" [width]="140" [errorCorrectionLevel]="'M'"></qrcode>
-    <h6>NRNO/GRNO:{{ data1.lrNumber }}</h6>
+    <h6>LRno/GRno: {{ data1.lrNumber }}</h6>
   </div>
 </div>
 
     </div>
-    <!-- <h4 class="text-end fw-bold">CONSIGMENT COPY</h4> -->
-    <!-- <div class="table-responsive mt-3">
-      <table class="table table-bordered text-white table-custom">
-        <thead class="table-header">
-          <tr>
-            <th>Sender Details</th>
-            <th>Receiver Details</th>
-            <th>{{data1.bookingDate
-                }}</th>
-            <th>{{ data1.bookingDate | date: 'dd/MM/yyyy' }}</th>
-
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <p class="fw-bold" style="font-size: 15px; text-transform: uppercase;">
-                {{ data1.senderName }}
-              <p class="fw-bold">{{data1.senderMobile}} </p>
-            </td>
-            <td>
-              <p class="fw-bold">{{data1.receiverName}} </p>
-              <p class="fw-bold">{{data1.receiverMobile}}</p>
-            </td>
-            
-            <td>
-              <div class="d-flex justify-content-center align-items-center ">
-                <div *ngIf="qrData" class="qr-code text-center">
-                  <h6>{{ data1.lrNumber }}</h6>
-                  <qrcode *ngIf="qrData" [qrdata]="qrData" [width]="50" [errorCorrectionLevel]="'M'"></qrcode>
-
-
-                </div>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div> -->
+    
   </div>
 
 
@@ -141,42 +105,24 @@
 
   <div class="container-fluid d-flex justify-content-evenly" *ngIf="data1">
     <div class="row">
-      <!-- <p class="fw-bold">To</p> -->
-      <!-- <p class="fw-bold" style="font-size: 20px; text-transform: uppercase;">
-      {{ data1.senderName }}
-  </p> -->
-      <!-- <p class="fw-bold">{{data1.senderMobile}}  </p> -->
-      <!-- <p class="fw-bold">Date: {{data1.bookingDate | date:'dd/MMM/yyyy'}} </p> 
-       <p class="fw-bold">{{data1.toCity}}</p> 
-      <p class="fw-bold">{{data1.grnNo}}</p> 
-      <p class="fw-bold">{{data1.dropBranchname}}</p> -->
+    
     </div>
     <div>
-      <!-- <p class="fw-bold">From</p> -->
-      <!-- <p class="fw-bold">{{data1.senderAddress}}  </p> -->
-      <!-- <p class="fw-bold">{{data1.receiverName}} </p>
-    <p class="fw-bold">{{data1.receiverMobile}}</p> -->
-      <!-- <p class="fw-bold">{{data1.receiverAddress}} </p>
-    <p class="fw-bold">{{data1.senderMobile}}  </p>
-     <p class="fw-bold">{{data1.pickUpBranchname}}  </p>
-    <p class="fw-bold">{{data1.fromCity}}  </p> -->
+      
     </div>
   </div>
 
 
-  <div class="d-flex justify-content-end">
-    <h6 class="text-end">SenderSign</h6>&nbsp;&nbsp;
-    <hr class="text-end" style="border: 1px solid #1a1818; width: 10%;">
-  </div>
-
-  <div *ngIf="!loading">
+  <div *ngIf="!loading" class="text-center m-3">
     <div class="hide-on-print hide-on-pdf">
-      <!-- <button type="button" class="btn btn-sm btn-primary m-2 " (click)="downloadAsPDF()"><i class="pi pi-file-pdf"></i> PDF</button>   -->
-      <button type="button" class="btn btn-sm btn-danger" (click)="printPage()"><i class="pi pi-print"></i>
-        Print</button>
-      <button type="button" class="btn btn-sm btn-primary ml-2" routerLink="/bookingreport"><i class="pi pi-print"></i>
-        Back to New Booking</button>
+      <button type="button" class="btn btn-sm btn-danger m-3" (click)="printPage()">
+        <i class="pi pi-print"></i> Print
+      </button>
+      <button type="button" class="btn btn-sm btn-primary ml-2" (click)="goBack()">
+        <i class="fa fa-arrow-left"></i> Go To Back
+      </button>
     </div>
+  </div>
 
 
 

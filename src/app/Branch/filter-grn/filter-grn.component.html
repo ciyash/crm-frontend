@@ -36,7 +36,7 @@
                     </p>
 
                     <p><strong>From City:</strong> {{user.fromCity}}</p>
-                    <p><strong>From Branch:</strong> {{user.pickUpBranch}}</p>
+                    <p><strong>From Branch:</strong> {{user.pickUpBranchname}}</p>
                     <p><strong>Sender Name:</strong> {{user.senderName}}</p>
                     <p><strong>Receiver Name:</strong> {{user.receiverName}}</p>
                 </div>
@@ -44,7 +44,7 @@
                     <p><strong>Booking Type:</strong> {{user.bookingType}}</p>
                     <p><strong><br></strong> </p>
                     <p><strong>To City:</strong> {{user.toCity}}</p>
-                    <p><strong>To Branch:</strong> {{user.dropBranch}}</p>
+                    <p><strong>To Branch:</strong> {{user.dropBranchname}}</p>
                     <p><strong>Sender No.:</strong> {{user.senderMobile}}</p>
                     <p><strong>Receiver No.:</strong> {{user.receiverMobile}}</p>
                 </div>
@@ -57,7 +57,7 @@
         <div class="card-body bg-light">
             <p><strong>Booking Date:</strong> {{ user.bookingDate | date: 'dd-MM-yyyy hh:mm a' }}</p>
             <p><strong>Booked By User:</strong>{{user.bookedBy}}</p>
-            <p><strong>Booked By Branch:</strong> {{user.bookbranchid}}</p>
+            <p><strong>Booked By Branch:</strong> {{user.pickUpBranchname}}</p>
         </div>
     </div>
 
@@ -84,7 +84,7 @@
         <div class="card-body bg-light">
             <p><strong>Delivery Date:</strong> {{user.deliveryDate| date: 'dd-MM-yyyy hh:mm a' }}</p>
             <p><strong>Delivered By User:</strong> {{user.deliveryEmployee}}</p>
-            <p><strong>Delivered By Branch:</strong>{{user.dropBranch}}</p>
+            <p><strong>Delivered By Branch:</strong>{{user.dropBranchname}}</p>
         </div>
     </div>
 </div>
