@@ -237,6 +237,24 @@ GetGRNnumber(id:any){
   );   
 }
 
+
+cancelBooking(value: { grnlrn: string }) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+
+  return this.http.post(
+    AUTH_API + 'booking/grnNolrNo/',
+    value,          // ✅ Body goes here
+    httpOptions     // ✅ Headers go here
+  );
+}
+
+
 GetQrGRNnumber(id:any){
   const token1 = this.token.getToken();
   const httpOptions = {

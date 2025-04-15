@@ -57,12 +57,26 @@ import { AddCfmasterComponent } from './Branch/Cfmaster/add-cfmaster/add-cfmaste
 import { GetCfmasterDataComponent } from './Branch/Cfmaster/get-cfmaster-data/get-cfmaster-data.component';
 import { SetChargesComponent } from './Branch/Cfmaster/set-charges/set-charges.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
-
-
-
+import { ParcelBookingMobileComponent } from './Branch/Reports/parcel-booking-mobile/parcel-booking-mobile.component';
+import { ParcelBookingSummaryComponent } from './Branch/Reports/parcel-booking-summary/parcel-booking-summary.component';
+import { ParcelCancelComponent } from './Branch/Reports/parcel-cancel/parcel-cancel.component';
+import { ParcelbookingSerialnoComponent } from './Branch/Reports/parcelbooking-serialno/parcelbooking-serialno.component';
+import { AllParcelBookingReportComponent } from './Branch/Reports/all-parcel-booking-report/all-parcel-booking-report.component';
+import { RegularcustomerBookingComponent } from './Branch/Reports/regularcustomer-booking/regularcustomer-booking.component';
+import { CancelBookingComponent } from './Branch/cancel-booking/cancel-booking.component';
 
 @NgModule({
   declarations: [
+    // reports
+
+    ParcelBookingMobileComponent,
+    ParcelBookingSummaryComponent,
+    RegularcustomerBookingComponent,
+    ParcelCancelComponent,
+    ParcelbookingSerialnoComponent,
+    AllParcelBookingReportComponent,
+
+
     AppComponent,
     SignupComponent,
     LoginComponent,
@@ -104,7 +118,8 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
     ParcelIncomingLauggageReportComponent,
     AddCfmasterComponent,
     GetCfmasterDataComponent,
-    SetChargesComponent
+    SetChargesComponent,
+    CancelBookingComponent,
     
     
   ],
