@@ -92,6 +92,7 @@ export class GetCfmasterDataComponent {
   }
 
   edit(id:any){
+
     console.log(this.form.value);
     if (this.form.valid) {
       const val = {

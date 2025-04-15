@@ -30,6 +30,7 @@ import { BranchReportsDashboardComponent } from './Branch/Reports/branch-reports
 import { GetCfmasterDataComponent } from './Branch/Cfmaster/get-cfmaster-data/get-cfmaster-data.component';
 import { CreditVoucherGenerateComponent } from './Branch/Cfmaster/credit-voucher-generate/credit-voucher-generate.component';
 import { VoucherDetailsCfmasterComponent } from './Branch/Cfmaster/voucher-details-cfmaster/voucher-details-cfmaster.component';
+import { AddCfmasterComponent } from './Branch/Cfmaster/add-cfmaster/add-cfmaster.component';
 
 
 const routes: Routes = [
@@ -55,6 +56,7 @@ const routes: Routes = [
   { path: 'voucherslistoffline', component: VoucerOfflineListComponent, canActivate: [authGuard] },
 
   //cf master
+  { path: 'addcfmaster', component: AddCfmasterComponent, canActivate: [authGuard] },
   { path: 'getcfmasterdata', component: GetCfmasterDataComponent, canActivate: [authGuard] },
   { path: 'creditvouchergenerate', component: CreditVoucherGenerateComponent, canActivate: [authGuard] },
   { path: 'voucherdetailscf', component: VoucherDetailsCfmasterComponent, canActivate: [authGuard] },

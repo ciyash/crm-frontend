@@ -20,6 +20,8 @@
     "@angular/router": "^16.2.0",
     "@auth0/angular-jwt": "^5.2.0",
     "@primeng/themes": "^19.0.10",
+    "@zxing/browser": "^0.1.5",
+    "@zxing/library": "^0.21.3",
     "@zxing/ngx-scanner": "^19.0.0",
     "angularx-qrcode": "^14.0.0",
     "crypto-js": "^4.2.0",
