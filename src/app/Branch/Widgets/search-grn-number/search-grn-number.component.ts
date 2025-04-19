@@ -9,7 +9,6 @@ import { BranchService } from 'src/app/service/branch.service';
   styleUrls: ['./search-grn-number.component.scss']
 })
 export class SearchGrnNumberComponent {
-  searchTerm: string = '';      
   searchResult: any[] = [];
   data2:any;
   idselectmsg: string = '';
@@ -17,10 +16,19 @@ export class SearchGrnNumberComponent {
   errorMessage: string = '';
   updata:any;
   form:FormGroup;
+  searchField: string = 'grnNo';  // Default selection
+searchTerm: string = '';
+
+  branchId: any;
   constructor(private api:BranchService, private activeroute:ActivatedRoute, private fb:FormBuilder, private router:Router){
-     this.form = this.fb.group({
-            grnNo: ['', Validators.required],
-              });
+
+              this.form = this.fb.group({
+                "grnNo": ['', Validators.required],
+                "mobile": [''],
+                "searchCustomer": [''],
+                "lrNumber": [''],
+                  });
+
   }
 
   ngOnInit(): void {
@@ -49,37 +57,56 @@ export class SearchGrnNumberComponent {
     );
   }
   
+ 
   searchUser(): void {
-    if (this.searchTerm && this.searchTerm.trim() !== '') {
-      console.log('Search Term:', this.searchTerm);
-      
-      this.api.GetGRNnumber(this.searchTerm.trim()).subscribe(
+    debugger;
+    if (this.searchTerm && this.searchTerm.trim() !== '' && this.searchField) {
+      console.log('Searching by:', this.searchField, 'Value:', this.searchTerm.trim());
+  
+      const searchPayload = {
+        mobile: '',
+        searchCustomer: '',
+        grnNo: '',
+        lrNumber: ''
+      };
+console.log("searchdata:",searchPayload)
+  
+      switch (this.searchField) {
+        case 'senderMobile':
+          searchPayload.mobile = this.searchTerm.trim();
+          break;
+        case 'senderName':
+          searchPayload.searchCustomer = this.searchTerm.trim();
+          break;
+        case 'grnNo':
+          searchPayload.grnNo = this.searchTerm.trim();
+          break;
+        case 'lrNumber':
+          searchPayload.lrNumber = this.searchTerm.trim();
+          break;
+      }
+  
+      this.api.GetSearch(searchPayload).subscribe(
         (res: any) => {
           console.log('API Response:', res);
+          this.data2=res;
+          console.log("searchdataobject:",this.data2)
+          console.log("seELADNLKDAFDAFddfnsdfljsdnfkljnsdfnsdklfnsd:",this.data2);
+          
   
-          // If `res` is an object, extract the data into an array
-          if (res && Array.isArray(res.data)) {
-            this.data2 = res.data;
-            this.errorMessage = '';
-          } else if (res && typeof res === 'object') {
-            this.data2 = [res]; // Wrap the object into an array
-            this.errorMessage = '';
-          } else {
-            this.data2 = [];
-            this.errorMessage = 'No results found for the given search term.';
-          }
-        },
-        (err: any) => {
-          this.errorMessage = err.error?.message || 'An error occurred while searching.';
-          this.data2 = [];
-        }
-      );
-    } else {
-      this.errorMessage = 'Please enter a valid search term.';
-      this.data2 = [];
-    }
+          
+    } )}
   }
+  
+
+  
   
   
 
-}
+  
+      
+     
+      }
+      
+      
+ 

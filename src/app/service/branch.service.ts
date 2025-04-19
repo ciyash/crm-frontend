@@ -237,6 +237,24 @@ GetGRNnumber(id:any){
   );   
 }
 
+
+cancelBooking(value: { grnlrn: string }) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+
+  return this.http.post(
+    AUTH_API + 'booking/grnNolrNo/',
+    value,          // ✅ Body goes here
+    httpOptions     // ✅ Headers go here
+  );
+}
+
+
 GetQrGRNnumber(id:any){
   const token1 = this.token.getToken();
   const httpOptions = {
@@ -1372,7 +1390,102 @@ GetCFMasterChargesID(id:any){
 }
 
 
+GetSearch(value: {
+  mobile: string;
+  searchCustomer: string;
+  grnNo: string;
+  lrNumber: string;
+}) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'booking/search-data',
+    value,
+    httpOptions
+  );
 }
+
+
+
+}
+
+
+
+// updateBooking(id: any, value:{
+//   bookedBy: string;
+//     fromCity: string;
+//     toCity: string;
+//     pickUpBranch:string;
+//     dropBranch:string;
+//     totalPrice:number;
+//     location:string;
+//     dispatchType:string;
+//     bookingType:string;
+//     senderName:string;
+//     senderMobile:number;
+//     senderAddress:string;
+//     senderGst:string;
+//     receiverName:string;
+//     receiverMobile:number;
+//     receiverAddress:string;
+//     receiverGst:string;
+//     adminUniqueId:string;
+//     packages: [];
+//     serviceCharges:number;
+//     hamaliCharges:number;
+//     doorDeliveryCharges:number;
+//     doorPickupCharges:number;
+//     valueOfGoods:number;
+//     grandTotal:number;
+
+// }){
+//   const token1 = this.token.getToken();
+//   const httpOptions = {
+//     headers: new HttpHeaders({
+//       'Content-Type': 'application/json',
+//       'Authorization': 'Bearer ' + token1
+//     })
+//   };
+//   return this.http.patch(
+//     AUTH_API + 'booking/' + id,
+//     {
+//       bookedby: value.bookedBy,
+//       fromCity: value.fromCity,
+//       toCity: value.toCity,
+//       pickUpBranch: value.pickUpBranch,
+//       dropBranch: value.dropBranch,
+//       totalPrice: value.totalPrice,
+//       location: value.location,
+//       dispatchType: value.dispatchType,
+//       bookingType: value.bookingType,
+//       senderName: value.senderName,
+//       senderMobile: value.senderMobile,
+//       senderAddress: value.senderAddress,
+//       senderGst: value.senderGst,
+//       receiverName: value.receiverName,
+//       receiverMobile: value.receiverMobile,
+//       receiverAddress: value.receiverAddress,
+//       receiverGst: value.receiverGst,  // ✅ fixed typo
+//       adminUniqueId: value.adminUniqueId,
+//       packages: value.packages,
+//       serviceCharges: value.serviceCharges,
+//       hamaliCharges: value.hamaliCharges,
+//       doorDeliveryCharges: value.doorDeliveryCharges,
+//       doorPickupCharges: value.doorPickupCharges,
+//       valueOfGoods: value.valueOfGoods,
+//       grandTotal: value.grandTotal
+//     },
+//     httpOptions
+//   );
+  
+// } 
+
+
 
 
 

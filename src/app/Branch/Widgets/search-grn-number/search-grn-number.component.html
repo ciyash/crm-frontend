@@ -1,28 +1,441 @@
-<div class="container d-flex justify-content-center">
-  <div class="col-lg-6">
-      <form class="row mt-4 text-center" (ngSubmit)="searchUser()">
-          <div class="row justify-content-center">
-              <div class="col-md-4 mb-2">
-                  <select class="form-select">
-                      <option selected>L.R No / GRN No</option>
-                  </select>
-              </div>
-              <div class="col-md-4 mb-2">
-                  <input required type="text" id="searchTerm" name="searchTerm" placeholder="Enter GRN Number"
-                      class="form-control" [(ngModel)]="searchTerm" />
-              </div>
-              <div class="col-md-4">
-                  <button type="button" class="btn btn-secondary me-2">Clear</button>
-                  <button class="btn btn-primary" type="submit">Load</button>
-              </div>
+  <div class="container" style="padding-top: 4%;">
+  
+    <form class="row mt-4 text-center" (ngSubmit)="searchUser()">
+      <div class="row justify-content-center">
+        <div class="col-md-4 mb-2">
+          <select class="form-select" [(ngModel)]="searchField" name="searchField" required>
+            <option [value]="'grnNo'">GRN No</option>
+            <option [value]="'lrNumber'">LR NO</option>
+            <option [value]="'senderMobile'">Mobile</option>
+            <option [value]="'senderName'">Search Customer</option>
+          </select>
+          
+          
+          
+        </div>
+        <div class="col-md-4 mb-2">
+          <input required type="text" name="searchTerm" placeholder="Enter Search Value"
+            class="form-control" [(ngModel)]="searchTerm" />
+        </div>
+        <div class="col-md-4">
+          <button type="button" class="btn btn-secondary me-2" >Clear</button>
+          <button class="btn btn-primary" type="submit" data-bs-toggle="modal" data-bs-target="#extraLargeModal" >Load</button>
+        </div>
+      </div>
+    </form>
+  
+  
+</div>
+
+
+
+
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="extraLargeModal" tabindex="-1" aria-labelledby="extraLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="extraLargeModalLabel">Extra Large Modal</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container mt-4" *ngIf="data2?.length">
+          <div class="header">
+            <h2>Parcel Details</h2>
+            <div>
+              <!-- <button class="btn btn-secondary">BACK</button> -->
+              <span class="stamp">{{ data2[0].bookingType | uppercase }}</span>
+              <!-- <img src="https://via.placeholder.com/30" alt="Icons" class="ms-2"> -->
+            </div>
           </div>
-      </form>
+          <div class="row">
+            <div class="col-12">
+              <strong>GRN No: {{ data2[0].grnNo }}</strong> | <strong>LR No: {{ data2[0].lrNumber }}</strong>
+            </div>
+          </div>
+        
+          <!-- Item Details -->
+          <div class="row">
+            <div class="col-12 section-title">Item Details</div>
+            <div class="col-12">
+              <div class="row" *ngFor="let item of data2[0].packages">
+                <div class="col-md-2 form-group">
+                  <label>Item Name</label>
+                  <input type="text" [value]="item.packageType" readonly>
+                </div>
+                <div class="col-md-2 form-group">
+                  <label>Item Contains</label>
+                  <input type="text" [value]="item.contains" readonly>
+                </div>
+                <div class="col-md-2 form-group">
+                  <label>Quantity</label>
+                  <input type="text" [value]="item.quantity" readonly>
+                </div>
+                <div class="col-md-2 form-group">
+                  <label>Weight</label>
+                  <input type="text" [value]="item.weight" readonly>
+                </div>
+                <div class="col-md-2 form-group">
+                  <label>Unit Price</label>
+                  <input type="text" [value]="item.unitPrice" readonly>
+                </div>
+                <div class="col-md-2 form-group">
+                  <label>Total Price</label>
+                  <input type="text" [value]="item.totalPrice" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+          <!-- Customer Details -->
+          <div class="row">
+            <div class="col-12 section-title">Customer Details</div>
+            <div class="col-12">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-6 form-group">
+                      <label>LR No</label>
+                      <input type="text" [value]="data2[0].lrNumber" readonly>
+                    </div>
+                    <div class="col-md-6 form-group">
+                      <label>Sender Name</label>
+                      <input type="text" [value]="data2[0].senderName" readonly>
+                    </div>
+                    <div class="col-md-6 form-group">
+                      <label>Sender Phone</label>
+                      <input type="text" [value]="data2[0].senderMobile" readonly>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-6 form-group">
+                      <label>Receiver Name</label>
+                      <input type="text" [value]="data2[0].receiverName" readonly>
+                    </div>
+                    <div class="col-md-6 form-group">
+                      <label>Receiver Phone</label>
+                      <input type="text" [value]="data2[0].receiverMobile" readonly>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+          <!-- Booking Details -->
+          <div class="row">
+            <div class="col-12 section-title">Booking Details</div>
+            <div class="col-12">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-6 form-group">
+                      <label>From City</label>
+                      <input type="text" [value]="data2[0].fromCity" readonly>
+                    </div>
+                    <div class="col-md-6 form-group">
+                      <label>From Branch</label>
+                      <input type="text" [value]="data2[0].pickUpBranchname" readonly>
+                    </div>
+                    <div class="col-md-6 form-group">
+                      <label>Book Branch</label>
+                      <input type="text" [value]="data2[0].pickUpBranchname" readonly>
+                    </div>
+                    <div class="col-md-6 form-group">
+                      <label>Paid By</label>
+                      <input type="text" [value]="data2[0].bookingType" readonly>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-6 form-group">
+                      <label>To City</label>
+                      <input type="text" [value]="data2[0].toCity" readonly>
+                    </div>
+                    <div class="col-md-6 form-group">
+                      <label>To Branch</label>
+                      <input type="text" [value]="data2[0].dropBranchname" readonly>
+                    </div>
+                    <div class="col-md-6 form-group">
+                      <label>Booking User</label>
+                      <input type="text" [value]="data2[0].bookedBy" readonly>
+                    </div>
+                    <div class="col-md-6 form-group">
+                      <label>Booking Status</label>
+                      <input type="text" [value]="data2[0].bookingStatus" readonly>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 form-group">
+                  <label>Booking Date</label>
+                  <input type="text" [value]="data2[0].bookingDate | date: 'dd-MM-yyyy hh:mm a'" readonly>
+                </div>
+                <div class="col-md-6 form-group">
+                  <label>Parcel Quantity</label>
+                  <input type="text" [value]="data2[0].totalQuantity" readonly>
+                </div>
+                <div class="col-md-6 form-group">
+                  <label>Booking Remarks</label>
+                  <input type="text" [value]="data2[0].bookingRemarks || ''" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+          <!-- Loading Details -->
+          <div class="row">
+            <div class="col-12 section-title">Loading Details</div>
+            <div class="col-12">
+              <div class="row">
+                <div class="col-md-6 form-group">
+                  <label>Loading Branch</label>
+                  <input type="text" [value]="data2[0].loadingBranchname || ''" readonly>
+                </div>
+                <div class="col-md-6 form-group">
+    <label>Loading User</label>
+                  <input type="text" [value]="data2[0].loadingByemp || ''" readonly>
+                </div>
+                <div class="col-md-6 form-group">
+                  <label>Loading Date</label>
+                  <input type="text" [value]="data2[0].loadingDate | date: 'dd-MM-yyyy hh:mm a'" readonly>
+                </div>
+                <div class="col-md-6 form-group">
+                  <label>Loading Type</label>
+                  <input type="text" [value]="data2[0].dispatchType || ''" readonly>
+                </div>
+                <div class="col-md-6 form-group">
+                  <label>Route Name</label>
+                  <input type="text" [value]="data2[0].location || ''" readonly>
+                </div>
+                <div class="col-md-6 form-group">
+                  <label>Voucher No</label>
+                  <input type="text" [value]="data2[0].receiptNo || ''" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+          <!-- Unloading Details -->
+          <div class="row">
+            <div class="col-12 section-title">Unloading Details</div>
+            <div class="col-12">
+              <div class="row">
+                <div class="col-md-6 form-group">
+                  <label>Unloading Branch</label>
+                  <input type="text" [value]="data2[0].unloadingBranchname || ''" readonly>
+                </div>
+                <div class="col-md-6 form-group">
+                  <label>Unloading By User</label>
+                  <input type="text" [value]="data2[0].unloadingByemp || ''" readonly>
+                </div>
+                <div class="col-md-6 form-group">
+                  <label>Unloading Date</label>
+                  <input type="text" [value]="data2[0].unloadingDate | date: 'dd-MM-yyyy hh:mm a'" readonly>
+                </div>
+                <div class="col-md-6 form-group">
+                  <label>Unloading Type</label>
+                  <input type="text" [value]="data2[0].dispatchType || ''" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+          <!-- Delivery Details -->
+          <div class="row">
+            <div class="col-12 section-title">Delivery Details</div>
+            <div class="col-12">
+              <div class="row">
+                <div class="col-md-6 form-group">
+                  <label>Delivery Branch</label>
+                  <input type="text" [value]="data2[0].deliveryBranchName || ''" readonly>
+                </div>
+                <div class="col-md-6 form-group">
+                  <label>Delivery By User</label>
+                  <input type="text" [value]="data2[0].deliveryEmployee || ''" readonly>
+                </div>
+                <div class="col-md-6 form-group">
+                  <label>Delivery Date</label>
+                  <input type="text" [value]="data2[0].deliveryDate | date: 'dd-MM-yyyy hh:mm a'" readonly>
+                </div>
+                <div class="col-md-6 form-group">
+                  <label>Delivery Remarks</label>
+                  <input type="text" [value]="data2[0].deliveryRemarks || ''" readonly>
+                </div>
+                <div class="col-md-6 form-group">
+                  <label>Delivery Receiver Name</label>
+                  <input type="text" [value]="data2[0].receiverName || ''" readonly>
+                </div>
+                <div class="col-md-6 form-group">
+                  <label>Delivery Receiver Phone</label>
+                  <input type="text" [value]="data2[0].receiverMobile || ''" readonly>
+                </div>
+                <div class="col-md-6 form-group">
+                  <label>Delivery Receiver GSTNo</label>
+                  <input type="text" [value]="data2[0].receiverGst || ''" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+          <!-- Cancel Details -->
+          <div class="row">
+            <div class="col-12 section-title">Cancel Details</div>
+            <div class="col-12">
+              <div class="row">
+                <div class="col-md-6 form-group">
+                  <label>Cancel Branch</label>
+                  <input type="text" [value]="data2[0].cancelBranch || ''" readonly>
+                </div>
+                <div class="col-md-6 form-group">
+                  <label>Cancel By User</label>
+                  <input type="text" [value]="data2[0].cancelByUser || ''" readonly>
+                </div>
+                <div class="col-md-6 form-group">
+                  <label>Cancel From User</label>
+                  <input type="text" [value]="data2[0].cancelByUser || ''" readonly>
+                </div>
+                <div class="col-md-6 form-group">
+                  <label>Cancel Date</label>
+                  <input type="text" [value]="data2[0].cancelDate | date: 'dd-MM-yyyy hh:mm a'" readonly>
+                </div>
+                <div class="col-md-6 form-group">
+                  <label>Refund Charge</label>
+                  <input type="text" [value]="data2[0].refundCharge || '0'" readonly>
+                </div>
+                <div class="col-md-6 form-group">
+                  <label>Refund Amount</label>
+                  <input type="text" [value]="data2[0].refundAmount || '0'" readonly>
+                </div>
+                <div class="col-md-6 form-group">
+                  <label>Cancel Remarks</label>
+                  <input type="text" [value]="data2[0].cancelRemarks || ''" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+          <!-- Charge Details -->
+          <div class="row">
+            <div class="col-12 section-title">Charge Details</div>
+            <div class="col-12">
+              <div class="row">
+                <div class="col-md-4 form-group">
+                  <label>Parcel</label>
+                  <input type="text" [value]="data2[0].packages[0].totalPrice" readonly>
+                </div>
+                <div class="col-md-4 form-group">
+                  <label>Service</label>
+                  <input type="text" [value]="data2[0].serviceCharge" readonly>
+                </div>
+                <div class="col-md-4 form-group">
+                  <label>Hamali</label>
+                  <input type="text" [value]="data2[0].hamaliCharge" readonly>
+                </div>
+                <div class="col-md-4 form-group">
+                  <label>Door Delivery</label>
+                  <input type="text" [value]="data2[0].doorDeliveryCharge" readonly>
+                </div>
+                <div class="col-md-4 form-group">
+                  <label>Door Pickup</label>
+                  <input type="text" [value]="data2[0].doorPickupCharge" readonly>
+                </div>
+                <div class="col-md-4 form-group">
+                  <label>Demurrage</label>
+                  <input type="text" [value]="data2[0].demurrage || '0'" readonly>
+                </div>
+                <div class="col-md-4 form-group">
+                  <label>Grand Total</label>
+                  <input type="text" [value]="data2[0].grandTotal" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >EDIT</button>
+        <button type="button" class="btn btn-primary">Save Changes</button>
+      </div>
+    </div>
   </div>
 </div>
 
 
+   
+  
+
+
+  <style>
+    .stamp {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 24px;
+      color: red;
+      transform: rotate(15deg);
+      text-decoration: none;
+      border: 2px dashed red;
+      padding: 5px 20px;
+      z-index: 1;
+    }
+    .section-title {
+      background-color: #007bff;
+      color: white;
+      padding: 5px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+    .form-group label {
+      font-weight: bold;
+      margin-bottom: 2px;
+    }
+    .form-group input {
+      border: 1px solid #007bff;
+      padding: 5px;
+      width: 100%;
+    }
+    .row {
+      margin-bottom: 15px;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .header .btn {
+      margin-left: 10px;
+    }
+  </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  <!-- Search Results -->
- <div *ngIf="data2" class="mt-4">
+ <!-- <div *ngIf="data2" class="mt-4">
     <h5>Search Results:</h5>
     <table class="table table-striped">
       <thead>
@@ -56,7 +469,6 @@
     </table>
   </div>
 
-  <!-- Error Message -->
   <div *ngIf="errorMessage" class="text-danger mt-3">
     {{ errorMessage }}
-  </div>
+  </div> -->

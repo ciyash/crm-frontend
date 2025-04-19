@@ -16,60 +16,83 @@
             <th>{{ data1.bookingDate | date: 'dd/MM/yyyy' }}</th>
           </tr>
         </thead>
-        
+
         <tbody>
           <tr>
             <td>
               <p class="fw-bold" style="font-size: 15px; text-transform: uppercase;">
                 {{ data1.senderName }}
               <p class="fw-bold">{{data1.senderMobile}}
-               </p>
+              </p>
             </td>
-            
-            
+
+
             <td>
               <p class="fw-bold">{{data1.receiverName}} </p>
               <p class="fw-bold">{{data1.receiverMobile}}</p>
             </td>
             <td>
-                <div *ngIf="qrData" class="qr-code ">
-                  <h6>{{ data1.lrNumber }}</h6>
-                  <qrcode *ngIf="qrData" [qrdata]="qrData" [width]="50" [errorCorrectionLevel]="'M'"></qrcode>
-                </div>
+              <div *ngIf="qrData" class="qr-code ">
+                <h6>{{ data1.lrNumber }}</h6>
+                <qrcode *ngIf="qrData" [qrdata]="qrData" [width]="50" [errorCorrectionLevel]="'M'"></qrcode>
+              </div>
             </td>
           </tr>
           <tr class="text-primary">
             <th colspan="1" width="25%">Details of Contents</th>
-                <th colspan="1" width="25%">No of Article</th>
-                <th colspan="1" width="50%">No of Article</th>
-          </tr >
+            <th colspan="1" width="25%">No of Article</th>
+            <th colspan="1" width="50%">No of Article</th>
+          </tr>
           <tr *ngFor="let cdata of data1.packages">
-            <th >
-            <span> {{cdata.contains}} <br></span> 
+            <th>
+              <span> {{cdata.contains}} <br></span></th>
+            <th>
+              <span> {{cdata.quantity}} <br></span>
             </th>
             <th>
-              <span> {{cdata.quantity}} <br></span> 
-            </th>
-            <th>
-              <p>Freight Charges: {{data1.serviceCharge}}            </p>
-            <p>Door devilery Changers: {{data1.doorDeliveryCharge}}</p>
-            <p>LR Changers: {{data1.hamaliCharge}}</p>
-            <p>NETAMOUNT: {{data1.grandTotal | currency:'INR':true:'1.0-0'}}</p>
+              <p>Freight Charges: {{data1.serviceCharge}} </p>
+              <p>Door devilery Changers: {{data1.doorDeliveryCharge}}</p>
+              <p>LR Changers: {{data1.hamaliCharge}}</p>
+              <p>NETAMOUNT: {{data1.grandTotal | currency:'INR':true:'1.0-0'}}</p>
             </th>
           </tr>
-       <tr>
-        <th>Sender's Signture &nbsp;</th>
-       </tr>
-          
-        </tbody>
-  
-     
+<!--       
+          <tr>
+            <th>Sender's Signture &nbsp;</th>
+          </tr> -->
 
-     
-  
+
+        </tbody>
+
+        <tfoot class="table-light text-center fw-bold">
+          <!-- <tr rowspan="1 " > -->
+
+
+            <!-- <tr>
+              <td rowspan="5">Row-spanning cell</td>
+              <td>
+                <div *ngIf="qrData" class="qr-code  ">
+                  <qrcode *ngIf="qrData" [qrdata]="qrData" [width]="130" [errorCorrectionLevel]="'M'"></qrcode>
+                  <h6>NRNO/GRNO:{{ data1.lrNumber }}</h6>
+                </div>
+              </td>
+            </tr> -->
+          
+          <!-- </tr> -->
+        </tfoot>
+
+
+
       </table>
- 
-    
+
+
+<div class="d-flex justify-content-center">
+  <div *ngIf="qrData" class="qr-code">
+    <qrcode *ngIf="qrData" [qrdata]="qrData" class="bg-light" [width]="140" [errorCorrectionLevel]="'M'"></qrcode>
+    <h6>NRNO/GRNO:{{ data1.lrNumber }}</h6>
+  </div>
+</div>
+
     </div>
     <!-- <h4 class="text-end fw-bold">CONSIGMENT COPY</h4> -->
     <!-- <div class="table-responsive mt-3">
@@ -157,51 +180,8 @@
 
 
 
-    
+
+
 
 
   
-<!--     
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Table Borders</title>
-        <style>
-            table {
-                width: 100%;
-                border-collapse: collapse; /* Ensures proper border rendering */
-            }
-            th, td {
-                border: 1px solid black; /* Adds border to cells */
-                padding: 8px;
-                text-align: center;
-            }
-        </style>
-    </head>
-    <body>
-    
-        <table class="mb-5">
-          <thead>
-            <tr>
-              <th colspan="5">Person</th>
-              <th rowspan="3">Id</th>
-            </tr>
-            <tr>
-              <th colspan="2">Name</th>
-              <th rowspan="2">Age</th>
-              <th colspan="2">Job</th>
-            </tr>
-            <tr>
-              <th>First</th>
-              <th>Last</th>
-              <th>Position</th>
-              <th>Age</th>
-            </tr>
-          </thead>
-        </table>
-    
-    </body>
-    </html> -->
-    
