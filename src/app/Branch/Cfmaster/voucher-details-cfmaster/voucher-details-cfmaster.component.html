@@ -48,10 +48,10 @@
                     <tbody>
                         <tr *ngFor="let row of vldata; let i=index" class="text-center" style="font-size: 12px;">
                             <td>{{i + 1}}</td>
-                            <td> {{row.lrNumber}} </td>
-                            <td> {{row.senderName}} </td>
-                            <td> {{row.numberOfPackages}} </td>
-                            <td> {{row.grandTotal | currency:'INR':true:'1.0-1'}} </td>
+                            <td> {{row.voucherNo}} </td>
+                            <td> {{row.grns[0].senderName}} </td>
+                            <td> {{row.grns[0].numberOfPackages}} </td>
+                            <td> {{row.grns[0].grandTotal | currency:'INR':true:'1.0-1'}} </td>
                             <td> <i class="fa fa-print"></i> </td>
                         </tr>
                     </tbody>
