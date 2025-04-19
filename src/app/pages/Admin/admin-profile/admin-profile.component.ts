@@ -37,6 +37,7 @@ export class AdminProfileComponent {
       address: ['', ], 
       email: ['', ], 
       phone: ['', ], 
+      branchId:['',],
     });
     this.form1 = this.fb.group({
       oldPassword: ['', Validators.required], 
@@ -47,14 +48,14 @@ export class AdminProfileComponent {
   ngOnInit(){
     this.id = this.activeroute.snapshot.params['id'];
     this.api.GetProfileData().subscribe((res: any) => {
-      console.log(res);
+      console.log(res,'profile');
       this.data = res;
       // this.form.patchValue({
       //   password: this.data.password
       // });
     });
     this.api.ALLGetBranch().subscribe((res:any)=>{
-      console.log(res);
+      console.log(res,'branch');
       this.ALLbranchdata=res;
       console.log("GET ALL BRANCHES:",this.ALLbranchdata);
       
@@ -100,6 +101,7 @@ export class AdminProfileComponent {
         address: this.form.value.address,
         phone: this.form.value.phone,
         email: this.form.value.email,
+        branchId:this.form.value.branchId,
       };
       this.api.UpdateAdminProfile(val).subscribe(
         (a: any) => {

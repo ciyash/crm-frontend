@@ -69,6 +69,7 @@ import { ParcelbookingSerialnoComponent } from './Branch/Reports/parcelbooking-s
 import { AllParcelBookingReportComponent } from './Branch/Reports/all-parcel-booking-report/all-parcel-booking-report.component';
 import { RegularcustomerBookingComponent } from './Branch/Reports/regularcustomer-booking/regularcustomer-booking.component';
 import { CancelBookingComponent } from './Branch/cancel-booking/cancel-booking.component';
+import { AddPackageTypeComponent } from './pages/Admin/add-package-type/add-package-type.component';
 
 @NgModule({
   declarations: [
@@ -127,6 +128,7 @@ import { CancelBookingComponent } from './Branch/cancel-booking/cancel-booking.c
     CreditVoucherGenerateComponent,
     VoucherDetailsCfmasterComponent,
     CancelBookingComponent,
+    AddPackageTypeComponent,
     
     
   ],

@@ -64,6 +64,7 @@ const routes: Routes = [
   { path: 'gnrnumberstatus', component: FilterGrnComponent, canActivate: [authGuard] },
   { path: 'printvouchersdata/:vocherNoUnique', component: PrintVoucherslistDataComponent, canActivate: [authGuard] },
   { path: 'voucherslistoffline', component: VoucerOfflineListComponent, canActivate: [authGuard] },
+  { path: 'addpackagetype', component: AddPackagesTypeComponent, canActivate: [authGuard],},
 
   //cf master
   { path: 'addcfmaster', component: AddCfmasterComponent, canActivate: [authGuard] },
@@ -97,7 +98,7 @@ const routes: Routes = [
   { path: 'createcity', component: CreateCitynameComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   { path: 'adddispatchtype', component: AddDispatchTypeComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   { path: 'addextracharges', component: AddExtraChargesComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
-
+  { path: 'addpackagetype', component: AddPackagesTypeComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
 
   
 ];

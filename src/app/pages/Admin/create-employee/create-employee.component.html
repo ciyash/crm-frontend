@@ -115,7 +115,7 @@
                                 </button>
                               </td>
                             <td>{{ row.branchId?.name || 'N/A' }} </td>
-                            <td> <i class="fa fa-edit"></i> </td>
+                            <td (click)="showDialog(row)"> <i class="fa fa-edit"></i> </td>
                         </tr>
                     </tbody>
 
@@ -124,3 +124,78 @@
         </div>
     </div>
 </div>
+
+
+<p-dialog header="" [(visible)]="visible" [modal]="true" [style]="{ width: '100vw' }" [draggable]="false" [resizable]="false" style="background-color: aliceblue;">
+    <div class="card m-5 p-5" *ngIf="repd">
+             <span class="text-primary">{{repd.name}}</span>  
+             <form [formGroup]="form1"  >
+                <div class="container pb-3">
+                        <div class="row pt-3">
+                            <div class="col-md-3 col-sm-12">
+                                <label class="form-label">Name</label>
+                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.name" formControlName="name">
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                            <label class="form-label">Select Branch</label>
+                            <select class="form-select form-select-sm" formControlName="branchId">
+                                <option selected> {{repd.branchId?.name}} </option>
+                              <option *ngFor="let branch of branchdata" [value]="branch._id">{{ branch.name }}</option>
+                            </select>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label class="form-label">Username</label>
+                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.username" formControlName="username">
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label class="form-label">Password</label>
+                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.password" formControlName="password">
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label class="form-label">Location</label>
+                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.location" formControlName="location">
+                            </div>
+                            <!-- <div class="col-md-3 col-sm-12">
+                                <label class="form-label">Phone</label>
+                                <input type="text" class="form-control form-select-sm " formControlName="phone">
+                            </div> -->
+                            <div class="col-md-3 col-sm-12">
+                                <label class="form-label">Phone</label>
+                                <input type="text" class="form-control form-select-sm" [(ngModel)]="repd.phone" formControlName="phone">
+                                
+                            </div>
+                            
+                            <div class="col-md-3 col-sm-12">
+                                <label class="form-label">Email</label>
+                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.email" formControlName="email">
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label class="form-label">Documents</label>
+                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.documents" formControlName="documents">
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label class="form-label">Role</label> 
+                                <select class="form-select form-select-sm" formControlName="role">
+                                    <option> {{repd.role}} </option>
+                                  <option value="subadmin">Sub Branch</option>
+                                  <option value="employee">Employee</option>
+                                  <option value="accountant">Accountant</option>
+                                  <option value="superviser">Superviser</option>
+                                  <option value="driver">Driver</option>
+                                </select>
+                            </div>
+                            
+                        </div>
+                
+                    </div>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-3 d-flex align-items-end">
+                                    <button class="btn btn-primary btn-sm " type="button"
+                                        style=" width: 10rem;" (click)="edit(repd?._id)">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+            </form>
+        </div>
+</p-dialog>
