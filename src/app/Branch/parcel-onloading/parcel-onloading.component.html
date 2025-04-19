@@ -80,11 +80,11 @@ word-wrap: break-word">Parcel UnLoading Offline</h4>
               <!-- Hidden Scanner Modal -->
                 <div *ngIf="showScanner" style="position: fixed; top: 0; left: 0; background: rgba(0,0,0,0.5); width: 100%; height: 100%;">
                   <div style="margin: 10% auto; background: white; padding: 20px; width: 80%; max-width: 400px;">
-                    <!-- <zxing-scanner
+                    <zxing-scanner
                       [torch]="false"
                       [tryHarder]="true"
                       (scanSuccess)="handleQrCodeResult($event)">
-                    </zxing-scanner> -->
+                    </zxing-scanner>
                     <!-- <test> -->
                     <button (click)="closeScanner()">Close</button>
                   </div>

@@ -135,7 +135,7 @@ import { CancelBookingComponent } from './Branch/cancel-booking/cancel-booking.c
     AppRoutingModule,
     ReactiveFormsModule, FormsModule,
     HttpClientModule, TableModule, MessagesModule,
-     DialogModule, BrowserAnimationsModule, QRCodeModule, ToastModule, ButtonModule, RippleModule,
+     DialogModule, BrowserAnimationsModule, QRCodeModule, ToastModule, ButtonModule, RippleModule,ZXingScannerModule,
      ToastrModule.forRoot({
       positionClass: 'toast-top-right', // Toast appears in the top-right
       timeOut: 3000, // Toast disappears after 3 seconds
