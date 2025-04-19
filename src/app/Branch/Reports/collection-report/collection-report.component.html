@@ -1,1 +1,65 @@
-<p>collection-report works!</p>
+
+
+
+  <div class="container section-border mt-5 pb-4">
+    <h5 class="text-center fw-bold text-danger"><u>Parcel Branch Wise Collection Report
+    </u></h5>
+    <div class="rounded p-4" style="margin-top: 2rem;">
+      <form [formGroup]="form">
+        <div class="row mb-3">
+          <div class="col-md-6">
+           
+            <label class="form-label">From Booking Date</label>
+            <input
+              type="date"
+              class="form-control form-control-sm"
+              formControlName="fromDate"
+            />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">  To Date</label>
+            <input type="date" class="form-control" formControlName="endDate">
+            
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">	 Branch City :	
+
+
+            </label>
+            <select #allParcelfromcity class="form-select form-select-sm" formControlName="fromCity">
+              <option value="" selected>Select City</option>
+              <option  [value]=""></option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Branch Name : </label>
+            <select #allParceltocity class="form-select form-select-sm" formControlName="toCity">
+              <option value="" selected>Select City</option>
+              <option  [value]=""></option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">PickUpBranch</label>
+            <select #allParcelPickupbranch class="form-select" formControlName="pickUpBranch">
+              <option value="" selected>PickUpBranch</option>
+              <!-- <option *ngFor="let row2 of branchdata" [value]="row2.branchUniqueId">{{ row2.name }}</option> -->
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Drop Branch</label>
+            <select #allParcelDroupBranch class="form-select" formControlName="dropBranch">
+              <option value="" selected>Drop Branch</option>
+              <!-- <option *ngFor="let row2 of branchdata" [value]="row2.branchUniqueId">{{ row2.name }}</option> -->
+            </select>
+          </div>
+    
+          <div class="d-grid gap-2 col-2 mx-auto mt-4">
+            <button type="button" class="btn btn-success w-100" >Load</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  
