@@ -49,8 +49,8 @@ export class ParcelloadingComponent implements OnInit {
 
       //   pickUpBranch: ['', Validators.required],
       this.form = this.fb.group({
-        startDate: ['', Validators.required],
-        endDate: ['', Validators.required],
+        startDate: [this.getTodayDateString(), Validators.required],
+        endDate: [this.getTodayDateString(), Validators.required],
         fromCity: [''],                // Remove Validators.required
         toCity: this.fb.array([]),     // No Validators.required
         pickUpBranch: [''],            // Remove Validators.required
@@ -84,6 +84,13 @@ export class ParcelloadingComponent implements OnInit {
     this.branchData();
   }
 
+  getTodayDateString(): string {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = ('0' + (today.getMonth() + 1)).slice(-2);
+    const day = ('0' + today.getDate()).slice(-2);
+    return `${year}-${month}-${day}`; // yyyy-MM-dd
+  }
   
   getCities() {
     this.api.GetCities().subscribe({
@@ -113,11 +120,12 @@ export class ParcelloadingComponent implements OnInit {
 
 
   onLoad() {
+    const today = this.getTodayDateString();
     const formValues = this.form.value;
   
     const payload: any = {
-      startDate: formValues.startDate,
-      endDate: formValues.endDate
+      startDate: formValues.startDate || today,
+      endDate: formValues.endDate || today
     };
     if (formValues.fromCity) {
       payload.fromCity = formValues.fromCity;

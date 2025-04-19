@@ -156,6 +156,41 @@ export class AdminService {
     );
   }
 
+  UpdateEmployee(id: any, value: {
+    name: string;
+    username: string;
+    branchId: string;
+    location: string;
+    phone: number;
+    email: string;
+    password: string;
+    documents: string;
+    role: string;
+  }) {
+    const token1 = this.token.getToken();
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token1
+      })
+    };
+    return this.http.patch(
+      AUTH_API + 'vehicle/' + id,
+      {
+        name: value.name,
+        'username': value.username,
+        'branchId': value.branchId,
+        'location': value.location,
+        'phone': value.phone,
+        'email': value.email,
+        'password': value.password,
+        'documents': value.documents,
+        'role': value.role,
+    },
+      httpOptions
+    );
+  }
+
 
    GetProfileData(){
       const token1 = this.token.getToken();
@@ -176,7 +211,7 @@ export class AdminService {
       address: string;
       phone: string;
       email: string;
-    
+      branchId:string;
     }) {
       const token1 = this.token.getToken();
       const httpOptions = {
@@ -194,6 +229,7 @@ export class AdminService {
           "address":value.address, 
           "phone":value.phone, 
           "email":value.email, 
+          "branchId":value.branchId,
         },
         httpOptions
       );

@@ -59,9 +59,9 @@ import { SetChargesComponent } from './Branch/Cfmaster/set-charges/set-charges.c
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { CreditVoucherGenerateComponent } from './Branch/Cfmaster/credit-voucher-generate/credit-voucher-generate.component';
 import { VoucherDetailsCfmasterComponent } from './Branch/Cfmaster/voucher-details-cfmaster/voucher-details-cfmaster.component';
- 
- 
- 
+
+
+
 import { ParcelBookingMobileComponent } from './Branch/Reports/parcel-booking-mobile/parcel-booking-mobile.component';
 import { ParcelBookingSummaryComponent } from './Branch/Reports/parcel-booking-summary/parcel-booking-summary.component';
 import { ParcelCancelComponent } from './Branch/Reports/parcel-cancel/parcel-cancel.component';
@@ -69,19 +69,19 @@ import { ParcelbookingSerialnoComponent } from './Branch/Reports/parcelbooking-s
 import { AllParcelBookingReportComponent } from './Branch/Reports/all-parcel-booking-report/all-parcel-booking-report.component';
 import { RegularcustomerBookingComponent } from './Branch/Reports/regularcustomer-booking/regularcustomer-booking.component';
 import { CancelBookingComponent } from './Branch/cancel-booking/cancel-booking.component';
- 
+
 @NgModule({
   declarations: [
     // reports
- 
+
     ParcelBookingMobileComponent,
     ParcelBookingSummaryComponent,
     RegularcustomerBookingComponent,
     ParcelCancelComponent,
     ParcelbookingSerialnoComponent,
     AllParcelBookingReportComponent,
- 
- 
+
+
     AppComponent,
     SignupComponent,
     LoginComponent,
@@ -127,14 +127,14 @@ import { CancelBookingComponent } from './Branch/cancel-booking/cancel-booking.c
     CreditVoucherGenerateComponent,
     VoucherDetailsCfmasterComponent,
     CancelBookingComponent,
-   
-   
+    
+    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule, FormsModule,
-    HttpClientModule, TableModule, MessagesModule,ZXingScannerModule,
+    HttpClientModule, TableModule, MessagesModule,
      DialogModule, BrowserAnimationsModule, QRCodeModule, ToastModule, ButtonModule, RippleModule,
      ToastrModule.forRoot({
       positionClass: 'toast-top-right', // Toast appears in the top-right

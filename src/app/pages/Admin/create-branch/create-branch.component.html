@@ -129,7 +129,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalToggleLabel">Modal 1</h5>
+                <h5 class="modal-title" id="exampleModalToggleLabel">Branch Edit ({{repd.name}})</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -141,56 +141,62 @@
                                 <div class="row pt-3">
                                     <div class="col-md-3 col-sm-12">
                                         <label>Name:</label>
-                                        <input type="text" formControlName="name" class="form-control" />
+                                        <input type="text" [(ngModel)]="repd.name" formControlName="name" class="form-control" />
                                     </div>
                                     <div class="col-md-3 col-sm-12">
                                         <label>Branch Type:</label>
-                                        <input type="text" formControlName="branchType" class="form-control" />
+                                        <input type="text" [(ngModel)]="repd.branchType" formControlName="branchType" class="form-control" />
                                     </div>
                                     <div class="col-md-3 col-sm-12">
-
-                                        <label>City:</label>
-                                        <input type="text" formControlName="city" class="form-control" />
+                                            <label class="form-label">City</label>
+                                            <select class="form-select" formControlName="city">
+                                                <option> {{repd.city}} </option>
+                                                <option *ngFor="let branch of citydata" [value]="branch.cityName">{{ branch.cityName }}</option>
+                                            </select>
+                                        
                                     </div>
                                     <div class="col-md-3 col-sm-12">
 
                                         <label>Location:</label>
-                                        <input type="text" formControlName="location" class="form-control" />
+                                        <input type="text" [(ngModel)]="repd.location" formControlName="location" class="form-control" />
                                     </div>
                                     <div class="col-md-3 col-sm-12">
 
                                         <label>Address:</label>
-                                        <input type="text" formControlName="address" class="form-control" />
+                                        <input type="text" [(ngModel)]="repd.address" formControlName="address" class="form-control" />
                                     </div>
                                     <div class="col-md-3 col-sm-12">
 
                                         <label>Phone:</label>
-                                        <input type="text" formControlName="phone" class="form-control" />
+                                        <input type="text" [(ngModel)]="repd.phone" formControlName="phone" class="form-control" />
                                     </div>
                                     <div class="col-md-3 col-sm-12">
 
                                         <label>Email:</label>
-                                        <input type="email" formControlName="email" class="form-control" />
+                                        <input type="email" [(ngModel)]="repd.email" formControlName="email" class="form-control" />
                                     </div>
                                     <div class="col-md-3 col-sm-12">
 
                                         <label>Pincode:</label>
-                                        <input type="text" formControlName="pincode" class="form-control" />
+                                        <input type="text" [(ngModel)]="repd.pincode" formControlName="pincode" class="form-control" />
                                     </div>
                                     <div class="col-md-3 col-sm-12">
 
                                         <label>State:</label>
-                                        <input type="text" formControlName="state" class="form-control" />
-                                    </div>
-                                    <div class="col-md-3 col-sm-12">
-
-                                        <label>Country:</label>
-                                        <input type="text" formControlName="country" class="form-control" />
+                                        <select class="form-select form-select-sm" formControlName="state">
+                                            <option> {{repd.state}} </option>
+                                            <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                            <option value="Telangana">Telangana</option>
+                                            <option value="Karnataka">Karnataka</option>
+                                            <option value="Tamilnadu">Tamilnadu</option>
+                                            <option value="Maharastra">Maharastra</option>
+                                            <option value="Kerala">Kerala</option>
+                                        </select>
                                     </div>
                                     <div class="col-md-3 col-sm-12">
 
                                         <label>Alternate Mobile:</label>
-                                        <input type="text" formControlName="alternateMobile" class="form-control" />
+                                        <input type="text" [(ngModel)]="repd.alternateMobile" formControlName="alternateMobile" class="form-control" />
                                     </div>
                                     <div class="col-md-3 col-sm-12">
 

@@ -19,6 +19,13 @@ export class CreateEmployeeComponent {
     branchdata:any;
     edata:any;
     loading:boolean=true;
+    form1:FormGroup;
+    visible: boolean = false;
+    repd:any;
+    showDialog(row:any) {
+        this.visible = true;
+        this.repd=row;
+    }
     constructor(private fb:FormBuilder, private api:AdminService,
        private messageService:MessageService, private router:Router,
         private bapi:BranchService, private auth:AuthService, private toastr: ToastrService){
@@ -33,6 +40,18 @@ export class CreateEmployeeComponent {
           documents: ['', Validators.required],
           role: ['', Validators.required],
             });
+
+            this.form1 = this.fb.group({
+              name: ['', Validators.required],
+              username: ['', Validators.required],
+              branchId: ['', Validators.required],
+              location: ['', Validators.required],
+              password: ['', Validators.required],
+              phone: ['', Validators.required],
+              email: ['', Validators.required],
+              documents: ['', Validators.required],
+              role: ['', Validators.required],
+                });
     }
   
     ngOnInit(){
@@ -80,6 +99,41 @@ export class CreateEmployeeComponent {
       console.log('Final Payload:', payload);
       
       this.api.createEmployee(payload).subscribe({
+        next: (response: any) => {
+          console.log('Parcel loaded successfully:', response);
+          this.toastr.success('Parcel loaded successfully', 'Success');
+
+          // this.messageService.add({ severity: 'success', summary: 'success', detail: 'Create Employee successfully' });
+          setTimeout(() => {
+           this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+             this.router.navigate(['/createemployee']);
+           });
+         }, 500);
+        },
+        error: (error: any) => {
+          console.error('Create Employee failed:', error);
+          alert('Create Employee Failed. Please try again.');
+        },
+      });
+    }
+
+    edit(id:any) {
+
+      const payload = {
+        name: this.form.value.name,
+        username: this.form.value.username,
+        branchId: this.form.value.branchId,
+        location: this.form.value.location,
+        password: this.form.value.password,
+        phone: this.form.value.phone,
+        email: this.form.value.email,
+        documents: this.form.value.documents,
+        role: this.form.value.role,
+      };
+    
+      console.log('Final Payload:', payload);
+      
+      this.api.UpdateEmployee(id,payload).subscribe({
         next: (response: any) => {
           console.log('Parcel loaded successfully:', response);
           this.toastr.success('Parcel loaded successfully', 'Success');

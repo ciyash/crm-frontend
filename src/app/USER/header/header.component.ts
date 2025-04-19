@@ -63,6 +63,7 @@ export class HeaderComponent implements OnInit {
             { label: 'Add City', icon: 'pi pi-fw pi-user-edit', routerLink: ['/createcity'] },
             { label: 'Add Dispatch Type', icon: 'pi pi-fw pi-user-edit', routerLink: ['/adddispatchtype']},
             { label: 'Add Charges', icon: 'pi pi-fw pi-user-edit', routerLink: ['/addextracharges'] },
+            { label: 'Add Package Type', icon: 'pi pi-fw pi-user-edit', routerLink: ['/addpackagetype'] },
           ],
         },
       ];
@@ -135,7 +136,13 @@ export class HeaderComponent implements OnInit {
             
           ],
         },
-        { label: 'Others', icon: 'pi pi-fw pi-file', routerLink: ['/booking'] },
+        { 
+          label: 'Others ▼',
+          icon: 'pi pi-fw pi-database',
+          items: [
+            { label: 'Add Package Type', icon: 'pi pi-fw pi-user-edit', routerLink: ['/addpackagetype'] },
+          ]
+         },
       ];
     }
 
