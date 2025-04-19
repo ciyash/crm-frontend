@@ -238,21 +238,25 @@ GetGRNnumber(id:any){
 }
 
 
-cancelBooking(value: { grnlrn: string }) {
-  const token1 = this.token.getToken();
-  const httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token1
-    })
-  };
+// cancelBooking(value: { grnlrn: string }) {
+//   const token1 = this.token.getToken();
+//   const httpOptions = {
+//     headers: new HttpHeaders({
+//       'Content-Type': 'application/json',
+//       'Authorization': 'Bearer ' + token1
+//     })
+//   };
 
-  return this.http.post(
-    AUTH_API + 'booking/grnNolrNo/',
-    value,          // ✅ Body goes here
-    httpOptions     // ✅ Headers go here
-  );
-}
+//   return this.http.post(
+//     AUTH_API + 'booking/grnNolrNo/',
+//     value,          // ✅ Body goes here
+//     httpOptions     // ✅ Headers go here
+//   );
+// }
+
+
+
+
 
 
 GetQrGRNnumber(id:any){
@@ -634,6 +638,35 @@ UpdatePackagestype(id: any, value: {
         httpOptions
       );
     }
+
+
+
+    cancelBooking(id:any, value:{ 
+        refundCharge:string,
+        refundAmount:string,
+        date:string,
+       }){
+        const token1 = this.token.getToken();
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token1
+          })
+        };
+        return this.http.post(
+          AUTH_API + 'booking/cancelBooking/'+id,
+          {
+            refundCharge:value.refundCharge,
+            refundAmount:value.refundCharge,
+            date:value.date,
+          },
+          httpOptions     
+        );
+      }
+
+
+
+
 
     DeletePackagesType(id:any){
       const token1 = this.token.getToken();
@@ -1408,10 +1441,31 @@ GetSearch(value: {
     value,
     httpOptions
   );
+
 }
 
-
-
+LoadVouchers(value:{
+  fromDate: string;
+  toDate: string;
+  senderName:string;
+}){
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'voucher-generate/credit-voucher-generate',  {
+      "fromDate": value.fromDate,
+      "toDate": value.toDate,
+      "senderName": value.senderName,
+    },
+     httpOptions
+  );
+}
+ 
 }
 
 
@@ -1484,8 +1538,3 @@ GetSearch(value: {
 //   );
   
 // } 
-
-
-
-
-

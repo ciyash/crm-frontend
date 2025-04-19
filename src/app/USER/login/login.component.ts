@@ -149,6 +149,7 @@ import { Router } from '@angular/router';
 import { AdminService } from 'src/app/service/admin.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { TokenService } from 'src/app/service/token.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -169,7 +170,8 @@ export class LoginComponent {
     private authService: AuthService,
     private token: TokenService,
     private router: Router,
-    private api: AdminService
+    private api: AdminService,
+    private toast:ToastrService,
   ) {
     // Initialize forms
     this.form1 = this.fb.group({
@@ -219,8 +221,11 @@ export class LoginComponent {
         this.router.navigate([this.getNavigationPath(role)]);
       },
       error: (error) => {
-        this.errorMessage = error.error.message || 'Login failed';
+        const message = error.error.message || 'Login failed';
+    this.toast.error("please ENTER Validate PassWord")
+        this.errorMessage = message;
       },
+      
       complete: () => {
         // Hide loading spinner
         this.isLoading = false;

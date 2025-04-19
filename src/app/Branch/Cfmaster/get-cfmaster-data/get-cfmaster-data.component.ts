@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { MessageService } from 'primeng/api';
 import { BranchService } from 'src/app/service/branch.service';
 
+declare var bootstrap: any;
 @Component({
   selector: 'app-get-cfmaster-data',
   templateUrl: './get-cfmaster-data.component.html',
@@ -29,7 +31,9 @@ export class GetCfmasterDataComponent {
   }
   form1:FormGroup;
   citydata:any;
-  constructor(private fb:FormBuilder, private api:BranchService, private messageService:MessageService, private router:Router, private bapi:BranchService, private activeroute:ActivatedRoute){
+  scdata: any[] = []; // store response
+  selectedRow: any;
+  constructor(private fb:FormBuilder, private api:BranchService, private messageService:MessageService, private router:Router, private bapi:BranchService, private activeroute:ActivatedRoute, private toastr:ToastrService){
         this.form = this.fb.group({
                 gst: ['',],
                 state:['', ],
@@ -76,7 +80,19 @@ export class GetCfmasterDataComponent {
     });
   }
 
+ 
+
+  getsetcharges(id: any) {
+    this.api.GetCFMasterChargesID(id).subscribe((res: any) => {
+      console.log(res, 'charges');
+      this.scdata = res;
+      const modal: any = new bootstrap.Modal(document.getElementById('chargesModal'));
+      modal.show();
+    });
+  }
+
   edit(id:any){
+
     console.log(this.form.value);
     if (this.form.valid) {
       const val = {
