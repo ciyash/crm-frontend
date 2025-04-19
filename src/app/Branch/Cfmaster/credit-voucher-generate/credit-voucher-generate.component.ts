@@ -61,10 +61,10 @@ export class CreditVoucherGenerateComponent {
             fromDate: this.form.value.fromDate,
             toDate: this.form.value.toDate,
             grnNo: this.vldata[0]?.grnNo,
-            creditForAgent: this.form.value.senderName,
+            creditForAgent: this.vldata[0]?.senderName,
             fromBranch: this.vldata[0]?.pickUpBranchname,
             toBranch:this.vldata[0]?.dropBranchname,
-            consignor: this.form.value.senderName,
+            consignor: this.vldata[0]?.senderName,
             bookingStatus: this.vldata[0]?.bookingStatus,
             charge: this.vldata[0]?.grandTotal,
             
