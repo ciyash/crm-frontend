@@ -119,7 +119,7 @@ export class GetCfmasterDataComponent {
            
           } else {
             console.log(a);
-            // this.errorMessage = a.msg.message;
+            
             this.msg = 'Packages Type Successfully Updated !!!';
             setTimeout(() => {
               this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {

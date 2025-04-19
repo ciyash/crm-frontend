@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './USER/login/login.component';
+
 import { SignupComponent } from './USER/signup/signup.component';
 import { ParcelbookingComponent } from './Branch/parcelbooking/parcelbooking.component';
 import { ParcelloadingComponent } from './Branch/parcelloading/parcelloading.component';
@@ -31,8 +32,6 @@ import { GetCfmasterDataComponent } from './Branch/Cfmaster/get-cfmaster-data/ge
 import { CreditVoucherGenerateComponent } from './Branch/Cfmaster/credit-voucher-generate/credit-voucher-generate.component';
 import { VoucherDetailsCfmasterComponent } from './Branch/Cfmaster/voucher-details-cfmaster/voucher-details-cfmaster.component';
 import { AddCfmasterComponent } from './Branch/Cfmaster/add-cfmaster/add-cfmaster.component';
-
-
 import { RegularcustomerBookingComponent } from './Branch/Reports/regularcustomer-booking/regularcustomer-booking.component';
 import { ParcelBookingMobileComponent } from './Branch/Reports/parcel-booking-mobile/parcel-booking-mobile.component';
 import { ParcelBookingReportComponent } from './Branch/Reports/parcel-booking-report/parcel-booking-report.component';
@@ -41,6 +40,7 @@ import { ParcelbookingSerialnoComponent } from './Branch/Reports/parcelbooking-s
 import { ParcelCancelComponent } from './Branch/Reports/parcel-cancel/parcel-cancel.component';
 import { ParcelBookingSummaryComponent } from './Branch/Reports/parcel-booking-summary/parcel-booking-summary.component';
 import { CancelBookingComponent } from './Branch/cancel-booking/cancel-booking.component';
+
 const routes: Routes = [
   {path:"login",component:LoginComponent },
   {path:"",component:LoginComponent },
@@ -65,6 +65,7 @@ const routes: Routes = [
   { path: 'printvouchersdata/:vocherNoUnique', component: PrintVoucherslistDataComponent, canActivate: [authGuard] },
   { path: 'voucherslistoffline', component: VoucerOfflineListComponent, canActivate: [authGuard] },
 
+  // Reportslll
   //cf master
   { path: 'addcfmaster', component: AddCfmasterComponent, canActivate: [authGuard] },
   { path: 'getcfmasterdata', component: GetCfmasterDataComponent, canActivate: [authGuard] },

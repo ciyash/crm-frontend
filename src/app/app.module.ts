@@ -39,7 +39,7 @@ import { AddDispatchTypeComponent } from './pages/Admin/add-dispatch-type/add-di
 import { AddExtraChargesComponent } from './pages/Admin/add-extra-charges/add-extra-charges.component';
 import { BrachToBranchUnloadingComponent } from './Branch/brach-to-branch-unloading/brach-to-branch-unloading.component';
 import { FilterGrnComponent } from './Branch/filter-grn/filter-grn.component';
-
+ 
 import { PrintVoucherslistDataComponent } from './Branch/print-voucherslist-data/print-voucherslist-data.component';
 import { ParcelBookingReportComponent } from './Branch/Reports/parcel-booking-report/parcel-booking-report.component';
 import { DispatchedReportComponent } from './Branch/dispatched-report/dispatched-report.component';
@@ -59,9 +59,9 @@ import { SetChargesComponent } from './Branch/Cfmaster/set-charges/set-charges.c
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { CreditVoucherGenerateComponent } from './Branch/Cfmaster/credit-voucher-generate/credit-voucher-generate.component';
 import { VoucherDetailsCfmasterComponent } from './Branch/Cfmaster/voucher-details-cfmaster/voucher-details-cfmaster.component';
-
-
-
+ 
+ 
+ 
 import { ParcelBookingMobileComponent } from './Branch/Reports/parcel-booking-mobile/parcel-booking-mobile.component';
 import { ParcelBookingSummaryComponent } from './Branch/Reports/parcel-booking-summary/parcel-booking-summary.component';
 import { ParcelCancelComponent } from './Branch/Reports/parcel-cancel/parcel-cancel.component';
@@ -69,19 +69,19 @@ import { ParcelbookingSerialnoComponent } from './Branch/Reports/parcelbooking-s
 import { AllParcelBookingReportComponent } from './Branch/Reports/all-parcel-booking-report/all-parcel-booking-report.component';
 import { RegularcustomerBookingComponent } from './Branch/Reports/regularcustomer-booking/regularcustomer-booking.component';
 import { CancelBookingComponent } from './Branch/cancel-booking/cancel-booking.component';
-
+ 
 @NgModule({
   declarations: [
     // reports
-
+ 
     ParcelBookingMobileComponent,
     ParcelBookingSummaryComponent,
     RegularcustomerBookingComponent,
     ParcelCancelComponent,
     ParcelbookingSerialnoComponent,
     AllParcelBookingReportComponent,
-
-
+ 
+ 
     AppComponent,
     SignupComponent,
     LoginComponent,
@@ -127,8 +127,8 @@ import { CancelBookingComponent } from './Branch/cancel-booking/cancel-booking.c
     CreditVoucherGenerateComponent,
     VoucherDetailsCfmasterComponent,
     CancelBookingComponent,
-    
-    
+   
+   
   ],
   imports: [
     BrowserModule,
@@ -148,3 +148,5 @@ import { CancelBookingComponent } from './Branch/cancel-booking/cancel-booking.c
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+ 
+ 
