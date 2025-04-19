@@ -9,14 +9,35 @@ import { BranchService } from 'src/app/service/branch.service';
 })
 export class CollectionReportComponent {
   form: FormGroup;
+  citydata: any;
+  branchdata: any;
   constructor(private fb: FormBuilder, private api: BranchService) {
     this.form = this.fb.group({
-      fromDate: ['', Validators.required],
+      fromDate: [this.getTodayDateString(), Validators.required],
       toDate: ['', Validators.required],
       fromCity: ['', Validators.required],
       pickUpBranch: ['', Validators.required],
       bookedBy: ['', Validators.required],
     });
+  }
+
+  ngOnInit() {
+    // const id = this.activate.snapshot.paramMap.get('id');
+    this.api.GetCities().subscribe((res:any)=>{
+      console.log('citys',res);
+      this.citydata=res;
+      console.log("citydata:",this.citydata);
+      
+    });
+    //get branches
+    this.api.GetBranch().subscribe((res:any)=>{
+      console.log(res);
+      this.branchdata=res;
+      console.log("branchdata:",this.branchdata);
+      
+      
+    });
+
   }
   getCollectionReport() {
     if (this.form.invalid) {
@@ -40,4 +61,14 @@ export class CollectionReportComponent {
       }
     });
   }
+
+
+  getTodayDateString(): string {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = ('0' + (today.getMonth() + 1)).slice(-2);
+    const day = ('0' + today.getDate()).slice(-2);
+    return `${year}-${month}-${day}`; // yyyy-MM-dd
+  }
+
 }

@@ -55,22 +55,24 @@ export class ParcelbookingComponent {
   onPickupBranchSelect: any;
   onDropBranchSelect: any;
   modelData: any;
+  showModal: boolean = false;
+
   constructor(private fb: FormBuilder, private api: BranchService, private token:TokenService,
      private cdr: ChangeDetectorRef,  private route: ActivatedRoute,private toastr:ToastrService, 
      private router:Router, private admin:AdminService) {
     this.form = this.fb.group({
-      fromCity: [''],
+      fromCity:  ['', Validators.required],
       toCity: ['', Validators.required],
       pickUpBranch: ['', Validators.required],
       dropBranch: ['', Validators.required],
-      dispatchType: ['', Validators.required],
+      dispatchType: [''],
       bookingType: ['', Validators.required],
       senderName: ['', Validators.required],
       senderMobile: ['', Validators.required],
-      senderAddress: ['', Validators.required],
+      senderAddress: [''],
       senderGST: [''],
-      receiverName: [''],
-      receiverMobile: [''],
+      receiverName:['', Validators.required],
+      receiverMobile: ['', Validators.required],
       receiverAddress: [''],
       receiverGst: [''],
       serviceCharges: [0],  // ₹10 per item
@@ -90,9 +92,6 @@ export class ParcelbookingComponent {
    }
 
   ngOnInit() {
-
-  
-
     // const id = this.activate.snapshot.paramMap.get('id');
     this.api.GetCities().subscribe((res:any)=>{
       console.log('citys',res);
@@ -260,9 +259,9 @@ onTocitySelect(event: any) {
       this.fb.group({
         quantity: [1, Validators.required],
         packageType: ['', Validators.required],
-        contains: ['', Validators.required],
-        weight: [0, Validators.required],
         unitPrice: [0, Validators.required],
+        contains: [''],
+        weight: [],
         totalPrice: [0],
       })
     );
@@ -311,12 +310,30 @@ onTocitySelect(event: any) {
   }
 
 
+  // openPreviewModal() {
+  //   if (this.form.valid) {
+  //     this.modelData = { ...this.form.value };  // Copy form values into modelData
+  //   } else {
+  //     this.toastr.warning("Please fill all required fields", "Warning");
+  //   }
+  // }
+  
+ 
+
   openPreviewModal() {
     if (this.form.valid) {
-      this.modelData = { ...this.form.value };  // Copy form values into modelData
+      this.modelData = { ...this.form.value };
+      // Bootstrap will automatically show the modal since it's always in the DOM
     } else {
       this.toastr.warning("Please fill all required fields", "Warning");
     }
+  }
+  
+  
+
+  
+  confirmBooking() {
+    this.add();  
   }
   
   
@@ -358,7 +375,7 @@ onTocitySelect(event: any) {
       };
   
       console.log("Final Data to Submit:", val);
-      this.modelData = val; // Assign object instead of treating it as an array
+      this.modelData = val; 
   
       this.api.createBooking(val).subscribe(
         (response: any) => {

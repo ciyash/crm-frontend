@@ -69,6 +69,7 @@ import { ParcelbookingSerialnoComponent } from './Branch/Reports/parcelbooking-s
 import { AllParcelBookingReportComponent } from './Branch/Reports/all-parcel-booking-report/all-parcel-booking-report.component';
 import { RegularcustomerBookingComponent } from './Branch/Reports/regularcustomer-booking/regularcustomer-booking.component';
 import { CancelBookingComponent } from './Branch/cancel-booking/cancel-booking.component';
+import { CollectionReportComponent } from './Branch/Reports/collection-report/collection-report.component';
 
 @NgModule({
   declarations: [
@@ -127,13 +128,15 @@ import { CancelBookingComponent } from './Branch/cancel-booking/cancel-booking.c
     CreditVoucherGenerateComponent,
     VoucherDetailsCfmasterComponent,
     CancelBookingComponent,
+    CollectionReportComponent,
     
     
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule, FormsModule,
+    FormsModule,
+    ReactiveFormsModule, 
     HttpClientModule, TableModule, MessagesModule,
      DialogModule, BrowserAnimationsModule, QRCodeModule, ToastModule, ButtonModule, RippleModule,ZXingScannerModule,
      ToastrModule.forRoot({
@@ -141,7 +144,7 @@ import { CancelBookingComponent } from './Branch/cancel-booking/cancel-booking.c
       timeOut: 3000, // Toast disappears after 3 seconds
       closeButton: true, // Show close button
       progressBar: true, // Show progress bar
-      preventDuplicates: true, // Prevent duplicate toasts
+      preventDuplicates: true, // Prevent duplicate toa
     }),
   ],
   providers: [MessageService],

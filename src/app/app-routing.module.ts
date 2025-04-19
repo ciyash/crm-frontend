@@ -40,6 +40,7 @@ import { ParcelbookingSerialnoComponent } from './Branch/Reports/parcelbooking-s
 import { ParcelCancelComponent } from './Branch/Reports/parcel-cancel/parcel-cancel.component';
 import { ParcelBookingSummaryComponent } from './Branch/Reports/parcel-booking-summary/parcel-booking-summary.component';
 import { CancelBookingComponent } from './Branch/cancel-booking/cancel-booking.component';
+import { CollectionReportComponent } from './Branch/Reports/collection-report/collection-report.component';
 
 const routes: Routes = [
   {path:"login",component:LoginComponent },
@@ -83,6 +84,9 @@ const routes: Routes = [
   {path:'bookingmobile',component:ParcelBookingMobileComponent, canActivate: [authGuard]},
   {path:'parcelcancel',component:ParcelCancelComponent, canActivate: [authGuard]},
   {path:'bookingsummary',component:ParcelBookingSummaryComponent, canActivate: [authGuard]},
+  {path:'collectionreport',component:CollectionReportComponent, canActivate: [authGuard]},
+
+
   
 
 
