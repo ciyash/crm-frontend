@@ -204,8 +204,6 @@ fetchServiceCharges() {
   }
 }
 
-
-
 onFromcitySelect(event: any) {
   const cityName = event.target.value;
   if (cityName) {
@@ -335,8 +333,6 @@ onTocitySelect(event: any) {
   confirmBooking() {
     this.add();  
   }
-  
-  
   add() {
     console.log("Form Data Before Submission:", this.form.value);
     
@@ -385,7 +381,13 @@ onTocitySelect(event: any) {
             this.gdata = response.data;
             console.log("GRN Number:", this.gdata.grnNo);
             this.toastr.success("Parcel Booked Successfully", "Success");
-            this.router.navigateByUrl(`/printgrn/${this.gdata.grnNo}`);
+            // this.router.navigateByUrl(`/printgrn/${this.gdata.grnNo}`);
+            this.router.navigateByUrl(`/printgrn/${this.gdata.grnNo}`).then(() => {
+              window.location.reload();
+            });
+            
+            
+
           } else {
             console.error("❌ Error: grnNo not found in response.");
             this.toastr.warning("Booking successful, but grnNo is missing.", "Warning");

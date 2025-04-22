@@ -1002,10 +1002,40 @@ ParcelBranchWiseReport(value: {
   );
 }
 
+
+ConsolidatedReport(value: {
+  fromDate: string;
+  toDate: string;
+  fromCity: string;
+  pickUpBranch: string;
+  bookedBy:string;
+}) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'booking/parcel-branch-consolidated-report',
+    {
+      fromDate: value.fromDate,
+      toDate: value.toDate,
+      pickUpBranch: value.pickUpBranch,
+      bookedBy: value.bookedBy,
+  },
+    httpOptions
+  );
+}
+
+
+
+
 SenderRecevierGstReport(value: {
   fromDate: string;
   toDate: string;
-  pickUpBranch: string;
+  branchCity: string;
   branchName: string;
 }) {
   const token1 = this.token.getToken();
@@ -1020,7 +1050,7 @@ SenderRecevierGstReport(value: {
     {
       fromDate: value.fromDate,
       toDate: value.toDate,
-      pickUpBranch: value.pickUpBranch,
+      branchCity: value.branchCity,
       branchName: value.branchName,
   },
     httpOptions

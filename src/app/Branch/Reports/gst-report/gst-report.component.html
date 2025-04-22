@@ -1,0 +1,37 @@
+<app-header></app-header>
+<div class="container section-border mt-5 pb-4">
+  <h5 class="text-center fw-bold text-danger"><u>Sender Receiver GST Report</u></h5>
+  <div class="rounded p-4" style="margin-top: 2rem;">
+    <form [formGroup]="form">
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label class="form-label">From Date:</label>
+          <input type="date" class="form-control form-control-sm" formControlName="fromDate" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">To Date:</label>
+          <input type="date" class="form-control form-control-sm" formControlName="toDate" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Branch City:</label>
+          <select #BranchCity class="form-select form-select-sm" formControlName="branchCity">
+            <option value="" selected>Select City</option>
+            <option *ngFor="let item of citydata" [value]="item.cityName">{{ item.cityName }}</option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Branch Name:</label>
+          <select #BranchName class="form-select form-select-sm" formControlName="branchName">
+            <option value="" selected>Select Branch</option>
+            <option *ngFor="let item of branchdata" [value]="item.branchUniqueId">{{ item.city }}</option>
+          </select>
+        </div>
+
+        <div class="d-grid gap-2 col-2 mx-auto mt-4">
+          <button type="button" class="btn btn-success w-100" (click)="GstReport()">Load</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

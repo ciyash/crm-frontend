@@ -1,65 +1,81 @@
+<app-header></app-header>
 
+<div class="container section-border mt-5 pb-4">
+  <h5 class="text-center fw-bold text-danger">
+    <u>Parcel Branch Wise Collection Report</u>
+  </h5>
 
+  <div class="rounded p-4 mt-4">
+    <form [formGroup]="form">
+      <div class="row mb-3">
+        <!-- From Date -->
+        <div class="col-md-6">
+          <label class="form-label">From Booking Date</label>
+          <input type="text" class="form-control form-control-sm" formControlName="fromDate" />
+        </div>
 
-  <div class="container section-border mt-5 pb-4">
-    <h5 class="text-center fw-bold text-danger"><u>Parcel Branch Wise Collection Report
-    </u></h5>
-    <div class="rounded p-4" style="margin-top: 2rem;">
-      <form [formGroup]="form">
-        <div class="row mb-3">
-          <div class="col-md-6">
-           
-            <label class="form-label">From Booking Date</label>
-            <input
-              type="date"
-              class="form-control form-control-sm"
-              formControlName="fromDate"
-            />
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">  To Date</label>
-            <input type="date" class="form-control" formControlName="endDate">
-            
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">	 Branch City :	
+        <!-- To Date -->
+        <div class="col-md-6">
+          <label class="form-label">To Date</label>
+          <input type="date" class="form-control form-control-sm" formControlName="toDate" />
+        </div>
 
+        <!-- Branch City -->
+        <div class="col-md-6">
+          <label class="form-label">Branch City:</label>
+          <select #BranchCity class="form-select form-select-sm" formControlName="fromCity">
+            <option value="" selected>Select City</option>
+            <option *ngFor="let item of citydata" [value]="item.cityName">{{ item.cityName }}</option>
+          </select>
+        </div>
 
-            </label>
-            <select #allParcelfromcity class="form-select form-select-sm" formControlName="fromCity">
-              <option value="" selected>Select City</option>
-              <option  [value]=""></option>
-            </select>
+        <!-- Branch Name -->
+        <div class="col-md-6">
+          <label class="form-label">Branch Name:</label>
+          <select #BranchName class="form-select form-select-sm" formControlName="pickUpBranch">
+            <option value="" selected>Select Branch</option>
+            <option *ngFor="let item of branchdata" [value]="item.branchUniqueId">{{ item.city }}</option>
+          </select>
+        </div>
+
+        <!-- Booked By -->
+        <div class="col-md-6">
+          <label class="form-label">Branch User Name:</label>
+          <select class="form-select form-select-sm" formControlName="bookedBy">
+            <option value="" selected>Select User</option>
+            <option *ngFor="let row2 of pfdata" [value]="row2.username">{{ row2.username }}</option>
+          </select>
+        </div>
+
+        <!-- Report Type Radio Buttons -->
+        <div class="col-md-6 mt-4">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" id="reportAll" value="ALL" formControlName="reportType" />
+            <label class="form-check-label" for="reportAll">Summary Report</label>
           </div>
-          <div class="col-md-6">
-            <label class="form-label">Branch Name : </label>
-            <select #allParceltocity class="form-select form-select-sm" formControlName="toCity">
-              <option value="" selected>Select City</option>
-              <option  [value]=""></option>
-            </select>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" id="reportSender" value="Sender" formControlName="reportType" />
+            <label class="form-check-label" for="reportSender">Details Report</label>
           </div>
-          <div class="col-md-6">
-            <label class="form-label">PickUpBranch</label>
-            <select #allParcelPickupbranch class="form-select" formControlName="pickUpBranch">
-              <option value="" selected>PickUpBranch</option>
-              <!-- <option *ngFor="let row2 of branchdata" [value]="row2.branchUniqueId">{{ row2.name }}</option> -->
-            </select>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" id="reportReceiver1" value="Receiver" formControlName="reportType" />
+            <label class="form-check-label" for="reportReceiver1">To Pay Collection Report</label>
           </div>
-          <div class="col-md-6">
-            <label class="form-label">Drop Branch</label>
-            <select #allParcelDroupBranch class="form-select" formControlName="dropBranch">
-              <option value="" selected>Drop Branch</option>
-              <!-- <option *ngFor="let row2 of branchdata" [value]="row2.branchUniqueId">{{ row2.name }}</option> -->
-            </select>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" id="reportReceiver2" value="AllCollection" formControlName="reportType" />
+            <label class="form-check-label" for="reportReceiver2">All Collection Report</label>
           </div>
-    
-          <div class="d-grid gap-2 col-2 mx-auto mt-4">
-            <button type="button" class="btn btn-success w-100" >Load</button>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" id="reportReceiver3" value="BookingTypeWise" formControlName="reportType" />
+            <label class="form-check-label" for="reportReceiver3">Booking Type Wise Collection</label>
           </div>
         </div>
-      </form>
-    </div>
+
+        <!-- Load Button -->
+        <div class="d-grid gap-2 col-2 mx-auto mt-4">
+          <button type="button" class="btn btn-success w-100" (click)="getCollectionReport()">Load</button>
+        </div>
+      </div>
+    </form>
   </div>
-
-
-  
+</div>

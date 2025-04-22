@@ -70,6 +70,10 @@ import { AllParcelBookingReportComponent } from './Branch/Reports/all-parcel-boo
 import { RegularcustomerBookingComponent } from './Branch/Reports/regularcustomer-booking/regularcustomer-booking.component';
 import { CancelBookingComponent } from './Branch/cancel-booking/cancel-booking.component';
 import { CollectionReportComponent } from './Branch/Reports/collection-report/collection-report.component';
+import { ConsolidatedComponent } from './Branch/Reports/consolidated/consolidated.component';
+import { CollectionDataComponent } from './Branch/Reports/collection-data/collection-data.component';
+import { GstReportComponent } from './Branch/Reports/gst-report/gst-report.component';
+import { GstDataComponent } from './Branch/Reports/gst-data/gst-data.component';
  
 @NgModule({
   declarations: [
@@ -129,6 +133,10 @@ import { CollectionReportComponent } from './Branch/Reports/collection-report/co
     VoucherDetailsCfmasterComponent,
     CancelBookingComponent,
     CollectionReportComponent,
+    ConsolidatedComponent,
+    CollectionDataComponent,
+    GstReportComponent,
+    GstDataComponent,
    
    
   ],

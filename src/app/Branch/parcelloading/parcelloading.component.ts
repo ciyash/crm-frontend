@@ -132,7 +132,6 @@ export class ParcelloadingComponent implements OnInit {
       payload.pickUpBranch = formValues.pickUpBranch;
     }
 
-  
     console.log('Final Booking Data:', payload);
   
     this.api.FilterParcelLoading(payload).subscribe({
