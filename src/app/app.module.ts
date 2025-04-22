@@ -71,6 +71,11 @@ import { RegularcustomerBookingComponent } from './Branch/Reports/regularcustome
 import { CancelBookingComponent } from './Branch/cancel-booking/cancel-booking.component';
 import { CollectionReportComponent } from './Branch/Reports/collection-report/collection-report.component';
 
+import { ConsolidatedComponent } from './Branch/Reports/consolidated/consolidated.component';
+import { CollectionDataComponent } from './Branch/Reports/collection-data/collection-data.component';
+import { GstReportComponent } from './Branch/Reports/gst-report/gst-report.component';
+import { GstDataComponent } from './Branch/Reports/gst-data/gst-data.component';
+ 
 @NgModule({
   declarations: [
     // reports
@@ -131,6 +136,12 @@ import { CollectionReportComponent } from './Branch/Reports/collection-report/co
     CollectionReportComponent,
     
     
+    ConsolidatedComponent,
+    CollectionDataComponent,
+    GstReportComponent,
+    GstDataComponent,
+   
+   
   ],
   imports: [
     BrowserModule,

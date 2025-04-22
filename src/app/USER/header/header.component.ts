@@ -121,9 +121,10 @@ export class HeaderComponent implements OnInit {
           items: [
             { label: 'Today Booking Report', routerLink: ['/bookingreport'] },
             { label: 'Booking Report ', routerLink: ['/reportsdashboard'] },
+            { label: 'Collection Report', routerLink: ['/collectionreport'] },
             { label: 'Cancel Report', routerLink: ['/reportsdashboard'] },
-            { label: 'GST Report', routerLink: ['/reportsdashboard'] },
-            { label: 'Pending Delivery Report', routerLink: ['/reportsdashboard'] },
+            { label: 'GST Report', routerLink: ['/gdtreport'] },
+            { label: 'Pending Delivery Report', routerLink: ['/pendingingdelivery'] },
             { label: 'Pending Delivery Luggage Report', routerLink: ['/reportsdashboard'] },
             { label: 'Dispatched Stock Report', routerLink: ['/dispatchedreport'] },
             { label: 'Received Stock Report', routerLink: ['/reportsdashboard'] },
@@ -131,6 +132,10 @@ export class HeaderComponent implements OnInit {
             { label: 'Pending Dispatched Stock Report', routerLink: ['/reportsdashboard'] },
             { label: 'Dispatched Memo Report', routerLink: ['/reportsdashboard'] },
             { label: 'Parcel Incoming Report', routerLink: ['/reportsdashboard'] },
+            { label: 'GST Report', routerLink: ['/gdtreport'] },
+
+
+            
 
 
             

@@ -1,0 +1,56 @@
+<div class="container my-4 p-3 border rounded bg-light" style="background-color: #e3eaf8" *ngIf="data?.length">
+    <h5 class="text-center fw-bold">SREE KALESWARI LOGISTICS</h5>
+    <h6 class="text-center text-decoration-underline">Parcel Collection Report All Branch</h6>
+  
+    
+  
+    <div class="table-responsive">
+      <table class="table table-bordered table-sm table-striped">
+        <thead class="table-secondary text-center align-middle">
+          <tr>
+            <th>S.NO</th>
+            <th>Branch Name</th>
+            <th>Total Amount </th>
+            <th>Total Quantity </th>
+            <th>Cancel Amount            </th>
+            <th>Current Amount</th>
+            <th>Net Amount</th>
+            <th>Net Quantity</th>
+            <th>Total com</th>
+            <th>Cancel com</th>
+            <th>Net com</th>
+            <th>Ret Charge</th>
+            <th>Net Amount</th>
+          </tr>
+        </thead>
+        <tbody class="text-center align-middle">
+          <tr *ngFor="let item of data; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{item.pickUpBranchname}}</td>
+            <td>{{ item.grandTotal || '-' }}</td>
+            <td>{{item.totalQuantity}}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+           <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{ item.grandTotal || '-' }}</td>
+          </tr>
+          <tr *ngIf="!data?.length">
+            <td colspan="13" class="text-center">No data available</td>
+          </tr>
+          <tr class="fw-bold bg-light" *ngIf="data?.length">
+            <td colspan="11" class="text-end">Total:</td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <div class="container my-4 p-3 border rounded bg-light text-center" *ngIf="!data?.length">
+    <p>No parcel booking data available.</p>
+  </div>

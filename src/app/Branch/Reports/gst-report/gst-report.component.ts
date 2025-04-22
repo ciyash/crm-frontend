@@ -1,46 +1,46 @@
 import { Component, ElementRef, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BranchService } from 'src/app/service/branch.service';
 import { Router } from '@angular/router';
+import { BranchService } from 'src/app/service/branch.service';
 declare var $: any;
 
 @Component({
-  selector: 'app-collection-report',
-  templateUrl: './collection-report.component.html',
-  styleUrls: ['./collection-report.component.scss']
+  selector: 'app-gst-report',
+  templateUrl: './gst-report.component.html',
+  styleUrls: ['./gst-report.component.scss']
 })
-export class CollectionReportComponent implements OnInit, AfterViewInit {
+export class GstReportComponent implements OnInit, AfterViewInit {
+
   form: FormGroup;
   citydata: any;
   branchdata: any;
   pfdata: any;
-  collectiondata: any;
+  gstdata: any;
 
   @ViewChild('BranchCity') BranchCity!: ElementRef;
   @ViewChild('BranchName') BranchName!: ElementRef;
 
-  constructor(private fb: FormBuilder, private api: BranchService, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private api: BranchService,
+    private router: Router
+  ) {
     this.form = this.fb.group({
       fromDate: [this.getTodayDateString(), Validators.required],
       toDate: ['', Validators.required],
-      fromCity: [''],
-      pickUpBranch: ['',],
-      bookedBy: [''],
-      reportType: ['ALL']
+      branchCity: [''],
+      branchName: ['']
     });
   }
 
   ngOnInit() {
     this.api.GetCities().subscribe((res: any) => {
       this.citydata = res;
-      console.log("citydata:", this.citydata);
       setTimeout(() => $(this.BranchCity.nativeElement).select2(), 0);
     });
 
     this.api.GetBranch().subscribe((res: any) => {
       this.branchdata = res;
-      console.log("branchdata:", this.branchdata);
-      
       setTimeout(() => $(this.BranchName.nativeElement).select2(), 0);
     });
 
@@ -50,35 +50,34 @@ export class CollectionReportComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     $(this.BranchCity.nativeElement).on('select2:select', (event: any) => {
       const selectedCity = event.params.data.id;
-      console.log('Selected BranchCity:', selectedCity);
-      this.form.patchValue({ fromCity: selectedCity });
-      console.log('Updated form value:', this.form.value);
+      this.form.patchValue({ branchCity: selectedCity });  // Corrected
     });
 
     $(this.BranchName.nativeElement).on('select2:select', (event: any) => {
       const selectedBranch = event.params.data.id;
-      console.log('Selected BranchName:', selectedBranch);
-      this.form.patchValue({ pickUpBranch: selectedBranch });
-      console.log('Updated form value:', this.form.value);
+      this.form.patchValue({ branchName: selectedBranch });  // Corrected
     });
   }
 
   getProfileData() {
     this.api.GetProfileData().subscribe((res: any) => {
       this.pfdata = res;
-      console.log('profile', this.pfdata);
     });
   }
 
-  getCollectionReport() {
-    const payload = this.form.value;
-    console.log("Payload:", payload);
+  GstReport() {
 
-    this.api.ParcelBranchWiseReport(payload).subscribe({
+    
+    const payload = this.form.value;
+
+    console.log("thispayload:", payload);
+    this.api.SenderRecevierGstReport(payload).subscribe({
       next: (res) => {
-        this.collectiondata = res;
-        console.log('Report Data:', res);
-        this.router.navigateByUrl('/collectiondata', { state: { data: res } });
+        console.log('wise Report Data:', res);
+        this.gstdata = res;
+        console.log("gstdta:",this.gstdata);
+        
+        this.router.navigateByUrl('/gstdata', { state: { data: res } });
       },
       error: (err) => {
         console.error('Error fetching report:', err);
@@ -91,6 +90,6 @@ export class CollectionReportComponent implements OnInit, AfterViewInit {
     const year = today.getFullYear();
     const month = ('0' + (today.getMonth() + 1)).slice(-2);
     const day = ('0' + today.getDate()).slice(-2);
-    return `${day}-${month}-${year}`;
+    return `${year}-${month}-${day}`;
   }
 }

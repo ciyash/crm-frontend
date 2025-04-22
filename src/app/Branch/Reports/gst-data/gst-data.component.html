@@ -1,0 +1,59 @@
+<div class="container my-4 p-3 border rounded bg-light" style="background-color: #e3eaf8" >
+    <h5 class="text-center fw-bold">SREE KALESWARI LOGISTICS</h5>
+    <h6 class="text-center text-decoration-underline">Sender Receiver GST Report</h6>
+
+  
+    <div class="table-responsive">
+        <table class="table table-bordered table-sm table-striped">
+          <thead class="table-secondary text-center align-middle">
+            <tr>
+              <th>S.NO</th>
+              <th>GRN NO</th>
+              <th>Transfer Date</th>
+              <th>TypeName</th>
+              <th>Sender</th>
+              <th>Receiver</th>
+              <th>Sender GST No</th>
+              <th>Receiver GST NO</th>
+              <th>Source</th>
+              <th>Dest.</th>
+              <th>Quantity</th>
+              <th>Ret Charge</th>
+              <th>Total Amount</th>
+              <th>B.Fare</th>
+              <th>GST</th>
+            </tr>
+          </thead>
+          <tbody class="text-center align-middle">
+            <tr *ngFor="let item of bookings; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ item.grnNo }}</td>
+              <td>{{ item.ltDate | date: 'shortDate' }}</td>
+              <td>{{ item.bookingType }}</td>
+              <td>{{ item.senderName }}</td>
+              <td>{{ item.receiverName }}</td>
+              <td>{{ item.senderGst || '-' }}</td>
+              <td>{{ item.receiverGst || '-' }}</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>{{ item.grandTotal }}</td>
+              <td>-</td>
+              <td>{{ item.parcelGstAmount || 0 }}</td>
+            </tr>
+      
+            <tr *ngIf="!bookings?.length">
+              <td colspan="15" class="text-center">No data available</td>
+            </tr>
+      
+            <tr class="fw-bold bg-light" *ngIf="bookings?.length">
+              <td colspan="12" class="text-end">Total:</td>
+              <td>{{ calculateTotalAmount() }}</td>
+              <td colspan="2"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  </div>
+  

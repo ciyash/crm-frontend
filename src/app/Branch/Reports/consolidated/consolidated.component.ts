@@ -1,35 +1,33 @@
 import { Component, ElementRef, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BranchService } from 'src/app/service/branch.service';
-import { Router } from '@angular/router';
 declare var $: any;
 
 @Component({
-  selector: 'app-collection-report',
-  templateUrl: './collection-report.component.html',
-  styleUrls: ['./collection-report.component.scss']
+  selector: 'app-consolidated',
+  templateUrl: './consolidated.component.html',
+  styleUrls: ['./consolidated.component.scss']
 })
-export class CollectionReportComponent implements OnInit, AfterViewInit {
+export class ConsolidatedComponent {
   form: FormGroup;
   citydata: any;
   branchdata: any;
   pfdata: any;
-  collectiondata: any;
-
+  Cdata: any;
+  bdata:any;
   @ViewChild('BranchCity') BranchCity!: ElementRef;
   @ViewChild('BranchName') BranchName!: ElementRef;
-
-  constructor(private fb: FormBuilder, private api: BranchService, private router: Router) {
+  constructor(private fb: FormBuilder, private api: BranchService) {
     this.form = this.fb.group({
       fromDate: [this.getTodayDateString(), Validators.required],
       toDate: ['', Validators.required],
       fromCity: [''],
-      pickUpBranch: ['',],
+      pickUpBranch: [''],
       bookedBy: [''],
-      reportType: ['ALL']
+      displayBookingDetails: [false],
+      branchSummary: [false],
     });
   }
-
   ngOnInit() {
     this.api.GetCities().subscribe((res: any) => {
       this.citydata = res;
@@ -46,7 +44,6 @@ export class CollectionReportComponent implements OnInit, AfterViewInit {
 
     this.getProfileData();
   }
-
   ngAfterViewInit(): void {
     $(this.BranchCity.nativeElement).on('select2:select', (event: any) => {
       const selectedCity = event.params.data.id;
@@ -62,35 +59,47 @@ export class CollectionReportComponent implements OnInit, AfterViewInit {
       console.log('Updated form value:', this.form.value);
     });
   }
-
-  getProfileData() {
-    this.api.GetProfileData().subscribe((res: any) => {
-      this.pfdata = res;
-      console.log('profile', this.pfdata);
+  getProfileData(){
+    this.api.GetProfileData().subscribe((res:any)=>{
+      console.log('profile',res);
+      this.pfdata=res;
+      console.log(this.pfdata,"branchid")
     });
   }
-
   getCollectionReport() {
-    const payload = this.form.value;
-    console.log("Payload:", payload);
+    const payload = {
+      fromDate: this.form.value.fromDate,
+      toDate: this.form.value.toDate,
+      fromCity: this.form.value.fromCity,
+      pickUpBranch: this.form.value.pickUpBranch,
+      bookedBy: this.form.value.bookedBy,
+    };
+    console.log("payload:",payload);
+    this.bdata=payload
+    
+    
 
-    this.api.ParcelBranchWiseReport(payload).subscribe({
+    this.api.ConsolidatedReport(payload).subscribe({
       next: (res) => {
-        this.collectiondata = res;
-        console.log('Report Data:', res);
-        this.router.navigateByUrl('/collectiondata', { state: { data: res } });
-      },
+        console.log('ConsolidatedReport:', res);
+        this.Cdata=res
+            },
       error: (err) => {
         console.error('Error fetching report:', err);
       }
     });
   }
+  today = new Date();
 
   getTodayDateString(): string {
     const today = new Date();
     const year = today.getFullYear();
     const month = ('0' + (today.getMonth() + 1)).slice(-2);
     const day = ('0' + today.getDate()).slice(-2);
-    return `${day}-${month}-${year}`;
+    return `${day}-${month}-${year}`; 
+  }
+
+  get showFilter(): boolean {
+    return this.form.get('displayBookingDetails')?.value || this.form.get('branchSummary')?.value;
   }
 }

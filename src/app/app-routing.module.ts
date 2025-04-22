@@ -41,6 +41,11 @@ import { ParcelCancelComponent } from './Branch/Reports/parcel-cancel/parcel-can
 import { ParcelBookingSummaryComponent } from './Branch/Reports/parcel-booking-summary/parcel-booking-summary.component';
 import { CancelBookingComponent } from './Branch/cancel-booking/cancel-booking.component';
 import { CollectionReportComponent } from './Branch/Reports/collection-report/collection-report.component';
+import { ConsolidatedComponent } from './Branch/Reports/consolidated/consolidated.component';
+import { GstReportComponent } from './Branch/Reports/gst-report/gst-report.component';
+import { GstDataComponent } from './Branch/Reports/gst-data/gst-data.component';
+import { PendingDeliveryStockReportComponent } from './Branch/Reports/pending-delivery-stock-report/pending-delivery-stock-report.component';
+import { CollectionDataComponent } from './Branch/Reports/collection-data/collection-data.component';
 
 const routes: Routes = [
   {path:"login",component:LoginComponent },
@@ -85,6 +90,17 @@ const routes: Routes = [
   {path:'parcelcancel',component:ParcelCancelComponent, canActivate: [authGuard]},
   {path:'bookingsummary',component:ParcelBookingSummaryComponent, canActivate: [authGuard]},
   {path:'collectionreport',component:CollectionReportComponent, canActivate: [authGuard]},
+  {path:'Consolidate',component:ConsolidatedComponent, canActivate: [authGuard]},
+  {path:'gdtreport',component:GstReportComponent, canActivate: [authGuard]},
+  {path:'gstdata',component:GstDataComponent, canActivate: [authGuard]},
+  {path:'pendingingdelivery',component:PendingDeliveryStockReportComponent, canActivate: [authGuard]},
+  {path:'collectiondata',component:CollectionDataComponent, canActivate: [authGuard]},
+
+  
+
+
+
+   
 
 
   
