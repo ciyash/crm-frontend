@@ -75,12 +75,12 @@ export class ParcelbookingComponent {
       receiverMobile: ['', Validators.required],
       receiverAddress: [''],
       receiverGst: [''],
-      serviceCharges: [0],  // ₹10 per item
-      hamaliCharges: [0],
-      doorDeliveryCharges: [0],
-      doorPickupCharges: [0],
-      valueOfGoods: [0],
-      grandTotal: [0],
+      serviceCharges: [''],  // ₹10 per item
+      hamaliCharges: [''],
+      doorDeliveryCharges: [''],
+      doorPickupCharges: [''],
+      valueOfGoods: [''],
+      grandTotal: [''],
       packages: this.fb.array([]),
         });
      
@@ -88,7 +88,6 @@ export class ParcelbookingComponent {
           fromCity: [''],
           toCity: ['', Validators.required],
             });
-
    }
 
   ngOnInit() {

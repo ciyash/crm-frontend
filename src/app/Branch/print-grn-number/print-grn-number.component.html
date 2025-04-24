@@ -49,18 +49,13 @@
             <th>
               <span> {{cdata.quantity}} <br></span>
             </th>
-            <th>
-              <p>Freight Charges: {{data1.serviceCharge}} </p>
-              <p>Door devilery Changers: {{data1.doorDeliveryCharge}}</p>
-              <p>LR Changers: {{data1.hamaliCharge}}</p>
+            <th *ngFor="let package of data1.packages">
+              <p>Freight Charges: {{package.totalPrice}} </p>
+              <p>Door devilery Changers: {{data1.doorDeliveryCharges}}</p>
+              <p>LR Changers: {{data1.serviceCharges}}</p>
               <p>NETAMOUNT: {{data1.grandTotal | currency:'INR':true:'1.0-0'}}</p>
             </th>
           </tr>
-<!--       
-          <tr>
-            <th>Sender's Signture &nbsp;</th>
-          </tr> -->
-
 
         </tbody>
 

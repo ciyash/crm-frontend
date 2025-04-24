@@ -133,12 +133,6 @@ export class HeaderComponent implements OnInit {
             { label: 'Dispatched Memo Report', routerLink: ['/reportsdashboard'] },
             { label: 'Parcel Incoming Report', routerLink: ['/reportsdashboard'] },
             { label: 'GST Report', routerLink: ['/gdtreport'] },
-
-
-            
-
-
-            
           ],
         },
         { 

@@ -53,7 +53,6 @@ export class CreateEmployeeComponent {
               role: ['', Validators.required],
                 });
     }
-  
     ngOnInit(){
       this.branchData();
       this.api.GetEmployeesData().subscribe((res: any) => {
@@ -66,7 +65,6 @@ export class CreateEmployeeComponent {
         this.loading = false;
       });
     }
-    
     togglePassword(index: number) {
       this.edata[index].showPassword = !this.edata[index].showPassword;
     }
@@ -95,9 +93,7 @@ export class CreateEmployeeComponent {
         documents: this.form.value.documents,
         role: this.form.value.role,
       };
-    
       console.log('Final Payload:', payload);
-      
       this.api.createEmployee(payload).subscribe({
         next: (response: any) => {
           console.log('Parcel loaded successfully:', response);

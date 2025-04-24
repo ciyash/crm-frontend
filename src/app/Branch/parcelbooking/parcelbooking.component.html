@@ -93,12 +93,22 @@
                                 <td><input type="number" class="form-control form-select-sm" formControlName="weight"></td>
                                 <td><input type="number" class="form-control form-select-sm" formControlName="unitPrice" (input)="calculateTotal(i)"></td>
                                 <td><input type="number" class="form-control form-select-sm" formControlName="totalPrice" readonly></td>
-                                <td>
+                                <!-- <td>
                                     <button type="button" class="btn btn-success btn-sm" (click)="addOrderItem()">Add +</button>
 
                                     <a class="text-white" style="cursor: pointer;" (click)="removeBarcodeData(i)"> <i class="fa fa-trash"></i> </a>
 
+                                </td> -->
+                                <td>
+                                  <button *ngIf="i === 0" type="button" class="btn btn-success btn-sm" (click)="addOrderItem()">
+                                    Add +
+                                  </button>
+                                
+                                  <a *ngIf="i > 0" class="text-white" style="cursor: pointer;" (click)="removeBarcodeData(i)">
+                                    <i class="fa fa-trash"></i>
+                                  </a>
                                 </td>
+                                
                             </tr>
                         </tbody>
                     </table>
@@ -197,10 +207,6 @@
                           <div class="row">
                             <div class="col-md-5 pt-1">
                               <div class="d-grid gap-2 col-12 mx-auto mt-4">
-
-
-
-
 <!-- Modal for preview -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
