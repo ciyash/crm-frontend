@@ -53,6 +53,13 @@
                     <label class="form-label">Documents</label>
                     <input type="text" class="form-control form-select-sm " formControlName="documents">
                 </div>
+
+                <div class="col-md-3 col-sm-12">
+                    <label class="form-label">CompanyName</label>
+                    <input type="text" class="form-control form-select-sm " formControlName="companyName">
+                </div>
+
+
                 <div class="col-md-3 col-sm-12">
                     <label class="form-label">Role</label> 
                     <select class="form-select form-select-sm" formControlName="role">
@@ -90,6 +97,7 @@
                     <thead class="p-2">
                         <th>S.no</th>
                         <th>Name</th>
+                        <th>CompanyName</th>
                         <th>Phone</th>
                         <th>Email</th>
                         <th>Location</th>
@@ -103,6 +111,7 @@
                         <tr *ngFor="let row of edata; let i=index">
                             <td>{{i + 1}}</td>
                             <td> {{row.name}} </td>
+                            <td>{{row.companyName}}</td>
                             <td> {{row.phone}} </td>
                             <td> {{row.email}} </td>
                             <td> {{row.location}} </td>
@@ -172,6 +181,10 @@
                             <div class="col-md-3 col-sm-12">
                                 <label class="form-label">Documents</label>
                                 <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.documents" formControlName="documents">
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <label class="form-label">CompanyName</label>
+                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.companyName" formControlName="companyName">
                             </div>
                             <div class="col-md-3 col-sm-12">
                                 <label class="form-label">Role</label> 

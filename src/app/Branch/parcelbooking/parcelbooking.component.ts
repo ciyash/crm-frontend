@@ -76,10 +76,10 @@ export class ParcelbookingComponent {
       receiverAddress: [''],
       receiverGst: [''],
       serviceCharges: [''],  // ₹10 per item
-      hamaliCharges: [''],
-      doorDeliveryCharges: [''],
-      doorPickupCharges: [''],
-      valueOfGoods: [''],
+      hamaliCharges: ['0'],
+      doorDeliveryCharges: ['0'],
+      doorPickupCharges: ['0'],
+      valueOfGoods: ['0'],
       grandTotal: [''],
       packages: this.fb.array([]),
         });

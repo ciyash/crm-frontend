@@ -130,6 +130,9 @@ export class AdminService {
     password: string;
     documents: string;
     role: string;
+    companyName:String;
+    
+
   }) {
     const token1 = this.token.getToken();
     const httpOptions = {
@@ -151,6 +154,9 @@ export class AdminService {
         'password': value.password,
         'documents': value.documents,
         'role': value.role,
+        "companyName":value.companyName
+        
+
       },
       httpOptions 
     );
@@ -166,6 +172,8 @@ export class AdminService {
     password: string;
     documents: string;
     role: string;
+    companyName:String;
+
   }) {
     const token1 = this.token.getToken();
     const httpOptions = {
@@ -186,6 +194,8 @@ export class AdminService {
         'password': value.password,
         'documents': value.documents,
         'role': value.role,
+        "companyName":value.companyName,
+
     },
       httpOptions
     );

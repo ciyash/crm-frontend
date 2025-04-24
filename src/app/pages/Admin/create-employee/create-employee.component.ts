@@ -7,7 +7,6 @@ import { AuthService } from 'src/app/service/auth.service';
 import { BranchService } from 'src/app/service/branch.service';
 import { ToastrService } from 'ngx-toastr';
 
-
 @Component({
   selector: 'app-create-employee',
   templateUrl: './create-employee.component.html',
@@ -39,6 +38,7 @@ export class CreateEmployeeComponent {
           email: ['', Validators.required],
           documents: ['', Validators.required],
           role: ['', Validators.required],
+          companyName:['', Validators.required],
             });
 
             this.form1 = this.fb.group({
@@ -51,6 +51,8 @@ export class CreateEmployeeComponent {
               email: ['', Validators.required],
               documents: ['', Validators.required],
               role: ['', Validators.required],
+              companyName:[''],
+
                 });
     }
     ngOnInit(){
@@ -92,6 +94,7 @@ export class CreateEmployeeComponent {
         email: this.form.value.email,
         documents: this.form.value.documents,
         role: this.form.value.role,
+        companyName:this.form.value.companyName
       };
       console.log('Final Payload:', payload);
       this.api.createEmployee(payload).subscribe({
@@ -125,6 +128,7 @@ export class CreateEmployeeComponent {
         email: this.form.value.email,
         documents: this.form.value.documents,
         role: this.form.value.role,
+        companyName:this.form1.value.companyName
       };
     
       console.log('Final Payload:', payload);
