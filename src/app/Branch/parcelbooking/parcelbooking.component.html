@@ -133,7 +133,7 @@
                 <th><input type="number" class="form-control form-select-sm" formControlName="doorDeliveryCharges" (input)="calculateGrandTotal()"></th>
                 <th><input type="number" class="form-control form-select-sm" formControlName="doorPickupCharges" (input)="calculateGrandTotal()"></th>
                 <th><input type="number" class="form-control form-select-sm" formControlName="valueOfGoods"></th>
-                <th><input type="number" class="form-control form-select-sm" [value]="form.get('grandTotal')?.value" readonly></th>
+                <th><input type="number" class="form-control form-select-sm" formControlName="grandTotal" readonly></th>
             </tr>   
 
             <div class="container mt-0">
@@ -303,20 +303,3 @@
         </form>
     </div>
 </div>
-
-
-
-   
-  
-
-
-
-
-
-  
-  
-
-
-
-
-

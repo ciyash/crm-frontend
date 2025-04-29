@@ -51,8 +51,8 @@ export class ParcelOnloadingComponent {
     private toastr: ToastrService, private cdRef: ChangeDetectorRef
   ) {
     this.form = this.fb.group({
-      fromDate: ['', Validators.required],
-      toDate: ['', Validators.required],
+      fromDate: [this.getTodayDateString(), Validators.required],
+      toDate: [this.getTodayDateString(), Validators.required],
       fromCity: this.fb.array([],),
       toCity: ['', Validators.required],
       vehicalNumber: ['',],
@@ -75,10 +75,22 @@ export class ParcelOnloadingComponent {
     this.getCities();
     this.getvehicleData();
   }
+
+  getTodayDateString(): string {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = ('0' + (today.getMonth() + 1)).slice(-2);
+    const day = ('0' + today.getDate()).slice(-2);
+    return `${year}-${month}-${day}`; // yyyy-MM-dd
+  }
+
+
   ngAfterViewInit(): void {
     new SlimSelect({
       select: this.demoSelect.nativeElement,
     });
+
+   
 
     setTimeout(() => {
       // $(this.selectElem.nativeElement).select2();

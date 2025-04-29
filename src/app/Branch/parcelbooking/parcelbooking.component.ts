@@ -297,10 +297,9 @@ onTocitySelect(event: any) {
     const hamaliCharges = this.form.get('hamaliCharges')?.value || 0;
     const doorDeliveryCharges = this.form.get('doorDeliveryCharges')?.value || 0;
     const doorPickupCharges = this.form.get('doorPickupCharges')?.value || 0;
-    // const valueOfGoods = this.form.get('valueOfGoods')?.value || 0;
   
     // Calculate Grand Total
-    const grandTotal = totalValue + serviceCharges + hamaliCharges + doorDeliveryCharges + doorPickupCharges ;
+    const grandTotal = totalValue + serviceCharges + hamaliCharges + doorDeliveryCharges + doorPickupCharges;
   
     // Update Grand Total without triggering another event
     this.form.get('grandTotal')?.setValue(grandTotal, { emitEvent: false });
@@ -459,53 +458,6 @@ onTocitySelect(event: any) {
   }
 
 
-
-  // PatchBooking() {
-  //   if (this.form.invalid) {
-  //     this.form.markAllAsTouched();
-  //     return;
-  //   }
-  
-  //   const formData = this.form.value;
-  //   const _id = history.state.bookingData._id;
-  //   const payload = {
-  //     bookedBy: formData.bookedBy,
-  //     fromCity: formData.fromCity,
-  //     toCity: formData.toCity,
-  //     pickUpBranch: formData.pickUpBranch,
-  //     dropBranch: formData.dropBranch,
-  //     totalPrice: formData.totalPrice,
-  //     location: formData.location,
-  //     dispatchType: formData.dispatchType,
-  //     bookingType: formData.bookingType,
-  //     senderName: formData.senderName,
-  //     senderMobile: formData.senderMobile,
-  //     senderAddress: formData.senderAddress,
-  //     senderGst: formData.senderGST,
-  //     receiverName: formData.receiverName,
-  //     receiverMobile: formData.receiverMobile,
-  //     receiverAddress: formData.receiverAddress,
-  //     receiverGst: formData.receiverGst,
-  //     adminUniqueId: formData.adminUniqueId,
-  //     packages: formData.packages,
-  //     serviceCharges: formData.serviceCharges,
-  //     hamaliCharges: formData.hamaliCharges,
-  //     doorDeliveryCharges: formData.doorDeliveryCharges,
-  //     doorPickupCharges: formData.doorPickupCharges,
-  //     valueOfGoods: formData.valueOfGoods,
-  //     grandTotal: formData.grandTotal
-  //   };
-  
-  //   this.api.updateBooking(_id, payload).subscribe({
-  //     next: (res) => {
-  //       this.bookingSuccess = true;
-  //       console.log('Booking Updated', res);
-  //     },
-  //     error: (err) => {
-  //       console.error('Update failed', err);
-  //     }
-  //   });
-  // }
   
 
 

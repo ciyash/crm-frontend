@@ -38,31 +38,6 @@ id:any;
         );
   }
 
-  // ngOnChanges(changes: SimpleChanges) {
-  //   if (changes['grnNumber'] && this.grnNumber) {
-  //     this.loadData(); 
-  //   }
-  // }
-
-  // loadData() {
-  //   this.api.GetGRNnumber(this.grnNumber).subscribe(
-  //     (res: any) => {
-  //       console.log('API Response:', res);
-  //       this.data1 = res;
-        
-  //       if (this.grnNumber) {
-  //         this.qrData = String(this.grnNumber).trim(); 
-  //         console.log('QR Data Set:', this.qrData);
-  //       } else {
-  //         console.error('Invalid QR Data:', this.grnNumber);
-  //       }
-  //     },
-  //     (err: any) => {
-  //       console.error('Error fetching data:', err);
-  //     }
-  //   );
-  // }
-
  
 
   printPage() {

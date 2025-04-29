@@ -36,8 +36,8 @@ export class ParcelBranchComponent implements OnInit {
       loadingType: ['branchLoad'],
       lrNumber: this.fb.array([], Validators.required),
       grnNo: this.fb.array([], Validators.required),
-      fromBookingDate: ['', Validators.required],
-      toBookingDate: ['', Validators.required],
+      fromBookingDate: [this.getTodayDateString(), Validators.required],
+      toBookingDate: [this.getTodayDateString(), Validators.required],
       fromBranch: [''],
       toBranch: ['', Validators.required],
       vehicalNumber: ['', Validators.required],
@@ -64,6 +64,14 @@ export class ParcelBranchComponent implements OnInit {
       console.log("branchDETAILS",this.pdata);
       
     })
+  }
+
+  getTodayDateString(): string {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = ('0' + (today.getMonth() + 1)).slice(-2);
+    const day = ('0' + today.getDate()).slice(-2);
+    return `${year}-${month}-${day}`; // yyyy-MM-dd
   }
 
   ngAfterViewInit(): void {

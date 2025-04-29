@@ -20,8 +20,8 @@ export class VoucherDetailsCfmasterComponent {
     form1:FormGroup;
     constructor(private api:BranchService, private fb:FormBuilder, private toast:ToastrService, private router:Router){
        this.form = this.fb.group({
-        fromDate: ['', Validators.required],
-        toDate: ['', Validators.required],
+        fromDate: [this.getTodayDateString(), Validators.required],
+        toDate: [this.getTodayDateString(), Validators.required],
         senderName: ['', Validators.required],               
             });
   
@@ -34,6 +34,14 @@ export class VoucherDetailsCfmasterComponent {
   
     ngOnInit(){
   
+    }
+
+    getTodayDateString(): string {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = ('0' + (today.getMonth() + 1)).slice(-2);
+      const day = ('0' + today.getDate()).slice(-2);
+      return `${year}-${month}-${day}`; // yyyy-MM-dd
     }
   
     VoucherDetailsLoad() {

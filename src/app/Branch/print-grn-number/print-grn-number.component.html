@@ -39,23 +39,32 @@
             </td>
           </tr>
           <tr class="text-primary">
-            <th colspan="1" width="25%">Details of Contents</th>
-            <th colspan="1" width="25%">No of Article</th>
-            <th colspan="1" width="50%">No of Article</th>
+            <th width="25%">Details of Contents</th>
+            <th width="25%">No of Article</th>
+            <th width="50%">Charges</th>
           </tr>
-          <tr *ngFor="let cdata of data1.packages">
-            <th>
-              <span> {{cdata.contains}} <br></span></th>
-            <th>
-              <span> {{cdata.quantity}} <br></span>
-            </th>
-            <th *ngFor="let package of data1.packages">
-              <p>Freight Charges: {{package.totalPrice}} </p>
-              <p>Door devilery Changers: {{data1.doorDeliveryCharges}}</p>
-              <p>LR Changers: {{data1.serviceCharges}}</p>
-              <p>NETAMOUNT: {{data1.grandTotal | currency:'INR':true:'1.0-0'}}</p>
-            </th>
+        
+          <tr *ngFor="let cdata of data1.packages; let i = index">
+            <td>{{ cdata.contains }} ({{ cdata.packageType }})</td>
+            <td>{{ cdata.quantity }}</td>
+            <td *ngIf="i === 0" [attr.rowspan]="data1.packages.length">
+              Freight Charges: {{data1.totalCharge | currency:'INR':true:'1.0-0'}} <br>
+              <span *ngIf="data1.doorDeliveryCharges != '0'">Door Delivery Charges: {{ data1.doorDeliveryCharges | currency:'INR':true:'1.0-0' }}</span><br>
+              <span *ngIf="data1.doorPickupCharges != '0'">Door Pickup Charges: {{ data1.doorPickupCharges | currency:'INR':true:'1.0-0' }}</span><br>
+              <span *ngIf="data1.hamaliCharges != '0'">Hamali Charges: {{ data1.hamaliCharges | currency:'INR':true:'1.0-0' }}</span><br>
+              <span *ngIf="data1.serviceCharges != '0'">LR Charges: {{ data1.serviceCharges | currency:'INR':true:'1.0-0' }}</span>
+              <!-- <p><strong>NET AMOUNT: {{ data1.grandTotal | currency:'INR':true:'1.0-0' }}</strong></p> -->
+            </td>
           </tr>
+          
+          
+          <!-- Display these only once after packages are listed -->
+          <tr>
+            <td colspan="3">
+              <p><strong>NET AMOUNT: {{ data1.grandTotal | currency:'INR':true:'1.0-0' }}</strong></p>
+            </td>
+          </tr>
+          
 
         </tbody>
 

@@ -8,8 +8,7 @@
         <p class="text-danger text-center">Please Wait ....</p>
     </div>
     <div class="">
-        <p-table [value]="data1" *ngIf="!loading" scrollHeight="76vh" [rows]="10" [lazy]="true"
-            (onLazyLoad)="loadUsers($event)" [totalRecords]="totalBookings"
+        <p-table [value]="data1" *ngIf="!loading" scrollHeight="76vh" [paginator]="true" [rows]="20" [showCurrentPageReport]="true" [lazy]="true"  [rowsPerPageOptions]="[5, 10, 20, 50]" responsiveLayout="scroll"   (onLazyLoad)="loadUsers($event)" [totalRecords]="totalBookings"
             styleClass="p-datatable-gridlines p-datatable-striped">
             <ng-template pTemplate="header">
                 <tr >
@@ -32,8 +31,8 @@
                     <td><a (click)="orderinvoice(row.grnNo)" style="cursor: pointer;">{{row.lrNumber}}</a></td>
                     <td>{{row.fromCity}}</td>
                     <td>{{row.toCity}}</td>
-                    <td>{{row.pickUpBranch}}</td>
-                    <td>{{row.dropBranch}}</td>
+                    <td>{{row.pickUpBranchname}}</td>
+                    <td>{{row.dropBranchname}}</td>
                     <td>{{row.senderName}}<br><small>{{row.senderMobile}}</small></td>
                     <td>{{row.receiverName}}<br><small>{{row.receiverMobile}}</small></td>
                     <td>
