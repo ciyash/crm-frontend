@@ -16,21 +16,11 @@ word-wrap: break-word">Parcel UnLoading Offline</h4>
         </div>
         <div class="col-md-4 col-sm-12">
           <label class="form-label">From City</label>
-          <select #demoSelect multiple class="form-control" (change)="onFromCityChange($event)"
-            formControlName="fromCity">
-            <option *ngFor="let city of cities" [value]="city.cityName">
-              {{ city.cityName }}
-            </option>
-          </select>
+          <select #demoSelect multiple class="form-control" formControlName="fromCity">
+            <option *ngFor="let city of cities" [value]="city.cityName">{{ city.cityName }}</option>
+          </select>          
         </div>
 
-        <!-- <div class="col-md-4 col-sm-12">
-          <label class="form-label">To City</label>
-          <select #selectElem class="form-select form-select-sm" formControlName="toCity">
-            <option value="" selected>Select City</option>
-            <option *ngFor="let city of cities" [value]="city.cityName">{{ city.cityName }}</option>
-          </select>
-        </div> -->
         <div class="col-md-4 col-sm-12">
           <label class="form-label">To City</label>
           <select #selectElem class="form-select form-select-sm" formControlName="toCity">

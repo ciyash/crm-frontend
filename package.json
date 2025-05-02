@@ -24,6 +24,7 @@
     "@zxing/library": "^0.21.3",
     "@zxing/ngx-scanner": "^19.0.0",
     "angularx-qrcode": "^14.0.0",
+    "choices.js": "^11.1.0",
     "crypto-js": "^4.2.0",
     "jquery": "^3.7.1",
     "ngx-bootstrap": "^19.0.2",

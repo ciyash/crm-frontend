@@ -75,10 +75,10 @@ export class ParcelbookingComponent {
       receiverMobile: ['', Validators.required],
       receiverAddress: [''],
       receiverGst: [''],
-      serviceCharges: [''],  // ₹10 per item
-      hamaliCharges: [''],
-      doorDeliveryCharges: [''],
-      doorPickupCharges: [''],
+      serviceCharges: [0],  // ₹10 per item
+      hamaliCharges: [0],
+      doorDeliveryCharges: [0],
+      doorPickupCharges: [0],
       valueOfGoods: [''],
       grandTotal: [''],
       packages: this.fb.array([]),
@@ -318,12 +318,54 @@ onTocitySelect(event: any) {
 
   openPreviewModal() {
     if (this.form.valid) {
-      this.modelData = { ...this.form.value };
-      // Bootstrap will automatically show the modal since it's always in the DOM
+      const orderDataToSend = this.packages.value.map((item: any) => ({
+        quantity: item.quantity,
+        packageType: item.packageType,
+        contains: item.contains,
+        weight: item.weight,
+        unitPrice: item.unitPrice,
+        totalPrice: item.totalPrice
+      }));
+  
+      const pickupBranchId = this.form.value.pickUpBranch;
+      const dropBranchId = this.form.value.dropBranch;
+  
+      const pickupBranchName = this.pdata.find((b: any) => b.branchUniqueId === pickupBranchId)?.name || "N/A";
+      const dropBranchName = this.tbcdata.find((b: any) => b.branchUniqueId === dropBranchId)?.name || "N/A";
+  
+      this.modelData = {
+        fromCity: this.form.value.fromCity,
+        toCity: this.form.value.toCity,
+        pickUpBranch: pickupBranchId,
+        dropBranch: dropBranchId,
+        pickUpBranchName: pickupBranchName,
+        dropBranchName: dropBranchName,
+        dispatchType: this.form.value.dispatchType,
+        bookingType: this.form.value.bookingType,
+        senderName: this.form.value.senderName,
+        senderMobile: this.form.value.senderMobile,
+        senderAddress: this.form.value.senderAddress,
+        senderGst: this.form.value.senderGST || "",
+        receiverName: this.form.value.receiverName,
+        receiverMobile: this.form.value.receiverMobile,
+        receiverAddress: this.form.value.receiverAddress,
+        receiverGst: this.form.value.receiverGST || "",
+        packages: orderDataToSend,
+        serviceCharges: this.form.value.serviceCharges,
+        hamaliCharges: this.form.value.hamaliCharges,
+        doorDeliveryCharges: this.form.value.doorDeliveryCharges,
+        doorPickupCharges: this.form.value.doorPickupCharges,
+        valueOfGoods: this.form.value.valueOfGoods,
+        grandTotal: this.form.value.grandTotal
+      };
+  
+      // Then open modal using Bootstrap JS if needed (or it's already bound by button trigger)
+      console.log("Preview Data:", this.modelData);
     } else {
-      this.toastr.warning("Please fill all required fields", "Warning");
+      this.toastr.warning("Please fill all required fields before previewing.", "Form Incomplete");
     }
   }
+  
   
   
 
@@ -343,11 +385,19 @@ onTocitySelect(event: any) {
         unitPrice: item.unitPrice,
         totalPrice: item.totalPrice
       }));
-  
+      const pickupBranchId = this.form.value.pickUpBranch;
+    const dropBranchId = this.form.value.dropBranch;
+
+    // Find branch names by ID
+    const pickupBranchName = this.pdata.find((b: any) => b.branchUniqueId === pickupBranchId)?.name || "N/A";
+    const dropBranchName = this.tbcdata.find((b: any) => b.branchUniqueId === dropBranchId)?.name || "N/A";
+
       const val: any = {
         fromCity: this.form.value.fromCity,
         toCity: this.form.value.toCity,
-        pickUpBranch: this.form.value.pickUpBranch || "N/A",  // Default value
+        pickUpBranchName: pickupBranchName, 
+        dropBranchName: dropBranchName, 
+        pickUpBranch: this.form.value.pickUpBranch || "N/A",  
         dropBranch: this.form.value.dropBranch,
         dispatchType: this.form.value.dispatchType,
         bookingType: this.form.value.bookingType,
@@ -369,6 +419,7 @@ onTocitySelect(event: any) {
       };
   
       console.log("Final Data to Submit:", val);
+    
       this.modelData = val; 
   
       this.api.createBooking(val).subscribe(
