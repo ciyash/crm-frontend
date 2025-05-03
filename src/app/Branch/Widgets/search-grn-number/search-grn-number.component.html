@@ -40,13 +40,13 @@
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="extraLargeModalLabel">Extra Large Modal</h5>
+        <h5 class="modal-title" id="extraLargeModalLabel"> Parcel Details </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="container mt-4" *ngIf="data2?.length">
           <div class="header">
-            <h2>Parcel Details</h2>
+            <!-- <h2>Parcel Details</h2> -->
             <div>
               <!-- <button class="btn btn-secondary">BACK</button> -->
               <span class="stamp">{{ data2[0].bookingType | uppercase }}</span>
@@ -329,23 +329,23 @@
               <div class="row">
                 <div class="col-md-4 form-group">
                   <label>Parcel</label>
-                  <input type="text" [value]="data2[0].packages[0].totalPrice" readonly>
+                  <input type="text" [value]="data2[0].totalCharge" readonly>
                 </div>
                 <div class="col-md-4 form-group">
                   <label>Service</label>
-                  <input type="text" [value]="data2[0].serviceCharge" readonly>
+                  <input type="text" [value]="data2[0].serviceCharges" readonly>
                 </div>
                 <div class="col-md-4 form-group">
                   <label>Hamali</label>
-                  <input type="text" [value]="data2[0].hamaliCharge" readonly>
+                  <input type="text" [value]="data2[0].hamaliCharges" readonly>
                 </div>
                 <div class="col-md-4 form-group">
                   <label>Door Delivery</label>
-                  <input type="text" [value]="data2[0].doorDeliveryCharge" readonly>
+                  <input type="text" [value]="data2[0].doorDeliveryCharges" readonly>
                 </div>
                 <div class="col-md-4 form-group">
                   <label>Door Pickup</label>
-                  <input type="text" [value]="data2[0].doorPickupCharge" readonly>
+                  <input type="text" [value]="data2[0].doorPickupCharges" readonly>
                 </div>
                 <div class="col-md-4 form-group">
                   <label>Demurrage</label>
@@ -362,7 +362,7 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >EDIT</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >OK</button>
         <button type="button" class="btn btn-primary">Save Changes</button>
       </div>
     </div>

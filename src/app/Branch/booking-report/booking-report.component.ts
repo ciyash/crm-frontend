@@ -67,7 +67,7 @@ export class BookingReportComponent {
       
       if (Array.isArray(res.bookings)) {  // Ensure `res.data` is an array
         this.data1 = res.bookings; 
-        this.totalBookings = res.count; 
+        this.totalBookings = res.totalBookings; 
       } else {
         console.error("Error: Expected an array but received", res.bookings);
         this.data1 = [];  // Set an empty array to prevent issues

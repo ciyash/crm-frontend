@@ -140,12 +140,12 @@ export class ParcelloadingComponent implements OnInit {
       payload.pickUpBranch = formValues.pickUpBranch;
     }
 
-    console.log('Final Booking Data:', payload);
+    console.log('Final Parcel Load Data:', payload);
   
     this.api.FilterParcelLoading(payload).subscribe({
       next: (response: any) => {
-        console.log('Booking successful:', response);
-        this.toast.success('Booking successful ', 'Success');
+        console.log('Parcel Load successful:', response);
+        this.toast.success('Parcel Load successful ', 'Success');
         this.data = response || [];
         this.LoadSuccess = true;
   
@@ -168,8 +168,8 @@ export class ParcelloadingComponent implements OnInit {
         }
       },
       error: (error: any) => {
-        console.error('Booking failed:', error);
-        this.toast.error('Booking Failed. Please try again.', 'Error');
+        console.error('Parcel Load failed:', error);
+        this.toast.error('Parcel data not found..', 'Error');
       },
     });
   }

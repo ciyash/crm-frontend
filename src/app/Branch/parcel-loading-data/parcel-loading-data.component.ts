@@ -21,8 +21,8 @@ export class ParcelLoadingDataComponent {
     private cd: ChangeDetectorRef
   ) {
     this.form1 = this.fb.group({
-      fromBookingDate: ['', Validators.required],
-      toBookingDate: ['', Validators.required],
+      fromBookingDate: [this.getTodayDateString(), Validators.required],
+      toBookingDate: [this.getTodayDateString(), Validators.required],
       fromCity: ['', Validators.required],
       toCity: this.fb.array([], Validators.required),
     });
@@ -30,6 +30,14 @@ export class ParcelLoadingDataComponent {
 
   ngOnInit() {
     this.getCities();
+  }
+
+  getTodayDateString(): string {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = ('0' + (today.getMonth() + 1)).slice(-2);
+    const day = ('0' + today.getDate()).slice(-2);
+    return `${year}-${month}-${day}`; // yyyy-MM-dd
   }
 
   ngAfterViewInit(): void {

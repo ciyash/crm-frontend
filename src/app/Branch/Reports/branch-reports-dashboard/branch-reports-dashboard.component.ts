@@ -60,8 +60,8 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
   ) {
     // Parcel Booking Report
     this.form = this.fb.group({
-      fromDate: ['', Validators.required],
-      toDate: ['', Validators.required],
+      fromDate: [this.getTodayDateString(), Validators.required],
+      toDate: [this.getTodayDateString(), Validators.required],
       fromCity: [''],
       toCity: [''],
       bookingStatus: [''],
@@ -70,8 +70,8 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
 
     // All Parcel Booking Report
     this.form1 = this.fb.group({
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
+      startDate: [this.getTodayDateString(), Validators.required],
+      endDate: [this.getTodayDateString(), Validators.required],
       fromCity: [''],
       toCity: [''],
       pickUpBranch: [''],
@@ -82,16 +82,16 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
 
     // Parcel Booking Report With Serial No
     this.form3 = this.fb.group({
-      fromDate: ['', Validators.required],
-      toDate: ['', Validators.required],
+      fromDate: [this.getTodayDateString(), Validators.required],
+      toDate: [this.getTodayDateString(), Validators.required],
       fromCity: [''],
       toCity: [''],
     });
 
     // Parcel Booking Details On Mobile Number
     this.form3 = this.fb.group({
-      fromDate: ['', Validators.required],
-      toDate: ['', Validators.required],
+      fromDate: [this.getTodayDateString(), Validators.required],
+      toDate: [this.getTodayDateString(), Validators.required],
       senderMobile: [''],
       receiverMobile: [''],
       bookingType: [''],
@@ -100,8 +100,8 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
 
     // Regular Customer Booking
     this.form5 = this.fb.group({
-      fromDate: ['', Validators.required],
-      toDate: ['', Validators.required],
+      fromDate: [this.getTodayDateString(), Validators.required],
+      toDate: [this.getTodayDateString(), Validators.required],
       fromCity: [''],
       toCity: [''],
       pickUpBranch: [''],
@@ -110,8 +110,8 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
 
     // Parcel Booking Summary Report
     this.form6 = this.fb.group({
-      fromDate: ['', Validators.required],
-      toDate: ['', Validators.required],
+      fromDate: [this.getTodayDateString(), Validators.required],
+      toDate: [this.getTodayDateString(), Validators.required],
       fromCity: [''],
       toCity: [''],
       pickUpBranch: [''],
@@ -120,8 +120,8 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
 
     // Parcel Cancel Report
     this.form7 = this.fb.group({
-      fromDate: ['', Validators.required],
-      toDate: ['', Validators.required],
+      fromDate: [this.getTodayDateString(), Validators.required],
+      toDate: [this.getTodayDateString(), Validators.required],
       fromCity: [''],
       toCity: [''],
       bookingType: [''],
@@ -129,8 +129,8 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
     });
 // mobile
     this.form4 = this.fb.group({
-      fromDate: ['', Validators.required],
-      toDate: ['', Validators.required],
+      fromDate: [this.getTodayDateString(), Validators.required],
+      toDate: [this.getTodayDateString(), Validators.required],
       mobile: ['', Validators.required],
       reportType:[''],
       bookingType: [''],
@@ -160,6 +160,14 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
       console.log('allvechicle:', res);
       this.allgetvechicle = res;
     });
+  }
+
+  getTodayDateString(): string {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = ('0' + (today.getMonth() + 1)).slice(-2);
+    const day = ('0' + today.getDate()).slice(-2);
+    return `${year}-${month}-${day}`; // yyyy-MM-dd
   }
 
   ngAfterViewInit(): void {

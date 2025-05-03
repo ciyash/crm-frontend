@@ -96,20 +96,6 @@ const routes: Routes = [
   {path:'pendingingdelivery',component:PendingDeliveryStockReportComponent, canActivate: [authGuard]},
   {path:'collectiondata',component:CollectionDataComponent, canActivate: [authGuard]},
 
-  
-
-
-
-   
-
-
-  
-
-
-
-
-
-
 
      //Admin Routing components
   { path: 'createbranch', component: CreateBranchComponent, canActivate: [authGuard], data: { roles: ['admin'] }},

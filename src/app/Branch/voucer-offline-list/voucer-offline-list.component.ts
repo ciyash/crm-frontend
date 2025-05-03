@@ -23,8 +23,8 @@ export class VoucerOfflineListComponent {
       vldata:any;
       constructor(private api: BranchService, private fb: FormBuilder, private router:Router) {
         this.form = this.fb.group({
-          fromBookingDate: ['', Validators.required],
-          toBookingDate: ['', Validators.required],
+          fromBookingDate: [this.getTodayDateString(), Validators.required],
+          toBookingDate: [this.getTodayDateString(), Validators.required],
           vehicalNumber: ['', Validators.required],
           fromCity: ['', Validators.required],
           toCity: ['', Validators.required],
@@ -52,6 +52,14 @@ export class VoucerOfflineListComponent {
           console.log('profile',res);
           this.pdata=res.branchId;
         })
+      }
+
+      getTodayDateString(): string {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = ('0' + (today.getMonth() + 1)).slice(-2);
+        const day = ('0' + today.getDate()).slice(-2);
+        return `${year}-${month}-${day}`; // yyyy-MM-dd
       }
 
       getvouchersdata(id:any){

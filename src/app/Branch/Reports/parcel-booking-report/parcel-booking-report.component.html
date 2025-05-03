@@ -1,7 +1,6 @@
 <div class="report-container">
   <h5 class="text-center">SREE KALESWARI LOGISTICS</h5>
   <h5 class="text-center">Parcel Booking Report</h5>
-
   <div class="table-responsive">
     <table class="table table-bordered table-striped">
       <thead>
@@ -28,6 +27,8 @@
       </thead>
       <tbody>
         <tr *ngFor="let item of data; let i = index">
+          <!-- <tr *ngFor="let item of data.paid.bookings; let i = index"> -->
+
           <td>{{ i + 1 }}</td>
           <td>{{ item.grnNo || '-' }}</td>
           <td>{{ item.manualTicketNo || '-' }}</td>

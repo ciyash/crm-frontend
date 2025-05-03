@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { BranchService } from 'src/app/service/branch.service';
 import { ToastrService } from 'ngx-toastr';
+  
 declare var $: any;
 declare const SlimSelect: any;
 import { ElementRef, ViewChild, AfterViewInit } from '@angular/core';
@@ -51,9 +52,9 @@ export class ParcelOnloadingComponent {
     private toastr: ToastrService, private cdRef: ChangeDetectorRef
   ) {
     this.form = this.fb.group({
-      fromDate: ['', Validators.required],
-      toDate: ['', Validators.required],
-      fromCity: this.fb.array([],),
+      fromDate: [this.getTodayDateString(), Validators.required],
+      toDate: [this.getTodayDateString(), Validators.required],
+      fromCity: ['', Validators.required],
       toCity: ['', Validators.required],
       vehicalNumber: ['',],
       branch: [''] // ✅
@@ -74,25 +75,36 @@ export class ParcelOnloadingComponent {
     this.searchTerm = this.activeroute.snapshot.params['grnNumber'];
     this.getCities();
     this.getvehicleData();
+    // this.updateFormattedDate();
+
   }
+
+  getTodayDateString(): string {
+    const today = new Date();
+    const day = ('0' + today.getDate()).slice(-2);
+    const month = ('0' + (today.getMonth() + 1)).slice(-2);
+    const year = today.getFullYear();
+    return `${year}-${month}-${day}`; // ✔ HTML date input format
+  }
+  
+
+
   ngAfterViewInit(): void {
     new SlimSelect({
-      select: this.demoSelect.nativeElement,
+      select: this.demoSelect.nativeElement
     });
 
     setTimeout(() => {
-      // $(this.selectElem.nativeElement).select2();
-      // $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
-      //   const selectedCity = event.params.data.id;
-      //   const fromCityArray = this.form.get('fromCity') as FormArray;
-      //   fromCityArray.clear();
-      //   fromCityArray.push(new FormControl(selectedCity));
-      //   console.log('Updated From City:', this.form.get('fromCity')?.value);
-      //   this.onTocitySelect({ target: { value: selectedCity } });
-      // });
-      $(this.selectElem.nativeElement).select2();
 
-      // Bind select2 change event
+      // $(this.demoSelect.nativeElement).select2();
+      $(this.demoSelect.nativeElement).on('select2:select', (event: any) => {
+        const selectedCity = event.params.data.id;
+        this.form.get('fromCity')?.setValue(selectedCity);
+        this.onFromCityChange({ target: { value: selectedCity } });
+        console.log('Updated To City:', this.form.get('fromCity')?.value);
+      });
+
+      $(this.selectElem.nativeElement).select2();
       $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
         const selectedCity = event.params.data.id;
         this.form.get('toCity')?.setValue(selectedCity);
@@ -100,7 +112,7 @@ export class ParcelOnloadingComponent {
         console.log('Updated To City:', this.form.get('toCity')?.value);
       });
 
-      // --- BRANCH ---
+   
       $(this.branch.nativeElement).select2();
       $(this.branch.nativeElement).on('select2:select', (event: any) => {
         const selectedBranch = event.params.data.id;
@@ -108,7 +120,7 @@ export class ParcelOnloadingComponent {
         console.log('Updated Branch:', this.form.get('branch')?.value);
       });
 
-      // --- VEHICLE ---
+    
       $(this.selectvehicle.nativeElement).select2();
       $(this.selectvehicle.nativeElement).on('select2:select', (event: any) => {
         const selectedVehicle = event.params.data.id;
@@ -120,32 +132,7 @@ export class ParcelOnloadingComponent {
       });
     }, 0);
   }
-  // onLoad() {
-  //   const formValues = this.form.value;
-  //   const payload = {
-  //     fromDate: formValues.fromDate,
-  //     toDate: formValues.toDate,
-  //     fromCity: formValues.fromCity.length ? formValues.fromCity : [],
-  //     toCity: formValues.toCity || '',
-  //     vehicalNumber: formValues.vehicalNumber,
-  //     branch: formValues.branch,
-  //   };
-  //   console.log('Final Booking Data:', payload);
-  //   this.api.FilterParcelUnLoading(payload).subscribe({
-  //     next: (response: any) => {
-  //       console.log('API Response:', response);
-  //       this.apiResponse = response.data;
-  //       this.bookings = response.data[0]?.bookings || [];
-  //       this.toastr.success('Parcel unloaded Successfully', 'Success');
-  //       this.LoadSuccess = true;
-  //     },
-  //     error: (error: any) => {
-  //       console.error('Booking failed:', error);
-  //       this.toastr.error('Parcel unloaded Failed ', 'Failed');
-  //     },
-  //   });
-  // }
-//   
+
 
 onLoad() {
   if (this.form.invalid) {
@@ -202,7 +189,7 @@ onLoad() {
     },
     error: (error: any) => {
       console.error('Booking failed:', error);
-      this.toastr.error('Parcel unloading Failed', 'Error');
+      this.toastr.error('Parcel unloaded Data Not Found', 'Error');
     },
   });
 }
@@ -378,6 +365,8 @@ getQRdata(id: string) {
     this.api.ParcelUnLoading(payload).subscribe({
       next: (response: any) => {
         console.log('Parcel unloaded successfully:', response);
+        this.toastr.success('Parcel unloaded successfully', ' successfully');
+
         setTimeout(() => {
           this.router
             .navigateByUrl('/', { skipLocationChange: true })
@@ -392,4 +381,35 @@ getQRdata(id: string) {
       },
     });
   }
-}
+
+
+
+
+
+
+
+  // selectedDate: string = moment().format('YYYY/MM/DD');
+  // formattedDate: string = '';
+  //   dateFormat: string = 'DD/MMMM/YYYY';
+  
+ 
+  
+  //   updateFormattedDate() {
+  //     if (this.selectedDate) {
+  //       this.formattedDate = moment(this.selectedDate, 'YYYY-MM-DD').format(this.dateFormat);
+  //     }
+  //   }
+  
+  //   onSubmit() {
+  //     alert('Selected Date: ' + this.selectedDate + '\nFormatted: ' + this.formattedDate);
+  //   }
+  }
+  
+
+
+
+
+
+
+
+

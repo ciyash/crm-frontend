@@ -25,8 +25,8 @@ export class BrachToBranchUnloadingComponent {
     @ViewChild('toBranch') toBranch!: ElementRef;
     constructor(private api: BranchService, private fb: FormBuilder, private router:Router,private toast:ToastrService) {
       this.form = this.fb.group({
-        fromLoadingDate: ['', Validators.required],
-        toLoadingDate: ['', Validators.required],
+        fromLoadingDate: [this.getTodayDateString(), Validators.required],
+        toLoadingDate: [this.getTodayDateString(), Validators.required],
         fromBranch: ['', Validators.required],
         toBranch: ['', Validators.required]
       });
@@ -62,7 +62,13 @@ export class BrachToBranchUnloadingComponent {
     }
 
    
-    
+    getTodayDateString(): string {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = ('0' + (today.getMonth() + 1)).slice(-2);
+      const day = ('0' + today.getDate()).slice(-2);
+      return `${year}-${month}-${day}`; // yyyy-MM-dd
+    }
   
     
     ngAfterViewInit(): void {

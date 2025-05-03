@@ -133,7 +133,7 @@
                 <th><input type="number" class="form-control form-select-sm" formControlName="doorDeliveryCharges" (input)="calculateGrandTotal()"></th>
                 <th><input type="number" class="form-control form-select-sm" formControlName="doorPickupCharges" (input)="calculateGrandTotal()"></th>
                 <th><input type="number" class="form-control form-select-sm" formControlName="valueOfGoods"></th>
-                <th><input type="number" class="form-control form-select-sm" [value]="form.get('grandTotal')?.value" readonly></th>
+                <th><input type="number" class="form-control form-select-sm" formControlName="grandTotal" readonly></th>
             </tr>   
 
             <div class="container mt-0">
@@ -232,11 +232,11 @@
           <div class="row">
             <div class="col-md-6">
               <label for="pickUpBranch"><strong>Pickup Branch:</strong></label>
-              <p>{{ modelData?.pickUpBranch }}</p>
+              <p>{{ modelData?.pickUpBranchName }}</p>
             </div>
             <div class="col-md-6">
               <label for="dropBranch"><strong>Drop Branch:</strong></label>
-              <p>{{ modelData?.dropBranch }}</p>
+              <p>{{ modelData?.dropBranchName }}</p>
             </div>
           </div>
           <div class="row">
@@ -303,20 +303,3 @@
         </form>
     </div>
 </div>
-
-
-
-   
-  
-
-
-
-
-
-  
-  
-
-
-
-
-
