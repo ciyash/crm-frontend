@@ -1,6 +1,13 @@
 <div class="report-container" id="printableArea">
-  <h5 class="text-center">SREE KALESWARI LOGISTICS</h5>
-  <h5 class="text-center">Parcel Booking Report</h5>
+
+
+<div class="container-fluid" *ngIf="pfdata">
+  <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
+  <p class="text-center fw-bold">
+    Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
+    Phone No: {{ pfdata.phone }}
+  </p>
+</div>  <h5 class="text-center">Parcel Booking Report</h5>
   <div class="row">
     <div class="col-8">
       <p><strong>From:</strong> {{ data1.fromDate | date:'dd-MM-yyyy' }} <strong>To:</strong> {{ data1.toDate | date:'dd-MM-yyyy' }}</p>
