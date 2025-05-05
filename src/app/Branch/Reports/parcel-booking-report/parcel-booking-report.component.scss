@@ -46,3 +46,16 @@
       font-size: 14px; /* Slightly smaller text */
     }
   }
+
+  @media print {
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+    }
+    .no-print {
+      display: none;
+    }
+    /* Add other print-specific styles here */
+  }
+  

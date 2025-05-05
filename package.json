@@ -27,6 +27,7 @@
     "choices.js": "^11.1.0",
     "crypto-js": "^4.2.0",
     "flatpickr": "^4.6.13",
+    "html2pdf.js": "^0.10.3",
     "jquery": "^3.7.1",
     "ngx-bootstrap": "^19.0.2",
     "ngx-mask": "^19.0.6",

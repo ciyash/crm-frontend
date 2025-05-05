@@ -267,7 +267,12 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
     this.api.ParcelBookingReport(payload).subscribe({
       next: (response: any) => {
         console.log('Parcel reports1:', response);
-        this.router.navigateByUrl('/reports', { state: { data: response } });
+        const finalData = {
+          ...response,
+          fromDate: this.form.value.fromDate,
+          toDate: this.form.value.toDate
+        };
+        this.router.navigateByUrl('/reports', { state: { data: finalData } });
       },
       error: (error: any) => {
         console.error('Parcel loading failed:', error);
