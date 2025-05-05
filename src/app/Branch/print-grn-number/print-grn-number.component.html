@@ -1,137 +1,156 @@
-<div class=" container-fluid ">
-  <h4 class="text-center">SREE KALESWARI LOGISTICS</h4>
-  <p class="text-center">Address: VIJAYAWADA - Hanuman Peta Phone No: 7799701271</p>
-  <!-- <p class="fw-bold text-center ">LR No: {{data1.lrNumber}} </p> -->
+<div class="container-fluid" *ngIf="pfdata">
+  <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
+  <p class="text-center fw-bold">
+    Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
+    Phone No: {{ pfdata.phone }}
+  </p>
+</div>
+<div class="container-fluid mt-3">
+  <div class="d-flex justify-content-between">
+    <h4 class="fw-bold" >SENDER'S COPY</h4>
+    <h4 
+    class="fw-bold"
+    [ngClass]="{
+      'text-success': data1.bookingType === 'paid',
+      'text-danger': data1.bookingType === 'topay',
+      'text-primary': data1.bookingType === 'credit',
+      'text-warning': data1.bookingType === 'clr'
+    }"
+  >
+    Booking Status: {{ data1.bookingType }}
+  </h4>
+    </div>
+  <div class="table-responsive mt-3">
+    <table class="table table-bordered text-white table-custom">
+      <thead class="table-header">
+        <tr>
+          <th width="50%">From Branch</th>
+          <th width="50%">To Branch</th>
+          <th>LR Number</th>
+        </tr>
+        <tr>
+          <td>({{data1.fromCity}}) {{data1.pickUpBranchname}}</td>
+          <td>({{data1.toCity}}) {{data1.dropBranchname}} </td>
+          <td>{{data1.lrNumber}}</td>
+        </tr>
+        <tr>
+          <th>Sender Details</th>
+          <th>Receiver Details</th>
+          <th>{{ data1.bookingDate | date: 'dd/MM/yyyy' }}</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td>
+            <p class="fw-bold" style="font-size: 15px; text-transform: uppercase;"> Name: {{ data1.senderName }}
+            <p class="fw-bold"> Mobile: {{data1.senderMobile}}
+            </p>
+          </td>
+          <td>
+            <p class="fw-bold">Name: {{data1.receiverName}} </p>
+            <p class="fw-bold">Mobile: {{data1.receiverMobile}}</p>
+          </td>
+          <td>
+            <div *ngIf="qrData" class="qr-code ">
+              <h6>LR No: {{ data1.lrNumber }}</h6>
+              <qrcode *ngIf="qrData" [qrdata]="qrData" [width]="50" [errorCorrectionLevel]="'M'"></qrcode>
+            </div>
+          </td>
+        </tr>
+        <tr class="text-primary">
+          <th width="25%">Details of Contents</th>
+          <th width="25%">No of Article</th>
+          <th width="50%">Charges</th>
+        </tr>
+
+        <tr *ngFor="let cdata of data1.packages; let i = index">
+          <td>{{ cdata.contains }} ({{ cdata.packageType }})</td>
+          <td>{{ cdata.quantity }}</td>
+          <td *ngIf="i === 0" [attr.rowspan]="data1.packages.length">
+            <p style="margin-bottom: -5px;">Freight Charges: {{data1.totalCharge | currency:'INR':true:'1.0-0'}}</p>
+            <p style="margin-bottom: -5px;" *ngIf="data1.doorDeliveryCharges != '0'">Door Delivery Charges: {{
+              data1.doorDeliveryCharges | currency:'INR':true:'1.0-0' }}</p>
+            <p style="margin-bottom: -5px;" *ngIf="data1.doorPickupCharges != '0'">Door Pickup Charges: {{
+              data1.doorPickupCharges | currency:'INR':true:'1.0-0' }}</p>
+            <p style="margin-bottom: -5px;" *ngIf="data1.hamaliCharges != '0'">Hamali Charges: {{ data1.hamaliCharges |
+              currency:'INR':true:'1.0-0' }}</p>
+            <p style="margin-bottom: -5px;" *ngIf="data1.serviceCharges != '0'">LR Charges: {{ data1.serviceCharges |
+              currency:'INR':true:'1.0-0' }}</p>
+            <!-- <p><strong>NET AMOUNT: {{ data1.grandTotal | currency:'INR':true:'1.0-0' }}</strong></p> -->
+          </td>
+        </tr>
+
+
+        <!-- Display these only once after packages are listed -->
+        <tr>
+          <td colspan="3">
+            <p ><strong>NET AMOUNT: {{ data1.grandTotal | currency:'INR':true:'1.0-0' }}</strong></p>
+          </td>
+        </tr>
+
+
+      </tbody>
+
+      <tfoot class="table-light text-center fw-bold">
+        <!-- <tr rowspan="1 " > -->
 
 
 
-  <div class="container-fluid mt-3">
-    <h4 class=" fw-bold">SENDER'S COPY</h4>
-    <div class="table-responsive mt-3">
-      <table class="table table-bordered text-white table-custom">
-        <thead class="table-header">
-          <tr>
-            <th>Sender Details</th>
-            <th>Receiver Details</th>
-            <th>{{ data1.bookingDate | date: 'dd/MM/yyyy' }}</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr>
-            <td>
-              <p class="fw-bold" style="font-size: 15px; text-transform: uppercase;">
-                {{ data1.senderName }}
-              <p class="fw-bold">{{data1.senderMobile}}
-              </p>
-            </td>
-
-
-            <td>
-              <p class="fw-bold">{{data1.receiverName}} </p>
-              <p class="fw-bold">{{data1.receiverMobile}}</p>
-            </td>
-            <td>
-              <div *ngIf="qrData" class="qr-code ">
-                <h6>LR No: {{ data1.lrNumber }}</h6>
-                <qrcode *ngIf="qrData" [qrdata]="qrData" [width]="50" [errorCorrectionLevel]="'M'"></qrcode>
-              </div>
-            </td>
-          </tr>
-          <tr class="text-primary">
-            <th width="25%">Details of Contents</th>
-            <th width="25%">No of Article</th>
-            <th width="50%">Charges</th>
-          </tr>
-        
-          <tr *ngFor="let cdata of data1.packages; let i = index">
-            <td>{{ cdata.contains }} ({{ cdata.packageType }})</td>
-            <td>{{ cdata.quantity }}</td>
-            <td *ngIf="i === 0" [attr.rowspan]="data1.packages.length">
-              <p style="margin-bottom: -5px;">Freight Charges: {{data1.totalCharge | currency:'INR':true:'1.0-0'}}</p>
-              <p style="margin-bottom: -5px;" *ngIf="data1.doorDeliveryCharges != '0'">Door Delivery Charges: {{ data1.doorDeliveryCharges | currency:'INR':true:'1.0-0' }}</p>
-              <p style="margin-bottom: -5px;" *ngIf="data1.doorPickupCharges != '0'">Door Pickup Charges: {{ data1.doorPickupCharges | currency:'INR':true:'1.0-0' }}</p>
-              <p style="margin-bottom: -5px;" *ngIf="data1.hamaliCharges != '0'">Hamali Charges: {{ data1.hamaliCharges | currency:'INR':true:'1.0-0' }}</p>
-              <p style="margin-bottom: -5px;" *ngIf="data1.serviceCharges != '0'">LR Charges: {{ data1.serviceCharges | currency:'INR':true:'1.0-0' }}</p>
-              <!-- <p><strong>NET AMOUNT: {{ data1.grandTotal | currency:'INR':true:'1.0-0' }}</strong></p> -->
-            </td>
-          </tr>
-          
-          
-          <!-- Display these only once after packages are listed -->
-          <tr>
-            <td colspan="3">
-              <p><strong>NET AMOUNT: {{ data1.grandTotal | currency:'INR':true:'1.0-0' }}</strong></p>
-            </td>
-          </tr>
-          
-
-        </tbody>
-
-        <tfoot class="table-light text-center fw-bold">
-          <!-- <tr rowspan="1 " > -->
-
-
-        
-        </tfoot>
+      </tfoot>
 
 
 
-      </table>
+    </table>
 
-      <div class="d-flex justify-content-end">
-        <h6 class="text-end">SenderSign</h6>&nbsp;&nbsp;
-        <hr class="text-end" style="border: 1px solid #1a1818; width: 10%;">
+    <div class="d-flex justify-content-end">
+      <h6 class="text-end">SenderSign</h6>&nbsp;&nbsp;
+      <hr class="text-end" style="border: 1px solid #1a1818; width: 10%;">
+    </div>
+
+    <h6><u>Terms & Conditions</u></h6>
+    <div class="d-flex justify-content-center">
+      <p><i class="fa fa-arrow-right"></i> The Consignments are Packed, carried at Owner's risk. The Company does not
+        know the contents <br>
+        <i class="fa fa-arrow-right"></i> The Consignor is reponsible to provide the forms<br>
+        <i class="fa fa-arrow-right"></i> The Owners of the consignments are lible to pay all the taxes, cess or duties
+        that may be levied by the Government Authorities at the time of checking within 24 Hours.
+      </p>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <div *ngIf="qrData" class="qr-code">
+        <qrcode *ngIf="qrData" [qrdata]="qrData" class="bg-light" [width]="140" [errorCorrectionLevel]="'M'"></qrcode>
+        <h6>LRno/GRno: {{ data1.lrNumber }}</h6>
       </div>
+    </div>
 
-      <h6><u>Terms & Conditions</u></h6>
-      <div class="d-flex justify-content-center">
-         <p><i class="fa fa-arrow-right"></i> The Consignments are Packed, carried at Owner's risk. The Company does not know the contents <br>
-          <i class="fa fa-arrow-right"></i> The Consignor is reponsible to provide the forms<br>
-          <i class="fa fa-arrow-right"></i> The Owners of the consignments are lible to pay all the taxes, cess or duties that may be levied by the Government Authorities at the time of checking within 24 Hours.
-        </p>
-      </div>
+  </div>
 
-<div class="d-flex justify-content-center">
-  <div *ngIf="qrData" class="qr-code">
-    <qrcode *ngIf="qrData" [qrdata]="qrData" class="bg-light" [width]="140" [errorCorrectionLevel]="'M'"></qrcode>
-    <h6>LRno/GRno: {{ data1.lrNumber }}</h6>
+</div>
+
+
+
+
+
+<div class="container-fluid d-flex justify-content-evenly" *ngIf="data1">
+  <div class="row">
+
+  </div>
+  <div>
+
   </div>
 </div>
 
-    </div>
-    
+
+<div *ngIf="!loading" class="text-center m-3">
+  <div class="hide-on-print hide-on-pdf">
+    <button type="button" class="btn btn-sm btn-danger m-3" (click)="printPage()">
+      <i class="pi pi-print"></i> Print
+    </button>
+    <button type="button" class="btn btn-sm btn-primary ml-2" (click)="goBack()">
+      <i class="fa fa-arrow-left"></i> Go To Back
+    </button>
   </div>
-
-
-
-
-
-  <div class="container-fluid d-flex justify-content-evenly" *ngIf="data1">
-    <div class="row">
-    
-    </div>
-    <div>
-      
-    </div>
-  </div>
-
-
-  <div *ngIf="!loading" class="text-center m-3">
-    <div class="hide-on-print hide-on-pdf">
-      <button type="button" class="btn btn-sm btn-danger m-3" (click)="printPage()">
-        <i class="pi pi-print"></i> Print
-      </button>
-      <button type="button" class="btn btn-sm btn-primary ml-2" (click)="goBack()">
-        <i class="fa fa-arrow-left"></i> Go To Back
-      </button>
-    </div>
-  </div>
-
-
-
-
-
-
-
-  
+</div>

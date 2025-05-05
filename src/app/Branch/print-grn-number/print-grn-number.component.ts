@@ -8,46 +8,51 @@ import { BranchService } from 'src/app/service/branch.service';
 @Component({
   selector: 'app-print-grn-number',
   templateUrl: './print-grn-number.component.html',
-  styleUrls: ['./print-grn-number.component.scss']
+  styleUrls: ['./print-grn-number.component.scss'],
 })
 export class PrintGrnNumberComponent {
   @Input() grnNo: string = ''; // Receive grnNumber from parent
   qrData: string = '';
   data1: any;
   loading: boolean = false;
-id:any;
-  constructor(private api: BranchService, private activeroute:ActivatedRoute, private location: Location) {}
-
-  ngOnInit(){
+  id: any;
+  pfdata: any;
+  constructor(
+    private api: BranchService,
+    private activeroute: ActivatedRoute,
+    private location: Location
+  ) {}
+  ngOnInit() {
     this.id = this.activeroute.snapshot.params['grnNo'];
     this.api.GetGRNnumber(this.id).subscribe(
-          (res: any) => {
-            console.log('API Response:', res);
-            this.data1 = res;
-            
-            if (this.id) {
-              this.qrData = String(this.id).trim(); 
-              console.log('QR Data Set:', this.qrData);
-            } else {
-              console.error('Invalid QR Data:', this.grnNo);
-            }
-          },
-          (err: any) => {
-            console.error('Error fetching data:', err);
-          }
-        );
+      (res: any) => {
+        console.log('API Response:', res);
+        this.data1 = res;
+        if (this.id) {
+          this.qrData = String(this.id).trim();
+          console.log('QR Data Set:', this.qrData);
+        } else {
+          console.error('Invalid QR Data:', this.grnNo);
+        }
+      },
+      (err: any) => {
+        console.error('Error fetching data:', err);
+      }
+    );
+    this.getProfileData();
+  }
+  getProfileData() {
+    this.api.GetProfileData().subscribe((res: any) => {
+      this.pfdata = res;
+      console.log( 'profiledata:',this.pfdata);
+    });
   }
 
- 
-
   printPage() {
-      window.print()
-    
+    window.print();
   }
 
   goBack() {
     this.location.back();
   }
-  
-
 }
