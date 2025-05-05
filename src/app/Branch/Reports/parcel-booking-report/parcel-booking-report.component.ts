@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
-
+import { BranchService } from 'src/app/service/branch.service';
 
 @Component({
   selector: 'app-parcel-booking-report',
@@ -15,7 +14,8 @@ export class ParcelBookingReportComponent implements OnInit {
 currentTime: Date = new Date();
 fromDate:any;
 toDate:any;
-  constructor(private router: Router) {}
+  pfdata: any;
+  constructor(private router: Router,private api:BranchService) {}
 
   ngOnInit(): void {
     setInterval(() => {
@@ -31,7 +31,19 @@ toDate:any;
     }
   
     console.log('Received data:', this.data);
+
+    this.getProfileData();
+
   }
+  getProfileData() {
+    this.api.GetProfileData().subscribe((res: any) => {
+      this.pfdata = res;
+      console.log( 'profiledata:',this.pfdata);
+    });
+  }
+
+
+
 
   getBookingStatus(status: number): string {
     switch (status) {
