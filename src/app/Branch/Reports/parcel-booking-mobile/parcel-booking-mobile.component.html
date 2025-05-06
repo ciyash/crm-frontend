@@ -1,6 +1,13 @@
-<div class="container my-4 p-3 border rounded bg-light" style="background-color: #e3eaf8" *ngIf="data?.length">
-    <h5 class="text-center fw-bold">SREE KALESWARI LOGISTICS</h5>
-    <h6 class="text-center text-decoration-underline">All Parcel Booking Details Report</h6>
+<div class="container my-4 p-3 border rounded bg-light" >
+  
+  <div class="container-fluid" *ngIf="pfdata">
+    <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
+    <p class="text-center fw-bold">
+      Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
+      Phone No: {{ pfdata.phone }}
+    </p>
+  </div>   
+   <h6 class="text-center text-decoration-underline">All Parcel Booking Details Report</h6>
   
     <div class="d-flex justify-content-between mt-3">
       <div>

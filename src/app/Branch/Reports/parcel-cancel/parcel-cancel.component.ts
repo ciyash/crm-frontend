@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { BranchService } from 'src/app/service/branch.service';
 
 @Component({
   selector: 'app-parcel-cancel',
@@ -12,8 +13,9 @@ export class ParcelCancelComponent {
   fromDate: string | null = null;
   toDate: string | null = null;
   printBy: string = 'Unknown'; // Default value, can be dynamic
+  pfdata: any;
 
-  constructor(private router: Router) {
+  constructor(private router: Router,private api:BranchService) {
     const navigation = this.router.getCurrentNavigation();
     const stateData = navigation?.extras?.state?.['data4'];
 
@@ -27,4 +29,13 @@ export class ParcelCancelComponent {
     // Set printBy dynamically if available (e.g., from user session)
     this.printBy = navigation?.extras?.state?.['printBy'] || 'Ravi'; // Fallback to 'Ravi'
   }
+  ngOnInit(){
+    this.getProfileData()
+  }
+    getProfileData() {
+      this.api.GetProfileData().subscribe((res: any) => {
+        this.pfdata = res;
+        console.log( 'profiledata:',this.pfdata);
+      });
+    }
 }

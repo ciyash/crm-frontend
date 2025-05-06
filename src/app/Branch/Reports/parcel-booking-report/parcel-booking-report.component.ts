@@ -29,12 +29,13 @@ toDate:any;
       this.data = stateData.data;
       this.data1 = stateData; // already contains fromDate and toDate
     }
-  
+
     console.log('Received data:', this.data);
 
     this.getProfileData();
 
   }
+
   getProfileData() {
     this.api.GetProfileData().subscribe((res: any) => {
       this.pfdata = res;

@@ -1,21 +1,35 @@
-
-  
-   // table{
-   //  border: 2px solid rgb(77, 76, 78);
-   // }
-   
-   table {
-      width: 100%;
-      border-collapse: collapse; /* Ensures proper border rendering */
-  }
-  th, td {
-      border: 1px solid black; /* Adds border to cells */
-      padding: 8px;
+@media print {
+  body, html {
+    margin: 0;
+    padding: 0;
   }
 
-  @media print {
-    .hide-on-print {
-      display: none !important;
-    }
+  .print-area {
+    width: 210mm; /* A4 width */
+    height: 148.5mm; /* Half of A4 height */
+    overflow: hidden;
+    page-break-after: always;
   }
-  
+
+  .hide-on-print {
+    display: none !important;
+  }
+
+  table {
+    font-size: 11px;
+  }
+
+  .table td, .table th {
+    padding: 4px 6px;
+  }
+
+  .qr-code {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  hr {
+    margin: 4px 0;
+  }
+}

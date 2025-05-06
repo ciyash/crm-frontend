@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { BranchService } from 'src/app/service/branch.service';
 
 @Component({
   selector: 'app-regularcustomer-booking',
@@ -13,8 +14,9 @@ export class RegularcustomerBookingComponent {
   toDate: any;
   message: string = '';
   today = new Date();
+  pfdata: any;
 
-  constructor(private router: Router) {
+  constructor(private router: Router,private api:BranchService) {
     const navigation = this.router.getCurrentNavigation();
     this.data7 = navigation?.extras?.state?.['data7'];
     console.log('Received customer:', this.data7);
@@ -27,4 +29,13 @@ export class RegularcustomerBookingComponent {
       this.message = this.data7?.message || 'No parcel booking data available.';
     }
   }
+  ngOnInit(){
+    this.getProfileData()
+  }
+    getProfileData() {
+      this.api.GetProfileData().subscribe((res: any) => {
+        this.pfdata = res;
+        console.log( 'profiledata:',this.pfdata);
+      });
+    }
 }
