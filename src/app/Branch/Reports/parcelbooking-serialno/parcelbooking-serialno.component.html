@@ -1,5 +1,15 @@
-<div class="container my-4 p-3 border rounded bg-light" *ngIf="data2?.length">
-  <h5 class="text-center fw-bold">SREE KALESWARI LOGISTICS</h5>
+<div class="container my-4 p-3 border rounded bg-light">
+  <div class="container-fluid" *ngIf="pfdata">
+    <h4 class="text-center fw-bold">
+      {{ pfdata.companyName  }}
+    </h4>
+    <p class="text-center fw-bold">
+      Address: {{ pfdata.location || 'Location not available' }} -
+      {{ pfdata.branchId?.name || 'Branch not available' }} |
+      Phone No: {{ pfdata.phone || 'Phone not available' }}
+    </p>
+  </div>
+  
   <h6 class="text-center text-decoration-underline">Parcel Booking Report With Serial No</h6>
 
   <div class="d-flex justify-content-between mt-3">
@@ -9,44 +19,185 @@
     </div>
   </div>
 
-  <div class="table-responsive mt-3">
-    <table class="table table-bordered table-sm table-striped">
-      <thead class="table-secondary text-center">
-        <tr>
-          <th>S.NO</th>
-          <th>GRN No</th>
-          <th>Date</th>
-          <th>Source</th>
-          <th>Destination</th>
-          <th>Package Details</th>
-          <th>Pkgs</th>
-          <th>Amount</th>
-          <!-- <th>Sender</th>
-          <th>Receiver</th> -->
-        </tr>
-      </thead>
-      <tbody class="text-center align-middle">
-        <tr *ngFor="let item of data2; let i = index">
-          <td>{{ i + 1 }}</td>
-          <td>{{ item.grnNo }}</td>
-          <td>{{ item.bookingDate | date: 'dd-MM-yyyy' }}</td>
-          <td>{{ item.fromCity }}</td>
-          <td>{{ item.toCity }}</td>
-          <td>
-            <div *ngFor="let pkg of item.packages">
-              {{ pkg.packageType }} - Qty: {{ pkg.quantity }}, Wt: {{ pkg.weight }}kg
-            </div>
-          </td>
-          <td>{{ item.packages?.length }}</td>
-          <td>{{ item.grandTotal | number: '1.2-2' }}</td>
-          <!-- <td>{{ item.senderName }}<br>{{ item.senderMobile }}</td>
-          <td>{{ item.receiverName }}<br>{{ item.receiverMobile }}</td> -->
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<!-- Paid Bookings Table -->
+<div class="table-responsive mt-4" *ngIf="paidBookings?.length > 0">
+  <h5 class="text-center text-success">Paid Bookings</h5>
+  <table class="table table-bordered table-sm table-striped">
+    <thead class="table-secondary text-center">
+      <tr>
+        <th>S.NO</th>
+        <th>GRN No</th>
+        <th>Date</th>
+        <th>Source</th>
+        <th>Destination</th>
+        <th>Package Details</th>
+        <th>Pkgs</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody class="text-center align-middle">
+      <tr *ngFor="let item of paidBookings; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ item.grnNo }}</td>
+        <td>{{ item.bookingDate | date: 'dd-MM-yyyy' }}</td>
+        <td>{{ item.pickUpBranchname }}</td>
+        <td>{{ item.dropBranchname }}</td>
+        <td>
+          <div *ngFor="let pkg of item.packages">
+            {{ pkg.packageType }} - Qty: {{ pkg.quantity }}, Wt: {{ pkg.weight }}kg
+          </div>
+        </td>
+        <td>{{ item.totalQuantity }}</td>
+        <td>{{ item.grandTotal | number: '1.2-2' }}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
-<div class="container my-4 p-3 border rounded bg-light text-center" *ngIf="!data2?.length">
-  <p>No parcel booking data available.</p>
+<!-- Credit Bookings Table -->
+<div class="table-responsive mt-4" *ngIf="creditBookings?.length > 0">
+  <h5 class="text-center text-primary">Credit Bookings</h5>
+  <table class="table table-bordered table-sm table-striped">
+    <thead class="table-secondary text-center">
+      <tr>
+        <th>S.NO</th>
+        <th>GRN No</th>
+        <th>Date</th>
+        <th>Source</th>
+        <th>Destination</th>
+        <th>Package Details</th>
+        <th>Pkgs</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody class="text-center align-middle">
+      <tr *ngFor="let item of creditBookings; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ item.grnNo }}</td>
+        <td>{{ item.bookingDate | date: 'dd-MM-yyyy' }}</td>
+        <td>{{ item.pickUpBranchname }}</td>
+        <td>{{ item.dropBranchname }}</td>
+        <td>
+          <div *ngFor="let pkg of item.packages">
+            {{ pkg.packageType }} - Qty: {{ pkg.quantity }}, Wt: {{ pkg.weight }}kg
+          </div>
+        </td>
+        <td>{{ item.totalQuantity }}</td>
+        <td>{{ item.grandTotal | number: '1.2-2' }}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
+
+<!-- FOC Bookings Table -->
+<div class="table-responsive mt-4" *ngIf="focBookings?.length > 0">
+  <h5 class="text-center text-danger">FOC Bookings</h5>
+  <table class="table table-bordered table-sm table-striped">
+    <thead class="table-secondary text-center">
+      <tr>
+        <th>S.NO</th>
+        <th>GRN No</th>
+        <th>Date</th>
+        <th>Source</th>
+        <th>Destination</th>
+        <th>Package Details</th>
+        <th>Pkgs</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody class="text-center align-middle">
+      <tr *ngFor="let item of focBookings; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ item.grnNo }}</td>
+        <td>{{ item.bookingDate | date: 'dd-MM-yyyy' }}</td>
+        <td>{{ item.pickUpBranchname }}</td>
+        <td>{{ item.dropBranchname }}</td>
+        <td>
+          <div *ngFor="let pkg of item.packages">
+            {{ pkg.packageType }} - Qty: {{ pkg.quantity }}, Wt: {{ pkg.weight }}kg
+          </div>
+        </td>
+        <td>{{ item.totalQuantity }}</td>
+        <td>{{ item.grandTotal | number: '1.2-2' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- CLR Bookings Table -->
+<div class="table-responsive mt-4" *ngIf="clrBookings?.length > 0">
+  <h5 class="text-center text-warning">CLR Bookings</h5>
+  <table class="table table-bordered table-sm table-striped">
+    <thead class="table-secondary text-center">
+      <tr>
+        <th>S.NO</th>
+        <th>GRN No</th>
+        <th>Date</th>
+        <th>Source</th>
+        <th>Destination</th>
+        <th>Package Details</th>
+        <th>Pkgs</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody class="text-center align-middle">
+      <tr *ngFor="let item of clrBookings; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ item.grnNo }}</td>
+        <td>{{ item.bookingDate | date: 'dd-MM-yyyy' }}</td>
+        <td>{{ item.pickUpBranchname }}</td>
+        <td>{{ item.dropBranchname }}</td>
+        <td>
+          <div *ngFor="let pkg of item.packages">
+            {{ pkg.packageType }} - Qty: {{ pkg.quantity }}, Wt: {{ pkg.weight }}kg
+          </div>
+        </td>
+        <td>{{ item.totalQuantity }}</td>
+        <td>{{ item.grandTotal | number: '1.2-2' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Topay Bookings Table -->
+<div class="table-responsive mt-4" *ngIf="topayBookings?.length > 0">
+  <h5 class="text-center text-info">To Pay Bookings</h5>
+  <table class="table table-bordered table-sm table-striped">
+    <thead class="table-secondary text-center">
+      <tr>
+        <th>S.NO</th>
+        <th>GRN No</th>
+        <th>Date</th>
+        <th>Source</th>
+        <th>Destination</th>
+        <th>Package Details</th>
+        <th>Pkgs</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody class="text-center align-middle">
+      <tr *ngFor="let item of topayBookings; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ item.grnNo }}</td>
+        <td>{{ item.bookingDate | date: 'dd-MM-yyyy' }}</td>
+        <td>{{ item.pickUpBranchname }}</td>
+        <td>{{ item.dropBranchname }}</td>
+        <td>
+          <div *ngFor="let pkg of item.packages">
+            {{ pkg.packageType }} - Qty: {{ pkg.quantity }}, Wt: {{ pkg.weight }}kg
+          </div>
+        </td>
+        <td>{{ item.totalQuantity }}</td>
+        <td>{{ item.grandTotal | number: '1.2-2' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+  
+  <!-- Optional message if no bookings -->
+  <div *ngIf="data2?.length === 0" class="text-center text-muted mt-3">
+    No bookings found.
+  </div>
+  
+</div>
+

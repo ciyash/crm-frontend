@@ -1,26 +1,28 @@
 <div class="report-container" id="printableArea">
+  <div class="container-fluid" *ngIf="pfdata">
+    <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
+    <p class="text-center fw-bold">
+      Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
+      Phone No: {{ pfdata.phone }}
+    </p>
+  </div>
 
-
-<div class="container-fluid" *ngIf="pfdata">
-  <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
-  <p class="text-center fw-bold">
-    Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
-    Phone No: {{ pfdata.phone }}
-  </p>
-</div>  <h5 class="text-center">Parcel Booking Report</h5>
+  <h5 class="text-center">Parcel Booking Report</h5>
   <div class="row">
     <div class="col-8">
-      <p><strong>From:</strong> {{ data1.fromDate | date:'dd-MM-yyyy' }} <strong>To:</strong> {{ data1.toDate | date:'dd-MM-yyyy' }}</p>
+      <p><strong>From:</strong>
+        {{ data1.fromDate | date:'dd-MM-yyyy' }}
+        <strong>To:</strong> {{ data1.toDate | date:'dd-MM-yyyy' }}
+      </p>
     </div>
-    
     <div class="col-4 text-right">
       Print Date: {{ currentDate | date:'dd-MM-yyyy' }} {{ currentTime | date:'hh:mm a' }}
     </div>
   </div>
-  
+
   <div *ngFor="let category of ['toPay', 'paid', 'credit', 'FOC', 'CLR']">
     <h5 class="mt-4 text-uppercase">{{ category }}</h5>
-  
+
     <div *ngIf="data[category]?.bookings?.length > 0; else noBookings">
       <table class="table table-bordered table-striped">
         <thead>
@@ -77,12 +79,12 @@
         </tbody>
       </table>
     </div>
-  
+
     <ng-template #noBookings>
       <div class="alert alert-warning">No bookings found for {{ category }}</div>
     </ng-template>
   </div>
-  
+
   <div class="text-center mt-4">
     <!-- <button class="btn btn-sm btn-primary m-3" (click)="downloadAsPDF()"> <i class="fa fa-file-pdf-o"></i> </button> -->
     <button class="btn btn-sm btn-primary m-3" (click)="print()"> <i class="fa fa-print"></i> </button>
