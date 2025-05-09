@@ -122,17 +122,22 @@ export class HeaderComponent implements OnInit {
             { label: 'Today Booking Report', routerLink: ['/bookingreport'] },
             { label: 'Booking Report ', routerLink: ['/reportsdashboard'] },
             { label: 'Collection Report', routerLink: ['/collectionreport'] },
-            { label: 'Cancel Report', routerLink: ['/reportsdashboard'] },
+            // { label: 'Cancel Report', routerLink: ['/reportsdashboard'] },
             { label: 'GST Report', routerLink: ['/gdtreport'] },
-            { label: 'Pending Delivery Report', routerLink: ['/pendingingdelivery'] },
-            { label: 'Pending Delivery Luggage Report', routerLink: ['/reportsdashboard'] },
+            { label: 'Status Date Different Report', routerLink: ['/parcelstatusdate'] },
+            { label: 'Pending Delivery Stock Report ', routerLink: ['/pending-delivery'] },
+            { label: 'Pending Delivery Luggage Report', routerLink: ['/pendingluggage'] },
             { label: 'Dispatched Stock Report', routerLink: ['/dispatchedreport'] },
-            { label: 'Received Stock Report', routerLink: ['/reportsdashboard'] },
+            { label: 'Received Stock Report', routerLink: ['/receivedstock-report'] },
             { label: 'Delivered Report', routerLink: ['/reportsdashboard'] },
-            { label: 'Pending Dispatched Stock Report', routerLink: ['/reportsdashboard'] },
-            { label: 'Dispatched Memo Report', routerLink: ['/reportsdashboard'] },
-            { label: 'Parcel Incoming Report', routerLink: ['/reportsdashboard'] },
-            { label: 'GST Report', routerLink: ['/gdtreport'] },
+            { label: 'Pending Dispatched Stock Report', routerLink: ['/pending-dispatchedStock-report'] },
+            { label: 'Dispatched Memo Report', routerLink: ['/dispacthed-memo-report'] },
+            { label: 'Parcel Incoming Report', routerLink: ['/incoming-report'] },
+
+      
+
+
+
           ],
         },
         { 

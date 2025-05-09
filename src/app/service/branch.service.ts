@@ -1590,8 +1590,42 @@ GetSearch(value: {
 }
 
 
- 
+
+ParcelStatusdateReport(value:{
+  startDate:string,
+  endDate:string, 
+  fromCity:string, 
+  toCity:string,
+   bookingStatus:string
+}){
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'booking/parcel-status-date-difference-report',  { 
+      "endDate": value.endDate,
+      "startDate": value.startDate,
+      "fromCity": value.fromCity,
+      "toCity":value.toCity,
+      "bookingStatus":value.bookingStatus
+    },
+     httpOptions 
+  );
 }
+
+}
+  
+
+
+
+
+
+ 
+
 
 
 

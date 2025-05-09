@@ -1,23 +1,7 @@
-// .report-container {
-//     max-width: 1200px;
-//     margin: 0 auto;
-//     padding: 20px;
-//   }
-  
-//   .table-responsive {
-//     overflow-x: auto;
-//     -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-//   }
-  
-//   table {
-//     width: 100%;
-//     border-collapse: collapse;
-//     min-width: 1200px; /* Ensures table doesn't shrink too much */
-//   }
-  
+
   th, td {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: px;
     text-align: left;
     white-space: nowrap; /* Prevents text wrapping in cells */
   }
@@ -37,25 +21,5 @@
   
   .text-center {
     text-align: center;
-  }
-  
-  /* Improve readability on smaller screens */
-  @media screen and (max-width: 768px) {
-    th, td {
-      padding: 6px;
-      font-size: 14px; /* Slightly smaller text */
-    }
-  }
-
-  @media print {
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Arial', sans-serif;
-    }
-    .no-print {
-      display: none;
-    }
-    /* Add other print-specific styles here */
   }
   

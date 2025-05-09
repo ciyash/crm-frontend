@@ -37,11 +37,12 @@ export class PendingDeliveryStockReportComponent
     private router: Router
   ) {
     this.form = this.fb.group({
-      fromCity: ['', Validators.required],
-      toCity: ['', Validators.required],
-      pickUpBranch: ['', Validators.required],
-      dropBranch: ['', Validators.required],
+      fromCity: ['all', Validators.required],
+      toCity: ['all', Validators.required],
+      pickUpBranch: ['all', Validators.required],
+      dropBranch: ['all', Validators.required],
     });
+    
   }
 
   ngOnInit() {
@@ -58,47 +59,44 @@ export class PendingDeliveryStockReportComponent
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      // Initialize Select2 for From City
+      // From City
       $(this.selectElem.nativeElement).select2();
+      $(this.selectElem.nativeElement).val('all').trigger('change'); // ✅ force default
       $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
         const selectedCity = event.params.data.id;
-        console.log('Selected City:', selectedCity);
         this.form.patchValue({ fromCity: selectedCity });
-        console.log('Updated form value:', this.form.value);
         this.onFromcitySelect({ target: { value: selectedCity } });
       });
-
-      // Initialize Select2 for Pickup Branch
+  
+      // Pickup Branch
       $(this.pickupbranch.nativeElement).select2();
+      $(this.pickupbranch.nativeElement).val('all').trigger('change'); // ✅
       $(this.pickupbranch.nativeElement).on('select2:select', (event: any) => {
         const selectedBranch = event.params.data.id;
-        console.log('Selected Pickup Branch:', selectedBranch);
         this.form.patchValue({ pickUpBranch: selectedBranch });
-        console.log('Updated form value:', this.form.value);
         this.onPickupBranchSelect({ target: { value: selectedBranch } });
       });
-
-      // Initialize Select2 for To City
+  
+      // To City
       $(this.selectElem2.nativeElement).select2();
+      $(this.selectElem2.nativeElement).val('all').trigger('change'); // ✅
       $(this.selectElem2.nativeElement).on('select2:select', (event: any) => {
         const selectedToCity = event.params.data.id;
-        console.log('Selected To City:', selectedToCity);
         this.form.patchValue({ toCity: selectedToCity });
-        console.log('Updated form value:', this.form.value);
         this.onTocitySelect({ target: { value: selectedToCity } });
       });
-
-      // Initialize Select2 for Drop Branch
+  
+      // Drop Branch
       $(this.droupbranch.nativeElement).select2();
+      $(this.droupbranch.nativeElement).val('all').trigger('change'); // ✅
       $(this.droupbranch.nativeElement).on('select2:select', (event: any) => {
         const selectedDropBranch = event.params.data.id;
-        console.log('Selected Drop Branch:', selectedDropBranch);
         this.form.patchValue({ dropBranch: selectedDropBranch });
-        console.log('Updated form value:', this.form.value);
         this.onDropBranchSelect({ target: { value: selectedDropBranch } });
       });
     }, 0);
   }
+  
   onFromcitySelect(event: any) {
     const cityName = event.target.value;
     if (cityName) {
@@ -137,7 +135,6 @@ export class PendingDeliveryStockReportComponent
   }
 
   DeliveryStockReport() {
-    if (this.form.valid) {
       const payload = this.form.value;
       console.log('payload:', payload);
       this.api.PendingDeliveryStockReport(payload).subscribe({
@@ -145,13 +142,16 @@ export class PendingDeliveryStockReportComponent
           console.log('pending delivery:', res);
           this.gstdata = res;
           console.log('gstdata:', this.gstdata);
+          
+          this.router.navigate(['/devliveryreport'], {
+            state: { data: this.gstdata }
+          });
+          
         },
         error: (err) => {
           console.error('Error fetching report:', err);
         },
       });
-    } else {
-      console.log('Form is invalid');
-    }
-  }
+    } 
+  
 }

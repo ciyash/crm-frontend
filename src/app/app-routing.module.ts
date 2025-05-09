@@ -46,6 +46,15 @@ import { GstReportComponent } from './Branch/Reports/gst-report/gst-report.compo
 import { GstDataComponent } from './Branch/Reports/gst-data/gst-data.component';
 import { PendingDeliveryStockReportComponent } from './Branch/Reports/pending-delivery-stock-report/pending-delivery-stock-report.component';
 import { CollectionDataComponent } from './Branch/Reports/collection-data/collection-data.component';
+import { ParcelStatusDateDifferentComponent } from './Branch/Reports/parcel-status-date-different/parcel-status-date-different.component';
+import { StatusDateReportComponent } from './Branch/Reports/status-date-report/status-date-report.component';
+import { DeliveryStockReportComponent } from './Branch/Reports/delivery-stock-report/delivery-stock-report.component';
+import { PendingDeliveryLuggageReportComponent } from './Branch/Reports/pending-delivery-luggage-report/pending-delivery-luggage-report.component';
+import { ParcelReceivedStockReportComponent } from './Branch/Reports/parcel-received-stock-report/parcel-received-stock-report.component';
+import { ParcelIncomingLuggagesReportComponent } from './Branch/Reports/parcel-incoming-luggages-report/parcel-incoming-luggages-report.component';
+import { ParcelIncomingReportComponent } from './Branch/Reports/parcel-incoming-report/parcel-incoming-report.component';
+import { DispatchedMemoReportComponent } from './Branch/Reports/dispatched-memo-report/dispatched-memo-report.component';
+import { PendingDispatchedStockReportComponent } from './Branch/Reports/pending-dispatched-stock-report/pending-dispatched-stock-report.component';
 
 const routes: Routes = [
   {path:"login",component:LoginComponent },
@@ -87,14 +96,34 @@ const routes: Routes = [
   { path: 'reports', component: ParcelBookingReportComponent, canActivate: [authGuard] },
   {path:'allpercelbooking',component:AllParcelBookingReportComponent,canActivate: [authGuard] },
   {path:'bookingmobile',component:ParcelBookingMobileComponent, canActivate: [authGuard]},
-  {path:'parcelcancel',component:ParcelCancelComponent, canActivate: [authGuard]},
+  {path:'cancel-report',component:ParcelCancelComponent, canActivate: [authGuard]},
   {path:'bookingsummary',component:ParcelBookingSummaryComponent, canActivate: [authGuard]},
   {path:'collectionreport',component:CollectionReportComponent, canActivate: [authGuard]},
   {path:'Consolidate',component:ConsolidatedComponent, canActivate: [authGuard]},
   {path:'gdtreport',component:GstReportComponent, canActivate: [authGuard]},
   {path:'gstdata',component:GstDataComponent, canActivate: [authGuard]},
-  {path:'pendingingdelivery',component:PendingDeliveryStockReportComponent, canActivate: [authGuard]},
+  {path:'pending-delivery',component:PendingDeliveryStockReportComponent, canActivate: [authGuard]},
   {path:'collectiondata',component:CollectionDataComponent, canActivate: [authGuard]},
+  {path:'parcelstatusdate',component:ParcelStatusDateDifferentComponent, canActivate: [authGuard]},
+  {path:'datereport',component:StatusDateReportComponent, canActivate: [authGuard]},
+  {path:'devliveryreport',component:DeliveryStockReportComponent, canActivate: [authGuard]},
+  {path:'pendingluggage',component:PendingDeliveryLuggageReportComponent, canActivate: [authGuard]},
+  {path:'receivedstock-report',component:ParcelReceivedStockReportComponent, canActivate: [authGuard]},
+  {path:'incoming-report',component:ParcelIncomingLuggagesReportComponent, canActivate: [authGuard]},
+  {path:'parcel-incoming-report',component:ParcelIncomingReportComponent, canActivate: [authGuard]},
+  {path:'dispacthed-memo-report',component:DispatchedMemoReportComponent, canActivate: [authGuard]},
+  {path:'pending-dispatchedStock-report',component:PendingDispatchedStockReportComponent, canActivate: [authGuard]},
+
+
+
+
+
+
+
+
+
+
+
 
 
      //Admin Routing components

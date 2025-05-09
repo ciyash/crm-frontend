@@ -1,0 +1,49 @@
+<div class="container mt-5 p-4 border rounded bg-light">
+    <div class="text-center mb-4">
+        <div class="container-fluid" *ngIf="pfdata">
+            <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
+            <p class="text-center fw-bold">
+                Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
+                Phone No: {{ pfdata.phone }}
+            </p>
+        </div>
+
+
+        <h6 class="text-decoration-underline">Parcel Status Date Difference Report</h6>
+    </div>
+
+    <div class="d-flex justify-content-between mb-3" *ngIf="gdata">
+        <div><strong>From:</strong> {{ fromDate | date: 'dd-MM-yyyy' }} To: {{ toDate | date: 'dd-MM-yyyy' }}</div>
+        <div><strong>Print Date:</strong> {{ today | date: 'dd-MM-yyyy' }} &nbsp;
+            <strong>Time:</strong> {{ today | date: 'hh:mm a' }}
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-sm text-center align-middle">
+            <thead class="table-secondary">
+                <tr>
+                    <th>No</th>
+                    <th>GRN No</th>
+                    <th>Status</th>
+                    <th>Booking To Loading (Day)</th>
+                    <th>Loading To Unloading (Day)</th>
+                    <th>Unloading To Delivery (Day)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of gdata; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ row.grnNo }}</td>
+                    <td>{{ row.status }}</td>
+                    <td>{{ row.bookingDate | date: 'dd-MM-yyyy' }} - {{ row.loadingDate | date: 'dd-MM-yyyy' }} ({{
+                        row.days1 }})</td>
+                    <td>{{ row.loadingDate | date: 'dd-MM-yyyy' }} - {{ row.unloadingDate | date: 'dd-MM-yyyy' }} ({{
+                        row.days2 }})</td>
+                    <td>{{ row.unloadingDate | date: 'dd-MM-yyyy' }} - {{ row.deliveryDate | date: 'dd-MM-yyyy' }} ({{
+                        row.days3 }})</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

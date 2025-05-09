@@ -19,7 +19,7 @@ export class ConsolidatedComponent {
   @ViewChild('BranchName') BranchName!: ElementRef;
   constructor(private fb: FormBuilder, private api: BranchService) {
     this.form = this.fb.group({
-      fromDate: [this.getTodayDateString(), Validators.required],
+      fromDate: ['', Validators.required],
       toDate: ['', Validators.required],
       fromCity: [''],
       pickUpBranch: [''],

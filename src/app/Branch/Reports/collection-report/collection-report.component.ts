@@ -47,6 +47,13 @@ export class CollectionReportComponent implements OnInit, AfterViewInit {
     this.getProfileData();
   }
 
+  getTodayDateString(): string {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = ('0' + (today.getMonth() + 1)).slice(-2);
+    const day = ('0' + today.getDate()).slice(-2);
+    return `${day}-${month}-${year}`;
+  }
   ngAfterViewInit(): void {
     $(this.BranchCity.nativeElement).on('select2:select', (event: any) => {
       const selectedCity = event.params.data.id;
@@ -86,11 +93,5 @@ export class CollectionReportComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getTodayDateString(): string {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = ('0' + (today.getMonth() + 1)).slice(-2);
-    const day = ('0' + today.getDate()).slice(-2);
-    return `${day}-${month}-${year}`;
-  }
+  
 }

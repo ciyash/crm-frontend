@@ -75,6 +75,11 @@ import { ConsolidatedComponent } from './Branch/Reports/consolidated/consolidate
 import { CollectionDataComponent } from './Branch/Reports/collection-data/collection-data.component';
 import { GstReportComponent } from './Branch/Reports/gst-report/gst-report.component';
 import { GstDataComponent } from './Branch/Reports/gst-data/gst-data.component';
+import { ParcelStatusDateDifferentComponent } from './Branch/Reports/parcel-status-date-different/parcel-status-date-different.component';
+import { StatusDateReportComponent } from './Branch/Reports/status-date-report/status-date-report.component';
+import { DeliveryStockReportComponent } from './Branch/Reports/delivery-stock-report/delivery-stock-report.component';
+import { ParcelIncomingLuggagesReportComponent } from './Branch/Reports/parcel-incoming-luggages-report/parcel-incoming-luggages-report.component';
+import { ParcelIncomingReportComponent } from './Branch/Reports/parcel-incoming-report/parcel-incoming-report.component';
  
 @NgModule({
   declarations: [
@@ -140,6 +145,11 @@ import { GstDataComponent } from './Branch/Reports/gst-data/gst-data.component';
     CollectionDataComponent,
     GstReportComponent,
     GstDataComponent,
+    ParcelStatusDateDifferentComponent,
+    StatusDateReportComponent,
+    DeliveryStockReportComponent,
+    ParcelIncomingLuggagesReportComponent,
+    ParcelIncomingReportComponent,
    
    
   ],

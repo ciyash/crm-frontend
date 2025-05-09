@@ -1,0 +1,70 @@
+<div class="container mt-5 p-4 border rounded bg-light">
+    <div class="text-center mb-4">
+        <div class="container-fluid" *ngIf="pfdata">
+            <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
+            <p class="text-center fw-bold">
+                Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
+                Phone No: {{ pfdata.phone }}
+            </p>
+        </div>
+
+
+        <h6 class="text-decoration-underline">Parcel Status Date Difference Report</h6>
+    </div>
+
+    <div class="d-flex justify-content-between mb-3" >
+      <div >
+        <strong>From:</strong> {{ prow.fromDate | date: 'dd-MM-yyyy' }} 
+        <strong>To:</strong> {{ prow.toDate | date: 'dd-MM-yyyy' }}
+      </div>
+      
+        <div><strong>Print Date:</strong> {{ today | date: 'dd-MM-yyyy' }} &nbsp;
+            <strong>Time:</strong> {{ today | date: 'hh:mm a' }}
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-sm text-center align-middle">
+          <thead class="table-secondary">
+            <tr>
+              <th>S No</th>
+              <th>LR No</th>
+              <th>Manual Ticket No</th>
+              <th>LR Date</th>
+              <th>Bus No</th>
+              <th>Sender Name</th>
+              <th>Receiver Name</th>
+              <th>Item</th>
+              <th>Status</th>
+              <th>Amount</th>
+              <th>Delivery Receiver Name</th>
+              <th>Delivery Receiver No</th>
+              <th>SIGN</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of gdata; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ item.lrNumber }}</td>
+              <td>{{ item.manualTicketNo || '-' }}</td>
+              <td>{{ item.bookingDate | date: 'dd-MM-yyyy' }}</td>
+              <td>{{ item.busNumber || '-' }}</td>
+              <td>{{ item.senderName }}</td>
+              <td>{{ item.receiverName }}</td>
+              <td>
+                <div *ngFor="let pkg of item.packages">
+                  {{ pkg.packageType }} (Qty: {{ pkg.quantity }}, ₹{{ pkg.totalPrice }})
+                </div>
+              </td>
+              <td>{{ item.bookingType }}</td>
+              <td>{{ item.grandTotal }}</td>
+              <td>{{ item.deliveryReceiverName || '-' }}</td>
+              <td>{{ item.receiverMobile }}</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      
+</div>

@@ -43,31 +43,25 @@
         <tbody class="text-center align-middle">
           <tr *ngFor="let item of data4; let i = index">
             <td>{{ i + 1 }}</td>
-            <td>{{ item.grnNo }}</td>
-            <td>{{ item.manualTicketNo || '-' }}</td>
-            <td>{{ item.bookingDate | date: 'dd-MM-yyyy hh:mm a' }}</td>
-            <td>{{ item.cancelDate | date: 'dd-MM-yyyy hh:mm a' }}</td>
+            <td>{{ item.grnNo || 'N/A' }}</td>
+            <td>{{ item.manualTicketNo || 'N/A' }}</td>
+            <td>{{ item.bookingDate | date: 'dd/MM/yyyy' }}</td>
+            <td>{{ item.cancelDate | date: 'dd/MM/yyyy' }}</td>
+            
             <td>{{ item.fromCity }}</td>
             <td>{{ item.toCity }}</td>
             <td>{{ item.senderName }}</td>
             <td>{{ item.receiverName }}</td>
-            <td>{{ item.quantity }}</td>
+            <td>{{ item.totalQuantity }}</td>
             <td>{{ item.grandTotal | number: '1.2-2' }}</td>
-            <td>{{ item.refundCharge | number: '1.2-2' }}</td>
+            <td>{{ item.cancelCharge | number: '1.2-2' }}</td>
             <td>{{ item.refundAmount | number: '1.2-2' }}</td>
-            <td>{{ item.cancelByUser || '-' }}</td>
+            <td>{{ item.cancelBy }}</td>
           </tr>
-          <tr *ngIf="!data4?.length">
-            <td colspan="14" class="text-center">No data4 available</td>
-          </tr>
-          <!-- Group Totals row -->
-      
-          <!-- Final Total row -->
-     
+          
         </tbody>
+        
       </table>
     </div>
   </div>
-  <div class="container my-4 p-3 border rounded bg-light text-center" *ngIf="!data4?.length">
-    <p>No parcel cancel data4 available.</p>
-  </div>
+ 

@@ -1,122 +1,44 @@
 <app-header></app-header>
-<div class="container section-border mt-5 pb-4">
-  <h5 class="text-center fw-bold text-danger"><u>Parcel Pending Delivery Stock Report</u></h5>
-  <div class="rounded p-4" style="margin-top: 2rem;">
+
+<h5 class="text-center fw-bold text-danger" style="margin-top: 8%;">
+  <u> Parcel Pending Delivery Luggage Report</u>
+</h5>
+<div class="container  border mt-5 pb-4">
+   <div class="rounded p-4" style="margin-top: 1rem;">
     <form [formGroup]="form">
       <div class="row mb-3">
         <div class="col-md-6">
           <label class="form-label form-after">From City</label>
           <select #selectElem class="form-select form-select-sm" formControlName="fromCity">
-            <option value="" selected>Select City</option>
+            <option value="all" selected>all</option>
             <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
           </select>
         </div>
         <div class="col-md-6">
           <label class="form-label form-after">Pickup Branch</label>
           <select #pickupbranch class="form-select form-select-sm" formControlName="pickUpBranch">
-            <option value="" selected>Select Pickup Branch</option>
+            <option value="all" selected>all</option>
             <option *ngFor="let row4 of pdata" [value]="row4.branchUniqueId"> {{ row4.name }} </option>
           </select>
         </div>
         <div class="col-md-6">
           <label class="form-label form-after">To City</label>
           <select #selectElem2 class="form-select form-select-sm" formControlName="toCity">
-            <option value="" selected>Select City</option>
+            <option value="all" selected>all</option>
             <option *ngFor="let row of citydata" [value]="row.cityName">{{ row.cityName }}</option>
           </select>
         </div>
         <div class="col-md-6">
           <label class="form-label form-after">Drop Branch</label>
           <select #droupbranch class="form-select form-select-sm" formControlName="dropBranch">
-            <option value="" selected>Select Drop Branch</option>
+            <option value="all" selected>all</option>
             <option *ngFor="let row1 of tbcdata" [value]="row1.branchUniqueId"> {{ row1.name }} </option>
           </select>
         </div>
       </div>
-      <div class="d-flex justify-content-center">
+      <div class="d-flex justify-content-center  mt-5">
         <button type="button" class="btn btn-success " (click)="DeliveryStockReport()">Load</button>
-
       </div>
     </form>
   </div>
 </div>
-
-<div class=" container ">
-  <h2 class="text-center">SREE KALESWARI LOGISTICS</h2>
-  <p class="text-center">Address : D NO. 64-9-1, Beside Eenadu, Patamata, Vijayawada, Andhra Pradesh-</p>
-  <h6 class="text-center">Pending Delivery Stock Report</h6>
-</div>
-<div class="container">
-  <div class="row">
-    <div class="col-md-3">Origin SubRegion: ALL</div>
-    <div class="col-md-3">Origin Branch: ALL</div>
-    <div class="col-md-3">Destination SubRegion: ALL</div>
-    <div class="col-md-3">Destination Branch: ALL</div>
-  </div>
-</div>
-
-
-  <style>
-    table {
-      width: 60%;
-      border-collapse: collapse;
-      margin: 20px auto;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 8px 12px;
-      text-align: left;
-    }
-
-    caption {
-      caption-side: top;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-  </style>
-
-
-  <table>
-    <thead>
-      <tr>
-        <th>CATEGORY</th>
-        <th>TOTAL LR</th>
-        <th>TOTAL QUANTITY</th>
-        <th>TOTAL AMOUNT
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Credit For</td>
-        <td>Paid	</td>
-        <td>TOTAL:</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>FOC</td>
-        <td>Jane Smith</td>
-        <td>Marketing</td>
-        <td>janeexample.com</td>
-      </tr>
-      <tr>
-        <td>Paid</td>
-        <td>Alan Brown</td>
-        <td>Development</td>
-        <td>alanexample.com</td>
-      </tr>
-      <tr>
-        <td>ToPay	</td>
-        <td>Alan Brown</td>
-        <td>Development</td>
-        <td>alanexample.com</td>
-      </tr>
-      <tr>
-        <td>Total</td>
-        <td>Alan Brown</td>
-        <td>Development</td>
-        <td>alanexample.com</td>
-      </tr>
-    </tbody>
-  </table>
-

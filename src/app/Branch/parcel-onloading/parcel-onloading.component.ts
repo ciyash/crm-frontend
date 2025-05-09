@@ -141,6 +141,7 @@ onLoad() {
   }
 
   const formValues = this.form.value;
+  
 
   const payload = {
     fromDate: formValues.fromDate,
@@ -150,7 +151,7 @@ onLoad() {
     vehicalNumber: formValues.vehicalNumber || '',
     branch: formValues.branch || '',
   };
-
+console.log("payload:",payload)
   this.api.FilterParcelUnLoading(payload).subscribe({
     next: (response: any) => {
       console.log('dataload', response)

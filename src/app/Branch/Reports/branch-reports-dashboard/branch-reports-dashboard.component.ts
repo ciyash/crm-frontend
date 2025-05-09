@@ -1,9 +1,10 @@
 import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+declare var $: any;
+
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BranchService } from 'src/app/service/branch.service';
 import { ToastrService } from 'ngx-toastr';
-declare var $: any;
 // jsdhdfbhddshn
 @Component({
   selector: 'app-branch-reports-dashboard',
@@ -452,7 +453,7 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
     this.api.ParcelCancelReport(payload6).subscribe({
       next: (response: any) => {
         console.log('Cancel Report Loaded:', response);
-        this.router.navigateByUrl('/parcelcancel', { state: { data4: response } });
+        this.router.navigateByUrl('/cancel-report', { state: { data4: response } });
       },
       error: (error: any) => {
         console.error('Cancel Report Loading Failed:', error);

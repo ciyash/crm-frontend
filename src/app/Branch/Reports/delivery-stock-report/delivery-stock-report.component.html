@@ -1,0 +1,124 @@
+<app-header></app-header>
+<h5 class="text-center text-danger text-decoration-underline mb-3" style="margin-top: 8%;">
+  Parcel Pending Delivery Stock Report
+</h5>
+<div class="container card" style="border: 2px solid #DADCE0;">
+  <div class="container " >
+    <div class="container-fluid" *ngIf="pfdata">
+      <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
+      <p class="text-center fw-bold">
+        Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
+        Phone No: {{ pfdata.phone }}
+      </p>
+    </div>
+  
+  
+    <div class="row text-center fw-bold my-3">
+      <div class="col-md-3">Origin SubRegion: ALL</div>
+      <div class="col-md-3">Origin Branch: ALL</div>
+      <div class="col-md-3">Destination SubRegion: ALL</div>
+      <div class="col-md-3">Destination Branch: ALL</div>
+    </div>
+  
+    <table class="table table-bordered text-center">
+      <thead>
+        <tr>
+          <th>CATEGORY</th>
+          <th>TOTAL LR</th>
+          <th>TOTAL QUANTITY</th>
+          <th>TOTAL AMOUNT</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Credit</td>
+          <td>{{ reportData.byBookingType?.credit?.totalRecords }}</td>
+          <td>{{ reportData.byBookingType?.credit?.totalQuantity }}</td>
+          <td>{{ reportData.byBookingType?.credit?.grandTotal }}</td>
+        </tr>
+        <tr>
+          <td>FOC</td>
+          <td>{{ reportData.byBookingType?.foc?.totalRecords }}</td>
+          <td>{{ reportData.byBookingType?.foc?.totalQuantity }}</td>
+          <td>{{ reportData.byBookingType?.foc?.grandTotal }}</td>
+        </tr>
+        <tr>
+          <td>Paid</td>
+          <td>{{ reportData.byBookingType?.paid?.totalRecords }}</td>
+          <td>{{ reportData.byBookingType?.paid?.totalQuantity }}</td>
+          <td>{{ reportData.byBookingType?.paid?.grandTotal }}</td>
+        </tr>
+        <tr>
+          <td>ToPay</td>
+          <td>{{ reportData.byBookingType?.toPay?.totalRecords }}</td>
+          <td>{{ reportData.byBookingType?.toPay?.totalQuantity }}</td>
+          <td>{{ reportData.byBookingType?.toPay?.grandTotal }}</td>
+        </tr>
+        <tr *ngIf="reportData.total">
+          <td>Total</td>
+          <td>{{ reportData.total?.totalRecords }}</td>
+          <td>{{ reportData.total?.totalQuantity }}</td>
+          <td>{{ reportData.total?.grandTotal }}</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div class="table-responsive mt-4">
+      <table class="table table-bordered table-sm text-center align-middle">
+        <thead class="table-secondary">
+          <tr>
+            <th>Sr. No</th>
+            <th>WB No.</th>
+            <th>Manual TicketNo.</th>
+            <th>Received Date</th>
+            <th>Source</th>
+            <th>Destination</th>
+            <th>Consignor</th>
+            <th>Consignee</th>
+            <th>WB Type</th>
+            <th>Amount</th>
+            <th>Pkgs</th>
+            <th>Days</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let pdata of paginatedBookings; let i = index">
+            <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+            <td>{{ pdata['WB No.'] }}</td>
+            <td>{{ pdata['Manual TicketNo.'] }}</td>
+            <td>{{ pdata['Received Date'] }}</td>
+            <td>{{ pdata['Source'] }}</td>
+            <td>{{ pdata['Destination'] }}</td>
+            <td>{{ pdata['Consignor'] }}</td>
+            <td>{{ pdata['Consignee'] }}</td>
+            <td>{{ pdata['WB Type'] }}</td>
+            <td>{{ pdata['Amt'] }}</td>
+            <td>{{ pdata['Pkgs'] }}</td>
+            <td>{{ pdata['Days'] }}</td>
+          </tr>
+        </tbody>
+      </table>
+  
+      <!-- Pagination Controls -->
+      <nav *ngIf="totalPages > 1">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <button class="page-link" (click)="changePage(currentPage - 1)"
+              [disabled]="currentPage === 1">Previous</button>
+          </li>
+  
+          <li class="page-item" *ngFor="let page of [].constructor(totalPages); let p = index"
+            [class.active]="currentPage === p + 1">
+            <button class="page-link" (click)="changePage(p + 1)">{{ p + 1 }}</button>
+          </li>
+  
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <button class="page-link" (click)="changePage(currentPage + 1)"
+              [disabled]="currentPage === totalPages">Next</button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  
+  </div>
+</div>

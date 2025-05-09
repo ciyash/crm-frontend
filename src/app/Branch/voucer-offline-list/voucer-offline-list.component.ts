@@ -25,10 +25,10 @@ export class VoucerOfflineListComponent {
         this.form = this.fb.group({
           fromBookingDate: [this.getTodayDateString(), Validators.required],
           toBookingDate: [this.getTodayDateString(), Validators.required],
-          vehicalNumber: ['', Validators.required],
-          fromCity: ['', Validators.required],
-          toCity: ['', Validators.required],
-          fromBranch: ['', Validators.required],
+          vehicalNumber: ['', ],
+          fromCity: ['', ],
+          toCity: ['',],
+          fromBranch: ['', ],
         });
       }
     

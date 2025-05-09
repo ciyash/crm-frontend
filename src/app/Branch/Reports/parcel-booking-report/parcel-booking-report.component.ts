@@ -16,22 +16,21 @@ fromDate:any;
 toDate:any;
   pfdata: any;
   constructor(private router: Router,private api:BranchService) {}
-
   ngOnInit(): void {
+
     setInterval(() => {
       this.currentDate = new Date();
       this.currentTime = new Date();
     }, 1000);
-  
+
+
+
     const stateData = history.state?.data;
-  
     if (stateData) {
       this.data = stateData.data;
-      this.data1 = stateData; // already contains fromDate and toDate
+      this.data1 = stateData; 
     }
-
     console.log('Received data:', this.data);
-
     this.getProfileData();
 
   }
