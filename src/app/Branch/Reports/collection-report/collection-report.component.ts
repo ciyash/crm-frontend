@@ -85,7 +85,14 @@ export class CollectionReportComponent implements OnInit, AfterViewInit {
       next: (res) => {
         this.collectiondata = res;
         console.log('Report Data:', res);
-        this.router.navigateByUrl('/collectiondata', { state: { data: res } });
+        const finallData = {
+          ...res,
+          fromDate: this.form.value.fromDate,
+          toDate: this.form.value.toDate
+        };
+        this.router.navigateByUrl('/collectiondata', { state: { data: finallData } });
+
+
       },
       error: (err) => {
         console.error('Error fetching report:', err);

@@ -1,56 +1,63 @@
-<div class="container my-4 p-3 border rounded bg-light" style="background-color: #e3eaf8" *ngIf="data?.length">
-    <h5 class="text-center fw-bold">SREE KALESWARI LOGISTICS</h5>
-    <h6 class="text-center text-decoration-underline">Parcel Collection Report All Branch</h6>
+<div class="container my-4 p-3 border rounded bg-light" style="background-color: #e3eaf8" >
+  <div class="container-fluid" *ngIf="pfdata">
+    <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
+    <p class="text-center fw-bold">
+      Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
+      Phone No: {{ pfdata.phone }}
+    </p>
+  </div>      
+  <h6 class="text-center text-decoration-underline">Parcel Collection Report All Branch</h6>
   
-    
+    <div class="d-flex justify-content-between mb-2" *ngIf=" collectionReport;">
+      <div >
+        <strong >From :</strong> {{ collectionReport.fromDate | date: 'dd-MM-yyyy' }}
+        <strong>To :</strong> {{ collectionReport.toDate | date: 'dd-MM-yyyy' }}
+      </div>
+      <div><strong>Print By :</strong> {{pfdata.name}}</div>
+    </div>
   
+    <div class="d-flex justify-content-end mb-2">
+      <strong>Print Date :</strong> {{ today | date: 'dd-MM-yyyy' }}
+      <strong>Time :</strong> {{ today | date: 'shortTime' }}
+    </div>
+
     <div class="table-responsive">
       <table class="table table-bordered table-sm table-striped">
         <thead class="table-secondary text-center align-middle">
           <tr>
             <th>S.NO</th>
             <th>Branch Name</th>
-            <th>Total Amount </th>
-            <th>Total Quantity </th>
-            <th>Cancel Amount            </th>
-            <th>Current Amount</th>
-            <th>Net Amount</th>
-            <th>Net Quantity</th>
-            <th>Total com</th>
-            <th>Cancel com</th>
-            <th>Net com</th>
-            <th>Ret Charge</th>
+            <th>Cancel Amount</th>
+            <th>Total Amount</th>
+            <th>Total Quantity</th>
+            <th>Refund Charge</th>
             <th>Net Amount</th>
           </tr>
         </thead>
         <tbody class="text-center align-middle">
-          <tr *ngFor="let item of data; let i = index">
+          <tr *ngFor="let item of collectionReport.branches; let i = index">
             <td>{{ i + 1 }}</td>
-            <td>{{item.pickUpBranchname}}</td>
-            <td>{{ item.grandTotal || '-' }}</td>
-            <td>{{item.totalQuantity}}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-           <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>{{ item.grandTotal || '-' }}</td>
-          </tr>
-          <tr *ngIf="!data?.length">
-            <td colspan="13" class="text-center">No data available</td>
-          </tr>
-          <tr class="fw-bold bg-light" *ngIf="data?.length">
-            <td colspan="11" class="text-end">Total:</td>
-
+            <td>{{ item.pickupBranchName }}</td>
+            <td>{{ item.cancelAmount }}</td>
+            <td>{{ item.grandTotal }}</td>
+            <td>{{ item.totalQuantity }}</td>
+            <td>{{ item.refundCharge }}</td>
+            <td>{{ item.grandTotal - item.cancelAmount - item.refundCharge }}</td>
           </tr>
         </tbody>
+        <tfoot class="fw-bold bg-light text-center align-middle">
+          <tr>
+            <td colspan="2" class="text-end">Total:</td>
+            <td>{{ collectionReport.totals.finalCancelAmount }}</td>
+            <td>{{ collectionReport.totals.finalGrandTotal }}</td>
+            <td>{{ collectionReport.totals.finalTotalQuantity }}</td>
+            <td>{{ collectionReport.totals.finalRefundCharge }}</td>
+            <td>{{ collectionReport.totals.finalGrandTotal - collectionReport.totals.finalCancelAmount - collectionReport.totals.finalRefundCharge }}</td>
+          </tr>
+        </tfoot>
       </table>
     </div>
+    
   </div>
   
-  <div class="container my-4 p-3 border rounded bg-light text-center" *ngIf="!data?.length">
-    <p>No parcel booking data available.</p>
-  </div>
+  

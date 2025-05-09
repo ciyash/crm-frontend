@@ -5,14 +5,15 @@
       Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
       Phone No: {{ pfdata.phone }}
     </p>
-  </div>       <h6 class="text-center text-decoration-underline">Parcel Cancel Report</h6>
+  </div>      
+   <h6 class="text-center text-decoration-underline">Parcel Cancel Report</h6>
   
-    <div class="d-flex justify-content-between mb-2">
-      <div>
-        <strong>From :</strong> {{ fromDate | date: 'dd-MM-yyyy' }}
-        <strong>To :</strong> {{ toDate | date: 'dd-MM-yyyy' }}
+    <div class="d-flex justify-content-between mb-2" *ngIf=" datedata;">
+      <div >
+        <strong >From :</strong> {{ datedata.fromDate | date: 'dd-MM-yyyy' }}
+        <strong>To :</strong> {{ datedata.toDate | date: 'dd-MM-yyyy' }}
       </div>
-      <div><strong>Print By :</strong> {{ printBy }}</div>
+      <div><strong>Print By :</strong> {{pfdata.name}}</div>
     </div>
   
     <div class="d-flex justify-content-end mb-2">

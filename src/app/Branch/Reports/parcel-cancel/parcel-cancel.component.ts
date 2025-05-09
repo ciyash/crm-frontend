@@ -14,11 +14,13 @@ export class ParcelCancelComponent {
   printBy: string = 'Unknown'; // Default value, can be dynamic
   pfdata: any;
   data4: any;
+  datedata: any;
 
   constructor(private router: Router,private api:BranchService) {
     const navigation = this.router.getCurrentNavigation();
     const stateData = navigation?.extras?.state?.['data4'];
     this.data4=stateData.data
+    this.datedata=stateData
 
     console.log('Received:', stateData);
   }

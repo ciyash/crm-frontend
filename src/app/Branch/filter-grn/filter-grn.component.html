@@ -1,5 +1,5 @@
 <app-header></app-header>
-<div class="container d-flex justify-content-center mt-5 pt-5">
+<div class="container d-flex justify-content-center  " style="margin-top: 8%;">
     <form class="row mb-3 align-items-center justify-content-center" (ngSubmit)="searchUser()">
         <div class="col-auto">
             <label for="searchTerm" class="form-label fw-bold">GRN Number</label>
@@ -13,8 +13,6 @@
         </div>
     </form>
 </div>
-
-
 
 <div class="container" *ngFor="let user of data2;">
     <div class="card mb-3">

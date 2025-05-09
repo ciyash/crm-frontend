@@ -825,6 +825,42 @@ ParcelCancelReport(value: {
 
 
 
+BookingCancel(value: {
+  refundCharge: string;
+  refundAmount: string;
+  cancelDate: string;
+  cancelByUser: string;
+  cancelBranch: string;
+  cancelCity: string;
+}, grnNo: string) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+
+  // Injecting grnNo into the URL dynamically
+  return this.http.post(
+    `${AUTH_API}booking/cancelBooking/${grnNo}`,  // Use template literal to insert grnNo
+    {
+      refundCharge: value.refundCharge,
+      refundAmount: value.refundAmount,
+      cancelDate: value.cancelDate,
+      cancelByUser: value.cancelByUser,
+      cancelBranch: value.cancelBranch,
+      cancelCity: value.cancelCity
+    },
+    httpOptions
+  );
+}
+
+
+
+
+
+
 
 
 

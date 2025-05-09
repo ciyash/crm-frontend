@@ -1,10 +1,10 @@
 <app-header></app-header>
 
-  <div class="container my-4">
-    <h2 class="text-center mb-4">Parcel Cancel</h2>
-    <!-- Search Section -->
-    <div class="section-border">
-        <form (ngSubmit)="searchUser()">
+<div class="container my-4">
+  <h2 class="text-center mb-4">Parcel Cancel</h2>
+  <!-- Search Section -->
+  <div class="section-border">
+    <form (ngSubmit)="searchUser()">
       <div class="row g-3 align-items-center">
         <div class="col-md-4">
           <label for="searchBy" class="form-label">Search By:</label>
@@ -17,31 +17,33 @@
 
 
           <input required type="text" id="searchTerm" name="searchTerm" placeholder="Enter GRN Number"
-          class="form-control" [(ngModel)]="searchTerm" />
+            class="form-control" [(ngModel)]="searchTerm" />
 
         </div>
-        <div class="col-md-4 mt-5 d-flex align-items-center gap-3 flex-wrap">
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="cancelType" id="fullCancel" checked>
-            <label class="form-check-label" for="fullCancel">Full Cancel</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="cancelType" id="loadingCancel">
-            <label class="form-check-label" for="loadingCancel">Loading Cancel</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="cancelType" id="deliverCancel">
-            <label class="form-check-label" for="deliverCancel">Deliver Cancel</label>
+        <div class="col-md-4 mt-5 d-flex flex-column gap-2" *ngFor="let items of data2">
+          <div class="d-flex flex-wrap align-items-center gap-3">
+            <div class="form-check" *ngFor="let status of [0,1,2,3,4,5]">
+              <input class="form-check-input" type="radio" [name]="'cancelType-' + items.id" [value]="status"
+                [checked]="items.bookingStatus === status">
+              <label class="form-check-label">
+                {{ getStatusLabel(status) }}
+              </label>
+            </div>
           </div>
         </div>
+
+
+
+
       </div>
+
       <div class="text-center mt-3">
-        <button class="btn  ms-auto " style="background-color: #034F92; color: white;"   type="submit" >LOAD</button>
+        <button class="btn  ms-auto " style="background-color: #034F92; color: white;" type="submit">LOAD</button>
       </div>
     </form>
-    </div>
-      
-   <!-- Search Results -->
+  </div>
+
+  <!-- Search Results -->
 
 
   <!-- Error Message -->
@@ -50,134 +52,153 @@
   </div>
 
 
-    <!-- Form Table Section -->
-    <div class="section-border"  >
-      <div class="row g-3" *ngFor="let items of data2">
-        <!-- Loop these divs to render form fields -->
-        <div class="col-md-4">
-          <label class="form-label">GRN No/LR No</label>
-          <input type="text" class="form-control" [ngModel]="items.toCity">
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">Sender. Name</label>
-          <input type="text" class="form-control" [ngModel]="items.senderName">
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">Sender Phone</label>
-          <input type="text" class="form-control" [ngModel]="items.senderMobile">
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">Receiver Name</label>
-          <input type="text" class="form-control" [ngModel]="items.receiverName">
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">Receiver Phone</label>
-          <input type="text" class="form-control" [ngModel]="items.receiverMobile">
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">From City</label>
-          <input type="text" class="form-control"  [ngModel]="items.fromCity">
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">To City</label>
-          <input type="text" class="form-control"  [ngModel]="items.toCity">
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">From Branch</label>
-          <input type="text" class="form-control"  [ngModel]="items.pickUpBranchname">
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">To Branch</label>
-          <input type="text" class="form-control"  [ngModel]="items.dropBranchname">
-        </div>
-        <div class="col-md-4" >
-          <label class="form-label">Booked By Branch</label>
-          <input type="text" class="form-control"  [ngModel]="items.pickUpBranchname">
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">Booked By User</label>
-          <input type="text" class="form-control" [ngModel]="data2.bookedBy?.name">
-        </div>
-        
-        <div class="col-md-4">
-          <label class="form-label">bookingDate</label>
-          <input type="text" class="form-control"  [ngModel]="items.bookingDate">
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">Loading. Date</label>
-          <input type="text" class="form-control"  [ngModel]="items.loadingDate">
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">Unload. Date</label >
-          <input type="text" class="form-control"  [ngModel]="items.unloadingDate">
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">Delivery Date</label>
-          <input type="text" class="form-control"  [ngModel]="items.receiverMobile">
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">Load By User</label>
-          <input type="text" class="form-control"  [ngModel]="items.receiverMobile">
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">Un. By User</label>
-          <input type="text" class="form-control"  [ngModel]="items.receiverMobile">
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">D. By User</label>
-          <input type="text" class="form-control"  [ngModel]="items.receiverMobile">
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">booking Status </label>
-          <input type="text" class="form-control"  [ngModel]="items.bookingStatus">
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">Parcel Que.</label>
-          <input type="text" class="form-control"  [ngModel]="items.receiverMobile">
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">Total Price</label>
-          <input type="text" class="form-control"  [ngModel]="items.grandTotal">
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">Paid Type</label>
-          <input type="text" class="form-control"  [ngModel]="items.bookingType">
-        </div>
-
-        <div class="col-md-6">
-          <label class="form-label">Cancel By Branch</label>
-          <select class="form-select">
-            <option>Branch 1</option>
-            <option>Branch 2</option>
-          </select>
-        </div>
-        <div class="col-md-6">
-          <label class="form-label">Cancel By User</label>
-          <select class="form-select">
-            <option>User 1</option>
-            <option>User 2</option>
-          </select>
-        </div>
-        <div class="col-md-6">
-          <label class="form-label">Cancel Date</label>
-          <input type="text" class="form-control" value="14/04/2025">
-        </div>
-        <div class="col-md-6">
-          <label class="form-label">Remarks</label>
-          <input type="text" class="form-control" placeholder="Enter Remarks">
-        </div>
+  <!-- Form Table Section -->
+  <div class="section-border">
+    <div class="row g-3" *ngFor="let items of data2">
+      <!-- Loop these divs to render form fields -->
+      <div class="col-md-4">
+        <label class="form-label">GRN No/LR No</label>
+        <input type="text" class="form-control" [ngModel]="items.toCity">
       </div>
-    </div>
+      <div class="col-md-4">
+        <label class="form-label">Sender. Name</label>
+        <input type="text" class="form-control" [ngModel]="items.senderName">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Sender Phone</label>
+        <input type="text" class="form-control" [ngModel]="items.senderMobile">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Receiver Name</label>
+        <input type="text" class="form-control" [ngModel]="items.receiverName">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Receiver Phone</label>
+        <input type="text" class="form-control" [ngModel]="items.receiverMobile">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">From City</label>
+        <input type="text" class="form-control" [ngModel]="items.fromCity">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">To City</label>
+        <input type="text" class="form-control" [ngModel]="items.toCity">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">From Branch</label>
+        <input type="text" class="form-control" [ngModel]="items.pickUpBranchname">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">To Branch</label>
+        <input type="text" class="form-control" [ngModel]="items.dropBranchname">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Booked By Branch</label>
+        <input type="text" class="form-control" [ngModel]="items.pickUpBranchname">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Booked By User</label>
+        <input type="text" class="form-control" [ngModel]="data2.bookedBy?.name">
+      </div>
 
-    <div class="text-center">
-      <button class="btn btn-dark">CLOSE</button>
+      <div class="col-md-4">
+        <label class="form-label">bookingDate</label>
+        <input type="text" class="form-control" [ngModel]="items.bookingDate">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Loading. Date</label>
+        <input type="text" class="form-control" [ngModel]="items.loadingDate">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Unload. Date</label>
+        <input type="text" class="form-control" [ngModel]="items.unloadingDate">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Delivery Date</label>
+        <input type="text" class="form-control" [ngModel]="items.receiverMobile">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Load By User</label>
+        <input type="text" class="form-control" [ngModel]="items.receiverMobile">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Un. By User</label>
+        <input type="text" class="form-control" [ngModel]="items.receiverMobile">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">D. By User</label>
+        <input type="text" class="form-control" [ngModel]="items.receiverMobile">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">booking Status </label>
+        <input type="text" class="form-control" [ngModel]="items.bookingStatus">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Parcel Que.</label>
+        <input type="text" class="form-control" [ngModel]="items.receiverMobile">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Total Price</label>
+        <input type="text" class="form-control" [ngModel]="items.grandTotal">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Paid Type</label>
+        <input type="text" class="form-control" [ngModel]="items.bookingType">
+      </div>
+
+      <hr>
+      <form [formGroup]="form1">
+        <div class="row">
+          <div class="col-md-6">
+            <label class="form-label form-after">From City</label>
+            <select #selectElem class="form-select form-select-sm" formControlName="cancelCity"
+              (change)="onFromcitySelect($event)">
+              <option value="" selected>Select city</option>
+              <option *ngFor="let row2 of citydata" [value]="row2.cityName">
+                {{ row2.cityName }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label form-after">Branch Name</label>
+            <select #pickupbranch class="form-select form-select-sm" formControlName="cancelBranch">
+              <option value="" selected>Select branch</option>
+              <option *ngFor="let row4 of pdata" [value]="row4.name">{{ row4.name }}</option>
+            </select>
+
+          </div>
+
+          <div class="col-md-6" *ngIf="employee?.length">
+            <label class="form-label">Cancel By User</label>
+            <select class="form-select" formControlName="cancelByUser">
+              <option selected disabled>Select User</option>
+              <option *ngFor="let emp of employee" [value]="emp.name">
+                {{ emp.name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Cancel Date</label>
+            <input type="text" class="form-control" formControlName="cancelDate" readonly>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">RefundCharege</label>
+            <input type="text" class="form-control" formControlName="refundCharge" placeholder="Enter RefundCharege">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">RefundAmount</label>
+            <input type="text" class="form-control" formControlName="refundAmount" placeholder="Enter RefundAmount">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Remarks</label>
+            <input type="text" class="form-control" formControlName="remarks" placeholder="Enter Remarks">
+          </div>
+        </div>
+        <div class="text-center mt-4 mb-4">
+          <button class="btn btn-dark" (click)="cancelbooking()">Cancel Booking</button>
+        </div>
+      </form>
     </div>
   </div>
-
-
-
-
-
-
-
- 
+</div>

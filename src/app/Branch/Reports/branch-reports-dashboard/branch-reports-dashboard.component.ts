@@ -453,7 +453,12 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
     this.api.ParcelCancelReport(payload6).subscribe({
       next: (response: any) => {
         console.log('Cancel Report Loaded:', response);
-        this.router.navigateByUrl('/cancel-report', { state: { data4: response } });
+        const finallData = {
+          ...response,
+          fromDate: this.form7.value.fromDate,
+          toDate: this.form7.value.toDate
+        };
+        this.router.navigateByUrl('/cancel-report', { state: { data4: finallData } });
       },
       error: (error: any) => {
         console.error('Cancel Report Loading Failed:', error);
