@@ -1,7 +1,9 @@
 import { Component, ElementRef, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BranchService } from 'src/app/service/branch.service';
 declare var $: any;
+declare const SlimSelect: any; 
+
 
 @Component({
   selector: 'app-consolidated',
@@ -9,14 +11,20 @@ declare var $: any;
   styleUrls: ['./consolidated.component.scss']
 })
 export class ConsolidatedComponent {
+
+  @ViewChild('selectElem') selectElem!: ElementRef;
+  @ViewChild('branchselect') branchselect!: ElementRef;
+
+ BranchSelect: any;
   form: FormGroup;
   citydata: any;
   branchdata: any;
   pfdata: any;
   Cdata: any;
   bdata:any;
-  @ViewChild('BranchCity') BranchCity!: ElementRef;
-  @ViewChild('BranchName') BranchName!: ElementRef;
+  tbcdata: any
+  cities: any;
+
   constructor(private fb: FormBuilder, private api: BranchService) {
     this.form = this.fb.group({
       fromDate: ['', Validators.required],
@@ -28,44 +36,105 @@ export class ConsolidatedComponent {
       branchSummary: [false],
     });
   }
+
   ngOnInit() {
-    this.api.GetCities().subscribe((res: any) => {
-      this.citydata = res;
-      console.log("citydata:", this.citydata);
-      setTimeout(() => $(this.BranchCity.nativeElement).select2(), 0);
-    });
-
-    this.api.GetBranch().subscribe((res: any) => {
-      this.branchdata = res;
-      console.log("branchdata:", this.branchdata);
-      
-      setTimeout(() => $(this.BranchName.nativeElement).select2(), 0);
-    });
-
+    this.getCities();
+    this.branchData();
     this.getProfileData();
+  
   }
-  ngAfterViewInit(): void {
-    $(this.BranchCity.nativeElement).on('select2:select', (event: any) => {
-      const selectedCity = event.params.data.id;
-      console.log('Selected BranchCity:', selectedCity);
-      this.form.patchValue({ fromCity: selectedCity });
-      console.log('Updated form value:', this.form.value);
+  getCities() {
+    this.api.GetCities().subscribe({
+      next: (response: any) => {
+        console.log('Cities data:', response);
+        this.cities = response; 
+      },
+      error: (error: any) => {
+        console.error('Error fetching cities:', error);
+
+      },
     });
 
-    $(this.BranchName.nativeElement).on('select2:select', (event: any) => {
-      const selectedBranch = event.params.data.id;
-      console.log('Selected BranchName:', selectedBranch);
-      this.form.patchValue({ pickUpBranch: selectedBranch });
-      console.log('Updated form value:', this.form.value);
+  }
+
+ onToCityChange(event: any) {
+  const selectedOptions = Array.from(event.target.selectedOptions).map((option: any) => option.value);
+
+  const toCityArray = this.form.get('toCity') as FormArray;
+  toCityArray.clear(); // ✅ Clear old values before updating
+
+  selectedOptions.forEach(city => toCityArray.push(new FormControl(city)));
+
+  console.log('Selected To Cities:', toCityArray.value);
+}
+
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      // Initialize select2 for From City
+      $(this.selectElem.nativeElement).select2();
+      $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
+        const selectedCity = event.params.data.id;  // Get selected value
+        console.log('Selected City:', selectedCity);
+        this.form.patchValue({ fromCity: selectedCity });  // Manually update the form
+        console.log('Updated form value:', this.form.value);
+        this.onFromcitySelect({ target: { value: selectedCity } });  // Trigger API call
+      });
+      $(this.branchselect.nativeElement).select2();
+      $(this.branchselect.nativeElement).on('select2:select', (event: any) => {
+        const selectedDropBranch = event.params.data.id;
+        console.log('Selected Drop Branch:', selectedDropBranch);
+        this.form.patchValue({ pickUpBranch: selectedDropBranch });  // Update form value
+        console.log('Updated form value:', this.form.value);
+        this.BranchSelect({ target: { value: selectedDropBranch } });
+      });
+  
+
+    }, 0);
+  }
+
+  onFromcitySelect(event: any) {
+    const cityName = event.target.value;
+    if (cityName) {
+      this.api.GetBranchbyCity(cityName).subscribe(
+        (res: any) => {
+          console.log('Branches for selected city:', res);
+          this.tbcdata = res;
+        },
+        (error: any) => {
+          console.error('Error fetching branches:', error);
+        }
+      );
+    } else {
+      this.tbcdata = [];
+    }
+  }
+  branchData() {
+    this.api.getData('branch').subscribe({
+      next: (response: any) => {
+        console.log('Branch Datakajdkjanfjandfnaf:', response);
+        this.branchdata = response; // Ensure response contains an array of branches
+      },
+      error: (error: any) => {
+        console.error('Error fetching branch data:', error);
+      }
     });
   }
+  
   getProfileData(){
-    this.api.GetProfileData().subscribe((res:any)=>{
-      console.log('profile',res);
-      this.pfdata=res;
-      console.log(this.pfdata,"branchid")
+    this.api.GetProfileData().subscribe((res: any) => {
+      console.log('profile', res);
+      this.pfdata = res;
+      console.log(this.pfdata, "branchid");
+      
+      if (this.pfdata && this.pfdata.username) {
+        this.form.patchValue({
+          bookedBy: this.pfdata.username
+        });
+      }
     });
   }
+  
   getCollectionReport() {
     const payload = {
       fromDate: this.form.value.fromDate,
@@ -103,3 +172,17 @@ export class ConsolidatedComponent {
     return this.form.get('displayBookingDetails')?.value || this.form.get('branchSummary')?.value;
   }
 }
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  

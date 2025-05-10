@@ -19,7 +19,8 @@
             <label class="form-label"> To Date</label>
             <input type="date" class="form-control" formControlName="toDate">
           </div>
-          <div class="col-md-6">
+
+          <!-- <div class="col-md-6">
             <label class="form-label">Branch City :	
             </label>
             <select #BranchCity class="form-select form-select-sm" formControlName="fromCity">
@@ -33,15 +34,31 @@
               <option value="" selected>Select City</option>
               <option  *ngFor="let items of branchdata " [value]="items.branchUniqueId">{{items.city}}</option>
             </select>
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Branch User Name:	</label>
-            <select #allParcelPickupbranch class="form-select" formControlName="bookedBy">
-              <option value=""  selected>PickUpBranch</option>
-              <option *ngFor="let row2 of pfdata" [value]="row2.username">{{ row2.username }}</option>
+          </div> -->
+
+          <div class="col-md-6 col-sm-12">
+            <label class="form-label">Branch City</label>
+            <select #selectElem class="form-control select2" formControlName="fromCity"  (change)="onFromcitySelect($event)">
+              <option value="" selected>Select City</option>
+              <option *ngFor="let city of cities" [value]="city.cityName">{{ city.cityName }}</option>
             </select>
-          </div>
-          <div class="col-md-6 mt-4">
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <label class="form-label">Branch Name 
+        </label>
+        <select #branchselect class="form-select form-select-sm" formControlName="pickUpBranch">
+          <option value="" selected>Select Branch</option>
+          <option *ngFor="let branch of tbcdata" [value]="branch.branchUniqueId">{{ branch.name }}</option>
+        </select>
+      </div>
+
+
+      <div class="col-md-6" *ngIf="pfdata">
+        <label class="form-label">Branch User Name:</label>
+        <input type="text" formControlName="bookedBy" class="form-control" readonly>
+      </div>
+    
+          <!-- <div class="col-md-6 mt-4">
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="checkbox" id="displayBooking"
                      formControlName="displayBookingDetails">
@@ -53,19 +70,17 @@
                      formControlName="branchSummary">
               <label class="form-check-label" for="branchSummary">Branch Summary</label>
             </div>
-          </div>
+          </div> -->
           
           <!-- Conditional Filter -->
-          <div class="col-md-6 mt-4" *ngIf="showFilter">
+          <!-- <div class="col-md-6 mt-4" *ngIf="showFilter">
             <label class="form-label">Filter:</label>
             <select class="form-select" formControlName="filter">
               <option value="All">All</option>
               <option value="Bookings">Booking</option>
               <option value="Delivery">Delivery</option>
             </select>
-          </div>
-          
-          
+          </div> -->
           <div class="d-grid gap-2 col-2 mx-auto mt-4">
             <button type="button" class="btn btn-success w-100" (click)="getCollectionReport()" >Load</button>
           </div>
@@ -122,15 +137,14 @@
             <th></th>
             <th></th>
             <th>Paid</th>
-            <th>Manual</th>
             <th>ToPay</th>
-            <th>Manual</th>
+            <!-- <th>Manual</th> -->
             <th>CreditFor</th>
             <th>CreditFor</th>
-            <th>Manual</th>
+            <!-- <th>Manual</th> -->
             <th>Total</th>
             <th>Auto</th>
-            <th>Manual</th>
+            <!-- <th>Manual</th> -->
             <th>Refund</th>
             <th>Total</th>
             <th>Pending</th>
@@ -144,8 +158,7 @@
         <tbody *ngFor="let item of Cdata let  i= index">
           <tr *ngFor="let booking of item.bookings" >
             <td>{{i+1}}</td>
-            <td>{{booking.pickUpBranchname
-}}</td>
+            <td>{{booking.pickUpBranchname}}</td>
             <td class="text-right">0.00</td>
             <td class="text-right">0.00</td>
             <td class="text-right">520.00</td>
