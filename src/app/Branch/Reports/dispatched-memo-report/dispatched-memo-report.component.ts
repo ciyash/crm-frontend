@@ -40,8 +40,8 @@ export class DispatchedMemoReportComponent implements AfterViewInit {
     private toast: ToastrService
   ) {
     this.form = this.fb.group({
-      fromDate: ['', Validators.required],
-      toDate: ['', Validators.required],
+      fromDate: [this.getTodayDateString(), Validators.required],
+      toDate: [this.getTodayDateString(), Validators.required],
       fromCity: [''],
       toCity: [''],
       pickUpBranch: [''],
@@ -71,6 +71,15 @@ export class DispatchedMemoReportComponent implements AfterViewInit {
       this.allgetvechicle = res;
     });
   }
+
+  getTodayDateString(): string {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = ('0' + (today.getMonth() + 1)).slice(-2);
+    const day = ('0' + today.getDate()).slice(-2);
+    return `${year}-${month}-${day}`; // ✅ returns 'yyyy-MM-dd' format
+  }
+  
 
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -162,15 +171,69 @@ export class DispatchedMemoReportComponent implements AfterViewInit {
 
   printReport() {
     const printContents = document.getElementById('print-section')?.innerHTML;
-    const originalContents = document.body.innerHTML;
-  
     if (printContents) {
-      document.body.innerHTML = printContents;
-      window.print();
-      document.body.innerHTML = originalContents;
-      window.location.reload(); // Optional: to restore state after print
+      const popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+      popupWin!.document.open();
+      popupWin!.document.write(`
+        <html>
+          <head>
+            <title>Print Report</title>
+            <style>
+              /* You can include more styles here as needed */
+              body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+              }
+  
+              table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 12px;
+              }
+  
+              th, td {
+                border: 1px solid #000;
+                padding: 4px;
+                text-align: center;
+              }
+  
+              h4, h6, p {
+                margin: 4px 0;
+              }
+  
+              .text-center {
+                text-align: center;
+              }
+  
+              .fw-bold {
+                font-weight: bold;
+              }
+  
+              .text-decoration-underline {
+                text-decoration: underline;
+              }
+  
+              .d-flex {
+                display: flex;
+                justify-content: space-between;
+              }
+  
+              @media print {
+                .no-print {
+                  display: none;
+                }
+              }
+            </style>
+          </head>
+          <body onload="window.print(); window.close();">
+            ${printContents}
+          </body>
+        </html>
+      `);
+      popupWin!.document.close();
     }
   }
+  
   
   
 }

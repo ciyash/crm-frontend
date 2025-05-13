@@ -62,9 +62,12 @@
           </div>
 
         </div>
-        <div class="col-md-3 mt-4" *ngIf="DispatchedData" >
-          <i class="fa fa-print" style="height: 100px; width: 100px; cursor: pointer;" aria-hidden="true" (click)="printReport()"></i>
-
+        <div class="col-md-3 mt-3" *ngIf="DispatchedData" >
+          <i class="fa fa-print"
+          style="font-size: 50px; cursor: pointer;"
+          aria-hidden="true"
+          (click)="printReport()"></i>
+       
         </div>
 
   
@@ -73,273 +76,269 @@
     </form>
 
     <!-- Print Button -->
-
-
-
-
-
-
-
-
-    <div id="print-section">
-      <div class="hr" style="  border: 1px solid #ccc; /* light gray border */
-        background-color: #fff;"></div>
-        <div *ngIf="DispatchedData">
-          <div class="text-center mb-4 mt-5">
-            <div class="container-fluid" *ngIf="pfdata">
-              <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
-              <p class="text-center fw-bold">
-                Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
-                Phone No: {{ pfdata.phone }}
-              </p>
+    <div class="container-fluid">
+      <div id="print-section">
+        <div class="hr" style="  border: 1px solid #ccc; /* light gray border */
+          background-color: #fff;"></div>
+          <div *ngIf="DispatchedData">
+            <div class="text-center mb-4 mt-5">
+              <div class="container-fluid" *ngIf="pfdata">
+                <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
+                <p class="text-center fw-bold">
+                  Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
+                  Phone No: {{ pfdata.phone }}
+                </p>
+              </div>
+              <h6 class="text-decoration-underline">Dispatched Memo Report</h6>
             </div>
-            <h6 class="text-decoration-underline">Dispatched Memo Report</h6>
-          </div>
-          <div class="d-flex justify-content-between">
-            <h6>
-              Generated For : 08-05-2025 To 08-05-2025</h6>
-            <h6> Vehicle : All Vehicle</h6>
+            <div class="d-flex justify-content-between">
+              <h6>
+                Generated For : 08-05-2025 To 08-05-2025</h6>
+              <h6> Vehicle : All Vehicle</h6>
+            </div>
+      
+            <div class="d-flex justify-content-between">
+              <h6>
+                By Branch : VIJAYAWADA-Head Office</h6>
+              <h6>Generate Date : 08-05-2025 10:36 AM</h6>
+            </div>
+            <div class="d-flex justify-content-between">
+              <h6>
+                Route Name : All Route</h6>
+              <h6> Destination City : All Cities</h6>
+            </div>
+            <h6>Type : All Booking Type</h6>
           </div>
     
-          <div class="d-flex justify-content-between">
-            <h6>
-              By Branch : VIJAYAWADA-Head Office</h6>
-            <h6>Generate Date : 08-05-2025 10:36 AM</h6>
+    
+        <!-- Dispatched Paid Details -->
+    
+        <div *ngIf="DispatchedData?.data">
+          <div class="table-responsive mb-1 ">
+            <table class="table table-bordered table-sm text-center align-middle">
+              <thead>
+                <tr class="fw-bold">
+                  Dispatched Paid Details
+                </tr>
+              </thead>
+            </table>
           </div>
-          <div class="d-flex justify-content-between">
-            <h6>
-              Route Name : All Route</h6>
-            <h6> Destination City : All Cities</h6>
+          <div class="table-responsive">
+            <table class="table table-bordered table-sm text-center align-middle">
+              <thead class="table-secondary">
+                <tr>
+                  <th>No</th>
+                  <th>LR No </th>
+                  <th>Vehicle </th>
+                  <th>Dispatch Date </th>
+                  <th>To City </th>
+                  <th>Sender </th>
+                  <th>Receiver</th>
+                  <th>Mobile No </th>
+                  <th>Qty</th>
+                  <th>Item Details</th>
+                  <th>Fright </th>
+                  <th>Hamali </th>
+                  <th>Net Amount </th>
+                  <th>Sign
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of DispatchedData.data.paid; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ item.lrNumber }}</td>
+                  <td>{{ item.vehicalNumber }}</td>
+                  <td>{{ item.loadingDate | date:'dd/MM/yyyy' }}</td>
+                  <td>{{ item.toCity }}</td>
+                  <td>{{ item.senderName }}</td>
+                  <td>{{ item.receiverName }}</td>
+                  <td>{{ item.senderMobile }}</td>
+                  <td>{{ item.packages?.[0]?.quantity }}</td>
+                  <td>{{ item.packages?.[0]?.packageType }}</td>
+                  <td>{{ item.serviceCharge
+                    }}</td>
+                  <td>{{ item.hamaliCharge }}</td>
+                  <td>{{ item.grandTotal + item.hamaliCharge }}</td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <h6>Type : All Booking Type</h6>
         </div>
-
-
-      <!-- Dispatched Paid Details -->
-
-      <div *ngIf="DispatchedData?.data">
-        <div class="table-responsive mb-1 ">
+    
+    
+        <!-- Dispatched credit Details -->
+    
+        <div *ngIf="DispatchedData?.data">
+          <div class="table-responsive mb-1 ">
+            <table class="table table-bordered table-sm text-center align-middle">
+              <thead>
+                <tr class="fw-bold">
+                  Dispatched credit Details
+                </tr>
+              </thead>
+            </table>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-bordered table-sm text-center align-middle">
+              <thead class="table-secondary">
+                <tr>
+                  <th>No</th>
+                  <th>LR No </th>
+                  <th>Vehicle </th>
+                  <th>Dispatch Date </th>
+                  <th>To City </th>
+                  <th>Sender </th>
+                  <th>Receiver</th>
+                  <th>Mobile No </th>
+                  <th>Qty</th>
+                  <th>Item Details</th>
+                  <th>Fright </th>
+                  <th>Hamali </th>
+                  <th>Net Amount </th>
+                  <th>Sign
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of DispatchedData.data.credit; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ item.lrNumber }}</td>
+                  <td>{{ item.vehicalNumber }}</td>
+                  <td>{{ item.loadingDate | date:'dd/MM/yyyy' }}</td>
+                  <td>{{ item.toCity }}</td>
+                  <td>{{ item.senderName }}</td>
+                  <td>{{ item.receiverName }}</td>
+                  <td>{{ item.senderMobile }}</td>
+                  <td>{{ item.packages?.[0]?.quantity }}</td>
+                  <td>{{ item.packages?.[0]?.packageType }}</td>
+                  <td>{{ item.serviceCharge
+                    }}</td>
+                  <td>{{ item.hamaliCharge }}</td>
+                  <td>{{ item.grandTotal + item.hamaliCharge }}</td>
+                  <td></td>
+                </tr>
+    
+              </tbody>
+            </table>
+          </div>
+        </div>
+    
+        <!-- Dispatched Topay Details -->
+        <div *ngIf="DispatchedData?.data">
+          <div class="table-responsive mb-1">
+            <table class="table table-bordered table-sm text-center align-middle">
+              <thead>
+                <tr class="fw-bold">
+                  <td colspan="14">Dispatched Topay Details</td>
+                </tr>
+              </thead>
+            </table>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-bordered table-sm text-center align-middle">
+              <thead class="table-secondary">
+                <tr>
+                  <th>No</th>
+                  <th>LR No</th>
+                  <th>Vehicle</th>
+                  <th>Dispatch Date</th>
+                  <th>To City</th>
+                  <th>Sender</th>
+                  <th>Receiver</th>
+                  <th>Mobile No</th>
+                  <th>Qty</th>
+                  <th>Item Details</th>
+                  <th>Freight</th>
+                  <th>Hamali</th>
+                  <th>Net Amount</th>
+                  <th>Sign</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of DispatchedData?.data?.toPay; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ item.lrNumber }}</td>
+                  <td>{{ item.vehicalNumber }}</td>
+                  <td>{{ item.loadingDate | date: 'dd/MM/yyyy' }}</td>
+                  <td>{{ item.toCity }}</td>
+                  <td>{{ item.senderName }}</td>
+                  <td>{{ item.receiverName }}</td>
+                  <td>{{ item.senderMobile }}</td>
+                  <td>{{ item.packages?.[0]?.quantity || 0 }}</td>
+                  <td>{{ item.packages?.[0]?.packageType || '-' }}</td>
+                  <td>{{ item.serviceCharge || 0 }}</td>
+                  <td>{{ item.hamaliCharge || 0 }}</td>
+                  <td>{{ item.grandTotal || 0 }}</td> <!-- Display grandTotal -->
+                  <td></td>
+                </tr>
+              </tbody>
+              <tfoot class="fw-bold table-light" *ngIf="DispatchedData?.data?.toPay?.length">
+                <tr>
+                  <td colspan="8">Total</td>
+                  <td>{{ totalQty }}</td>
+                  <td></td>
+                  <td>{{ totalFreight }}</td>
+                  <td>{{ totalHamali }}</td>
+                  <td>{{ totalNetAmount }}</td>
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+    
+    
+        <!-- cityWiseDetails -->
+    
+        <div class="table-responsive mb-1" *ngIf="DispatchedData?.cityWiseDetails">
           <table class="table table-bordered table-sm text-center align-middle">
             <thead>
               <tr class="fw-bold">
-                Dispatched Paid Details
+                cityWiseDetails
               </tr>
             </thead>
           </table>
-        </div>
+    
         <div class="table-responsive">
           <table class="table table-bordered table-sm text-center align-middle">
             <thead class="table-secondary">
               <tr>
                 <th>No</th>
-                <th>LR No </th>
-                <th>Vehicle </th>
-                <th>Dispatch Date </th>
-                <th>To City </th>
-                <th>Sender </th>
-                <th>Receiver</th>
-                <th>Mobile No </th>
-                <th>Qty</th>
-                <th>Item Details</th>
-                <th>Fright </th>
-                <th>Hamali </th>
-                <th>Net Amount </th>
-                <th>Sign
+                <th>City Name </th>
+                <th>Paid Qty </th>
+                <th>Paid Amount </th>
+                <th>ToPay Qty </th>
+                <th>ToPay Amount </th>
+                <th>CreditFor Qty </th>
+                <th>CreditFor Amount
                 </th>
+    
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of DispatchedData.data.paid; let i = index">
+              <tr *ngFor="let item of DispatchedData.data.cityWiseDetails; let i = index">
                 <td>{{ i + 1 }}</td>
-                <td>{{ item.lrNumber }}</td>
-                <td>{{ item.vehicalNumber }}</td>
-                <td>{{ item.loadingDate | date:'dd/MM/yyyy' }}</td>
-                <td>{{ item.toCity }}</td>
-                <td>{{ item.senderName }}</td>
-                <td>{{ item.receiverName }}</td>
-                <td>{{ item.senderMobile }}</td>
-                <td>{{ item.packages?.[0]?.quantity }}</td>
-                <td>{{ item.packages?.[0]?.packageType }}</td>
-                <td>{{ item.serviceCharge
-                  }}</td>
-                <td>{{ item.hamaliCharge }}</td>
-                <td>{{ item.grandTotal + item.hamaliCharge }}</td>
-                <td></td>
+                <td>{{ item.cityName }}</td>
+                <td>{{ item.paidQty }}</td>
+                <td>{{ item.paidAmount }}</td>
+                <td>{{ item.toPayQty }}</td>
+                <td>{{ item.toPayAmount }}</td>
+                <td>{{ item.creditForQty }}</td>
+                <td>{{ item.creditForAmount }}</td>
               </tr>
+    
             </tbody>
           </table>
         </div>
-      </div>
-
-
-      <!-- Dispatched credit Details -->
-
-      <div *ngIf="DispatchedData?.data">
-        <div class="table-responsive mb-1 ">
-          <table class="table table-bordered table-sm text-center align-middle">
-            <thead>
-              <tr class="fw-bold">
-                Dispatched credit Details
-              </tr>
-            </thead>
-          </table>
         </div>
-        <div class="table-responsive">
-          <table class="table table-bordered table-sm text-center align-middle">
-            <thead class="table-secondary">
-              <tr>
-                <th>No</th>
-                <th>LR No </th>
-                <th>Vehicle </th>
-                <th>Dispatch Date </th>
-                <th>To City </th>
-                <th>Sender </th>
-                <th>Receiver</th>
-                <th>Mobile No </th>
-                <th>Qty</th>
-                <th>Item Details</th>
-                <th>Fright </th>
-                <th>Hamali </th>
-                <th>Net Amount </th>
-                <th>Sign
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of DispatchedData.data.credit; let i = index">
-                <td>{{ i + 1 }}</td>
-                <td>{{ item.lrNumber }}</td>
-                <td>{{ item.vehicalNumber }}</td>
-                <td>{{ item.loadingDate | date:'dd/MM/yyyy' }}</td>
-                <td>{{ item.toCity }}</td>
-                <td>{{ item.senderName }}</td>
-                <td>{{ item.receiverName }}</td>
-                <td>{{ item.senderMobile }}</td>
-                <td>{{ item.packages?.[0]?.quantity }}</td>
-                <td>{{ item.packages?.[0]?.packageType }}</td>
-                <td>{{ item.serviceCharge
-                  }}</td>
-                <td>{{ item.hamaliCharge }}</td>
-                <td>{{ item.grandTotal + item.hamaliCharge }}</td>
-                <td></td>
-              </tr>
-
-            </tbody>
-          </table>
-        </div>
+    
+    
       </div>
-
-      <!-- Dispatched Topay Details -->
-      <div *ngIf="DispatchedData?.data">
-        <div class="table-responsive mb-1">
-          <table class="table table-bordered table-sm text-center align-middle">
-            <thead>
-              <tr class="fw-bold">
-                <td colspan="14">Dispatched Topay Details</td>
-              </tr>
-            </thead>
-          </table>
-        </div>
-        <div class="table-responsive">
-          <table class="table table-bordered table-sm text-center align-middle">
-            <thead class="table-secondary">
-              <tr>
-                <th>No</th>
-                <th>LR No</th>
-                <th>Vehicle</th>
-                <th>Dispatch Date</th>
-                <th>To City</th>
-                <th>Sender</th>
-                <th>Receiver</th>
-                <th>Mobile No</th>
-                <th>Qty</th>
-                <th>Item Details</th>
-                <th>Freight</th>
-                <th>Hamali</th>
-                <th>Net Amount</th>
-                <th>Sign</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of DispatchedData?.data?.toPay; let i = index">
-                <td>{{ i + 1 }}</td>
-                <td>{{ item.lrNumber }}</td>
-                <td>{{ item.vehicalNumber }}</td>
-                <td>{{ item.loadingDate | date: 'dd/MM/yyyy' }}</td>
-                <td>{{ item.toCity }}</td>
-                <td>{{ item.senderName }}</td>
-                <td>{{ item.receiverName }}</td>
-                <td>{{ item.senderMobile }}</td>
-                <td>{{ item.packages?.[0]?.quantity || 0 }}</td>
-                <td>{{ item.packages?.[0]?.packageType || '-' }}</td>
-                <td>{{ item.serviceCharge || 0 }}</td>
-                <td>{{ item.hamaliCharge || 0 }}</td>
-                <td>{{ item.grandTotal || 0 }}</td> <!-- Display grandTotal -->
-                <td></td>
-              </tr>
-            </tbody>
-            <tfoot class="fw-bold table-light" *ngIf="DispatchedData?.data?.toPay?.length">
-              <tr>
-                <td colspan="8">Total</td>
-                <td>{{ totalQty }}</td>
-                <td></td>
-                <td>{{ totalFreight }}</td>
-                <td>{{ totalHamali }}</td>
-                <td>{{ totalNetAmount }}</td>
-                <td></td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-      </div>
-
-
-      <!-- cityWiseDetails -->
-
-      <div class="table-responsive mb-1" *ngIf="DispatchedData?.cityWiseDetails">
-        <table class="table table-bordered table-sm text-center align-middle">
-          <thead>
-            <tr class="fw-bold">
-              cityWiseDetails
-            </tr>
-          </thead>
-        </table>
-
-      <div class="table-responsive">
-        <table class="table table-bordered table-sm text-center align-middle">
-          <thead class="table-secondary">
-            <tr>
-              <th>No</th>
-              <th>City Name </th>
-              <th>Paid Qty </th>
-              <th>Paid Amount </th>
-              <th>ToPay Qty </th>
-              <th>ToPay Amount </th>
-              <th>CreditFor Qty </th>
-              <th>CreditFor Amount
-              </th>
-
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of DispatchedData.data.cityWiseDetails; let i = index">
-              <td>{{ i + 1 }}</td>
-              <td>{{ item.cityName }}</td>
-              <td>{{ item.paidQty }}</td>
-              <td>{{ item.paidAmount }}</td>
-              <td>{{ item.toPayQty }}</td>
-              <td>{{ item.toPayAmount }}</td>
-              <td>{{ item.creditForQty }}</td>
-              <td>{{ item.creditForAmount }}</td>
-            </tr>
-
-          </tbody>
-        </table>
-      </div>
-      </div>
-
-
     </div>
 
   </div>
 </div>
+
+
