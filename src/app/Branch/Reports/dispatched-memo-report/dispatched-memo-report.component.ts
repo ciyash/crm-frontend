@@ -112,6 +112,11 @@ export class DispatchedMemoReportComponent implements AfterViewInit {
       next: (response: any) => {
         console.log('All Parcel loaded successfully:', response);
         this.DispatchedData = response;
+        this.DispatchedData = {
+          ...response,
+          cityWiseDetails: response.cityWiseDetails || [],
+        };
+        
         console.log('report:', this.DispatchedData);
 
         // Reset totals
@@ -152,4 +157,20 @@ export class DispatchedMemoReportComponent implements AfterViewInit {
       });
     }
   }
+
+
+
+  printReport() {
+    const printContents = document.getElementById('print-section')?.innerHTML;
+    const originalContents = document.body.innerHTML;
+  
+    if (printContents) {
+      document.body.innerHTML = printContents;
+      window.print();
+      document.body.innerHTML = originalContents;
+      window.location.reload(); // Optional: to restore state after print
+    }
+  }
+  
+  
 }

@@ -1,5 +1,5 @@
 
-<div class="container-fluid" *ngFor="let item of getgrndata?.bookingDetails; let i = index">
+<div class="container-fluid" >
     <p class="text-end">{{ '24-03-2025 03:10 PM' }}</p>
     <h2 class="header" style="font-size: 36px; font-family: 'Poppins', sans-serif; font-weight: bold; color: #333;">
         SREE KALESWARI LOGISTICS
@@ -16,110 +16,117 @@
             <p><strong>From City:</strong> {{ getgrndata?.fromCity }}</p>
         </div>
         <div>
-            <p><strong>Generate Date:</strong> {{ item.bookingDate | date:'dd-MM-yyyy' }}</p>
+            <!-- <p><strong>Generate Date:</strong> {{ item.bookingDate | date:'dd-MM-yyyy' }}</p> -->
             <p><strong>Print Date:</strong> 24-03-2025 03:10 PM</p>
             <p><strong>To City:</strong> {{ getgrndata?.toCity[0] }}</p>
         </div>
     </div>
 
-    <table class="table table-bordered" style="border: 2px solid black;">
-        <thead>
-            <tr>
-                <th>Sr. No</th>
-                <th>GNo</th>
-                <th>Booking Date</th>
-                <th>Destination</th>
-                <th>Bus No</th>
-                <th>Sender</th>
-                <th>Receiver</th>
-                <th>Receiver No.</th>
-                <th>Type</th>
-                <th>Pkgs Details</th>
-                <th>Parcel Contains</th>
-                <th>Qty</th>
-                <th>Amount</th>
-                <th>Remarks</th>
-                <th>Receiver Sign</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ i + 1 }}</td>
-                <td>{{ item.grnNo }}</td>
-                <td>{{ item.bookingDate | date:'dd-MM-yyyy' }}</td>
-                <td>{{ getgrndata?.toCity[0] }}</td>
-                <td>{{ getgrndata?.vehicalNumber }}</td>
-                <td>{{ item.senderName }}</td>
-                <td>{{ item.receiverName }}</td>
-                <td>{{ item.receiverMobile }}</td>
-                <td>{{ item.bookingType }}</td>
-                <td>
-                    <ul>
-                        <li *ngFor="let package of item.packages">
-                            {{ package.packageType }}  {{ package.weight }} kg
-                        </li>
-                    </ul>
-                </td>
-                <td>
-                    <p *ngIf="item?.packages?.length">
-                        <span *ngFor="let package of item.packages; let last = last">
-                            {{ package.contains }} 
-                        </span>
-                    </p>
-                </td>
-                <td> {{ getTotalQuantity(item.packages) }}
-                </td>
-                <td>
-                     ₹{{ getGrandTotal(item.packages) }}
-                </td>
-                <td>{{ item.remarks }}</td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-
-<div class="container-fluid d-flex justify-content-end " >
-    <table class="invoice-table" *ngFor="let item of getgrndata?.bookingDetails; let i = index " >
-        <thead>
-            <tr>
-                <th>Category</th>
-                <th>Total</th>
-                <th>Amount</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr >
-                <td class="fw-bold">Paid</td>
-                <td class="fw-bold">{{ getPaidCount(getgrndata?.bookingDetails || []) }}</td>
-                <td class="fw-bold">{{ item?.bookingType === 'paid' ? item?.grandTotal : 0 }}</td>
-                
-
-            </tr>
-            <tr>
-                <td class="fw-bold">ToPay</td>
-                <td class="fw-bold">{{ getToPayCount(getgrndata?.bookingDetails || []) }}</td>
-                <td class="fw-bold"> {{ item?.bookingType === 'toPay' ? item?.grandTotal : 0 }}</td>
-            </tr>
-            <tr class="total-row">
-                <td class="fw-bold"> <strong>Total</strong></td>
-                <td class="fw-bold"> {{ getPaidCount(getgrndata?.bookingDetails || []) +(getToPayCount(getgrndata?.bookingDetails || []))  }}</td>
-                <td class="fw-bold">
-                    {{ (item?.bookingType === 'toPay' ? item?.grandTotal : 0) + (item?.bookingType === 'paid' ? item?.grandTotal : 0) }}
-                  </td>
-                              </tr>
-        </tbody>
-    </table>
-
-</div>
-<div class="container-fluid" *ngFor="let item of getgrndata?.bookingDetails; let i = index">
-    <div class="remarks">
-        <p><strong>Loading Remarks :-</strong></p>
-        <p><strong>Driver Name :</strong> {{getgrndata.driverName}} </p>
-        <p><strong>Driver Number:</strong>- {{getgrndata.driverNo}}</p>
+    <div *ngFor="let item of getgrndata?.bookingDetails; let i = index">
+      
+    
+        <table class="table table-bordered" style="border: 2px solid black;">
+            <thead>
+                <tr>
+                    <th>Sr. No</th>
+                    <th>GNo</th>
+                    <th>Booking Date</th>
+                    <th>Destination</th>
+                    <th>Bus No</th>
+                    <th>Sender</th>
+                    <th>Receiver</th>
+                    <th>Receiver No.</th>
+                    <th>Type</th>
+                    <th>Pkgs Details</th>
+                    <th>Parcel Contains</th>
+                    <th>Qty</th>
+                    <th>Amount</th>
+                    <th>Remarks</th>
+                    <th>Receiver Sign</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ item.grnNo }}</td>
+                    <td>{{ item.bookingDate | date:'dd-MM-yyyy' }}</td>
+                    <td>{{ getgrndata?.toCity[0] }}</td>
+                    <td>{{ getgrndata?.vehicalNumber }}</td>
+                    <td>{{ item.senderName }}</td>
+                    <td>{{ item.receiverName }}</td>
+                    <td>{{ item.receiverMobile }}</td>
+                    <td>{{ item.bookingType }}</td>
+                    <td>
+                        <ul>
+                            <li *ngFor="let package of item.packages">
+                                {{ package.packageType }}  {{ package.weight }} kg
+                            </li>
+                        </ul>
+                    </td>
+                    <td>
+                        <p *ngIf="item?.packages?.length">
+                            <span *ngFor="let package of item.packages; let last = last">
+                                {{ package.contains }} 
+                            </span>
+                        </p>
+                    </td>
+                    <td> {{ getTotalQuantity(item.packages) }}
+                    </td>
+                    <td>
+                         ₹{{ getGrandTotal(item.packages) }}
+                    </td>
+                    <td>{{ item.remarks }}</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-    <button class="btn btn-primary d-print-none" onclick="window.print()">Print Report</button>
+    
+    
+    <div class="container-fluid d-flex justify-content-end " >
+        <table class="invoice-table" *ngFor="let item of getgrndata?.bookingDetails; let i = index " >
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Total</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr >
+                    <td class="fw-bold">Paid</td>
+                    <td class="fw-bold">{{ getPaidCount(getgrndata?.bookingDetails || []) }}</td>
+                    <td class="fw-bold">{{ item?.bookingType === 'paid' ? item?.grandTotal : 0 }}</td>
+                    
+    
+                </tr>
+                <tr>
+                    <td class="fw-bold">ToPay</td>
+                    <td class="fw-bold">{{ getToPayCount(getgrndata?.bookingDetails || []) }}</td>
+                    <td class="fw-bold"> {{ item?.bookingType === 'toPay' ? item?.grandTotal : 0 }}</td>
+                </tr>
+                <tr class="total-row">
+                    <td class="fw-bold"> <strong>Total</strong></td>
+                    <td class="fw-bold"> {{ getPaidCount(getgrndata?.bookingDetails || []) +(getToPayCount(getgrndata?.bookingDetails || []))  }}</td>
+                    <td class="fw-bold">
+                        {{ (item?.bookingType === 'toPay' ? item?.grandTotal : 0) + (item?.bookingType === 'paid' ? item?.grandTotal : 0) }}
+                      </td>
+                                  </tr>
+            </tbody>
+        </table>
+    
+    </div>
+    <div class="container-fluid" >
 
-</div>
+        <div class="remarks">
+            <p><strong>Loading Remarks :-</strong></p>
+            <p><strong>Driver Name :</strong> {{getgrndata.driverName}} </p>
+            <p><strong>Driver Number:</strong>- {{getgrndata.driverNo}}</p>
+        </div>
+        <button class="btn btn-primary d-print-none" onclick="window.print()">Print Report</button>
+    
+    </div>
+    
+    </div>
+
 

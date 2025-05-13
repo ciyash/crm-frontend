@@ -1,4 +1,5 @@
 import {  OnInit,AfterViewInit, Component, ElementRef, ViewChild  } from '@angular/core';
+
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BranchService } from 'src/app/service/branch.service';
 import { TokenService } from 'src/app/service/token.service';
@@ -27,7 +28,7 @@ export class ParcelloadingComponent implements OnInit {
   data2:any;
   data1:any;
   LoadSuccess: boolean = false;
-  allSelected: boolean = false;
+  allSelected: boolean = true;
   qrdata: string = '';
   showScanner: boolean = false;
   tbcdata:any;
@@ -35,25 +36,21 @@ export class ParcelloadingComponent implements OnInit {
    @ViewChild('branchselect') branchselect!: ElementRef;
    @ViewChild('SelectVechicle')SelectVechicle!:ElementRef;
   @ViewChild('demoSelect') demoSelect!: ElementRef;
+  @ViewChild('printTable') printTable!: ElementRef;
+
   BranchSelect: any;
+  pfdata: any;
   
 
   constructor(private api: BranchService, private token:TokenService,
      private fb: FormBuilder, private messageService:MessageService,
       private router:Router, private activeroute:ActivatedRoute,private toast:ToastrService) {
-      // this.form = this.fb.group({
-      //   startDate: ['', Validators.required],
-      //   endDate: ['', Validators.required],
-      //   fromCity: ['', Validators.required],
-      //   toCity: this.fb.array([], Validators.required),
-
-      //   pickUpBranch: ['', Validators.required],
       this.form = this.fb.group({
         startDate: [this.getTodayDateString(), Validators.required],
         endDate: [this.getTodayDateString(), Validators.required],
-        fromCity: [''],                // Remove Validators.required
-        toCity: this.fb.array([]),     // No Validators.required
-        pickUpBranch: [''],            // Remove Validators.required
+        fromCity: ['',Validators.required],               
+        toCity: this.fb.array([]),     
+        pickUpBranch: ['',Validators.required], 
       });
 
       this.form1 = this.fb.group({
@@ -65,7 +62,7 @@ export class ParcelloadingComponent implements OnInit {
         driverNo: ['', Validators.required],
         fromBookingDate: ['',],
         toBookingDate: ['', ],
-        fromCity: ['', ],
+        fromCity:[''],
         // userName:['Test'],
         senderName:['',],
         toCity: this.fb.array([], ),
@@ -82,6 +79,7 @@ export class ParcelloadingComponent implements OnInit {
     this.getCities();
     this. getVehicleData();
     this.branchData();
+    this.getProfileData();
   }
 
   getTodayDateString(): string {
@@ -119,60 +117,65 @@ export class ParcelloadingComponent implements OnInit {
 }
 
 
-  onLoad() {
-    const today = this.getTodayDateString();
-    const formValues = this.form.value;
+onLoad() {
+  const today = this.getTodayDateString();
+  const formValues = this.form.value;
   
-    const payload: any = {
-      startDate: formValues.startDate || today,
-      endDate: formValues.endDate || today
-    };
-    if (formValues.fromCity) {
-      payload.fromCity = formValues.fromCity;
-    }
-    
-    
-    if (formValues.toCity && formValues.toCity.length > 0) {
-      payload.toCity = formValues.toCity;
-    }
-  
-    if (formValues.pickUpBranch) {
-      payload.pickUpBranch = formValues.pickUpBranch;
-    }
+  const payload: any = {
+    startDate: formValues.startDate || today,
+    endDate: formValues.startDate || today
+  };
 
-    console.log('Final Parcel Load Data:', payload);
-  
-    this.api.FilterParcelLoading(payload).subscribe({
-      next: (response: any) => {
-        console.log('Parcel Load successful:', response);
-        this.toast.success('Parcel Load successful ', 'Success');
-        this.data = response || [];
-        this.LoadSuccess = true;
-  
-        if (this.data.length > 0) {
-          this.form1.patchValue({
-            fromBranch: this.data[0].pickUpBranch,
-            toBranch: this.data[0].dropBranch,
-            fromBookingDate: this.form.value.startDate,
-            toBookingDate: this.form.value.endDate,
-            fromCity: this.form.value.fromCity,
-            // senderName:this.form.value.senderName,
-            senderName: this.data[0]?.senderName || ''
-
-            
-          });
-  
-          this.setFormArray('toCity', this.data.map((d: any) => d.toCity));
-          this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
-          this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
-        }
-      },
-      error: (error: any) => {
-        console.error('Parcel Load failed:', error);
-        this.toast.error('Parcel data not found..', 'Error');
-      },
-    });
+  if (formValues.fromCity) {
+    payload.fromCity = formValues.fromCity;
   }
+
+  if (formValues.toCity && formValues.toCity.length > 0) {
+    payload.toCity = formValues.toCity;
+  }
+
+  if (formValues.pickUpBranch) {
+    payload.pickUpBranch = formValues.pickUpBranch;
+  }
+
+  console.log('Final Parcel Load Data:', payload);
+
+  this.api.FilterParcelLoading(payload).subscribe({
+    next: (response: any) => {
+      this.toast.success('Parcel Load successful', 'Success');
+      console.log("data:", response);
+      this.data = response || [];
+
+      this.LoadSuccess = true;
+
+      if (this.data.length > 0) {
+        this.form1.patchValue({
+          fromBranch: this.data[0].pickUpBranch,
+          toBranch: this.data[0].dropBranch,
+          fromBookingDate: this.form.value.startDate,
+          toBookingDate: this.form.value.endDate,
+          fromCity: this.form.value.fromCity,
+          senderName: this.data[0]?.senderName || ''
+        });
+
+        this.setFormArray('toCity', this.data.map((d: any) => d.toCity));
+        this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
+        this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
+      }
+    },
+    error: (error: any) => {
+      console.error('Parcel Load Error:', error);
+
+      const errorMessage = error?.error?.message || error?.message || 'An error occurred during parcel load.';
+
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['/parcelloading']);
+        this.toast.error(errorMessage, "Parcel Load Failed");
+      });
+    }
+  });
+}
+
   
   setFormArray(controlName: string, values: any[]) {
     const formArray = this.form1.get(controlName) as FormArray;
@@ -205,7 +208,6 @@ export class ParcelloadingComponent implements OnInit {
   // ✅ Handle "Select All" checkbox
   onSelectAllChange(event: any) {
     const formArray = this.form1.get('grnNo') as FormArray;
-  
     if (event.target.checked) {
       // ✅ Select all if checked
       this.data.forEach((row:any) => {
@@ -217,7 +219,6 @@ export class ParcelloadingComponent implements OnInit {
       // ✅ Deselect all if unchecked
       formArray.clear();
     }
-  
     // ✅ Update "Select All" status
     this.allSelected = event.target.checked;
     console.log('All GRN Numbers Selected:', formArray.value);
@@ -277,7 +278,6 @@ export class ParcelloadingComponent implements OnInit {
     this.getQRdata(result);
   }
   
-
   getQRdata(id: any) {
     this.api.GetQrGRNnumber(id).subscribe((res: any) => {
       console.log(res, 'qrdata');
@@ -397,7 +397,56 @@ export class ParcelloadingComponent implements OnInit {
       }
     });
   }
+    printSection() {
+      const printContents = this.printTable.nativeElement.innerHTML;
+      const WindowPrt = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+      if (WindowPrt) {
+        WindowPrt.document.write(`
+          <html>
+            <head>
+              <title>Print</title>
+              <style>
+                table {
+                  width: 100%;
+                  border-collapse: collapse;
+                }
+                th, td {
+                  border: 1px solid #000;
+                  padding: 8px;
+                  text-align: left;
+                  font-family: Arial, sans-serif;
+                  font-size: 12px;
+                }
+                th {
+                  background-color: #f2f2f2;
+                }
+                input[type="checkbox"] {
+                  display: none; /* Hide checkboxes in print */
+                }
+              </style>
+            </head>
+            <body onload="window.print(); window.close();">
+              ${printContents}
+            </body>
+          </html>
+        `);
+        WindowPrt.document.close();
+      }
+    }
+
+    getProfileData() {
+      this.api.GetProfileData().subscribe((res: any) => {
+        this.pfdata = res;
+        console.log( 'profiledata:',this.pfdata);
+      });
+    }
   }
+  
+  
+  
+
+
+  
   
 
     

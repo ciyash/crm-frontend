@@ -23,10 +23,9 @@ searchTerm: string = '';
   constructor(private api:BranchService, private activeroute:ActivatedRoute, private fb:FormBuilder, private router:Router){
 
               this.form = this.fb.group({
-                "grnNo": ['', Validators.required],
-                "mobile": [''],
-                "searchCustomer": [''],
-                "lrNumber": [''],
+                grnNo: ['', Validators.required],
+                receiverName1: [''],
+                receiverMobile1: [''],
                   });
 
   }
@@ -35,9 +34,11 @@ searchTerm: string = '';
     this.searchTerm = this.activeroute.snapshot.params['grnNo'];
   }
 
-  updateParcelStatus(grnNo: string) {
+  updateParcelStatus() {
     const payload = {
-      grnNo: grnNo, 
+      grnNo: this.form.value.grnNo, 
+      receiverName1:this.form.value.receiverName1,
+      receiverMobile1:this.form.value.receiverMobile1
     };
   
     console.log('Final Payload:', payload);
@@ -88,14 +89,10 @@ console.log("searchdata:",searchPayload)
   
       this.api.GetSearch(searchPayload).subscribe(
         (res: any) => {
-          console.log('API Response:', res);
           this.data2=res;
           console.log("searchdataobject:",this.data2)
-          console.log("seELADNLKDAFDAFddfnsdfljsdnfkljnsdfnsdklfnsd:",this.data2);
-          
-  
-          
-    } )}
+    } 
+    )}
   }
   
 

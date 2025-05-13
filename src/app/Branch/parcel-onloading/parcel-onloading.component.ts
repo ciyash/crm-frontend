@@ -54,8 +54,8 @@ export class ParcelOnloadingComponent {
     this.form = this.fb.group({
       fromDate: [this.getTodayDateString(), Validators.required],
       toDate: [this.getTodayDateString(), Validators.required],
-      fromCity: ['', Validators.required],
-      toCity: ['', Validators.required],
+      fromCity: [''],
+      toCity: [''],
       vehicalNumber: ['',],
       branch: [''] // ✅
 
@@ -404,6 +404,39 @@ getQRdata(id: string) {
   //   onSubmit() {
   //     alert('Selected Date: ' + this.selectedDate + '\nFormatted: ' + this.formattedDate);
   //   }
+
+  printTable() {
+    const printContent = document.getElementById('print-section');
+    const WindowPrt = window.open('', '', 'width=900,height=650');
+    if (WindowPrt && printContent) {
+      WindowPrt.document.write(`
+        <html>
+          <head>
+            <title>Print Table</title>
+            <style>
+              table {
+                width: 100%;
+                border-collapse: collapse;
+              }
+              th, td {
+                border: 1px solid black;
+                padding: 8px;
+                text-align: left;
+              }
+            </style>
+          </head>
+          <body onload="window.print(); window.close();">
+            ${printContent.innerHTML}
+          </body>
+        </html>
+      `);
+      WindowPrt.document.close();
+    }
+  }
+  
+
+
+
   }
   
 

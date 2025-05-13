@@ -7,157 +7,175 @@ font-weight: 500;
 text-decoration: underline;
 word-wrap: break-word">Parcel Loading Offline</h4>
 
-  
+
 <div class="container pt-5 pb-5" style="border: 1px solid #7C7C7C;">
-    <div class="container">
-        <form [formGroup]="form">
-            <div class="row g-3">
-              <div class="col-md-4 col-sm-12">
-                <label class="form-label">From Booking Date</label>
-                <input type="date" class="form-control form-control-sm"  formControlName="startDate">
-              </div>
-              
-              <div class="col-md-4 col-sm-12">
-                      <label class="form-label">From City</label>
-                      <select #selectElem class="form-control select2" formControlName="fromCity"  (change)="onFromcitySelect($event)">
-                        <option value="" selected>Select City</option>
-                        <option *ngFor="let city of cities" [value]="city.cityName">{{ city.cityName }}</option>
-                      </select>
-                </div>
-                
-              <div class="col-md-4 col-sm-12">
-                <label class="form-label">To City</label>
-                  <select #demoSelect multiple class="form-control" (change)="onToCityChange($event)">
-                    <option *ngFor="let city of cities" [value]="city.cityName">
-                      {{ city.cityName }}
-                    </option>
-                  </select>
-                  
-              </div>
-              
-              <div class="col-md-3 col-sm-12">
-                <label class="form-label">To Booking Date</label>
-                <input type="date" class="form-control form-control-sm" formControlName="endDate">
-                
-              </div>
-              
-              <div class="col-md-3 col-sm-12">
-                <label class="form-label">Book Branch</label>
-                <select #branchselect class="form-select form-select-sm" formControlName="pickUpBranch">
-                  <option value="" selected>Select Branch</option>
-                  <option *ngFor="let branch of tbcdata" [value]="branch.branchUniqueId">{{ branch.name }}</option>
-                </select>
-                
-              </div>
-          
-              <div class="col-md-3 col-sm-12">
-                <div class="mt-4 row">
-                  <div class="col-md-6">
-                    <button class="btn btn-primary btn-sm" pRipple  (click)="onLoad()" style="width: 10rem;">Load</button>
+  <div class="container">
+    <form [formGroup]="form">
+      <div class="row g-3">
+        <div class="col-md-4 col-sm-12">
+          <label class="form-label">From Booking Date</label>
+          <input type="date" class="form-control form-control-sm" formControlName="startDate">
+        </div>
 
-                  </div>
-                  <div class="col-md-6">
+        <div class="col-md-4 col-sm-12">
+          <label class="form-label">From City</label>
+          <select #selectElem class="form-control select2" formControlName="fromCity"
+            (change)="onFromcitySelect($event)">
+            <option value="" selected>Select City</option>
+            <option *ngFor="let city of cities" [value]="city.cityName">{{ city.cityName }}</option>
+          </select>
+        </div>
 
-                    <!-- QR Scanner Button -->
-                  <img src="assets/scanner.png" alt="Scan QR" style="width: 30px; height: 30px;" (click)="openScanner()" />
+        <div class="col-md-4 col-sm-12">
+          <label class="form-label">To City</label>
+          <select #demoSelect multiple class="form-control" (change)="onToCityChange($event)">
+            <option *ngFor="let city of cities" [value]="city.cityName">
+              {{ city.cityName }}
+            </option>
+          </select>
 
-                  <!-- Hidden Scanner Modal -->
-                  <div *ngIf="showScanner" style="position: fixed; top: 0; left: 0; background: rgba(0,0,0,0.5); width: 100%; height: 100%;">
-                    <div style="margin: 10% auto; background: white; padding: 20px; width: 80%; max-width: 400px;">
-                      <zxing-scanner
-                        [torch]="false"
-                        [tryHarder]="true"
-                        (scanSuccess)="handleQrCodeResult($event)">
-                      </zxing-scanner>
-                      <button (click)="closeScanner()">Close</button>
-                    </div>
-                  </div>
+        </div>
 
+        <div class="col-md-3 col-sm-12">
+          <label class="form-label">To Booking Date</label>
+          <input type="date" class="form-control form-control-sm" formControlName="endDate">
 
-                  </div>
-                </div>
-              </div>
+        </div>
+
+        <div class="col-md-3 col-sm-12">
+          <label class="form-label">Book Branch</label>
+          <select #branchselect class="form-select form-select-sm" formControlName="pickUpBranch">
+            <option value="" selected>Select Branch</option>
+            <option *ngFor="let branch of tbcdata" [value]="branch.branchUniqueId">{{ branch.name }}</option>
+          </select>
+
+        </div>
+
+        <div class="col-md-3 col-sm-12">
+          <div class="mt-4 row">
+            <div class="col-md-6">
+              <button class="btn btn-primary btn-sm" pRipple (click)="onLoad()" style="width: 10rem;">Load</button>
+
             </div>
-          </form>
-          
-          <!-- Data Table -->
-          <div class="table-responsive mt-4" *ngIf="data">
-            <table class="table table-bordered table-striped">
-              <thead>
-                <tr>
-                  <th> <input  type="checkbox" (change)="onSelectAllChange($event)" [checked]="allSelected" /> Select All </th>
-                  <th>S.No</th>
-                  <th>LR No</th>
-                  <th>Book by Branch</th>
-                  <th>Drop Branch</th>
-                  <th>senderName</th>
-                  <th>Receiver</th>
-                  <th>City Name</th>
-                  <th>Transaction Date</th>
-                  <th>Paid Type</th>
-                  <th>Qty</th>
-                  <th>Charge</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let row of data; let i = index">
-                  <td>
-                    <input 
-                      type="checkbox"
-                      [checked]="form1.get('grnNo')?.value.includes(row.grnNo)"
-                      (change)="onGrnNoChange($event, row.grnNo)" 
-                    />
-                  </td>
-                  <td>{{ i + 1 }}</td>
-                  <td>{{ row.lrNumber }}</td>
-                  <td>{{ row.pickUpBranchname }}</td>
-                  <td>{{ row.dropBranchname }}</td>
-                  <td>{{ row.senderName }}</td>
-                  <td>{{ row.receiverName }}</td>
-                  <td>{{ row.toCity }}</td>
-                  <td>{{ row.bookingDate | date: 'dd-MM-yyyy' }}</td>
-                  <td>{{ row.bookingType }}</td>
-                  <td>{{ row.totalQuantity }}</td>
-                  <td>{{ row.totalAmount }}</td>
-                </tr>
-              </tbody>
-              
-            </table>
+            <div class="col-md-6">
+
+              <!-- QR Scanner Button -->
+              <img src="assets/scanner.png" alt="Scan QR" style="width: 30px; height: 30px;" (click)="openScanner()" />
+
+
+              <i class="fa fa-print mx-5" *ngIf="data" 
+              style="font-size: 30px; cursor: pointer;" 
+              aria-hidden="true" 
+              (click)="printSection()">
+           </i>
+
+              <!-- Hidden Scanner Modal -->
+              <div *ngIf="showScanner"
+                style="position: fixed; top: 0; left: 0; background: rgba(0,0,0,0.5); width: 100%; height: 100%;">
+                <div style="margin: 10% auto; background: white; padding: 20px; width: 80%; max-width: 400px;">
+                  <zxing-scanner [torch]="false" [tryHarder]="true" (scanSuccess)="handleQrCodeResult($event)">
+                  </zxing-scanner>
+                  <button (click)="closeScanner()">Close</button>
+                </div>
+              </div>
+
+
+            </div>
           </div>
-    </div>
-    
-    <form [formGroup]="form1">
-        <div class="container pb-3">
-                <div class="row pt-3">
-                    <div class="col-md-3 col-sm-12">
-                      <label class="form-label">Vehicle Number</label>
-              
-                      <select #SelectVechicle class="form-select form-select-sm mb-3" formControlName="vehicalNumber">
-                        <option value="" selected>Select Vehicle Number</option>
-                        <option *ngFor="let vehicle of vehicle" [value]="vehicle.vehicleNo">{{ vehicle.vehicleNo }}</option>
-                      </select>
-                    </div>
-                    
-                    
-                    <div class="col-md-2 col-sm-12">
-                        <label class="form-label">Conductor name</label>
-                        <input type="text" class="form-control form-select-sm " formControlName="driverName">
-                    </div>
-                    <div class="col-md-2 col-sm-12">
-                        <label class="form-label">Conductor Number</label>
-                        <input type="text" class="form-control form-select-sm " formControlName="driverNo">
-                    </div>
-                </div>
-        
-            </div>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-3 d-flex align-items-end">
-                            <button class="btn btn-primary btn-sm " type="button"
-                                style=" width: 10rem;" (click)="ParcelLoad()">Save</button>
-                        </div>
-                    </div>
-                </div>
+        </div>
+      </div>
     </form>
+
+    <!-- Data Table -->
+  <!-- Print Icon -->
+
+
+<!-- Table section to print -->
+
+
+  
+  <div #printTable class="table-responsive mt-4" *ngIf="data">
+<table class="table table-bordered table-striped">
+ <thead>
+   <tr>
+     <th><input type="checkbox" (change)="onSelectAllChange($event)" [checked]="allSelected" /> Select All</th>
+     <th>S.No</th>
+     <th>LR No</th>
+     <th>Book by Branch</th>
+     <th>Drop Branch</th>
+     <th>Sender Name</th>
+     <th>Receiver</th>
+     <th>City Name</th>
+     <th>Transaction Date</th>
+     <th>Paid Type</th>
+     <th>Qty</th>
+     <th>Charge</th>
+   </tr>
+ </thead>
+ <tbody>
+   <tr *ngFor="let row of data; let i = index">
+     <td>
+       <input type="checkbox" 
+              [checked]="form1.get('grnNo')?.value.includes(row.grnNo)"
+              (change)="onGrnNoChange($event, row.grnNo)" />
+     </td>
+     <td>{{ i + 1 }}</td>
+     <td>{{ row.lrNumber }}</td>
+     <td>{{ row.pickUpBranchname }}</td>
+     <td>{{ row.dropBranchname }}</td>
+     <td>{{ row.senderName }}</td>
+     <td>{{ row.receiverName }}</td>
+     <td>{{ row.toCity }}</td>
+     <td>{{ row.bookingDate | date: 'dd-MM-yyyy' }}</td>
+     <td>{{ row.bookingType }}</td>
+     <td>{{ row.totalQuantity }}</td>
+     <td>{{ row.totalAmount }}</td>
+   </tr>
+ </tbody>
+</table>
+
+</div>
+
+
+
+
+
+
+
+  </div>
+
+  <form [formGroup]="form1">
+    <div class="container pb-3">
+      <div class="row pt-3">
+        <div class="col-md-3 col-sm-12">
+          <label class="form-label">Vehicle Number</label>
+
+          <select #SelectVechicle class="form-select form-select-sm mb-3" formControlName="vehicalNumber">
+            <option value="" selected>Select Vehicle Number</option>
+            <option *ngFor="let vehicle of vehicle" [value]="vehicle.vehicleNo">{{ vehicle.vehicleNo }}</option>
+          </select>
+        </div>
+
+
+        <div class="col-md-2 col-sm-12">
+          <label class="form-label">Conductor name</label>
+          <input type="text" class="form-control form-select-sm " formControlName="driverName">
+        </div>
+        <div class="col-md-2 col-sm-12">
+          <label class="form-label">Conductor Number</label>
+          <input type="text" class="form-control form-select-sm " formControlName="driverNo">
+        </div>
+      </div>
+
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 d-flex align-items-end">
+          <button class="btn btn-primary btn-sm " type="button" style=" width: 10rem;"
+            (click)="ParcelLoad()">Save</button>
+        </div>
+      </div>
+    </div>
+  </form>
 </div>
 <app-parcel-loading-data></app-parcel-loading-data>

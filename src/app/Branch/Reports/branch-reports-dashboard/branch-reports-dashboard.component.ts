@@ -220,34 +220,7 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
     });
   }
 
-  // Parcel Booking Report
-  // parcelbooking() {
-  //   if (this.form.invalid) {
-  //     this.form.markAllAsTouched();
-  //     this.toast.error('Please fill all required fields');
-  //     return;
-  //   }
-  //   const payload = {
-  //     fromDate: this.form.value.fromDate,
-  //     toDate: this.form.value.toDate,
-  //     fromCity: this.form.value.fromCity,
-  //     toCity: this.form.value.toCity,
-  //     bookingStatus: this.form.value.bookingStatus,
-  //     bookingType: this.form.value.bookingType,
-  //   };
-  //   console.log("parcelbooing:",payload);
-    
-  //   this.api.ParcelBookingReport(payload).subscribe({
-  //     next: (response: any) => {
-  //       console.log('Parcel reports1:', response);
-  //       this.router.navigateByUrl('/reports', { state: { data10: response } });
-  //     },
-  //     error: (error: any) => {
-  //       console.error('Parcel loading failed:', error);
-  //       this.toast.error('Parcel Loading Failed. Please try again.');
-  //     },
-  //   });
-  // }
+  
 
   parcelbooking() {
     if (this.form.invalid) {
@@ -283,11 +256,7 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
   }
   // All Parcel Booking Report
   AllParcelBooking() {
-    if (this.form1.invalid) {
-      this.form1.markAllAsTouched();
-      this.toast.error('Please fill all required fields');
-      return;
-    }
+ 
     const payload1 = {
       startDate: this.form1.value.startDate,
       endDate: this.form1.value.endDate,
@@ -302,9 +271,12 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
     this.api.AllParcelBookingReport(payload1).subscribe({
       next: (response: any) => {
         console.log('All Parcel loaded successfully:', response);
-        this.router.navigateByUrl('/allpercelbooking', {
-          state: { data1: response },
-        });
+        const finalData1 = {
+          ...response,
+          startDate: this.form1.value.startDate,
+          endDate: this.form1.value.endDate
+        };
+        this.router.navigateByUrl('/allpercelbooking', { state: { data1: finalData1 } });
       },
       error: (error: any) => {
         console.error('Parcel loading failed:', error);

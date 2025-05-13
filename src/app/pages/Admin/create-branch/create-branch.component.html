@@ -1,7 +1,4 @@
 <app-header></app-header>
-
-
-
 <h4 class="text-center mb-4 pt-5 mt-4"
     style="color: #3C3C3C;font-size: 20px;font-family: Poppins;font-weight: 500;text-decoration: underline;word-wrap: break-word">
     Create Branch</h4>
@@ -13,10 +10,23 @@
                 <label class="form-label">Name</label>
                 <input type="text" class="form-control form-select-sm " formControlName="name">
             </div>
-            <div class="col-md-3 col-sm-12">
+            <!-- <div class="col-md-3 col-sm-12">
                 <label class="form-label">Branch Type</label>
                 <input type="text" class="form-control form-select-sm " formControlName="branchType">
+            </div> -->
+
+            <div class="col-md-3 col-sm-12">
+                <label class="form-label">Branch Type</label>
+                <select class="form-select" formControlName="branchType">
+                    <option value="" selected>Select City</option>
+                    <option value="main" >Main</option>
+                    <option value="normal" >Normal</option>
+                </select>
             </div>
+
+
+
+
             <div class="col-md-3 col-sm-12">
                 <label class="form-label">City</label>
                 <select class="form-select" formControlName="city">

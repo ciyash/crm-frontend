@@ -1,0 +1,108 @@
+<app-header></app-header>
+<div class="container-fluid bookingss" style="margin-top: 8%;">
+  <div class="status-buttons my-3">
+    <button class="btn btn-primary me-2 Booking" routerLink="/booking">New Booking <i class="fa fa-plus-circle mt-1" aria-hidden="true"></i>
+    </button>
+    <button class="btn btn-success me-2 Booking" routerLink="/parcelloading" >On Loading <span><img src="assets/dashboard/Group 1272628401.png"
+          alt=""></span>
+    </button>
+    <button class="btn btn-warning me-2 Booking text-white">Off Loading <span><img
+          src="assets/dashboard/delivery-man-preparing.png" alt=""></span></button>
+    <button class="btn btn-info text-white Booking">Delivery <span><img src="assets/dashboard/path12487.png"
+          alt=""></span>
+    </button>
+  </div>
+  <div class="row">
+    <div class="col-md-8 mb-4">
+      <div class="chart-container">
+        <h5 class="fw-bold">Branch wise sales</h5>
+        <canvas id="barChart"></canvas>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-4 ">
+      <div class="chart-container">
+        <h5 class="text-center fw-bold">Branch wise sales</h5>
+        <canvas id="pieChart1"></canvas>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-8 mb-4">
+      <div class="table-container">
+        <h5>Status wise summary</h5>
+        <div class="table-wrapper">
+          <table class="table table-bordered ">
+            <thead>
+              <tr>
+                <th>Sr No</th>
+                <th>Branch</th>
+                <th>Pending Dispatch</th>
+                <th>Dispatch stock report</th>
+                <th>Received Stock</th>
+                <th>Pending Delivery</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let branch of branches; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ branch.name }}</td>
+                <td>{{ branch.pending }}</td>
+                <td>{{ branch.dispatch }}</td>
+                <td>{{ branch.received }}</td>
+                <td>{{ branch.delivery }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="chart-container">
+        <h5 class="text-center fw-bold">Collection summary</h5>
+        <canvas id="pieChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="container bookingss " style="background-color: #FFFFFF;
+   background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 30px;
+    margin-bottom: 30px;">
+  <!-- Header with Title and Action Buttons -->
+  <div class="header">
+    <h5>A/C Party Account</h5>
+    <div class="action-buttons">
+      <button class="btn btn-danger">BRANCH</button>
+      <button class="btn btn-primary">A/C Party</button>
+    </div>
+  </div>
+  <!-- Date Buttons -->
+  
+  <div class="d-flex gap-2 flex-wrap my-3">
+    <button
+      *ngFor="let date of last7Days; let i = index"
+      class="btn"
+      [ngClass]="selectedIndex === i ? 'btn-primary active' : 'btn-outline-primary'"
+      (click)="selectDate(i)">
+      {{ date }}
+    </button>
+  </div>
+  
+
+  <div class="no-data">
+    No data found
+  </div>
+</div>
+
+
+

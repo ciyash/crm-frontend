@@ -9,9 +9,7 @@
             <option [value]="'senderMobile'">Mobile</option>
             <option [value]="'senderName'">Search Customer</option>
           </select>
-          
-          
-          
+
         </div>
         <div class="col-md-4 mb-2">
           <input required type="text" name="searchTerm" placeholder="Enter Search Value"
@@ -23,8 +21,7 @@
         </div>
       </div>
     </form>
-  
-  
+
 </div>
 
 
@@ -58,6 +55,61 @@
               <strong>GRN No: {{ data2[0].grnNo }}</strong> | <strong>LR No: {{ data2[0].lrNumber }}</strong>
             </div>
           </div>
+
+
+          
+          <div  *ngIf="data2[0].bookingStatus===2">
+            <div class="col-12 section-title">Delivery Details</div>
+            <div >
+              <form [formGroup]="form" >
+                <div class="row">
+
+                <div class="col-md-4 ">
+                  <div class="form-group">
+                    <label>Delivery Receiver Name</label>
+                  <input type="text" formControlName="grnNo" [(ngModel)]="data2[0].grnNo" hidden>
+                  <input type="text" [(ngModel)]="data2[0].receiverName" formControlName="receiverName1">
+                  </div>
+                  
+                </div>
+                <div class="col-md-4 ">
+                  <div class="form-group">
+                    <label>Delivery Receiver Phone</label>
+                    <input type="text" [(ngModel)]="data2[0].receiverMobile" formControlName="receiverMobile1">
+                  </div>
+                
+                </div>
+                <div class="col-md-4  ">
+                  <div class="form-group mt-4 ">
+                    <label></label>
+                    <button class="btn btn-danger btn-sm" (click)="updateParcelStatus()"> Delivered</button>
+                  </div>
+
+                </div>
+              </div>
+
+              </form>
+       
+            </div>
+          </div>
+
+
+          <div class="row" >
+            <span *ngIf="data2[0].bookingStatus === 0" class="badge bg-primary">Booking</span>
+            <span *ngIf="data2[0].bookingStatus === 1" class="badge bg-primary">Loading</span>
+            <span *ngIf="data2[0].bookingStatus === 2" class="badge bg-warning">Unloading</span>
+            <span *ngIf="data2[0].bookingStatus === 3" class="badge bg-danger">Missing</span>
+            <span *ngIf="data2[0].bookingStatus === 5" class="badge bg-secondary">Cancel</span>
+          </div>
+
+
+
+    
+       
+
+
+
+
         
           <!-- Item Details -->
           <div class="row">

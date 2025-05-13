@@ -1,0 +1,95 @@
+
+ .bookingss {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f9;
+} 
+.status-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.status-buttons .btn {
+    flex: 1;
+}
+.chart-container {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.table-container {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+}
+.table th, .table td {
+    text-align: center;
+}
+.status-buttons[_ngcontent-ng-c3623698135] {
+    display: flex
+;
+    gap: 10px;
+    margin-bottom: 20px;
+    height: 80px;
+}
+.status-buttons[_ngcontent-ng-c3623698135] .btn[_ngcontent-ng-c3623698135] {
+    flex: 1;
+    font-size: 28px;
+}
+
+
+.table-wrapper {
+  max-height: 457px;
+  overflow-y: auto;
+  display: block;
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  background-color: #034F92;
+  color: white;
+  z-index: 2;
+}
+
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.header h5 {
+    margin: 0;
+    font-weight: bold;
+}
+.action-buttons .btn {
+    margin-left: 10px;
+}
+.date-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.date-buttons .btn {
+    background-color: #e9ecef;
+    color: #333;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+}
+.date-buttons .btn.active {
+    background-color: #003087;
+    color: #fff;
+}
+.no-data {
+    background-color: #ffe6e6;
+    color: #dc3545;
+    text-align: center;
+    padding: 20px;
+    border-radius: 5px;
+    font-weight: bold;
+}

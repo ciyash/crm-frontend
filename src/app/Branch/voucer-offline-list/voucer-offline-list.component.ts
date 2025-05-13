@@ -23,8 +23,8 @@ export class VoucerOfflineListComponent {
       vldata:any;
       constructor(private api: BranchService, private fb: FormBuilder, private router:Router) {
         this.form = this.fb.group({
-          fromBookingDate: [this.getTodayDateString(), Validators.required],
-          toBookingDate: [this.getTodayDateString(), Validators.required],
+          fromDate: [this.getTodayDateString(), Validators.required],
+          toDate: [this.getTodayDateString(), Validators.required],
           vehicalNumber: ['', ],
           fromCity: ['', ],
           toCity: ['',],
@@ -120,8 +120,8 @@ export class VoucerOfflineListComponent {
         
         VoucherLoad() {
           const payload = {
-            fromBookingDate: this.form.value.fromBookingDate,
-            toBookingDate: this.form.value.toBookingDate,
+            fromDate: this.form.value.fromDate,
+            toDate: this.form.value.toDate,
             vehicalNumber: this.form.value.vehicalNumber,
             fromCity: this.form.value.fromCity,
             toCity: this.form.value.toCity,

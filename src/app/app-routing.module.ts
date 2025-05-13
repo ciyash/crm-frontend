@@ -55,11 +55,14 @@ import { ParcelIncomingLuggagesReportComponent } from './Branch/Reports/parcel-i
 import { ParcelIncomingReportComponent } from './Branch/Reports/parcel-incoming-report/parcel-incoming-report.component';
 import { DispatchedMemoReportComponent } from './Branch/Reports/dispatched-memo-report/dispatched-memo-report.component';
 import { PendingDispatchedStockReportComponent } from './Branch/Reports/pending-dispatched-stock-report/pending-dispatched-stock-report.component';
+import { DashboardComponent } from './USER/dashboard/dashboard.component';
 
 const routes: Routes = [
   {path:"login",component:LoginComponent },
   {path:"",component:LoginComponent },
   {path:"signup",component:SignupComponent, canActivate: [authGuard] },
+  {path:"dashboard",component:DashboardComponent, canActivate: [authGuard] },
+
 
   //Branch type Component
   {path:"booking",component:ParcelbookingComponent, canActivate: [authGuard] },
@@ -135,6 +138,14 @@ const routes: Routes = [
   { path: 'adddispatchtype', component: AddDispatchTypeComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   { path: 'addextracharges', component: AddExtraChargesComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   { path: 'addpackagetype', component: AddPackagesTypeComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
+
+
+  // subadmin
+
+
+    {path:"dashboard",component:DashboardComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
+
+  
 
   
 ];

@@ -64,7 +64,6 @@ toDate:any;
   print() {
     const printContents = document.getElementById('printableArea')?.innerHTML;
     const originalContents = document.body.innerHTML;
-  
     document.body.innerHTML = printContents || '';
     setTimeout(() => {
       window.print();
@@ -73,6 +72,8 @@ toDate:any;
     }, 500); // Adjust delay as needed
   }
   
+
+
   // downloadAsPDF() {
   //   const element = document.getElementById('printableArea');
   //   if (element) {

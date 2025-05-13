@@ -626,4 +626,34 @@ export class AdminService {
 
 
 
+
+
+  // https://cargo-backend-bpq4.onrender.com/booking/sales-summary-branchwise
+
+
+
+  PostData(value: {
+    date: string;
+   
+  }) {
+    const token1 = this.token.getToken();
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token1 // ✅ Added space after 'Bearer'
+      })
+    };
+  
+    return this.http.post(
+      AUTH_API + 'booking/sales-summary-branchwise',  
+      { 
+        "date": value.date,
+       
+      },
+      httpOptions 
+    );
+  }
+
+
+
 }

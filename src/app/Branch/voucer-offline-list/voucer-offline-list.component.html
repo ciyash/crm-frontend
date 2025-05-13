@@ -7,22 +7,23 @@
             <div class="row mb-3">
                 <div class="col-md-3">
                     <label class="form-label">From Booking Date</label>
-                    <input type="date" class="form-control" formControlName="fromBookingDate">
+                    <input type="date" class="form-control" formControlName="fromDate">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">To Booking Date</label>
-                    <input type="date" class="form-control" formControlName="toBookingDate">
+                    <input type="date" class="form-control" formControlName="toDate">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">From City </label>
-                    <select class="form-select form-select-sm"  formControlName="fromCity" (change)="onFromcitySelect($event)" >
+                    <select class="form-select form-select-sm" formControlName="fromCity"
+                        (change)="onFromcitySelect($event)">
                         <option value="" selected>Select City</option>
                         <option *ngFor="let row2 of citydata" value="{{row2.cityName}}"> {{row2.cityName}} </option>
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label">From City </label>
-                    <select class="form-select form-select-sm"  formControlName="toCity" >
+                    <label class="form-label">To City </label>
+                    <select class="form-select form-select-sm" formControlName="toCity">
                         <option value="" selected>Select City</option>
                         <option *ngFor="let row1 of citydata" value="{{row1.cityName}}"> {{row1.cityName}} </option>
                     </select>
@@ -40,59 +41,55 @@
                         <option value="" selected>Select Vehicles</option>
                         <option *ngFor="let vvda of vdata" [value]="vvda.vehicleNo">{{ vvda.vehicleNo }}</option>
                     </select>
-                </div>             
+                </div>
                 <div class="col-md-2 mt-2 d-flex align-items-end text-center">
                     <button type="button" class="btn btn-success w-100" (click)="VoucherLoad()">Load</button>
                 </div>
             </div>
         </form>
-     <!-- fetch data -->
-
-            <div class="table-responsive mt-4" *ngIf="data">
-                <table class="table table-bordered table-striped">
-                  <thead>
+        <!-- fetch data -->
+        <div class="table-responsive mt-4" *ngIf="data">
+            <table class="table table-bordered table-striped">
+                <thead>
                     <tr>
-                      <th>S.No</th>
-                      <th>Voucher No</th>
-                      <th>From City</th>
-                      <th>To city</th>
-                      <th>Generate Date</th>
-                      <th>Bus No</th>
-                      <th>Total Parcel</th>
-                      <th>Total Qty</th>
-                      <th>Total Charges</th>
-                      <th>Print</th>
+                        <th>S.No</th>
+                        <th>Voucher No</th>
+                        <th>From City</th>
+                        <th>To city</th>
+                        <th>Generate Date</th>
+                        <th>Bus No</th>
+                        <th>Total Parcel</th>
+                        <th>Total Qty</th>
+                        <th>Total Charges</th>
+                        <th>Print</th>
                     </tr>
-                  </thead>
-                  <tbody>
+                </thead>
+                <tbody>
                     <tr *ngFor="let row of data.parcels; let i=index">
-                    <td>{{ i+1 }}</td>
-                    <!-- <td  (click)="getvouchersdata(row.vocherNoUnique)"> {{row.vocherNoUnique}} </td> -->
-                    <td (click)="getvouchersdata(row.vocherNoUnique)" data-bs-toggle="modal" data-bs-target="#parcelModal" style="cursor: pointer; text-decoration: underline; color: blue;">
-                        {{ row.vocherNoUnique }}
-                      </td>
-                      
-                      <td>{{ row.fromCity }}</td>
-                      <td>{{ row.toCity }}</td>
-                      <td>{{ row.toBookingDate | date:'dd/MMM/YYYY'}}</td>
-                      <td>{{ row.vehicalNumber }}</td>
-                      <td> {{row.parcelPackages}} </td>
-                      <td>{{ row.grnNo.length }}</td>
-                      <td> {{row.parcelCharge}} </td>
-                      <td style="cursor: pointer; color: red;"
-                       (click)="printgrnData(row.vocherNoUnique)"  > <i class="fa fa-print"></i> </td>
+                        <td>{{ i+1 }}</td>
+                        <!-- <td  (click)="getvouchersdata(row.vocherNoUnique)"> {{row.vocherNoUnique}} </td> -->
+                        <td (click)="getvouchersdata(row.vocherNoUnique)" data-bs-toggle="modal"
+                            data-bs-target="#parcelModal"
+                            style="cursor: pointer; text-decoration: underline; color: blue;">
+                            {{ row.vocherNoUnique }}
+                        </td>
+
+                        <td>{{ row.fromCity }}</td>
+                        <td>{{ row.toCity }}</td>
+                        <td>{{ row.toBookingDate | date:'dd/MMM/YYYY'}}</td>
+                        <td>{{ row.vehicalNumber }}</td>
+                        <td> {{row.parcelPackages}} </td>
+                        <td>{{ row.grnNo.length }}</td>
+                        <td> {{row.parcelCharge}} </td>
+                        <td style="cursor: pointer; color: red;" (click)="printgrnData(row.vocherNoUnique)"> <i
+                                class="fa fa-print"></i> </td>
                     </tr>
-                  </tbody>
-                </table>
-              </div>
-            <!-- test -->
+                </tbody>
+            </table>
         </div>
+    </div>
+
 </div>
-
-
-
-
-
 
 <div class="modal fade" id="parcelModal" tabindex="-1" aria-labelledby="parcelModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
@@ -101,9 +98,10 @@
                 <h5 class="modal-title text-center" id="parcelModalLabel">
                     Parcel List Of <span class="text-danger">12007</span> Voucher No
                 </h5>
-                <button type="button" class="btn-close position-absolute end-0 me-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close position-absolute end-0 me-2" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
             </div>
-            
+
             <div class="modal-body">
                 <div class="table-responsive mt-3">
                     <table class="table table-bordered text-white table-custom">
@@ -124,7 +122,7 @@
                         <tbody>
                             <tr *ngFor="let item of vldata?.bookingDetails; let i = index">
                                 <td>{{ i + 1 }}</td>
-                                <td>{{ item?.lrNumber  }}</td>
+                                <td>{{ item?.lrNumber }}</td>
                                 <td>{{ item?.senderName || 'N/A' }} </td>
                                 <td>{{ item?.receiverName || 'N/A' }} </td>
                                 <td>{{ vldata?.fromCity || 'N/A' }}</td>
@@ -148,15 +146,7 @@
                     </table>
                 </div>
             </div>
-            
+
         </div>
     </div>
 </div>
-
-
-
-
-
-       
-
-

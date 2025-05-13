@@ -684,8 +684,8 @@ UpdatePackagestype(id: any, value: {
 
     //Parcel Vouchers details
     ParcelVouchersDetails(value: {
-      fromBookingDate: string;
-      toBookingDate: string;
+      fromDate: string;
+      toDate: string;
       vehicalNumber: string;
       fromCity:string;
       toCity:string;
@@ -702,8 +702,8 @@ UpdatePackagestype(id: any, value: {
       return this.http.post(
         AUTH_API + 'parcel-loading/offline-parcel-voucher-details',  
         {
-          "fromBookingDate": value.fromBookingDate,  
-          "toBookingDate": value.toBookingDate,
+          "fromDate": value.fromDate,  
+          "toDate": value.toDate,
           "vehicalNumber": value.vehicalNumber,
           "fromCity": value.fromCity,
           "toCity":value.toCity,
@@ -742,6 +742,9 @@ getbranchId(id: any) {
 
 ReceivedParcelUpdate(value: {
   grnNo: string;
+  receiverName1:string;
+  receiverMobile1:string;
+  
 }) {
   const token1 = this.token.getToken();
   const httpOptions = {
@@ -751,9 +754,12 @@ ReceivedParcelUpdate(value: {
     })
   };
   return this.http.post(
-    AUTH_API + 'booking/receivedBooking/',
+    AUTH_API + 'booking/receivedBooking',
     {
       grnNo: value.grnNo,
+      receiverName1:value.receiverName1,
+      receiverMobile1:value.receiverMobile1,
+      
   },
     httpOptions
   );

@@ -87,16 +87,25 @@ word-wrap: break-word">Parcel UnLoading Offline</h4>
 
     <h5 class="mt-3 text-uppercase text-primary">
       <!-- Summary Section -->
-      <div class="mt-4" *ngIf="summary">
-        <strong>Summary:</strong>
-        <span *ngIf="summary.paid">Paid: {{ summary.paid.totalQuantity }} | ₹{{ summary.paid.totalGrandTotal }}</span>
-        <span *ngIf="summary.toPay" class="ms-3">ToPay: {{ summary.toPay.totalQuantity }} | ₹{{
-          summary.toPay.totalGrandTotal }}</span>
-        <span *ngIf="summary.credit" class="ms-3">Credit: {{ summary.credit.totalQuantity }} | ₹{{
-          summary.credit.totalGrandTotal }}</span>
+      <div class="mt-4 d-flex justify-content-between"*ngIf="summary">
+        <div>
+          <strong>Summary:</strong>
+          <span *ngIf="summary.paid">Paid: {{ summary.paid.totalQuantity }} | ₹{{ summary.paid.totalGrandTotal }}</span>
+          <span *ngIf="summary.toPay" class="ms-3">ToPay: {{ summary.toPay.totalQuantity }} | ₹{{
+            summary.toPay.totalGrandTotal }}</span>
+          <span *ngIf="summary.credit" class="ms-3">Credit: {{ summary.credit.totalQuantity }} | ₹{{
+            summary.credit.totalGrandTotal }}</span>
+        </div>
+        <div *ngIf="bkdata.length > 0">
+          <i class="fa fa-print" style="height: 30px; width: 30px; cursor: pointer;" (click)="printTable()" aria-hidden="true"></i>
+
+        </div>
+   
+
+
       </div>
     </h5>
-    <div class="table-responsive mt-3" *ngIf="bkdata.length > 0">
+    <div class="table-responsive mt-3" id="print-section" *ngIf="bkdata.length > 0">
       <table class="table table-bordered table-striped">
         <thead>
           <tr>

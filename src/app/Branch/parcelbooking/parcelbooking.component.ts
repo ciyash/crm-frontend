@@ -88,6 +88,7 @@ export class ParcelbookingComponent {
           fromCity: [''],
           toCity: ['', Validators.required],
             });
+            
    }
 
   ngOnInit() {
