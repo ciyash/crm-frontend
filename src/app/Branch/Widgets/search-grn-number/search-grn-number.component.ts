@@ -57,7 +57,9 @@ searchTerm: string = '';
           this.toast.success('Parcel status updated successfully', 'Success');
         }
   
-        // ✅ Redirect after short delay
+        // jkasdjdss
+        
+        // ✅ Redirect after short delayad
         setTimeout(() => {
           this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
             this.router.navigate(['/booking']);
