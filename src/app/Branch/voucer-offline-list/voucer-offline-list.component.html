@@ -48,9 +48,9 @@
             </div>
         </form>
         <!-- fetch data -->
-        <div class="table-responsive mt-4" *ngIf="data">
-            <table class="table table-bordered table-striped">
-                <thead>
+        <div class="table-responsive mt-4" *ngIf="data1?.length">
+                <table class="table table-bordered table-striped">
+                    <thead>
                     <tr>
                         <th>S.No</th>
                         <th>Voucher No</th>
@@ -63,90 +63,95 @@
                         <th>Total Charges</th>
                         <th>Print</th>
                     </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let row of data.parcels; let i=index">
-                        <td>{{ i+1 }}</td>
-                        <!-- <td  (click)="getvouchersdata(row.vocherNoUnique)"> {{row.vocherNoUnique}} </td> -->
-                        <td (click)="getvouchersdata(row.vocherNoUnique)" data-bs-toggle="modal"
-                            data-bs-target="#parcelModal"
-                            style="cursor: pointer; text-decoration: underline; color: blue;">
-                            {{ row.vocherNoUnique }}
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let row of data1; let i = index">
+                        <td>{{ i + 1 }}</td>
+                        <td
+                        (click)="getvouchersdata(row.voucherNo)"
+                        data-bs-toggle="modal"
+                        data-bs-target="#parcelModal"
+                        style="cursor: pointer; text-decoration: underline; color: blue;"
+                        >
+                        {{ row.voucherNo }}
                         </td>
-
                         <td>{{ row.fromCity }}</td>
                         <td>{{ row.toCity }}</td>
-                        <td>{{ row.toBookingDate | date:'dd/MMM/YYYY'}}</td>
+                        <td>{{ row.loadingDate | date: 'dd/MMM/yyyy' }}</td>
                         <td>{{ row.vehicalNumber }}</td>
-                        <td> {{row.parcelPackages}} </td>
-                        <td>{{ row.grnNo.length }}</td>
-                        <td> {{row.parcelCharge}} </td>
-                        <td style="cursor: pointer; color: red;" (click)="printgrnData(row.vocherNoUnique)"> <i
-                                class="fa fa-print"></i> </td>
+                        <td>{{ row.totalParcel }}</td>
+                        <td>{{ row.totalQuantity }}</td>
+                        <td>{{ row.grandTotal }}</td>
+                        <td (click)="printgrnData(row.voucherNo)" style="cursor: pointer; color: red;">
+                        <i class="fa fa-print"></i>
+                        </td>
                     </tr>
-                </tbody>
-            </table>
-        </div>
+                    </tbody>
+                </table>
+         </div>
     </div>
 
 </div>
 
+<!-- Modal -->
 <div class="modal fade" id="parcelModal" tabindex="-1" aria-labelledby="parcelModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header d-flex flex-column align-items-center">
-                <h5 class="modal-title text-center" id="parcelModalLabel">
-                    Parcel List Of <span class="text-danger">12007</span> Voucher No
-                </h5>
-                <button type="button" class="btn-close position-absolute end-0 me-2" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
-            </div>
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header d-flex flex-column align-items-center">
+        <h5 class="modal-title text-center" id="parcelModalLabel">
+          Parcel List Of <span class="text-danger"> {{vldata?.vocherNo}} </span> Voucher No
+        </h5>
+        <button type="button" class="btn-close position-absolute end-0 me-2" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
 
-            <div class="modal-body">
-                <div class="table-responsive mt-3">
-                    <table class="table table-bordered text-white table-custom">
-                        <thead class="table-header">
-                            <tr>
-                                <th>No.</th>
-                                <th>GRN No/LR No</th>
-                                <th>Sender</th>
-                                <th>Receiver</th>
-                                <th>From City</th>
-                                <th>To City</th>
-                                <th>Pay Type</th>
-                                <th>Status</th>
-                                <th>Tran. Date</th>
-                                <th>Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of vldata?.bookingDetails; let i = index">
-                                <td>{{ i + 1 }}</td>
-                                <td>{{ item?.lrNumber }}</td>
-                                <td>{{ item?.senderName || 'N/A' }} </td>
-                                <td>{{ item?.receiverName || 'N/A' }} </td>
-                                <td>{{ vldata?.fromCity || 'N/A' }}</td>
-                                <td>{{ vldata?.toCity?.length ? vldata.toCity.join(', ') : 'N/A' }}</td>
-                                <td>{{ item?.bookingType || 'ToPay' }}</td>
-                                <td>
-                                    <span [ngSwitch]="item?.bookingStatus">
-                                        <span *ngSwitchCase="0">Booking </span>
-                                        <span *ngSwitchCase="1">Loading</span>
-                                        <span *ngSwitchCase="2">UnLoading</span>
-                                        <span *ngSwitchCase="3">Parcel Missing</span>
-                                        <span *ngSwitchCase="4">Delivered</span>
-                                        <span *ngSwitchCase="5">Cancelled</span>
-                                        <span *ngSwitchDefault>Unknown Status</span>
-                                    </span>
-                                </td>
-                                <td>{{ item?.bookingDate ? (item.bookingDate | date: 'dd-MM-yyyy') : 'N/A' }}</td>
-                                <td>{{ item?.grandTotal || 'N/A' }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
+      <div class="modal-body">
+        <div class="table-responsive mt-3" *ngIf="vldata?.bookingList?.length">
+          <table class="table table-bordered text-white table-custom">
+            <thead class="table-header">
+              <tr>
+                <th>No.</th>
+                <th>GRN No/LR No</th>
+                <th>Sender</th>
+                <th>Receiver</th>
+                <th>From City</th>
+                <th>To City</th>
+                <th>Pay Type</th>
+                <th>Status</th>
+                <th>Tran. Date</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of vldata.bookingList; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.lrNumber }}</td>
+                <td>{{ item.sender }}</td>
+                <td>{{ item.receiver }}</td>
+                <td>{{ item.fromCity }}</td>
+                <td>{{ item.toCity }}</td>
+                <td>{{ item.payType }}</td>
+                <td>
+                  <ng-container [ngSwitch]="item.status">
+                    <span *ngSwitchCase="0">Booking</span>
+                    <span *ngSwitchCase="1">Loading</span>
+                    <span *ngSwitchCase="2">UnLoading</span>
+                    <span *ngSwitchCase="3">Parcel Missing</span>
+                    <span *ngSwitchCase="4">Delivered</span>
+                    <span *ngSwitchCase="5">Cancelled</span>
+                    <span *ngSwitchDefault>Unknown Status</span>
+                  </ng-container>
+                </td>
+                <td>{{ item.tranDate }}</td>
+                <td>{{ item.amount }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+        <div *ngIf="!vldata?.bookingList?.length" class="text-center text-danger">
+          No parcel details found.
+        </div>
+      </div>
     </div>
+  </div>
 </div>
