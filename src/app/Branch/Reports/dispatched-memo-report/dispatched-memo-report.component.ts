@@ -27,6 +27,10 @@ export class DispatchedMemoReportComponent implements AfterViewInit {
   allgetvechicle: any;
   pfdata: any;
   DispatchedData: any;
+  fromDate: string = '';
+toDate: string = '';
+today = new Date();
+
 
   totalQty = 0;
   totalFreight = 0;
@@ -116,6 +120,8 @@ export class DispatchedMemoReportComponent implements AfterViewInit {
       dropBranch: this.form.value.dropBranch,
       vehicalNumber: this.form.value.vehicalNumber,
     };
+    this.fromDate = payload.fromDate;
+    this.toDate = payload.toDate;
     console.log('All Parcel Booking Payload:', payload);
     this.api.DispatchedMemoReport(payload).subscribe({
       next: (response: any) => {

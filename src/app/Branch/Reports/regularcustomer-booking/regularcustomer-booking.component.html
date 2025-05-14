@@ -1,7 +1,10 @@
-<div *ngIf="data?.length; else noData" class="container my-4 p-3 border rounded bg-light"
-  style="background-color: #e3eaf8">
+
+<app-header></app-header>
+
+<div id="print-section" class="container  my-4 p-3 border rounded bg-light"
+  style="background-color: #e3eaf8;">
   
-  <div class="container-fluid" *ngIf="pfdata">
+  <div class="container-fluid" *ngIf="pfdata" style="margin-top: 8%;">
     <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
     <p class="text-center fw-bold">
       Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
@@ -11,10 +14,19 @@
   <h6 class="text-center text-decoration-underline">All Parcel Booking Details Report</h6>
 
   <div class="d-flex justify-content-between mt-3">
-    <div>
-      <strong>From :</strong> {{ fromDate | date: 'dd-MM-yyyy' }}
-      <strong>To :</strong> {{ toDate | date: 'dd-MM-yyyy' }}
+
+    <div *ngIf="data7" >
+      <strong>From :</strong> {{ data7.fromDate | date: 'dd-MM-yyyy' }}
+      <strong>To :</strong> {{ data7.toDate | date: 'dd-MM-yyyy' }}
     </div>
+
+    <i class="fa fa-print"
+    style="font-size: 50px; cursor: pointer;"
+    aria-hidden="true"
+    (click)="printReport()"></i>
+ 
+
+
     <div>
       <strong>Print Date :</strong> {{ today | date: 'dd-MM-yyyy' }}
       <strong>Time :</strong> {{ today | date: 'shortTime' }}
@@ -38,7 +50,7 @@
         </tr>
       </thead>
       <tbody class="text-center align-middle">
-        <tr *ngFor="let item of data; let i = index">
+        <tr *ngFor="let item of data7.data; let i = index">
           <td>{{ i + 1 }}</td>
           <td>{{ item.fromCity }}</td>
           <td>{{ item.pickUpBranchname }}</td>
@@ -61,6 +73,8 @@
     </table>
   </div>
 </div>
+
+
 
 <ng-template #noData>
   <div class="alert alert-warning text-center mt-4">

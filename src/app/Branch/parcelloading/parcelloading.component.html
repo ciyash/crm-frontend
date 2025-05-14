@@ -1,10 +1,11 @@
 <app-header></app-header>
 
-<h4 class="text-center mb-4 pt-5 mt-5" style="color: #3C3C3C;
+<h4 class="text-center mb-4 pt-5 " style="color: #3C3C3C;
 font-size: 20px;
 font-family: Poppins;
 font-weight: 500;
 text-decoration: underline;
+margin-top: 5%;
 word-wrap: break-word">Parcel Loading Offline</h4>
 
 
@@ -39,7 +40,6 @@ word-wrap: break-word">Parcel Loading Offline</h4>
         <div class="col-md-3 col-sm-12">
           <label class="form-label">To Booking Date</label>
           <input type="date" class="form-control form-control-sm" formControlName="endDate">
-
         </div>
 
         <div class="col-md-3 col-sm-12">
@@ -51,23 +51,11 @@ word-wrap: break-word">Parcel Loading Offline</h4>
 
         </div>
 
-        <div class="col-md-3 col-sm-12">
-          <div class="mt-4 row">
-            <div class="col-md-6">
+        <div class="col-md-3 col-sm-12 mt-5">
               <button class="btn btn-primary btn-sm" pRipple (click)="onLoad()" style="width: 10rem;">Load</button>
 
-            </div>
-            <div class="col-md-6">
-
               <!-- QR Scanner Button -->
-              <img src="assets/scanner.png" alt="Scan QR" style="width: 30px; height: 30px;" (click)="openScanner()" />
-
-
-              <i class="fa fa-print mx-5" *ngIf="data" 
-              style="font-size: 30px; cursor: pointer;" 
-              aria-hidden="true" 
-              (click)="printSection()">
-           </i>
+              <img src="assets/scanner.png" alt="Scan QR" style="width: 30px; height: 30px;" class="mx-5" (click)="openScanner()" />
 
               <!-- Hidden Scanner Modal -->
               <div *ngIf="showScanner"
@@ -81,8 +69,21 @@ word-wrap: break-word">Parcel Loading Offline</h4>
 
 
             </div>
-          </div>
-        </div>
+            <div class="col-md-3 mt-5 ">
+              <i class="fa fa-print " *ngIf="data" 
+              style="font-size: 30px; cursor: pointer;" 
+              aria-hidden="true" 
+              (click)="printSection()">
+           </i>
+            </div>
+          
+        
+
+
+
+
+
+
       </div>
     </form>
 
@@ -136,12 +137,6 @@ word-wrap: break-word">Parcel Loading Offline</h4>
 
 </div>
 
-
-
-
-
-
-
   </div>
 
   <form [formGroup]="form1">
@@ -157,25 +152,31 @@ word-wrap: break-word">Parcel Loading Offline</h4>
         </div>
 
 
-        <div class="col-md-2 col-sm-12">
+        <div class="col-md-3 col-sm-12">
           <label class="form-label">Conductor name</label>
-          <input type="text" class="form-control form-select-sm " formControlName="driverName">
+          <input type="text" class="form-control form-select-sm" placeholder="Enter Conductor Name" formControlName="driverName">
         </div>
-        <div class="col-md-2 col-sm-12">
+        <div class="col-md-3 col-sm-12">
           <label class="form-label">Conductor Number</label>
-          <input type="text" class="form-control form-select-sm " formControlName="driverNo">
+          <input type="text" class="form-control form-select-sm " placeholder="Enter Conductor Number" formControlName="driverNo">
+        </div>
+
+        <div class="col-md-3 col-sm-12 " style="margin-top: 31px;">
+          <button class="btn btn-primary btn-sm " type="button" style=" width: 10rem;"
+          (click)="ParcelLoad()">Save</button>
+         
         </div>
       </div>
 
     </div>
-    <div class="container">
+    <!-- <div class="container">
       <div class="row">
         <div class="col-md-3 d-flex align-items-end">
           <button class="btn btn-primary btn-sm " type="button" style=" width: 10rem;"
             (click)="ParcelLoad()">Save</button>
         </div>
       </div>
-    </div>
+    </div> -->
   </form>
 </div>
 <app-parcel-loading-data></app-parcel-loading-data>

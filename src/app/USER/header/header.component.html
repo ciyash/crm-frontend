@@ -33,7 +33,7 @@
 
       <!-- ✅ Right-aligned section -->
       <ul class="navbar-nav ms-auto d-flex align-items-center">
-        <li *ngIf="data" class="nav-item text-white" style="margin-right: 10px;">
+        <li *ngIf="data" class="nav-item text-white">
           <span>{{ data.companyName }}</span>
         </li>
         <li *ngIf="data" class="nav-item text-white" ><i class="fa fa-user" aria-hidden="true"></i>&nbsp;
@@ -41,6 +41,8 @@
           <span>{{ data.username }}</span>
         </li>
       </ul>
+
+
     </div>
   </div>
 </nav>

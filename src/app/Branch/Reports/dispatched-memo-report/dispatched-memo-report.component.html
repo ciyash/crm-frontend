@@ -1,6 +1,6 @@
 <app-header></app-header>
 <div class="container mt-5 pt-5">
-  <h5 class="text-center fw-bold text-danger"><u>Dispatched Memo report</u></h5>
+  <h5 class="text-center fw-bold text-danger mt-4"><u>Dispatched Memo report</u></h5>
   <div class="border p-3" style="margin-top: 2rem;">
     <form [formGroup]="form">
       <div class="row mb-3">
@@ -58,13 +58,11 @@
         <div class="col-md-3">
           <div class="d-grid gap-2 col-2 mx-auto mt-4">
             <button type="button" class="btn btn-success w-100" (click)="memoReport()">Load</button>
-
           </div>
-
         </div>
-        <div class="col-md-3 mt-3" *ngIf="DispatchedData" >
+        <div class="col-md-3 mt-4" *ngIf="DispatchedData" >
           <i class="fa fa-print"
-          style="font-size: 50px; cursor: pointer;"
+          style="font-size: 30px; cursor: pointer;"
           aria-hidden="true"
           (click)="printReport()"></i>
        
@@ -92,22 +90,26 @@
               <h6 class="text-decoration-underline">Dispatched Memo Report</h6>
             </div>
             <div class="d-flex justify-content-between">
-              <h6>
-                Generated For : 08-05-2025 To 08-05-2025</h6>
-              <h6> Vehicle : All Vehicle</h6>
+              <!-- <h6>Generated For : 08-05-2025 To 08-05-2025 </h6> -->
+              <h6> <strong> Generated For:</strong>
+                {{ fromDate | date: 'dd-MM-yyyy' }} To {{ toDate | date: 'dd-MM-yyyy' }}
+              </h6>
+              <h6>  <strong>Date :</strong>  {{ today | date: 'dd-MM-yyyy hh:mm a' }}</h6>
+
+              
+              <!-- <h6> Vehicle : All Vehicle</h6> -->
             </div>
       
             <div class="d-flex justify-content-between">
-              <h6>
-                By Branch : VIJAYAWADA-Head Office</h6>
-              <h6>Generate Date : 08-05-2025 10:36 AM</h6>
-            </div>
+              <!-- <h6>
+                By Branch : VIJAYAWADA-Head Office</h6> -->
+              </div>
             <div class="d-flex justify-content-between">
-              <h6>
+              <!-- <h6>
                 Route Name : All Route</h6>
-              <h6> Destination City : All Cities</h6>
+              <h6> Destination City : All Cities</h6> -->
             </div>
-            <h6>Type : All Booking Type</h6>
+            <!-- <h6>Type : All Booking Type</h6> -->
           </div>
     
     

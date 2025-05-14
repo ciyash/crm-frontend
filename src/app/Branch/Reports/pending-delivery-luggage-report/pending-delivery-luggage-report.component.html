@@ -9,6 +9,7 @@ background-color: #fff;">
     </u>
   </h5>
   
+  
     <div class="rounded p-4" style="margin-top: 1rem;">
       <form [formGroup]="form">
         <div class="row mb-2">
@@ -68,17 +69,34 @@ background-color: #fff;">
 
             </select>
           </div>
-          <div class="d-grid gap-2 col-2 mx-auto mt-4">
-            <button type="button" class="btn btn-success w-100" (click)="LuaggageReport()">Load</button>
+          <div class="col-md-6 mt-4 d-flex align-items-center gap-4">
+            <button  
+              type="button" 
+              class="btn btn-success btn-sm" 
+              (click)="LuaggageReport()"
+              style="width: 100px;"
+            >
+              Load
+            </button>
+            
+            <i  *ngIf="reportData"
+              class="fa fa-print" 
+              style="font-size: 24px; cursor: pointer;" 
+              aria-hidden="true" 
+              (click)="printReport()"
+            ></i>
           </div>
+          
+          
         </div>
+        
       </form>
     </div>
   
+    <div class="hr" style="  border: 1px solid #ccc; /* light gray border */
+    background-color: #fff;"></div>
+    <div *ngIf="reportData" id="print-section" >
 
-    <div *ngIf="reportData">
-      <div class="hr" style="  border: 1px solid #ccc; /* light gray border */
-      background-color: #fff;"></div>
       <div class="text-center mb-4 mt-5">
         <div class="container-fluid" *ngIf="pfdata">
           <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
@@ -143,29 +161,29 @@ background-color: #fff;">
             </tbody>
             
         </table>
-        <nav *ngIf="reportData?.length > itemsPerPage">
-          <ul class="pagination justify-content-center mt-3">
-            <li class="page-item" [class.disabled]="currentPage === 1">
-              <button class="page-link" (click)="changePage(currentPage - 1)">Previous</button>
-            </li>
-        
-            <li class="page-item"
-                *ngFor="let page of totalPagesArray(); let idx = index"
-                [class.active]="currentPage === (idx + 1)">
-              <button class="page-link" (click)="changePage(idx + 1)">{{ idx + 1 }}</button>
-            </li>
-        
-            <li class="page-item" [class.disabled]="currentPage === totalPages">
-              <button class="page-link" (click)="changePage(currentPage + 1)">Next</button>
-            </li>
-          </ul>
-        </nav>
+      
         
   
   
     </div>
     </div>
- 
+    <nav *ngIf="reportData?.length > itemsPerPage">
+      <ul class="pagination justify-content-center mt-3">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <button class="page-link" (click)="changePage(currentPage - 1)">Previous</button>
+        </li>
+    
+        <li class="page-item"
+            *ngFor="let page of totalPagesArray(); let idx = index"
+            [class.active]="currentPage === (idx + 1)">
+          <button class="page-link" (click)="changePage(idx + 1)">{{ idx + 1 }}</button>
+        </li>
+    
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <button class="page-link" (click)="changePage(currentPage + 1)">Next</button>
+        </li>
+      </ul>
+    </nav>
 
 
   </div>

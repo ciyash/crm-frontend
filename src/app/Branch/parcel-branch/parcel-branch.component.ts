@@ -97,21 +97,66 @@ export class ParcelBranchComponent implements OnInit {
 
   
 
-  loaddata(){
-      const payload = {
-        fromBookingDate: this.form.value.fromBookingDate,
-        toBookingDate: this.form.value.toBookingDate,
-        fromBranch: this.form.value.fromBranch,
-      };
-      console.log('Final Payload:', payload);
-      this.api.postBranchLoading(payload).subscribe({
-        next: (response: any) => {
-          console.log('loaded successfully:', response);
-      
-          this.toast.success('ParcelBranch to Branch loaded Successfully', 'Success');
+  // loaddata(){
+  //     const payload = {
+  //       fromBookingDate: this.form.value.fromBookingDate,
+  //       toBookingDate: this.form.value.toBookingDate,
+  //       fromBranch: this.form.value.fromBranch,
+  //     };
+  //     console.log('Final Payload:', payload);
+  //     this.api.postBranchLoading(payload).subscribe({
+  //       next: (response: any) => {
+  //         console.log('loaded successfully:', response);
+  //         this.toast.success('ParcelBranch to Branch loaded Successfully', 'Success');
+  //         this.data=response;
+  //         this.LoadSuccess = true;
+  //       // ✅ Assign loaded data to form1 fields
+  //       if (this.data.length > 0) {
+  //         this.form1.patchValue({
+  //           fromBranch: this.form.value.fromBranch,
+  //           fromBookingDate: this.form.value.fromBookingDate,
+  //           toBookingDate: this.form.value.toBookingDate,
+  //           fromCity: this.form.value.fromCity,
+  //           loadingDate: '', // You can keep it empty for user input
+  //           vehicalNumber: '',
+  //           driverName: '',
+  //           driverNo: '',
+  //         });
+  
+  //         // ✅ Set `toCity`, `grnNo`, and `lrNumber` as FormArray
+  //         this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
+  //         this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
+  //       }
+  //       },
+  //       error: (error: any) => {
+  //         console.error('loading failed:', error);
+  //         this.toast.error('NO Parcel Loading', 'failed');
 
-          this.data=response;
-          this.LoadSuccess = true;
+  //       },
+  //     });
+  // }
+  
+  loaddata() {
+    const payload = {
+      fromBookingDate: this.form.value.fromBookingDate,
+      toBookingDate: this.form.value.toBookingDate,
+      fromBranch: this.form.value.fromBranch,
+    };
+  
+    console.log('Final Payload:', payload);
+  
+    this.api.postBranchLoading(payload).subscribe({
+      next: (response: any) => {
+        console.log('loaded successfully:', response);
+  
+        // Show success message from backend (assuming response contains a message property)
+        const successMessage = response?.message || 'Parcel Branch loading successfully';
+        this.toast.success(successMessage, 'Success');
+  
+        // Store the data and set the success flag
+        this.data = response.data;
+        this.LoadSuccess = true;
+  
         // ✅ Assign loaded data to form1 fields
         if (this.data.length > 0) {
           this.form1.patchValue({
@@ -129,15 +174,17 @@ export class ParcelBranchComponent implements OnInit {
           this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
           this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
         }
-        },
-        error: (error: any) => {
-          console.error('loading failed:', error);
-          this.toast.error('NO Parcel Loading', 'failed');
-
-        },
-      });
-    
+      },
+      error: (error: any) => {
+        console.error('loading failed:', error);
+        // Show error toast (if backend provides error details)
+        const errorMessage = error?.error?.message || 'Failed to load parcel data';
+        this.toast.error(errorMessage, 'Error');
+      },
+    });
   }
+  
+
 
    setFormArray(controlName: string, values: any[]) {
       const formArray = this.form1.get(controlName) as FormArray;

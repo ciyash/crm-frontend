@@ -1,5 +1,6 @@
-<div class="container mt-5 p-4 border rounded bg-light">
-    <div class="text-center mb-4">
+<app-header></app-header>
+<div  id="print-section" class="container  p-4 border rounded bg-light">
+    <div class="text-center mb-4" style="margin-top: 8%;">
         <div class="container-fluid" *ngIf="pfdata">
             <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
             <p class="text-center fw-bold">
@@ -7,64 +8,82 @@
                 Phone No: {{ pfdata.phone }}
             </p>
         </div>
-
-
-        <h6 class="text-decoration-underline">Parcel Status Date Difference Report</h6>
+        <h6 class="text-decoration-underline">ALL Branch Incoming Luggages Report</h6>
     </div>
 
+    <div class="d-flex justify-content-end">
+      <strong>Print By:&nbsp; {{pfdata.name}} </strong> 
+    </div>
     <div class="d-flex justify-content-between mb-3" >
       <div >
         <strong>From:</strong> {{ prow.fromDate | date: 'dd-MM-yyyy' }} 
         <strong>To:</strong> {{ prow.toDate | date: 'dd-MM-yyyy' }}
       </div>
-      
-        <div><strong>Print Date:</strong> {{ today | date: 'dd-MM-yyyy' }} &nbsp;
+      <i class="fa fa-print"
+   style="font-size: 30px; cursor: pointer;"
+   aria-hidden="true"
+   (click)="printReport()"></i>
+        <div>
+          <strong>Print Date:</strong> {{ today | date: 'dd-MM-yyyy' }} &nbsp;
             <strong>Time:</strong> {{ today | date: 'hh:mm a' }}
         </div>
     </div>
 
+
     <div class="table-responsive">
-        <table class="table table-bordered table-sm text-center align-middle">
-          <thead class="table-secondary">
-            <tr>
-              <th>S No</th>
-              <th>LR No</th>
-              <th>Manual Ticket No</th>
-              <th>LR Date</th>
-              <th>Bus No</th>
-              <th>Sender Name</th>
-              <th>Receiver Name</th>
-              <th>Item</th>
-              <th>Status</th>
-              <th>Amount</th>
-              <th>Delivery Receiver Name</th>
-              <th>Delivery Receiver No</th>
-              <th>SIGN</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of gdata; let i = index">
-              <td>{{ i + 1 }}</td>
-              <td>{{ item.lrNumber }}</td>
-              <td>{{ item.manualTicketNo || '-' }}</td>
-              <td>{{ item.bookingDate | date: 'dd-MM-yyyy' }}</td>
-              <td>{{ item.busNumber || '-' }}</td>
-              <td>{{ item.senderName }}</td>
-              <td>{{ item.receiverName }}</td>
-              <td>
-                <div *ngFor="let pkg of item.packages">
-                  {{ pkg.packageType }} (Qty: {{ pkg.quantity }}, ₹{{ pkg.totalPrice }})
-                </div>
-              </td>
-              <td>{{ item.bookingType }}</td>
-              <td>{{ item.grandTotal }}</td>
-              <td>{{ item.deliveryReceiverName || '-' }}</td>
-              <td>{{ item.receiverMobile }}</td>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <table class="table table-bordered table-sm text-center align-middle">
+        
+        <thead class="table-secondary">
+          <tr>
+            <th>S No</th>
+            <th>LR No</th>
+            <th>LR Date</th>
+            <th>Bus No</th>
+            <th>Sender Name</th>
+            <th>Receiver Name</th>
+            <th>Item</th>
+            <th>Status</th>
+            <th>Delivery Receiver Name</th>
+            <th>Delivery Receiver No</th>
+            <th>Amount</th>
+            <th>SIGN</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of gdata; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.lrNumber }}</td>
+            <td>{{ item.bookingDate | date: 'dd-MM-yyyy' }}</td>
+            <td>{{ item.vehicalNumber || '-' }}</td>
+            <td>{{ item.senderName }}</td>
+            <td>{{ item.receiverName }}</td>
+            <td>
+              <div *ngFor="let pkg of item.packages">
+                {{ pkg.packageType }} (Qty: {{ pkg.quantity }}, ₹{{ pkg.totalPrice }})
+              </div>
+            </td>
+            <td>{{ item.bookingType }}</td>
+            <td>{{ item.deliveryEmployee || '-' }}</td>
+            <td>{{ item.receiverMobile }}</td>
+            <td>{{ item.grandTotal }}</td>
+
+            <td></td>
+          </tr>
+        </tbody>
+    
+        <tfoot *ngIf="gdata?.length" class="table-light fw-bold">
+          <tr>
+            <td colspan="6" class="text-end">Total Quantity:</td>
+            <td colspan="2" class="text-start">{{ totalQuantity }}</td>
+            <td colspan="2" class="text-end">Total Amount:</td>
+            <td colspan="2" class="text-start">₹{{ totalGrand }}</td>
+          </tr>
+        </tfoot>
+    
+      </table>
+    </div>
+    
+    
       
       
 </div>

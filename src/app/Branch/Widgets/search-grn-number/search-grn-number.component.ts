@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { BranchService } from 'src/app/service/branch.service';
 
 @Component({
@@ -20,7 +21,8 @@ export class SearchGrnNumberComponent {
 searchTerm: string = '';
 
   branchId: any;
-  constructor(private api:BranchService, private activeroute:ActivatedRoute, private fb:FormBuilder, private router:Router){
+  constructor(private api:BranchService, private activeroute:ActivatedRoute,
+     private fb:FormBuilder, private router:Router,private toast:ToastrService){
 
               this.form = this.fb.group({
                 grnNo: ['', Validators.required],
@@ -37,15 +39,25 @@ searchTerm: string = '';
   updateParcelStatus() {
     const payload = {
       grnNo: this.form.value.grnNo, 
-      receiverName1:this.form.value.receiverName1,
-      receiverMobile1:this.form.value.receiverMobile1
+      receiverName1: this.form.value.receiverName1,
+      receiverMobile1: this.form.value.receiverMobile1
     };
   
     console.log('Final Payload:', payload);
+  
     this.api.ReceivedParcelUpdate(payload).subscribe(
       (res: any) => {
         console.log('Update Status:', res);
         this.updata = res;
+  
+        // ✅ Show success message from backend if available
+        if (res.message) {
+          this.toast.success(res.message, 'Success');
+        } else {
+          this.toast.success('Parcel status updated successfully', 'Success');
+        }
+  
+        // ✅ Redirect after short delay
         setTimeout(() => {
           this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
             this.router.navigate(['/booking']);
@@ -54,9 +66,17 @@ searchTerm: string = '';
       },
       (error) => {
         console.error('Error updating status:', error);
+  
+        // ✅ Show error message from backend if available
+        if (error.error && error.error.message) {
+          this.toast.error(error.error.message, 'Error');
+        } else {
+          this.toast.error('Failed to update parcel status', 'Error');
+        }
       }
     );
   }
+  
   
  
   searchUser(): void {

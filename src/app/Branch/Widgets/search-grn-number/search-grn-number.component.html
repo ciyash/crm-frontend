@@ -9,7 +9,6 @@
             <option [value]="'senderMobile'">Mobile</option>
             <option [value]="'senderName'">Search Customer</option>
           </select>
-
         </div>
         <div class="col-md-4 mb-2">
           <input required type="text" name="searchTerm" placeholder="Enter Search Value"
@@ -21,16 +20,7 @@
         </div>
       </div>
     </form>
-
 </div>
-
-
-
-
-
-
-
-
 
 <!-- Modal -->
 <div class="modal fade" id="extraLargeModal" tabindex="-1" aria-labelledby="extraLargeModalLabel" aria-hidden="true">
@@ -50,14 +40,19 @@
               <!-- <img src="https://via.placeholder.com/30" alt="Icons" class="ms-2"> -->
             </div>
           </div>
+          <h2 class="text-danger text-center" *ngIf="data2[0].bookingStatus === 0" >Booking</h2>
+          <h2 class="text-danger text-center" *ngIf="data2[0].bookingStatus === 1" >Loading</h2>
+          <h2 class="text-danger text-center" *ngIf="data2[0].bookingStatus === 2" >Unloading</h2>
+          <h2 class="text-danger text-center" *ngIf="data2[0].bookingStatus === 3" >Missing</h2>
+          <h2 class="text-danger text-center" *ngIf="data2[0].bookingStatus === 5" >Cancel</h2>
+          <h2 class="text-danger text-center" *ngIf="data2[0].bookingStatus === 4" > Already Delivered</h2>
+
+
           <div class="row">
-            <div class="col-12">
+            <div class="col-12">  
               <strong>GRN No: {{ data2[0].grnNo }}</strong> | <strong>LR No: {{ data2[0].lrNumber }}</strong>
             </div>
           </div>
-
-
-          
           <div  *ngIf="data2[0].bookingStatus===2">
             <div class="col-12 section-title">Delivery Details</div>
             <div >
@@ -82,7 +77,7 @@
                 <div class="col-md-4  ">
                   <div class="form-group mt-4 ">
                     <label></label>
-                    <button class="btn btn-danger btn-sm" (click)="updateParcelStatus()"> Delivered</button>
+                    <button class="btn btn-success btn-sm" data-bs-dismiss="modal"  (click)="updateParcelStatus()"> Submit</button>
                   </div>
 
                 </div>
@@ -94,13 +89,15 @@
           </div>
 
 
-          <div class="row" >
+          <!-- <div class="row" >
             <span *ngIf="data2[0].bookingStatus === 0" class="badge bg-primary">Booking</span>
             <span *ngIf="data2[0].bookingStatus === 1" class="badge bg-primary">Loading</span>
             <span *ngIf="data2[0].bookingStatus === 2" class="badge bg-warning">Unloading</span>
             <span *ngIf="data2[0].bookingStatus === 3" class="badge bg-danger">Missing</span>
             <span *ngIf="data2[0].bookingStatus === 5" class="badge bg-secondary">Cancel</span>
-          </div>
+          </div> -->
+
+          
 
 
 

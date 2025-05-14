@@ -1,6 +1,8 @@
 import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { BranchService } from 'src/app/service/branch.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 declare var $: any;
 @Component({
   selector: 'app-parcel-received-stock-report',
@@ -8,12 +10,6 @@ declare var $: any;
   styleUrls: ['./parcel-received-stock-report.component.scss']
 })
 export class ParcelReceivedStockReportComponent {
-
-
-
-
-
-
   @ViewChild('summaryfromcity') summaryfromcity!: ElementRef;
   @ViewChild('summarytocity') summarytocity!: ElementRef;
   @ViewChild('summarypickup') summarypickup!: ElementRef;
@@ -28,7 +24,8 @@ export class ParcelReceivedStockReportComponent {
   payload: any;
 
 
-  constructor(private api: BranchService, private fb: FormBuilder) {
+  constructor(private api: BranchService, private fb: FormBuilder,private router:Router,
+    private toast:ToastrService) {
     this.form = this.fb.group({
       // fromDate: ['', Validators.required],
       // toDate: ['', Validators.required],
@@ -114,31 +111,50 @@ totalPagesArray() {
   return Array(this.totalPages).fill(0);
 }
 
-  LuaggageReport() {
-    this.payload = {
-      fromDate: this.form.value.fromDate,
-      toDate: this.form.value.toDate,
-      fromCity: this.form.value.fromCity,
-      toCity: this.form.value.toCity,
-      pickUpBranch: this.form.value.pickUpBranch,
-      dropBranch: this.form.value.dropBranch,
-      receiverName: this.form.value.receiverName
-    };
-    console.log("payload:",this.payload);
+LuaggageReport() {
+  this.payload = {
+    fromDate: this.form.value.fromDate,
+    toDate: this.form.value.toDate,
+    fromCity: this.form.value.fromCity,
+    toCity: this.form.value.toCity,
+    pickUpBranch: this.form.value.pickUpBranch,
+    dropBranch: this.form.value.dropBranch,
+    receiverName: this.form.value.receiverName
+  };
 
-    this.api.ParcelReceivedStockReport(this.payload).subscribe(
-      (res: any) => {
-        this.reportData = res.data;
-        this.totalPages = Math.ceil(this.reportData.length / this.itemsPerPage);
-        this.currentPage = 1; // reset to first page
-        console.log('Luggage Report:', this.reportData);
-      },
-      (error) => {
-        console.error('API Error:', error);
+  console.log("Payload:", this.payload);
+
+  this.api.ParcelReceivedStockReport(this.payload).subscribe({
+    next: (res: any) => {
+      this.reportData = res.data;
+      this.totalPages = Math.ceil(this.reportData.length / this.itemsPerPage);
+      this.currentPage = 1;
+
+      if (res.message) {
+        this.toast.success(res.message, 'Success');
+      } else {
+        this.toast.success('Report loaded successfully', 'Success');
       }
-    );
-    
-  }
+    },
+    error: (error: any) => {
+      console.error('API Error:', error);
+
+      if (error.error && error.error.message) {
+        this.toast.error(error.error.message, 'Error');
+      } else {
+        this.toast.error('Failed to load report', 'Error');
+      }
+
+      // 👇 Refresh current route
+      const currentUrl = this.router.url;
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate([currentUrl]);
+      });
+    }
+  });
+}
+
+
 
   getProfileData() {
     this.api.GetProfileData().subscribe((res: any) => {
@@ -147,7 +163,70 @@ totalPagesArray() {
     });
   
 }
+printReport() {
+  const printContents = document.getElementById('print-section')?.innerHTML;
+  if (printContents) {
+    const popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+    popupWin!.document.open();
+    popupWin!.document.write(`
+      <html>
+        <head>
+          <title>Print Report</title>
+          <style>
+            /* You can include more styles here as needed */
+            body {
+              font-family: Arial, sans-serif;
+              margin: 20px;
+            }
 
+            table {
+              width: 100%;
+              border-collapse: collapse;
+              font-size: 12px;
+            }
+
+            th, td {
+              border: 1px solid #000;
+              padding: 4px;
+              text-align: center;
+            }
+
+            h4, h6, p {
+              margin: 4px 0;
+            }
+
+            .text-center {
+              text-align: center;
+            }
+
+            .fw-bold {
+              font-weight: bold;
+            }
+
+            .text-decoration-underline {
+              text-decoration: underline;
+            }
+
+            .d-flex {
+              display: flex;
+              justify-content: space-between;
+            }
+
+            @media print {
+              .no-print {
+                display: none;
+              }
+            }
+          </style>
+        </head>
+        <body onload="window.print(); window.close();">
+          ${printContents}
+        </body>
+      </html>
+    `);
+    popupWin!.document.close();
+  }
+}
 
 
 

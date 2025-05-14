@@ -1,9 +1,9 @@
 <app-header></app-header>
 
-<div class="container my-4">
-  <h2 class="text-center mb-4">Parcel Cancel</h2>
+<div class="container " style="margin-top: 8%;">
+  <h4 class="text-center mb-4 text-decoration-underline">Parcel Cancel</h4>
   <!-- Search Section -->
-  <div class="section-border">
+  <div class="section-border ">
     <form (ngSubmit)="searchUser()">
       <div class="row g-3 align-items-center">
         <div class="col-md-4">
@@ -58,92 +58,92 @@
       <!-- Loop these divs to render form fields -->
       <div class="col-md-4">
         <label class="form-label">GRN No/LR No</label>
-        <input type="text" class="form-control" [ngModel]="items.toCity">
+        <input type="text" class="form-control" [ngModel]="items.toCity" >
       </div>
       <div class="col-md-4">
         <label class="form-label">Sender. Name</label>
-        <input type="text" class="form-control" [ngModel]="items.senderName">
+        <input type="text" class="form-control" [ngModel]="items.senderName" readonly>
       </div>
       <div class="col-md-4">
         <label class="form-label">Sender Phone</label>
-        <input type="text" class="form-control" [ngModel]="items.senderMobile">
+        <input type="text" class="form-control" [ngModel]="items.senderMobile" readonly>
       </div>
       <div class="col-md-4">
         <label class="form-label">Receiver Name</label>
-        <input type="text" class="form-control" [ngModel]="items.receiverName">
+        <input type="text" class="form-control" [ngModel]="items.receiverName" readonly>
       </div>
       <div class="col-md-4">
         <label class="form-label">Receiver Phone</label>
-        <input type="text" class="form-control" [ngModel]="items.receiverMobile">
+        <input type="text" class="form-control" [ngModel]="items.receiverMobile" readonly>
       </div>
       <div class="col-md-4">
         <label class="form-label">From City</label>
-        <input type="text" class="form-control" [ngModel]="items.fromCity">
+        <input type="text" class="form-control" [ngModel]="items.fromCity" readonly>
       </div>
       <div class="col-md-4">
         <label class="form-label">To City</label>
-        <input type="text" class="form-control" [ngModel]="items.toCity">
+        <input type="text" class="form-control" [ngModel]="items.toCity" readonly>
       </div>
       <div class="col-md-4">
         <label class="form-label">From Branch</label>
-        <input type="text" class="form-control" [ngModel]="items.pickUpBranchname">
+        <input type="text" class="form-control" [ngModel]="items.pickUpBranchname" readonly>
       </div>
       <div class="col-md-4">
         <label class="form-label">To Branch</label>
-        <input type="text" class="form-control" [ngModel]="items.dropBranchname">
+        <input type="text" class="form-control" [ngModel]="items.dropBranchname" readonly>
       </div>
       <div class="col-md-4">
         <label class="form-label">Booked By Branch</label>
-        <input type="text" class="form-control" [ngModel]="items.pickUpBranchname">
+        <input type="text" class="form-control" [ngModel]="items.pickUpBranchname" readonly>
       </div>
       <div class="col-md-4">
         <label class="form-label">Booked By User</label>
-        <input type="text" class="form-control" [ngModel]="data2.bookedBy?.name">
+        <input type="text" class="form-control" [ngModel]="data2.bookedBy?.name" readonly>
       </div>
 
       <div class="col-md-4">
         <label class="form-label">bookingDate</label>
-        <input type="text" class="form-control" [ngModel]="items.bookingDate">
+        <input type="text" class="form-control" [ngModel]="items.bookingDate" readonly>
       </div>
       <div class="col-md-4">
         <label class="form-label">Loading. Date</label>
-        <input type="text" class="form-control" [ngModel]="items.loadingDate">
+        <input type="text" class="form-control" [ngModel]="items.loadingDate" readonly>
       </div>
       <div class="col-md-4">
         <label class="form-label">Unload. Date</label>
-        <input type="text" class="form-control" [ngModel]="items.unloadingDate">
+        <input type="text" class="form-control" [ngModel]="items.unloadingDate" readonly>
       </div>
       <div class="col-md-4">
         <label class="form-label">Delivery Date</label>
-        <input type="text" class="form-control" [ngModel]="items.receiverMobile">
+        <input type="text" class="form-control" [ngModel]="items.receiverMobile" readonly>
       </div>
       <div class="col-md-4">
         <label class="form-label">Load By User</label>
-        <input type="text" class="form-control" [ngModel]="items.receiverMobile">
+        <input type="text" class="form-control" [ngModel]="items.receiverMobile" readonly>
       </div>
       <div class="col-md-4">
         <label class="form-label">Un. By User</label>
-        <input type="text" class="form-control" [ngModel]="items.receiverMobile">
+        <input type="text" class="form-control" [ngModel]="items.receiverMobile" readonly>
       </div>
       <div class="col-md-4">
         <label class="form-label">D. By User</label>
-        <input type="text" class="form-control" [ngModel]="items.receiverMobile">
+        <input type="text" class="form-control" [ngModel]="items.receiverMobile" readonly>
       </div>
       <div class="col-md-4">
         <label class="form-label">booking Status </label>
-        <input type="text" class="form-control" [ngModel]="items.bookingStatus">
+        <input type="text" class="form-control" [ngModel]="items.bookingStatus" readonly>
       </div>
       <div class="col-md-4">
         <label class="form-label">Parcel Que.</label>
-        <input type="text" class="form-control" [ngModel]="items.receiverMobile">
+        <input type="text" class="form-control" [ngModel]="items.receiverMobile" readonly>
       </div>
       <div class="col-md-4">
         <label class="form-label">Total Price</label>
-        <input type="text" class="form-control" [ngModel]="items.grandTotal">
+        <input type="text" class="form-control" [ngModel]="items.grandTotal" readonly>
       </div>
       <div class="col-md-4">
         <label class="form-label">Paid Type</label>
-        <input type="text" class="form-control" [ngModel]="items.bookingType">
+        <input type="text" class="form-control" [ngModel]="items.bookingType" readonly>
       </div>
 
       <hr>

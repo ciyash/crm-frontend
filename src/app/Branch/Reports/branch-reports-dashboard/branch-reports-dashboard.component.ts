@@ -365,9 +365,20 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
       next: (response: any) => {
         this.customerdata = response;
         console.log('Parcel Booking customerdata:', this.customerdata);
-        this.router.navigateByUrl('/regularcustmer', {
-          state: { data7: response },
-        });
+
+
+
+        const finalData2 = {
+          ...response,
+          fromDate: this.form5.value.fromDate,
+          toDate: this.form5.value.toDate
+        };
+        this.router.navigateByUrl('/regularcustmer', { state: { data7: finalData2 } });
+
+
+       
+
+
       },
       error: (error: any) => {
         console.error('Customer Report loading failed:', error);

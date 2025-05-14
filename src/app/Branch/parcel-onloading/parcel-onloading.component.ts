@@ -139,10 +139,7 @@ onLoad() {
     this.toastr.error('Please fill all required fields', 'Validation Error');
     return;
   }
-
   const formValues = this.form.value;
-  
-
   const payload = {
     fromDate: formValues.fromDate,
     toDate: formValues.toDate,
@@ -185,7 +182,8 @@ console.log("payload:",payload)
         this.bkdata = [];
         this.summary = {};
         this.LoadSuccess = false;
-        this.toastr.info('No customer bookings found.', 'Info');
+        this.toastr.error('No customer bookings found.', 'error');
+
       }
     },
     error: (error: any) => {
