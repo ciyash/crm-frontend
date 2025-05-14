@@ -14,7 +14,7 @@ export class VoucerOfflineListComponent {
      citydata: any = []; // Ensure it's initialized to prevent undefined 
       form: FormGroup;
       vdata:any;
-      data:any;
+      data1:any = [];;
       LoadSuccess: boolean = false;
       allSelected: boolean = false;
       pdata:any;
@@ -61,14 +61,6 @@ export class VoucerOfflineListComponent {
         const day = ('0' + today.getDate()).slice(-2);
         return `${year}-${month}-${day}`; // yyyy-MM-dd
       }
-
-      getvouchersdata(id:any){
-        this.api.GetVouchersListData(id).subscribe((res)=>{
-            console.log('vouchersdata',res);
-            this.vldata=res;
-            console.log("thisvladata:",this.vldata)
-        })
-      }
     
       onFromcitySelect(event: any) {
         const cityName = event.target.value;
@@ -113,7 +105,7 @@ export class VoucerOfflineListComponent {
           }
         
           // ✅ Update "Select All" status based on selected values
-          this.allSelected = this.data.length === formArray.value.length;
+          this.allSelected = this.data1.length === formArray.value.length;
           console.log('Selected GRN Numbers:', formArray.value);
         }
         
@@ -134,7 +126,7 @@ export class VoucerOfflineListComponent {
             next: (response: any) => {
               console.log('Parcel loaded successfully:', response);
               // alert('Parcel Loaded Successfully!');
-              this.data=response;
+              this.data1=response;
               
             },
             error: (error: any) => {
@@ -143,6 +135,14 @@ export class VoucerOfflineListComponent {
             },
           });
         }
+
+          getvouchersdata(id:any){
+        this.api.GetVouchersListData(id).subscribe((res)=>{
+            console.log('vouchersdata',res);
+            this.vldata=res;
+            console.log("thisvladata:",this.vldata)
+        })
+      }
 
         printgrnData(id:any){
           this.router.navigateByUrl('/printvouchersdata/'+id);
