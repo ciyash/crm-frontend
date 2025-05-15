@@ -1,1 +1,193 @@
-<p>parcel-delivery works!</p>
+<app-header></app-header>
+
+<div class="container " style="margin-top: 8%;">
+  <h4 class="text-center mb-4 text-decoration-underline text-danger" >   Parcel Delivery </h4>
+  <!-- Search Section -->
+  <div class="section-border ">
+    <form (ngSubmit)="searchUser()">
+      <div class="row g-3 align-items-center">
+        <div class="col-md-4">
+          <label for="searchBy" class="form-label">Search By:</label>
+          <select class="form-select" id="searchBy">
+            <option>GRN No/LR No/Serial No</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label for="searchInput" class="form-label">Search:</label>
+          <input required type="text" id="searchTerm" name="searchTerm" placeholder="Enter GRN Number"
+            class="form-control" [(ngModel)]="searchTerm" />
+        </div>
+
+        <div class="col-md-4 mt-5 d-flex flex-column gap-2">
+            
+            <h2 class="text-success text-center" *ngIf="data2[0].bookingStatus === 0" >Parcel Booked</h2>
+            <h2 class="text-success text-center" *ngIf="data2[0].bookingStatus === 1" >Parcel Loaded</h2>
+            <h2 class="text-success text-center" *ngIf="data2[0].bookingStatus === 2" >Parcel UnLoaded</h2>
+            <h2 class="text-success text-center" *ngIf="data2[0].bookingStatus === 3" > Parcel Missing</h2>
+            <h2 class="text-success text-center" *ngIf="data2[0].bookingStatus === 5" > Parcel Cancel</h2>
+            <h2 class="text-success text-center" *ngIf="data2[0].bookingStatus === 4" >  Already Delivered</h2>
+     
+        </div>
+
+      </div>
+
+      <div class="text-center mt-3">
+        <button class="btn  ms-auto " style="background-color: #034F92; color: white;" type="submit">LOAD</button>
+      </div>
+    </form>
+    <div *ngIf="data2[0].bookingStatus === 2" class="mt-2" >
+        <div class="col-12 mb-3">
+          <h4 class="section-title text-center text-danger">Delivery Details</h4>
+        </div>
+      
+        <form [formGroup]="form2">
+          <div class="row">
+            
+            <!-- Hidden GRN number -->
+            <input type="hidden" formControlName="grnNo" [(ngModel)]="data2[0].grnNo">
+      
+            <!-- Receiver Name -->
+            <div class="col-md-4 mb-3">
+              <label for="receiverName1" class="form-label" >Delivery Receiver Name</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="receiverName1" 
+                formControlName="receiverName1"
+                placeholder="Enter receiver name">
+            </div>
+      
+            <!-- Receiver Mobile -->
+            <div class="col-md-4 mb-3">
+              <label for="receiverMobile1" class="form-label" >Delivery Receiver Phone</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="receiverMobile1" 
+                formControlName="receiverMobile1"
+                placeholder="Enter receiver phone">
+            </div>
+      
+            <!-- Submit Button -->
+            <div class="col-md-2 d-flex align-items-end mb-3">
+              <button 
+                type="button" 
+                class="btn btn-success btn-lg w-100"
+                (click)="updateParcelStatus()">
+                Submit
+              </button>
+            </div>
+      
+          </div>
+        </form>
+      </div>
+
+
+  </div>
+
+  <!-- Search Results -->
+
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="text-danger mt-3">
+    {{ errorMessage }}
+  </div>
+
+
+  <!-- Form Table Section -->
+  <div class="section-border">
+    <div class="row g-3" *ngFor="let items of data2">
+      <!-- Loop these divs to render form fields -->
+      <div class="col-md-4">
+        <label class="form-label">GRN No/LR No</label>
+        <input type="text" class="form-control" [ngModel]="items.toCity" >
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Sender. Name</label>
+        <input type="text" class="form-control" [ngModel]="items.senderName" readonly>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Sender Phone</label>
+        <input type="text" class="form-control" [ngModel]="items.senderMobile" readonly>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Receiver Name</label>
+        <input type="text" class="form-control" [ngModel]="items.receiverName" readonly>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Receiver Phone</label>
+        <input type="text" class="form-control" [ngModel]="items.receiverMobile" readonly>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">From City</label>
+        <input type="text" class="form-control" [ngModel]="items.fromCity" readonly>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">To City</label>
+        <input type="text" class="form-control" [ngModel]="items.toCity" readonly>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">From Branch</label>
+        <input type="text" class="form-control" [ngModel]="items.pickUpBranchname" readonly>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">To Branch</label>
+        <input type="text" class="form-control" [ngModel]="items.dropBranchname" readonly>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Booked By Branch</label>
+        <input type="text" class="form-control" [ngModel]="items.pickUpBranchname" readonly>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Booked By User</label>
+        <input type="text" class="form-control" [ngModel]="data2.bookedBy?.name" readonly>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">bookingDate</label>
+        <input type="text" class="form-control" [ngModel]="items.bookingDate" readonly>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Loading. Date</label>
+        <input type="text" class="form-control" [ngModel]="items.loadingDate" readonly>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Unload. Date</label>
+        <input type="text" class="form-control" [ngModel]="items.unloadingDate" readonly>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Delivery Date</label>
+        <input type="text" class="form-control" [ngModel]="items.receiverMobile" readonly>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Load By User</label>
+        <input type="text" class="form-control" [ngModel]="items.receiverMobile" readonly>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Un. By User</label>
+        <input type="text" class="form-control" [ngModel]="items.receiverMobile" readonly>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">D. By User</label>
+        <input type="text" class="form-control" [ngModel]="items.receiverMobile" readonly>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">booking Status </label>
+        <input type="text" class="form-control" [ngModel]="items.bookingStatus" readonly>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Parcel Que.</label>
+        <input type="text" class="form-control" [ngModel]="items.receiverMobile" readonly>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Total Price</label>
+        <input type="text" class="form-control" [ngModel]="items.grandTotal" readonly>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Paid Type</label>
+        <input type="text" class="form-control" [ngModel]="items.bookingType" readonly>
+      </div>
+  
+    </div>
+  </div>
+</div>

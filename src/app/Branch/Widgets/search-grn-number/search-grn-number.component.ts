@@ -38,6 +38,7 @@ export class SearchGrnNumberComponent {
   ngOnInit(): void {
     this.searchTerm = this.activeroute.snapshot.params['grnNo'];
   }
+
   updateParcelStatus() {
     const payload = {
       grnNo: this.form.value.grnNo,
@@ -58,8 +59,6 @@ export class SearchGrnNumberComponent {
           this.toast.success('Parcel status updated successfully', 'Success');
         }
   
-        // jkasdjdss
-        
         // ✅ Redirect after short delayad
         setTimeout(() => {
           this.router
@@ -115,6 +114,7 @@ export class SearchGrnNumberComponent {
       this.api.GetSearch(searchPayload).subscribe((res: any) => {
         this.data2 = res;
         console.log('searchdataobject:', this.data2);
+        
       });
     }
   }
