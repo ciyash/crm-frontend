@@ -318,9 +318,11 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
   parcelbookingsmobile(): void {
     if (this.form4.invalid) {
       this.form4.markAllAsTouched();
-      this.toast.error('Please fill all required fields');
+      this.toast.error('Please enter mobile');
       return;
     }
+
+    // ✅ Define payload before using it
     const payload3 = {
       fromDate: this.form4.value.fromDate,
       toDate: this.form4.value.toDate,
@@ -329,29 +331,42 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
       bookingType: this.form4.value.bookingType,
       bookingStatus: this.form4.value.bookingStatus,
     };
+  
     console.log('Mobile Report Payload:', payload3);
+  
     this.api.ParcelBookingMobileNumber(payload3).subscribe({
       next: (response: any) => {
         this.mobiledata = response;
+  
+        // ✅ Show success toast with backend message or default
+        const successMessage = response?.message || 'Parcel Booking Report loaded successfully';
+        this.toast.success(successMessage);
+  
         console.log('Parcel Booking mobiledata:', this.mobiledata);
-        this.router.navigateByUrl('/bookingmobile', {
-          state: { data6: response },
-        });
+        const finalData5 = {
+          ...response,
+          fromDate: this.form4.value.fromDate,
+          toDate: this.form4.value.toDate
+        };
+
+        this.router.navigateByUrl('/bookingmobile', { state: { data6: finalData5 } });
       },
       error: (error: any) => {
         console.error('Parcel Mobile Report loading failed:', error);
-        this.toast.error('Parcel Mobile Report Loading Failed. Please try again.');
+  
+        // ✅ Show error toast with backend message or default
+        const errorMessage =
+          error?.error?.message || error?.message || 'Parcel Mobile Report loading failed. Please try again.';
+        this.toast.error(errorMessage);
       },
     });
   }
+  
+
 
   // Regular Customer Booking
   bookingCustomer(): void {
-    if (this.form5.invalid) {
-      this.form5.markAllAsTouched();
-      this.toast.error('Please fill all required fields');
-      return;
-    }
+ 
     const payload4 = {
       fromDate: this.form5.value.fromDate,
       toDate: this.form5.value.toDate,
@@ -361,28 +376,33 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
       dropBranch: this.form5.value.dropBranch,
     };
     console.log('Customer Report Payload:', payload4);
+  
     this.api.ParcelBookingRegularCustomer(payload4).subscribe({
       next: (response: any) => {
         this.customerdata = response;
+  
+        // Use backend success message if available, else default
+        const successMessage = response.message || 'Customer report loaded successfully!';
+        this.toast.success(successMessage);
+  
         console.log('Parcel Booking customerdata:', this.customerdata);
+  
         this.router.navigateByUrl('/regularcustmer', {
           state: { data7: response },
         });
       },
       error: (error: any) => {
         console.error('Customer Report loading failed:', error);
-        this.toast.error('Customer Report Loading Failed. Please try again.');
+  
+        // Extract error message from backend error response if available
+        const errorMessage = error.error?.message || error.message || 'Customer Report Loading Failed. Please try again.';
+        this.toast.error(errorMessage);
       },
     });
   }
-
+  
   // Parcel Booking Summary Report
   BookingSummeryReport(): void {
-    if (this.form6.invalid) {
-      this.form6.markAllAsTouched();
-      this.toast.error('Please fill all required fields');
-      return;
-    }
     const payload5 = {
       fromDate: this.form6.value.fromDate,
       toDate: this.form6.value.toDate,
@@ -392,20 +412,37 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
       dropBranch: this.form6.value.dropBranch,
     };
     console.log('Booking Summary Report Payload:', payload5);
+  
     this.api.ParcelBookingSummeryReport(payload5).subscribe({
       next: (response: any) => {
         this.summaryData = response;
+  
+        // Assuming your backend sends success message as response.message or similar
+        const successMessage = response.message || 'Booking summary report loaded successfully!';
+        this.toast.success(successMessage);
+  
         console.log('Booking Summary Report Response:', this.summaryData);
-        this.router.navigateByUrl('/bookingsummary', {
-          state: { data5: response },
-        });
+  
+        const finalData9 = {
+          ...response,
+          fromDate: this.form6.value.fromDate,
+          toDate: this.form6.value.toDate
+        };
+        this.router.navigateByUrl('/bookingsummary', { state: { data5: finalData9 } });
       },
       error: (error: any) => {
         console.error('Parcel Summary Report loading failed:', error);
-        this.toast.error('Parcel Summary Report Loading Failed. Please try again.');
+  
+        // Extract error message from backend response
+        // This depends on your API error structure; examples:
+        // const errorMessage = error.error?.message || error.message || 'Loading failed, please try again.';
+        const errorMessage = error.error?.message || error.message || 'Parcel Summary Report Loading Failed. Please try again.';
+        this.toast.error(errorMessage);
       },
     });
   }
+  
+  
 
   // Parcel Cancel Report
   cancelReport(): void {

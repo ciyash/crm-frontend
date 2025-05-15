@@ -81,6 +81,7 @@ import { DeliveryStockReportComponent } from './Branch/Reports/delivery-stock-re
 import { ParcelIncomingLuggagesReportComponent } from './Branch/Reports/parcel-incoming-luggages-report/parcel-incoming-luggages-report.component';
 import { ParcelIncomingReportComponent } from './Branch/Reports/parcel-incoming-report/parcel-incoming-report.component';
 import { DashboardComponent } from './USER/dashboard/dashboard.component';
+import { ParcelDeliveryComponent } from './Branch/parcel-delivery/parcel-delivery.component';
  
 @NgModule({
   declarations: [
@@ -152,6 +153,7 @@ import { DashboardComponent } from './USER/dashboard/dashboard.component';
     ParcelIncomingLuggagesReportComponent,
     ParcelIncomingReportComponent,
     DashboardComponent,
+    ParcelDeliveryComponent,
    
    
   ],

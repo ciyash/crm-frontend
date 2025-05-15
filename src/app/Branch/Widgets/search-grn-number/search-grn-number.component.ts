@@ -2,54 +2,57 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BranchService } from 'src/app/service/branch.service';
-
 @Component({
   selector: 'app-search-grn-number',
   templateUrl: './search-grn-number.component.html',
-  styleUrls: ['./search-grn-number.component.scss']
+  styleUrls: ['./search-grn-number.component.scss'],
 })
 export class SearchGrnNumberComponent {
   searchResult: any[] = [];
-  data2:any;
+  data2: any;
   idselectmsg: string = '';
   regname: any[] = [];
   errorMessage: string = '';
-  updata:any;
-  form:FormGroup;
-  searchField: string = 'grnNo';  // Default selection
-searchTerm: string = '';
+  updata: any;
+  form: FormGroup;
+  searchField: string = 'grnNo'; // Default selection
+  searchTerm: string = '';
 
   branchId: any;
-  constructor(private api:BranchService, private activeroute:ActivatedRoute, private fb:FormBuilder, private router:Router){
+  constructor(
+    private api: BranchService,
+    private activeroute: ActivatedRoute,
+    private fb: FormBuilder,
+    private router: Router
+  ) {
+    this.form = this.fb.group({
+      grnNo: ['', Validators.required],
+      receiverName1: [''],
+      receiverMobile1: [''],
+      lrNumber: [''],
 
-              this.form = this.fb.group({
-                grnNo: ['', Validators.required],
-                receiverName1: [''],
-                receiverMobile1: [''],
-                  });
-
+    });
   }
-
   ngOnInit(): void {
     this.searchTerm = this.activeroute.snapshot.params['grnNo'];
   }
-
   updateParcelStatus() {
     const payload = {
-      grnNo: this.form.value.grnNo, 
-      receiverName1:this.form.value.receiverName1,
-      receiverMobile1:this.form.value.receiverMobile1
+      grnNo: this.form.value.grnNo,
+      receiverName1: this.form.value.receiverName1,
+      receiverMobile1: this.form.value.receiverMobile1,
     };
-  
     console.log('Final Payload:', payload);
     this.api.ReceivedParcelUpdate(payload).subscribe(
       (res: any) => {
         console.log('Update Status:', res);
         this.updata = res;
         setTimeout(() => {
-          this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-            this.router.navigate(['/booking']);
-          });
+          this.router
+            .navigateByUrl('/', { skipLocationChange: true })
+            .then(() => {
+              this.router.navigate(['/booking']);
+            });
         }, 500);
       },
       (error) => {
@@ -57,21 +60,23 @@ searchTerm: string = '';
       }
     );
   }
-  
- 
+
   searchUser(): void {
     debugger;
     if (this.searchTerm && this.searchTerm.trim() !== '' && this.searchField) {
-      console.log('Searching by:', this.searchField, 'Value:', this.searchTerm.trim());
-  
+      console.log(
+        'Searching by:',
+        this.searchField,
+        'Value:',
+        this.searchTerm.trim()
+      );
       const searchPayload = {
         mobile: '',
         searchCustomer: '',
         grnNo: '',
-        lrNumber: ''
+        lrNumber: '',
       };
-console.log("searchdata:",searchPayload)
-  
+      console.log('searchdata:', searchPayload);
       switch (this.searchField) {
         case 'senderMobile':
           searchPayload.mobile = this.searchTerm.trim();
@@ -86,24 +91,10 @@ console.log("searchdata:",searchPayload)
           searchPayload.lrNumber = this.searchTerm.trim();
           break;
       }
-  
-      this.api.GetSearch(searchPayload).subscribe(
-        (res: any) => {
-          this.data2=res;
-          console.log("searchdataobject:",this.data2)
-    } 
-    )}
+      this.api.GetSearch(searchPayload).subscribe((res: any) => {
+        this.data2 = res;
+        console.log('searchdataobject:', this.data2);
+      });
+    }
   }
-  
-
-  
-  
-  
-
-  
-      
-     
-      }
-      
-      
- 
+}

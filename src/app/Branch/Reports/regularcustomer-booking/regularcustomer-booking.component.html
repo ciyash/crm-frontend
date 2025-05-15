@@ -1,6 +1,12 @@
-<div *ngIf="data?.length; else noData" class="container my-4 p-3 border rounded bg-light"
+
+<app-header></app-header>
+
+<div class="d-flex justify-content-center">
+  <i class="fa fa-print" aria-hidden="true" (click)="printReport()" style="margin-top: 8%; font-size: 50px;"></i>
+
+</div>
+<div *ngIf="data?.length; else noData" id="print-section" class="container my-4 p-3 border rounded bg-light"
   style="background-color: #e3eaf8">
-  
   <div class="container-fluid" *ngIf="pfdata">
     <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
     <p class="text-center fw-bold">
@@ -8,7 +14,7 @@
       Phone No: {{ pfdata.phone }}
     </p>
   </div>
-  <h6 class="text-center text-decoration-underline">All Parcel Booking Details Report</h6>
+  <h6 class="text-center text-decoration-underline">Regular Customer Booking</h6>
 
   <div class="d-flex justify-content-between mt-3">
     <div>

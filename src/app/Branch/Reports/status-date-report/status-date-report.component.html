@@ -1,4 +1,10 @@
-<div class="container mt-5 p-4 border rounded bg-light">
+<app-header></app-header>
+<div class="d-flex justify-content-center">
+    <i class="fa fa-print"
+    style="font-size: 40px; margin-top: 8%;" aria-hidden="true" (click)="printReport()"></i>
+</div>
+
+<div class="container p-4 border rounded bg-light" id="print-section" >
     <div class="text-center mb-4">
         <div class="container-fluid" *ngIf="pfdata">
             <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
@@ -7,8 +13,6 @@
                 Phone No: {{ pfdata.phone }}
             </p>
         </div>   
-
-
         <h6 class="text-decoration-underline">Parcel Status Date Difference Report</h6>
     </div>
 

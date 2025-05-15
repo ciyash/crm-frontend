@@ -3,40 +3,40 @@
 <h5 class="text-center fw-bold text-danger" style="margin-top: 8%;">
   <u> Parcel Pending Delivery Luggage Report</u>
 </h5>
-<div class="container  border mt-5 pb-4">
-   <div class="rounded p-4" style="margin-top: 1rem;">
+<div class="container  border mt-3 pb-3">
+   <div class="rounded p-2" style="margin-top: 1rem;">
     <form [formGroup]="form">
       <div class="row mb-3">
         <div class="col-md-6">
           <label class="form-label form-after">From City</label>
           <select #selectElem class="form-select form-select-sm" formControlName="fromCity">
-            <option value="all" selected>all</option>
+            <option value="all" selected> select all</option>
             <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
           </select>
         </div>
         <div class="col-md-6">
           <label class="form-label form-after">Pickup Branch</label>
           <select #pickupbranch class="form-select form-select-sm" formControlName="pickUpBranch">
-            <option value="all" selected>all</option>
+            <option value="all" selected> select all</option>
             <option *ngFor="let row4 of pdata" [value]="row4.branchUniqueId"> {{ row4.name }} </option>
           </select>
         </div>
         <div class="col-md-6">
           <label class="form-label form-after">To City</label>
           <select #selectElem2 class="form-select form-select-sm" formControlName="toCity">
-            <option value="all" selected>all</option>
+            <option value="all" selected> select all</option>
             <option *ngFor="let row of citydata" [value]="row.cityName">{{ row.cityName }}</option>
           </select>
         </div>
         <div class="col-md-6">
           <label class="form-label form-after">Drop Branch</label>
           <select #droupbranch class="form-select form-select-sm" formControlName="dropBranch">
-            <option value="all" selected>all</option>
+            <option value="all" selected> select all</option>
             <option *ngFor="let row1 of tbcdata" [value]="row1.branchUniqueId"> {{ row1.name }} </option>
           </select>
         </div>
       </div>
-      <div class="d-flex justify-content-center  mt-5">
+      <div class="d-flex justify-content-center  mt-3">
         <button type="button" class="btn btn-success " (click)="DeliveryStockReport()">Load</button>
       </div>
     </form>

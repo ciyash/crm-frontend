@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { BranchService } from 'src/app/service/branch.service';
 
 declare var $: any;
@@ -29,7 +30,8 @@ export class ParcelStatusDateDifferentComponent implements OnInit, AfterViewInit
   constructor(
     private fb: FormBuilder,
     private api: BranchService,
-    private router: Router
+    private router: Router,
+    private toast:ToastrService
   ) {
     this.form = this.fb.group({
       // startDate: ['', Validators.required],
@@ -84,23 +86,31 @@ export class ParcelStatusDateDifferentComponent implements OnInit, AfterViewInit
     console.log('payload:', payload);
   
     this.api.ParcelStatusdateReport(payload).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         console.log('data:', res);
-        this.gstdata = res;
+        
+        // Show success message from backend, fallback to generic if not found
+        const successMessage = res?.message || 'Report fetched successfully';
+        this.toast.success(successMessage);
   
+        this.gstdata = res;
         const finalData = {
           ...this.gstdata,
           fromDate: payload.startDate,
           toDate: payload.endDate
         };
-  
-        this.router.navigate(['/datereport'], { state:
-           { data: finalData } });
+        this.router.navigate(['/datereport'], { state: { data: finalData } });
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error fetching report:', err);
+  
+        // Show error message from backend, fallback to generic if not found
+        const errorMessage = err?.error?.message || 'Failed to fetch report';
+        this.toast.error(errorMessage);
       }
     });
   }
+  
+
   
 }  

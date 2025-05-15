@@ -1,4 +1,10 @@
-<div class="container my-4 p-3 border rounded bg-light" style="background-color: #e3eaf8" >
+<app-header></app-header>
+<div class="d-flex justify-content-center">
+  <i class="fa fa-print"  aria-hidden="true" (click)="printReport()" style="margin-top: 8%;font-size: 50px;"></i>
+
+</div>
+
+<div class="container my-4 p-3 border rounded bg-light" style="background-color: #e3eaf8"  id="print-section" >
   <div class="container-fluid" *ngIf="pfdata">
     <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
     <p class="text-center fw-bold">
