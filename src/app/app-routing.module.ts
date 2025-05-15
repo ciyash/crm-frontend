@@ -56,6 +56,7 @@ import { ParcelIncomingReportComponent } from './Branch/Reports/parcel-incoming-
 import { DispatchedMemoReportComponent } from './Branch/Reports/dispatched-memo-report/dispatched-memo-report.component';
 import { PendingDispatchedStockReportComponent } from './Branch/Reports/pending-dispatched-stock-report/pending-dispatched-stock-report.component';
 import { DashboardComponent } from './USER/dashboard/dashboard.component';
+import { ParcelDeliveryComponent } from './Branch/parcel-delivery/parcel-delivery.component';
 
 const routes: Routes = [
   {path:"login",component:LoginComponent },
@@ -83,6 +84,9 @@ const routes: Routes = [
   { path: 'printvouchersdata/:vocherNoUnique', component: PrintVoucherslistDataComponent, canActivate: [authGuard] },
   { path: 'voucherslistoffline', component: VoucerOfflineListComponent, canActivate: [authGuard] },
   { path: 'addpackagetype', component: AddPackagesTypeComponent, canActivate: [authGuard],},
+  { path: 'parcel-delivery', component: ParcelDeliveryComponent, canActivate: [authGuard],},
+
+
 
   // Reportslll
   //cf master

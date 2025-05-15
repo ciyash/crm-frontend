@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { BranchService } from 'src/app/service/branch.service';
 declare var $: any;
 
@@ -34,7 +35,8 @@ export class PendingDeliveryStockReportComponent
   constructor(
     private fb: FormBuilder,
     private api: BranchService,
-    private router: Router
+    private router: Router,
+    private toast :ToastrService
   ) {
     this.form = this.fb.group({
       fromCity: ['all', Validators.required],
@@ -135,23 +137,33 @@ export class PendingDeliveryStockReportComponent
   }
 
   DeliveryStockReport() {
-      const payload = this.form.value;
-      console.log('payload:', payload);
-      this.api.PendingDeliveryStockReport(payload).subscribe({
-        next: (res) => {
-          console.log('pending delivery:', res);
-          this.gstdata = res;
-          console.log('gstdata:', this.gstdata);
-          
-          this.router.navigate(['/devliveryreport'], {
-            state: { data: this.gstdata }
-          });
-          
-        },
-        error: (err) => {
-          console.error('Error fetching report:', err);
-        },
-      });
-    } 
+    const payload = this.form.value;
+    console.log('payload:', payload);
+    this.api.PendingDeliveryStockReport(payload).subscribe({
+      next: (res: any) => {
+        console.log('pending delivery:', res);
+        
+        // Show success toast message from API response if available
+        const message = res?.message || 'Report fetched successfully';
+        this.toast.success(message);
+  
+        this.gstdata = res;
+        console.log('gstdata:', this.gstdata);
+  
+        this.router.navigate(['/devliveryreport'], {
+          state: { data: this.gstdata }
+        });
+      },
+      error: (err: any) => {
+        console.error('Error fetching report:', err);
+  
+        // Show error toast message from API response if available
+        const errorMessage =
+          err?.error?.message || err?.message || 'Failed to fetch report';
+        this.toast.error(errorMessage);
+      },
+    });
+  }
+  
   
 }

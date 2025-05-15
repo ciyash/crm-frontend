@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, AfterViewInit, ViewChild } from '@angula
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BranchService } from 'src/app/service/branch.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 declare var $: any;
 
 @Component({
@@ -19,15 +20,16 @@ export class CollectionReportComponent implements OnInit, AfterViewInit {
   @ViewChild('BranchCity') BranchCity!: ElementRef;
   @ViewChild('BranchName') BranchName!: ElementRef;
 
-  constructor(private fb: FormBuilder, private api: BranchService, private router: Router) {
-    this.form = this.fb.group({
+  constructor(private fb: FormBuilder, private api: BranchService, private router: Router,private toast:ToastrService) {
+    this.form = this.fb.group({ 
       fromDate: [this.getTodayDateString(), Validators.required],
-      toDate: ['', Validators.required],
+      toDate: [this.getTodayDateString(), Validators.required],
       fromCity: [''],
-      pickUpBranch: ['',],
+      pickUpBranch: [''],
       bookedBy: [''],
       reportType: ['ALL']
     });
+    
   }
 
   ngOnInit() {
@@ -47,13 +49,17 @@ export class CollectionReportComponent implements OnInit, AfterViewInit {
     this.getProfileData();
   }
 
+  
+
   getTodayDateString(): string {
     const today = new Date();
     const year = today.getFullYear();
-    const month = ('0' + (today.getMonth() + 1)).slice(-2);
-    const day = ('0' + today.getDate()).slice(-2);
-    return `${day}-${month}-${year}`;
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
+  
+
   ngAfterViewInit(): void {
     $(this.BranchCity.nativeElement).on('select2:select', (event: any) => {
       const selectedCity = event.params.data.id;
@@ -80,25 +86,34 @@ export class CollectionReportComponent implements OnInit, AfterViewInit {
   getCollectionReport() {
     const payload = this.form.value;
     console.log("Payload:", payload);
-
+  
     this.api.ParcelBranchWiseReport(payload).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         this.collectiondata = res;
+  
+        // ✅ Show success message from backend
+        const successMsg = res?.message || 'Report fetched successfully';
+        this.toast.success(successMsg);
+  
         console.log('Report Data:', res);
         const finallData = {
           ...res,
           fromDate: this.form.value.fromDate,
           toDate: this.form.value.toDate
         };
+  
         this.router.navigateByUrl('/collectiondata', { state: { data: finallData } });
-
-
       },
-      error: (err) => {
+  
+      error: (err: any) => {
         console.error('Error fetching report:', err);
+  
+        // ✅ Show error message from backend
+        const errorMsg = err?.error?.message || err?.message || 'Failed to fetch report';
+        this.toast.error(errorMsg);
       }
     });
   }
-
+  
   
 }

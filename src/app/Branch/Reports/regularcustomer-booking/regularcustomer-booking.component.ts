@@ -30,7 +30,6 @@ export class RegularcustomerBookingComponent {
         console.log( 'profiledata:',this.pfdata);
       });
     }
-    
     printReport() {
       const printContents = document.getElementById('print-section')?.innerHTML;
       if (printContents) {
@@ -95,6 +94,4 @@ export class RegularcustomerBookingComponent {
         popupWin!.document.close();
       }
     }
-
-
 }
