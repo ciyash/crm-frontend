@@ -101,6 +101,8 @@ export class HeaderComponent implements OnInit {
             { label: 'Branch to Branch Loading', routerLink: ['/parcel-branch'] },
             { label: 'Parcel Status', routerLink: ['/gnrnumberstatus'] },
             { label: 'Cancel Booking', routerLink: ['/cancel-booking'] },
+            { label: 'Parcel Delivery', routerLink: ['/parcel-delivery'] },
+
             { label: 'Branch to Branch Unloading', routerLink: ['/barnchtobranchunloading'] },
             { label: 'Vouchers List Offline', routerLink: ['/voucherslistoffline'] },
           ]

@@ -54,9 +54,7 @@ export class ParcelDeliveryComponent {
   }
 
   ngOnInit(): void {
-  
     this.searchTerm = this.activeroute.snapshot.params['grnNo'];
-
     this.api.GetCities().subscribe((res:any)=>{
       console.log('citys',res);
       this.citydata=res;
