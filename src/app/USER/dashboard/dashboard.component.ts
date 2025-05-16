@@ -75,7 +75,8 @@ export class DashboardComponent implements AfterViewInit {
     });
   }
 
-  // GetStatusWiseSummary
+  
+  // GetStatusWiseSumma
   GetStatusWiseSummary(): void {
     this.api.StatusWiseSummary().subscribe({
       next: (res) => {
