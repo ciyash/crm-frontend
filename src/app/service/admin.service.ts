@@ -623,19 +623,8 @@ export class AdminService {
       httpOptions
     );   
   }
+  PostData(value: { date: string; }) {
 
-
-
-
-
-  // https://cargo-backend-bpq4.onrender.com/booking/sales-summary-branchwise
-
-
-
-  PostData(value: {
-    date: string;
-   
-  }) {
     const token1 = this.token.getToken();
     const httpOptions = {
       headers: new HttpHeaders({
@@ -653,6 +642,38 @@ export class AdminService {
       httpOptions 
     );
   }
+
+  StatusWiseSummary(){
+    const token1 = this.token.getToken();
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token1
+      })
+    }
+      return this.http.get(AUTH_API + 'booking/status-wise-summary',
+       httpOptions);
+  }
+
+SummaryReport(value:{date:string}){
+  const token1 = this.token.getToken();
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token1 // ✅ Added space after 'Bearer'
+      })
+    };
+    return this.http.post(
+      AUTH_API + 'booking/summary-report',  
+      { 
+        "date": value.date,
+       
+      },
+      httpOptions 
+    );
+}
+
+
 
 
 

@@ -1,10 +1,11 @@
 <app-header></app-header>
 <div class="container-fluid bookingss" style="margin-top: 8%;">
   <div class="status-buttons my-3">
-    <button class="btn btn-primary me-2 Booking" routerLink="/booking">New Booking <i class="fa fa-plus-circle mt-1" aria-hidden="true"></i>
+    <button class="btn btn-primary me-2 Booking" routerLink="/booking">New Booking <i class="fa fa-plus-circle mt-1"
+        aria-hidden="true"></i>
     </button>
-    <button class="btn btn-success me-2 Booking" routerLink="/parcelloading" >On Loading <span><img src="assets/dashboard/Group 1272628401.png"
-          alt=""></span>
+    <button class="btn btn-success me-2 Booking" routerLink="/parcelloading">On Loading <span><img
+          src="assets/dashboard/Group 1272628401.png" alt=""></span>
     </button>
     <button class="btn btn-warning me-2 Booking text-white">Off Loading <span><img
           src="assets/dashboard/delivery-man-preparing.png" alt=""></span></button>
@@ -15,70 +16,150 @@
   <div class="row">
     <div class="col-md-8 mb-4">
       <div class="chart-container">
-        <h5 class="fw-bold">Branch wise sales</h5>
+        <h5 class="fw-bold">Sales Summary By Branch Wise</h5>
+        <div class="d-flex gap-2 flex-wrap my-3">
+          <button *ngFor="let date of last7Days; let i = index" class="btn"
+            [ngClass]="selectedIndex === i ? 'btn-primary active' : 'btn-outline-primary'" (click)="selectDate(i)">
+            {{ date }}
+          </button>
+        </div>
         <canvas id="barChart"></canvas>
       </div>
     </div>
-
     <div class="col-md-4 mb-4 ">
       <div class="chart-container">
-        <h5 class="text-center fw-bold">Branch wise sales</h5>
+        <h5 class="text-center fw-bold">Sales Summary By Branch Wise</h5>
         <canvas id="pieChart1"></canvas>
       </div>
     </div>
   </div>
-
 </div>
-
 <div class="container-fluid">
-  <div class="row">
+  <div class="row align-items-stretch">
     <div class="col-md-8 mb-4">
-      <div class="table-container">
-        <h5>Status wise summary</h5>
-        <div class="table-wrapper">
-          <table class="table table-bordered ">
+      <!-- <h5>Sales Summary By Branch Wise</h5> -->
+      <div class="table-wrapper">
+        <div class="table-scroll">
+          <table class="table custom-table">
             <thead>
               <tr>
-                <th>Sr No</th>
-                <th>Branch</th>
-                <th>Pending Dispatch</th>
-                <th>Dispatch stock report</th>
-                <th>Received Stock</th>
-                <th>Pending Delivery</th>
+                <th class="fixed-column">Sales Summary</th>
+                <ng-container *ngFor="let item of ddata">
+                  <th>{{ item.pickUpBranchName }}</th>
+                </ng-container>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let branch of branches; let i = index">
-                <td>{{ i + 1 }}</td>
-                <td>{{ branch.name }}</td>
-                <td>{{ branch.pending }}</td>
-                <td>{{ branch.dispatch }}</td>
-                <td>{{ branch.received }}</td>
-                <td>{{ branch.delivery }}</td>
+              <tr>
+                <td class="fixed-column">Paid Booking</td>
+                <ng-container *ngFor="let item of ddata">
+                  <td>{{ item.paid }}</td>
+                </ng-container>
+              </tr>
+              <tr>
+                <td class="fixed-column">Topay Delivery</td>
+                <ng-container *ngFor="let item of ddata">
+                  <td>{{ item.toPay }}</td>
+                </ng-container>
+              </tr>
+              <tr>
+                <td class="fixed-column">Paid Delivery</td>
+                <ng-container *ngFor="let item of ddata">
+                  <td>{{ item.credit }}</td>
+                </ng-container>
+              </tr>
+              <tr>
+                <td class="fixed-column">Other Charge</td>
+                <ng-container *ngFor="let item of ddata">
+                  <td>{{ item.CLR }}</td>
+                </ng-container>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
+      
 
     </div>
+
+
     <div class="col-md-4 mb-4">
       <div class="chart-container">
-        <h5 class="text-center fw-bold">Collection summary</h5>
+        <h5 class="text-center fw-bold">Collection Summary By Payment Type</h5>
         <canvas id="pieChart"></canvas>
       </div>
     </div>
   </div>
-
 </div>
 
-<div class="container bookingss " style="background-color: #FFFFFF;
+
+<style>
+  .table-wrapper {
+  position: relative;
+  width: 100%;
+  border: 1px solid #ccc;
+}
+
+
+.custom-table {
+  border-collapse: collapse;
+  width: max-content;
+  min-width: 100%;
+  position: relative;
+}
+
+.custom-table th,
+.custom-table td {
+  padding: 10px 16px;
+  white-space: nowrap;
+  text-align: center;
+  border: 1px solid #ddd;
+  background-color: #fff;
+}
+
+.fixed-column {
+  position: absolute;
+  left: 0;
+  width: 160px;
+  background-color: #f9f9f9;
+  border-right: 1px solid #ccc;
+  z-index: 2;
+  text-align: left;
+}
+
+thead .fixed-column {
+  z-index: 3; /* Stay above table rows */
+  background-color: #eaeaea;
+  font-weight: bold;
+}
+
+.table-scroll::-webkit-scrollbar {
+  height: 10px;
+}
+
+.table-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.table-scroll::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+.table-scroll::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+</style>
+
+
+
+
+<!-- <div class="container bookingss " style="background-color: #FFFFFF;
    background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 30px;
     margin-bottom: 30px;">
-  <!-- Header with Title and Action Buttons -->
   <div class="header">
     <h5>A/C Party Account</h5>
     <div class="action-buttons">
@@ -86,23 +167,51 @@
       <button class="btn btn-primary">A/C Party</button>
     </div>
   </div>
-  <!-- Date Buttons -->
-  
+
+
   <div class="d-flex gap-2 flex-wrap my-3">
-    <button
-      *ngFor="let date of last7Days; let i = index"
-      class="btn"
-      [ngClass]="selectedIndex === i ? 'btn-primary active' : 'btn-outline-primary'"
-      (click)="selectDate(i)">
+    <button *ngFor="let date of last7Days; let i = index" class="btn"
+      [ngClass]="selectedIndex === i ? 'btn-primary active' : 'btn-outline-primary'" (click)="selectDate(i)">
       {{ date }}
     </button>
   </div>
-  
 
   <div class="no-data">
     No data found
   </div>
+</div> -->
+
+
+
+<div class="container table-container">
+  <h4>Status wise summary</h4>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>BRANCH</th>
+        <th>booking</th>
+        <th>loading</th>
+        <th>unloading</th>
+        <th>delivered</th>
+        <th>missing</th>
+        <th>total</th>
+      </tr>
+    </thead>
+  </table>
+  <!-- Scrollable Table Body -->
+  <div style="max-height: 300px; overflow-y: auto;">
+    <table class="table table-bordered">
+      <tbody>
+        <tr *ngFor="let item of statusWiseSummaryData.branchwiseStatus">
+          <td>{{ item.branch }}</td>
+          <td>{{ item.booking || 0 }}</td>
+          <td>{{ item.loading || 0 }}</td>
+          <td>{{ item.unloading || 0 }}</td>
+          <td>{{ item.delivered || 0 }}</td>
+          <td>{{ item.missing || 0 }}</td>
+          <td>{{ item.total || 0 }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
-
-
-

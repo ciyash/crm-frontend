@@ -2,7 +2,6 @@ import { Component, AfterViewInit } from '@angular/core';
 import { Chart } from 'chart.js/auto';
 import { AdminService } from 'src/app/service/admin.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -14,15 +13,19 @@ export class DashboardComponent implements AfterViewInit {
   last7Dates: Date[] = [];
   last7Days: string[] = [];
   selectedIndex: number = -1;
+  pieChart1: any;
+  barChart: any;
+  statusWiseSummaryData: any = { branchwiseStatus: [] };
 
   constructor(private api: AdminService, private fb: FormBuilder) {
     this.form = this.fb.group({
-      date: ['', Validators.required]
+      date: ['', Validators.required],
     });
   }
 
   ngOnInit(): void {
     this.getLast7Days();
+    this.GetStatusWiseSummary();
   }
 
   getLast7Days(): void {
@@ -48,17 +51,15 @@ export class DashboardComponent implements AfterViewInit {
     this.selectDate(this.selectedIndex);
   }
 
+// Sales Summary By Branch Wise
   selectDate(index: number): void {
     this.selectedIndex = index;
-
     const selectedDate = this.last7Dates[index];
     const day = selectedDate.getDate().toString().padStart(2, '0');
     const month = (selectedDate.getMonth() + 1).toString().padStart(2, '0');
     const year = selectedDate.getFullYear();
-
-    const formattedDate = `${day}-${month}-${year}`; // ✅ formatted as "08-05-2025"
+    const formattedDate = `${day}-${month}-${year}`;
     const payload = { date: formattedDate };
-
     console.log('Sending payload:', payload);
 
     this.api.PostData(payload).subscribe({
@@ -66,46 +67,160 @@ export class DashboardComponent implements AfterViewInit {
         this.ddata = res;
         console.log('Response data:', this.ddata);
         this.loadBarChart();
+        this.loadPieChart1();
       },
       error: (err) => {
         console.error('Error fetching dashboard data:', err);
-      }
+      },
     });
   }
+
+  // GetStatusWiseSummary
+  GetStatusWiseSummary(): void {
+    this.api.StatusWiseSummary().subscribe({
+      next: (res) => {
+        console.log('Status wise summary:', res);
+        this.statusWiseSummaryData = res;
+      },
+      error: (err) => {
+        console.error('Error fetching status summary:', err);
+      },
+    });
+  }
+// collection summary BY Payment 
+
 
   ngAfterViewInit(): void {
     this.loadBarChart();
     this.loadPieChart();
     this.loadPieChart1();
   }
-
+// barchart Sales Summary By Branch Wise
   loadBarChart(): void {
-
     if (!this.ddata || !Array.isArray(this.ddata)) {
       return;
     }
+    const labels = this.ddata.map(
+      (item: any) => item.pickUpBranchName || 'Unknown'
+    );
+    const paidData = this.ddata.map((item: any) => item.paid || 0);
+    const toPayData = this.ddata.map((item: any) => item.toPay || 0);
+    const creditData = this.ddata.map((item: any) => item.credit || 0);
+    const focData = this.ddata.map((item: any) => item.FOC || 0);
 
-    const labels = this.ddata.map((item: any) => item.pickUpBranchName);
+    if (this.barChart) {
+      this.barChart.destroy();
+    }
 
-    new Chart('barChart', {
+    this.barChart = new Chart('barChart', {
       type: 'bar',
       data: {
         labels: labels,
         datasets: [
-          { label: 'Pending Dispatch', data: [10, 20, 30, 25, 15, 35], backgroundColor: '#dc3545' },
-          { label: 'Dispatch stock report', data: [15, 25, 20, 30, 10, 40], backgroundColor: '#17a2b8' },
-          { label: 'Received Stock', data: [20, 15, 25, 20, 30, 10], backgroundColor: '#fd7e14' },
-          { label: 'Pending Delivery', data: [25, 10, 15, 35, 20, 30], backgroundColor: '#6f42c1' },
+          { label: 'Paid Booking', data: paidData, backgroundColor: '#003087' },
+          {
+            label: 'Topay Delivery',
+            data: toPayData,
+            backgroundColor: '#fd7e14',
+          },
+          {
+            label: 'Paid Delivery',
+            data: creditData,
+            backgroundColor: '#dc3545',
+          },
+          { label: 'Free of Cost', data: focData, backgroundColor: '#6f42c1' },
         ],
       },
       options: {
+        responsive: true,
         scales: {
-          y: { beginAtZero: true },
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Number of Bookings',
+            },
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Pick-Up Branch',
+            },
+          },
+        },
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          tooltip: {
+            callbacks: {
+              title: (tooltipItems) => {
+                const branch = tooltipItems[0].label;
+                return `${branch}`;
+              },
+              label: function () {
+                const index = this.dataPoints[0].dataIndex;
+                const datasets = this.chart.data.datasets;
+                const lines = datasets.map((ds) => {
+                  const value = ds.data[index] || 0;
+                  return `${ds.label}: ${value.toLocaleString()}`;
+                });
+                return lines;
+              },
+            },
+          },
         },
       },
     });
   }
+  loadPieChart1(): void {
+    if (!this.ddata || !Array.isArray(this.ddata)) {
+      return;
+    }
+    // Sum values for each category
+    const paidTotal = this.ddata.reduce(
+      (sum, item) => sum + (item.paid || 0),
+      0
+    );
+    const toPayTotal = this.ddata.reduce(
+      (sum, item) => sum + (item.toPay || 0),
+      0
+    );
+    const creditTotal = this.ddata.reduce(
+      (sum, item) => sum + (item.credit || 0),
+      0
+    );
+    const focTotal = this.ddata.reduce((sum, item) => sum + (item.FOC || 0), 0);
 
+    // Destroy old chart if exists
+    if (this.pieChart1) {
+      this.pieChart1.destroy();
+    }
+    // Create new pie chart
+    this.pieChart1 = new Chart('pieChart1', {
+      type: 'pie',
+      data: {
+        labels: ['Paid Bookings', 'Topay Delivery', 'Paid Delivery', 'FOC'],
+        datasets: [
+          {
+            data: [paidTotal, toPayTotal, creditTotal, focTotal],
+            backgroundColor: ['#003087', '#fd7e14', '#dc3545', '#6f42c1'],
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+        },
+      },
+    });
+  }
+// end
+
+// Collection Summary By Payment Type
   loadPieChart(): void {
     new Chart('pieChart', {
       type: 'pie',
@@ -124,30 +239,11 @@ export class DashboardComponent implements AfterViewInit {
     });
   }
 
-  loadPieChart1(): void {
-    new Chart('pieChart1', {
-      type: 'pie',
-      data: {
-        labels: ['Paid bookings', 'Paid delivery', 'To - pay Delivery', 'Others'],
-        datasets: [
-          {
-            data: [50, 30, 20, 10],
-            backgroundColor: ['#003087', '#fd7e14', '#dc3545', '#40CEE2'],
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-      },
-    });
-  }
 
-  branches = [
-    { name: 'Vellore', pending: 1, dispatch: 1, received: 1, delivery: 1 },
-    { name: 'Villupuram', pending: 2, dispatch: 2, received: 2, delivery: 2 },
-    { name: 'Salem', pending: 3, dispatch: 3, received: 3, delivery: 3 },
-    { name: 'Krishnagiri', pending: 4, dispatch: 4, received: 4, delivery: 4 },
-    { name: 'Erode', pending: 5, dispatch: 5, received: 5, delivery: 5 },
-    { name: 'Guntur', pending: 6, dispatch: 6, received: 6, delivery: 6 },
-  ];
+
+  
+
+ 
+  
+
 }
