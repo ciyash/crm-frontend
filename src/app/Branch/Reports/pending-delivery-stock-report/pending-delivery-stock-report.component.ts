@@ -136,6 +136,8 @@ export class PendingDeliveryStockReportComponent
     }
   }
 
+
+  
   DeliveryStockReport() {
     const payload = this.form.value;
     console.log('payload:', payload);

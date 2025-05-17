@@ -1,8 +1,10 @@
 import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { BranchService } from 'src/app/service/branch.service';
 declare var $: any;
-declare const SlimSelect: any; 
+declare const SlimSelect: any;
 
 @Component({
   selector: 'app-parcel-loading-data',
@@ -10,26 +12,39 @@ declare const SlimSelect: any;
   styleUrls: ['./parcel-loading-data.component.scss']
 })
 export class ParcelLoadingDataComponent {
-  data1: any;
-  form1: FormGroup;
-  cities: any;
   @ViewChild('selectElem') selectElem!: ElementRef;
   @ViewChild('demoSelect') demoSelect!: ElementRef;
+  @ViewChild('pickupbranch') pickupbranch!: ElementRef;
+
+  branchdata: any;
+  pdata: any[] = [];
+  data1: any[] = [];
+  form1: FormGroup;
+  cities: any;
+
   constructor(
     private api: BranchService,
     private fb: FormBuilder,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private toast: ToastrService,
+    private router:Router
   ) {
     this.form1 = this.fb.group({
-      fromBookingDate: [this.getTodayDateString(), Validators.required],
-      toBookingDate: [this.getTodayDateString(), Validators.required],
-      fromCity: ['', Validators.required],
-      toCity: this.fb.array([], Validators.required),
+      fromDate: [this.getTodayDateString(), Validators.required],
+      toDate: [this.getTodayDateString(), Validators.required],
+      fromCity: [''],
+      toCity: this.fb.array([]),
+      fromBranch: ['all'],
+      dropBranch: ['']
     });
   }
 
   ngOnInit() {
     this.getCities();
+    this.api.GetBranch().subscribe((res: any) => {
+      this.branchdata = res;
+      console.log('branchdata:', this.branchdata);
+    });
   }
 
   getTodayDateString(): string {
@@ -37,19 +52,28 @@ export class ParcelLoadingDataComponent {
     const year = today.getFullYear();
     const month = ('0' + (today.getMonth() + 1)).slice(-2);
     const day = ('0' + today.getDate()).slice(-2);
-    return `${year}-${month}-${day}`; // yyyy-MM-dd
+    return `${year}-${month}-${day}`;
   }
 
   ngAfterViewInit(): void {
     new SlimSelect({
       select: this.demoSelect.nativeElement
-    });  
-    
+    });
+
     setTimeout(() => {
       $(this.selectElem.nativeElement).select2();
+      $(this.selectElem.nativeElement).val('all').trigger('change');
       $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
         const selectedCity = event.params.data.id;
         this.form1.patchValue({ fromCity: selectedCity });
+        this.onFromcitySelect({ target: { value: selectedCity } });
+      });
+
+      $(this.pickupbranch.nativeElement).select2();
+      $(this.pickupbranch.nativeElement).val('all').trigger('change');
+      $(this.pickupbranch.nativeElement).on('select2:select', (event: any) => {
+        const selectedBranch = event.params.data.id;
+        this.form1.patchValue({ fromBranch: selectedBranch });
       });
     }, 0);
   }
@@ -70,57 +94,77 @@ export class ParcelLoadingDataComponent {
     return this.form1.get('toCity') as FormArray;
   }
 
+  onFromcitySelect(event: any) {
+    const cityName = event.target.value;
+    if (cityName) {
+      this.api.GetBranchbyCity(cityName).subscribe(
+        (res: any) => {
+          // Ensure pdata is always an array
+          if (Array.isArray(res)) {
+            this.pdata = res;
+          } else if (res && Array.isArray(res.data)) {
+            this.pdata = res.data;
+          } else if (res && typeof res === 'object') {
+            this.pdata = Object.values(res);
+          } else {
+            this.pdata = [];
+            console.error('Unexpected branch data format', res);
+          }
+        },
+        (error: any) => {
+          console.error('Error fetching branches:', error);
+          this.pdata = [];
+        }
+      );
+    } else {
+      this.pdata = [];
+    }
+  }
 
   onToCityChange(event: any) {
     const selectedOptions = Array.from(event.target.selectedOptions).map((option: any) => option.value);
     const toCityArray = this.form1.get('toCity') as FormArray;
-    toCityArray.clear(); // ✅ Clear old values before updating
+    toCityArray.clear();
     selectedOptions.forEach(city => toCityArray.push(new FormControl(city)));
     console.log('Selected To Cities:', toCityArray.value);
   }
-  
+
   ParcelLoad() {
-    console.log("Before Load: Payload being sent", {
-      fromBookingDate: this.form1.value.fromBookingDate,
-      toBookingDate: this.form1.value.toBookingDate,
-      fromCity: this.form1.value.fromCity,
-      toCity: this.form1.value.toCity,
-    });
+    console.log('ParcelLoad() triggered');
+    console.log('form1 value:', this.form1.value);
   
     const payload = {
-      fromBookingDate: this.form1.value.fromBookingDate,
-      toBookingDate: this.form1.value.toBookingDate,
+      fromDate: this.form1.value.fromDate,
+      toDate: this.form1.value.toDate,
       fromCity: this.form1.value.fromCity,
       toCity: this.form1.value.toCity,
+      fromBranch: this.form1.value.fromBranch,
+      dropBranch: this.form1.value.dropBranch,
     };
+  
+    console.log("payload:", payload);
   
     this.api.ParcelOfflineReport(payload).subscribe({
       next: (response: any) => {
         console.log("After Load: Response received", response);
+        const finalData8 = {
+          ...response,
+          fromDate: this.form1.value.fromDate,
+          toDate: this.form1.value.toDate
+        };
   
-        if (response?.bookingDetails?.length > 0) {
-          this.data1 = response.bookingDetails.map((booking: any) => {
-            const driverData = response.parcelLoadingDetails.find(
-              (parcel: any) => parcel.grnNo.includes(parseInt(booking.lrNumber.split('/').pop()))
-            );
-            return {
-              ...booking,
-              driverName: driverData ? driverData.driverName : 'N/A',
-            };
-          });
-        } else {
-          this.data1 = [];
-        }
+        // Save to localStorage
+        localStorage.setItem('parcelReportData', JSON.stringify(finalData8));
   
-        this.cd.detectChanges();
+        // Open new tab
+        window.open('/parcelloading-offlinereport', '_blank');
       },
       error: (error: any) => {
         console.error('Parcel loading failed:', error);
-        alert('No Parcel Loading. Please try again.');
         this.data1 = [];
       },
     });
   }
   
- 
+
 }

@@ -58,8 +58,8 @@ export class ParcelloadingComponent implements OnInit {
         fromBranch: ['', ],
         toBranch: ['',],
         vehicalNumber: ['', Validators.required],
-        driverName: ['', Validators.required],
-        driverNo: ['', Validators.required],
+        driverName: ['', [Validators.required, Validators.minLength(3)]],
+        driverNo: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
         fromBookingDate: ['',],
         toBookingDate: ['', ],
         fromCity:[''],
@@ -118,6 +118,10 @@ export class ParcelloadingComponent implements OnInit {
 
 
 onLoad() {
+  if (this.form.invalid) {
+    this.form.markAllAsTouched(); // Trigger all validations
+    return;
+  }
   const today = this.getTodayDateString();
   const formValues = this.form.value;
   
@@ -175,8 +179,6 @@ onLoad() {
     }
   });
 }
-
-  
   setFormArray(controlName: string, values: any[]) {
     const formArray = this.form1.get(controlName) as FormArray;
     formArray.clear(); // ✅ Clear previous values
@@ -235,29 +237,44 @@ onLoad() {
     setTimeout(() => {
       // Initialize select2 for From City
       $(this.selectElem.nativeElement).select2();
+
       $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
-        const selectedCity = event.params.data.id;  // Get selected value
+        const selectedCity = event.params.data.id;  // Get selected value from select2 event
         console.log('Selected City:', selectedCity);
-        this.form.patchValue({ fromCity: selectedCity });  // Manually update the form
+    
+        // Manually update the reactive form control value
+        this.form.get('fromCity')?.setValue(selectedCity);
+        this.form.get('fromCity')?.markAsTouched();
+        this.form.get('fromCity')?.updateValueAndValidity();
+      
         console.log('Updated form value:', this.form.value);
-        this.onFromcitySelect({ target: { value: selectedCity } });  // Trigger API call
+      
+        // Call your existing handler if you want to trigger API or other logic
+        this.onFromcitySelect({ target: { value: selectedCity } });
       });
-      $(this.branchselect.nativeElement).select2();
+      
+
       $(this.branchselect.nativeElement).on('select2:select', (event: any) => {
         const selectedDropBranch = event.params.data.id;
         console.log('Selected Drop Branch:', selectedDropBranch);
-        this.form.patchValue({ pickUpBranch: selectedDropBranch });  // Update form value
+      
+        this.form.get('pickUpBranch')?.setValue(selectedDropBranch);
+        this.form.get('pickUpBranch')?.markAsTouched();
+        this.form.get('pickUpBranch')?.updateValueAndValidity();
+      
         console.log('Updated form value:', this.form.value);
+      
+        // Now this will work because of arrow function preserving `this`
         this.BranchSelect({ target: { value: selectedDropBranch } });
       });
-  
+      
+    
       // Initialize select2 for Vehicle Number
       $(this.SelectVechicle.nativeElement).select2();
       $(this.SelectVechicle.nativeElement).on('select2:select', (event: any) => {
-        const selectedVehicle = event.params.data.id;  // Get selected value
-        console.log('Selected Vehicle:', selectedVehicle);
-          this.form1.patchValue({ vehicalNumber: selectedVehicle });
-          console.log('Updated form value:', this.form1.value);
+        const selectedVehicle = event.params.data.id;
+        this.form1.patchValue({ vehicalNumber: selectedVehicle });
+        this.form1.get('vehicalNumber')?.markAsTouched();  // ensure validation triggers
       });
     }, 0);
   }
@@ -278,35 +295,77 @@ onLoad() {
     this.getQRdata(result);
   }
   
+
+
+  // getQRdata(id: any) {
+  //   this.api.GetQrGRNnumber(id).subscribe((res: any) => {
+  //     console.log(res, 'qrdata');
+  //     let newData: any[] = [];
+  //     // Handle both object and array data responses
+  //     if (Array.isArray(res)) {
+  //       newData = res;
+  //     } else if (res && typeof res === 'object') {
+  //       // If it has grnNo or any parcel identifiers, push it even if success is false
+  //       if (res.grnNo || res.lrNumber) {
+  //         newData = [res];
+  //       }
+  //     }
+  
+  //     // Merge data to the table
+  //     if (newData.length > 0) {
+  //       this.data = [...this.data || [], ...newData];
+  //       this.form1.patchValue({
+  //         senderName: this.data[0]?.senderName || ''            
+  //       });
+  //       this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
+  //       this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
+  //     }
+  
+  //     // Show toast depending on success/failure
+  //     if (res.success) {
+       
+  //       this.toast.success(res.message || 'Parcel loaded successfully', 'Success');
+  //     } else {
+  //       this.toast.success(res.message || 'Parcel loaded successfully', 'Success');
+  //     }
+  //   }, err => {
+  //     this.toast.error('Parcel already loaded', 'Error');
+  //   });
+  // }
   getQRdata(id: any) {
     this.api.GetQrGRNnumber(id).subscribe((res: any) => {
       console.log(res, 'qrdata');
-  
       let newData: any[] = [];
   
-      // Handle both object and array data responses
       if (Array.isArray(res)) {
         newData = res;
       } else if (res && typeof res === 'object') {
-        // If it has grnNo or any parcel identifiers, push it even if success is false
         if (res.grnNo || res.lrNumber) {
           newData = [res];
         }
       }
   
-      // Merge data to the table
       if (newData.length > 0) {
         this.data = [...this.data || [], ...newData];
+  
+        const qr = this.data[0];
+  
+        // Patch all required fields from QR
         this.form1.patchValue({
-          senderName: this.data[0]?.senderName || ''            
+          senderName: qr?.senderName || '',
+          fromCity: qr?.fromCity || '',
+          toCity: [qr?.toCity || ''], // use array if it's multiselect
+          fromBranch: qr?.pickUpBranch || '',
+          toBranch: qr?.dropBranch || '',
+          fromBookingDate: qr?.ltDate?.split('T')[0] || '', // format ISO to date (yyyy-mm-dd)
+          toBookingDate: qr?.bookingDate?.split('T')[0] || ''
         });
+  
         this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
         this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
       }
   
-      // Show toast depending on success/failure
       if (res.success) {
-       
         this.toast.success(res.message || 'Parcel loaded successfully', 'Success');
       } else {
         this.toast.success(res.message || 'Parcel loaded successfully', 'Success');
@@ -334,10 +393,13 @@ onLoad() {
       this.tbcdata = [];
     }
   }
-
-
-
   ParcelLoad() {
+    if (this.form1.invalid) {
+      this.form1.markAllAsTouched(); // show errors
+      this.toast.warning('Please fill required fields correctly.', 'Validation');
+      return;
+    }
+  
     const payload = {
       loadingType: this.form1.value.loadingType,
       fromBranch: this.form1.value.fromBranch,
@@ -348,18 +410,18 @@ onLoad() {
       fromBookingDate: this.form1.value.fromBookingDate,
       toBookingDate: this.form1.value.toBookingDate,
       fromCity: this.form1.value.fromCity,
-      senderName:this.form1.value.senderName,
+      senderName: this.form1.value.senderName,
       toCity: this.form1.value.toCity,
       grnNo: this.form1.value.grnNo,
       lrNumber: this.form1.value.lrNumber,
     };
   
     console.log('Final Payload:', payload);
-    
+  
     this.api.ParcelLoading(payload).subscribe({
       next: (response: any) => {
         console.log('Parcel loaded successfully:', response);
-        this.toast.success('Parcel loaded successfully','Success')
+        this.toast.success('Parcel loaded successfully', 'Success');
         setTimeout(() => {
           this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
             this.router.navigate(['/parcelloading']);
@@ -368,11 +430,11 @@ onLoad() {
       },
       error: (error: any) => {
         console.error('Parcel loading failed:', error);
-        this.toast.error('Parcel Loading Failed. Please try again', 'Error')
-
+        this.toast.error('Parcel Loading Failed. Please try again', 'Error');
       },
     });
   }
+  
 
   getVehicleData() {
     this.api.getData('Vehicle').subscribe({

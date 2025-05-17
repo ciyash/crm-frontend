@@ -9,10 +9,14 @@ declare var $: any;
   styleUrls: ['./parcel-incoming-luggages-report.component.scss']
 })
 export class ParcelIncomingLuggagesReportComponent {
-    @ViewChild('summaryfromcity') summaryfromcity!: ElementRef;
-    @ViewChild('summarytocity') summarytocity!: ElementRef;
-    @ViewChild('summarypickup') summarypickup!: ElementRef;
-    @ViewChild('summarydroup') summarydroup!: ElementRef;
+  @ViewChild('selectElem') selectElem!: ElementRef;
+  @ViewChild('pickupbranch') pickupbranch!: ElementRef;
+  @ViewChild('selectElem2') selectElem2!: ElementRef;
+  @ViewChild('droupbranch') droupbranch!: ElementRef;
+
+
+  onPickupBranchSelect: any;
+  onDropBranchSelect: any;
     form!: FormGroup;
     reportData: any;
     citydata: any;
@@ -21,8 +25,8 @@ export class ParcelIncomingLuggagesReportComponent {
     pfdata: any;
     today = new Date(); 
     payload: any;
-  
-  
+  pdata: any;
+  tbcdata: any;
     constructor(private api: BranchService, private fb: FormBuilder,private router:Router) {
       this.form = this.fb.group({
         // fromDate: ['', Validators.required],
@@ -53,10 +57,12 @@ export class ParcelIncomingLuggagesReportComponent {
       });
   
       // Fetch branches
+
       this.api.GetBranch().subscribe((res: any) => {
-        console.log('allbranch:', res);
         this.branchdata = res;
+        console.log('branchdata:', this.branchdata);
       });
+
   
       // Fetch vehicles
       this.api.VehicleData().subscribe((res: any) => {
@@ -65,36 +71,14 @@ export class ParcelIncomingLuggagesReportComponent {
       });
       this.getProfileData();
     }
-    ngAfterViewInit(): void {
-      setTimeout(() => {
-        // Helper method to initialize Select2
-        const initializeSelect2 = (
-          element: ElementRef,
-          form: FormGroup,
-          controlName: string
-        ) => {
-          $(element.nativeElement).select2();
-          $(element.nativeElement).on('select2:select', (event: any) => {
-            const value = event.params.data.id;
-            console.log(`Selected ${controlName}:`, value);
-            form.patchValue({ [controlName]: value });
-          });
-        };
-       
-        initializeSelect2(this.summaryfromcity, this.form, 'fromCity');
-        initializeSelect2(this.summarytocity, this.form, 'toCity');
-        initializeSelect2(this.summarypickup, this.form, 'pickUpBranch');
-        initializeSelect2(this.summarydroup, this.form, 'dropBranch');
-      });
-    }
-  
-  
+
+
 
   
 
-  
 
-  
+
+
     LuaggageReport() {
       this.payload = {
         fromDate: this.form.value.fromDate,
@@ -104,30 +88,31 @@ export class ParcelIncomingLuggagesReportComponent {
         pickUpBranch: this.form.value.pickUpBranch,
         dropBranch: this.form.value.dropBranch,
       };
-      console.log("payload:",this.payload);
+      console.log("payload:", this.payload);
+    
       this.api.ParcelIncomingReport(this.payload).subscribe(
         (res: any) => {
           this.reportData = res.data;
           console.log('Luggage Report:', this.reportData);
-
-
+    
           const finalData = {
             ...this.reportData,
             fromDate: this.payload.fromDate,
             toDate: this.payload.toDate
           };
     
-          this.router.navigate(['/parcel-incoming-report'], { state:
-             { data: finalData } });
+          // Save to localStorage
+          localStorage.setItem('incomingReportData', JSON.stringify(finalData));
+    
+          // Open new tab
+          window.open('/parcel-incoming-report', '_blank');
         },
-
-
         (error) => {
           console.error('API Error:', error);
         }
       );
-      
     }
+    
   
     getProfileData() {
       this.api.GetProfileData().subscribe((res: any) => {
@@ -136,6 +121,81 @@ export class ParcelIncomingLuggagesReportComponent {
       });
     
   }
+
+    ngAfterViewInit(): void {
+      setTimeout(() => {
+        // From City
+        $(this.selectElem.nativeElement).select2();
+        $(this.selectElem.nativeElement).val('all').trigger('change'); // ✅ force default
+        $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
+          const selectedCity = event.params.data.id;
+          this.form.patchValue({ fromCity: selectedCity });
+          this.onFromcitySelect({ target: { value: selectedCity } });
+        });
+    
+        // Pickup Branch
+        $(this.pickupbranch.nativeElement).select2();
+        $(this.pickupbranch.nativeElement).val('all').trigger('change'); // ✅
+        $(this.pickupbranch.nativeElement).on('select2:select', (event: any) => {
+          const selectedBranch = event.params.data.id;
+          this.form.patchValue({ pickUpBranch: selectedBranch });
+          this.onPickupBranchSelect({ target: { value: selectedBranch } });
+        });
+    
+        // To City
+        $(this.selectElem2.nativeElement).select2();
+        $(this.selectElem2.nativeElement).val('all').trigger('change'); // ✅
+        $(this.selectElem2.nativeElement).on('select2:select', (event: any) => {
+          const selectedToCity = event.params.data.id;
+          this.form.patchValue({ toCity: selectedToCity });
+          this.onTocitySelect({ target: { value: selectedToCity } });
+        });
+    
+        // Drop Branch
+        $(this.droupbranch.nativeElement).select2();
+        $(this.droupbranch.nativeElement).val('all').trigger('change'); // ✅
+        $(this.droupbranch.nativeElement).on('select2:select', (event: any) => {
+          const selectedDropBranch = event.params.data.id;
+          this.form.patchValue({ dropBranch: selectedDropBranch });
+          this.onDropBranchSelect({ target: { value: selectedDropBranch } });
+        });
+      }, 0);
+    }
+    
+    onFromcitySelect(event: any) {
+      const cityName = event.target.value;
+      if (cityName) {
+        this.api.GetBranchbyCity(cityName).subscribe(
+          (res: any) => {
+            console.log('Branches for selected city:', res);
+            this.pdata = res;
+          },
+          (error: any) => {
+            console.error('Error fetching branches:', error);
+          }
+        );
+      } else {
+        this.pdata = [];
+      }
+    }
   
+    onTocitySelect(event: any) {
+      console.log('Event triggered:', event);
+      console.log('Selected City:', event.target.value);
+      const cityName = event.target.value;
+      if (cityName) {
+        this.api.GetBranchbyCity(cityName).subscribe(
+          (res: any) => {
+            console.log('Branches for selected city:', res);
   
-  }
+            this.tbcdata = res;
+          },
+          (error: any) => {
+            console.error('Error fetching branches:', error);
+          }
+        );
+      } else {
+        this.tbcdata = [];
+      }
+    }
+}

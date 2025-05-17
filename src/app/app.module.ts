@@ -82,6 +82,7 @@ import { ParcelIncomingLuggagesReportComponent } from './Branch/Reports/parcel-i
 import { ParcelIncomingReportComponent } from './Branch/Reports/parcel-incoming-report/parcel-incoming-report.component';
 import { DashboardComponent } from './USER/dashboard/dashboard.component';
 import { ParcelDeliveryComponent } from './Branch/parcel-delivery/parcel-delivery.component';
+import { ParcelLoadingOfflineReportComponent } from './Branch/Reports/parcel-loading-offline-report/parcel-loading-offline-report.component';
  
 @NgModule({
   declarations: [
@@ -154,6 +155,7 @@ import { ParcelDeliveryComponent } from './Branch/parcel-delivery/parcel-deliver
     ParcelIncomingReportComponent,
     DashboardComponent,
     ParcelDeliveryComponent,
+    ParcelLoadingOfflineReportComponent,
    
    
   ],

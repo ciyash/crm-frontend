@@ -36,9 +36,9 @@
 </div>
 <div class="container-fluid">
   <div class="row align-items-stretch">
-    <div class="col-md-8 mb-4">
-      <!-- <h5>Sales Summary By Branch Wise</h5> -->
-      <div class="table-wrapper">
+    <div class="col-md-12 mb-4 ">
+      <!-- <h5 class="text-center">Sales Summary By Branch Wise</h5> -->
+      <div class="table-wrapper p-5 ">
         <div class="table-scroll">
           <table class="table custom-table">
             <thead>
@@ -83,12 +83,12 @@
     </div>
 
 
-    <div class="col-md-4 mb-4">
+    <!-- <div class="col-md-4 mb-4">
       <div class="chart-container">
         <h5 class="text-center fw-bold">Collection Summary By Payment Type</h5>
         <canvas id="pieChart"></canvas>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
 
@@ -153,33 +153,94 @@ thead .fixed-column {
 
 
 
+<div class="container-fluid">
+  <div class="row align-items-stretch">
+    <div class="col-md-8 mb-4">
+      <div class="container  " style="background-color: #FFFFFF;
+      background-color: #fff;
+       border: 1px solid #ddd;
+       border-radius: 5px; padding: 30px;
+       height: 500px;
+       margin-bottom: 30px;">
+   <div class="header"> 
+      <h5 *ngIf="showAcParty">A/C Party Account</h5>
+       <h5 *ngIf="!showAcParty">Branch Account</h5>
+      <div class="action-buttons">
+        <button class="btn" [ngClass]="!showAcParty ? 'btn-danger active' : 'btn-outline-danger'"
+         (click)="brachdata()" > BRANCH </button> 
+         <button class="btn" [ngClass]="showAcParty ? 
+         'btn-primary active' : 'btn-outline-primary'" (click)="acpartydata()" >
+            A/C Party </button> </div>
+            </div>
+     <div class="d-flex gap-2 flex-wrap my-3">
+       <button *ngFor="let date of last7Days; let i = index" class="btn"
+         [ngClass]="selectedIndex1 === i ? 'btn-primary active' : 'btn-outline-primary'" (click)="selectDate1(i)">
+         {{ date }}
+       </button>
+     </div>
+     
+     <table class="table-container">
+      <thead>
+        <tr>
+          <th>Action Branch</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let branch of paymentdata.branchwise">
+          <td>{{ branch.pickUpBranchname }}</td>
+          <td>{{ branch.grandTotal }}</td>
+        </tr>
+        <tr class="total-row" *ngIf="paymentdata.totalAmount">
+          <td>TOTAL</td>
+          <td>{{ paymentdata.totalAmount }}</td>
+        </tr>
+      </tbody>
+    </table>
+    
 
-<!-- <div class="container bookingss " style="background-color: #FFFFFF;
-   background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 30px;
-    margin-bottom: 30px;">
-  <div class="header">
-    <h5>A/C Party Account</h5>
-    <div class="action-buttons">
-      <button class="btn btn-danger">BRANCH</button>
-      <button class="btn btn-primary">A/C Party</button>
+    <div *ngIf="!paymentdata?.branchwise?.length" class="no-data">
+      No data found
     </div>
+    
+
+   </div> 
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="chart-container">
+          <h5 class="text-center fw-bold">Collection Summary By Payment Type</h5>
+          <canvas id="pieChart"></canvas>
+        </div>
+      
+</div>
+  </div>
   </div>
 
 
-  <div class="d-flex gap-2 flex-wrap my-3">
-    <button *ngFor="let date of last7Days; let i = index" class="btn"
-      [ngClass]="selectedIndex === i ? 'btn-primary active' : 'btn-outline-primary'" (click)="selectDate(i)">
-      {{ date }}
-    </button>
-  </div>
 
-  <div class="no-data">
-    No data found
-  </div>
-</div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

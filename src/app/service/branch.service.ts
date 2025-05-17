@@ -444,10 +444,12 @@ ParcelUnLoading(value:{
 }
 
 ParcelOfflineReport(value:{
-  fromBookingDate: string;
-  toBookingDate:string;
-  fromCity: string;
-  toCity: [];
+  fromDate: string;  
+  toDate:string   
+  fromCity:string  
+  toCity: [];   
+  fromBranch:string;  
+  dropBranch:string
 }){
   const token1 = this.token.getToken();
   const httpOptions = {
@@ -458,10 +460,12 @@ ParcelOfflineReport(value:{
   };
   return this.http.post(
     AUTH_API + 'parcel-loading/parcel-offline-report',  { 
-      "fromBookingDate": value.fromBookingDate,
-      "toBookingDate": value.toBookingDate,
+      "fromDate": value.fromDate,
+      "toDate": value.toDate,
     "fromCity": value.fromCity,
     "toCity": value.toCity,
+    "fromBranch":value.fromBranch,
+    "dropBranch":value.dropBranch,
     },
      httpOptions 
   );

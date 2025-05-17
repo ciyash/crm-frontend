@@ -674,7 +674,41 @@ SummaryReport(value:{date:string}){
 }
 
 
+BranchData(value:{date:string}){
+  const token1 = this.token.getToken();
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token1 // ✅ Added space after 'Bearer'
+      })
+    };
+    return this.http.post(
+      AUTH_API + 'booking/branch-account',  
+      { 
+        "date": value.date,
+       
+      },
+      httpOptions 
+    );
+}
 
+ACpartyData(value:{date:string}){
+  const token1 = this.token.getToken();
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token1 // ✅ Added space after 'Bearer'
+      })
+    };
+    return this.http.post(
+      AUTH_API + 'booking/acparty-account',  
+      { 
+        "date": value.date,
+       
+      },
+      httpOptions 
+    );
+}
 
 
 }

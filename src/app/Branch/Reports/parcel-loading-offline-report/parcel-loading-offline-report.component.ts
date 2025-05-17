@@ -1,59 +1,44 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BranchService } from 'src/app/service/branch.service';
 
 @Component({
-  selector: 'app-parcel-incoming-report',
-  templateUrl: './parcel-incoming-report.component.html',
-  styleUrls: ['./parcel-incoming-report.component.scss']
+  selector: 'app-parcel-loading-offline-report',
+  templateUrl: './parcel-loading-offline-report.component.html',
+  styleUrls: ['./parcel-loading-offline-report.component.scss']
 })
-export class ParcelIncomingReportComponent {
-  gdata: any[] = [];
-  pfdata: any;
+export class ParcelLoadingOfflineReportComponent implements OnInit {
+  data2: any[] = []; 
   today = new Date();
-  prow: any;
-  totalGrand: number = 0;
-  totalQuantity: number = 0;
+  pfdata: any;
+  printTable: any;
+  fromDate: any;
+  toDate: any;
 
-  constructor(private router: Router, private api: BranchService) {
-    const navigation = this.router.getCurrentNavigation();
-    const state = navigation?.extras?.state as { data: any };
-
-    if (state?.data) {
-      console.log('Received from state:', state.data);
-
-      this.prow = state.data;
-      this.gdata = this.extractGData(state.data);
-    } else {
-      const localData = localStorage.getItem('incomingReportData');
-      if (localData) {
-        const parsedData = JSON.parse(localData);
-        console.log('Received from localStorage:', parsedData);
-
-        this.prow = parsedData;
-        this.gdata = this.extractGData(parsedData);
-        // Optional: clear localStorage after use
-        localStorage.removeItem('incomingReportData');
-      } else {
-        console.warn('No report data found in router state or localStorage');
-      }
-    }
-  }
+  constructor(private router: Router, private api: BranchService) {}
 
   ngOnInit() {
     this.getProfileData();
-    this.calculateTotal();
-  }
 
-  extractGData(data: any): any[] {
-    return Object.values(data).filter(
-      item => typeof item === 'object' && item !== null && !Array.isArray(item)
-    );
+    const localData = localStorage.getItem('parcelReportData');
+    if (localData) {
+      const stateData = JSON.parse(localData);
+      console.log("Loaded from localStorage:", stateData);
+      this.data2 = stateData?.data || [];
+      this.fromDate = stateData.fromDate;
+      this.toDate = stateData.toDate;
+
+      // Optional: Clear the storage if it's one-time use
+      localStorage.removeItem('parcelReportData');
+    } else {
+      console.warn("No report data found in localStorage.");
+    }
   }
 
   getProfileData() {
     this.api.GetProfileData().subscribe((res: any) => {
       this.pfdata = res;
+      console.log('profiledata:', this.pfdata);
     });
   }
 
@@ -111,20 +96,5 @@ export class ParcelIncomingReportComponent {
       `);
       popupWin!.document.close();
     }
-  }
-
-  calculateTotal() {
-    this.totalGrand = 0;
-    this.totalQuantity = 0;
-
-    this.gdata.forEach(item => {
-      this.totalGrand += item.grandTotal || 0;
-
-      if (item.packages && Array.isArray(item.packages)) {
-        item.packages.forEach((pkg: { quantity: any }) => {
-          this.totalQuantity += pkg.quantity || 0;
-        });
-      }
-    });
   }
 }
