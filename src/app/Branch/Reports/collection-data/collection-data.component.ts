@@ -2,6 +2,12 @@ import { state } from '@angular/animations';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { BranchService } from 'src/app/service/branch.service';
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
+import { ToastrService } from 'ngx-toastr';
+declare module 'file-saver';
+declare var $: any;
+declare const SlimSelect: any;
 
 
 @Component({
@@ -16,22 +22,41 @@ export class CollectionDataComponent {
   today = new Date();
 
 
-constructor(private router: Router,private api:BranchService) {
-  const navigation = this.router.getCurrentNavigation();
-  const stateData = navigation?.extras?.state?.['data'];
-  this.collectionReport=stateData
-  console.log("collectionReport:",this.collectionReport);
+  constructor(private router: Router, private api: BranchService, private toast: ToastrService) {}
+
+  ngOnInit() {
+    // Get report data from sessionStorage
+    const storedData = sessionStorage.getItem('collectionReportData');
+    if (storedData) {
+      this.collectionReport = JSON.parse(storedData);
+      sessionStorage.removeItem('collectionReportData');
+      console.log("collectionReport:", this.collectionReport);
+    } else {
+      this.toast.error('No report data found.');
+    }
   
-}
-ngOnInit(){
-  this.getProfileData()
-}
+    this.getProfileData();
+  }
+  
+
+
+
+
+
+
+
   getProfileData() {
     this.api.GetProfileData().subscribe((res: any) => {
       this.pfdata = res;
       console.log( 'profiledata:',this.pfdata);
     });
   }
+
+
+
+
+
+  
 
   printReport() {
     const printContents = document.getElementById('print-section')?.innerHTML;
@@ -99,4 +124,86 @@ ngOnInit(){
   }
 
 
+
+
+exportToExcel(): void {
+  const exportData: any[] = [];
+
+  // 1. Header Information
+  exportData.push({ Section: 'Company Information' });
+  exportData.push({ 'Company Name': this.pfdata?.companyName });
+  exportData.push({ Address: `${this.pfdata?.location} - ${this.pfdata?.branchId?.name}` });
+  exportData.push({ 'Phone No': this.pfdata?.phone });
+  exportData.push({}); // Empty row
+
+  // 2. Report Range Info
+  exportData.push({ Section: 'Report Period & Printed Info' });
+  exportData.push({
+    'From Date': this.collectionReport?.fromDate,
+    'To Date': this.collectionReport?.toDate
+  });
+  exportData.push({ 'Printed By': this.pfdata?.name });
+  exportData.push({
+    'Print Date': new Date().toLocaleDateString(),
+    'Print Time': new Date().toLocaleTimeString()
+  });
+  exportData.push({}); // Empty row
+
+  // 3. Summary Totals
+  exportData.push({ Section: 'Summary Totals' });
+  exportData.push({
+    'Total Grand Total': this.collectionReport?.totals?.finalGrandTotal,
+    'Total Cancel Amount': this.collectionReport?.totals?.finalCancelAmount,
+    'Total Quantity': this.collectionReport?.totals?.finalTotalQty
+  });
+  exportData.push({}); // Empty row
+
+  // 4. Branch-wise Details
+  exportData.push({ Section: 'Branch-wise Details' });
+
+  this.collectionReport?.branches?.forEach((branch: any) => {
+    exportData.push({
+      'Branch Name': branch.branchName,
+      'Branch Grand Total': branch.branchGrandTotal,
+      'Branch Cancel Amount': branch.branchCancelAmount,
+      'Branch Total Quantity': branch.branchTotalQty
+    });
+
+    // Add header for booking types
+    exportData.push({
+      'Booking Type': 'Type',
+      'Booking Total': 'Count',
+      'Cancel Amount': 'Cancel Amt',
+      'Grand Total': 'Amount',
+      'Total Quantity': 'Qty'
+    });
+
+    branch.bookingTypes.forEach((booking: any) => {
+      exportData.push({
+        'Booking Type': booking.bookingType,
+        'Booking Total': booking.bookingCount,
+        'Cancel Amount': booking.cancelAmount,
+        'Grand Total': booking.grandTotal,
+        'Total Quantity': booking.totalQuantity
+      });
+    });
+
+    exportData.push({}); // Spacer after each branch
+  });
+
+  // Create worksheet and save
+  const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData, { skipHeader: true });
+  const workbook: XLSX.WorkBook = {
+    Sheets: { 'Parcel Collection Report': worksheet },
+    SheetNames: ['Parcel Collection Report']
+  };
+
+  const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+  const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+  FileSaver.saveAs(blob, `Parcel_Collection_Report_${new Date().toISOString().slice(0, 10)}.xlsx`);
+}
+
+
+
+  
 }

@@ -643,6 +643,8 @@ export class AdminService {
     );
   }
 
+  
+
   StatusWiseSummary(){
     const token1 = this.token.getToken();
     const httpOptions = {

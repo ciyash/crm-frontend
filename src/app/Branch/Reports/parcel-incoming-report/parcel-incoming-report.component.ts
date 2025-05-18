@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { BranchService } from 'src/app/service/branch.service';
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-parcel-incoming-report',
@@ -24,6 +26,9 @@ export class ParcelIncomingReportComponent {
 
       this.prow = state.data;
       this.gdata = this.extractGData(state.data);
+
+      // Save to localStorage to persist on refresh
+      localStorage.setItem('incomingReportData', JSON.stringify(state.data));
     } else {
       const localData = localStorage.getItem('incomingReportData');
       if (localData) {
@@ -32,8 +37,6 @@ export class ParcelIncomingReportComponent {
 
         this.prow = parsedData;
         this.gdata = this.extractGData(parsedData);
-        // Optional: clear localStorage after use
-        localStorage.removeItem('incomingReportData');
       } else {
         console.warn('No report data found in router state or localStorage');
       }
@@ -127,4 +130,96 @@ export class ParcelIncomingReportComponent {
       }
     });
   }
+
+
+
+  exportToExcel(): void {
+    const excelData: any[] = [];
+
+    // Add Header Info
+    excelData.push(
+      { A: `Company Name: ${this.pfdata?.companyName || ''}` },
+      { A: `Address: ${this.pfdata?.location || ''} - ${this.pfdata?.branchId?.name || ''}` },
+      { A: `Phone No: ${this.pfdata?.phone || ''}` },
+      {},
+      { A: 'ALL Branch Incoming Luggages Report' },
+      {},
+      { A: `From: ${this.formatDate(this.prow?.fromDate)} To: ${this.formatDate(this.prow?.toDate)}` },
+      { A: `Print Date: ${this.formatDate(this.today)} Time: ${this.formatTime(this.today)}` },
+      { A: `Print By: ${this.pfdata?.name || ''}` },
+      {}
+    );
+
+    // Add Table Header
+    excelData.push({
+      'S No': 'S No',
+      'LR No': 'LR No',
+      'LR Date': 'LR Date',
+      'Bus No': 'Bus No',
+      'Sender Name': 'Sender Name',
+      'Receiver Name': 'Receiver Name',
+      'Item(s)': 'Item(s)',
+      'Status': 'Status',
+      'Delivery Receiver Name': 'Delivery Receiver Name',
+      'Delivery Receiver No': 'Delivery Receiver No',
+      'Amount': 'Amount',
+      'SIGN': 'SIGN'
+    });
+
+    // Add Table Rows
+    this.gdata.forEach((item, index) => {
+      excelData.push({
+        'S No': index + 1,
+        'LR No': item.lrNumber,
+        'LR Date': this.formatDate(item.bookingDate),
+        'Bus No': item.vehicalNumber || '-',
+        'Sender Name': item.senderName,
+        'Receiver Name': item.receiverName,
+        'Item(s)': item.packages?.map((p: { packageType: any; quantity: any; totalPrice: any; }) =>
+          `${p.packageType} (Qty: ${p.quantity}, ₹${p.totalPrice})`).join('; ') || '',
+        'Status': item.bookingType,
+        'Delivery Receiver Name': item.deliveryEmployee || '-',
+        'Delivery Receiver No': item.receiverMobile,
+        'Amount': item.grandTotal,
+        'SIGN': ''
+      });
+    });
+
+    // Add Footer Totals
+    excelData.push({});
+    excelData.push({
+      'S No': '',
+      'LR No': '',
+      'LR Date': '',
+      'Bus No': '',
+      'Sender Name': '',
+      'Receiver Name': '',
+      'Item(s)': `Total Quantity: ${this.totalQuantity}`,
+      'Status': '',
+      'Delivery Receiver Name': '',
+      'Delivery Receiver No': 'Total Amount:',
+      'Amount': `₹${this.totalGrand}`,
+      'SIGN': ''
+    });
+
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(excelData, { skipHeader: true });
+    const workbook: XLSX.WorkBook = { Sheets: { 'Report': worksheet }, SheetNames: ['Report'] };
+
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const fileName = `Incoming_Report_${new Date().toISOString().slice(0, 10)}.xlsx`;
+    const data: Blob = new Blob([excelBuffer], { type: EXCEL_TYPE });
+    FileSaver.saveAs(data, fileName);
+  }
+
+  private formatDate(date: any): string {
+    return date ? new Date(date).toLocaleDateString('en-GB') : '';
+  }
+
+  private formatTime(date: Date): string {
+    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+  }
 }
+
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+
+

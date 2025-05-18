@@ -1,11 +1,11 @@
 <app-header></app-header>
 
-<div class="container section-border  pb-4" style="margin-top: 8%;">
-  <h5 class="text-center fw-bold text-danger">
-    <u>Parcel Branch Wise Collection Report</u>
-  </h5>
+<h5 class="text-center fw-bold text-danger" style="margin-top: 8%;">
+  <u>Parcel Branch Wise Collection Report</u>
+</h5>
 
-  <div class="rounded p-4 mt-4">
+<div class="container section-border  pb-4" >
+  <div class="rounded  ">
     <form [formGroup]="form">
       <div class="row mb-3">
         <!-- From Date -->
@@ -23,7 +23,7 @@
         <!-- Branch City -->
         <div class="col-md-6">
           <label class="form-label">Branch City:</label>
-          <select #BranchCity class="form-select form-select-sm" formControlName="fromCity">
+          <select #selectElem  class="form-select form-select-sm" formControlName="fromCity">
             <option value="" selected>Select City</option>
             <option *ngFor="let item of citydata" [value]="item.cityName">{{ item.cityName }}</option>
           </select>
@@ -32,25 +32,25 @@
         <!-- Branch Name -->
         <div class="col-md-6">
           <label class="form-label">Branch Name:</label>
-          <select #BranchName class="form-select form-select-sm" formControlName="pickUpBranch">
-            <option value="" selected>Select Branch</option>
-            <option *ngFor="let item of branchdata" [value]="item.branchUniqueId">{{ item.city }}</option>
+          <select #pickupbranch class="form-select form-select-sm" formControlName="pickUpBranch">
+            <option value="" selected> select Branch </option>
+            <option *ngFor="let row4 of pdata" [value]="row4.branchUniqueId"> {{ row4.name }} </option>
           </select>
         </div>
 
         <!-- Booked By -->
-        <div class="col-md-6">
+        <!-- <div class="col-md-6">
           <label class="form-label">Branch User Name:</label>
           <select class="form-select form-select-sm" formControlName="bookedBy">
             <option value="" selected>Select User</option>
             <option *ngFor="let row2 of pfdata" [value]="row2.username">{{ row2.username }}</option>
           </select>
-        </div>
+        </div> -->
 
         <!-- Report Type Radio Buttons -->
         <div class="col-md-6 mt-4">
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" id="reportAll" value="ALL" formControlName="reportType" />
+            <input class="form-check-input " type="radio" id="reportAll" value="ALL" formControlName="reportType" />
             <label class="form-check-label" for="reportAll">Summary Report</label>
           </div>
           <div class="form-check form-check-inline">

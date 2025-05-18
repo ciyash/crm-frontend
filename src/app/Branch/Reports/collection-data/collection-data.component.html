@@ -1,10 +1,13 @@
 <app-header></app-header>
-<div class="d-flex justify-content-center">
-  <i class="fa fa-print"  aria-hidden="true" (click)="printReport()" style="margin-top: 8%;font-size: 50px;"></i>
-
+<div class="d-flex justify-content-center"  style="margin-top: 8%;">
+  <i class="fa fa-print"  aria-hidden="true" (click)="printReport()" style="font-size: 40px; color: green; cursor: pointer;"></i>
+  <i class="fa fa-file-excel-o mx-2 mt-1"
+  style="font-size: 35px; cursor: pointer; color: green;"
+  aria-hidden="true"
+  (click)="exportToExcel()"></i>
 </div>
 
-<div class="container my-4 p-3 border rounded bg-light" style="background-color: #e3eaf8"  id="print-section" >
+<div class="container my-4 p-3 border rounded bg-light" style="background-color: #e3eaf8" id="print-section"   >
   <div class="container-fluid" *ngIf="pfdata">
     <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
     <p class="text-center fw-bold">
@@ -26,16 +29,125 @@
       <strong>Print Date :</strong> {{ today | date: 'dd-MM-yyyy' }}
       <strong>Time :</strong> {{ today | date: 'shortTime' }}
     </div>
+    <div *ngIf="collectionReport">
+    
+      <!-- Summary Table -->
+      <table>
+        <thead>
+          <tr>
+            <th>Total Grand Total</th>
+            <th>Total Cancel Amount</th>
+            <th>Total Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ collectionReport.totals.finalGrandTotal | currency:'INR' }}</td>
+            <td>{{ collectionReport.totals.finalCancelAmount | currency:'INR' }}</td>
+            <td>{{ collectionReport.totals.finalTotalQty }}</td>
+          </tr>
+        </tbody>
+      </table>
+    
+      <!-- Branch-wise Table -->
+      <h3>Branch-wise Details</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Branch Name</th>
+            <th>Grand Total</th>
+            <th>Cancel Amount</th>
+            <th>Total Quantity</th>
+            <th>Booking Types</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let branch of collectionReport.branches">
+            <td>{{ branch.branchName }}</td>
+            <td>{{ branch.branchGrandTotal | currency:'INR' }}</td>
+            <td>{{ branch.branchCancelAmount | currency:'INR' }}</td>
+            <td>{{ branch.branchTotalQty }}</td>
+            <td>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Booking Type</th>
+                    <th>Booking Total</th>
+                    <th>Cancel Amount</th>
+                    <th>Grand Total</th>
+                    <th>Total Quantity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let booking of branch.bookingTypes">
+                    <td>{{ booking.bookingType }}</td>
+                    <td>{{ booking.bookingCount }}</td>
+                    <td>{{ booking.cancelAmount | currency:'INR' }}</td>
+                    <td>{{ booking.grandTotal | currency:'INR' }}</td>
+                    <td>{{ booking.totalQuantity }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+  </div>
 
-    <div class="table-responsive">
+  <style>
+    table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ccc;
+}
+
+th {
+  background-color: #e0e0e0;
+  font-weight: bold;
+}
+
+h2, h3 {
+  color: #333;
+  margin: 10px 0;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+tr:nth-child(even) {
+  background-color: #f8f8f8;
+}
+
+tr:hover {
+  background-color: #f0f0f0;
+}
+  </style>
+
+
+
+
+
+
+   <!-- <div class="table-responsive">
       <table class="table table-bordered table-sm table-striped">
         <thead class="table-secondary text-center align-middle">
           <tr>
             <th>S.NO</th>
             <th>Branch Name</th>
+            <th>Total Amount</th> 
+             <th>Total Quantity</th>
             <th>Cancel Amount</th>
-            <th>Total Amount</th>
-            <th>Total Quantity</th>
             <th>Refund Charge</th>
             <th>Net Amount</th>
           </tr>
@@ -43,10 +155,11 @@
         <tbody class="text-center align-middle">
           <tr *ngFor="let item of collectionReport.branches; let i = index">
             <td>{{ i + 1 }}</td>
-            <td>{{ item.pickupBranchName }}</td>
-            <td>{{ item.cancelAmount }}</td>
-            <td>{{ item.grandTotal }}</td>
-            <td>{{ item.totalQuantity }}</td>
+            <td>{{ item.branchName }}</td>
+            <td>{{ item.branchGrandTotal }}</td>
+            <td>{{ item.branchCancelAmount }}</td>
+
+            <td>{{ item.branchTotalQty}}</td>
             <td>{{ item.refundCharge }}</td>
             <td>{{ item.grandTotal - item.cancelAmount - item.refundCharge }}</td>
           </tr>
@@ -62,8 +175,4 @@
           </tr>
         </tfoot>
       </table>
-    </div>
-    
-  </div>
-  
-  
+    </div> -->

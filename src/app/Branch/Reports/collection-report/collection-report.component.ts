@@ -11,15 +11,16 @@ declare var $: any;
   styleUrls: ['./collection-report.component.scss']
 })
 export class CollectionReportComponent implements OnInit, AfterViewInit {
+
+  @ViewChild('selectElem') selectElem!: ElementRef;
+  @ViewChild('pickupbranch') pickupbranch!: ElementRef;
   form: FormGroup;
   citydata: any;
   branchdata: any;
   pfdata: any;
-  collectiondata: any;
-
-  @ViewChild('BranchCity') BranchCity!: ElementRef;
-  @ViewChild('BranchName') BranchName!: ElementRef;
-
+  collectiondata: any;  
+  pdata: any;
+  onPickupBranchSelect:any;
   constructor(private fb: FormBuilder, private api: BranchService, private router: Router,private toast:ToastrService) {
     this.form = this.fb.group({ 
       fromDate: [this.getTodayDateString(), Validators.required],
@@ -27,7 +28,7 @@ export class CollectionReportComponent implements OnInit, AfterViewInit {
       fromCity: [''],
       pickUpBranch: [''],
       bookedBy: [''],
-      reportType: ['ALL']
+      reportType: ['']
     });
     
   }
@@ -36,14 +37,12 @@ export class CollectionReportComponent implements OnInit, AfterViewInit {
     this.api.GetCities().subscribe((res: any) => {
       this.citydata = res;
       console.log("citydata:", this.citydata);
-      setTimeout(() => $(this.BranchCity.nativeElement).select2(), 0);
     });
 
     this.api.GetBranch().subscribe((res: any) => {
       this.branchdata = res;
       console.log("branchdata:", this.branchdata);
       
-      setTimeout(() => $(this.BranchName.nativeElement).select2(), 0);
     });
 
     this.getProfileData();
@@ -61,20 +60,26 @@ export class CollectionReportComponent implements OnInit, AfterViewInit {
   
 
   ngAfterViewInit(): void {
-    $(this.BranchCity.nativeElement).on('select2:select', (event: any) => {
-      const selectedCity = event.params.data.id;
-      console.log('Selected BranchCity:', selectedCity);
-      this.form.patchValue({ fromCity: selectedCity });
-      console.log('Updated form value:', this.form.value);
-    });
-
-    $(this.BranchName.nativeElement).on('select2:select', (event: any) => {
-      const selectedBranch = event.params.data.id;
-      console.log('Selected BranchName:', selectedBranch);
-      this.form.patchValue({ pickUpBranch: selectedBranch });
-      console.log('Updated form value:', this.form.value);
-    });
+    setTimeout(() => {
+      // From City
+      $(this.selectElem.nativeElement).select2();
+      $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
+        const selectedCity = event.params.data.id;
+        this.form.patchValue({ fromCity: selectedCity });
+        this.onFromcitySelect({ target: { value: selectedCity } });
+      });
+  
+      // Pickup Branch
+      $(this.pickupbranch.nativeElement).select2();
+      $(this.pickupbranch.nativeElement).on('select2:select', (event: any) => {
+        const selectedBranch = event.params.data.id;
+        this.form.patchValue({ pickUpBranch: selectedBranch });
+        this.onPickupBranchSelect({ target: { value: selectedBranch } });
+      });
+    }, 0);
   }
+  
+  
 
   getProfileData() {
     this.api.GetProfileData().subscribe((res: any) => {
@@ -83,32 +88,55 @@ export class CollectionReportComponent implements OnInit, AfterViewInit {
     });
   }
 
+
+
+
+
+  onFromcitySelect(event: any) {
+    const cityName = event.target.value;
+    if (cityName) {
+      this.api.GetBranchbyCity(cityName).subscribe(
+        (res: any) => {
+          console.log('Branches for selected city:', res);
+          this.pdata = res;
+        },
+        (error: any) => {
+          console.error('Error fetching branches:', error);
+        }
+      );
+    } else {
+      this.pdata = [];
+    }
+  }
+
+
+
+
+
   getCollectionReport() {
     const payload = this.form.value;
     console.log("Payload:", payload);
   
     this.api.ParcelBranchWiseReport(payload).subscribe({
       next: (res: any) => {
-        this.collectiondata = res;
-  
-        // ✅ Show success message from backend
         const successMsg = res?.message || 'Report fetched successfully';
         this.toast.success(successMsg);
   
-        console.log('Report Data:', res);
-        const finallData = {
+        const finalData = {
           ...res,
-          fromDate: this.form.value.fromDate,
-          toDate: this.form.value.toDate
+          fromDate: payload.fromDate,
+          toDate: payload.toDate
         };
   
-        this.router.navigateByUrl('/collectiondata', { state: { data: finallData } });
+        // ✅ Save data to sessionStorage or localStorage
+        sessionStorage.setItem('collectionReportData', JSON.stringify(finalData));
+  
+        // ✅ Open new tab with the target route
+        window.open('/collectiondata', '_blank');
       },
   
       error: (err: any) => {
         console.error('Error fetching report:', err);
-  
-        // ✅ Show error message from backend
         const errorMsg = err?.error?.message || err?.message || 'Failed to fetch report';
         this.toast.error(errorMsg);
       }
@@ -116,4 +144,6 @@ export class CollectionReportComponent implements OnInit, AfterViewInit {
   }
   
   
+  
+
 }

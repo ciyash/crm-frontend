@@ -1,5 +1,6 @@
 <app-header></app-header>
-<div  id="print-section" class="container  p-4 border rounded bg-light">
+
+<div   class="container  p-4 border rounded bg-light" id="print-section">
     <div class="text-center mb-4" style="margin-top: 8%;">
         <div class="container-fluid" *ngIf="pfdata">
             <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
@@ -10,6 +11,17 @@
         </div>
         <h6 class="text-decoration-underline">ALL Branch Incoming Luggages Report</h6>
     </div>
+    <div class="text-center">
+      <i class="fa fa-print"
+      style="font-size: 40px; cursor: pointer;color: green;"
+      aria-hidden="true"
+      (click)="printReport()"></i>
+   
+      <i class="fa fa-file-excel-o mx-2"
+      style="font-size: 30px; cursor: pointer; color: green;"
+      aria-hidden="true"
+      (click)="exportToExcel()"></i>
+       </div>
 
     <div class="d-flex justify-content-end">
       <strong>Print By:&nbsp; {{pfdata.name}} </strong> 
@@ -19,10 +31,9 @@
         <strong>From:</strong> {{ prow.fromDate | date: 'dd-MM-yyyy' }} 
         <strong>To:</strong> {{ prow.toDate | date: 'dd-MM-yyyy' }}
       </div>
-      <i class="fa fa-print"
-   style="font-size: 30px; cursor: pointer;"
-   aria-hidden="true"
-   (click)="printReport()"></i>
+
+
+
         <div>
           <strong>Print Date:</strong> {{ today | date: 'dd-MM-yyyy' }} &nbsp;
             <strong>Time:</strong> {{ today | date: 'hh:mm a' }}

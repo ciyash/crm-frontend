@@ -123,7 +123,7 @@ export class HeaderComponent implements OnInit {
             { label: 'Today Booking Report', routerLink: ['/bookingreport'] },
             { label: 'Booking Report ', routerLink: ['/reportsdashboard'] },
             { label: 'Collection Report', routerLink: ['/collectionreport'] },
-            // { label: 'Cancel Report', routerLink: ['/reportsdashboard'] },
+            { label: 'Consolidated Report', routerLink: ['/Consolidate'] },
             { label: 'GST Report', routerLink: ['/gdtreport'] },
             { label: 'Status Date Different Report', routerLink: ['/parcelstatusdate'] },
             { label: 'Pending Delivery Stock Report ', routerLink: ['/pending-delivery'] },

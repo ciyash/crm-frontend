@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { BranchService } from 'src/app/service/branch.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 declare var $: any;
 @Component({
   selector: 'app-parcel-incoming-luggages-report',
@@ -27,7 +28,7 @@ export class ParcelIncomingLuggagesReportComponent {
     payload: any;
   pdata: any;
   tbcdata: any;
-    constructor(private api: BranchService, private fb: FormBuilder,private router:Router) {
+    constructor(private api: BranchService, private fb: FormBuilder,private router:Router,private toast:ToastrService) {
       this.form = this.fb.group({
         // fromDate: ['', Validators.required],
         // toDate: ['', Validators.required],
