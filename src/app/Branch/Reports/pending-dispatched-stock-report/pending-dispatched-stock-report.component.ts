@@ -9,6 +9,9 @@ import { ToastrService } from 'ngx-toastr';
 declare var $: any;
 declare const SlimSelect: any; 
 import {  ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
 @Component({
   selector: 'app-pending-dispatched-stock-report',
   templateUrl: './pending-dispatched-stock-report.component.html',
@@ -19,6 +22,13 @@ export class PendingDispatchedStockReportComponent {
     @ViewChild('pickupbranch') pickupbranch!: ElementRef;
     @ViewChild('selectElem2') selectElem2!: ElementRef;
     @ViewChild('droupbranch') droupbranch!: ElementRef;
+    @ViewChild('summaryTable', { static: false }) summaryTable!: ElementRef;
+  @ViewChild('bookingsTable', { static: false }) bookingsTable!: ElementRef;
+
+
+  reportData: any; // your summary + bookings data
+  pfdata: any;     // your profile/company info
+  totalamount: number = 0;
   
     cdata: any;
     grnNo: any;
@@ -29,7 +39,6 @@ export class PendingDispatchedStockReportComponent {
     id:any;
     citydata:any;
     branchdata:any;   
-    pfdata:any;
     bookingSuccess: boolean = false;
     packdata:any;
     fbcdata:any;
@@ -38,8 +47,7 @@ export class PendingDispatchedStockReportComponent {
     dptype:any;
   dispacthedReport: any;
   dispatchedReport: any;
-  reportData: any;
-  totalamount: number = 0;
+ 
 
   today=new Date()
   
@@ -247,7 +255,48 @@ calculateTotalAmount() {
   this.totalamount = this.reportData.bookings?.reduce((sum: number, item: { amount: any; }) => sum + (Number(item.amount) || 0), 0) || 0;
 }
 
+
+
+
+
+  
+
+  downloadExcel(): void {
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+
+    // 1️⃣ Add Company Header Sheet
+    const headerData = [
+      ['Pending Dispatch Stock Report'],
+      [this.pfdata?.companyName ?? ''],
+      [`Address: ${this.pfdata?.location ?? ''} - ${this.pfdata?.branchId?.name ?? ''} | Phone No: ${this.pfdata?.phone ?? ''}`],
+      [], // spacer row
+    ];
+    const headerSheet = XLSX.utils.aoa_to_sheet(headerData);
+    XLSX.utils.book_append_sheet(wb, headerSheet, 'Report Info');
+
+    // 2️⃣ Add Summary Table
+    if (this.summaryTable) {
+      const summarySheet = XLSX.utils.table_to_sheet(this.summaryTable.nativeElement);
+      XLSX.utils.book_append_sheet(wb, summarySheet, 'Summary');
+    }
+
+    // 3️⃣ Add Bookings Table
+    if (this.bookingsTable) {
+      const bookingsSheet = XLSX.utils.table_to_sheet(this.bookingsTable.nativeElement);
+      XLSX.utils.book_append_sheet(wb, bookingsSheet, 'Bookings');
+    }
+
+    // 4️⃣ Save Excel File
+    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([excelBuffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+    FileSaver.saveAs(blob, `Pending_Dispatch_Report_${new Date().toISOString().slice(0, 10)}.xlsx`);
   }
+}
+
+
+  
    
     
     

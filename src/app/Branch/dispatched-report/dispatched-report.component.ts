@@ -1,7 +1,12 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BranchService } from 'src/app/service/branch.service';
 
+import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { BranchService } from 'src/app/service/branch.service';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+declare var $: any;
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
 @Component({
   selector: 'app-dispatched-report',
   templateUrl: './dispatched-report.component.html',
@@ -9,70 +14,190 @@ import { BranchService } from 'src/app/service/branch.service';
 })
 export class DispatchedReportComponent {
   @ViewChild('selectElem') selectElem!: ElementRef;
-  @ViewChild('demoSelect') demoSelect!: ElementRef;
-  data1: any;
-    form: FormGroup;
-    cities: any;
-    bdata:any;
-    constructor( private api: BranchService, private fb: FormBuilder ) {
-      this.form = this.fb.group({
-        fromDate: ['', Validators.required],
-        toDate: ['', Validators.required],
-        fromCity: ['', Validators.required],
-        toCity: ['', Validators.required],
-        fromBranch: ['', Validators.required],
-      });
-    }
-  
-    ngOnInit() {
-      this.getCities();
-      this.api.GetBranch().subscribe((res:any)=>{
-        console.log('branchdata',res);
-        this.bdata=res;
-      })
-    }
+  @ViewChild('pickupbranch') pickupbranch!: ElementRef;
+  @ViewChild('selectElem2') selectElem2!: ElementRef;
+  @ViewChild('droupbranch') droupbranch!: ElementRef;
 
-    getCities() {
-      this.api.GetCities().subscribe({
-        next: (response: any) => {
-          this.cities = response;
-        },
-        error: (error: any) => {
-          console.error('Error fetching cities:', error);
-          alert('Failed to fetch cities data.');
-        },
-      });
-    }
+  form!: FormGroup;
+  reportData: any;
+  citydata: any;
+  branchdata: any;
+  allgetvechicle: any;
+  pfdata: any;
+  today = new Date(); 
+  payload: any;
+  tbcdata: any;
+  onDropBranchSelect: any;
+  onPickupBranchSelect: any;
+  pdata: any;
 
-  ParcelLoad() {
-    console.log("Before Load: Payload being sent", {
-      fromDate: this.form.value.fromDate,
-      toDate: this.form.value.toDate,
-      fromCity: this.form.value.fromCity,
-      toCity: this.form.value.toCity,
-      fromBranch: this.form.value.fromBranch,
-    });
-  
-    const payload = {
-      fromDate: this.form.value.fromDate,
-      toDate: this.form.value.toDate,
-      fromCity: this.form.value.fromCity,
-      toCity: this.form.value.toCity,
-      fromBranch: this.form.value.fromBranch,
-    };
-  
-    this.api.DispatchedReport(payload).subscribe({
-      next: (response: any) => {
-        console.log("After Load: Response received", response);
-        this.data1=response;
-  
-      },
-      error: (error: any) => {
-        console.error('Parcel loading failed:', error);
-        alert('No Parcel Loading. Please try again.');
-        this.data1 = [];
-      },
+  constructor(
+    private api: BranchService, 
+    private fb: FormBuilder,
+    private router: Router,
+    private toast: ToastrService
+  ) {
+    this.form = this.fb.group({
+      fromDate: [this.getTodayDateString(), Validators.required],
+      toDate: [this.getTodayDateString(), Validators.required],
+      fromCity: [''],       // default empty string
+      toCity: [''],
+      fromBranch: [''],
     });
   }
 
+  getTodayDateString(): string {
+    const today = new Date();
+    const day = ('0' + today.getDate()).slice(-2);
+    const month = ('0' + (today.getMonth() + 1)).slice(-2);
+    const year = today.getFullYear();
+    return `${year}-${month}-${day}`;
+  }
+
+  ngOnInit() {
+    this.api.GetCities().subscribe((res: any) => {
+      this.citydata = res;
+    });
+
+    this.api.GetBranch().subscribe((res: any) => {
+      this.branchdata = res;
+    });
+
+    this.getProfileData();
+  }
+
+  onFromcitySelect(event: any) {
+    const cityName = event.target.value;
+    if (cityName) {
+      this.api.GetBranchbyCity(cityName).subscribe(
+        (res: any) => {
+          this.pdata = res;
+        },
+        (error: any) => {
+          console.error('Error fetching branches:', error);
+        }
+      );
+    } else {
+      this.pdata = [];
+    }
+  }
+
+  onTocitySelect(event: any) {
+    const cityName = event.target.value;
+    if (cityName) {
+      this.api.GetBranchbyCity(cityName).subscribe(
+        (res: any) => {
+          this.tbcdata = res;
+        },
+        (error: any) => {
+          console.error('Error fetching branches:', error);
+        }
+      );
+    } else {
+      this.tbcdata = [];
+    }
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      // From City select2 init with empty default value
+      $(this.selectElem.nativeElement).select2();
+      $(this.selectElem.nativeElement).val('').trigger('change');   // <-- empty string to match default option
+      $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
+        const selectedCity = event.params.data.id;
+        this.form.patchValue({ fromCity: selectedCity });
+        this.onFromcitySelect({ target: { value: selectedCity } });
+      });
+
+      // Pickup Branch select2 init with empty default value
+      $(this.pickupbranch.nativeElement).select2();
+      $(this.pickupbranch.nativeElement).val('').trigger('change');  // <-- empty string default
+      $(this.pickupbranch.nativeElement).on('select2:select', (event: any) => {
+        const selectedBranch = event.params.data.id;
+        this.form.patchValue({ fromBranch: selectedBranch });
+        if(this.onPickupBranchSelect) {
+          this.onPickupBranchSelect({ target: { value: selectedBranch } });
+        }
+      });
+
+      // To City select2 init with empty default value
+      $(this.selectElem2.nativeElement).select2();
+      $(this.selectElem2.nativeElement).val('').trigger('change');  // <-- empty string default
+      $(this.selectElem2.nativeElement).on('select2:select', (event: any) => {
+        const selectedToCity = event.params.data.id;
+        this.form.patchValue({ toCity: selectedToCity });
+        this.onTocitySelect({ target: { value: selectedToCity } });
+      });
+
+      // Drop Branch select2 init with empty default value
+      $(this.droupbranch.nativeElement).select2();
+      $(this.droupbranch.nativeElement).val('').trigger('change');  // <-- empty string default
+      $(this.droupbranch.nativeElement).on('select2:select', (event: any) => {
+        const selectedDropBranch = event.params.data.id;
+        this.form.patchValue({ dropBranch: selectedDropBranch });
+        if(this.onDropBranchSelect) {
+          this.onDropBranchSelect({ target: { value: selectedDropBranch } });
+        }
+      });
+    }, 0);
+  }
+
+
+  DispatchReport() {
+    this.payload = this.form.value;
+  
+    console.log("Payload:", this.payload);  // Log the payload
+  
+    this.api.DispatchedReport(this.payload).subscribe({
+      next: (res: any) => {
+        this.reportData = res;
+        console.log("Dispatched Report:", this.reportData);
+      },
+      error: (err) => {
+        console.error("API Error:", err);
+        this.toast.error("Report loading failed. Please try again.");
+      }
+    });
+  }
+  
+
+  getProfileData() {
+    this.api.GetProfileData().subscribe((res: any) => {
+      this.pfdata = res;
+    });
+  }
+
+  printReport() {
+    const printContents = document.getElementById('print-section')?.innerHTML;
+    if (printContents) {
+      const popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+      popupWin!.document.open();
+      popupWin!.document.write(`
+        <html>
+          <head>
+            <title>Print Report</title>
+            <style>
+              body { font-family: Arial, sans-serif; margin: 20px; }
+              table { width: 100%; border-collapse: collapse; font-size: 12px; }
+              th, td { border: 1px solid #000; padding: 4px; text-align: center; }
+              h4, h6, p { margin: 4px 0; }
+              .text-center { text-align: center; }
+              .fw-bold { font-weight: bold; }
+              .text-decoration-underline { text-decoration: underline; }
+              .d-flex { display: flex; justify-content: space-between; }
+              @media print { .no-print { display: none; } }
+            </style>
+          </head>
+          <body onload="window.print(); window.close();">
+            ${printContents}
+          </body>
+        </html>
+      `);
+      popupWin!.document.close();
+    }
+  }
+
+
+  
+  
 }

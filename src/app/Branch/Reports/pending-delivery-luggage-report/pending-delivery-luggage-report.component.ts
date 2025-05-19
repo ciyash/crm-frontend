@@ -2,7 +2,6 @@ import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { BranchService } from 'src/app/service/branch.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 declare var $: any;
-
 @Component({
   selector: 'app-pending-delivery-luggage-report',
   templateUrl: './pending-delivery-luggage-report.component.html',
@@ -25,8 +24,6 @@ export class PendingDeliveryLuggageReportComponent {
 
   constructor(private api: BranchService, private fb: FormBuilder) {
     this.form = this.fb.group({
-      // fromDate: ['', Validators.required],
-      // toDate: ['', Validators.required],
       fromDate: [this.getTodayDateString(), Validators.required],
       toDate: [this.getTodayDateString(), Validators.required],
       fromCity: [''],
@@ -67,8 +64,8 @@ export class PendingDeliveryLuggageReportComponent {
     this.getProfileData();
   }
   ngAfterViewInit(): void {
+    // Initialize Select2 for dropdowns as you already have
     setTimeout(() => {
-      // Helper method to initialize Select2
       const initializeSelect2 = (
         element: ElementRef,
         form: FormGroup,
@@ -77,17 +74,55 @@ export class PendingDeliveryLuggageReportComponent {
         $(element.nativeElement).select2();
         $(element.nativeElement).on('select2:select', (event: any) => {
           const value = event.params.data.id;
-          console.log(`Selected ${controlName}:`, value);
           form.patchValue({ [controlName]: value });
+  
+          // New logic here:
+          if (controlName === 'fromCity') {
+            this.setPickupBranchForCity(value);
+          }
+          if (controlName === 'toCity') {
+            this.setDropBranchForCity(value);
+          }
         });
       };
-     
+  
       initializeSelect2(this.summaryfromcity, this.form, 'fromCity');
       initializeSelect2(this.summarytocity, this.form, 'toCity');
       initializeSelect2(this.summarypickup, this.form, 'pickUpBranch');
       initializeSelect2(this.summarydroup, this.form, 'dropBranch');
     });
   }
+  
+  // Filter branches by city id and set pickup branch
+  setPickupBranchForCity(cityId: string) {
+    const matchingBranches = this.branchdata.filter(
+      (branch: any) => branch.cityId === cityId
+    );
+    if (matchingBranches.length > 0) {
+      this.form.patchValue({ pickUpBranch: matchingBranches[0].id });
+      // Also update the Select2 UI
+      $(this.summarypickup.nativeElement).val(matchingBranches[0].id).trigger('change');
+    } else {
+      this.form.patchValue({ pickUpBranch: '' });
+      $(this.summarypickup.nativeElement).val(null).trigger('change');
+    }
+  }
+  
+  // Filter branches by city id and set drop branch
+  setDropBranchForCity(cityId: string) {
+    const matchingBranches = this.branchdata.filter(
+      (branch: any) => branch.cityId === cityId
+    );
+    if (matchingBranches.length > 0) {
+      this.form.patchValue({ dropBranch: matchingBranches[0].id });
+      // Also update the Select2 UI
+      $(this.summarydroup.nativeElement).val(matchingBranches[0].id).trigger('change');
+    } else {
+      this.form.patchValue({ dropBranch: '' });
+      $(this.summarydroup.nativeElement).val(null).trigger('change');
+    }
+  }
+  
 
 
   itemsPerPage = 10;

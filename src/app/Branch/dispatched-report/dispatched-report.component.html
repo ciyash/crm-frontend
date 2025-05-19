@@ -1,85 +1,95 @@
 <app-header></app-header>
-<h4 class="text-center " style="color: #3C3C3C;
-font-size: 20px;
-font-family: Poppins;
-font-weight: 500;
-margin-top: 8%;
-text-decoration: underline;
-word-wrap: break-word">Parcel Dispatched Report</h4>
 
-<div class="container mb-5 pt-5 pb-5 " style="border: 1px solid #7C7C7C;">
+<div class="card container" style=" margin-top: 8%;
+border: 2px solid #ccc; 
+border-radius: 5px;
+padding: 15px;
+background-color: #fff;">
+  <h5 class="text-center fw-bold text-danger"><u>Dispatched Stock report
+    </u>
+  </h5>
+
+  <div class="rounded p-4">
     <form [formGroup]="form">
-        <div class="row g-3">
-            <div class="col-md-4 col-sm-12">
-                <label class="form-label">From date</label>
-                <input type="date" class="form-control form-control-sm" formControlName="fromDate">
-            </div>   
-            <div class="col-md-4 col-sm-12">
-                <label class="form-label">To date</label>
-                <input type="date" class="form-control  form-select-sm" formControlName="toDate">
-            </div>
-            <div class="col-md-4 col-sm-12">
-                <label class="form-label">From City</label>
-                <select #selectElem class="form-select form-select-sm" formControlName="fromCity">
-                  <option value="" selected>Select City</option>
-                  <option *ngFor="let city of cities" [value]="city.cityName">{{ city.cityName }}</option>
-                </select>
-              </div> 
-              <div class="col-md-4 col-sm-12">
-                    <label class="form-label">To City</label>
-                    <select #demoSelect class="form-control" formControlName="toCity">
-                        <option value="" selected>Select City</option>
-                      <option *ngFor="let city of cities" [value]="city.cityName">
-                        {{ city.cityName }}
-                      </option>
-                    </select>
-                  </div>
+      <div class="row mb-2">
+        <div class="col-md-6">
+          <label class="form-label">From Booking Date</label>
+          <input type="date" class="form-control form-select-sm" formControlName="fromDate">
+          <div *ngIf="form.get('fromDate')?.invalid && form.get('fromDate')?.touched" class="text-danger">
+            From Date is required
+          </div>
 
-                  <div class="col-md-4 col-sm-12">
-                    <label class="form-label">From Branch</label>
-                    <select #demoSelect class="form-control" formControlName="fromBranch">
-                        <option value="" selected>Select Branch</option>
-                      <option *ngFor="let branchdata of bdata" [value]="branchdata.name">
-                        {{ branchdata.name }}
-                      </option>
-                    </select>
-                  </div>
-            
-            <div class="col-md-4 col-sm-12">
-            <div class="d-flex justify-content-start  pt-4 ">
-                <button class="btn btn-danger btn-sm" style="width: 10rem;" (click)="ParcelLoad()">Load</button>
-            </div>
-        
-            </div>
         </div>
-    </form>
-   
-</div>
+        <div class="col-md-6">
+          <label class="form-label">To Booking Date</label>
+          <input type="date" class="form-control form-select-sm" formControlName="toDate">
+          <div *ngIf="form.get('toDate')?.invalid && form.get('toDate')?.touched" class="text-danger">
+            To Date is required
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">From City</label>
+          <select #selectElem class="form-select form-select-sm" formControlName="fromCity">
+            <option value="" selected> Select City</option>
+            <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label"> To City</label>
+          <select #selectElem2 class="form-select form-select-sm" formControlName="toCity">
+            <option value="" selected> select to City</option>
+            <option *ngFor="let row of citydata" [value]="row.cityName">{{ row.cityName }}</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">From City Branch Name </label>
+          <select #pickupbranch class="form-select form-select-sm" formControlName="fromBranch">
+            <option value="" selected> Select Branch</option>
+            <option *ngFor="let row4 of pdata" [value]="row4.branchUniqueId"> {{ row4.name }} </option>
+          </select>
+        </div>
+     
 
-<div class="table-responsive m-2" style="max-height: 76vh; overflow-y: auto;" *ngIf="data1">
-  <table class="table table-striped table-bordered">
-      <thead class="table-light sticky-top">
-          <tr>
-              <th scope="col">S.No</th>
-              <th scope="col">LR No</th>
-              <th scope="col">Particulars</th>
-              <th scope="col">QTY</th>
-              <th scope="col">VOG</th>
-              <th scope="col">Amount</th>
-              <th scope="col">DriverName</th>
-          </tr>
-      </thead>
-            <tbody id="tableBody">
-          <tr class="custom-row" *ngFor="let row of data1">
-              <td>1</td>
-              <td>LR12345</td>
-              <td>5 - Boxes, Bags</td>
-              <td>5</td>
-              <td>1000</td>
-              <td>5000</td>
-              <td>djlfnd</td>
-          </tr>
-       
-      </tbody>
-  </table>
+      
+
+        <div class="row align-items-end mb-3">
+         
+          <div class="col-md-6 d-flex align-items-center gap-4">
+            <!-- Load Button -->
+            <button type="button" class="btn btn-success" (click)="DispatchReport()">
+              Load
+            </button>
+          
+            <!-- Print Icon -->
+            <i *ngIf="reportData"
+               class="fa fa-print"
+               style="font-size: 30px; cursor: pointer; color: green;"
+               (click)="printReport()"
+               title="Print Report">
+            </i>
+          
+            <!-- Excel Icon -->
+            <i *ngIf="reportData"
+               class="fa fa-file-excel-o"
+               style="font-size: 24px; cursor: pointer; color: green;"
+               
+               title="Export to Excel">
+            </i>
+          </div>
+          
+
+        </div>
+
+
+      </div>
+    </form>
+  </div>
+  <div class="hr" style="  border: 1px solid #ccc; /* light gray border */
+      background-color: #fff;"></div>
+
+  
+
+
+ 
+
 </div>

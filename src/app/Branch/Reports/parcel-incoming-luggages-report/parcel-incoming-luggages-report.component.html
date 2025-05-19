@@ -1,16 +1,13 @@
 <app-header></app-header>
-<app-header></app-header>
-
-<div class="card container" style=" margin-top: 8%;
+<h5 class="text-center fw-bold text-danger"  style=" margin-top: 8%;"><u>
+  Parcel Incoming Luggages Report
+  </u>
+</h5>
+<div class="card container" style=" 
 border: 2px solid #ccc; 
 border-radius: 5px;
-padding: 15px;
 background-color: #fff;">
-  <h5 class="text-center fw-bold text-danger"><u>
-    Parcel Incoming Luggages Report
-    </u>
-  </h5>
-    <div class="rounded p-4" style="margin-top: 1rem;">
+    <div class="rounded p-4">
       <form [formGroup]="form">
         <div class="row mb-2">
           <div class="col-md-6">
@@ -30,7 +27,7 @@ background-color: #fff;">
           <div class="col-md-6">
             <label class="form-label form-after">From City</label>
             <select #selectElem class="form-select form-select-sm" formControlName="fromCity">
-              <option value="all" selected> all From City</option>
+              <option value="all" selected> All From City</option>
               <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
             </select>
           </div>
@@ -41,14 +38,16 @@ background-color: #fff;">
               <option *ngFor="let row of citydata" [value]="row.cityName">{{ row.cityName }}</option>
             </select>
           </div>
+
+
           <div class="col-md-6">
             <label class="form-label form-after">Pickup Branch</label>
             <select #pickupbranch class="form-select form-select-sm" formControlName="pickUpBranch">
               <option value="all" selected> All From Branch</option>
               <option *ngFor="let row4 of pdata" [value]="row4.branchUniqueId"> {{ row4.name }} </option>
             </select>
-
           </div>
+
           <div class="col-md-6">
             <label class="form-label form-after">Drop Branch</label>
             <select #droupbranch class="form-select form-select-sm" formControlName="dropBranch">
@@ -64,7 +63,6 @@ background-color: #fff;">
     </div>
   
 
-   
  
 
 

@@ -37,8 +37,17 @@
 
             <div class="text-center mt-5 d-flex justify-content-center align-items-center gap-4">
                 <button class="btn btn-success" (click)="DispatchedStockReport()">Load</button>
-                <i class="fa fa-print" style="font-size: 40px; cursor: pointer;" aria-hidden="true"
+                
+                <i *ngIf="reportData" class="fa fa-print" style="font-size: 40px; cursor: pointer;color: green;" aria-hidden="true"
                     (click)="printReport()"></i>
+                    <i class="fa fa-file-excel-o"  *ngIf="reportData"
+   style="font-size: 30px; color: green; cursor: pointer;"
+   aria-hidden="true"
+   (click)="downloadExcel()">
+</i>
+
+
+                    
             </div>
 
         </form>
@@ -46,8 +55,7 @@
         <div class="hr" style="border-top: 1px solid #ccc; margin: 20px 0;"></div>
 
         <!-- Report Section: Only show when reportData is present -->
-        <div *ngIf="reportData && reportData.bookings?.length > 0" id="print-section">
-           
+        <div *ngIf="reportData && reportData.bookings?.length > 0" id="print-section" >
                       <h5 class="text-center text-danger text-decoration-underline mb-3">
                 Pending Dispatch Stock Report
             </h5>
@@ -58,18 +66,13 @@
                     Phone No: {{ pfdata.phone }}
                 </p>
             </div>
-
-            
             <!-- <div *ngIf="reportData" class="d-flex justify-content-between mt-3">
                 <strong>From City: {{ form.get('fromCity')?.value }}</strong>
                 <strong>Branch Name: {{ getBranchNameById(form.get('pickUpBranch')?.value) }}</strong>
                 <strong>To City: {{ form.get('toCity')?.value }}</strong>
             </div> -->
-
-
-
             <!-- Summary Table -->
-            <table class="table table-bordered text-center mb-4">
+            <table #summaryTable  class="table table-bordered text-center mb-4">
                 <thead class="table-secondary">
                     <tr>
                         <th>CATEGORY</th>
@@ -140,7 +143,7 @@
 
             <!-- Bookings Table -->
             <div class="table-responsive mt-5" *ngIf="reportData.bookings?.length > 0">
-                <table class="table table-bordered table-sm text-center align-middle">
+                <table #bookingsTable class="table table-bordered table-sm text-center align-middle">
                     <thead class="table-secondary">
                         <tr>
                             <th>Sr. No</th>
@@ -192,5 +195,6 @@
                 </table>
             </div>
         </div>
+
     </div>
 </div>

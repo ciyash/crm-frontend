@@ -9,7 +9,6 @@ background-color: #fff;">
     </u>
   </h5>
   
-  
     <div class="rounded p-4" style="margin-top: 1rem;">
       <form [formGroup]="form">
         <div class="row mb-2">
@@ -74,11 +73,9 @@ background-color: #fff;">
               type="button" 
               class="btn btn-success btn-sm" 
               (click)="LuaggageReport()"
-              style="width: 100px;"
-            >
+              style="width: 100px;">
               Load
             </button>
-            
             <i  *ngIf="reportData"
               class="fa fa-print" 
               style="font-size: 24px; cursor: pointer;" 
@@ -86,10 +83,7 @@ background-color: #fff;">
               (click)="printReport()"
             ></i>
           </div>
-          
-          
         </div>
-        
       </form>
     </div>
   

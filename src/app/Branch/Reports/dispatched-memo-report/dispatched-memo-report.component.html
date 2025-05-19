@@ -63,14 +63,17 @@
         </div>
         <div class="col-md-3 mt-4" *ngIf="DispatchedData" >
           <i class="fa fa-print"
-          style="font-size: 30px; cursor: pointer;"
+          style="font-size: 30px; cursor: pointer; color: green;"
           aria-hidden="true"
-          (click)="printReport()"></i>
-       
-        </div>
+          (click)="printReport()">
+        </i>
 
-  
-
+          <i class="fa fa-file-excel-o" 
+          style="font-size: 30px; color: green; cursor: pointer;" 
+          aria-hidden="true"
+          (click)="downloadExcel()">
+       </i>
+ </div>
       </div>
     </form>
 

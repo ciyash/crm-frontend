@@ -73,13 +73,7 @@ export class ParcelIncomingLuggagesReportComponent {
       this.getProfileData();
     }
 
-
-
-  
-
 // hh
-
-
     LuaggageReport() {
       this.payload = {
         fromDate: this.form.value.fromDate,
@@ -95,7 +89,8 @@ export class ParcelIncomingLuggagesReportComponent {
         (res: any) => {
           this.reportData = res.data;
           console.log('Luggage Report:', this.reportData);
-    
+          const  ddsts = res.data
+          
           const finalData = {
             ...this.reportData,
             fromDate: this.payload.fromDate,
@@ -141,6 +136,7 @@ export class ParcelIncomingLuggagesReportComponent {
           const selectedBranch = event.params.data.id;
           this.form.patchValue({ pickUpBranch: selectedBranch });
           this.onPickupBranchSelect({ target: { value: selectedBranch } });
+          
         });
     
         // To City

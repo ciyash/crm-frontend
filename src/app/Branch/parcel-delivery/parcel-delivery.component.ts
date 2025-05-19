@@ -31,6 +31,11 @@ export class ParcelDeliveryComponent {
   pdata: any;
   tbcdata: any;
   form1!:FormGroup
+  pfdata: any;
+  today: Date = new Date();
+  showReceiptToPrint = false;
+
+
   
   constructor(
     private api: BranchService,
@@ -67,6 +72,7 @@ export class ParcelDeliveryComponent {
     });
 
     this.GetAllEmployee();
+    this.getProfileData();
   }
  
 
@@ -176,10 +182,33 @@ export class ParcelDeliveryComponent {
   }
   
   
-  
+  getProfileData() {
+    this.api.GetProfileData().subscribe((res: any) => {
+      this.pfdata = res;
+      console.log( 'profiledata:',this.pfdata);
+    });
+  }
   
 
   
+
+
+
+printReceipt() {
+  this.showReceiptToPrint = true;
+
+  setTimeout(() => {
+    const printContents = document.getElementById('printSection')?.innerHTML;
+    const originalContents = document.body.innerHTML;
+
+    if (printContents) {
+      document.body.innerHTML = printContents;
+      window.print();
+      document.body.innerHTML = originalContents;
+      location.reload(); // Reload to reset Angular bindings
+    }
+  }, 100); // wait a bit for view to update
+}
 }
 
 

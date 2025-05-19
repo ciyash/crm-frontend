@@ -12,7 +12,6 @@ import { BranchService } from 'src/app/service/branch.service';
 export class AddCfmasterComponent {
 
   form:FormGroup;
-
       branchdata:any;
       data:any;
       loading:boolean=true;

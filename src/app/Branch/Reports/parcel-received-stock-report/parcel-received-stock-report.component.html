@@ -29,30 +29,30 @@ background-color: #fff;">
         </div>
         <div class="col-md-6">
           <label class="form-label">From City</label>
-          <select #summaryfromcity class="form-select form-select-sm" formControlName="fromCity">
-            <option value="" selected>Select City</option>
+          <select #selectElem class="form-select form-select-sm" formControlName="fromCity">
+            <option value="" selected> Select City</option>
             <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
           </select>
         </div>
         <div class="col-md-6">
-          <label class="form-label">To City</label>
-          <select #summarytocity class="form-select form-select-sm" formControlName="toCity">
-            <option value="" selected>Select City</option>
-            <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
+          <label class="form-label"> To City</label>
+          <select #selectElem2 class="form-select form-select-sm" formControlName="toCity">
+            <option value="" selected> select to City</option>
+            <option *ngFor="let row of citydata" [value]="row.cityName">{{ row.cityName }}</option>
           </select>
         </div>
         <div class="col-md-6">
           <label class="form-label">PickUpBranch</label>
-          <select #summarypickup class="form-select" formControlName="pickUpBranch">
-            <option value="" selected>PickUpBranch</option>
-            <option *ngFor="let row2 of branchdata" [value]="row2.branchUniqueId">{{ row2.name }}</option>
+          <select #pickupbranch class="form-select form-select-sm" formControlName="pickUpBranch">
+            <option value="" selected> Select Branch</option>
+            <option *ngFor="let row4 of pdata" [value]="row4.branchUniqueId"> {{ row4.name }} </option>
           </select>
         </div>
         <div class="col-md-6">
           <label class="form-label">Drop Branch</label>
-          <select #summarydroup class="form-select" formControlName="dropBranch">
-            <option value="" selected>Drop Branch</option>
-            <option *ngFor="let row2 of branchdata" [value]="row2.branchUniqueId">{{ row2.name }}</option>
+          <select #droupbranch class="form-select form-select-sm" formControlName="dropBranch">
+            <option value="" selected> Select Branch</option>
+            <option *ngFor="let row1 of tbcdata" [value]="row1.branchUniqueId"> {{ row1.name }} </option>
           </select>
         </div>
 
@@ -67,20 +67,29 @@ background-color: #fff;">
               placeholder="Enter Booking Type" />
           </div>
 
-          <div class="col-md-6 d-flex justify-content-start">
-
-            <div class="d-grid ">
-
-              <button type="button" class="btn btn-success  " (click)="LuaggageReport()">
-                Load
-              </button>
-            </div>
-            <i  *ngIf="reportData"  class="fa fa-print mx-5"
-            style="font-size: 30px; cursor: pointer;"
-            aria-hidden="true"
-            (click)="printReport()"></i>
-
+          <div class="col-md-6 d-flex align-items-center gap-4">
+            <!-- Load Button -->
+            <button type="button" class="btn btn-success" (click)="LuaggageReport()">
+              Load
+            </button>
+          
+            <!-- Print Icon -->
+            <i *ngIf="reportData"
+               class="fa fa-print"
+               style="font-size: 30px; cursor: pointer; color: green;"
+               (click)="printReport()"
+               title="Print Report">
+            </i>
+          
+            <!-- Excel Icon -->
+            <i *ngIf="reportData"
+               class="fa fa-file-excel-o"
+               style="font-size: 24px; cursor: pointer; color: green;"
+               (click)="exportToExcel()"
+               title="Export to Excel">
+            </i>
           </div>
+          
 
         </div>
 
@@ -90,7 +99,8 @@ background-color: #fff;">
   </div>
   <div class="hr" style="  border: 1px solid #ccc; /* light gray border */
       background-color: #fff;"></div>
-  <div id="print-section" *ngIf="reportData">
+
+  <div  *ngIf="reportData" id="print-section">
     <div class="text-center mb-4 mt-5">
       <div class="container-fluid" *ngIf="pfdata">
         <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
@@ -144,25 +154,26 @@ background-color: #fff;">
         </tbody>
       </table>
 
-      <nav *ngIf="reportData?.length > itemsPerPage">
-        <ul class="pagination justify-content-center mt-3">
-          <li class="page-item" [class.disabled]="currentPage === 1">
-            <button class="page-link" (click)="changePage(currentPage - 1)">Previous</button>
-          </li>
 
-          <li class="page-item" *ngFor="let page of totalPagesArray(); let idx = index"
-            [class.active]="currentPage === (idx + 1)">
-            <button class="page-link" (click)="changePage(idx + 1)">{{ idx + 1 }}</button>
-          </li>
-
-          <li class="page-item" [class.disabled]="currentPage === totalPages">
-            <button class="page-link" (click)="changePage(currentPage + 1)">Next</button>
-          </li>
-        </ul>
-      </nav>
     </div>
   </div>
 
 
+  <nav *ngIf="reportData?.length > itemsPerPage">
+    <ul class="pagination justify-content-center mt-3">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <button class="page-link" (click)="changePage(currentPage - 1)">Previous</button>
+      </li>
+
+      <li class="page-item" *ngFor="let page of totalPagesArray(); let idx = index"
+        [class.active]="currentPage === (idx + 1)">
+        <button class="page-link" (click)="changePage(idx + 1)">{{ idx + 1 }}</button>
+      </li>
+
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <button class="page-link" (click)="changePage(currentPage + 1)">Next</button>
+      </li>
+    </ul>
+  </nav>
 
 </div>

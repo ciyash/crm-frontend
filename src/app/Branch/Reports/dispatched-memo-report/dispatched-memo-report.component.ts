@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { BranchService } from 'src/app/service/branch.service';
 declare var $: any;
-
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
 @Component({
   selector: 'app-dispatched-memo-report',
   templateUrl: './dispatched-memo-report.component.html',
@@ -314,4 +315,64 @@ today = new Date();
     }
   }
   
+
+  // Import these
+
+
+  
+  
+  downloadExcel(): void {
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+  
+    const addSheet = (data: any[], sheetName: string) => {
+      if (!data?.length) return;
+      const sheetData = data.map((item: any, i: number) => ({
+        No: i + 1,
+        'LR No': item.lrNumber,
+        'Vehicle': item.vehicalNumber,
+        'Dispatch Date': item.loadingDate ? new Date(item.loadingDate).toLocaleDateString() : '',
+        'To City': item.toCity,
+        'Sender': item.senderName,
+        'Receiver': item.receiverName,
+        'Mobile No': item.senderMobile,
+        'Qty': item.packages?.[0]?.quantity ?? 0,
+        'Item Details': item.packages?.[0]?.packageType ?? '-',
+        'Freight': item.serviceCharge ?? 0,
+        'Hamali': item.hamaliCharge ?? 0,
+        'Net Amount': sheetName === 'ToPay'
+          ? item.grandTotal ?? 0
+          : (item.grandTotal ?? 0) + (item.hamaliCharge ?? 0)
+      }));
+      const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(sheetData);
+      XLSX.utils.book_append_sheet(wb, ws, sheetName);
+    };
+  
+    // Add each data sheet
+    addSheet(this.DispatchedData?.data?.paid, 'Paid');
+    addSheet(this.DispatchedData?.data?.credit, 'Credit');
+    addSheet(this.DispatchedData?.data?.toPay, 'ToPay');
+  
+    // City-wise Summary Sheet
+    if (this.DispatchedData?.cityWiseDetails?.length) {
+      const cityData = this.DispatchedData.cityWiseDetails.map((item: any, i: number) => ({
+        No: i + 1,
+        'City Name': item.cityName,
+        'Paid Qty': item.paidQty,
+        'Paid Amount': item.paidAmount,
+        'ToPay Qty': item.toPayQty,
+        'ToPay Amount': item.toPayAmount,
+        'CreditFor Qty': item.creditForQty,
+        'CreditFor Amount': item.creditForAmount
+      }));
+      const citySheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(cityData);
+      XLSX.utils.book_append_sheet(wb, citySheet, 'CityWise');
+    }
+  
+    // Generate Excel file
+    const excelBuffer: any = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const blob: Blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    FileSaver.saveAs(blob, `Dispatched_Report_${new Date().toISOString().slice(0, 10)}.xlsx`);
+  }
+  
+
 }
