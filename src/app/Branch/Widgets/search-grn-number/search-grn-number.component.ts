@@ -29,8 +29,8 @@ export class SearchGrnNumberComponent {
   ) {
     this.form = this.fb.group({
       grnNo: ['', Validators.required],
-      receiverName1: [''],
-      receiverMobile1: [''],
+      receiverName: [''],
+      receiverMobile: [''],
       lrNumber: [''],
 
     });
@@ -42,8 +42,8 @@ export class SearchGrnNumberComponent {
   updateParcelStatus() {
     const payload = {
       grnNo: this.form.value.grnNo,
-      receiverName1: this.form.value.receiverName1,
-      receiverMobile1: this.form.value.receiverMobile1,
+      receiverName: this.form.value.receiverName,
+      receiverMobile: this.form.value.receiverMobile,
     };
     console.log('Final Payload:', payload);
   

@@ -40,6 +40,7 @@ export class ConsolidatedComponent {
   today = new Date();
   fromDate: any;
   toDate: any;
+  deliveryData: any;
   constructor(
     private fb: FormBuilder,
     private api: BranchService,
@@ -175,15 +176,24 @@ export class ConsolidatedComponent {
       next: (res: any) => {
         console.log('ConsolidatedReport:', res);
 
+        this.Cdata = res;  
+          this.deliveryData=res.data
+        console.log("devliveryData:",this.deliveryData);
+
         // Assuming the data you expect is in res.data or similar field
-        if (res.data && res.data.length > 0) {
-          this.toast.success(res.message || 'Report fetched successfully!');
-          this.Cdata = res;
-        } else {
-          // No data scenario
-          this.toast.info('No data available for the given filter.');
-          this.Cdata = []; // Clear previous data if any
-        }
+        // if (res.data && res.data.length > 0) {
+        //   this.toast.success(res.message || 'Report fetched successfully!');
+        //   this.Cdata = res;
+        //   this.deliveryData=res.data.deliveredAmountByType
+        //   console.log("devliveryData:",this.deliveryData);
+          
+
+          
+        // } else {
+        //   // No data scenario
+        //   this.toast.info('No data available for the given filter.');
+        //   this.Cdata = []; // Clear previous data if any
+        // }
       },
       error: (err) => {
         this.toast.error('Failed to fetch report.');

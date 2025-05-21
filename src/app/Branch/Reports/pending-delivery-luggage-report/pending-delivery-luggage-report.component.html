@@ -29,30 +29,30 @@ background-color: #fff;">
           </div>
           <div class="col-md-6">
             <label class="form-label">From City</label>
-            <select #summaryfromcity class="form-select form-select-sm" formControlName="fromCity">
-              <option value="" selected>Select City</option>
+            <select #selectElem class="form-select form-select-sm" formControlName="fromCity">
+              <option value="" selected> Select City</option>
               <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
             </select>
           </div>
           <div class="col-md-6">
             <label class="form-label">To City</label>
-            <select #summarytocity class="form-select form-select-sm" formControlName="toCity">
-              <option value="" selected>Select City</option>
-              <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
+            <select #selectElem2 class="form-select form-select-sm" formControlName="toCity">
+              <option value="" selected> Select City</option>
+              <option *ngFor="let row of citydata" [value]="row.cityName">{{ row.cityName }}</option>
             </select>
           </div>
           <div class="col-md-6">
             <label class="form-label">PickUpBranch</label>
-            <select #summarypickup class="form-select" formControlName="pickUpBranch">
-              <option value="" selected>PickUpBranch</option>
-              <option *ngFor="let row2 of branchdata" [value]="row2.branchUniqueId">{{ row2.name }}</option>
+            <select #pickupbranch class="form-select form-select-sm" formControlName="pickUpBranch">
+              <option value="" selected> Select Branch</option>
+              <option *ngFor="let row4 of pdata" [value]="row4.branchUniqueId"> {{ row4.name }} </option>
             </select>
           </div>
           <div class="col-md-6">
             <label class="form-label">Drop Branch</label>
-            <select #summarydroup class="form-select" formControlName="dropBranch">
-              <option value="" selected>Drop Branch</option>
-              <option *ngFor="let row2 of branchdata" [value]="row2.branchUniqueId">{{ row2.name }}</option>
+            <select #droupbranch class="form-select form-select-sm" formControlName="dropBranch">
+              <option value="" selected> Select Branch</option>
+              <option *ngFor="let row1 of tbcdata" [value]="row1.branchUniqueId"> {{ row1.name }} </option>
             </select>
           </div>
           <div class="col-md-6">
@@ -60,11 +60,11 @@ background-color: #fff;">
             </label>
             <select  class="form-select form-select-sm" formControlName="bookingType">
               <option value="all" selected>All Booking Type</option>
-              <option value="" selected>Paid</option>
-              <option value="" selected>Topay</option>
-              <option value="" selected>Credit For</option>
-              <option value="" selected>FOC</option>
-              <option value="" selected>Oline Agent</option>
+              <option value="paid" selected>Paid</option>
+              <option value="toPay" selected>Topay</option>
+              <option value="credit" selected>Credit For</option>
+              <option value="CLR" selected>CLR</option>
+              <option value="FOC" selected>FOC</option>
 
             </select>
           </div>
@@ -78,10 +78,13 @@ background-color: #fff;">
             </button>
             <i  *ngIf="reportData"
               class="fa fa-print" 
-              style="font-size: 24px; cursor: pointer;" 
+              style="font-size: 30px; cursor: pointer; color:green" 
               aria-hidden="true" 
-              (click)="printReport()"
-            ></i>
+              (click)="printReport()"></i>
+
+
+  <i class="fa fa-file-excel-o" *ngIf="reportData" (click)="exportToExcel()" style="color: green;font-size: 25px;" aria-hidden="true"></i>
+
           </div>
         </div>
       </form>
@@ -89,8 +92,8 @@ background-color: #fff;">
   
     <div class="hr" style="  border: 1px solid #ccc; /* light gray border */
     background-color: #fff;"></div>
-    <div *ngIf="reportData" id="print-section" >
 
+    <div *ngIf="reportData" id="print-section" >
       <div class="text-center mb-4 mt-5">
         <div class="container-fluid" *ngIf="pfdata">
           <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
@@ -130,7 +133,6 @@ background-color: #fff;">
                     <th>Booking Type	</th>
                     <th>Day Diff.	</th>
                     <th>Item Name	</th>
-                    <th>Manual TKT No.	</th>
                     <th>Quantity</th>
                     <th>Amount</th>
                       </tr>
@@ -147,8 +149,8 @@ background-color: #fff;">
                 <td>{{ data.consigneeNo }}</td>
                 <td>{{ data.bookingType }}</td>
                 <td>{{ data.dayDiff }}</td>
-                <td>{{ data.itemName }}</td>
-                <td>{{ data.manualTKTNo }}</td>
+                <td>{{ data.itemName1
+                }}</td>
                 <td>{{ data.quantity }}</td>
                 <td>{{ data.amount }}</td>
               </tr>
@@ -161,6 +163,12 @@ background-color: #fff;">
   
     </div>
     </div>
+
+
+
+
+
+
     <nav *ngIf="reportData?.length > itemsPerPage">
       <ul class="pagination justify-content-center mt-3">
         <li class="page-item" [class.disabled]="currentPage === 1">
@@ -178,7 +186,6 @@ background-color: #fff;">
         </li>
       </ul>
     </nav>
-
 
   </div>
 

@@ -143,22 +143,7 @@ export class DispatchedReportComponent {
   }
 
 
-  DispatchReport() {
-    this.payload = this.form.value;
-  
-    console.log("Payload:", this.payload);  // Log the payload
-  
-    this.api.DispatchedReport(this.payload).subscribe({
-      next: (res: any) => {
-        this.reportData = res;
-        console.log("Dispatched Report:", this.reportData);
-      },
-      error: (err) => {
-        console.error("API Error:", err);
-        this.toast.error("Report loading failed. Please try again.");
-      }
-    });
-  }
+
   
 
   getProfileData() {
@@ -196,6 +181,121 @@ export class DispatchedReportComponent {
       popupWin!.document.close();
     }
   }
+
+
+paginatedData: any[] = [];
+currentPage = 1;
+pageSize = 10;
+totalPages = 0;
+
+// DispatchReport() {
+//   this.payload = this.form.value;
+
+//   this.api.DispatchedReport(this.payload).subscribe({
+//     next: (res: any) => {
+//       this.reportData = res;
+//       this.totalPages = Math.ceil(this.reportData.length / this.pageSize);
+//       this.setPaginatedData();
+//     },
+//     error: (err) => {
+//       console.error("API Error:", err);
+//       this.toast.error("Report loading failed. Please try again.");
+//     }
+//   });
+// }
+DispatchReport() {
+  this.payload = this.form.value;
+
+  this.api.DispatchedReport(this.payload).subscribe({
+    next: (res: any) => {
+      // Check if API response contains a message
+      if (res.message) {
+        this.toast.success(res.message); // ✅ show success toast
+      } else {
+        this.toast.success("Report loaded successfully");
+      }
+
+      this.reportData = res.data || res; // Adjust if API returns directly or inside `data`
+      this.totalPages = Math.ceil(this.reportData.length / this.pageSize);
+      this.setPaginatedData();
+    },
+    error: (err) => {
+      console.error("API Error:", err);
+
+      // Extract message from error
+      const errorMessage = err?.error?.message || "Report loading failed. Please try again.";
+      this.toast.error(errorMessage); // ✅ show error toast
+    }
+  });
+}
+
+
+setPaginatedData() {
+  const start = (this.currentPage - 1) * this.pageSize;
+  const end = start + this.pageSize;
+  this.paginatedData = this.reportData.slice(start, end);
+}
+
+goToPage(page: number) {
+  this.currentPage = page;
+  this.setPaginatedData();
+}
+
+
+
+
+
+
+exportToExcel(): void {
+  if (!this.reportData || this.reportData.length === 0) return;
+
+  // Header Info
+  const headerInfo = [
+    [`${this.pfdata?.companyName || ''}`],
+    [`Address: ${this.pfdata?.location || ''} - ${this.pfdata?.branchId?.name || ''} | Phone No: ${this.pfdata?.phone || ''}`],
+    ['Dispatched Stock Report'],
+    [`From: ${this.formatDate(this.payload?.fromDate)} To: ${this.formatDate(this.payload?.toDate)}`],
+    [`Print By: ${this.pfdata?.username || ''}`],
+    [`Print Date: ${this.formatDate(this.today)} ${this.formatTime(this.today)}`],
+    []
+  ];
+
+  // Table Header
+  const tableHeader = [['No', 'Voucher NO', 'From City', 'To City', 'Loading Date', 'Driver Name', 'Vehicle No']];
+
+  // Full data (not paginated)
+  const tableData = this.reportData.map((item: any, index: number) => [
+    index + 1,
+    item.vocherNoUnique,
+    item.fromCity,
+    item.toCity,
+    this.formatDate(item.loadingDate),
+    item.driverName,
+    item.vehicalNumber
+  ]);
+
+  const finalData = [...headerInfo, ...tableHeader, ...tableData];
+
+  const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(finalData);
+  const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Dispatched Report');
+
+  const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+  const blob: Blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+  FileSaver.saveAs(blob, `Dispatched_Report_${new Date().toISOString().slice(0, 10)}.xlsx`);
+}
+
+// Utility functions
+formatDate(date: string | Date): string {
+  return new Date(date).toLocaleDateString('en-GB');
+}
+
+formatTime(date: string | Date): string {
+  return new Date(date).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+}
+
+
 
 
   

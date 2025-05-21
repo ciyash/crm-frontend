@@ -58,6 +58,8 @@ import { PendingDispatchedStockReportComponent } from './Branch/Reports/pending-
 import { DashboardComponent } from './USER/dashboard/dashboard.component';
 import { ParcelDeliveryComponent } from './Branch/parcel-delivery/parcel-delivery.component';
 import { ParcelLoadingOfflineReportComponent } from './Branch/Reports/parcel-loading-offline-report/parcel-loading-offline-report.component';
+import { DispatchedStockReportComponent } from './Branch/Reports/dispatched-stock-report/dispatched-stock-report.component';
+import { ReportDeliveryComponent } from './Branch/Reports/report-delivery/report-delivery.component';
 
 const routes: Routes = [
   {path:"login",component:LoginComponent },
@@ -122,6 +124,10 @@ const routes: Routes = [
   {path:'dispacthed-memo-report',component:DispatchedMemoReportComponent, canActivate: [authGuard]},
   {path:'pending-dispatchedStock-report',component:PendingDispatchedStockReportComponent, canActivate: [authGuard]},
   {path:'parcelloading-offlinereport',component:ParcelLoadingOfflineReportComponent, canActivate: [authGuard]},
+  {path:'dispatched-stock-report',component:DispatchedStockReportComponent, canActivate: [authGuard]},
+  {path:'report-delivery',component:ReportDeliveryComponent, canActivate: [authGuard]},
+
+
 
 
 

@@ -8,12 +8,22 @@
     <form [formGroup]="form">
       <div class="row mb-3">
         <div class="col-md-6">
+          <label class="form-label">From Booking Date</label>
+          <input type="date" class="form-control form-control-sm" formControlName="fromDate" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label "> To Date</label>
+          <input type="date" class="form-control " formControlName="toDate">
+        </div>
+
+        <div class="col-md-6">
           <label class="form-label form-after">From City</label>
           <select #selectElem class="form-select form-select-sm" formControlName="fromCity">
             <option value="all" selected> select all</option>
             <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
           </select>
         </div>
+
         <div class="col-md-6">
           <label class="form-label form-after">Pickup Branch</label>
           <select #pickupbranch class="form-select form-select-sm" formControlName="pickUpBranch">

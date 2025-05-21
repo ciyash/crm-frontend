@@ -130,10 +130,13 @@ export class HeaderComponent implements OnInit {
             { label: 'Pending Delivery Luggage Report', routerLink: ['/pendingluggage'] },
             { label: 'Dispatched Stock Report', routerLink: ['/dispatchedreport'] },
             { label: 'Received Stock Report', routerLink: ['/receivedstock-report'] },
-            // { label: 'Delivered Report', routerLink: ['/reportsdashboard'] },
+            { label: 'Delivered Report', routerLink: ['/report-delivery'] },
             { label: 'Pending Dispatched Stock Report', routerLink: ['/pending-dispatchedStock-report'] },
             { label: 'Dispatched Memo Report', routerLink: ['/dispacthed-memo-report'] },
             { label: 'Parcel Incoming Report', routerLink: ['/incoming-report'] },
+           
+
+
 
       
 

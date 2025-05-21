@@ -1,12 +1,56 @@
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+   
+   
+
+
+  
+ 
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+  
+
+  
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BranchService } from 'src/app/service/branch.service';
 import { AdminService } from 'src/app/service/admin.service';
 import { ToastrService } from 'ngx-toastr';
-declare var $: any;
-declare const SlimSelect: any; 
-import {  ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+
 @Component({
   selector: 'app-parcel-delivery',
   templateUrl: './parcel-delivery.component.html',
@@ -21,7 +65,7 @@ export class ParcelDeliveryComponent {
   errorMessage: string = '';
   updata: any;
   form: FormGroup;
-  form2:FormGroup
+  form2: FormGroup;
   emplooyee: any;
   todayDate: string = '';
   employee: any;
@@ -30,51 +74,57 @@ export class ParcelDeliveryComponent {
   onPickupBranchSelect: any;
   pdata: any;
   tbcdata: any;
-  form1!:FormGroup
+  form1!: FormGroup;
   pfdata: any;
   today: Date = new Date();
   showReceiptToPrint = false;
 
-
-  
   constructor(
     private api: BranchService,
     private activeroute: ActivatedRoute,
     private fb: FormBuilder,
     private router: Router,
     private admin: AdminService,
-    private toast:ToastrService,
+    private toast: ToastrService
   ) {
-
     this.form = this.fb.group({
       grnNo: ['', Validators.required],
     });
+
     this.form2 = this.fb.group({
       grnNo: ['', Validators.required],
-      receiverName1: [''],
-      receiverMobile1: [''],
+      receiverName: [''],
+      receiverMobile: [''],
       lrNumber: [''],
-
     });
   }
 
   ngOnInit(): void {
-    this.searchTerm = this.activeroute.snapshot.params['grnNo'];
-    this.api.GetCities().subscribe((res:any)=>{
-      console.log('citys',res);
-      this.citydata=res;
+    // ✅ Handle query param grn
+    this.activeroute.queryParams.subscribe(params => {
+      const grn = params['grn'];
+      if (grn) {
+        this.searchTerm = grn;
+        this.form2.patchValue({ grnNo: grn }); // Optionally prefill form2
+        this.searchUser(); // Trigger search automatically
+      }
     });
-    //get branches
-    this.api.GetBranch().subscribe((res:any)=>{
-      console.log(res);
-      this.branchdata=res;
-      
+
+    // Get cities
+    this.api.GetCities().subscribe((res: any) => {
+      console.log('Cities:', res);
+      this.citydata = res;
+    });
+
+    // Get branches
+    this.api.GetBranch().subscribe((res: any) => {
+      console.log('Branches:', res);
+      this.branchdata = res;
     });
 
     this.GetAllEmployee();
     this.getProfileData();
   }
- 
 
   searchUser(): void {
     if (this.searchTerm && this.searchTerm.trim() !== '') {
@@ -84,13 +134,11 @@ export class ParcelDeliveryComponent {
         (res: any) => {
           console.log('API Response:', res);
 
-          // If `res` is an object, extract the data into an array
           if (res && Array.isArray(res.data)) {
             this.data2 = res.data;
-            console.log('data2:', this.data2);
             this.errorMessage = '';
           } else if (res && typeof res === 'object') {
-            this.data2 = [res]; // Wrap the object into an array
+            this.data2 = [res];
             this.errorMessage = '';
           } else {
             this.data2 = [];
@@ -98,8 +146,7 @@ export class ParcelDeliveryComponent {
           }
         },
         (err: any) => {
-          this.errorMessage =
-            err.error?.message || 'An error occurred while searching.';
+          this.errorMessage = err.error?.message || 'An error occurred while searching.';
           this.data2 = [];
         }
       );
@@ -108,15 +155,9 @@ export class ParcelDeliveryComponent {
       this.data2 = [];
     }
   }
+
   getStatusLabel(status: number): string {
-    const statusLabels = [
-      'booking',
-      'loading',
-      'unloading',
-      'missing',
-      'delivery',
-      'cancel',
-    ];
+    const statusLabels = ['booking', 'loading', 'unloading', 'missing', 'delivery', 'cancel'];
     return statusLabels[status] || 'unknown';
   }
 
@@ -125,7 +166,6 @@ export class ParcelDeliveryComponent {
       next: (res) => {
         console.log('Employee data:', res);
         this.employee = res;
-        console.log('employeeData:', this.employee);
       },
       error: (err) => {
         console.error('Error fetching employee data:', err);
@@ -137,37 +177,39 @@ export class ParcelDeliveryComponent {
   updateParcelStatus() {
     const payload = {
       grnNo: this.form2.value.grnNo,
-      receiverName1: this.form2.value.receiverName1,
-      receiverMobile1: this.form2.value.receiverMobile1,
+      receiverName: this.form2.value.receiverName,
+      receiverMobile: this.form2.value.receiverMobile,
     };
+
     console.log('Final Payload:', payload);
-  
+
     this.api.ReceivedParcelUpdate(payload).subscribe(
       (res: any) => {
         console.log('Update Status:', res);
         this.updata = res;
+
         if (res.message) {
           this.toast.success(res.message, 'Success');
         } else {
           this.toast.success('Parcel status updated successfully', 'Success');
         }
+
+        this.searchUser(); // Refresh data
+                //  this.form2.reset();
+
       },
       (error) => {
         console.error('Error updating status:', error);
-  
-        if (error.error && error.error.message) {
-          this.toast.error(error.error.message, 'Error');
-        } else {
-          this.toast.error('Failed to update parcel status', 'Error');
-        }
+        const errMsg = error.error?.message || 'Failed to update parcel status';
+        this.toast.error(errMsg, 'Error');
       }
     );
   }
 
-
   onFromcitySelect(event: any) {
     const selectedCity = event.target.value;
     console.log('Selected City:', selectedCity);
+
     if (selectedCity) {
       this.api.GetBranchbyCity(selectedCity).subscribe(
         (res: any) => {
@@ -180,93 +222,29 @@ export class ParcelDeliveryComponent {
       );
     }
   }
-  
-  
+
   getProfileData() {
     this.api.GetProfileData().subscribe((res: any) => {
       this.pfdata = res;
-      console.log( 'profiledata:',this.pfdata);
+      console.log('Profile Data:', this.pfdata);
     });
   }
-  
 
-  
+  printReceipt() {
+    this.showReceiptToPrint = true;
 
+    setTimeout(() => {
+      const printContents = document.getElementById('printSection')?.innerHTML;
+      const originalContents = document.body.innerHTML;
 
-
-printReceipt() {
-  this.showReceiptToPrint = true;
-
-  setTimeout(() => {
-    const printContents = document.getElementById('printSection')?.innerHTML;
-    const originalContents = document.body.innerHTML;
-
-    if (printContents) {
-      document.body.innerHTML = printContents;
-      window.print();
-      document.body.innerHTML = originalContents;
-      location.reload(); // Reload to reset Angular bindings
-    }
-  }, 100); // wait a bit for view to update
-}
+      if (printContents) {
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+        location.reload(); // Reset Angular bindings
+      }
+    }, 100);
+  }
 }
 
-
-
-
-
-
-
-
-
-
-
-  
-  
-
-   
-   
-
-
-  
- 
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
-  
- 
-
- 
-
-
-
- 
-  
-
-
-  
-
-
-  
-  
 

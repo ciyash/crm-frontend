@@ -55,6 +55,8 @@ export class PendingDispatchedStockReportComponent {
        private cdr: ChangeDetectorRef,  private route: ActivatedRoute,private toastr:ToastrService, 
        private router:Router, private admin:AdminService) {
       this.form = this.fb.group({
+        fromDate: [this.getTodayDateString(), Validators.required],
+        toDate: [this.getTodayDateString(), Validators.required],
         fromCity:  ['all',],
         toCity: ['all', ],
         pickUpBranch: ['all',],
@@ -75,6 +77,13 @@ export class PendingDispatchedStockReportComponent {
       this.getProfileData()
     
 
+    }
+    getTodayDateString(): string {
+      const today = new Date();
+      const day = ('0' + today.getDate()).slice(-2);
+      const month = ('0' + (today.getMonth() + 1)).slice(-2);
+      const year = today.getFullYear();
+      return `${year}-${month}-${day}`; // ✔ HTML date input format
     }
     
 

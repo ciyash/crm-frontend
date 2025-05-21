@@ -10,6 +10,21 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label">From Booking Date</label>
+                    <input type="date" class="form-control form-select-sm" formControlName="fromDate">
+                    <div *ngIf="form.get('fromDate')?.invalid && form.get('fromDate')?.touched" class="text-danger">
+                      From Date is required
+                    </div>
+        
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">To Booking Date</label>
+                    <input type="date" class="form-control form-select-sm" formControlName="toDate">
+                    <div *ngIf="form.get('toDate')?.invalid && form.get('toDate')?.touched" class="text-danger">
+                      To Date is required
+                    </div>
+                  </div>
                 <div class="col-md-4">
                     <label class="form-label form-after">From City</label>
                     <select #selectElem class="form-select form-select-sm" formControlName="fromCity">

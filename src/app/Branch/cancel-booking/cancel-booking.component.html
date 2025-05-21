@@ -40,6 +40,9 @@
       <div class="text-center mt-3">
         <button class="btn  ms-auto " style="background-color: #034F92; color: white;" type="submit">LOAD</button>
       </div>
+      <div *ngIf="data2" class="text-center"><i class="fa fa-print" style="font-size: 40px; color: green;" aria-hidden="true"
+          (click)="printReceipt()"></i>
+      </div>
     </form>
   </div>
 
@@ -58,7 +61,7 @@
       <!-- Loop these divs to render form fields -->
       <div class="col-md-4">
         <label class="form-label">GRN No/LR No</label>
-        <input type="text" class="form-control" [ngModel]="items.toCity" >
+        <input type="text" class="form-control" [ngModel]="items.toCity">
       </div>
       <div class="col-md-4">
         <label class="form-label">Sender. Name</label>
@@ -147,58 +150,230 @@
       </div>
 
       <hr>
-      <form [formGroup]="form1">
-        <div class="row">
-          <div class="col-md-6">
-            <label class="form-label form-after">From City</label>
-            <select #selectElem class="form-select form-select-sm" formControlName="cancelCity"
-              (change)="onFromcitySelect($event)">
-              <option value="" selected>Select city</option>
-              <option *ngFor="let row2 of citydata" [value]="row2.cityName">
-                {{ row2.cityName }}
-              </option>
-            </select>
-          </div>
-          <div class="col-md-6">
-            <label class="form-label form-after">Branch Name</label>
-            <select #pickupbranch class="form-select form-select-sm" formControlName="cancelBranch">
-              <option value="" selected>Select branch</option>
-              <option *ngFor="let row4 of pdata" [value]="row4.name">{{ row4.name }}</option>
-            </select>
+      <div *ngIf="items.bookingStatus !== 5">
 
+        <form [formGroup]="form1"> 
+          <div class="row">
+            <div class="col-md-6">
+              <label class="form-label form-after">From City</label>
+              <select #selectElem class="form-select form-select-sm" formControlName="cancelCity"
+                (change)="onFromcitySelect($event)">
+                <option value="" selected>Select city</option>
+                <option *ngFor="let row2 of citydata" [value]="row2.cityName">
+                  {{ row2.cityName }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label form-after">Branch Name</label>
+              <select #pickupbranch class="form-select form-select-sm" formControlName="cancelBranch">
+                <option value="" selected>Select branch</option>
+                <option *ngFor="let row4 of pdata" [value]="row4.name">{{ row4.name }}</option>
+              </select>
+  
+            </div>
+  
+            <div class="col-md-6" *ngIf="employee?.length">
+              <label class="form-label">Cancel By User</label>
+              <select class="form-select" formControlName="cancelByUser">
+                <option selected disabled>Select User</option>
+                <option *ngFor="let emp of employee" [value]="emp.name">
+                  {{ emp.name }}
+                </option>
+              </select>
+            </div>
+  
+            <div class="col-md-6">
+              <label class="form-label">Cancel Date</label>
+              <input type="text" class="form-control" formControlName="cancelDate" readonly>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">RefundCharege</label>
+              <input type="text" class="form-control" formControlName="refundCharge" placeholder="Enter RefundCharege">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">RefundAmount</label>
+              <input type="text" class="form-control" formControlName="refundAmount" placeholder="Enter RefundAmount">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Remarks</label>
+              <input type="text" class="form-control" formControlName="remarks" placeholder="Enter Remarks">
+            </div>
           </div>
-
-          <div class="col-md-6" *ngIf="employee?.length">
-            <label class="form-label">Cancel By User</label>
-            <select class="form-select" formControlName="cancelByUser">
-              <option selected disabled>Select User</option>
-              <option *ngFor="let emp of employee" [value]="emp.name">
-                {{ emp.name }}
-              </option>
-            </select>
+          <div class="text-center mt-4 mb-4">
+            <button class="btn btn-dark" (click)="cancelbooking()">Cancel Booking</button>
           </div>
-
-          <div class="col-md-6">
-            <label class="form-label">Cancel Date</label>
-            <input type="text" class="form-control" formControlName="cancelDate" readonly>
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">RefundCharege</label>
-            <input type="text" class="form-control" formControlName="refundCharge" placeholder="Enter RefundCharege">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">RefundAmount</label>
-            <input type="text" class="form-control" formControlName="refundAmount" placeholder="Enter RefundAmount">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Remarks</label>
-            <input type="text" class="form-control" formControlName="remarks" placeholder="Enter Remarks">
-          </div>
-        </div>
-        <div class="text-center mt-4 mb-4">
-          <button class="btn btn-dark" (click)="cancelbooking()">Cancel Booking</button>
-        </div>
-      </form>
+        </form>
+    </div>
+    
     </div>
   </div>
 </div>
+
+
+<style>
+  .recice {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .receipt-container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 700px;
+    width: 100%;
+  }
+
+
+  .receipt-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .receipt-header h1 {
+    font-size: 1.8rem;
+    color: #343a40;
+  }
+
+  .table {
+    margin-bottom: 20px;
+  }
+
+  .table th {
+    background-color: #e9ecef;
+    color: #343a40;
+  }
+
+  .footer {
+    text-align: center;
+    color: #6c757d;
+    font-size: 0.9rem;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  @media print {
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+
+  .receipt-container {
+    page-break-inside: avoid;
+    max-height: 100vh;
+    overflow: hidden;
+    font-size: 12px; /* reduce font-size if needed */
+  }
+
+  .table {
+    page-break-inside: avoid;
+  }
+
+  .table tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+}
+
+</style>
+
+
+
+
+<div class="recice" [class.hidden]="!showReceiptToPrint" id="printSection">
+  <div class="receipt-container">
+    <div class="receipt-header">
+      <div class="container-fluid" *ngIf="pfdata">
+        <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
+        <p class="text-center fw-bold">
+          Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
+          Phone No: {{ pfdata.phone }}
+        </p>
+      </div>
+      <h2>Delivery Receipt</h2>
+      <p>Issued on: {{ today | date: 'MMMM d, y' }}</p>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Detail</th>
+            <th scope="col">Information</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let items of data2">
+          <tr>
+            <td>GRN Number</td>
+            <td>{{items.grnNo}}</td>
+          </tr>
+          <tr>
+            <td>Cancel Date</td>
+            <td>{{items.cancelDate}}</td>
+          </tr>
+
+          <tr>
+            <td>Paid Type</td>
+            <td>{{items.bookingType}}</td>
+          </tr>
+          <tr>
+            <td>Total Amount</td>
+            <td>{{items.grandTotal}}</td>
+
+          </tr>
+          <tr>
+            <td>RefundAmount</td>
+            <td>{{items.refundAmount}}</td>
+          </tr>
+          <tr>
+            <td>RefundCharege</td>
+            <td>{{items.refundCharge}}</td>
+          </tr>
+
+          <tr>
+            <td>FromCity</td>
+            <td>{{items.fromCity}}</td>
+          </tr>
+          <tr>
+            <td>ToCity</td>
+            <td>{{items.toCity}}</td>
+          </tr>
+          <tr>
+            <td>Sender Name</td>
+            <td>{{items.senderName}}</td>
+          </tr>
+          <tr>
+            <td>Receiver Name</td>
+            <td>{{items.receiverName}}</td>
+          </tr>
+      
+          <tr>
+            <td>cancelByUser</td>
+            <td>{{items.cancelByUser}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="d-flex justify-content-end mt-4">
+        <div class="d-flex justify-content-end flex-column align-items-end" style="width: 200px; margin-top: 20px;">
+          <small style="margin-bottom: 5px;">Sign</small>
+          <div style="border-top: 1px solid black; width: 100%;"></div>
+        </div>
+      </div>
+      <div class="footer">
+        <p>Thank you for using our services!</p>
+        <p>For inquiries, contact supportdeliveryco.com</p>
+      </div>
+    </div>
+  </div>
+  

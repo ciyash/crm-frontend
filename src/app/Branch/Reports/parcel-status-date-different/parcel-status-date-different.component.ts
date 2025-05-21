@@ -81,6 +81,34 @@ export class ParcelStatusDateDifferentComponent implements OnInit, AfterViewInit
   }
   
 
+  // StatusDate() {
+  //   const payload = this.form.value;
+  //   console.log('payload:', payload);
+  
+  //   this.api.ParcelStatusdateReport(payload).subscribe({
+  //     next: (res: any) => {
+  //       console.log('data:', res);
+  //       // Show success message from backend, fallback to generic if not found
+  //       const successMessage = res?.message || 'Report fetched successfully';
+  //       this.toast.success(successMessage);
+  
+  //       this.gstdata = res;
+  //       const finalData = {
+  //         ...this.gstdata,
+  //         fromDate: payload.startDate,
+  //         toDate: payload.endDate
+  //       };
+  //       this.router.navigate(['/datereport'], { state: { data: finalData } });
+  //     },
+  //     error: (err: any) => {
+  //       console.error('Error fetching report:', err);
+  
+  //       // Show error message from backend, fallback to generic if not found
+  //       const errorMessage = err?.error?.message || 'Failed to fetch report';
+  //       this.toast.error(errorMessage);
+  //     }
+  //   });
+  // }
   StatusDate() {
     const payload = this.form.value;
     console.log('payload:', payload);
@@ -88,28 +116,32 @@ export class ParcelStatusDateDifferentComponent implements OnInit, AfterViewInit
     this.api.ParcelStatusdateReport(payload).subscribe({
       next: (res: any) => {
         console.log('data:', res);
-        
-        // Show success message from backend, fallback to generic if not found
+  
         const successMessage = res?.message || 'Report fetched successfully';
         this.toast.success(successMessage);
   
         this.gstdata = res;
+  
         const finalData = {
           ...this.gstdata,
           fromDate: payload.startDate,
           toDate: payload.endDate
         };
-        this.router.navigate(['/datereport'], { state: { data: finalData } });
+  
+        // Store data in localStorage or sessionStorage
+        localStorage.setItem('dateReportData', JSON.stringify(finalData));
+  
+        // Open new tab to the target route
+        window.open('/datereport', '_blank');
       },
       error: (err: any) => {
         console.error('Error fetching report:', err);
-  
-        // Show error message from backend, fallback to generic if not found
         const errorMessage = err?.error?.message || 'Failed to fetch report';
         this.toast.error(errorMessage);
       }
     });
   }
+  
   
 
   

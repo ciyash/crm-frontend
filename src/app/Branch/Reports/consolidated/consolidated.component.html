@@ -109,9 +109,9 @@
           <tr>
             <th></th>
             <th></th>
-            <th colspan="4">Booking</th>
+            <th colspan="7">Booking</th>
             <th colspan="1">Cancel Total</th>
-            <th colspan="1">Delivery</th>
+            <th colspan="6">Delivery</th>
             <th colspan="2">GST</th>
           </tr>
           <tr>
@@ -120,6 +120,22 @@
             <th>Paid</th>
             <th>ToPay</th>
             <th>Credit</th>
+            <th>CLR</th>
+            <th>Foc</th>
+            <th>Total</th>
+            <th>afterCalculate<th>
+
+
+
+              <th>Paid</th>
+              <th>ToPay</th>
+              <th>Credit</th>
+              <th>CLR</th>
+              <th>Foc</th>
+              <th>Total</th>
+
+
+
             <th>Total</th>
             <th>Total</th>
             <th>Total</th>
@@ -134,11 +150,30 @@
             <td>{{ item.paid }}</td>
             <td>{{ item.toPay }}</td>
             <td>{{ item.credit }}</td>
-            <td>{{ item.bookingTotalAmount }}</td>
-            <td>{{ item.cancelTotalAmount }}</td>
+            <td>{{item.CLR}}</td>
+            <td>{{item.FOC}}</td>
+            <td>{{item.grandTotal}}</td>
+            <td>{{item.afterCalculate}}</td>
+            <td>{{item.cancelAmount}}</td>
+            tr
+
+
+            <span 
+            *ngFor="let items of deliveryData" >
+              <td>{{ items.deliveredAmountByType.paid }} </td>
+              <td>{{ items.deliveredAmountByType.toPay }}</td>
+              <td>{{ items.deliveredAmountByType.toPay }}</td>
+
+            </span>
+        
+          
+
+
+
+            <!-- <td>{{ item.cancelTotalAmount }}</td>
             <td>{{ item.deliveredTotalAmount }}</td>
             <td>{{ item.sgstAmount }}</td>
-            <td>{{ item.igstAmount }}</td>
+            <td>{{ item.igstAmount }}</td> -->
           </tr>
         </tbody>
       </table>

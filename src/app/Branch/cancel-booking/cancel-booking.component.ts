@@ -33,7 +33,11 @@ export class CancelBookingComponent {
   onPickupBranchSelect: any;
   pdata: any;
   tbcdata: any;
-  form1!:FormGroup
+  form1!:FormGroup;
+  showReceiptToPrint = false;
+  pfdata: any;
+  today=new Date
+
   
   constructor(
     private api: BranchService,
@@ -77,6 +81,13 @@ export class CancelBookingComponent {
     });
 
     this.GetAllEmployee();
+    this.getProfileData();
+  }
+  getProfileData() {
+    this.api.GetProfileData().subscribe((res: any) => {
+      this.pfdata = res;
+      console.log('Profile Data:', this.pfdata);
+    });
   }
  
 
@@ -175,6 +186,21 @@ export class CancelBookingComponent {
   
   
   
+  printReceipt() {
+    this.showReceiptToPrint = true;
+
+    setTimeout(() => {
+      const printContents = document.getElementById('printSection')?.innerHTML;
+      const originalContents = document.body.innerHTML;
+
+      if (printContents) {
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+        location.reload(); // Reset Angular bindings
+      }
+    }, 100);
+  }
   
 
   

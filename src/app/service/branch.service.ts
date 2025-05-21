@@ -746,8 +746,8 @@ getbranchId(id: any) {
 
 ReceivedParcelUpdate(value: {
   grnNo: string;
-  receiverName1:string;
-  receiverMobile1:string;
+  receiverName:string;
+  receiverMobile:string;
   
 }) {
   const token1 = this.token.getToken();
@@ -761,8 +761,8 @@ ReceivedParcelUpdate(value: {
     AUTH_API + 'booking/receivedBooking',
     {
       grnNo: value.grnNo,
-      receiverName1:value.receiverName1,
-      receiverMobile1:value.receiverMobile1,
+      receiverName:value.receiverName,
+      receiverMobile:value.receiverMobile,
       
   },
     httpOptions
@@ -996,6 +996,7 @@ ParcelBookingMobileNumber(value: {
 ParcelBookingRegularCustomer(value: {
   fromDate: string;
   toDate: string;
+  name:string;
   fromCity: string;
   toCity: string;
   pickUpBranch:string;
@@ -1013,6 +1014,7 @@ ParcelBookingRegularCustomer(value: {
     {
       fromDate: value.fromDate,
       toDate: value.toDate,
+      name:value.name,
       fromCity: value.fromCity,
       toCity: value.toCity,
       pickUpBranch: value.pickUpBranch,
@@ -1104,6 +1106,8 @@ SenderRecevierGstReport(value: {
 }
 
 PendingDeliveryStockReport(value: {
+  fromDate:string;
+  toDate:string;
   fromCity: string;
   toCity: string;
   pickUpBranch:string;
@@ -1119,6 +1123,8 @@ PendingDeliveryStockReport(value: {
   return this.http.post(
     AUTH_API + 'booking/pending-delivery-stock-report',
     {
+      fromDate:value.fromDate,
+      toDate:value.toDate,
       fromCity: value.fromCity,
       toCity: value.toCity,
       pickUpBranch: value.pickUpBranch,
@@ -1282,6 +1288,8 @@ ParcelIncomingReport(value: {
 }
 
 PendingDispatchedStockReport(value: {
+     fromDate: string,
+      toDate: string,
   fromCity: string;
   toCity: string;
   pickUpBranch:string;
@@ -1296,6 +1304,8 @@ PendingDispatchedStockReport(value: {
   return this.http.post(
     AUTH_API + 'booking/pending-dispatch-stock-report',
     {
+      fromDate: value.fromDate,
+      toDate: value.toDate,
       fromCity: value.fromCity,
       toCity: value.toCity,
       pickUpBranch: value.pickUpBranch,
@@ -1320,7 +1330,7 @@ DispatchedReport(value:{
     })
   };
   return this.http.post(
-    AUTH_API + 'dispatched-stock-report',  { 
+    AUTH_API + 'parcel-loading/dispatched-stock-report',  { 
       "fromDate": value.fromDate,
       "toDate": value.toDate,
     "fromCity": value.fromCity,

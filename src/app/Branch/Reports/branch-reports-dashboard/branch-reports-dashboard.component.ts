@@ -107,6 +107,7 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
       toCity: [''],
       pickUpBranch: [''],
       dropBranch: [''],
+      name:[''],
     });
 
     // Parcel Booking Summary Report
@@ -314,6 +315,7 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
     });
   }
 
+
   // Parcel Booking Details On Mobile Number
   parcelbookingsmobile(): void {
     if (this.form4.invalid) {
@@ -369,6 +371,7 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
  
     const payload4 = {
       fromDate: this.form5.value.fromDate,
+      name:this.form5.value.name,
       toDate: this.form5.value.toDate,
       fromCity: this.form5.value.fromCity,
       toCity: this.form5.value.toCity,
@@ -386,9 +389,6 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
         this.toast.success(successMessage);
   
         console.log('Parcel Booking customerdata:', this.customerdata);
-  
-
-
 
         const finalData2 = {
           ...response,
@@ -396,10 +396,6 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
           toDate: this.form5.value.toDate
         };
         this.router.navigateByUrl('/regularcustmer', { state: { data7: finalData2 } });
-
-
-       
-
 
       },
       error: (error: any) => {
@@ -456,12 +452,11 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
   
 
   // Parcel Cancel Report
+
+
+  
+  
   cancelReport(): void {
-    if (this.form7.invalid) {
-      this.form7.markAllAsTouched();
-      this.toast.error('Please fill all required fields');
-      return;
-    }
     const payload6 = {
       fromDate: this.form7.value.fromDate,
       toDate: this.form7.value.toDate,
@@ -469,21 +464,34 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
       toCity: this.form7.value.toCity,
       bookingType: this.form7.value.bookingType,
     };
+  
     console.log('Cancel Report Payload:', payload6);
+  
     this.api.ParcelCancelReport(payload6).subscribe({
       next: (response: any) => {
         console.log('Cancel Report Loaded:', response);
-        const finallData = {
+        const finalData = {
           ...response,
-          fromDate: this.form7.value.fromDate,
-          toDate: this.form7.value.toDate
+          fromDate: payload6.fromDate,
+          toDate: payload6.toDate,
         };
-        this.router.navigateByUrl('/cancel-report', { state: { data4: finallData } });
+  
+        // Save data to localStorage
+        localStorage.setItem('cancelReportData', JSON.stringify(finalData));
+  
+        // ✅ Show success toast
+        this.toast.success('Cancel Report generated successfully!');
+  
+        // Open new tab
+        window.open('/cancel-report', '_blank');
       },
       error: (error: any) => {
         console.error('Cancel Report Loading Failed:', error);
-        this.toast.error('Cancel Report Loading Failed. Please try again.');
+  
+        // ❌ Show error toast
+        this.toast.error('Cancel Report loading failed. Please try again.');
       },
     });
   }
+  
 }

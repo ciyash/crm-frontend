@@ -39,12 +39,14 @@ export class PendingDeliveryStockReportComponent
     private toast :ToastrService
   ) {
     this.form = this.fb.group({
+      fromDate: [this.getTodayDateString(), Validators.required],
+      toDate: [this.getTodayDateString(), Validators.required],
       fromCity: ['all', Validators.required],
       toCity: ['all', Validators.required],
       pickUpBranch: ['all', Validators.required],
       dropBranch: ['all', Validators.required],
     });
-    
+
   }
 
   ngOnInit() {
@@ -59,6 +61,13 @@ export class PendingDeliveryStockReportComponent
     });
   }
 
+  getTodayDateString(): string {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
   ngAfterViewInit(): void {
     setTimeout(() => {
       // From City
@@ -145,23 +154,21 @@ export class PendingDeliveryStockReportComponent
       next: (res: any) => {
         console.log('pending delivery:', res);
         
-        // Show success toast message from API response if available
         const message = res?.message || 'Report fetched successfully';
         this.toast.success(message);
   
         this.gstdata = res;
         console.log('gstdata:', this.gstdata);
   
-        this.router.navigate(['/devliveryreport'], {
-          state: { data: this.gstdata }
-        });
+        // Save data to localStorage
+        localStorage.setItem('gstData', JSON.stringify(this.gstdata));
+  
+        // Open new tab
+        window.open('/devliveryreport', '_blank');
       },
       error: (err: any) => {
         console.error('Error fetching report:', err);
-  
-        // Show error toast message from API response if available
-        const errorMessage =
-          err?.error?.message || err?.message || 'Failed to fetch report';
+        const errorMessage = err?.error?.message || err?.message || 'Failed to fetch report';
         this.toast.error(errorMessage);
       },
     });

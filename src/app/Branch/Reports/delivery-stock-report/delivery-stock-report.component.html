@@ -1,12 +1,23 @@
 <app-header></app-header>
 <h5 class="text-center text-danger text-decoration-underline mb-3" style="margin-top: 8%;">
-  Parcel Pending Delivery Stock Report
 </h5>
-<div class="d-flex d-flex justify-content-center">
-  <i class="fa fa-print"
-  style="font-size: 40px; cursor: pointer;"
-  aria-hidden="true"
-  (click)="printReport()"></i>
+
+<div class="d-flex justify-content-center align-items-center gap-4 mt-3">
+  <i
+    class="fa fa-print"
+    style="font-size: 30px; cursor: pointer; color: green;"
+    aria-hidden="true"
+    (click)="printReport()"
+    title="Print"
+  ></i>
+
+  <i
+    class="fa fa-file-excel-o"
+    style="font-size: 30px; cursor: pointer; color: green;"
+    aria-hidden="true"
+    (click)="exportFullReportToExcel()"
+    title="Export to Excel"
+  ></i>
 </div>
 
 
@@ -19,9 +30,10 @@
         Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
         Phone No: {{ pfdata.phone }}
       </p>
+      <h5 class="text-decoration-underline text-center">  Parcel Pending Delivery Stock Report
+      </h5>
     </div>
-  
-  
+
     <!-- <div class="row text-center fw-bold my-3">
       <div class="col-md-3">Origin SubRegion: ALL</div>
       <div class="col-md-3">Origin Branch: ALL</div>
@@ -77,8 +89,8 @@
         <thead class="table-secondary">
           <tr>
             <th>Sr. No</th>
-            <th>WB No.</th>
-            <th>Manual TicketNo.</th>
+            <th>GR No.</th>
+            <th>LRNO</th>
             <th>Received Date</th>
             <th>Source</th>
             <th>Destination</th>
@@ -93,8 +105,13 @@
         <tbody>
           <tr *ngFor="let pdata of paginatedBookings; let i = index">
             <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
-            <td>{{ pdata['WB No.'] }}</td>
-            <td>{{ pdata['Manual TicketNo.'] }}</td>
+            <td>
+              <a [routerLink]="['/parcel-delivery']" [queryParams]="{ grn: pdata['grnNo'] }" class="text-decoration-none">
+                {{ pdata['grnNo'] }}
+              </a>
+            </td>
+            
+                        <td>{{ pdata['lrNumber'] }}</td>
             <td>{{ pdata['Received Date'] }}</td>
             <td>{{ pdata['Source'] }}</td>
             <td>{{ pdata['Destination'] }}</td>

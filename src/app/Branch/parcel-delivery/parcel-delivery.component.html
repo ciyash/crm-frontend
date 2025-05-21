@@ -23,10 +23,13 @@
           />
         </div>
 
-        <div class="col-md-4 mt-5 d-flex flex-column gap-2" *ngIf="data2 && data2.length > 0">
-          <h2 class="text-center">Parcel Status</h2>
+        <!-- <div class="col-md-4 mt-5 d-flex flex-column gap-2" *ngIf="data2 && data2.length > 0">
+          <label for="">Booking Type </label>
 
+          <h2 class="text-center">{{data2[0]?.bookingType}}</h2>
+          
           <ng-container [ngSwitch]="data2[0]?.bookingStatus">
+            <label for="">Parcel Status</label>
             <h2 class="text-success text-center" *ngSwitchCase="0">Parcel Booked</h2>
             <h2 class="text-success text-center" *ngSwitchCase="1">Parcel Loaded</h2>
             <h2 class="text-success text-center" *ngSwitchCase="2">Parcel UnLoaded</h2>
@@ -35,7 +38,27 @@
             <h2 class="text-success text-center" *ngSwitchCase="5">Parcel Cancel</h2>
             <h2 class="text-warning text-center" *ngSwitchDefault>Status Unknown</h2>
           </ng-container>
+        </div> -->
+        <div class="col-md-4 mt-5 d-flex flex-column gap-2" *ngIf="data2 && data2.length > 0">
+          <!-- Booking Type -->
+          <!-- <label for="bookingType">Booking Type</label> -->
+          <h2 class="text-center">{{ data2[0]?.bookingType | uppercase }}</h2>
+        
+          <!-- Parcel Status -->
+          <!-- <label for="parcelStatus">Parcel Status</label> -->
+          <ng-container [ngSwitch]="data2[0]?.bookingStatus">
+            <h2 class="text-success text-center" *ngSwitchCase="0">Parcel Booked</h2>
+            <h2 class="text-success text-center" *ngSwitchCase="1">Parcel Loaded</h2>
+            <h2 class="text-success text-center" *ngSwitchCase="2">Parcel UnLoaded</h2>
+            <h2 class="text-danger text-center" *ngSwitchCase="3">Parcel Missing</h2>
+            <h2 class="text-success text-center" *ngSwitchCase="4">Already Delivered</h2>
+            <h2 class="text-danger text-center" *ngSwitchCase="5">Parcel Cancelled</h2>
+            <h2 class="text-warning text-center" *ngSwitchDefault>Status Unknown</h2>
+          </ng-container>
         </div>
+        
+      
+
       </div>
 
       <div class="text-center mt-3">
@@ -45,7 +68,8 @@
         
       </div>
 <div class="text-center" *ngIf="data2">
-  <i class="fa fa-print" style="font-size: 40px; color: green; cursor: pointer;" aria-hidden="true" (click)="printReceipt()"></i>
+  <i class="fa fa-print" style="font-size: 40px; color:
+   green; cursor: pointer;" aria-hidden="true" (click)="printReceipt()"></i>
 
 </div>
     </form>
@@ -66,7 +90,7 @@
               type="text"
               class="form-control"
               id="receiverName1"
-              formControlName="receiverName1"
+              formControlName="receiverName"
               placeholder="Enter receiver name"
             />
           </div>
@@ -77,7 +101,7 @@
               type="text"
               class="form-control"
               id="receiverMobile1"
-              formControlName="receiverMobile1"
+              formControlName="receiverMobile"
               placeholder="Enter receiver phone"
             />
           </div>
