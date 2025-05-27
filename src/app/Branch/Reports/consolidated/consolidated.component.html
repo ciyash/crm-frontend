@@ -105,7 +105,6 @@
     <div class="table-responsive">
       <table class="table table-bordered table-custom">
         <thead>
-
           <tr>
             <th></th>
             <th></th>
@@ -123,21 +122,13 @@
             <th>CLR</th>
             <th>Foc</th>
             <th>Total</th>
-            <th>afterCalculate<th>
-
-
-
-              <th>Paid</th>
-              <th>ToPay</th>
-              <th>Credit</th>
-              <th>CLR</th>
-              <th>Foc</th>
-              <th>Total</th>
-
-
-
-            <th>Total</th>
-            <th>Total</th>
+            <th>afterCalculate</th>
+            <th>Cancel</th>
+            <th>Paid</th>
+            <th>ToPay</th>
+            <th>Credit</th>
+            <th>CLR</th>
+            <th>Foc</th>
             <th>Total</th>
             <th>SGST</th>
             <th>IGST</th>
@@ -147,37 +138,65 @@
           <tr *ngFor="let item of Cdata.data; let i = index">
             <td>{{ i + 1 }}</td>
             <td>{{ item.branchName }}</td>
+    
+            <!-- Booking Data -->
             <td>{{ item.paid }}</td>
             <td>{{ item.toPay }}</td>
             <td>{{ item.credit }}</td>
-            <td>{{item.CLR}}</td>
-            <td>{{item.FOC}}</td>
-            <td>{{item.grandTotal}}</td>
-            <td>{{item.afterCalculate}}</td>
-            <td>{{item.cancelAmount}}</td>
-            <!-- tr -->
-
-
-            <span 
-            *ngFor="let items of deliveryData" >
-              <td>{{ items.deliveredAmountByType.paid }} </td>
-              <td>{{ items.deliveredAmountByType.toPay }}</td>
-              <td>{{ items.deliveredAmountByType.toPay }}</td>
-
-            </span>
-        
-          
-
-
-
-            <!-- <td>{{ item.cancelTotalAmount }}</td>
+            <td>{{ item.CLR }}</td>
+            <td>{{ item.FOC }}</td>
+            <td>{{ item.grandTotal }}</td>
+            <td>{{ item.afterCalculate }}</td>
+    
+            <!-- Cancel -->
+            <td>{{ item.cancelAmount }}</td>
+    
+            <!-- Delivery Data (from deliveryData array) -->
+            <ng-container *ngIf="deliveryData[i]">
+              <td>{{ deliveryData[i].deliveredAmountByType.paid }}</td>
+              <td>{{ deliveryData[i].deliveredAmountByType.toPay }}</td>
+              <td>{{ deliveryData[i].deliveredAmountByType.credit }}</td>
+              <td>{{ deliveryData[i].deliveredAmountByType.CLR }}</td>
+              <td>{{ deliveryData[i].deliveredAmountByType.FOC }}</td>
+            </ng-container>
             <td>{{ item.deliveredTotalAmount }}</td>
+            <!-- GST -->
             <td>{{ item.sgstAmount }}</td>
-            <td>{{ item.igstAmount }}</td> -->
+            <td>{{ item.igstAmount }}</td>
+            <!-- total -->
+
           </tr>
+          <tr>
+            <td></td>
+            <td class="fw-bold">Total</td>
+            <td class="fw-bold">{{ Tdata.finalPaid }}</td>
+            <td class="fw-bold">{{ Tdata.finalToPay }}</td>
+            <td class="fw-bold">{{ Tdata.finalCredit }}</td>
+            <td class="fw-bold">{{ Tdata.finalCLR }}</td>
+            <td class="fw-bold">{{ Tdata.finalFOC }}</td>
+
+            <!-- <td class="fw-bold">{{ Tdata.finalTotal }}</td> -->
+
+            <td class="fw-bold" >{{Tdata.finalNetBookingAmount}}</td>
+            <td class="fw-bold">{{Tdata.finalBookingTotal}}</td>
+            <td class="fw-bold">{{ Tdata.finalTotalCancel }}</td>
+            <td class="fw-bold">{{ Tdata.finalDeliveredCredit }}</td>
+            <td class="fw-bold">{{ Tdata.finalDeliveredCredit }}</td>
+            <td class="fw-bold">{{ Tdata.finalDeliveredCredit }}</td>
+            <td class="fw-bold">{{ Tdata.finalDeliveredCredit }}</td>
+            <td class="fw-bold">{{ Tdata.finalDeliveredCredit }}</td>
+            <td class="fw-bold">{{ Tdata.finalTotalDelivery }}</td>
+            <td class="fw-bold">{{ Tdata.totalSgst }}</td>
+            <td class="fw-bold">{{ Tdata.totalIgst }}</td>
+          </tr>
+          
+          
         </tbody>
+    
+
       </table>
     </div>
+    
 
 
   </div>

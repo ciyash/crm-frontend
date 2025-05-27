@@ -48,7 +48,7 @@ export class ParcelbookingComponent {
   @ViewChild('pickupbranch') pickupbranch!: ElementRef;
   @ViewChild('selectElem2') selectElem2!: ElementRef;
   @ViewChild('droupbranch') droupbranch!: ElementRef;
-
+@ViewChild('Company')Company!:ElementRef
   cdata: any;
   grnNo: any;
   grnnumber: any;
@@ -56,6 +56,7 @@ export class ParcelbookingComponent {
   onDropBranchSelect: any;
   modelData: any;
   showModal: boolean = false;
+  companyList:any;
 
   constructor(private fb: FormBuilder, private api: BranchService, private token:TokenService,
      private cdr: ChangeDetectorRef,  private route: ActivatedRoute,private toastr:ToastrService, 
@@ -92,6 +93,7 @@ export class ParcelbookingComponent {
    }
 
   ngOnInit() {
+    this.getAllCompany();
     // const id = this.activate.snapshot.paramMap.get('id');
     this.api.GetCities().subscribe((res:any)=>{
       console.log('citys',res);
@@ -123,6 +125,13 @@ export class ParcelbookingComponent {
   
   ngAfterViewInit(): void {
     setTimeout(() => {
+
+
+      // $(this.Company.nativeElement).on('select2:select', (event: any) => {
+      //   const selectedCity = event.params.data.id;
+      //   this.form1.patchValue({ toCity: selectedCity });
+      //   this.form1.get('toCity')?.markAsTouched();
+      // });
       // Initialize Select2 for From City
       $(this.selectElem.nativeElement).select2();
       $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
@@ -480,7 +489,12 @@ onTocitySelect(event: any) {
       senderAddress: user.address,
       senderGST: user.gst
     });
+       console.log('sender-address:', this.form.get('senderAddress')?.value);
+       console.log('sender-address:', this.form.get('senderMobile')?.value);
+
+
     this.showDropdown = false;
+    
   }
   
   hideDropdown(): void {
@@ -508,9 +522,41 @@ onTocitySelect(event: any) {
       });
     }
   }
-
-
   
-
+  getAllCompany(): void {
+    this.api.GetcfmasterData().subscribe(
+      (res: any) => {
+        this.companyList = res.data 
+        console.log("comapany:",this.companyList)
+      },
+      (err: any) => {
+        console.error('Error fetching company data:', err);
+      }
+    );
+  }   
+         
+  onCompanySelect(event: any): void {
+    const selectedCompanyName = event.target.value;
+    console.log("Selected company name:", selectedCompanyName);
+  
+    const selectedCompany = this.companyList.find(
+      (company: { name: string }) => company.name === selectedCompanyName
+    );
+  
+    console.log("Selected company object:", selectedCompany);
+  
+    if (selectedCompany) {
+      this.form.patchValue({
+        senderName: selectedCompany.senderName || '',
+        senderMobile: selectedCompany.senderMobile || '',
+        senderAddress: selectedCompany.address || '',
+        senderGST: selectedCompany.gst || ''
+      });
+  
+      console.log("Auto-filled address:", selectedCompany.address);
+    }
+  }
+  
+  
 
 }

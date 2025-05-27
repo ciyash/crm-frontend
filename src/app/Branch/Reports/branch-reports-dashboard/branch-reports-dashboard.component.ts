@@ -1,6 +1,5 @@
 import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 declare var $: any;
-
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BranchService } from 'src/app/service/branch.service';
@@ -12,33 +11,43 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./branch-reports-dashboard.component.scss'],
 })
 export class BranchReportsDashboardComponent implements AfterViewInit {
-  // ViewChild declarations for Select2 elements
-  @ViewChild('allParcelfromcity') allParcelfromcity!: ElementRef;
-  @ViewChild('allParceltocity') allParceltocity!: ElementRef;
-  @ViewChild('allParcelPickupbranch') allParcelPickupbranch!: ElementRef;
-  @ViewChild('allParcelDroupBranch') allParcelDroupBranch!: ElementRef;
-  @ViewChild('vechicle') vechicle!: ElementRef;
-  @ViewChild('allparecleserial') allparecleserial!: ElementRef;
-  @ViewChild('allparcelcity') allparcelcity!: ElementRef;
-  @ViewChild('customerfromcity') customerfromcity!: ElementRef;
-  @ViewChild('customertocity') customertocity!: ElementRef;
-  @ViewChild('customerPickupbranch') customerPickupbranch!: ElementRef;
-  @ViewChild('customerDroupBranch') customerDroupBranch!: ElementRef;
+  // ViewChild regular cuscomer
+  @ViewChild('selectElem') selectElem!: ElementRef;
+  @ViewChild('selectElem2') selectElem2!: ElementRef;
+  @ViewChild('pickupbranch') pickupbranch!: ElementRef;
+  @ViewChild('droupbranch') droupbranch!: ElementRef;
+
   @ViewChild('summaryfromcity') summaryfromcity!: ElementRef;
   @ViewChild('summarytocity') summarytocity!: ElementRef;
   @ViewChild('summarypickup') summarypickup!: ElementRef;
   @ViewChild('summarydroup') summarydroup!: ElementRef;
-  @ViewChild('cancelfromcity') cancelfromcity!: ElementRef;
-  @ViewChild('canceltocity') canceltocity!: ElementRef;
-  @ViewChild('cancelpickup') cancelpickup!: ElementRef;
-  @ViewChild('canceldrop') canceldrop!: ElementRef;
+
+  searchResults: any[] = []; // To store search results
+
+
+  // @ViewChild('allParcelfromcity') allParcelfromcity!: ElementRef;
+  // @ViewChild('allParceltocity') allParceltocity!: ElementRef;
+  // @ViewChild('allParcelPickupbranch') allParcelPickupbranch!: ElementRef;
+  // @ViewChild('allParcelDroupBranch') allParcelDroupBranch!: ElementRef;
+
+  // @ViewChild('vechicle') vechicle!: ElementRef;
+  // @ViewChild('allparecleserial') allparecleserial!: ElementRef;
+  // @ViewChild('allparcelcity') allparcelcity!: ElementRef;
+  // @ViewChild('cancelfromcity') cancelfromcity!: ElementRef;
+  // @ViewChild('canceltocity') canceltocity!: ElementRef;
+  // @ViewChild('cancelpickup') cancelpickup!: ElementRef;
+  // @ViewChild('canceldrop') canceldrop!: ElementRef;
+  // @ViewChild('customerfromcity') customerfromcity!: ElementRef;
+  // @ViewChild('customertocity') customertocity!: ElementRef;
+  // @ViewChild('customerPickupbranch') customerPickupbranch!: ElementRef;
+  // @ViewChild('customerDroupBranch') customerDroupBranch!: ElementRef;
 
   // Form groups
   form: FormGroup;
   form1: FormGroup;
   form3: FormGroup;
   form4: FormGroup;
-  form5: FormGroup;
+  form5!: FormGroup;
   form6: FormGroup;
   form7: FormGroup;
 
@@ -52,6 +61,10 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
   summaryData: any;
   parcelBookingData: any;
   data: any = [];
+  pdata: any;
+  tbcdata: any;
+  onPickupBranchSelect: any;
+  onDropBranchSelect: any;
 
   constructor(
     private api: BranchService,
@@ -107,7 +120,7 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
       toCity: [''],
       pickUpBranch: [''],
       dropBranch: [''],
-      name:[''],
+      name: [''],
     });
 
     // Parcel Booking Summary Report
@@ -127,21 +140,16 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
       fromCity: [''],
       toCity: [''],
       bookingType: [''],
-      
     });
-// mobile
+    // mobile
     this.form4 = this.fb.group({
       fromDate: [this.getTodayDateString(), Validators.required],
       toDate: [this.getTodayDateString(), Validators.required],
       mobile: ['', Validators.required],
-      reportType:[''],
+      reportType: ['ALL', Validators.required],
       bookingType: [''],
       bookingStatus: [''],
-      
-
     });
-
-
   }
 
   ngOnInit() {
@@ -154,6 +162,7 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
     // Fetch branches
     this.api.GetBranch().subscribe((res: any) => {
       console.log('allbranch:', res);
+      
       this.branchdata = res;
     });
 
@@ -172,56 +181,128 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
     return `${year}-${month}-${day}`; // yyyy-MM-dd
   }
 
+
   ngAfterViewInit(): void {
     setTimeout(() => {
-      // Helper method to initialize Select2
-      const initializeSelect2 = (
-        element: ElementRef,
-        form: FormGroup,
-        controlName: string
-      ) => {
-        $(element.nativeElement).select2();
-        $(element.nativeElement).on('select2:select', (event: any) => {
-          const value = event.params.data.id;
-          console.log(`Selected ${controlName}:`, value);
-          form.patchValue({ [controlName]: value });
-        });
-      };
+      // From City
+      $(this.selectElem.nativeElement).select2();
+      $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
+        const selectedCity = event.params.data.id;
+        this.form5.get('fromCity')?.setValue(selectedCity);
+        this.onFromcitySelect({ target: { value: selectedCity } });
+      });
+  
+      // To City
+      $(this.selectElem2.nativeElement).select2();
+      $(this.selectElem2.nativeElement).on('select2:select', (event: any) => {
+        const selectedCity = event.params.data.id;
+        this.form5.get('toCity')?.setValue(selectedCity);
+        this.onTocitySelect({ target: { value: selectedCity } });
+      });
+  
+      // Pickup Branch
+      $(this.pickupbranch.nativeElement).select2();
+      $(this.pickupbranch.nativeElement).on('select2:select', (event: any) => {
+        const selectedBranch = event.params.data.id;
+        this.form5.get('pickUpBranch')?.setValue(selectedBranch);
+      });
+  
+      // Drop Branch
+      $(this.droupbranch.nativeElement).select2();
+      $(this.droupbranch.nativeElement).on('select2:select', (event: any) => {
+        const selectedBranch = event.params.data.id;
+        this.form5.get('dropBranch')?.setValue(selectedBranch);
+      });
 
-      // All Parcel Booking Report
-      initializeSelect2(this.allParcelfromcity, this.form1, 'fromCity');
-      initializeSelect2(this.allParceltocity, this.form1, 'toCity');
-      initializeSelect2(this.allParcelPickupbranch, this.form1, 'pickUpBranch');
-      initializeSelect2(this.allParcelDroupBranch, this.form1, 'dropBranch');
-      initializeSelect2(this.vechicle, this.form1, 'vehicalNumber');
+      // summary
 
-      // Parcel Booking Report With Serial No
-      initializeSelect2(this.allparecleserial, this.form3, 'fromCity');
-      initializeSelect2(this.allparcelcity, this.form3, 'toCity');
+      $(this.summaryfromcity.nativeElement).select2();
+      $(this.summaryfromcity.nativeElement).on('select2:select', (event: any) => {
+        const selectedCity = event.params.data.id;
+        this.form6.get('fromCity')?.setValue(selectedCity);
+        this.onFromcitySelect({ target: { value: selectedCity } });
+      });
+  
+      // To City
+      $(this.summarytocity.nativeElement).select2();
+      $(this.summarytocity.nativeElement).on('select2:select', (event: any) => {
+        const selectedCity = event.params.data.id;
+        this.form6.get('toCity')?.setValue(selectedCity);
+        this.onTocitySelect({ target: { value: selectedCity } });
+      });
+  
+      // Pickup Branch
+      $(this.summarypickup.nativeElement).select2();
+      $(this.summarypickup.nativeElement).on('select2:select', (event: any) => {
+        const selectedBranch = event.params.data.id;
+        this.form6.get('pickUpBranch')?.setValue(selectedBranch);
+      });
+  
+      // Drop Branch
+      $(this.summarydroup.nativeElement).select2();
+      $(this.summarydroup.nativeElement).on('select2:select', (event: any) => {
+        const selectedBranch = event.params.data.id;
+        this.form6.get('dropBranch')?.setValue(selectedBranch);
+      });
 
-      // Regular Customer Booking
-      initializeSelect2(this.customerfromcity, this.form5, 'fromCity');
-      initializeSelect2(this.customertocity, this.form5, 'toCity');
-      initializeSelect2(this.customerPickupbranch, this.form5, 'pickUpBranch');
-      initializeSelect2(this.customerDroupBranch, this.form5, 'dropBranch');
 
-      // Parcel Booking Summary Report
-      initializeSelect2(this.summaryfromcity, this.form6, 'fromCity');
-      initializeSelect2(this.summarytocity, this.form6, 'toCity');
-      initializeSelect2(this.summarypickup, this.form6, 'pickUpBranch');
-      initializeSelect2(this.summarydroup, this.form6, 'dropBranch');
+    }, 0);
+  }
+  
+  
 
-      // Parcel Cancel Report
-      initializeSelect2(this.cancelfromcity, this.form7, 'fromCity');
-      initializeSelect2(this.canceltocity, this.form7, 'toCity');
-      initializeSelect2(this.cancelpickup, this.form7, 'pickUpBranch');
-      initializeSelect2(this.canceldrop, this.form7, 'dropBranch');
-      
+  // onPickupBranchSelect(event: any) {
+  //   const branchId = event.target.value;
+  //   console.log('Pickup Branch selected:', branchId);
+  //   // Add any logic here if needed
+  // }
+  
+  // onDropBranchSelect(event: any) {
+  //   const branchId = event.target.value;
+  //   console.log('Drop Branch selected:', branchId);
+  //   // Add any logic here if needed
+  // }
+  
 
-    });
+  onFromcitySelect(event: any) {
+    const cityName = event.target.value;
+    if (cityName) {
+      this.api.GetBranchbyCity(cityName).subscribe(
+        (res: any) => {
+          console.log('Branches for selected city:', res);
+          this.pdata = res;
+        },
+        (error: any) => {
+          console.error('Error fetching branches:', error);
+        }
+      );
+    } else {
+      this.pdata = [];
+    }
   }
 
-  
+  onTocitySelect(event: any) {
+    console.log('Event triggered:', event);
+    console.log('Selected City:', event.target.value);
+    const cityName = event.target.value;
+    if (cityName) {
+      this.api.GetBranchbyCity(cityName).subscribe(
+        (res: any) => {
+          console.log('Branches for selected city:', res);
+
+          this.tbcdata = res;
+        },
+        (error: any) => {
+          console.error('Error fetching branches:', error);
+        }
+      );
+    } else {
+      this.tbcdata = [];
+    }
+  }
+
+
+  // PARCEL BOOKING REPORT
 
   parcelbooking() {
     if (this.form.invalid) {
@@ -238,14 +319,14 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
       bookingType: this.form.value.bookingType,
     };
     console.log('parcelbooing:', payload);
-  
+
     this.api.ParcelBookingReport(payload).subscribe({
       next: (response: any) => {
         console.log('Parcel reports1:', response);
         const finalData = {
           ...response,
           fromDate: this.form.value.fromDate,
-          toDate: this.form.value.toDate
+          toDate: this.form.value.toDate,
         };
         this.router.navigateByUrl('/reports', { state: { data: finalData } });
       },
@@ -257,7 +338,6 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
   }
   // All Parcel Booking Report
   AllParcelBooking() {
- 
     const payload1 = {
       startDate: this.form1.value.startDate,
       endDate: this.form1.value.endDate,
@@ -275,9 +355,11 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
         const finalData1 = {
           ...response,
           startDate: this.form1.value.startDate,
-          endDate: this.form1.value.endDate
+          endDate: this.form1.value.endDate,
         };
-        this.router.navigateByUrl('/allpercelbooking', { state: { data1: finalData1 } });
+        this.router.navigateByUrl('/allpercelbooking', {
+          state: { data1: finalData1 },
+        });
       },
       error: (error: any) => {
         console.error('Parcel loading failed:', error);
@@ -310,105 +392,62 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
       },
       error: (error: any) => {
         console.error('Parcel Serial No Report loading failed:', error);
-        this.toast.error('Parcel Serial No Report Loading Failed. Please try again.');
+        this.toast.error(
+          'Parcel Serial No Report Loading Failed. Please try again.'
+        );
       },
     });
   }
 
 
-  // Parcel Booking Details On Mobile Number
-  parcelbookingsmobile(): void {
-    if (this.form4.invalid) {
-      this.form4.markAllAsTouched();
-      this.toast.error('Please enter mobile');
-      return;
-    }
 
-    // ✅ Define payload before using it
-    const payload3 = {
-      fromDate: this.form4.value.fromDate,
-      toDate: this.form4.value.toDate,
-      mobile: this.form4.value.mobile,
-      reportType: this.form4.value.reportType,
-      bookingType: this.form4.value.bookingType,
-      bookingStatus: this.form4.value.bookingStatus,
-    };
-  
-    console.log('Mobile Report Payload:', payload3);
-  
-    this.api.ParcelBookingMobileNumber(payload3).subscribe({
-      next: (response: any) => {
-        this.mobiledata = response;
-  
-        // ✅ Show success toast with backend message or default
-        const successMessage = response?.message || 'Parcel Booking Report loaded successfully';
-        this.toast.success(successMessage);
-  
-        console.log('Parcel Booking mobiledata:', this.mobiledata);
-        const finalData5 = {
-          ...response,
-          fromDate: this.form4.value.fromDate,
-          toDate: this.form4.value.toDate
-        };
-
-        this.router.navigateByUrl('/bookingmobile', { state: { data6: finalData5 } });
-      },
-      error: (error: any) => {
-        console.error('Parcel Mobile Report loading failed:', error);
-  
-        // ✅ Show error toast with backend message or default
-        const errorMessage =
-          error?.error?.message || error?.message || 'Parcel Mobile Report loading failed. Please try again.';
-        this.toast.error(errorMessage);
-      },
-    });
-  }
-  
-
-
-  // Regular Customer Booking
-  bookingCustomer(): void {
- 
-    const payload4 = {
-      fromDate: this.form5.value.fromDate,
-      name:this.form5.value.name,
-      toDate: this.form5.value.toDate,
-      fromCity: this.form5.value.fromCity,
-      toCity: this.form5.value.toCity,
-      pickUpBranch: this.form5.value.pickUpBranch,
-      dropBranch: this.form5.value.dropBranch,
-    };
-    console.log('Customer Report Payload:', payload4);
-  
-    this.api.ParcelBookingRegularCustomer(payload4).subscribe({
-      next: (response: any) => {
-        this.customerdata = response;
-  
-        // Use backend success message if available, else default
-        const successMessage = response.message || 'Customer report loaded successfully!';
-        this.toast.success(successMessage);
-  
-        console.log('Parcel Booking customerdata:', this.customerdata);
-
-        const finalData2 = {
-          ...response,
-          fromDate: this.form5.value.fromDate,
-          toDate: this.form5.value.toDate
-        };
-        this.router.navigateByUrl('/regularcustmer', { state: { data7: finalData2 } });
-
-      },
-      error: (error: any) => {
-        console.error('Customer Report loading failed:', error);
-  
-        // Extract error message from backend error response if available
-        const errorMessage = error.error?.message || error.message || 'Customer Report Loading Failed. Please try again.';
-        this.toast.error(errorMessage);
-      },
-    });
-  }
-  
   // Parcel Booking Summary Report
+  // BookingSummeryReport(): void {
+  //   const payload5 = {
+  //     fromDate: this.form6.value.fromDate,
+  //     toDate: this.form6.value.toDate,
+  //     fromCity: this.form6.value.fromCity,
+  //     toCity: this.form6.value.toCity,
+  //     pickUpBranch: this.form6.value.pickUpBranch,
+  //     dropBranch: this.form6.value.dropBranch,
+  //   };
+  //   console.log('Booking Summary Report Payload:', payload5);
+
+  //   this.api.ParcelBookingSummeryReport(payload5).subscribe({
+  //     next: (response: any) => {
+  //       this.summaryData = response;
+
+  //       // Assuming your backend sends success message as response.message or similar
+  //       const successMessage =
+  //         response.message || 'Booking summary report loaded successfully!';
+  //       this.toast.success(successMessage);
+
+  //       console.log('Booking Summary Report Response:', this.summaryData);
+
+  //       const finalData9 = {
+  //         ...response,
+  //         fromDate: this.form6.value.fromDate,
+  //         toDate: this.form6.value.toDate,
+  //       };
+  //       this.router.navigateByUrl('/bookingsummary', {
+  //         state: { data5: finalData9 },
+  //       });
+  //     },
+  //     error: (error: any) => {
+  //       console.error('Parcel Summary Report loading failed:', error);
+
+  //       // Extract error message from backend response
+  //       // This depends on your API error structure; examples:
+  //       // const errorMessage = error.error?.message || error.message || 'Loading failed, please try again.';
+  //       const errorMessage =
+  //         error.error?.message ||
+  //         error.message ||
+  //         'Parcel Summary Report Loading Failed. Please try again.';
+  //       this.toast.error(errorMessage);
+  //     },
+  //   });
+  // }
+
   BookingSummeryReport(): void {
     const payload5 = {
       fromDate: this.form6.value.fromDate,
@@ -418,44 +457,41 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
       pickUpBranch: this.form6.value.pickUpBranch,
       dropBranch: this.form6.value.dropBranch,
     };
+  
     console.log('Booking Summary Report Payload:', payload5);
   
     this.api.ParcelBookingSummeryReport(payload5).subscribe({
       next: (response: any) => {
         this.summaryData = response;
   
-        // Assuming your backend sends success message as response.message or similar
-        const successMessage = response.message || 'Booking summary report loaded successfully!';
+        const successMessage =
+          response.message || 'Booking summary report loaded successfully!';
         this.toast.success(successMessage);
-  
-        console.log('Booking Summary Report Response:', this.summaryData);
   
         const finalData9 = {
           ...response,
           fromDate: this.form6.value.fromDate,
-          toDate: this.form6.value.toDate
+          toDate: this.form6.value.toDate,
         };
-        this.router.navigateByUrl('/bookingsummary', { state: { data5: finalData9 } });
+  
+        // ✅ Store in localStorage
+        localStorage.setItem('bookingSummaryData', JSON.stringify(finalData9));
+  
+        // ✅ Open new tab
+        window.open('/bookingsummary', '_blank');
       },
       error: (error: any) => {
-        console.error('Parcel Summary Report loading failed:', error);
-  
-        // Extract error message from backend response
-        // This depends on your API error structure; examples:
-        // const errorMessage = error.error?.message || error.message || 'Loading failed, please try again.';
-        const errorMessage = error.error?.message || error.message || 'Parcel Summary Report Loading Failed. Please try again.';
+        const errorMessage =
+          error.error?.message ||
+          error.message ||
+          'Parcel Summary Report Loading Failed. Please try again.';
         this.toast.error(errorMessage);
       },
     });
   }
   
-  
-
   // Parcel Cancel Report
 
-
-  
-  
   cancelReport(): void {
     const payload6 = {
       fromDate: this.form7.value.fromDate,
@@ -464,9 +500,9 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
       toCity: this.form7.value.toCity,
       bookingType: this.form7.value.bookingType,
     };
-  
+
     console.log('Cancel Report Payload:', payload6);
-  
+
     this.api.ParcelCancelReport(payload6).subscribe({
       next: (response: any) => {
         console.log('Cancel Report Loaded:', response);
@@ -475,23 +511,149 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
           fromDate: payload6.fromDate,
           toDate: payload6.toDate,
         };
-  
+
         // Save data to localStorage
         localStorage.setItem('cancelReportData', JSON.stringify(finalData));
-  
+
         // ✅ Show success toast
         this.toast.success('Cancel Report generated successfully!');
-  
+
         // Open new tab
         window.open('/cancel-report', '_blank');
       },
       error: (error: any) => {
         console.error('Cancel Report Loading Failed:', error);
-  
+
         // ❌ Show error toast
         this.toast.error('Cancel Report loading failed. Please try again.');
       },
     });
   }
+
+   
+    parcelbookingsmobile(): void {
+      if (this.form4.invalid) {
+        this.form4.markAllAsTouched();
+        this.toast.error('Please enter mobile');
+        return;
+      }
+    
+      const payload3 = {
+        fromDate: this.form4.value.fromDate,
+        toDate: this.form4.value.toDate,
+        mobile: this.form4.value.mobile,
+        reportType: this.form4.value.reportType,
+        bookingType: this.form4.value.bookingType,
+        bookingStatus: this.form4.value.bookingStatus,
+      };
+    
+      console.log('Mobile Report Payload:', payload3);
+    
+      this.api.ParcelBookingMobileNumber(payload3).subscribe({
+        next: (response: any) => {
+          this.mobiledata = response;
+    
+          const successMessage = response?.message || 'Parcel Booking Report loaded successfully';
+          this.toast.success(successMessage);
+    
+          const finalData5 = {
+            ...response,
+            fromDate: this.form4.value.fromDate,
+            toDate: this.form4.value.toDate,
+          };
+    
+          // ✅ Store the data temporarily in localStorage
+          localStorage.setItem('mobileBookingData', JSON.stringify(finalData5));
+    
+          // ✅ Open new tab with route
+          window.open('/bookingmobile', '_blank');
+        },
+        error: (error: any) => {
+          console.error('Parcel Mobile Report loading failed:', error);
+          const errorMessage = error?.error?.message || error?.message || 'Parcel Mobile Report loading failed. Please try again.';
+          this.toast.error(errorMessage);
+        },
+      });
+    }
+    
+
+
+
+
+  bookingCustomer(): void {
+    if (this.form5.invalid) {
+      this.toast.error('Please fill all required fields.');
+      this.form5.markAllAsTouched();
+      return;
+    }
+  
+    const payload4 = {
+      fromDate: this.form5.value.fromDate,
+      name: this.form5.value.name,
+      toDate: this.form5.value.toDate,
+      fromCity: this.form5.value.fromCity,
+      toCity: this.form5.value.toCity,
+      pickUpBranch: this.form5.value.pickUpBranch,
+      dropBranch: this.form5.value.dropBranch,
+    };
+    console.log('Form5 Values:', this.form5.value);
+
+    console.log('Customer Report Payload:', payload4);
+  
+    this.api.ParcelBookingRegularCustomer(payload4).subscribe({
+      next: (response: any) => {
+        this.customerdata = response;
+        console.log("regularDara:",this.customerdata)
+        const successMessage = response.message || 'Customer report loaded successfully!';
+        this.toast.success(successMessage);
+        console.log('Form5 Values:', this.form5.value);
+
+  
+        const finalData2 = {
+          ...response,
+          fromDate: this.form5.value.fromDate,
+          toDate: this.form5.value.toDate,
+        };
+        
+  
+        localStorage.setItem('regularCustomerData', JSON.stringify(finalData2));
+  
+        window.open('/regularcustmer', '_blank');
+      },
+      error: (error: any) => {
+        console.error('Customer Report loading failed:', error);
+        const errorMessage =
+          error.error?.message || error.message || 'Customer Report Loading Failed. Please try again.';
+        this.toast.error(errorMessage);
+      },
+    });
+  }
+  
+
+
+
+  searchUser(): void {
+    const searchTerm = this.form5.get('name')?.value?.trim();
+  
+    if (searchTerm && searchTerm.length >= 2) {
+      this.api.searchUser(searchTerm).subscribe(
+        (res: any) => {
+          this.searchResults = res;
+        },
+        (err: any) => {
+          console.error('Search Error:', err);
+          this.searchResults = [];
+        }
+      );
+    } else {
+      this.searchResults = [];
+    }
+  }
+  
+  selectUser(name: string): void {
+    this.form5.get('name')?.setValue(name); // Set the selected name in the input
+    this.searchResults = []; // Clear the search result list
+  }
+  
   
 }

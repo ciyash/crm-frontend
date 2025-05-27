@@ -2,8 +2,6 @@
 <app-header></app-header>
 
 <div class="d-flex justify-content-center"  style="margin-top: 6%;">
-  <!-- <i class="fa fa-print" aria-hidden="true" (click)="printReport()" style="margin-top: 8%; font-size: 50px;"></i> -->
-
 </div>
 <div   id="print-section" class="container my-4 p-3 border rounded bg-light"
   style="background-color: #e3eaf8">
@@ -15,25 +13,31 @@
     </p>
   </div>
   <h6 class="text-center text-decoration-underline">Regular Customer Booking</h6>
+  <div class="text-center">
+    <i class="fa fa-print"
+    style="font-size: 40px; cursor: pointer;color: green;"
+    aria-hidden="true"
+    (click)="printReport()"></i>
+
+    <i class="fa fa-file-excel-o mx-3" style="font-size: 35px;color: green;" aria-hidden="true" (click)="ExportExcel()"></i>
+
+  </div>
 
   <div class="d-flex justify-content-between mt-3">
-
     <div *ngIf="data7" >
       <strong>From :</strong> {{ data7.fromDate | date: 'dd-MM-yyyy' }}
       <strong>To :</strong> {{ data7.toDate | date: 'dd-MM-yyyy' }}
     </div>
 
-    <i class="fa fa-print"
-    style="font-size: 50px; cursor: pointer;"
-    aria-hidden="true"
-    (click)="printReport()"></i>
  
-
 
     <div>
       <strong>Print Date :</strong> {{ today | date: 'dd-MM-yyyy' }}
       <strong>Time :</strong> {{ today | date: 'shortTime' }}
     </div>
+  </div>
+  <div class="d-flex justify-content-end">
+    <strong>Printed By:</strong> {{pfdata.name}}
   </div>
 
   <div class="table-responsive mt-3">
@@ -61,7 +65,7 @@
           <td>{{ item.dropBranchname }}</td>
           <td>{{ item.bookingDate | date: 'dd-MM-yyyy' }}</td>
           <td>{{ item.senderName }}</td>
-          <td>--</td>
+          <td>{{item.receiverName}}</td>
           <td>{{ item.totalQuantity }}</td>
           <td>{{ item.grandTotal | number: '1.2-2' }}</td>
         </tr>
@@ -76,9 +80,6 @@
     </table>
   </div>
 </div>
-
-
-
 <ng-template #noData>
   <div class="alert alert-warning text-center mt-4">
     {{ message }}

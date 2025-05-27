@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { BranchService } from 'src/app/service/branch.service';
 import { ToastrService } from 'ngx-toastr';
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
   
 declare var $: any;
 declare const SlimSelect: any;
@@ -43,6 +45,8 @@ export class ParcelOnloadingComponent {
   summary: any = {};
   qrdata: string = '';
   showScanner: boolean = false;
+  today = new Date();
+  
   constructor(
     private api: BranchService,
     private fb: FormBuilder,
@@ -433,7 +437,84 @@ getQRdata(id: string) {
   }
   
 
-
+  ExportEXcel(): void {
+    const headerData = [];
+  
+    // Optional: Add title or meta info
+    headerData.push(['Parcel Booking GRN Report']);
+    headerData.push([
+      `Print Date: ${this.formatDate(this.today)} Time: ${this.formatTime(this.today)}`
+    ]);
+    headerData.push([]); // Blank row
+  
+    // Table headers
+    const tableHeaders = [
+      'S.No',
+      'GRN No',
+      'Book by Branch',
+      'Drop Branch',
+      'From City',
+      'To City',
+      'Booking Date',
+      'Sender',
+      'Receiver',
+      'Qty',
+      'Charges'
+    ];
+    headerData.push(tableHeaders);
+  
+    // Table data rows
+    const tableRows = this.bkdata.map((row: any, index: number) => [
+      index + 1,
+      row?.lrNumber,
+      row?.pickUpBranchname,
+      row?.dropBranchname,
+      row?.fromCity,
+      row?.toCity,
+      this.formatDate(row?.bookingDate),
+      row?.senderName,
+      row?.receiverName,
+      row?.totalQuantity,
+      row?.grandTotal
+    ]);
+  
+    const sheetData = [...headerData, ...tableRows];
+  
+    const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(sheetData);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { 'Report': worksheet },
+      SheetNames: ['Report']
+    };
+  
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array'
+    });
+  
+    const blob: Blob = new Blob([excelBuffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
+    });
+  
+    FileSaver.saveAs(blob, 'Parcel_GRN_Report.xlsx');
+  }
+  
+  
+  formatDate(date: Date): string {
+    const d = new Date(date);
+    return `${d.getDate().toString().padStart(2, '0')}-${(d.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}-${d.getFullYear()}`;
+  }
+  
+  formatTime(date: Date): string {
+    const d = new Date(date);
+    return d.toLocaleTimeString('en-IN', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+  }
+  
 
   }
   

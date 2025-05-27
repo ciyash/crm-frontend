@@ -41,6 +41,7 @@ export class ConsolidatedComponent {
   fromDate: any;
   toDate: any;
   deliveryData: any;
+  Tdata: any;
   constructor(
     private fb: FormBuilder,
     private api: BranchService,
@@ -176,7 +177,11 @@ export class ConsolidatedComponent {
       next: (res: any) => {
         console.log('ConsolidatedReport:', res);
 
-        this.Cdata = res;  
+        this.Cdata = res; 
+        this.Tdata=res
+        console.log("tdata:",this.Tdata)
+         
+
           this.deliveryData=res.data
         console.log("devliveryData:",this.deliveryData);
 

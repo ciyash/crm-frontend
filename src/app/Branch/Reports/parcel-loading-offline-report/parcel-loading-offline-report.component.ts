@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BranchService } from 'src/app/service/branch.service';
-
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
 @Component({
   selector: 'app-parcel-loading-offline-report',
   templateUrl: './parcel-loading-offline-report.component.html',
@@ -29,8 +30,16 @@ export class ParcelLoadingOfflineReportComponent implements OnInit {
       this.toDate = stateData.toDate;
 
       // Optional: Clear the storage if it's one-time use
-      localStorage.removeItem('parcelReportData');
-    } else {
+
+      if (stateData) {
+        this.data2 = stateData.data || [];
+        this.fromDate = stateData.fromDate;
+        this.toDate = stateData.toDate;
+      
+        // Don't remove here to persist after refresh
+        // localStorage.removeItem('parcelReportData');
+      }
+          } else {
       console.warn("No report data found in localStorage.");
     }
   }
@@ -97,4 +106,96 @@ export class ParcelLoadingOfflineReportComponent implements OnInit {
       popupWin!.document.close();
     }
   }
+
+
+
+ExportEXcel(): void {
+  const headerData = [];
+
+  // Add company details
+  if (this.pfdata) {
+    headerData.push([this.pfdata.companyName]);
+    headerData.push([
+      `Address: ${this.pfdata.location} - ${this.pfdata.branchId?.name} | Phone No: ${this.pfdata.phone}`
+    ]);
+  }
+
+  // Add title and date
+  headerData.push(['Parcel Loading Offline Report']);
+  headerData.push([
+    `From: ${this.formatDate(this.fromDate)} To: ${this.formatDate(this.toDate)}`
+  ]);
+  headerData.push([
+    `Print Date: ${this.formatDate(this.today)} Time: ${this.formatTime(this.today)}`
+  ]);
+  headerData.push([]); // Blank row
+
+  // Add table headers
+  const tableHeaders = [
+    'S.No',
+    'LR No',
+    'Book by Branch',
+    'Drop Branch',
+    'Sender Name',
+    'Receiver',
+    'City Name',
+    'Transaction Date',
+    'Paid Type',
+    'Qty',
+    'Charge'
+  ];
+  headerData.push(tableHeaders);
+
+  // Add table rows
+  const tableRows = this.data2.map((item: any, index: number) => [
+    index + 1,
+    item.lrNumber,
+    item.pickUpBranchname,
+    item.dropBranchname,
+    item.senderName,
+    item.receiverName,
+    item.toCity,
+    this.formatDate(item.bookingDate),
+    item.bookingType,
+    item.totalQuantity,
+    item.grandTotal
+  ]);
+
+  const fullSheetData = [...headerData, ...tableRows];
+
+  // Generate worksheet and workbook
+  const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(fullSheetData);
+  const workbook: XLSX.WorkBook = {
+    Sheets: { 'Report': worksheet },
+    SheetNames: ['Report']
+  };
+
+  const excelBuffer: any = XLSX.write(workbook, {
+    bookType: 'xlsx',
+    type: 'array'
+  });
+
+  const blob: Blob = new Blob([excelBuffer], {
+    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
+  });
+
+  FileSaver.saveAs(blob, 'Parcel_Loading_Offline_Report.xlsx');
+}
+formatDate(date: Date): string {
+  const d = new Date(date);
+  return `${d.getDate().toString().padStart(2, '0')}-${(d.getMonth() + 1)
+    .toString()
+    .padStart(2, '0')}-${d.getFullYear()}`;
+}
+
+formatTime(date: Date): string {
+  const d = new Date(date);
+  return d.toLocaleTimeString('en-IN', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true
+  });
+}
+
+
 }

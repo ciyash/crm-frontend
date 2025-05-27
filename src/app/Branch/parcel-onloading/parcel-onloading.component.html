@@ -53,11 +53,12 @@
         </div>
 
         <div class="col-md-12 col-sm-12 mt-5">
-          <div class="d-flex justify-content-center align-items-center gap-4">
+          <div class="d-flex justify-content-center align-items-center gap-4 flex-wrap">
             <!-- Load Button -->
             <button class="btn btn-primary btn-sm" pRipple (click)="onLoad()" style="width: 10rem;">
               Load
             </button>
+          
             <!-- QR Scanner Button -->
             <img
               src="assets/scanner.png"
@@ -65,17 +66,26 @@
               style="width: 30px; height: 30px; cursor: pointer;"
               (click)="openScanner()"
             />
-        
+          
             <!-- Print Icon -->
-            <span *ngIf="bkdata.length > 0">
-              <i
-                class="fa fa-print"
-                style="font-size: 40px; cursor: pointer;"
-                (click)="printTable()"
-                aria-hidden="true"
-              ></i>
-            </span>
+            <i
+              *ngIf="bkdata.length > 0"
+              class="fa fa-print"
+              style="font-size: 35px; cursor: pointer; color: green;"
+              (click)="printTable()"
+              aria-hidden="true"
+            ></i>
+          
+            <!-- Excel Icon -->
+            <i
+              *ngIf="bkdata.length > 0"
+              class="fa fa-file-excel-o"
+              style="font-size: 30px; cursor: pointer; color: green;"
+              aria-hidden="true"
+              (click)="ExportEXcel()"
+            ></i>
           </div>
+          
         
           <!-- Hidden Scanner Modal -->
           <div

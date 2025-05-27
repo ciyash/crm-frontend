@@ -85,6 +85,8 @@ import { ParcelDeliveryComponent } from './Branch/parcel-delivery/parcel-deliver
 import { ParcelLoadingOfflineReportComponent } from './Branch/Reports/parcel-loading-offline-report/parcel-loading-offline-report.component';
 import { DispatchedStockReportComponent } from './Branch/Reports/dispatched-stock-report/dispatched-stock-report.component';
 import { ReportDeliveryComponent } from './Branch/Reports/report-delivery/report-delivery.component';
+
+
  
 @NgModule({
   declarations: [

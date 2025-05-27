@@ -117,6 +117,15 @@ export class BranchService {
     );
   }
 
+
+  
+
+
+
+
+
+
+
   createBooking(value:{
     bookedBy: string;
     fromCity: string;
@@ -968,9 +977,6 @@ ParcelBookingMobileNumber(value: {
   reportType: string;
   bookingType:string;
   bookingStatus:string;
-
-
-
 }) {
   const token1 = this.token.getToken();
   const httpOptions = {
@@ -1753,3 +1759,7 @@ ParcelStatusdateReport(value:{
 //   );
   
 // } 
+
+
+
+

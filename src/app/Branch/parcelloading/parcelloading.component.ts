@@ -276,6 +276,7 @@ onLoad() {
         this.form1.patchValue({ vehicalNumber: selectedVehicle });
         this.form1.get('vehicalNumber')?.markAsTouched();  // ensure validation triggers
       });
+      
     }, 0);
   }
   
