@@ -26,8 +26,7 @@ export class VoucherDetailsCfmasterComponent {
             });
   
             this.form1 = this.fb.group({
-              fromDate: ['', ],
-              toDate: ['', ],
+           
               senderName: ['', ],                 
                   });
     }
@@ -58,7 +57,7 @@ export class VoucherDetailsCfmasterComponent {
           console.log('Parcel loaded successfully:', response);
           this.toast.success('Vouchers loaded successfully','Success');
           this.vldata=response.data;
-  
+          console.log("vocherdata:",this.vldata);
           if (this.vldata.length > 0) {
             this.form1.patchValue({
               fromDate: this.form.value.fromDate,
@@ -77,6 +76,8 @@ export class VoucherDetailsCfmasterComponent {
         },
       });
     }
+
+    
   
     VoucherDetailsGenerate() {
       const payload = {
@@ -126,6 +127,7 @@ export class VoucherDetailsCfmasterComponent {
       }
     }
     
+
     selectUser(user: any): void {
       this.form.patchValue({
         senderName: user.name,
@@ -142,4 +144,37 @@ export class VoucherDetailsCfmasterComponent {
       }, 200); // Small delay to allow selection click
     }
 
+
+    printName(agentName: string) {
+      console.log('Agent Name:', agentName);
+    
+      this.api.GetVoucherDetails({ senderName: agentName }).subscribe({
+        next: (response: any) => {
+          console.log('Voucher Details:', response);
+    
+          this.form1.patchValue({
+            senderName: response.senderName || agentName
+          });
+    
+          // ✅ Store response in localStorage
+          localStorage.setItem('voucherDetails', JSON.stringify(response));
+    
+          this.toast.success('Voucher details loaded', 'Success');
+    
+          // ✅ Open the voucher-report route in a new tab
+          window.open('/voucher-report', '_blank');
+        },
+        error: (error: any) => {
+          console.error('Failed to fetch voucher details:', error);
+          this.toast.error('Failed to load voucher details', 'Error');
+        }
+      });
+    }
+    
+
+
+    
+
+    
+    
 }

@@ -21,7 +21,7 @@ export class CreditVoucherGenerateComponent {
      this.form = this.fb.group({
       fromDate: [this.getTodayDateString(), Validators.required],
       toDate: [this.getTodayDateString(), Validators.required],
-      senderName: ['', Validators.required],               
+      senderName: [''],               
           });
 
           this.form1 = this.fb.group({
@@ -40,7 +40,6 @@ export class CreditVoucherGenerateComponent {
   ngOnInit(){
 
   }
-
   getTodayDateString(): string {
     const today = new Date();
     const year = today.getFullYear();
@@ -103,7 +102,6 @@ export class CreditVoucherGenerateComponent {
     };
   
     console.log('Final Payload:', payload);
-    
     this.api.VoucherGenerate(payload).subscribe({
       next: (response: any) => {
         console.log('Parcel loaded successfully:', response);

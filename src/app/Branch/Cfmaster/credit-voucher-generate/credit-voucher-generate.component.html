@@ -26,7 +26,7 @@
                 </div>
                 <div class="col-md-12 text-center">
                     <button type="button" class="btn btn-danger btn-sm m-3" (click)="VoucherLoad()" data-bs-dismiss="modal">Load</button>
-                    <button type="button" class="btn btn-primary btn-sm" (click)="VoucherGenerate()" data-bs-dismiss="modal">Save</button>
+                    <button type="button" *ngIf="vldata" class="btn btn-primary btn-sm" (click)="VoucherGenerate()" data-bs-dismiss="modal">Save</button>
                 </div>
             </div>
         
@@ -76,7 +76,7 @@
                                      Parcel Cancel
                                 </ng-container>
                             </td>
-                            <td> {{row.bookingTime | date:'dd/MMM/YYYY'}} </td>
+                            <td> {{row.bookingDate | date:'dd/MMM/YYYY'}} </td>
                             <td> {{row.grandTotal | currency:'INR':true:'1.0-1'}} </td>
                         </tr>
                     </tbody>
