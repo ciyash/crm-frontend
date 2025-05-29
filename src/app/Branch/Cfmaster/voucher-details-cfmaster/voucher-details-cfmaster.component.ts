@@ -148,7 +148,13 @@ export class VoucherDetailsCfmasterComponent {
     printName(agentName: string) {
       console.log('Agent Name:', agentName);
     
-      this.api.GetVoucherDetails({ senderName: agentName }).subscribe({
+      const payload = {
+        fromDate: this.form.value.fromDate,
+        toDate: this.form.value.toDate,
+        senderName: agentName
+      };
+    
+      this.api.GetVoucherDetails(payload).subscribe({
         next: (response: any) => {
           console.log('Voucher Details:', response);
     
@@ -156,12 +162,8 @@ export class VoucherDetailsCfmasterComponent {
             senderName: response.senderName || agentName
           });
     
-          // ✅ Store response in localStorage
           localStorage.setItem('voucherDetails', JSON.stringify(response));
-    
           this.toast.success('Voucher details loaded', 'Success');
-    
-          // ✅ Open the voucher-report route in a new tab
           window.open('/voucher-report', '_blank');
         },
         error: (error: any) => {

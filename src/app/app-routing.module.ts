@@ -60,6 +60,7 @@ import { ParcelDeliveryComponent } from './Branch/parcel-delivery/parcel-deliver
 import { ParcelLoadingOfflineReportComponent } from './Branch/Reports/parcel-loading-offline-report/parcel-loading-offline-report.component';
 import { DispatchedStockReportComponent } from './Branch/Reports/dispatched-stock-report/dispatched-stock-report.component';
 import { ReportDeliveryComponent } from './Branch/Reports/report-delivery/report-delivery.component';
+import { VocherDetailsReportComponent } from './Branch/Cfmaster/vocher-details-report/vocher-details-report.component';
 
 const routes: Routes = [
   {path:"login",component:LoginComponent },
@@ -97,6 +98,8 @@ const routes: Routes = [
   { path: 'getcfmasterdata', component: GetCfmasterDataComponent, canActivate: [authGuard] },
   { path: 'creditvouchergenerate', component: CreditVoucherGenerateComponent, canActivate: [authGuard] },
   { path: 'voucherdetailscf', component: VoucherDetailsCfmasterComponent, canActivate: [authGuard] },
+  { path: 'voucher-report', component: VocherDetailsReportComponent, canActivate: [authGuard] },
+
 
   // Reports
   { path: 'dispatchedreport', component: DispatchedReportComponent, canActivate: [authGuard] },
