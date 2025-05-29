@@ -796,7 +796,7 @@ ParcelBookingReport(value: {
     })
   };
   return this.http.post(
-    AUTH_API + 'booking/parcel-booking-reports',
+    AUTH_API + 'booking/parcel-booking-report',
     {
       fromDate: value.fromDate,
       toDate: value.toDate,

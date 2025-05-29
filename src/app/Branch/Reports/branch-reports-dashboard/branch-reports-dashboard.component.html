@@ -22,14 +22,14 @@
           </div>
           <div class="col-md-3">
             <label class="form-label">From City</label>
-            <select class="form-select form-select-sm" formControlName="fromCity">
+            <select #parcelfromcity class="form-select form-select-sm" formControlName="fromCity">
               <option value="" selected>Select City</option>
               <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
             </select>
           </div>
           <div class="col-md-3">
             <label class="form-label">To City</label>
-            <select class="form-select form-select-sm" formControlName="toCity">
+            <select #allparceltocity class="form-select form-select-sm" formControlName="toCity">
               <option value="" selected>Select City</option>
               <option *ngFor="let row1 of citydata" [value]="row1.cityName">{{ row1.cityName }}</option>
             </select>
@@ -144,19 +144,19 @@
       <div class="container">
         <h5 class="text-center fw-bold text-danger"><u>Parcel Booking Report With Serial No</u></h5>
         <div class="rounded p-4" style="margin-top: 1rem;">
-          <form [formGroup]="form3">
+          <form [formGroup]="form2">
             <div class="row">
               <div class="col-md-6">
                 <label class="form-label">From Booking Date</label>
                 <input type="date" class="form-control" formControlName="fromDate">
-                <div *ngIf="form3.get('fromDate')?.invalid && form3.get('fromDate')?.touched" class="text-danger">
+                <div *ngIf="form2.get('fromDate')?.invalid && form2.get('fromDate')?.touched" class="text-danger">
                   From Date is required
                 </div>
               </div>
               <div class="col-md-6">
                 <label class="form-label">To Booking Date</label>
                 <input type="date" class="form-control" formControlName="toDate">
-                <div *ngIf="form3.get('toDate')?.invalid && form3.get('toDate')?.touched" class="text-danger">
+                <div *ngIf="form2.get('toDate')?.invalid && form2.get('toDate')?.touched" class="text-danger">
                   To Date is required
                 </div>
               </div>
@@ -166,6 +166,7 @@
                   <option value="" selected>Select City</option>
                   <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
                 </select>
+                
               </div>
               <div class="col-md-6">
                 <label class="form-label">To City</label>

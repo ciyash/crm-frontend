@@ -1,4 +1,12 @@
-<div class="container my-4 p-3 border rounded bg-light">
+<app-header></app-header>
+<div style="margin-top: 8%;">
+  <div class="text-center">
+    <i class="fa fa-print" aria-hidden="true" style="font-size: 35px; color: green;" (click)="Print()"></i>
+    <i class="fa fa-file-excel-o" style="font-size: 28px; color: green;" (click)="exportToExcel()"  aria-hidden="true"></i>
+
+
+  </div>
+<div  id="print-section" class="container my-4 p-3 border rounded bg-light">
   <div class="container-fluid" *ngIf="pfdata">
     <h4 class="text-center fw-bold">
       {{ pfdata.companyName  }}
@@ -12,16 +20,22 @@
   
   <h6 class="text-center text-decoration-underline">Parcel Booking Report With Serial No</h6>
 
-  <div class="d-flex justify-content-between mt-3">
-    <div>
+  <div class="d-flex justify-content-between mt-5 ">
+    <div *ngIf="data2">
+      <strong>From Date :</strong> {{ data2.fromDate  | date: 'dd-MM-yyyy' }}
+      <strong>To Date :</strong> {{ data2.toDate | date: 'dd/MM/yyyy' }}
+    </div>  
+<div>  <h5 class="text-center text-success">Paid Bookings</h5>
+</div>
+      <div>
       <strong>Print Date :</strong> {{ today | date: 'dd-MM-yyyy' }}
       <strong>Time :</strong> {{ today | date: 'shortTime' }}
     </div>
+
   </div>
 
 <!-- Paid Bookings Table -->
-<div class="table-responsive mt-4" *ngIf="paidBookings?.length > 0">
-  <h5 class="text-center text-success">Paid Bookings</h5>
+<div class="table-responsive " *ngIf="paidBookings?.length > 0">
   <table class="table table-bordered table-sm table-striped">
     <thead class="table-secondary text-center">
       <tr>
@@ -201,3 +215,4 @@
   
 </div>
 
+</div>

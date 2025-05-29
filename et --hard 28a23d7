@@ -1,0 +1,140 @@
+[33mf8add2d[m[33m ([m[1;36mHEAD -> [m[1;32mpavan[m[33m, [m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m HEAD@{0}: pull origin main: Fast-forward
+[33m28a23d7[m[33m ([m[1;31morigin/pavan[m[33m)[m HEAD@{1}: checkout: moving from main to pavan
+[33mf8add2d[m[33m ([m[1;36mHEAD -> [m[1;32mpavan[m[33m, [m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m HEAD@{2}: commit: skjdfbsdf
+[33m28a23d7[m[33m ([m[1;31morigin/pavan[m[33m)[m HEAD@{3}: merge pavan: Fast-forward
+[33m2158c2b[m HEAD@{4}: checkout: moving from pavan to main
+[33m28a23d7[m[33m ([m[1;31morigin/pavan[m[33m)[m HEAD@{5}: commit: changes
+[33m2158c2b[m HEAD@{6}: checkout: moving from main to pavan
+[33m2158c2b[m HEAD@{7}: reset: moving to HEAD
+[33m2158c2b[m HEAD@{8}: checkout: moving from pavan to main
+[33m2158c2b[m HEAD@{9}: checkout: moving from main to pavan
+[33m2158c2b[m HEAD@{10}: merge pavan: Fast-forward
+[33m8e25699[m HEAD@{11}: checkout: moving from pavan to main
+[33m2158c2b[m HEAD@{12}: commit: changes
+[33m8e25699[m HEAD@{13}: pull origin main: Fast-forward
+[33mc2e75b9[m HEAD@{14}: checkout: moving from main to pavan
+[33m8e25699[m HEAD@{15}: commit: changes
+[33mc2e75b9[m HEAD@{16}: merge pavan: Fast-forward
+[33m5c88710[m HEAD@{17}: checkout: moving from pavan to main
+[33mc2e75b9[m HEAD@{18}: commit: changes
+[33m5c88710[m HEAD@{19}: pull origin main: Fast-forward
+[33m6edf6c3[m HEAD@{20}: checkout: moving from main to pavan
+[33m5c88710[m HEAD@{21}: commit: ahgsdvd
+[33m6edf6c3[m HEAD@{22}: merge pavan: Fast-forward
+[33mc91dc2a[m HEAD@{23}: checkout: moving from pavan to main
+[33m6edf6c3[m HEAD@{24}: commit: changes
+[33mc91dc2a[m HEAD@{25}: pull origin main: Fast-forward
+[33maa416a0[m HEAD@{26}: checkout: moving from main to pavan
+[33mc91dc2a[m HEAD@{27}: commit: sdmhd
+[33maa416a0[m HEAD@{28}: merge pavan: Fast-forward
+[33m51be04d[m HEAD@{29}: checkout: moving from pavan to main
+[33maa416a0[m HEAD@{30}: commit: hbdhsf
+[33m51be04d[m HEAD@{31}: pull origin main: Fast-forward
+[33m3952890[m HEAD@{32}: checkout: moving from main to pavan
+[33m51be04d[m HEAD@{33}: commit: jhsdbgdsh
+[33m3952890[m HEAD@{34}: merge pavan: Fast-forward
+[33m9bd0eda[m HEAD@{35}: checkout: moving from pavan to main
+[33m3952890[m HEAD@{36}: commit: hzsyhdg
+[33m9bd0eda[m HEAD@{37}: pull origin main: Fast-forward
+[33m587e588[m HEAD@{38}: checkout: moving from main to pavan
+[33m9bd0eda[m HEAD@{39}: commit: chanhes
+[33m587e588[m HEAD@{40}: merge pavan: Fast-forward
+[33m1daa0fc[m HEAD@{41}: checkout: moving from pavan to main
+[33m587e588[m HEAD@{42}: commit: chanhes
+[33m1daa0fc[m HEAD@{43}: pull origin main: Fast-forward
+[33mcb711a4[m HEAD@{44}: checkout: moving from main to pavan
+[33m1daa0fc[m HEAD@{45}: commit: changes
+[33mcb711a4[m HEAD@{46}: merge pavan: Fast-forward
+[33m8189cc6[m HEAD@{47}: checkout: moving from pavan to main
+[33mcb711a4[m HEAD@{48}: commit: changes
+[33m8189cc6[m HEAD@{49}: checkout: moving from main to pavan
+[33m8189cc6[m HEAD@{50}: merge pavan: Fast-forward
+[33mdfdb1bb[m HEAD@{51}: checkout: moving from pavan to main
+[33m8189cc6[m HEAD@{52}: commit: dhds
+[33mdfdb1bb[m HEAD@{53}: pull origin main: Fast-forward
+[33m9eea693[m HEAD@{54}: checkout: moving from main to pavan
+[33mdfdb1bb[m HEAD@{55}: commit: sahdsvhbd
+[33m9eea693[m HEAD@{56}: merge pavan: Fast-forward
+[33mfa14186[m HEAD@{57}: checkout: moving from pavan to main
+[33m9eea693[m HEAD@{58}: commit: chanhes
+[33mfa14186[m HEAD@{59}: pull origin main: Fast-forward
+[33mb18d993[m HEAD@{60}: checkout: moving from main to pavan
+[33mfa14186[m HEAD@{61}: commit (merge): changes
+[33me68c473[m HEAD@{62}: checkout: moving from pavan to main
+[33mb18d993[m HEAD@{63}: commit: chnages by hero
+[33m2292706[m HEAD@{64}: reset: moving to HEAD
+[33m2292706[m HEAD@{65}: commit: changes
+[33m33b40c1[m HEAD@{66}: checkout: moving from main to pavan
+[33me68c473[m HEAD@{67}: pull origin main: Merge made by the 'ort' strategy.
+[33mfce3d9a[m HEAD@{68}: commit: changes
+[33m9632b18[m HEAD@{69}: commit: changes
+[33m52ff640[m HEAD@{70}: commit: ajgdyadkk
+[33m33b40c1[m HEAD@{71}: merge pavan: Fast-forward
+[33m33ed5cd[m HEAD@{72}: checkout: moving from pavan to main
+[33m33b40c1[m HEAD@{73}: checkout: moving from pavan to pavan
+[33m33b40c1[m HEAD@{74}: commit: ajgdyad
+[33m33ed5cd[m HEAD@{75}: checkout: moving from main to pavan
+[33m33ed5cd[m HEAD@{76}: merge pavan: Fast-forward
+[33mf8398eb[m HEAD@{77}: checkout: moving from pavan to main
+[33m33ed5cd[m HEAD@{78}: commit: changes
+[33mf8398eb[m HEAD@{79}: pull origin main: Fast-forward
+[33mf8f6ab9[m HEAD@{80}: checkout: moving from main to pavan
+[33mf8398eb[m HEAD@{81}: commit: asgdvas
+[33mf8f6ab9[m HEAD@{82}: merge pavan: Fast-forward
+[33m290603b[m HEAD@{83}: checkout: moving from pavan to main
+[33mf8f6ab9[m HEAD@{84}: commit: agdhasd
+[33m290603b[m HEAD@{85}: checkout: moving from pavan to pavan
+[33m290603b[m HEAD@{86}: pull origin main: Fast-forward
+[33mb3cce62[m HEAD@{87}: checkout: moving from main to pavan
+[33m290603b[m HEAD@{88}: commit: reports
+[33mc38d757[m HEAD@{89}: commit: changes
+[33mb3cce62[m HEAD@{90}: merge pavan: Fast-forward
+[33mf9d76e2[m HEAD@{91}: checkout: moving from pavan to main
+[33mb3cce62[m HEAD@{92}: commit: changes
+[33mf9d76e2[m HEAD@{93}: pull origin main: Fast-forward
+[33m6c1bf82[m HEAD@{94}: checkout: moving from main to pavan
+[33mf9d76e2[m HEAD@{95}: merge pavan: Merge made by the 'ort' strategy.
+[33md3576ae[m HEAD@{96}: checkout: moving from pavan to main
+[33m6c1bf82[m HEAD@{97}: pull origin main: Merge made by the 'ort' strategy.
+[33m2854ce9[m HEAD@{98}: commit: changes
+[33m1714eb3[m HEAD@{99}: pull origin main: Merge made by the 'ort' strategy.
+[33md1f8401[m HEAD@{100}: checkout: moving from main to pavan
+[33md3576ae[m HEAD@{101}: merge pavan: Merge made by the 'ort' strategy.
+[33m07b4db3[m HEAD@{102}: pull origin main: Fast-forward
+[33m1642e97[m HEAD@{103}: checkout: moving from pavan to main
+[33md1f8401[m HEAD@{104}: commit: changes
+[33m34588d4[m HEAD@{105}: checkout: moving from main to pavan
+[33m1642e97[m HEAD@{106}: commit: changes
+[33m34588d4[m HEAD@{107}: merge pavan: Fast-forward
+[33mcadd6a5[m HEAD@{108}: pull origin main: Fast-forward
+[33mb5581a3[m HEAD@{109}: checkout: moving from pavan to main
+[33m34588d4[m HEAD@{110}: commit: changes
+[33mcadd6a5[m HEAD@{111}: pull origin main: Fast-forward
+[33mb5581a3[m HEAD@{112}: checkout: moving from main to pavan
+[33mb5581a3[m HEAD@{113}: merge pavan: Fast-forward
+[33m3089fd2[m HEAD@{114}: checkout: moving from pavan to main
+[33mb5581a3[m HEAD@{115}: commit (merge): datechanges
+[33m8e5e3b3[m HEAD@{116}: checkout: moving from main to pavan
+[33m3089fd2[m HEAD@{117}: checkout: moving from main to main
+[33m3089fd2[m HEAD@{118}: checkout: moving from pavan to main
+[33m8e5e3b3[m HEAD@{119}: reset: moving to origin/pavan
+[33m8e5e3b3[m HEAD@{120}: reset: moving to origin/pavan
+[33m3089fd2[m HEAD@{121}: reset: moving to origin/main
+[33m8e5e3b3[m HEAD@{122}: checkout: moving from main to pavan
+[33m3089fd2[m HEAD@{123}: checkout: moving from pavan to main
+[33m8e5e3b3[m HEAD@{124}: checkout: moving from main to pavan
+[33m3089fd2[m HEAD@{125}: reset: moving to origin/main
+[33m8e5e3b3[m HEAD@{126}: checkout: moving from pavan to main
+[33m8e5e3b3[m HEAD@{127}: checkout: moving from main to pavan
+[33m8e5e3b3[m HEAD@{128}: checkout: moving from pavan to main
+[33m8e5e3b3[m HEAD@{129}: checkout: moving from main to pavan
+[33m8e5e3b3[m HEAD@{130}: merge pavan: Fast-forward
+[33m4743c96[m HEAD@{131}: checkout: moving from pavan to main
+[33m8e5e3b3[m HEAD@{132}: commit: pavanchanges
+[33m4743c96[m HEAD@{133}: pull origin main: Fast-forward
+[33m0cdf6e6[m HEAD@{134}: checkout: moving from main to pavan
+[33m4743c96[m HEAD@{135}: merge pavan: Merge made by the 'ort' strategy.
+[33m6f41842[m HEAD@{136}: checkout: moving from pavan to main
+[33m0cdf6e6[m HEAD@{137}: commit: pavan
+[33m7c9f6bc[m HEAD@{138}: checkout: moving from main to pavan
+[33m6f41842[m HE
