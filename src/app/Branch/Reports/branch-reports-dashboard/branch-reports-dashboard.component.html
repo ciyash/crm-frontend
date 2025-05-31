@@ -2,7 +2,7 @@
 <div style="margin-top: 8%;">
   <div class="container ">
     <h5 class="text-center fw-bold text-danger"><u>PARCEL BOOKING REPORT</u></h5>
-    <div class="border p-3" style="margin-top: 2rem;">
+    <div class="border p-5" style="margin-top: 2rem;">
       <!-- Parcel Booking Report -->
       <form [formGroup]="form" novalidate>
         <div class="row mb-3 mt-4">
@@ -84,32 +84,61 @@
                   End Date is required
                 </div>
               </div>
-              <div class="col-md-6">
+              <!-- <div class="col-md-6">
                 <label class="form-label">From City</label>
-                <select #allParcelfromcity class="form-select form-select-sm" formControlName="fromCity">
+                <select #reportfrom class="form-select form-select-sm" formControlName="fromCity">
                   <option value="" selected>Select City</option>
                   <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
                 </select>
               </div>
               <div class="col-md-6">
                 <label class="form-label">To City</label>
-                <select #allParceltocity class="form-select form-select-sm" formControlName="toCity">
+                <select #reporttocity class="form-select form-select-sm" formControlName="toCity">
                   <option value="" selected>Select City</option>
                   <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
                 </select>
               </div>
               <div class="col-md-6">
                 <label class="form-label">PickUpBranch</label>
-                <select #allParcelPickupbranch class="form-select" formControlName="pickUpBranch">
+                <select #reportpickup class="form-select" formControlName="pickUpBranch">
                   <option value="" selected>PickUpBranch</option>
                   <option *ngFor="let row2 of branchdata" [value]="row2.branchUniqueId">{{ row2.name }}</option>
                 </select>
               </div>
               <div class="col-md-6">
                 <label class="form-label">Drop Branch</label>
-                <select #allParcelDroupBranch class="form-select" formControlName="dropBranch">
+                <select #reportdrop class="form-select" formControlName="dropBranch">
                   <option value="" selected>Drop Branch</option>
                   <option *ngFor="let row2 of branchdata" [value]="row2.branchUniqueId">{{ row2.name }}</option>
+                </select>
+              </div> -->
+   
+              <div class="col-md-6">
+                <label class="form-label small">From City</label>
+                <select #reportfrom class="form-select form-select-sm" formControlName="fromCity">
+                  <option value="" selected> Select City</option>
+                  <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small">To City</label>
+                <select #reportcity class="form-select form-select-sm" formControlName="toCity">
+                  <option value="" selected> Select City </option>
+                  <option *ngFor="let row of citydata" [value]="row.cityName">{{ row.cityName }}</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small">PickUpBranch</label>
+                <select #reportpick class="form-select form-select-sm" formControlName="pickUpBranch">
+                  <option value="" selected> Select Branch</option>
+                  <option *ngFor="let row4 of pdata" [value]="row4.branchUniqueId"> {{ row4.name }} </option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small">Drop Branch</label>
+                <select #reportdroup class="form-select form-select-sm" formControlName="dropBranch">
+                  <option value="" selected>Select Branch </option>
+                  <option *ngFor="let row1 of tbcdata" [value]="row1.branchUniqueId"> {{ row1.name }} </option>
                 </select>
               </div>
               <div class="col-md-6">
@@ -126,7 +155,7 @@
               </div>
               <div class="col-md-6">
                 <label class="form-label">Vehicle Number</label>
-                <select #vechicle class="form-select" formControlName="vehicalNumber">
+                <select #vechile class="form-select" formControlName="vehicalNumber">
                   <option value="" selected>Vehicle Number</option>
                   <option *ngFor="let row2 of allgetvechicle" [value]="row2.vehicleNo">{{ row2.vehicleNo }}</option>
                 </select>
@@ -429,10 +458,7 @@
                 </select>
               </div>
 
-              <!-- <div class="col-md-6">
-                <label class="form-label small">Name</label>
-                <input type="text" class="form-control form-control-sm" placeholder="Enter name" formControlName="name">
-              </div> -->
+ 
               <div class="col-md-6 position-relative">
                 <label class="form-label small">Name</label>
                 <input 

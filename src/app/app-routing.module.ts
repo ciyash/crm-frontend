@@ -117,6 +117,7 @@ const routes: Routes = [
   {path:'gstdata',component:GstDataComponent, canActivate: [authGuard]},
   {path:'pending-delivery',component:PendingDeliveryStockReportComponent, canActivate: [authGuard]},
   {path:'collectiondata',component:CollectionDataComponent, canActivate: [authGuard]},
+  
   {path:'parcelstatusdate',component:ParcelStatusDateDifferentComponent, canActivate: [authGuard]},
   {path:'datereport',component:StatusDateReportComponent, canActivate: [authGuard]},
   {path:'devliveryreport',component:DeliveryStockReportComponent, canActivate: [authGuard]},
@@ -129,19 +130,6 @@ const routes: Routes = [
   {path:'parcelloading-offlinereport',component:ParcelLoadingOfflineReportComponent, canActivate: [authGuard]},
   {path:'dispatched-stock-report',component:DispatchedStockReportComponent, canActivate: [authGuard]},
   {path:'report-delivery',component:ReportDeliveryComponent, canActivate: [authGuard]},
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

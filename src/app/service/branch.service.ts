@@ -152,6 +152,7 @@ export class BranchService {
     doorPickupCharges:number;
     valueOfGoods:number;
     grandTotal:number;
+    agent:string;
 
   }){
     const token1 = this.token.getToken();
@@ -188,6 +189,7 @@ export class BranchService {
       "doorPickupCharges":value.doorPickupCharges,
       "valueOfGoods": value.valueOfGoods,
       "grandTotal":value.grandTotal, 
+      "agent":value.agent,
       },
        httpOptions 
     );

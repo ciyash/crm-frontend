@@ -1,10 +1,11 @@
-import { state } from '@angular/animations';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { BranchService } from 'src/app/service/branch.service';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute } from '@angular/router';
+
 declare module 'file-saver';
 declare var $: any;
 declare const SlimSelect: any;
@@ -21,43 +22,36 @@ export class CollectionDataComponent {
   pfdata: any;
   today = new Date();
 
-
-  constructor(private router: Router, private api: BranchService, private toast: ToastrService) {}
+  constructor(private router: Router, private api: 
+    BranchService, private toast: ToastrService,private route: ActivatedRoute) {
+    }
 
   ngOnInit() {
-    // Get report data from sessionStorage
-    const storedData = sessionStorage.getItem('collectionReportData');
-    if (storedData) {
-      this.collectionReport = JSON.parse(storedData);
-      sessionStorage.removeItem('collectionReportData');
-      console.log("collectionReport:", this.collectionReport);
-    } else {
-      this.toast.error('No report data found.');
+    this.getProfileData();
+
+      this.route.queryParamMap.subscribe(params => {
+        const encodedData = params.get('data');
+    
+        if (encodedData) {
+          try {
+            const decodedData = JSON.parse(decodeURIComponent(encodedData));
+            console.log('Decoded Data:', decodedData);
+            this.collectionReport=decodedData
+          } catch (error) {
+            console.error('Error decoding data:', error);
+          }
+        }
+      });
     }
   
-    this.getProfileData();
-  }
+    
   
-
-
-
-
-
-
-
   getProfileData() {
     this.api.GetProfileData().subscribe((res: any) => {
       this.pfdata = res;
       console.log( 'profiledata:',this.pfdata);
     });
   }
-
-
-
-
-
-  
-
   printReport() {
     const printContents = document.getElementById('print-section')?.innerHTML;
     if (printContents) {
@@ -122,9 +116,6 @@ export class CollectionDataComponent {
       popupWin!.document.close();
     }
   }
-
-
-
 
 exportToExcel(): void {
   const exportData: any[] = [];
@@ -207,3 +198,4 @@ exportToExcel(): void {
 
   
 }
+

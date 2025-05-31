@@ -65,12 +65,19 @@ word-wrap: break-word">Parcel Loading Offline</h4>
             <img src="assets/scanner.png" alt="Scan QR" style="width: 30px; height: 30px; cursor: pointer;"
               (click)="openScanner()" />
           </div>
+
+
+
         
           <!-- Print Icon -->
-          <div class="col-12 col-sm-6 col-lg-3 d-flex justify-content-lg-start justify-content-sm-end justify-content-start">
+          <div class="col-12 col-sm-6 col-lg-3 d-flex gap-3 justify-content-lg-start justify-content-sm-end justify-content-start">
             <i class="fa fa-print" *ngIf="data"
-              style="font-size: 30px; cursor: pointer;" aria-hidden="true" (click)="printSection()">
+              style="font-size: 30px; cursor: pointer; color: green;" aria-hidden="true" (click)="printSection()">
             </i>
+
+            <i class="fa fa-file-excel-o" *ngIf="data"
+            style="font-size: 26px; cursor: pointer; color: green; margin-top: 3px;" aria-hidden="true" (click)="ExportExel()">
+          </i>
           </div>
         
         </div>
@@ -127,7 +134,7 @@ word-wrap: break-word">Parcel Loading Offline</h4>
             <td>{{ row.bookingDate | date: 'dd-MM-yyyy' }}</td>
             <td>{{ row.bookingType }}</td>
             <td>{{ row.totalQuantity }}</td>
-            <td>{{ row.totalAmount }}</td>
+            <td>{{ row.totalCharge }}</td>
           </tr>
         </tbody>
       </table>

@@ -2,11 +2,11 @@
 <div style="margin-top: 8%;">
   <div class="text-center">
     <i class="fa fa-print" aria-hidden="true" style="font-size: 35px; color: green;" (click)="Print()"></i>
-    <i class="fa fa-file-excel-o" style="font-size: 28px; color: green;" (click)="exportToExcel()"  aria-hidden="true"></i>
+    <i class="fa fa-file-excel-o mx-2" style="font-size: 28px; color: green;" (click)="exportToExcel()"  aria-hidden="true"></i>
 
 
   </div>
-<div  id="print-section" class="container my-4 p-3 border rounded bg-light">
+<div  id="print-section" class="container  p-3 border rounded bg-light">
   <div class="container-fluid" *ngIf="pfdata">
     <h4 class="text-center fw-bold">
       {{ pfdata.companyName  }}
