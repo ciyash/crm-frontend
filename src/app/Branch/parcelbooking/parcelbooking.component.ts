@@ -82,7 +82,9 @@ export class ParcelbookingComponent {
       doorPickupCharges: [0],
       valueOfGoods: [''],
       grandTotal: [''],
+      agent:[''],
       packages: this.fb.array([]),
+
         });
      
         this.form1 = this.fb.group({
@@ -119,20 +121,25 @@ export class ParcelbookingComponent {
     this.getProfileData();
     this.addOrderItem()
 
+    this.form.get('bookingType')?.valueChanges.subscribe((value) => {
+      console.log("Booking type changed to:", value);
+      if (value !== 'credit') {
+        this.form.patchValue({
+          agent: '',           // Clear selected company
+          senderName: '',
+          senderMobile: '',
+          senderAddress: '',
+          senderGST: ''
+        });
+        console.log("Sender info and company selection cleared.");
+      }
+    });
   }
   
  
   
   ngAfterViewInit(): void {
     setTimeout(() => {
-
-
-      // $(this.Company.nativeElement).on('select2:select', (event: any) => {
-      //   const selectedCity = event.params.data.id;
-      //   this.form1.patchValue({ toCity: selectedCity });
-      //   this.form1.get('toCity')?.markAsTouched();
-      // });
-      // Initialize Select2 for From City
       $(this.selectElem.nativeElement).select2();
       $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
         const selectedCity = event.params.data.id;
@@ -366,7 +373,8 @@ onTocitySelect(event: any) {
         doorDeliveryCharges: this.form.value.doorDeliveryCharges,
         doorPickupCharges: this.form.value.doorPickupCharges,
         valueOfGoods: this.form.value.valueOfGoods,
-        grandTotal: this.form.value.grandTotal
+        grandTotal: this.form.value.grandTotal,
+        agent:this.form.value.agent
       };
   
       // Then open modal using Bootstrap JS if needed (or it's already bound by button trigger)
@@ -376,9 +384,6 @@ onTocitySelect(event: any) {
     }
   }
   
-  
-  
-
   
   confirmBooking() {
     this.add();  
@@ -425,7 +430,8 @@ onTocitySelect(event: any) {
         doorDeliveryCharges: this.form.value.doorDeliveryCharges,
         doorPickupCharges: this.form.value.doorPickupCharges,
         valueOfGoods: this.form.value.valueOfGoods,
-        grandTotal: this.form.value.grandTotal
+        grandTotal: this.form.value.grandTotal,
+        agent:this.form.value.agent
       };
   
       console.log("Final Data to Submit:", val);
@@ -538,21 +544,18 @@ onTocitySelect(event: any) {
   onCompanySelect(event: any): void {
     const selectedCompanyName = event.target.value;
     console.log("Selected company name:", selectedCompanyName);
-  
     const selectedCompany = this.companyList.find(
       (company: { name: string }) => company.name === selectedCompanyName
     );
-  
     console.log("Selected company object:", selectedCompany);
-  
     if (selectedCompany) {
       this.form.patchValue({
         senderName: selectedCompany.senderName || '',
         senderMobile: selectedCompany.senderMobile || '',
         senderAddress: selectedCompany.address || '',
         senderGST: selectedCompany.gst || ''
+        
       });
-  
       console.log("Auto-filled address:", selectedCompany.address);
     }
   }

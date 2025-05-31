@@ -1,94 +1,100 @@
-<div class="container-fluid" id="printableArea">
-  <div class="container-fluid" *ngIf="pfdata">
-    <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
-    <p class="text-center fw-bold">
-      Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
-      Phone No: {{ pfdata.phone }}
-    </p>
-  </div>
-
-  <h5 class="text-center">Parcel Booking Report</h5>
-  <div class="row">
-    <div class="col-8">
-      <p><strong>From:</strong>
-        {{ data1.fromDate | date:'dd-MM-yyyy' }}
-        <strong>To:</strong> {{ data1.toDate | date:'dd-MM-yyyy' }}
+<!-- <app-header></app-header> -->
+<div class="text-center" style="margin-top: 8%;">
+  <i class="fa fa-print" aria-hidden="true" style="font-size: 38px;color: green;cursor: pointer;" (click)="print()"></i>
+  <i class="fa fa-file-excel-o mx-2" (click)="Export()" style="font-size: 30px;color: green;cursor: pointer;" aria-hidden="true"></i>
+</div>
+<div class="container-fluid  " id="printableArea">
+  <div>
+    <div class="container-fluid" *ngIf="pfdata">
+      <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
+      <p class="text-center fw-bold">
+        Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
+        Phone No: {{ pfdata.phone }}
       </p>
     </div>
-    <div class="col-4 text-right">
-      Print Date: {{ currentDate | date:'dd-MM-yyyy' }} {{ currentTime | date:'hh:mm a' }}
-    </div>
-  </div>
-
-  <div *ngFor="let category of ['toPay', 'paid', 'credit', 'FOC', 'CLR']">
-    <h5 class="mt-4 text-uppercase">{{ category }}</h5>
-
-    <div *ngIf="data[category]?.bookings?.length > 0; else noBookings">
-      <table class="table table-bordered">
-        <thead>
-          <tr>
-            <!--  -->
-            <th>S.No</th>
-            <th>GRN No</th>
-            <!-- <th>Manual Ticket No</th> -->
-            <th>Status</th>
-            <th>Date</th>
-            <th>From Branch</th>
-            <th>To Branch</th>
-            <th>Booked By</th>
-            <th>Sender Name</th>
-            <th>Receiver Name</th>
-            <th>Agent</th>
-            <th>Quantity</th>
-            <th>Weight</th>
-            <th>Charge</th>
-            <th>Hamali</th>
-            <th>Value of Goods</th>
-            <!-- <th>Invoice No</th> -->
-            <th>E-way Bill No</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let booking of (data[category]?.bookings || []); let i = index">
-            <td>{{ i + 1 }}</td>
-            <td>{{ booking.grnNo || '-' }}</td>
-            <!-- <td>{{ booking.manualTicketNo || '-' }}</td> -->
-            <td>{{ getBookingStatus(booking.bookingStatus) }}</td>
-            <td>{{ booking.bookingDate | date: 'dd/MM/yyyy' }}</td>
-            <td>{{ booking.pickUpBranchname || '-' }}</td>
-            <td>{{ booking.dropBranchname || '-' }}</td>
-            <td>{{ booking.bookedBy?.name || '-' }}</td>
-            <td>{{ booking.senderName || '-' }}</td>
-            <td>{{ booking.receiverName || '-' }}</td>
-            <td>{{ booking.agentName || '-' }}</td>
-            <td>{{ booking.totalQuantity || 0 }}</td>
-            <td>{{ getTotalWeight(booking.packages) }}</td>
-            <td>{{ booking.grandTotal || 0 }}</td>
-            <td>{{ booking.hamali || 0 }}</td>
-            <td>{{ booking.valueOfGoods || 0 }}</td>
-            <!-- <td>{{ booking.invoiceNo || '-' }}</td> -->
-            <td>{{ booking.eWayBillNo || '-' }}</td>
-          </tr>
-          <!-- Totals Row -->
-          <tr class="table-success fw-bold">
-            <td colspan="11">Total</td>
-            <td>{{ data[category].allTotalQuantity }}</td>
-            <td></td>
-            <td>{{ data[category].allGrandTotal }}</td>
-            <td colspan="4"></td>
-          </tr>
-        </tbody>
-      </table>
+    <h5 class="text-center">Parcel Booking Report</h5>
+    
+    <div class="row">
+      <div class="col-8">
+        <p><strong>From:</strong>
+          {{ data1.fromDate | date:'dd-MM-yyyy' }}
+          <strong>To:</strong> {{ data1.toDate | date:'dd-MM-yyyy' }}
+        </p>
+      </div>
+      <div class="col-4 text-right">
+        <strong>Print Date:</strong>   {{ currentDate | date:'dd-MM-yyyy' }} {{ currentTime | date:'hh:mm a' }}
+      </div>
     </div>
 
-    <ng-template #noBookings>
-      <div class="alert alert-warning">No bookings found for {{ category }}</div>
-    </ng-template>
-  </div>
+    <div *ngFor="let category of ['toPay', 'paid', 'credit', 'FOC', 'CLR']">
+      <h5 class="mt-4 text-uppercase">{{ category }}</h5>
 
-  <div class="text-center mt-4">
-    <!-- <button class="btn btn-sm btn-primary m-3" (click)="downloadAsPDF()"> <i class="fa fa-file-pdf-o"></i> </button> -->
-    <button class="btn btn-sm btn-primary m-3" (click)="print()"> <i class="fa fa-print"></i> </button>
-  </div>
+      <div *ngIf="data[category]?.bookings?.length > 0; else noBookings">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>S.No</th>
+              <th>GRN No</th>
+              <!-- <th>Manual Ticket No</th> -->
+              <th>Status</th>
+              <th>Date</th>
+              <th>From Branch</th>
+              <th>To Branch</th>
+              <th>Booked By</th>
+              <th>Sender Name</th>
+              <th>Receiver Name</th>
+              <th>Agent</th>
+              <th>Quantity</th>
+              <th>Weight</th>
+              <th>Charge</th>
+              <th>Hamali</th>
+              <th>Value of Goods</th>
+              <!-- <th>Invoice No</th> -->
+              <th>E-way Bill No</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let booking of (data[category]?.bookings || []); let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ booking.grnNo || '-' }}</td>
+              <!-- <td>{{ booking.manualTicketNo || '-' }}</td> -->
+              <td>{{ getBookingStatus(booking.bookingStatus) }}</td>
+              <td>{{ booking.bookingDate | date: 'dd/MM/yyyy' }}</td>
+              <td>{{ booking.pickUpBranchname || '-' }}</td>
+              <td>{{ booking.dropBranchname || '-' }}</td>
+              <td>{{ booking.bookedBy?.name || '-' }}</td>
+              <td>{{ booking.senderName || '-' }}</td>
+              <td>{{ booking.receiverName || '-' }}</td>
+              <td>{{ booking.agentName || '-' }}</td>
+              <td>{{ booking.totalQuantity || 0 }}</td>
+              <td>{{ getTotalWeight(booking.packages) }}</td>
+              <td>{{ booking.grandTotal || 0 }}</td>
+              <td>{{ booking.hamali || 0 }}</td>
+              <td>{{ booking.valueOfGoods || 0 }}</td>
+              <!-- <td>{{ booking.invoiceNo || '-' }}</td> -->
+              <td>{{ booking.eWayBillNo || '-' }}</td>
+            </tr>
+            <!-- Totals Row -->
+            <tr class="table-success fw-bold">
+              <td colspan="11">Total</td>
+              <td>{{ data[category].allTotalQuantity }}</td>
+              <td></td>
+              <td>{{ data[category].allGrandTotal }}</td>
+              <td colspan="4"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
+      <ng-template #noBookings>
+        <div class="alert alert-warning">No bookings found for {{ category }}</div>
+      </ng-template>
+    </div>
+
+  </div>
 </div>
+
+<!-- <div class="text-center mt-4">
+    <button class="btn btn-sm btn-primary m-3" (click)="downloadAsPDF()"> <i class="fa fa-file-pdf-o"></i> </button>
+    <button class="btn btn-sm btn-primary m-3" (click)="print()"> <i class="fa fa-print"></i> </button>
+  </div> -->

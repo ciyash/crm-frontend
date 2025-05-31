@@ -1,4 +1,9 @@
-<div class="container my-4 p-3 border rounded bg-light" >
+<app-header></app-header> 
+<div class="text-center" style="margin-top: 8%;">
+  <i class="fa fa-print" aria-hidden="true" style="font-size: 40px; color: green;cursor: pointer;" (click)="printPage()"></i>
+  <i class="fa fa-file-excel-o mx-2" aria-hidden="true" style="font-size: 30px; color: green;cursor: pointer;" (click)="ExpoetExcel()"></i>
+</div>
+<div class="container my-4 p-3 border rounded bg-light" id="print-section"  >
 <div class="container-fluid" *ngIf="pfdata">
   <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
   <p class="text-center fw-bold">
@@ -8,61 +13,13 @@
 </div>  <h6 class="text-center text-decoration-underline">All Parcel Booking Details Report</h6>
 
   <div class="d-flex justify-content-between mt-3">
-    <div><strong>From :</strong> 11-04-2025 <strong>To :</strong> 12-04-2025</div>
+    <div *ngIf="data1"><strong>From :</strong> {{data1.startDate| date: 'dd-MM-yyyy'}} <strong>To :</strong> {{data1.endDate| date: 'dd-MM-yyyy'}}</div>
     <div><strong>Print Date :</strong> {{ today | date: 'dd-MM-yyyy' }} <strong>Time :</strong> {{ today | date: 'shortTime' }}</div>
   </div>
-  <!-- Loop through each vehicle group -->
-  <!-- <div *ngFor="let group of data1.data; let gIndex = index">
-    <div class="mt-4 mb-2">
-      <strong>Vehicle Number:</strong> {{ group.vehicalNumber || 'Unknown' }} |
-      <strong>Total Quantity:</strong> {{ group.totalQuantity }} |
-      <strong>Total Amount:</strong> ₹{{ group.totalGrandTotal | number: '1.2-2' }} |
-      <strong>Total Hamali:</strong> ₹{{ group.totalHamaliCharge | number: '1.2-2' }}
-    </div>
-    <div class="table-responsive">
-      <table class="table table-bordered table-sm table-striped">
-        <thead class="table-secondary text-center">
-          <tr>
-            <th>No</th>
-            <th>GRN No</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th>From City</th>
-            <th>To City</th>
-            <th>Type</th>
-            <th>From Branch</th>
-            <th>To Branch</th>
-            <th>Sender Name</th>
-            <th>Receiver Name</th>
-            <th>Qty</th>
-            <th>Amount</th>
-            <th>Hamali Charge</th>
-          </tr>
-        </thead>
-        <tbody class="text-center align-middle">
-          <tr *ngFor="let row of group.bookings; let i = index">
-            <td>{{ i + 1 }}</td>
-            <td>{{ row.grnNo }}</td>
-            <td>{{ row.bookingDate | date: 'dd-MM-yyyy' }}</td>
-            <td>{{ row.bookingStatus === 0 ? 'Loading' : 'Unknown' }}</td>
-            <td>{{ row.fromCity }}</td>
-            <td>{{ row.toCity }}</td>
-            <td>{{ row.bookingType | titlecase }}</td>
-            <td>{{ row.pickUpBranchname }}</td>
-            <td>{{ row.dropBranchname || 'N/A' }}</td>
-            <td>{{ row.senderName }}<br>{{ row.senderMobile || '' }}</td>
-            <td>{{ row.receiverName }}<br>{{ row.receiverMobile || '' }}</td>
-            <td>{{ row.totalQuantity }}</td>
-            <td>{{ row.grandTotal | number: '1.2-2' }}</td>
-            <td>{{ row.hamaliCharges | number: '1.2-2' }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div> -->
+
   <ng-container *ngFor="let group of data1.data; let groupIndex = index">
-    <p class="fw-bold" >Vehicle Number: {{ group.vehicalNumber || 'Unknown' }}</p>
-  <div class="table-responsive mt-4">
+    <p class="fw-bold" *ngIf="group.vehicalNumber">Vehicle Number: {{ group.vehicalNumber }}</p>
+    <div class="table-responsive mt-4">
     <table class="table table-bordered table-sm table-striped">
       <thead class="table-secondary text-center">
         <tr>

@@ -34,7 +34,7 @@ export class ParcelLoadingDataComponent {
       toDate: [this.getTodayDateString(), Validators.required],
       fromCity: [''],
       toCity: this.fb.array([]),
-      fromBranch: ['all'],
+      fromBranch: [''],
       dropBranch: ['']
     });
   }
@@ -62,12 +62,17 @@ export class ParcelLoadingDataComponent {
 
     setTimeout(() => {
       $(this.selectElem.nativeElement).select2();
-      $(this.selectElem.nativeElement).val('all').trigger('change');
+
+      // Set the default value from form ('' or any pre-filled value)
+      $(this.selectElem.nativeElement).val(this.form1.value.fromCity).trigger('change');
+      
+      // Handle selection
       $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
         const selectedCity = event.params.data.id;
         this.form1.patchValue({ fromCity: selectedCity });
         this.onFromcitySelect({ target: { value: selectedCity } });
       });
+      
 
       $(this.pickupbranch.nativeElement).select2();
       $(this.pickupbranch.nativeElement).val('all').trigger('change');

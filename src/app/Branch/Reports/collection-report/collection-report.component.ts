@@ -47,9 +47,6 @@ export class CollectionReportComponent implements OnInit, AfterViewInit {
 
     this.getProfileData();
   }
-
-  
-
   getTodayDateString(): string {
     const today = new Date();
     const year = today.getFullYear();
@@ -57,8 +54,6 @@ export class CollectionReportComponent implements OnInit, AfterViewInit {
     const day = String(today.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   }
-  
-
   ngAfterViewInit(): void {
     setTimeout(() => {
       // From City
@@ -79,18 +74,12 @@ export class CollectionReportComponent implements OnInit, AfterViewInit {
     }, 0);
   }
   
-  
-
   getProfileData() {
     this.api.GetProfileData().subscribe((res: any) => {
       this.pfdata = res;
       console.log('profile', this.pfdata);
     });
   }
-
-
-
-
 
   onFromcitySelect(event: any) {
     const cityName = event.target.value;
@@ -109,41 +98,36 @@ export class CollectionReportComponent implements OnInit, AfterViewInit {
     }
   }
 
-
-
-
-
   getCollectionReport() {
     const payload = this.form.value;
     console.log("Payload:", payload);
-  
+
     this.api.ParcelBranchWiseReport(payload).subscribe({
       next: (res: any) => {
         const successMsg = res?.message || 'Report fetched successfully';
         this.toast.success(successMsg);
-  
         const finalData = {
           ...res,
           fromDate: payload.fromDate,
           toDate: payload.toDate
         };
-  
-        // ✅ Save data to sessionStorage or localStorage
-        sessionStorage.setItem('collectionReportData', JSON.stringify(finalData));
-  
-        // ✅ Open new tab with the target route
-        window.open('/collectiondata', '_blank');
+        const dataStr = encodeURIComponent(JSON.stringify(finalData));
+                const url = this.router.serializeUrl(
+          this.router.createUrlTree(['/collectiondata'], {
+            queryParams: { data: dataStr }
+          })
+        );
+        window.open(url, '_blank');
+        console.log("dataStr:",dataStr);
+        
       },
-  
+
       error: (err: any) => {
         console.error('Error fetching report:', err);
         const errorMsg = err?.error?.message || err?.message || 'Failed to fetch report';
         this.toast.error(errorMsg);
       }
     });
-  }
-  
-  
-  
+}
 
 }

@@ -1,5 +1,5 @@
 <app-header></app-header>
-<div class="container" >
+<div class="container">
   <app-search-grn-number></app-search-grn-number>
 </div>
 
@@ -74,28 +74,25 @@ word-wrap: break-word">Parcel Booking</h4>
 
         <div class="col-md-4">
 
-         <!-- Show this only when bookingType is 'credit' -->
-         <!-- <div *ngIf="form.get('bookingType')?.value === 'credit'" class="mt-2">
+          <!-- Show this only when bookingType is 'credit' -->
+          <!-- <div *ngIf="form.get('bookingType')?.value === 'credit'" class="mt-2">
         <label class="form-label form-after">Agent</label>
           <select  class="form-select form-select-sm" formControlName="toCity">
             <option value="" selected>Select Company</option>
             <option *ngFor="let row of companyList" [value]="row.name">{{ row.name }}</option>
           </select>
         </div> -->
-        <div *ngIf="form.get('bookingType')?.value === 'credit'" class="mt-2">
-          <label class="form-label form-after">Agent</label>
-          <select class="form-select form-select-sm"
-                  formControlName="toCity"
-                  (change)="onCompanySelect($event)">
-            <option value="" selected>Select Company</option>
-            <option *ngFor="let row of companyList" [value]="row.name">{{ row.name }}</option>
-          </select>
+          <div *ngIf="form.get('bookingType')?.value === 'credit'" class="mt-2">
+            <label class="form-label form-after">Agent</label>
+            <select class="form-select form-select-sm" formControlName="agent" (change)="onCompanySelect($event)">
+              <option value="" selected>Select Company</option>
+              <option *ngFor="let row of companyList" [value]="row.name">{{ row.name }}</option>
+            </select>
+          </div>
+
+
         </div>
-        
-
       </div>
-      </div>
-
 
 
       <h6 class="mt-0 text-success">Items</h6>
@@ -308,8 +305,8 @@ word-wrap: break-word">Parcel Booking</h4>
                                 </div>
                                 <div class="col-md-6">
                                   <label for="senderMobile"><strong>receiver Mobile:</strong></label>
-                                  <!-- <p>{{ modelData?.receiverMobile }}</p> -->
-                                  
+                                  <p>{{ modelData?.receiverMobile }}</p>
+
                                 </div>
                               </div>
                               <!-- Add Package Details -->

@@ -1,5 +1,6 @@
 import {  OnInit,AfterViewInit, Component, ElementRef, ViewChild  } from '@angular/core';
-
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BranchService } from 'src/app/service/branch.service';
 import { TokenService } from 'src/app/service/token.service';
@@ -503,7 +504,26 @@ onLoad() {
         console.log( 'profiledata:',this.pfdata);
       });
     }
-  }
+
+
+    
+    
+      ExportExel(): void {
+        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.printTable.nativeElement);
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Bookings');
+    
+        const excelBuffer: any = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    
+        const blob = new Blob([excelBuffer], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        });
+    
+        FileSaver.saveAs(blob, `ParcelBooking_${new Date().toISOString().slice(0, 10)}.xlsx`);
+      }
+    }
+    
+  
   
   
   
