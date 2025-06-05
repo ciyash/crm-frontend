@@ -13,6 +13,7 @@ declare var bootstrap: any;
 })
 export class GetCfmasterDataComponent {
   data:any;
+  
   loading:boolean=true;
   visible: boolean = false;
   repd: any = {};

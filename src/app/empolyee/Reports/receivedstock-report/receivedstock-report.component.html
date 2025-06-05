@@ -1,0 +1,178 @@
+<app-header></app-header>
+
+<div class="card container" style=" margin-top: 8%;
+border: 2px solid #ccc; 
+border-radius: 5px;
+padding: 15px;
+background-color: #fff;">
+  <h5 class="text-center fw-bold text-danger"><u>Parcel Received Stock Report
+    </u>
+  </h5>
+
+  <div class="rounded p-4">
+    <form [formGroup]="form">
+      <div class="row mb-2">
+        <div class="col-md-6">
+          <label class="form-label">From Booking Date</label>
+          <input type="date" class="form-control form-select-sm" formControlName="fromDate">
+          <div *ngIf="form.get('fromDate')?.invalid && form.get('fromDate')?.touched" class="text-danger">
+            From Date is required
+          </div>
+
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">To Booking Date</label>
+          <input type="date" class="form-control form-select-sm" formControlName="toDate">
+          <div *ngIf="form.get('toDate')?.invalid && form.get('toDate')?.touched" class="text-danger">
+            To Date is required
+          </div>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label form-after">From City</label>
+            <input type="text" class="form-control" formControlName="fromCity" readonly />
+          </div>
+
+        <div class="col-md-6">
+          <label class="form-label"> To City</label>
+          <select #selectElem2 class="form-select form-select-sm" formControlName="toCity">
+            <option value="" selected> select to City</option>
+            <option *ngFor="let row of citydata" [value]="row.cityName">{{ row.cityName }}</option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label form-after">Pickup Branch</label>
+            <input type="text" class="form-control" [value]="ffdata?.name || ''" readonly />
+            <input type="hidden" formControlName="pickUpBranch" />
+          </div>
+        <div class="col-md-6">
+          <label class="form-label">Drop Branch</label>
+          <select #droupbranch class="form-select form-select-sm" formControlName="dropBranch">
+            <option value="" selected> Select Branch</option>
+            <option *ngFor="let row1 of tbcdata" [value]="row1.branchUniqueId"> {{ row1.name }} </option>
+          </select>
+        </div>
+
+        <!-- <div class="col-md-6">
+            <label class="form-label">Booking Type  </label>
+             <input type="text" class="mt-3 form-select-sm"  formControlName="receiverName">
+          </div> -->
+        <div class="row align-items-end mb-3">
+          <div class="col-md-6">
+            <label for="receiverName" class="form-label">Consignee</label>
+            <input type="text" id="receiverName" class="form-control form-control-sm" formControlName="receiverName"
+              placeholder="Enter Booking Type" />
+          </div>
+
+          <div class="col-md-6 d-flex align-items-center gap-4">
+            <!-- Load Button -->
+            <button type="button" class="btn btn-success" (click)="LuaggageReport()">
+              Load
+            </button>
+          
+            <!-- Print Icon -->
+            <i *ngIf="reportData"
+               class="fa fa-print"
+               style="font-size: 30px; cursor: pointer; color: green;"
+               (click)="printReport()"
+               title="Print Report">
+            </i>
+          
+            <!-- Excel Icon -->
+            <i *ngIf="reportData"
+               class="fa fa-file-excel-o"
+               style="font-size: 24px; cursor: pointer; color: green;"
+               (click)="exportToExcel()"
+               title="Export to Excel">
+            </i>
+          </div>
+          
+
+        </div>
+
+
+      </div>
+    </form>
+  </div>
+  
+  <div class="hr" style="  border: 1px solid #ccc; /* light gray border */
+      background-color: #fff;"></div>
+
+  <div  *ngIf="reportData" id="print-section">
+    <div class="text-center mb-4 mt-5">
+      <div class="container-fluid" *ngIf="pffffffdata">
+        <h4 class="text-center fw-bold">{{ pffffffdata.companyName }}</h4>
+        <p class="text-center fw-bold">
+          Address: {{ pffffffdata.location }} - {{ pffffffdata.branchId?.name }} |
+          Phone No: {{ pffffffdata.phone }}
+        </p>
+      </div>
+      <h6 class="text-decoration-underline">Parcel Received Stock Report</h6>
+    </div>
+    <div class="table-responsive mb-1 ">
+      <table class="table table-bordered table-sm text-center align-middle">
+        <thead>
+          <tr>
+            <th>From : {{payload.fromDate | date: 'dd-MM-yyyy'}} To : {{payload.toDate | date: 'dd-MM-yyyy'}}</th>
+            <th *ngIf="pfdata">Print By : {{pfdata.username}}</th>
+            <th>Print Date :{{ today | date: 'dd-MM-yyyy' }} {{ today | date: 'hh:mm a' }} </th>
+          </tr>
+        </thead>
+
+      </table>
+    </div>
+
+
+    <div class="table-responsive">
+      <table class="table table-bordered table-sm text-center align-middle">
+        <thead class="table-secondary">
+          <tr>
+            <th>No</th>
+            <th>GRN No</th>
+            <th>Unloading Date</th>
+            <th>Sender</th>
+            <th>Receiver</th>
+            <th>Type</th>
+            <th>Packages</th>
+            <th>Total Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of pagedData(); let i = index">
+            <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+            <td>{{ data.grnNo }}</td>
+            <!-- <td>{{ data.lrNumber }}</td> -->
+            <td>{{ data.unloadingDate | date: 'dd-MM-yyyy ' }}</td>
+            <td>{{ data.senderName }}</td>
+            <td>{{ data.receiverName }}</td>
+            <td>{{ data.bookingType }}</td>
+            <td>{{ data.totalPackages }}</td>
+            <td>{{ data.grandTotal }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+
+    </div>
+  </div>
+
+
+  <nav *ngIf="reportData?.length > itemsPerPage">
+    <ul class="pagination justify-content-center mt-3">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <button class="page-link" (click)="changePage(currentPage - 1)">Previous</button>
+      </li>
+
+      <li class="page-item" *ngFor="let page of totalPagesArray(); let idx = index"
+        [class.active]="currentPage === (idx + 1)">
+        <button class="page-link" (click)="changePage(idx + 1)">{{ idx + 1 }}</button>
+      </li>
+
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <button class="page-link" (click)="changePage(currentPage + 1)">Next</button>
+      </li>
+    </ul>
+  </nav>
+
+</div>

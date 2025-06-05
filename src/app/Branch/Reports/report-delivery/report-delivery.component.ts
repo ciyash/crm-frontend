@@ -15,8 +15,6 @@ export class ReportDeliveryComponent {
 
 
 
-
-
   @ViewChild('selectElem') selectElem!: ElementRef;
   @ViewChild('pickupbranch') pickupbranch!: ElementRef;
   @ViewChild('selectElem2') selectElem2!: ElementRef;

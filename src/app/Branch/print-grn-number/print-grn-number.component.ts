@@ -54,5 +54,6 @@ export class PrintGrnNumberComponent {
 
   goBack() {
     this.location.back();
+
   }
 }

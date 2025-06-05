@@ -86,9 +86,33 @@ import { ParcelLoadingOfflineReportComponent } from './Branch/Reports/parcel-loa
 import { DispatchedStockReportComponent } from './Branch/Reports/dispatched-stock-report/dispatched-stock-report.component';
 import { ReportDeliveryComponent } from './Branch/Reports/report-delivery/report-delivery.component';
 import { VocherDetailsReportComponent } from './Branch/Cfmaster/vocher-details-report/vocher-details-report.component';
-
-
- 
+import { BookingComponent } from './empolyee/booking/booking.component';
+import { LoadingComponent } from './empolyee/loading/loading.component';
+import { UnloadingComponent } from './empolyee/unloading/unloading.component';
+import { LoadingReportComponent } from './empolyee/loading-report/loading-report.component';
+import { BranchToBranchLoadingComponent } from './empolyee/branch-to-branch-loading/branch-to-branch-loading.component';
+import { BranchToBranchUnloadingComponent } from './empolyee/branch-to-branch-unloading/branch-to-branch-unloading.component';
+import { VoucherDetailsListComponent } from './empolyee/voucher-details-list/voucher-details-list.component';
+import { CfmasterDataComponent } from './empolyee/cfmaster/cfmaster-data/cfmaster-data.component';
+import { TodaybookingComponent } from './empolyee/Reports/todaybooking/todaybooking.component';
+import { CollectionreportComponent } from './empolyee/Reports/collectionreport/collectionreport.component';
+import { ConslidatedReportComponent } from './empolyee/Reports/conslidated-report/conslidated-report.component';
+import { ReportStatusDateComponent } from './empolyee/Reports/report-status-date/report-status-date.component';
+import { PendingdeliveryStockComponent } from './empolyee/Reports/pendingdelivery-stock/pendingdelivery-stock.component';
+import { PendingdevliveryLuggagereportComponent } from './empolyee/Reports/pendingdevlivery-luggagereport/pendingdevlivery-luggagereport.component';
+import { DispatchedstockReportComponent } from './empolyee/dispatchedstock-report/dispatchedstock-report.component';
+import { ReceivedstockReportComponent } from './empolyee/Reports/receivedstock-report/receivedstock-report.component';
+import { DeliveryReportComponent } from './empolyee/Reports/delivery-report/delivery-report.component';
+import { PendingdispacthedstockReportComponent } from './empolyee/Reports/pendingdispacthedstock-report/pendingdispacthedstock-report.component';
+import { DisptchedMemoReportComponent } from './empolyee/Reports/disptched-memo-report/disptched-memo-report.component';
+import { IncomingReportComponent } from './empolyee/Reports/incoming-report/incoming-report.component';
+import { DashboardReportComponent } from './empolyee/Reports/dashboard-report/dashboard-report.component';
+import { SubBookingComponent } from './SubAdmin/sub-booking/sub-booking.component';
+import { SubLoadingComponent } from './SubAdmin/sub-loading/sub-loading.component';
+import { SubLoadingreportComponent } from './SubAdmin/sub-loadingreport/sub-loadingreport.component';
+import { SubUnloadingComponent } from './SubAdmin/sub-unloading/sub-unloading.component';
+import { SubBranchToBranchLoadingComponent } from './SubAdmin/sub-branch-to-branch-loading/sub-branch-to-branch-loading.component';
+import { SubBranchToBranchUnloadingComponent } from './SubAdmin/sub-branch-to-branch-unloading/sub-branch-to-branch-unloading.component';
 @NgModule({
   declarations: [
     // reports
@@ -100,6 +124,8 @@ import { VocherDetailsReportComponent } from './Branch/Cfmaster/vocher-details-r
     ParcelbookingSerialnoComponent,
     AllParcelBookingReportComponent,
     VocherDetailsReportComponent,
+    GetCfmasterDataComponent,
+    AddCfmasterComponent,
 
 
     AppComponent,
@@ -165,6 +191,33 @@ import { VocherDetailsReportComponent } from './Branch/Cfmaster/vocher-details-r
     ParcelLoadingOfflineReportComponent,
     DispatchedStockReportComponent,
     ReportDeliveryComponent,
+    BookingComponent,
+    LoadingComponent,
+    UnloadingComponent,
+    LoadingReportComponent,
+    BranchToBranchLoadingComponent,
+    BranchToBranchUnloadingComponent,
+    VoucherDetailsListComponent,
+    CfmasterDataComponent,
+    TodaybookingComponent,
+    CollectionreportComponent,
+    ConslidatedReportComponent,
+    ReportStatusDateComponent,
+    PendingdeliveryStockComponent,
+    PendingdevliveryLuggagereportComponent,
+    DispatchedstockReportComponent,
+    ReceivedstockReportComponent,
+    DeliveryReportComponent,
+    PendingdispacthedstockReportComponent,
+    DisptchedMemoReportComponent,
+    IncomingReportComponent,
+    DashboardReportComponent,
+    SubBookingComponent,
+    SubLoadingComponent,
+    SubLoadingreportComponent,
+    SubUnloadingComponent,
+    SubBranchToBranchLoadingComponent,
+    SubBranchToBranchUnloadingComponent,
    
    
   ],

@@ -1,12 +1,11 @@
-
- <div class="d-flex justify-content-center pt-5">
+<div class="d-flex justify-content-center pt-5">
   <div class="login-container">
     <div class="left-side">
-      <img src="assets/login.png" alt="Delivery Image">
+      <img src="assets/login.png" alt="Delivery Image" />
     </div>
 
     <div class="right-side">
-      <img src="assets/tittlelogo.svg" alt="Company Logo" class="logo">
+      <img src="assets/tittlelogo.svg" alt="Company Logo" class="logo" />
       <h6 class="company-name">SREE KALESWARI LOGISTICS</h6>
       <div class="welcome-text">Welcome</div>
 
@@ -14,22 +13,28 @@
         <label class="form-label">User Id / Mobile Number</label>
         <div class="input-group">
           <i class="fas fa-user"></i>
-          <!-- <input type="text" class="form-control" formControlName="identifier" placeholder="Enter Email or Mobile"> -->
-          <input type="text" formControlName="identifier" autocomplete="off" placeholder="Username">
+          <input type="text" formControlName="identifier" autocomplete="off" placeholder="Username" />
         </div>
+
         <label class="form-label mt-3">Password</label>
         <div class="input-group">
           <i class="fas fa-lock"></i>
-          <input type="password" formControlName="password" autocomplete="new-password" placeholder="Password">
+          <input type="password" formControlName="password" autocomplete="new-password" placeholder="Password" />
         </div>
+
         <div class="forgot-password" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot your password?</div>
-        <button type="submit" class="btn btn-login" [disabled]="form.invalid" >LOGIN</button>
+
+        <button type="submit" class="btn btn-login" [disabled]="form.invalid">LOGIN</button>
       </form>
     </div>
   </div>
 </div>
 
-<!-- Forgot Password Modal -->
+<!-- Spinner -->
+<div *ngIf="isLoading" class="loader-overlay">
+  <div class="loader"></div>
+</div>
+
 <!-- Forgot Password Modal -->
 <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -39,28 +44,28 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <!-- Form 1: Enter Email -->
+        <!-- Form 1 -->
         <form *ngIf="!otpFormVisible" [formGroup]="form1" (ngSubmit)="forgotpassword()">
           <div class="mb-3">
             <label for="email" class="form-label">Enter your email</label>
-            <input type="email" id="email" class="form-control" formControlName="email" required>
+            <input type="email" id="email" class="form-control" formControlName="email" required />
           </div>
           <button type="submit" class="btn btn-primary w-100" [disabled]="form1.invalid">Send OTP</button>
         </form>
 
-        <!-- Form 2: Enter OTP & New Password -->
+        <!-- Form 2 -->
         <form *ngIf="otpFormVisible" [formGroup]="form2" (ngSubmit)="resetpassword()">
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="email" id="email" class="form-control" formControlName="email" readonly>
+            <input type="email" id="email" class="form-control" formControlName="email" readonly />
           </div>
           <div class="mb-3">
             <label for="otp" class="form-label">Enter OTP</label>
-            <input type="number" id="otp" class="form-control" formControlName="otp" required>
+            <input type="number" id="otp" class="form-control" formControlName="otp" required />
           </div>
           <div class="mb-3">
             <label for="newPassword" class="form-label">New Password</label>
-            <input type="password" id="newPassword" class="form-control" formControlName="newPassword" required>
+            <input type="password" id="newPassword" class="form-control" formControlName="newPassword" required />
           </div>
           <button type="submit" class="btn btn-success w-100" [disabled]="form2.invalid">Reset Password</button>
         </form>
@@ -68,6 +73,3 @@
     </div>
   </div>
 </div>
-
-
-

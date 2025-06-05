@@ -61,6 +61,31 @@ import { ParcelLoadingOfflineReportComponent } from './Branch/Reports/parcel-loa
 import { DispatchedStockReportComponent } from './Branch/Reports/dispatched-stock-report/dispatched-stock-report.component';
 import { ReportDeliveryComponent } from './Branch/Reports/report-delivery/report-delivery.component';
 import { VocherDetailsReportComponent } from './Branch/Cfmaster/vocher-details-report/vocher-details-report.component';
+import { BookingComponent } from './empolyee/booking/booking.component';
+import { LoadingComponent } from './empolyee/loading/loading.component';
+import { UnloadingComponent } from './empolyee/unloading/unloading.component';
+import { BranchToBranchLoadingComponent } from './empolyee/branch-to-branch-loading/branch-to-branch-loading.component';
+import { BranchToBranchUnloadingComponent } from './empolyee/branch-to-branch-unloading/branch-to-branch-unloading.component';
+import { VoucherDetailsListComponent } from './empolyee/voucher-details-list/voucher-details-list.component';
+import { CfmasterDataComponent } from './empolyee/cfmaster/cfmaster-data/cfmaster-data.component';
+import { TodaybookingComponent } from './empolyee/Reports/todaybooking/todaybooking.component';
+import { CollectionreportComponent } from './empolyee/Reports/collectionreport/collectionreport.component';
+import { ConslidatedReportComponent } from './empolyee/Reports/conslidated-report/conslidated-report.component';
+import { ReportStatusDateComponent } from './empolyee/Reports/report-status-date/report-status-date.component';
+import { PendingdeliveryStockComponent } from './empolyee/Reports/pendingdelivery-stock/pendingdelivery-stock.component';
+import { PendingdevliveryLuggagereportComponent } from './empolyee/Reports/pendingdevlivery-luggagereport/pendingdevlivery-luggagereport.component';
+import { DispatchedstockReportComponent } from './empolyee/dispatchedstock-report/dispatchedstock-report.component';
+import { ReceivedstockReportComponent } from './empolyee/Reports/receivedstock-report/receivedstock-report.component';
+import { DeliveryReportComponent } from './empolyee/Reports/delivery-report/delivery-report.component';
+import { PendingdispacthedstockReportComponent } from './empolyee/Reports/pendingdispacthedstock-report/pendingdispacthedstock-report.component';
+import { DisptchedMemoReportComponent } from './empolyee/Reports/disptched-memo-report/disptched-memo-report.component';
+import { IncomingReportComponent } from './empolyee/Reports/incoming-report/incoming-report.component';
+import { DashboardReportComponent } from './empolyee/Reports/dashboard-report/dashboard-report.component';
+import { SubBookingComponent } from './SubAdmin/sub-booking/sub-booking.component';
+import { SubLoadingComponent } from './SubAdmin/sub-loading/sub-loading.component';
+import { SubUnloadingComponent } from './SubAdmin/sub-unloading/sub-unloading.component';
+import { SubBranchToBranchLoadingComponent } from './SubAdmin/sub-branch-to-branch-loading/sub-branch-to-branch-loading.component';
+import { SubBranchToBranchUnloadingComponent } from './SubAdmin/sub-branch-to-branch-unloading/sub-branch-to-branch-unloading.component';
 
 const routes: Routes = [
   {path:"login",component:LoginComponent },
@@ -89,8 +114,6 @@ const routes: Routes = [
   { path: 'voucherslistoffline', component: VoucerOfflineListComponent, canActivate: [authGuard] },
   { path: 'addpackagetype', component: AddPackagesTypeComponent, canActivate: [authGuard],},
   { path: 'parcel-delivery', component: ParcelDeliveryComponent, canActivate: [authGuard],},
-
-
 
   // Reportslll
   //cf master
@@ -130,9 +153,6 @@ const routes: Routes = [
   {path:'parcelloading-offlinereport',component:ParcelLoadingOfflineReportComponent, canActivate: [authGuard]},
   {path:'dispatched-stock-report',component:DispatchedStockReportComponent, canActivate: [authGuard]},
   {path:'report-delivery',component:ReportDeliveryComponent, canActivate: [authGuard]},
-
-
-
      //Admin Routing components
   { path: 'createbranch', component: CreateBranchComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   { path: 'createemployee', component: CreateEmployeeComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
@@ -142,13 +162,86 @@ const routes: Routes = [
   { path: 'adddispatchtype', component: AddDispatchTypeComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   { path: 'addextracharges', component: AddExtraChargesComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   { path: 'addpackagetype', component: AddPackagesTypeComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
-
-
   // subadmin
+  {path:"dashboard",component:DashboardComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
+    // Empolyee Routing components 
+  { path: 'employee-booking', component: BookingComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
+  { path: 'employee-loading', component: LoadingComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
+  { path: 'employee-unloading', component: UnloadingComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
+  { path: 'employee-branch-loading', component:BranchToBranchLoadingComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
+  { path: 'employee-parcel-devlivery', component:ParcelDeliveryComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
+  { path: 'employee-parcel-cancel', component:CancelBookingComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
+  { path: 'employee-status', component:FilterGrnComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
+  { path: 'employee-branch-unloading', component:BranchToBranchUnloadingComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
+  { path: 'employee-voucherdetails', component:VoucherDetailsListComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
+  // { path: 'employee-cfmaster-data', component:CfmasterDataComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
+  // { path: 'employee-addmaster', component:CfmasterDataComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
 
 
-    {path:"dashboard",component:DashboardComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
+// cfmaster
+  { path: 'addcfmaster', component: AddCfmasterComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
+  { path: 'getcfmasterdata', component: GetCfmasterDataComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
+  { path: 'creditvouchergenerate', component: CreditVoucherGenerateComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
+  { path: 'voucherdetailscf', component: VoucherDetailsCfmasterComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
+  { path: 'voucher-report', component: VocherDetailsReportComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
 
+// Employee Reports
+{ path: 'todaybooking', component:TodaybookingComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
+{ path: 'employee-printgrn/:grnNo', component: PrintGrnNumberComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
+{ path: 'collection-report', component: CollectionreportComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
+{ path: 'conslidated-report', component: ConslidatedReportComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
+{ path: 'parcel-status', component: ReportStatusDateComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
+{ path: 'pending-deliverystock', component: PendingdeliveryStockComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
+{ path: 'pending-luggage', component: PendingdevliveryLuggagereportComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
+{ path: 'dispacthedstock-report', component: DispatchedstockReportComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
+{ path: 'received-stock', component: ReceivedstockReportComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
+{ path: 'deliverystock-report', component: DeliveryReportComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
+{ path: 'pendingdispached-stock-report', component: PendingdispacthedstockReportComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
+{ path: 'memo-stock-report', component: DisptchedMemoReportComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
+{ path: 'incomingreport', component: IncomingReportComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
+{ path: 'dashboard-report', component: DashboardReportComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
+
+
+// subAdmin 
+  {path:"sub-booking",component:SubBookingComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
+  {path:"sub-loading",component:SubLoadingComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
+  {path:"sub-unloading",component:SubUnloadingComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
+  {path:"sub-branch-loading",component:SubBranchToBranchLoadingComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
+  {path:"sub-branch-unloading",component:SubBranchToBranchUnloadingComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
   
 
   

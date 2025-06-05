@@ -1,0 +1,69 @@
+<app-header></app-header>
+<h5 class="text-center fw-bold text-danger"  style=" margin-top: 8%;"><u>
+  Parcel Incoming Luggages Report
+  </u>
+</h5>
+<div class="card container" style=" 
+border: 2px solid #ccc; 
+border-radius: 5px;
+background-color: #fff;">
+    <div class="rounded p-4">
+      <form [formGroup]="form">
+        <div class="row mb-2">
+          <div class="col-md-6">
+            <label class="form-label">From  Date</label>
+            <input type="date" class="form-control form-select-sm" formControlName="fromDate">
+            <div *ngIf="form.get('fromDate')?.invalid && form.get('fromDate')?.touched" class="text-danger">
+              From Date is required
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">To  Date</label>
+            <input type="date" class="form-control form-select-sm" formControlName="toDate">
+            <div *ngIf="form.get('toDate')?.invalid && form.get('toDate')?.touched" class="text-danger">
+              To Date is required
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label form-after">From City</label>
+            <input type="text" class="form-control" formControlName="fromCity" readonly />
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label form-after">To City</label>
+            <select #selectElem2 class="form-select form-select-sm" formControlName="toCity">
+              <option value="all" selected> All To City</option>
+              <option *ngFor="let row of citydata" [value]="row.cityName">{{ row.cityName }}</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label form-after">Pickup Branch</label>
+            <input type="text" class="form-control" [value]="ffdata?.name || ''" readonly />
+            <input type="hidden" formControlName="pickUpBranch" />
+          </div>
+
+
+          <div class="col-md-6">
+            <label class="form-label form-after">Drop Branch</label>
+            <select #droupbranch class="form-select form-select-sm" formControlName="dropBranch">
+              <option value="all" selected> All To Branch</option>
+              <option *ngFor="let row1 of tbcdata" [value]="row1.branchUniqueId"> {{ row1.name }} </option>
+            </select>
+          </div>
+          <div class="d-grid gap-2 col-2 mx-auto mt-4">
+            <button type="button" class="btn btn-success w-100" (click)="LuaggageReport()">Load</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  
+
+ 
+
+
+  </div>
+
+
+
+
+

@@ -1,0 +1,200 @@
+<app-header></app-header>
+<h5 class="text-center fw-bold text-danger " style="margin-top: 9%;"><u class="mb-2">Parcel Branch Consolidated Report
+  </u></h5>
+<div class="container section-border  ">
+
+  <div class="rounded">
+    <form [formGroup]="form">
+      <div class="row mb-3">
+
+        <div class="col-md-6">
+          <label class="form-label">From Booking Date</label>
+          <input type="date" class="form-control form-control-sm" formControlName="fromDate" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label "> To Date</label>
+          <input type="date" class="form-control " formControlName="toDate">
+        </div>
+
+
+        
+        <div class="col-md-6">
+            <label class="form-label form-after">Branch City:</label>
+            <input type="text" class="form-control" formControlName="fromCity" readonly />
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label form-after">Branch Name:</label>
+            <input type="text" class="form-control" [value]="ffdata?.name || ''" readonly />
+            <input type="hidden" formControlName="pickUpBranch" />
+          </div>
+
+
+        <!-- <div class="col-md-6" *ngIf="pfdata">
+        <label class="form-label">Branch User Name:</label>
+        <input type="text" formControlName="bookedBy" class="form-control" readonly>
+      </div> -->
+
+        <!-- <div class="col-md-6 mt-4">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="displayBooking"
+                     formControlName="displayBookingDetails">
+              <label class="form-check-label" for="displayBooking">Display Booking Details</label>
+            </div>
+          
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="branchSummary"
+                     formControlName="branchSummary">
+              <label class="form-check-label" for="branchSummary">Branch Summary</label>
+            </div>
+          </div> -->
+
+        <!-- Conditional Filter -->
+        <!-- <div class="col-md-6 mt-4" *ngIf="showFilter">
+            <label class="form-label">Filter:</label>
+            <select class="form-select" formControlName="filter">
+              <option value="All">All</option>
+              <option value="Bookings">Booking</option>
+              <option value="Delivery">Delivery</option>
+            </select>
+          </div> -->
+
+        <div class="d-grid gap-2 col-2 mx-auto mt-4">
+          <button type="button" class="btn btn-success w-100" (click)="getCollectionReport()">Load</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <hr>
+
+  <div class="container" *ngIf="Cdata" id="print-section">
+    <div class="text-center mb-4">
+
+      <div class="container-fluid" *ngIf="pfdata">
+        <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
+        <p class="text-center fw-bold">
+          Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
+          Phone No: {{ pfdata.phone }}
+        </p>
+      </div>
+
+      <h5 class="text-center"> Consolidated Report</h5>
+      <div class="text-center">
+        <i class="fa fa-print" style="font-size: 30px; cursor: pointer; color: green;" aria-hidden="true" (click)="printReport()"></i>
+        <i class="fa fa-file-excel-o mx-2" style="font-size: 25px; cursor: pointer; color: green;" aria-hidden="true" (click)="downloadExcel()"></i>
+
+      </div>
+
+    </div>
+
+
+
+    <div class="d-flex justify-content-between">
+      <p> <strong> From :</strong> {{ fromDate | date:'dd-MM-yyyy' }} To : {{ toDate | date:'dd-MM-yyyy' }}
+      </p>
+      <p> <strong>Print Date :</strong> {{ today | date:'dd-MM-yyyy hh:mm a' }}
+      </p>
+
+    </div>
+    <p class="text-end" *ngIf="pfdata"><strong>Print By</strong> {{pfdata.name}} </p>
+
+    <div class="table-responsive">
+      <table class="table table-bordered table-custom">
+        <thead>
+          <tr>
+            <th></th>
+            <th></th>
+            <th colspan="7">Booking</th>
+            <th colspan="1">Cancel Total</th>
+            <th colspan="6">Delivery</th>
+            <th colspan="2">GST</th>
+          </tr>
+          <tr>
+            <th>Sr No.</th>
+            <th>Branch Name</th>
+            <th>Paid</th>
+            <th>ToPay</th>
+            <th>Credit</th>
+            <th>CLR</th>
+            <th>Foc</th>
+            <th>Total</th>
+            <th>afterCalculate</th>
+            <th>Cancel</th>
+            <th>Paid</th>
+            <th>ToPay</th>
+            <th>Credit</th>
+            <th>CLR</th>
+            <th>Foc</th>
+            <th>Total</th>
+            <th>SGST</th>
+            <th>IGST</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of Cdata.data; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.branchName }}</td>
+    
+            <!-- Booking Data -->
+            <td>{{ item.paid }}</td>
+            <td>{{ item.toPay }}</td>
+            <td>{{ item.credit }}</td>
+            <td>{{ item.CLR }}</td>
+            <td>{{ item.FOC }}</td>
+            <td>{{ item.grandTotal }}</td>
+            <td>{{ item.afterCalculate }}</td>
+    
+            <!-- Cancel -->
+            <td>{{ item.cancelAmount }}</td>
+    
+            <!-- Delivery Data (from deliveryData array) -->
+            <ng-container *ngIf="deliveryData[i]">
+              <td>{{ deliveryData[i].deliveredAmountByType.paid }}</td>
+              <td>{{ deliveryData[i].deliveredAmountByType.toPay }}</td>
+              <td>{{ deliveryData[i].deliveredAmountByType.credit }}</td>
+              <td>{{ deliveryData[i].deliveredAmountByType.CLR }}</td>
+              <td>{{ deliveryData[i].deliveredAmountByType.FOC }}</td>
+            </ng-container>
+            <td>{{ item.deliveredTotalAmount }}</td>
+            <!-- GST -->
+            <td>{{ item.sgstAmount }}</td>
+            <td>{{ item.igstAmount }}</td>
+            <!-- total -->
+
+          </tr>
+          <tr>
+            <td></td>
+            <td class="fw-bold">Total</td>
+            <td class="fw-bold">{{ Tdata.finalPaid }}</td>
+            <td class="fw-bold">{{ Tdata.finalToPay }}</td>
+            <td class="fw-bold">{{ Tdata.finalCredit }}</td>
+            <td class="fw-bold">{{ Tdata.finalCLR }}</td>
+            <td class="fw-bold">{{ Tdata.finalFOC }}</td>
+
+            <!-- <td class="fw-bold">{{ Tdata.finalTotal }}</td> -->
+
+            <td class="fw-bold" >{{Tdata.finalNetBookingAmount}}</td>
+            <td class="fw-bold">{{Tdata.finalBookingTotal}}</td>
+            <td class="fw-bold">{{ Tdata.finalTotalCancel }}</td>
+            <td class="fw-bold">{{ Tdata.finalDeliveredCredit }}</td>
+            <td class="fw-bold">{{ Tdata.finalDeliveredCredit }}</td>
+            <td class="fw-bold">{{ Tdata.finalDeliveredCredit }}</td>
+            <td class="fw-bold">{{ Tdata.finalDeliveredCredit }}</td>
+            <td class="fw-bold">{{ Tdata.finalDeliveredCredit }}</td>
+            <td class="fw-bold">{{ Tdata.finalTotalDelivery }}</td>
+            <td class="fw-bold">{{ Tdata.totalSgst }}</td>
+            <td class="fw-bold">{{ Tdata.totalIgst }}</td>
+          </tr>
+          
+          
+        </tbody>
+    
+
+      </table>
+    </div>
+    
+
+
+  </div>
+
+</div>

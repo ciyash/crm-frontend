@@ -1,0 +1,113 @@
+<app-header></app-header>
+<p-toast></p-toast>
+<div class="container mt-5 pt-5 pb-5">
+    <h5 class="text-center fw-bold text-danger mt-3"><u>Parcel Branch To Branch Loading</u></h5>
+    <div class="border rounded p-4" style="margin-top: 3rem;">
+        <form [formGroup]="form">
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label class="form-label">From Booking Date</label>
+                    <input type="date" class="form-control" formControlName="fromBookingDate">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">To Booking Date</label>
+                    <input type="date" class="form-control" formControlName="toBookingDate">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">From Branch</label>
+                    <input type="text" class="form-control" [(ngModel)]="pdata.name" formControlName="fromBranch" readonly>
+                    <!-- <select class="form-select" formControlName="fromBranch">
+                        <option value="" selected>Select Branch</option>
+                        <option *ngFor="let branch of citydata" [value]="branch.branchUniqueId">{{ branch.name }}</option>
+                    </select> -->
+                </div>           
+                <div class="col-md-3 d-flex align-items-end">
+                    <button type="button" class="btn btn-primary w-100" (click)="loaddata()">Load</button>
+                </div>
+            </div>
+        </form>
+     
+
+            <div class="table-responsive mt-4" *ngIf="data">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th> <input  type="checkbox" (change)="onSelectAllChange($event)" [checked]="allSelected" /> Select All </th>
+                      <th>S.No</th>
+                      <th>LR No</th>
+                      <th>Book by Branch</th>
+                      <th>Drop Branch</th>
+                      <th>Sender</th>
+                      <th>Receiver</th>
+                      <th>City Name</th>
+                      <th>Transaction Date</th>
+                      <th>Paid Type</th>
+                      <th>Qty</th>
+                      <th>Charge</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let row of data; let i=index">
+                      <td> <input type="checkbox" (change)="onGrnNoChange($event, row.grnNo)" [checked]="form1.get('grnNo')?.value.includes(row.grnNo)"/>  </td>
+                    <td>{{ i+1 }}</td>
+                      <td>{{ row.lrNumber }}</td>
+                      <td>{{ row.pickUpBranch }}</td>
+                      <td>{{ row.dropBranch}}</td>
+                      <td>{{ row.senderName }} <br><small>{{row.senderMobile}}</small></td>
+                      <td>{{ row.receiverName }} <br><small>{{row.receiverMobile}}</small></td>
+                      <td>{{ row.toCity }}</td>
+                      <td>{{ row.bookingDate | date:'dd/MM/yyyy' }}</td>
+                      <td> {{row.bookingType}} </td>
+                      <td> {{row.totalQuantity}} </td>
+                      <td>{{ row.grandTotal }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            <form [formGroup]="form1">
+                <div class="row">
+                    <!-- <div class="col-md-3">
+                        <label class="form-label">Vehicle No</label>
+                        <select #vehicle class="form-select form-select-sm mb-3" formControlName="vehicalNumber" aria-label="Large select example">
+                            <option value="" selected>Select Vehicle Number</option>
+                            <option *ngFor="let vehicle of vdata" [value]="vehicle.vehicleNo">{{ vehicle.vehicleNo }}</option>
+                        </select>
+                    </div> -->
+                    <div class="col-md-3">
+                      <label class="form-label">Vehicle No</label>
+                      <select #vehicle class="form-select form-select-sm mb-3" formControlName="vehicalNumber" aria-label="Large select example">
+                        <option value="" selected>Select Vehicle Number</option>
+                        <option *ngFor="let vehicle of vdata" [value]="vehicle.vehicleNo">{{ vehicle.vehicleNo }}</option>
+                      </select>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <label class="form-label">To Branch</label>
+                        <select #toBranch class="form-select" formControlName="toBranch">
+                          <option value="" selected>Select Branch</option>
+                          <option *ngFor="let branch of citydata" [value]="branch.branchUniqueId">
+                            {{ branch.name }}
+                          </option>
+                        </select>
+                      </div>
+                      
+                    
+                    <div class="col-md-6">
+                        <label class="form-label">Remark</label>
+                        <input type="text" class="form-control" formControlName="remarks">
+                    </div>
+    
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button type="button" class="btn btn-primary w-100" (click)="ParcelLoad()">Submit</button>
+                    </div>
+
+                </div>
+
+            </form>
+            
+        </div>
+
+</div>
+
+

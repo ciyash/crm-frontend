@@ -1,0 +1,187 @@
+<app-header></app-header>
+
+<h4 class="text-center mb-4 pt-5 " style="color: #3C3C3C;
+font-size: 20px;
+font-family: Poppins;
+font-weight: 500;
+text-decoration: underline;
+margin-top: 5%;
+word-wrap: break-word">Parcel Loading Offline</h4>
+<div class="container pt-5 pb-5" style="border: 1px solid #7C7C7C;">
+  <div class="container">
+    <form [formGroup]="form">
+      <div class="row g-3">
+        <div class="col-md-4 col-sm-12">
+          <label class="form-label">From Booking Date</label>
+          <input type="date" class="form-control form-control-sm" formControlName="startDate">
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label form-after">From City</label>
+            <input type="text" class="form-control" formControlName="fromCity" readonly />
+          </div>
+        
+
+        <div class="col-md-4 col-sm-12">
+          <label class="form-label">To City</label>
+          <select #demoSelect multiple class="form-control" (change)="onToCityChange($event)">
+            <option *ngFor="let city of cities" [value]="city.cityName">
+              {{ city.cityName }}
+            </option>
+          </select>
+
+        </div>
+
+        <div class="row g-3 align-items-end">
+
+          <!-- To Booking Date -->
+          <div class="col-12 col-md-6 col-lg-3">
+            <label class="form-label">To Booking Date</label>
+            <input type="date" class="form-control form-control-sm" formControlName="endDate">
+          </div>
+        
+          <!-- Book Branch -->
+            <div class="col-md-4">
+                <label class="form-label form-after">Pickup Branch</label>
+                <input type="text" class="form-control" [value]="ffdata?.name || ''" readonly />
+                <input type="hidden" formControlName="pickUpBranch" />
+              </div>
+       
+        
+          <!-- Load Button + QR Scanner -->
+          <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-center gap-3">
+            <button class="btn btn-primary btn-sm w-100" pRipple (click)="onLoad()">Load</button>
+        
+            <img src="assets/scanner.png" alt="Scan QR" style="width: 30px; height: 30px; cursor: pointer;"
+              (click)="openScanner()" />
+          </div>
+
+
+          <!-- Print Icon -->
+          <div class="col-12 col-sm-6 col-lg-3 d-flex gap-3 justify-content-lg-start justify-content-sm-end justify-content-start">
+            <i class="fa fa-print" *ngIf="data"
+              style="font-size: 30px; cursor: pointer; color: green;" aria-hidden="true" (click)="printSection()">
+            </i>
+
+            <i class="fa fa-file-excel-o" *ngIf="data"
+            style="font-size: 26px; cursor: pointer; color: green; margin-top: 3px;" aria-hidden="true" (click)="ExportExel()">
+          </i>
+          </div>
+        
+        </div>
+        
+        <!-- Scanner Modal -->
+        <div *ngIf="showScanner"
+          style="position: fixed; top: 0; left: 0; background: rgba(0,0,0,0.5); width: 100%; height: 100%; z-index: 1050;">
+          <div style="margin: 10% auto; background: white; padding: 20px; width: 90%; max-width: 400px;">
+            <zxing-scanner [torch]="false" [tryHarder]="true" (scanSuccess)="handleQrCodeResult($event)">
+            </zxing-scanner>
+            <button class="btn btn-secondary btn-sm mt-3" (click)="closeScanner()">Close</button>
+          </div>
+        </div>
+        
+
+      </div>
+    </form>
+
+    <!-- Data Table -->
+    <!-- Print Icon -->
+    <!-- Table section to print -->
+
+    <div #printTable class="table-responsive mt-4" *ngIf="data">
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th><input type="checkbox" (change)="onSelectAllChange($event)" [checked]="allSelected" /> Select All</th>
+            <th>S.No</th>
+            <th>LR No</th>
+            <th>Book by Branch</th>
+            <th>Drop Branch</th>
+            <th>Sender Name</th>
+            <th>Receiver</th>
+            <th>City Name</th>
+            <th>Transaction Date</th>
+            <th>Paid Type</th>
+            <th>Qty</th>
+            <th>Charge</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of data; let i = index">
+            <td>
+              <input type="checkbox" [checked]="form1.get('grnNo')?.value.includes(row.grnNo)"
+                (change)="onGrnNoChange($event, row.grnNo)" />
+            </td>
+            <td>{{ i + 1 }}</td>
+            <td>{{ row.lrNumber }}</td>
+            <td>{{ row.pickUpBranchname }}</td>
+            <td>{{ row.dropBranchname }}</td>
+            <td>{{ row.senderName }}</td>
+            <td>{{ row.receiverName }}</td>
+            <td>{{ row.toCity }}</td>
+            <td>{{ row.bookingDate | date: 'dd-MM-yyyy' }}</td>
+            <td>{{ row.bookingType }}</td>
+            <td>{{ row.totalQuantity }}</td>
+            <td>{{ row.totalCharge }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+  </div>
+
+  <form [formGroup]="form1">
+    <div class="container pb-3">
+      <div class="row pt-3">
+        
+        <div class="col-md-3 col-sm-12">
+          <label class="form-label">Vehicle Number</label>
+          <select #SelectVechicle class="form-select form-select-sm mb-3" formControlName="vehicalNumber">
+            <option value="" selected>Select Vehicle Number</option>
+            <option *ngFor="let vehicle of vehicle" [value]="vehicle.vehicleNo">{{ vehicle.vehicleNo }}</option>
+          </select>
+          <div class="text-danger" *ngIf="form1.get('vehicalNumber')?.touched && form1.get('vehicalNumber')?.hasError('required')">
+            Vehicle Number is required.
+          </div>
+        </div>
+        
+        <div class="col-md-3 col-sm-12">
+          <label class="form-label">Driver name</label>
+          <input type="text" class="form-control form-select-sm" placeholder="Enter Conductor Name" formControlName="driverName">
+          <div class="text-danger" *ngIf="form1.get('driverName')?.touched && form1.get('driverName')?.invalid">
+            <div *ngIf="form1.get('driverName')?.errors?.['required']">Conductor Name is required.</div>
+            <div *ngIf="form1.get('driverName')?.errors?.['minlength']">Must be at least 3 characters.</div>
+          </div>
+        </div>
+        
+        <div class="col-md-3 col-sm-12">
+          <label class="form-label">Driver Number</label>
+          <input type="text" class="form-control form-select-sm" placeholder="Enter Conductor Number" formControlName="driverNo">
+          <div class="text-danger" *ngIf="form1.get('driverNo')?.touched && form1.get('driverNo')?.invalid">
+            <div *ngIf="form1.get('driverNo')?.errors?.['required']">Conductor Number is required.</div>
+            <div *ngIf="form1.get('driverNo')?.errors?.['pattern']">Must be 10 digits.</div>
+          </div>
+        </div>
+        
+      
+
+        <div class="col-md-3 col-sm-12 " style="margin-top: 31px;">
+          <button class="btn btn-primary btn-sm " type="button" style=" width: 10rem;"
+            (click)="ParcelLoad()">Save</button>
+
+        </div>
+      </div>
+
+    </div>
+    <!-- <div class="container">
+      <div class="row">
+        <div class="col-md-3 d-flex align-items-end">
+          <button class="btn btn-primary btn-sm " type="button" style=" width: 10rem;"
+            (click)="ParcelLoad()">Save</button>
+        </div>
+      </div>
+    </div> -->
+  </form>
+</div>
+<app-loading-report></app-loading-report>

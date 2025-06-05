@@ -1,0 +1,205 @@
+<app-header></app-header>
+
+<div class="card container" style=" margin-top: 8%;
+border: 2px solid #ccc; 
+border-radius: 5px;
+padding: 15px;
+background-color: #fff;">
+  <h5 class="text-center fw-bold text-danger"><u>Pending Delivery Luggage Report
+    </u>
+  </h5>
+  
+    <div class="rounded p-4" style="margin-top: 1rem;">
+      <form [formGroup]="form">
+        <div class="row mb-2">
+          <div class="col-md-6">
+            <label class="form-label">From Booking Date</label>
+            <input type="date" class="form-control form-select-sm" formControlName="fromDate">
+            <div *ngIf="form.get('fromDate')?.invalid && form.get('fromDate')?.touched" class="text-danger">
+              From Date is required
+            </div>
+
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">To Booking Date</label>
+            <input type="date" class="form-control form-select-sm" formControlName="toDate">
+            <div *ngIf="form.get('toDate')?.invalid && form.get('toDate')?.touched" class="text-danger">
+              To Date is required
+            </div>
+          </div>
+          <!-- <div class="col-md-6">
+            <label class="form-label">From City</label>
+            <select #selectElem class="form-select form-select-sm" formControlName="fromCity">
+              <option value="" selected> Select City</option>
+              <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
+            </select>
+          </div> -->
+          <div class="col-md-6">
+            <label class="form-label form-after">From City</label>
+            <input type="text" class="form-control" formControlName="fromCity" readonly />
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">To City</label>
+            <select #selectElem2 class="form-select form-select-sm" formControlName="toCity">
+              <option value="" selected> Select City</option>
+              <option *ngFor="let row of citydata" [value]="row.cityName">{{ row.cityName }}</option>
+            </select>
+          </div>
+          <!-- <div class="col-md-6">
+            <label class="form-label">PickUpBranch</label>
+            <select #pickupbranch class="form-select form-select-sm" formControlName="pickUpBranch">
+              <option value="" selected> Select Branch</option>
+              <option *ngFor="let row4 of pdata" [value]="row4.branchUniqueId"> {{ row4.name }} </option>
+            </select>
+          </div> -->
+          <div class="col-md-6">
+            <label class="form-label form-after">Pickup Branch</label>
+            <input type="text" class="form-control" [value]="ffdata?.name || ''" readonly />
+            <input type="hidden" formControlName="pickUpBranch" />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Drop Branch</label>
+            <select #droupbranch class="form-select form-select-sm" formControlName="dropBranch">
+              <option value="" selected> Select Branch</option>
+              <option *ngFor="let row1 of tbcdata" [value]="row1.branchUniqueId"> {{ row1.name }} </option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Booking Type 
+            </label>
+            <select  class="form-select form-select-sm" formControlName="bookingType">
+              <option value="all" selected>All Booking Type</option>
+              <option value="paid" selected>Paid</option>
+              <option value="toPay" selected>Topay</option>
+              <option value="credit" selected>Credit For</option>
+              <option value="CLR" selected>CLR</option>
+              <option value="FOC" selected>FOC</option>
+
+            </select>
+          </div>
+          <div class="col-md-6 mt-4 d-flex align-items-center gap-4">
+            <button  
+              type="button" 
+              class="btn btn-success btn-sm" 
+              (click)="LuaggageReport()"
+              style="width: 100px;">
+              Load
+            </button>
+            <i  *ngIf="reportData"
+              class="fa fa-print" 
+              style="font-size: 30px; cursor: pointer; color:green" 
+              aria-hidden="true" 
+              (click)="printReport()"></i>
+
+
+  <i class="fa fa-file-excel-o" *ngIf="reportData" (click)="exportToExcel()" style="color: green;font-size: 25px;" aria-hidden="true"></i>
+
+          </div>
+        </div>
+      </form>
+    </div>
+  
+    <div class="hr" style="  border: 1px solid #ccc; /* light gray border */
+    background-color: #fff;"></div>
+
+    <div *ngIf="reportData" id="print-section" >
+      <div class="text-center mb-4 mt-5">
+        <div class="container-fluid" *ngIf="pfffdata">
+          <h4 class="text-center fw-bold">{{ pfffdata.companyName }}</h4>
+          <p class="text-center fw-bold">
+            Address: {{ pfffdata.location }} - {{ pfffdata.branchId?.name }} |
+            Phone No: {{ pfffdata.phone }}
+          </p>
+        </div>
+        <h6 class="text-decoration-underline">Pending Delivery Luggage Report</h6>
+      </div>
+      <div class="table-responsive mb-1 " >
+        <table class="table table-bordered table-sm text-center align-middle">
+          <thead>
+            <tr >
+              <th>From : {{payload.fromDate | date: 'dd-MM-yyyy'}} To : {{payload.toDate | date: 'dd-MM-yyyy'}}</th>
+              <th  *ngIf="pfdata">Print By : {{pfdata.username}}</th>
+              <th >Print Date :{{ today | date: 'dd-MM-yyyy' }}  {{ today | date: 'hh:mm a' }} </th>
+            </tr>
+          </thead>
+    
+        </table>
+      </div>
+      
+  
+      <div class="table-responsive">
+        <table class="table table-bordered table-sm text-center align-middle">
+            <thead class="table-secondary">
+                <tr>
+                    <th>No</th>
+                    <th>GRN No</th>
+                    <th>Receiver Date	</th>
+                    <th>Source</th>
+                    <th>Destination</th>
+                    <th>Consignor</th>
+                    <th>Consignee</th>
+                    <th>Consignee No	</th>
+                    <th>Booking Type	</th>
+                    <th>Day Diff.	</th>
+                    <th>Item Name	</th>
+                    <th>Quantity</th>
+                    <th>Amount</th>
+                      </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of pagedData(); let i = index">
+                <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+                <td>{{ data.grnNo }}</td>
+                <td>{{ data.receiverDate }}</td>
+                <td>{{ data.source }}</td>
+                <td>{{ data.destination }}</td>
+                <td>{{ data.consignor }}</td>
+                <td>{{ data.consignee }}</td>
+                <td>{{ data.consigneeNo }}</td>
+                <td>{{ data.bookingType }}</td>
+                <td>{{ data.dayDiff }}</td>
+                <td>{{ data.itemName1
+                }}</td>
+                <td>{{ data.quantity }}</td>
+                <td>{{ data.amount }}</td>
+              </tr>
+            </tbody>
+            
+        </table>
+      
+        
+  
+  
+    </div>
+    </div>
+
+
+
+
+
+
+    <nav *ngIf="reportData?.length > itemsPerPage">
+      <ul class="pagination justify-content-center mt-3">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <button class="page-link" (click)="changePage(currentPage - 1)">Previous</button>
+        </li>
+    
+        <li class="page-item"
+            *ngFor="let page of totalPagesArray(); let idx = index"
+            [class.active]="currentPage === (idx + 1)">
+          <button class="page-link" (click)="changePage(idx + 1)">{{ idx + 1 }}</button>
+        </li>
+    
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <button class="page-link" (click)="changePage(currentPage + 1)">Next</button>
+        </li>
+      </ul>
+    </nav>
+
+  </div>
+
+
+
+
+

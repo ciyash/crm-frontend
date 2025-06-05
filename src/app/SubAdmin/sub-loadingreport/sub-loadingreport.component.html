@@ -1,0 +1,63 @@
+<app-header></app-header>
+
+<h4 class="text-center mb-4 pt-5" style="color: #3C3C3C; font-size: 20px; font-family: Poppins; font-weight: 500; text-decoration: underline;">
+  Parcel Loading Offline Report
+</h4>
+<div class="container mb-5 pt-5 pb-5" style="border: 1px solid #7C7C7C;">
+  <form [formGroup]="form1">
+    <div class="row g-3">
+      <div class="col-md-4 col-sm-12">
+        <label class="form-label">From booking date</label>
+        <input type="date" class="form-control form-control-sm" formControlName="fromDate" />
+      </div>
+      <!-- <div class="col-md-4 col-sm-12">
+        <label class="form-label">From City</label>
+        <select #selectElem class="form-select form-select-sm" formControlName="fromCity">
+          <option value="">Select City</option>
+          <option *ngFor="let city of cities || []" [value]="city.cityName">{{ city.cityName }}</option>  
+        </select>
+      </div> -->
+
+        <div class="col-md-4 col-sm-12">
+            <label class="form-label">From City</label>
+            <select #selectElem class="form-control select2" formControlName="fromCity">
+              <option value="">Select City</option>
+              <option *ngFor="let city of filteredCityList" [value]="city.cityName">
+                {{ city.cityName }}
+              </option>
+            </select>
+          </div>
+
+
+
+      <div class="col-md-4 col-sm-12">
+        <label class="form-label">Book Branch</label>
+        <select #pickupbranch class="form-select form-select-sm" formControlName="fromBranch">
+          <option value="all" selected>Select All</option>
+          <option *ngFor="let row4 of pdata || []" [value]="row4.branchUniqueId">
+            {{ row4.name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-4 col-sm-12">
+        <label class="form-label">To booking date</label>
+        <input type="date" class="form-control form-control-sm" formControlName="toDate" />
+      </div>
+
+      <div class="col-md-4 col-sm-12">
+        <label class="form-label">To City</label>
+        <select #demoSelect multiple class="form-control" (change)="onToCityChange($event)">
+          <option *ngFor="let city of cities || []" [value]="city.cityName">{{ city.cityName }}</option>
+        </select>
+      </div>
+
+      <div class="col-md-4 col-sm-12 mt-4">
+        <div class="d-flex justify-content-start pt-4">
+          <button type="button" class="btn btn-success btn-sm" style="width: 10rem;" (click)="ParcelLoad()">Load</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<app-footer></app-footer>

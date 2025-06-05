@@ -1,0 +1,322 @@
+<app-header></app-header>
+<!-- head -->
+<div class="container mt-5 mb-2">
+  <h4 class="text-center mb-4 "
+    style="color: #eb2424;font-size: 20px;font-family: Poppins;font-weight: 500;text-decoration: underline;word-wrap: break-word;margin-top: 8%; ">
+    Parcel Credit Master</h4>
+  <h5> <a routerLink="/addcfmaster" class="text-success">Add CF Master</a> </h5>
+  <div class="row">
+    <div class="table-responsive">
+      <div *ngIf="loading" class="text-center">
+        <img src="assets/loading.gif" alt="" style="height:40px;">
+        <p class="text-danger text-center">Please Wait ....</p>
+      </div>
+      <table class="table table-striped table-bordered" *ngIf="!loading">
+        <thead>
+          <tr class="p-2 text-center">
+            <th>S.no</th>
+            <th>Name</th>
+            <th>City</th>
+            <th>Type</th>
+            <th>Charges</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of data; let i=index" class="text-center">
+            <td>{{i + 1}}</td>
+            <td> {{row.name}} </td>
+            <td> {{row.city}} </td>
+            <td> <span *ngIf="row.isPostPaid==false">Postpaid</span> <span *ngIf="row.isPostPaid==true">Prepaid</span>
+            </td>
+            <td>
+               <span (click)="showDialog1(row)" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                style="cursor: pointer; color: rgb(7, 68, 181); padding-right: 20px;"><u> Set Charges</u></span>
+              <a (click)="getsetcharges(row._id)" style="cursor: pointer;"><i class="fa fa-eye"> </i></a>
+            </td>
+            <td> 
+              <span *ngIf="row.isActive==false" class="text-success">Active</span> <span *ngIf="row.isActive==true"
+                class="text-danger">Inactive</span> </td>
+            <td> <a (click)="showDialog(row)"   data-bs-toggle="modal" data-bs-target="#exampleModal1"  style="cursor: pointer;" class="p-2"><i class="fa fa-edit"></i></a> <a
+                class="text-danger" style="cursor: pointer;" (click)="Delete(row._id)"><i class="fa fa-trash"></i></a>
+            </td>
+          </tr>
+        </tbody>
+
+        <!-- Bootstrap Modal -->
+        <div class="modal fade" id="chargesModal" tabindex="-1" aria-labelledby="chargesModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+              <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="chargesModalLabel">View Charges Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+
+              <div class="modal-body">
+                <div *ngIf="scdata.length > 0; else noData">
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-striped text-center">
+                      <thead class="table-dark">
+                        <tr>
+                          <th>Charge Name</th>
+                          <th>Charge</th>
+                          <th>Dispatch Type</th>
+                          <th>Form City</th>
+                          <th>To City</th>
+                          <th>Mode</th>
+                          <th>Item Name</th>
+                          <!-- Add more headers if needed -->
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let charge of scdata; let i = index">
+                          <td>{{ charge.chargeName }}</td>
+                          <td>{{ charge.charge }}</td>
+                          <td>{{ charge.dispatchType }}</td>
+                          <td>{{ charge.fromCity }}</td>
+                          <td>{{ charge.toCity }}</td>
+                          <td>{{ charge.modeOnPrice }}</td>
+                          <td>{{ charge.itemName }}</td>
+                          <!-- Add more cells if needed -->
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <ng-template #noData>
+                  <p class="text-center text-muted">No charge details available.</p>
+                </ng-template>
+              </div>
+
+              <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </table>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Centered XL Modal</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="card m-5 p-5" *ngIf="repd">
+            <span class="text-primary">{{repd.name}}</span>
+            <form [formGroup]="form">
+              <div class="row">
+        
+                <div class="col-md-4 col-sm-12">
+                  <label class="form-label">GST No</label>
+                  <input type="text" class="form-control form-select-sm " [ngModel]="repd.gst" formControlName="gst">
+                </div>
+                <div class="col-md-4 col-sm-12">
+                  <label class="form-label">State</label>
+                  <select id="password1" formControlName="state" class="form-control" required="">
+                    <option value="{{repd.state}}"> {{repd.state}} </option>
+                    <option value="Telangana">Telangana</option>
+                    <option value="Andhra Pradesh">Andhra Pradesh </option>
+                    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                    <option value="Assam">Assam</option>
+                    <option value="Bihar">Bihar</option>
+                    <option value="Chhattisgarh">Chhattisgarh</option>
+                    <option value="Goa">Goa</option>
+                    <option value="Gujarat">Gujarat</option>
+                    <option value="Haryana">Haryana</option>
+                    <option value="Himachal Pradesh">Himachal Pradesh</option>
+                    <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                    <option value="Jharkhand">Jharkhand</option>
+                    <option value="Karnataka">Karnataka</option>
+                    <option value="Kerala">Kerala</option>
+                    <option value="Madhya Pradesh">Madhya Pradesh</option>
+                    <option value="Maharashtra">Maharashtra</option>
+                    <option value="Manipur">Manipur</option>
+                    <option value="Meghalaya">Meghalaya</option>
+                    <option value="Mizoram">Mizoram</option>
+                    <option value="Nagaland">Nagaland</option>
+                    <option value="Odisha">Odisha</option>
+                    <option value="Punjab">Punjab</option>
+                    <option value="Rajasthan">Rajasthan</option>
+                    <option value="Sikkim">Sikkim</option>
+                    <option value="Tamil Nadu">Tamil Nadu</option>
+                    <option value="Tripura">Tripura</option>
+                    <option value="Uttarakhand">Uttarakhand</option>
+                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                    <option value="West Bengal">West Bengal</option>
+                    <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                    <option value="Chandigarh">Chandigarh</option>
+                    <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                    <option value="Daman and Diu">Daman and Diu</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Lakshadweep">Lakshadweep</option>
+                    <option value="Puducherry">Puducherry</option>
+                  </select>
+                </div>
+                <div class="col-md-4 col-sm-12">
+                  <label class="form-label">City</label>
+                  <input type="text" class="form-control form-select-sm " [ngModel]="repd.city" formControlName="city">
+                </div>
+                <div class="col-md-4 col-sm-12">
+                  <label class="form-label">Code</label>
+                  <input type="text" class="form-control form-select-sm " [ngModel]="repd.code" formControlName="code">
+                </div>
+                <div class="col-md-4 col-sm-12">
+                  <label class="form-label">Name</label>
+                  <input type="text" class="form-control form-select-sm " [ngModel]="repd.name" formControlName="name">
+                </div>
+                <div class="col-md-4 col-sm-12">
+                  <label class="form-label">Phone</label>
+                  <input type="number" class="form-control form-select-sm " [ngModel]="repd.phone" formControlName="phone">
+                </div>
+                <div class="col-md-4 col-sm-12">
+                  <label class="form-label">Email</label>
+                  <input type="email" class="form-control form-select-sm " [ngModel]="repd.email" formControlName="email">
+                </div>
+                <div class="col-md-4 col-sm-12 mt-4">
+                  <label class="form-label">IsActive</label>
+                  <input type="checkbox" class="form-check-input" [value]="repd.isActive" [checked]="!repd.isActive"
+                    (change)="repd.isActive = !repd.isActive">
+                </div>
+                <div class="col-md-4 col-sm-12 mt-4">
+                  <label class="form-label">Is Postpaid</label>
+                  <input type="checkbox" class="form-check-input " [value]="repd.isPostPaid" [checked]="!repd.isPostPaid"
+                    (change)="repd.isPostPaid = !repd.isPostPaid">
+                </div>
+                <div class="col-md-4 col-sm-12">
+                  <label class="form-label">Address</label>
+                  <input type="text" class="form-control form-select-sm " [ngModel]="repd.address" formControlName="address">
+                </div>
+                <div class="col-md-4 col-sm-12">
+                  <label class="form-label">Sender Name</label>
+                  <input type="text" class="form-control form-select-sm " [ngModel]="repd.senderName"
+                    formControlName="senderName">
+                </div>
+                <div class="col-md-4 col-sm-12">
+                  <label class="form-label">Sender Mobile No</label>
+                  <input type="number" class="form-control form-select-sm " [ngModel]="repd.senderMobile"
+                    formControlName="senderMobile">
+                </div>
+                <div class="col-md-4 col-sm-12">
+                  <label class="form-label">Credit Limit</label>
+                  <input type="number" class="form-control form-select-sm " [ngModel]="repd.creditDaysLimit"
+                    formControlName="creditDaysLimit">
+                </div>
+                <div class="col-md-4 col-sm-12">
+                  <label class="form-label">Exp Date</label>
+                  <input type="date" class="form-control form-select-sm " [ngModel]="repd.exDate" formControlName="exDate">
+                </div>
+        
+              </div>
+        
+              <div class="col-12 md:col-12 text-center mt-3">
+                <button pButton type="button" class="btn btn-sm btn-success" (click)="edit(repd?._id)">Submit</button>
+              </div>
+            </form>
+          </div>        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ 
+
+
+
+
+
+<!-- Modal 1 -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Centered XL Modal</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Your content goes here -->
+        <div class="card m-5 p-5" *ngIf="repd1">
+          <span class="text-primary">{{repd1.name}}</span>
+          <form [formGroup]="form1">
+            <div class="row">
+
+              <input type="text" class="form-control form-select-sm " [ngModel]="repd1._id" formControlName="agentName"
+                hidden>
+
+              <div class="col-md-4 col-sm-12">
+                <label class="form-label">Charge Name</label>
+                <input type="text" class="form-control form-select-sm " formControlName="chargeName">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">From City</label>
+                <select #selectElem class="form-select form-select-sm" formControlName="fromCity">
+                  <option value="" selected>Select City</option>
+                  <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">To City</label>
+                <select #selectElem class="form-select form-select-sm" formControlName="toCity">
+                  <option value="" selected>Select City</option>
+                  <option *ngFor="let row3 of citydata" [value]="row3.cityName">{{ row3.cityName }}</option>
+                </select>
+              </div>
+              <div class="col-md-4 col-sm-12">
+                <label class="form-label">Charges</label>
+                <input type="number" class="form-control form-select-sm " formControlName="charge">
+              </div>
+              <div class="col-md-4 col-sm-12">
+                <label class="form-label">Mode On Price</label>
+                <input type="text" class="form-control form-select-sm " formControlName="modeOnPrice">
+              </div>
+              <div class="col-md-4 col-sm-12">
+                <label class="form-label">Item Name</label>
+                <input type="text" class="form-control form-select-sm " formControlName="itemName">
+              </div>
+              <div class="col-md-4 col-sm-12">
+                <label class="form-label">Dispatch Type</label>
+                <input type="text" class="form-control form-select-sm " formControlName="dispatchType">
+              </div>
+
+              <div class="col-md-4 col-sm-12 mt-4">
+                <label class="form-label">IsActive</label>
+                <input type="checkbox" class="form-check-input" [value]="repd1.isActive" [checked]="!repd1.isActive"
+                  (change)="repd1.isActive = !repd1.isActive">
+              </div>
+
+            </div>
+
+            <div class="col-12 md:col-12 text-center mt-3">
+              <button pButton type="button" class="btn btn-sm btn-success" (click)="setcharges()">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

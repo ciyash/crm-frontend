@@ -1,0 +1,182 @@
+.custom-row td {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+
+
+::ng-deep .ss-main .ss-multi-selected .ss-values .ss-value {
+  background-color: #034F92 !important;
+}
+
+
+
+// .form-label::after {
+//   content: " *"; 
+//   color: red;
+//   font-weight: bold;
+// }
+.form-label{
+  color: #3C3C3C;
+font-size: 15.17px;
+font-family: Poppins;
+font-weight: 500;
+word-wrap: break-word
+}
+// lkadnclkadnknd
+
+
+.primary{
+  background-color: brown;
+  position: sticky;
+}
+
+ th {
+  // background: #143374;
+  // color: white;
+  border-radius: 0;
+  top: 0;
+  padding: 10px;
+}
+
+
+  .table {
+      width: 100%;
+      border-collapse: collapse;
+  }
+
+  /* Table Header (Dark Blue) */
+  .table thead tr {
+      background-color: #143374 !important; /* Dark Blue */
+      color: white !important;
+  }
+
+  .table th {
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #ccc;
+  }
+
+  /* Normal Table Rows */
+  .table tbody tr {
+      background-color: #2B478B !important; /* Slightly lighter blue */
+      color: white;
+  }
+
+  .table tbody td {
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #ccc;
+  }
+
+  .table tbody .highlight-row td {
+      background-color: #354F9E !important; /* Different shade of blue */
+      font-weight: bold;
+      color: white;
+  }
+
+  .table tbody input.form-control {
+      // background-color: #B0C4DE !important; 
+      border: 1px solid #ccc;
+      color: black;
+  }
+
+  /* Delete Button */
+  .text-danger {
+      color: red !important;
+  }
+
+
+
+
+
+  td{
+      background: #8FA0C4;
+      color: white;
+    }
+    .primary{
+      background-color: brown;
+      position: sticky;
+    }
+  
+     th {
+      background: #143374;
+      color: white;
+      border-radius: 0;
+      top: 0;
+      padding: 10px;
+    }
+  
+  
+     
+  
+    .table thead tr {
+      background-color: #143374 !important;
+      color: white !important;
+      text-align: center;
+  }
+  
+  
+  .table tbody tr:nth-child(odd) {
+      background-color: #2B478B !important;
+  }
+  .table tbody tr:nth-child(even) {
+      background-color: #3C5898 !important;
+  }
+  .table tbody td {
+      color: white;
+  }
+  .table input.form-control {
+      background-color: #B0C4DE !important;
+      border: none;
+      color: black;
+      text-align: center;
+  }
+  .text-danger {
+      color: red !important;
+  }
+  
+  .done {
+      background-color: #143374 !important;
+      color: white !important;
+  
+}
+
+
+.form-control, .btn {
+  border-radius: 5px;
+}
+@media (max-width: 768px) {
+  .container {
+      max-width: 100%;
+      padding: 15px;
+  }
+  .btn {
+      width: 100%;
+  }
+}
+
+.btn-primary {
+  background-color: #143374 !important;
+  border-color: #143374 !important;
+}
+
+
+.select2-container .select2-selection--single{
+  height:34px !important;
+}
+.select2-container--default .select2-selection--single{
+       border: 1px solid #ccc !important; 
+   border-radius: 0px !important; 
+}
+
+
+
+
+
+
+
+
+
+
+
