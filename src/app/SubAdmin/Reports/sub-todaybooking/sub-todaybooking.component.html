@@ -1,0 +1,120 @@
+<app-header></app-header>
+
+<div class="container mt-5" >
+  <!-- <h5 class="text-center"></h5> -->
+  <app-search-grn-number></app-search-grn-number>
+</div>
+
+<div class="container mt-4">
+  <div *ngIf="loading" class="text-center">
+    <img src="assets/loading.gif" alt="" style="height: 40px;" />
+    <p class="text-danger text-center">Please Wait ....</p>
+  </div>
+
+  <div *ngIf="!loading">
+    <p-table
+      [value]="data1"
+      scrollHeight="76vh"
+      [paginator]="false"
+      responsiveLayout="scroll"
+      styleClass="p-datatable-gridlines p-datatable-striped"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>S.No</th>
+          <th>Date</th>
+          <th>LR No</th>
+          <th>From</th>
+          <th>To</th>
+          <th>Pickup</th>
+          <th>Drop</th>
+          <th>Sender</th>
+          <th>Receiver</th>
+          <th>Status</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-row let-i="rowIndex">
+        <tr class="custom-row">
+          <td>{{ (currentPage - 1) * rowsPerPage + i + 1 }}</td>
+          <td>{{ row.createdAt | date: 'dd/MMM/yyyy' }}</td>
+          <td>
+            <a (click)="orderinvoice(row.grnNo)" style="cursor: pointer;">
+              {{ row.lrNumber }}
+            </a>
+          </td>
+          <td>{{ row.fromCity }}</td>
+          <td>{{ row.toCity }}</td>
+          <td>{{ row.pickUpBranchname }}</td>
+          <td>{{ row.dropBranchname }}</td>
+          <td>
+            {{ row.senderName }}<br />
+            <small>{{ row.senderMobile }}</small>
+          </td>
+          <td>
+            {{ row.receiverName }}<br />
+            <small>{{ row.receiverMobile }}</small>
+          </td>
+          <td>
+            <ng-container [ngSwitch]="row.bookingStatus">
+              <ng-container *ngSwitchCase="'0'">
+                <i class="fa fa-times-circle mb-2 text-danger" title="Pending"></i> Pending
+              </ng-container>
+              <ng-container *ngSwitchCase="'1'">
+                <i class="fa fa-check-circle mb-2 text-success" title="Package Load"></i> Package Load
+              </ng-container>
+              <ng-container *ngSwitchCase="'2'">
+                <i class="fa fa-check-circle mb-2 text-primary" title="Package OnLoad"></i> Package OnLoad
+              </ng-container>
+              <ng-container *ngSwitchCase="'3'">
+                <i class="fa fa-check-circle mb-2 text-warning" title="Received Branch"></i> Received Branch
+              </ng-container>
+              <ng-container *ngSwitchCase="'4'">
+                <i class="fa fa-check-circle mb-2 text-success" title="Delivered"></i> Package Delivered
+              </ng-container>
+              <ng-container *ngSwitchCase="'5'">
+                <i class="pi pi-times-circle mb-2 text-danger" title="Cancelled"></i> Package Cancel
+              </ng-container>
+            </ng-container>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+    <!-- Bootstrap Pagination -->
+    <nav *ngIf="totalPages > 1" class="mt-3">
+      <ul class="pagination justify-content-center">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <a class="page-link" (click)="goToPage(currentPage - 1)">Previous</a>
+        </li>
+        <li
+          class="page-item"
+          *ngFor="let page of getPages()"
+          [class.active]="currentPage === page"
+        >
+          <a class="page-link" (click)="goToPage(page)">{{ page }}</a>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <a class="page-link" (click)="goToPage(currentPage + 1)">Next</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<!-- GRN Print Dialog -->
+<p-dialog
+  [(visible)]="visible"
+  [modal]="true"
+  label="Show"
+  [dismissableMask]="true"
+  [style]="{ width: '100rem' }"
+>
+  <ng-container *ngIf="repd">
+    <div class="container">
+      <div class="card">
+        <app-print-grn-number [grnNo]="repd.grnNo"></app-print-grn-number>
+      </div>
+    </div>
+  </ng-container>
+</p-dialog>

@@ -1,0 +1,359 @@
+<app-header></app-header>
+<div class="container mt-5 pt-5">
+  <h5 class="text-center fw-bold text-danger mt-4"><u>Dispatched Memo report</u></h5>
+  <div class="border p-3" style="margin-top: 2rem;">
+    <form [formGroup]="form">
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label class="form-label">From Date</label>
+          <input type="date" class="form-control form-select-sm" formControlName="fromDate">
+          <div *ngIf="form.get('startDate')?.invalid && form.get('startDate')?.touched" class="text-danger">
+            Start Date is required
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">To Date</label>
+          <input type="date" class="form-control form-select-sm " formControlName="toDate">
+          <div *ngIf="form.get('endDate')?.invalid && form.get('endDate')?.touched" class="text-danger">
+            End Date is required
+          </div>
+        </div>
+        <!-- <div class="col-md-6">
+          <label class="form-label form-after">From City</label>
+          <select #selectElem class="form-select form-select-sm" formControlName="fromCity">
+            <option value="all" selected> select all</option>
+            <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
+          </select>
+        </div> -->
+        <div class="col-md-6">
+            <label class="form-label form-after">From City</label>
+            <select #selectElem class="form-select form-select-sm" formControlName="fromCity" >
+              <option value="" selected>Select City</option>
+              <option *ngFor="let row2 of filteredCityList" [value]="row2.cityName">{{ row2.cityName }}</option>
+            </select>
+          </div>
+        <div class="col-md-6">
+          <label class="form-label">To City</label>
+          <select #selectElem2 class="form-select form-select-sm" formControlName="toCity">
+            <option value="all" selected> select all</option>
+            <option *ngFor="let row of citydata" [value]="row.cityName">{{ row.cityName }}</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <!-- <label class="form-label">PickUpBranch</label> -->
+          <label class="form-label form-after">Pickup Branch</label>
+          <select #pickupbranch class="form-select form-select-sm" formControlName="pickUpBranch">
+            <option value="all" selected> select all</option>
+            <option *ngFor="let row4 of pdata" [value]="row4.branchUniqueId"> {{ row4.name }} </option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Drop Branch</label>
+          <select #droupbranch class="form-select form-select-sm" formControlName="dropBranch">
+            <option value="all" selected> select all</option>
+            <option *ngFor="let row1 of tbcdata" [value]="row1.branchUniqueId"> {{ row1.name }} </option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Vehicle Number</label>
+          <select #vechicle class="form-select" formControlName="vehicalNumber">
+            <option value="" selected>Vehicle Number</option>
+            <option *ngFor="let row2 of allgetvechicle" [value]="row2.vehicleNo">{{ row2.vehicleNo }}</option>
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <div class="d-grid gap-2 col-2 mx-auto mt-4">
+            <button type="button" class="btn btn-success w-100" (click)="memoReport()">Load</button>
+          </div>
+        </div>
+        <div class="col-md-3 mt-4" *ngIf="DispatchedData" >
+          <i class="fa fa-print"
+          style="font-size: 30px; cursor: pointer; color: green;"
+          aria-hidden="true"
+          (click)="printReport()">
+        </i>
+
+          <i class="fa fa-file-excel-o" 
+          style="font-size: 30px; color: green; cursor: pointer;" 
+          aria-hidden="true"
+          (click)="downloadExcel()">
+       </i>
+ </div>
+      </div>
+    </form>
+
+    <!-- Print        -->
+    <div class="container-fluid">
+      <div id="print-section">
+        <div class="hr" style="  border: 1px solid #ccc; /* light gray border */
+          background-color: #fff;"></div>
+          <div *ngIf="DispatchedData">
+            <div class="text-center mb-4 mt-5">
+
+              <div class="container-fluid" *ngIf="pfdata">
+                <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
+                <p class="text-center fw-bold">
+                  Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
+                  Phone No: {{ pfdata.phone }}
+                </p>
+              </div>
+              
+              <h6 class="text-decoration-underline">Dispatched Memo Report</h6>
+            </div>
+            <div class="d-flex justify-content-between">
+              <!-- <h6>Generated For : 08-05-2025 To 08-05-2025 </h6> -->
+              <h6> <strong> Generated For:</strong>
+                {{ fromDate | date: 'dd-MM-yyyy' }} To {{ toDate | date: 'dd-MM-yyyy' }}
+              </h6>
+              <h6>  <strong>Date :</strong>  {{ today | date: 'dd-MM-yyyy hh:mm a' }}</h6>
+
+              
+              <!-- <h6> Vehicle : All Vehicle</h6> -->
+            </div>
+      
+            <div class="d-flex justify-content-between">
+              <!-- <h6>
+                By Branch : VIJAYAWADA-Head Office</h6> -->
+              </div>
+            <div class="d-flex justify-content-between">
+              <!-- <h6>
+                Route Name : All Route</h6>
+              <h6> Destination City : All Cities</h6> -->
+            </div>
+            <!-- <h6>Type : All Booking Type</h6> -->
+          </div>
+    
+    
+        <!-- Dispatched Paid Details -->
+    
+        <div *ngIf="DispatchedData?.data">
+          <div class="table-responsive mb-1 ">
+            <table class="table table-bordered table-sm text-center align-middle">
+              <thead>
+                <tr class="fw-bold">
+                  Dispatched Paid Details
+                </tr>
+              </thead>
+            </table>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-bordered table-sm text-center align-middle">
+              <thead class="table-secondary">
+                <tr>
+                  <th>No</th>
+                  <th>LR No </th>
+                  <th>Vehicle </th>
+                  <th>Dispatch Date </th>
+                  <th>To City </th>
+                  <th>Sender </th>
+                  <th>Receiver</th>
+                  <th>Mobile No </th>
+                  <th>Qty</th>
+                  <th>Item Details</th>
+                  <th>Fright </th>
+                  <th>Hamali </th>
+                  <th>Net Amount </th>
+                  <th>Sign
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of DispatchedData.data.paid; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ item.lrNumber }}</td>
+                  <td>{{ item.vehicalNumber }}</td>
+                  <td>{{ item.loadingDate | date:'dd/MM/yyyy' }}</td>
+                  <td>{{ item.toCity }}</td>
+                  <td>{{ item.senderName }}</td>
+                  <td>{{ item.receiverName }}</td>
+                  <td>{{ item.senderMobile }}</td>
+                  <td>{{ item.packages?.[0]?.quantity }}</td>
+                  <td>{{ item.packages?.[0]?.packageType }}</td>
+                  <td>{{ item.serviceCharge
+                    }}</td>
+                  <td>{{ item.hamaliCharge }}</td>
+                  <td>{{ item.grandTotal + item.hamaliCharge }}</td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+    
+    
+        <!-- Dispatched credit Details -->
+    
+        <div *ngIf="DispatchedData?.data">
+          <div class="table-responsive mb-1 ">
+            <table class="table table-bordered table-sm text-center align-middle">
+              <thead>
+                <tr class="fw-bold">
+                  Dispatched credit Details
+                </tr>
+              </thead>
+            </table>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-bordered table-sm text-center align-middle">
+              <thead class="table-secondary">
+                <tr>
+                  <th>No</th>
+                  <th>LR No </th>
+                  <th>Vehicle </th>
+                  <th>Dispatch Date </th>
+                  <th>To City </th>
+                  <th>Sender </th>
+                  <th>Receiver</th>
+                  <th>Mobile No </th>
+                  <th>Qty</th>
+                  <th>Item Details</th>
+                  <th>Fright </th>
+                  <th>Hamali </th>
+                  <th>Net Amount </th>
+                  <th>Sign
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of DispatchedData.data.credit; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ item.lrNumber }}</td>
+                  <td>{{ item.vehicalNumber }}</td>
+                  <td>{{ item.loadingDate | date:'dd/MM/yyyy' }}</td>
+                  <td>{{ item.toCity }}</td>
+                  <td>{{ item.senderName }}</td>
+                  <td>{{ item.receiverName }}</td>
+                  <td>{{ item.senderMobile }}</td>
+                  <td>{{ item.packages?.[0]?.quantity }}</td>
+                  <td>{{ item.packages?.[0]?.packageType }}</td>
+                  <td>{{ item.serviceCharge
+                    }}</td>
+                  <td>{{ item.hamaliCharge }}</td>
+                  <td>{{ item.grandTotal + item.hamaliCharge }}</td>
+                  <td></td>
+                </tr>
+    
+              </tbody>
+            </table>
+          </div>
+        </div>
+    
+        <!-- Dispatched Topay Details -->
+        <div *ngIf="DispatchedData?.data">
+          <div class="table-responsive mb-1">
+            <table class="table table-bordered table-sm text-center align-middle">
+              <thead>
+                <tr class="fw-bold">
+                  <td colspan="14">Dispatched Topay Details</td>
+                </tr>
+              </thead>
+            </table>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-bordered table-sm text-center align-middle">
+              <thead class="table-secondary">
+                <tr>
+                  <th>No</th>
+                  <th>LR No</th>
+                  <th>Vehicle</th>
+                  <th>Dispatch Date</th>
+                  <th>To City</th>
+                  <th>Sender</th>
+                  <th>Receiver</th>
+                  <th>Mobile No</th>
+                  <th>Qty</th>
+                  <th>Item Details</th>
+                  <th>Freight</th>
+                  <th>Hamali</th>
+                  <th>Net Amount</th>
+                  <th>Sign</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of DispatchedData?.data?.toPay; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ item.lrNumber }}</td>
+                  <td>{{ item.vehicalNumber }}</td>
+                  <td>{{ item.loadingDate | date: 'dd/MM/yyyy' }}</td>
+                  <td>{{ item.toCity }}</td>
+                  <td>{{ item.senderName }}</td>
+                  <td>{{ item.receiverName }}</td>
+                  <td>{{ item.senderMobile }}</td>
+                  <td>{{ item.packages?.[0]?.quantity || 0 }}</td>
+                  <td>{{ item.packages?.[0]?.packageType || '-' }}</td>
+                  <td>{{ item.serviceCharge || 0 }}</td>
+                  <td>{{ item.hamaliCharge || 0 }}</td>
+                  <td>{{ item.grandTotal || 0 }}</td> <!-- Display grandTotal -->
+                  <td></td>
+                </tr>
+              </tbody>
+              <tfoot class="fw-bold table-light" *ngIf="DispatchedData?.data?.toPay?.length">
+                <tr>
+                  <td colspan="8">Total</td>
+                  <td>{{ totalQty }}</td>
+                  <td></td>
+                  <td>{{ totalFreight }}</td>
+                  <td>{{ totalHamali }}</td>
+                  <td>{{ totalNetAmount }}</td>
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+    
+    
+        <!-- cityWiseDetails -->
+    
+        <div class="table-responsive mb-1" *ngIf="DispatchedData?.cityWiseDetails">
+          <table class="table table-bordered table-sm text-center align-middle">
+            <thead>
+              <tr class="fw-bold">
+                cityWiseDetails
+              </tr>
+            </thead>
+          </table>
+    
+        <div class="table-responsive">
+          <table class="table table-bordered table-sm text-center align-middle">
+            <thead class="table-secondary">
+              <tr>
+                <th>No</th>
+                <th>City Name </th>
+                <th>Paid Qty </th>
+                <th>Paid Amount </th>
+                <th>ToPay Qty </th>
+                <th>ToPay Amount </th>
+                <th>CreditFor Qty </th>
+                <th>CreditFor Amount
+                </th>
+    
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of DispatchedData.data.cityWiseDetails; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.cityName }}</td>
+                <td>{{ item.paidQty }}</td>
+                <td>{{ item.paidAmount }}</td>
+                <td>{{ item.toPayQty }}</td>
+                <td>{{ item.toPayAmount }}</td>
+                <td>{{ item.creditForQty }}</td>
+                <td>{{ item.creditForAmount }}</td>
+              </tr>
+    
+            </tbody>
+          </table>
+        </div>
+        </div>
+    
+    
+      </div>
+    </div>
+
+  </div>
+</div>
+
+

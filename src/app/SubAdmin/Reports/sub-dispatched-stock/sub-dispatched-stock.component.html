@@ -1,0 +1,168 @@
+<app-header></app-header>
+
+<div class="card container" style=" margin-top: 8%;
+border: 2px solid #ccc; 
+border-radius: 5px;
+padding: 15px;
+background-color: #fff;">
+  <h5 class="text-center fw-bold text-danger"><u>Dispatched Stock report
+    </u>
+  </h5>
+
+  <div class="rounded p-4">
+    <form [formGroup]="form">
+      <div class="row mb-2">
+        <div class="col-md-6">
+          <label class="form-label">From Booking Date</label>
+          <input type="date" class="form-control form-select-sm" formControlName="fromDate">
+          <div *ngIf="form.get('fromDate')?.invalid && form.get('fromDate')?.touched" class="text-danger">
+            From Date is required
+          </div>
+
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">To Booking Date</label>
+          <input type="date" class="form-control form-select-sm" formControlName="toDate">
+          <div *ngIf="form.get('toDate')?.invalid && form.get('toDate')?.touched" class="text-danger">
+            To Date is required
+          </div>
+        </div>
+        <!-- <div class="col-md-6">
+          <label class="form-label">From City</label>
+          <select #selectElem class="form-select form-select-sm" formControlName="fromCity">
+            <option value="" selected> Select City</option>
+            <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
+          </select>
+        </div> -->
+        <div class="col-md-6">
+            <label class="form-label form-after">From City</label>
+            <select #selectElem class="form-select form-select-sm" formControlName="fromCity" >
+              <option value="" selected>Select City</option>
+              <option *ngFor="let row2 of filteredCityList" [value]="row2.cityName">{{ row2.cityName }}</option>
+            </select>
+          </div>
+        <div class="col-md-6">
+          <label class="form-label"> To City</label>
+          <select #selectElem2 class="form-select form-select-sm" formControlName="toCity">
+            <option value="" selected> select to City</option>
+            <option *ngFor="let row of citydata" [value]="row.cityName">{{ row.cityName }}</option>
+          </select>
+        </div>
+        <div class="col-md-6 ">
+          <label class="form-label">From City Branch Name </label>
+          <select #pickupbranch class="form-select form-select-sm" formControlName="fromBranch">
+            <option value="" selected> Select Branch</option>
+            <option *ngFor="let row4 of pdata" [value]="row4.branchUniqueId"> {{ row4.name }} </option>
+          </select>
+        </div>
+
+        <div class="col-md-6 mt-4">
+          <div class="d-flex align-items-center flex-wrap gap-3">
+            <!-- Load Button -->
+            <button type="button" class="btn btn-success" (click)="DispatchReport()">
+              Load
+            </button>
+        
+            <!-- Print Icon -->
+            <i *ngIf="reportData"
+               class="fa fa-print"
+               style="font-size: 30px; cursor: pointer; color: green;"
+               (click)="printReport()"
+               title="Print Report">
+            </i>
+        
+            <!-- Excel Icon -->
+            <i *ngIf="reportData"
+               class="fa fa-file-excel-o"
+               style="font-size: 25px; cursor: pointer; color: green;"
+               (click)="exportToExcel()"
+               title="Export to Excel">
+            </i>
+          </div>
+        </div>
+        
+
+
+       
+
+
+      </div>
+    </form>
+  </div>
+  <div class="hr" style="  border: 1px solid #ccc; /* light gray border */
+      background-color: #fff;"></div>
+  <div *ngIf="reportData" id="print-section">
+    <div class="text-center mb-4 mt-5">
+      <div class="container-fluid" *ngIf="pfdata">
+        <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
+        <p class="text-center fw-bold">
+          Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
+          Phone No: {{ pfdata.phone }}
+        </p>
+      </div>
+      <h6 class="text-decoration-underline">Dispatched Stock Report
+      </h6>
+    </div>
+    <div class="table-responsive mb-1 ">
+      <table class="table table-bordered table-sm text-center align-middle">
+        <thead>
+          <tr>
+            <th>From : {{payload.fromDate | date: 'dd-MM-yyyy'}} To : {{payload.toDate | date: 'dd-MM-yyyy'}}</th>
+            <th *ngIf="pfdata">Print By : {{pfdata.username}}</th>
+            <th>Print Date :{{ today | date: 'dd-MM-yyyy' }} {{ today | date: 'hh:mm a' }} </th>
+          </tr>
+        </thead>
+
+      </table>
+    </div>
+
+
+    <div class="table-responsive">
+      <table class="table table-bordered table-sm text-center align-middle">
+        <thead class="table-secondary">
+          <tr>
+            <th>No</th>
+            <th>Voucher NO</th>
+            <th>From City</th>
+            <th>To City</th>
+            <th>Loading Date</th>
+            <th>Driver Name</th>
+            <th>Vechicle No</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let items of paginatedData; let i = index">
+            <td>{{(currentPage - 1) * pageSize + i + 1}}</td>
+            <td>{{items.vocherNoUnique}}</td>
+            <td>{{items.fromCity}}</td>
+            <td>{{items.toCity}}</td>
+            <td>{{items.loadingDate | date: 'dd/MM/yyyy'}}</td>
+            <td>{{items.driverName}}</td>
+            <td>{{items.vehicalNumber}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+  </div>
+</div>
+<nav *ngIf="totalPages > 1" aria-label="Page navigation">
+  <ul class="pagination justify-content-center">
+    <li class="page-item" [class.disabled]="currentPage === 1">
+      <a class="page-link" (click)="goToPage(currentPage - 1)">Previous</a>
+    </li>
+
+    <li
+      class="page-item"
+      *ngFor="let page of [].constructor(totalPages); let i = index"
+      [class.active]="currentPage === i + 1"
+    >
+      <a class="page-link" (click)="goToPage(i + 1)">{{ i + 1 }}</a>
+    </li>
+
+    <li class="page-item" [class.disabled]="currentPage === totalPages">
+      <a class="page-link" (click)="goToPage(currentPage + 1)">Next</a>
+    </li>
+  </ul>
+</nav>

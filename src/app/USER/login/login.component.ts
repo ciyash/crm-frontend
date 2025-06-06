@@ -233,11 +233,11 @@ export class LoginComponent implements OnInit {
 
   private getNavigationPath(role: string): string {
     switch (role) {
-      case 'admin':
-        return '/booking';
+      // case 'admin':
+      //   return '/booking';
 
-        // case 'admin':
-        //   return '/createbranch';
+        case 'admin':
+          return '/createbranch';
 
       case 'subadmin':
         return '/sub-booking';

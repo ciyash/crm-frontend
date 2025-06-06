@@ -1,0 +1,215 @@
+<app-header></app-header>
+<div class="container" style="margin-top: 8%;">
+    <div class="card p-4">
+        <h3 class="text-center text-danger text-decoration-underline">
+            Pending Dispatch Stock Report
+        </h3>
+        <form class="mt-4" [formGroup]="form">
+            <div *ngIf="bookingSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
+                Successfully created booking!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label">From Booking Date</label>
+                    <input type="date" class="form-control form-select-sm" formControlName="fromDate">
+                    <div *ngIf="form.get('fromDate')?.invalid && form.get('fromDate')?.touched" class="text-danger">
+                      From Date is required
+                    </div>
+        
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">To Booking Date</label>
+                    <input type="date" class="form-control form-select-sm" formControlName="toDate">
+                    <div *ngIf="form.get('toDate')?.invalid && form.get('toDate')?.touched" class="text-danger">
+                      To Date is required
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label form-after">From City</label>
+                    <select #selectElem class="form-select form-select-sm" formControlName="fromCity" >
+                      <option value="" selected>Select City</option>
+                      <option *ngFor="let row2 of filteredCityList" [value]="row2.cityName">{{ row2.cityName }}</option>
+                    </select>
+                  </div>
+
+                <div class="col-md-4">
+                    <label class="form-label form-after">Branch Name</label>
+                    <select #pickupbranch class="form-select form-select-sm" formControlName="pickUpBranch">
+                        <option value="" selected>Select all</option>
+                        <option *ngFor="let row4 of pdata" [value]="row4.branchUniqueId"> {{ row4.name }} </option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label form-after">To City</label>
+                    <select #selectElem2 class="form-select form-select-sm" formControlName="toCity">
+                        <option value="" selected>Select all</option>
+                        <option *ngFor="let row of citydata" [value]="row.cityName">{{ row.cityName }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="text-center mt-5 d-flex justify-content-center align-items-center gap-4">
+                <button class="btn btn-success" (click)="DispatchedStockReport()">Load</button>
+                
+                <i *ngIf="reportData" class="fa fa-print" style="font-size: 40px; cursor: pointer;color: green;" aria-hidden="true"
+                    (click)="printReport()"></i>
+                    <i class="fa fa-file-excel-o"  *ngIf="reportData"
+   style="font-size: 30px; color: green; cursor: pointer;"
+   aria-hidden="true"
+   (click)="downloadExcel()">
+</i>
+
+
+                    
+            </div>
+
+        </form>
+
+        <div class="hr" style="border-top: 1px solid #ccc; margin: 20px 0;"></div>
+
+        <!-- Report Section: Only show when reportData is present -->
+        <div *ngIf="reportData && reportData.bookings?.length > 0" id="print-section" >
+                      <h5 class="text-center text-danger text-decoration-underline mb-3">
+                Pending Dispatch Stock Report
+            </h5>
+            <div class="container-fluid" *ngIf="pfdata">
+                <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
+                <p class="text-center fw-bold">
+                    Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
+                    Phone No: {{ pfdata.phone }}
+                </p>
+            </div>
+            <!-- <div *ngIf="reportData" class="d-flex justify-content-between mt-3">
+                <strong>From City: {{ form.get('fromCity')?.value }}</strong>
+                <strong>Branch Name: {{ getBranchNameById(form.get('pickUpBranch')?.value) }}</strong>
+                <strong>To City: {{ form.get('toCity')?.value }}</strong>
+            </div> -->
+            <!-- Summary Table -->
+            <table #summaryTable  class="table table-bordered text-center mb-4">
+                <thead class="table-secondary">
+                    <tr>
+                        <th>CATEGORY</th>
+                        <th>NOA</th>
+                        <th>TOTAL LR</th>
+                        <th>Actual Weight</th>
+                        <th>Charge Weight</th>
+                        <th>TOTAL AMOUNT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Credit</td>
+                        <td>{{ reportData.summary?.credit?.noa }}</td>
+                        <td>{{ reportData.summary?.credit?.totalLR }}</td>
+                        <td>{{ reportData.summary?.credit?.actualWeight }}</td>
+                        <td>{{ reportData.summary?.credit?.chargeWeight }}</td>
+                        <td>{{ reportData.summary?.credit?.totalAmount }}</td>
+                    </tr>
+                    <tr>
+                        <td>FOC</td>
+                        <td>{{ reportData.summary?.foc?.noa }}</td>
+                        <td>{{ reportData.summary?.foc?.totalLR }}</td>
+                        <td>{{ reportData.summary?.foc?.actualWeight }}</td>
+                        <td>{{ reportData.summary?.foc?.chargeWeight }}</td>
+                        <td>{{ reportData.summary?.foc?.totalAmount }}</td>
+                    </tr>
+                    <tr>
+                        <td>Paid</td>
+                        <td>{{ reportData.summary?.paid?.noa }}</td>
+                        <td>{{ reportData.summary?.paid?.totalLR }}</td>
+                        <td>{{ reportData.summary?.paid?.actualWeight }}</td>
+                        <td>{{ reportData.summary?.paid?.chargeWeight }}</td>
+                        <td>{{ reportData.summary?.paid?.totalAmount }}</td>
+                    </tr>
+                    <tr>
+                        <td>ToPay</td>
+                        <td>{{ reportData.summary?.toPay?.noa }}</td>
+                        <td>{{ reportData.summary?.toPay?.totalLR }}</td>
+                        <td>{{ reportData.summary?.toPay?.actualWeight }}</td>
+                        <td>{{ reportData.summary?.toPay?.chargeWeight }}</td>
+                        <td>{{ reportData.summary?.toPay?.totalAmount }}</td>
+                    </tr>
+                    <tr>
+                        <td>Other</td>
+                        <td>{{ reportData.summary?.other?.noa }}</td>
+                        <td>{{ reportData.summary?.other?.totalLR }}</td>
+                        <td>{{ reportData.summary?.other?.actualWeight }}</td>
+                        <td>{{ reportData.summary?.other?.chargeWeight }}</td>
+                        <td>{{ reportData.summary?.other?.totalAmount }}</td>
+                    </tr>
+                    <tr>
+                        <td>Free Sample</td>
+                        <td>{{ reportData.summary?.freeSample?.noa }}</td>
+                        <td>{{ reportData.summary?.freeSample?.totalLR }}</td>
+                        <td>{{ reportData.summary?.freeSample?.actualWeight }}</td>
+                        <td>{{ reportData.summary?.freeSample?.chargeWeight }}</td>
+                        <td>{{ reportData.summary?.freeSample?.totalAmount }}</td>
+                    </tr>
+                    <tr class="fw-bold">
+                        <td colspan="3">TotalWeight</td>
+                        <td>{{ reportData.allTotalWeight }}</td>
+                        <td colspan="1">Grand Total Amount</td>
+                        <td>{{ reportData.totalGrandTotalAmount }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Bookings Table -->
+            <div class="table-responsive mt-5" *ngIf="reportData.bookings?.length > 0">
+                <table #bookingsTable class="table table-bordered table-sm text-center align-middle">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th>Sr. No</th>
+                            <th>WB No.</th>
+                            <th>Pkgs</th>
+                            <th>Destination</th>
+                            <th>Sender</th>
+                            <th>Receiver</th>
+                            <th>Receiver No</th>
+                            <th>WB Type</th>
+                            <th>Amount</th>
+                            <th>Source</th>
+                            <th>Receipt No</th>
+                            <th>Remarks</th>
+                            <th>Bookings Date</th>
+                            <th>Days</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let items of reportData.bookings; let i = index">
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ items.wbNo }}</td>
+                            <td>{{ items.pkgs }}</td>
+                            <td>{{ items.destination }}</td>
+                            <td>{{ items.sender }}</td>
+                            <td>{{ items.receiver }}</td>
+                            <td>{{ items.receiverNo }}</td>
+                            <td>{{ items.wbType }}</td>
+                            <td>{{ items.amount }}</td>
+                            <td>{{ items.source }}</td>
+                            <td>{{items.receiptNo}}</td>
+                            <td></td>
+                            <td>{{ items.bookingDate | date: 'dd/MM/yyyy' }}
+                            </td>
+                            <td>{{ items.days }}</td>
+                        </tr>
+                        <tr class="fw-bold">
+                            <td colspan="2">Total Pkgs</td>
+                            <td>{{ reportData.allTotalPackages }}</td>
+                            <td colspan="5">Grand Total Amount</td>
+                            <td>{{ totalamount }}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

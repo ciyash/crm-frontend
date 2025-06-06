@@ -86,6 +86,19 @@ import { SubLoadingComponent } from './SubAdmin/sub-loading/sub-loading.componen
 import { SubUnloadingComponent } from './SubAdmin/sub-unloading/sub-unloading.component';
 import { SubBranchToBranchLoadingComponent } from './SubAdmin/sub-branch-to-branch-loading/sub-branch-to-branch-loading.component';
 import { SubBranchToBranchUnloadingComponent } from './SubAdmin/sub-branch-to-branch-unloading/sub-branch-to-branch-unloading.component';
+import { SubTodaybookingComponent } from './SubAdmin/Reports/sub-todaybooking/sub-todaybooking.component';
+import { SubDashboardBookingComponent } from './SubAdmin/Reports/sub-dashboard-booking/sub-dashboard-booking.component';
+import { SubCollectionComponent } from './SubAdmin/Reports/sub-collection/sub-collection.component';
+import { ConsolidateComponent } from './SubAdmin/Reports/consolidate/consolidate.component';
+import { SubStatusDateDifferentComponent } from './SubAdmin/Reports/sub-status-date-different/sub-status-date-different.component';
+import { SubPendingDeliveryStockComponent } from './SubAdmin/Reports/sub-pending-delivery-stock/sub-pending-delivery-stock.component';
+import { SubPendingDeliveryLuggageComponent } from './SubAdmin/Reports/sub-pending-delivery-luggage/sub-pending-delivery-luggage.component';
+import { SubDispatchedStockComponent } from './SubAdmin/Reports/sub-dispatched-stock/sub-dispatched-stock.component';
+import { SubReceivedStockComponent } from './SubAdmin/Reports/sub-received-stock/sub-received-stock.component';
+import { SubDeliveryStockComponent } from './SubAdmin/Reports/sub-delivery-stock/sub-delivery-stock.component';
+import { SubPendingDispatchStockComponent } from './SubAdmin/Reports/sub-pending-dispatch-stock/sub-pending-dispatch-stock.component';
+import { SubMemoDispatchedComponent } from './SubAdmin/Reports/sub-memo-dispatched/sub-memo-dispatched.component';
+import { SubIncomingLuggageComponent } from './SubAdmin/Reports/sub-incoming-luggage/sub-incoming-luggage.component';
 
 const routes: Routes = [
   {path:"login",component:LoginComponent },
@@ -208,6 +221,34 @@ const routes: Routes = [
   {path:"sub-unloading",component:SubUnloadingComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
   {path:"sub-branch-loading",component:SubBranchToBranchLoadingComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
   {path:"sub-branch-unloading",component:SubBranchToBranchUnloadingComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
+
+  // Reports subAdmin
+  {path:"sub-todaybooking",component:SubTodaybookingComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
+  {path:"sub-dashboard",component:SubDashboardBookingComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
+  {path:"sub-collection",component:SubCollectionComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
+  {path:"sub-consolidate",component:ConsolidateComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
+  {path:"sub-datedifferent",component:SubStatusDateDifferentComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
+  {path:"sub-pendingdelivery",component:SubPendingDeliveryStockComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
+  {path:"sub-pendingluaggage",component:SubPendingDeliveryLuggageComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
+  {path:"sub-dispatched",component:SubDispatchedStockComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
+  {path:"sub-received",component:SubReceivedStockComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
+  {path:"sub-deliverystock",component:SubDeliveryStockComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
+  {path:"sub-pendingdispatch",component:SubPendingDispatchStockComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
+  {path:"sub-memo-dispathed",component:SubMemoDispatchedComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
+  {path:"sub-incoming-luggage",component:SubIncomingLuggageComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

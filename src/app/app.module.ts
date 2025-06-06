@@ -113,6 +113,19 @@ import { SubLoadingreportComponent } from './SubAdmin/sub-loadingreport/sub-load
 import { SubUnloadingComponent } from './SubAdmin/sub-unloading/sub-unloading.component';
 import { SubBranchToBranchLoadingComponent } from './SubAdmin/sub-branch-to-branch-loading/sub-branch-to-branch-loading.component';
 import { SubBranchToBranchUnloadingComponent } from './SubAdmin/sub-branch-to-branch-unloading/sub-branch-to-branch-unloading.component';
+import { SubTodaybookingComponent } from './SubAdmin/Reports/sub-todaybooking/sub-todaybooking.component';
+import { SubDashboardBookingComponent } from './SubAdmin/Reports/sub-dashboard-booking/sub-dashboard-booking.component';
+import { SubCollectionComponent } from './SubAdmin/Reports/sub-collection/sub-collection.component';
+import { ConsolidateComponent } from './SubAdmin/Reports/consolidate/consolidate.component';
+import { SubStatusDateDifferentComponent } from './SubAdmin/Reports/sub-status-date-different/sub-status-date-different.component';
+import { SubPendingDeliveryStockComponent } from './SubAdmin/Reports/sub-pending-delivery-stock/sub-pending-delivery-stock.component';
+import { SubPendingDeliveryLuggageComponent } from './SubAdmin/Reports/sub-pending-delivery-luggage/sub-pending-delivery-luggage.component';
+import { SubDispatchedStockComponent } from './SubAdmin/Reports/sub-dispatched-stock/sub-dispatched-stock.component';
+import { SubReceivedStockComponent } from './SubAdmin/Reports/sub-received-stock/sub-received-stock.component';
+import { SubDeliveryStockComponent } from './SubAdmin/Reports/sub-delivery-stock/sub-delivery-stock.component';
+import { SubPendingDispatchStockComponent } from './SubAdmin/Reports/sub-pending-dispatch-stock/sub-pending-dispatch-stock.component';
+import { SubMemoDispatchedComponent } from './SubAdmin/Reports/sub-memo-dispatched/sub-memo-dispatched.component';
+import { SubIncomingLuggageComponent } from './SubAdmin/Reports/sub-incoming-luggage/sub-incoming-luggage.component';
 @NgModule({
   declarations: [
     // reports
@@ -218,6 +231,19 @@ import { SubBranchToBranchUnloadingComponent } from './SubAdmin/sub-branch-to-br
     SubUnloadingComponent,
     SubBranchToBranchLoadingComponent,
     SubBranchToBranchUnloadingComponent,
+    SubTodaybookingComponent,
+    SubDashboardBookingComponent,
+    SubCollectionComponent,
+    ConsolidateComponent,
+    SubStatusDateDifferentComponent,
+    SubPendingDeliveryStockComponent,
+    SubPendingDeliveryLuggageComponent,
+    SubDispatchedStockComponent,
+    SubReceivedStockComponent,
+    SubDeliveryStockComponent,
+    SubPendingDispatchStockComponent,
+    SubMemoDispatchedComponent,
+    SubIncomingLuggageComponent,
    
    
   ],

@@ -1,0 +1,93 @@
+<app-header></app-header>
+
+<h5 class="text-center fw-bold text-danger" style="margin-top: 8%;">
+  <u>Parcel Branch Wise Collection Report</u>
+</h5>
+
+<div class="container section-border  pb-4" >
+  <div class="rounded  ">
+    <form [formGroup]="form">
+      <div class="row mb-3">
+        <!-- From Date -->
+        <div class="col-md-6">
+          <label class="form-label">From Booking Date</label>
+          <input type="date" class="form-control form-control-sm" formControlName="fromDate" />
+        </div>
+
+        <!-- To Date -->
+        <div class="col-md-6">
+          <label class="form-label">To Date</label>
+          <input type="date" class="form-control form-control-sm" formControlName="toDate" />
+        </div>
+
+
+
+        <div class="col-md-6">
+            <label class="form-label form-after">From City</label>
+            <select #selectElem class="form-select form-select-sm" formControlName="fromCity" >
+              <option value="" selected>Select City</option>
+              <option *ngFor="let row2 of filteredCityList" [value]="row2.cityName">{{ row2.cityName }}</option>
+            </select>
+          </div>
+
+        <!-- Branch Name -->
+        <div class="col-md-6">
+          <label class="form-label">Branch Name:</label>
+          <select #pickupbranch class="form-select form-select-sm" formControlName="pickUpBranch">
+            <option value="" selected> select Branch </option>
+            <option *ngFor="let row4 of pdata" [value]="row4.branchUniqueId"> {{ row4.name }} </option>
+          </select>
+        </div>
+
+        <!-- Booked By -->
+        <!-- <div class="col-md-6">
+          <label class="form-label">Branch User Name:</label>
+          <select class="form-select form-select-sm" formControlName="bookedBy">
+            <option value="" selected>Select User</option>
+            <option *ngFor="let row2 of pfdata" [value]="row2.username">{{ row2.username }}</option>
+          </select>
+        </div> -->
+
+        <!-- Report Type Radio Buttons -->
+        <div class="container mt-4">
+          <div class="row">
+            <!-- Radio Buttons -->
+            <!-- <div class="col-12">
+              <label class="form-label fw-bold d-block mb-2">Report Type:</label>
+              <div class="d-flex flex-wrap gap-3">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="reportAll" value="ALL" formControlName="reportType" />
+                  <label class="form-check-label" for="reportAll">Summary Report</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="reportSender" value="Sender" formControlName="reportType" />
+                  <label class="form-check-label" for="reportSender">Details Report</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="reportReceiver1" value="Receiver" formControlName="reportType" />
+                  <label class="form-check-label" for="reportReceiver1">To Pay Collection Report</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="reportReceiver2" value="AllCollection" formControlName="reportType" />
+                  <label class="form-check-label" for="reportReceiver2">All Collection Report</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="reportReceiver3" value="BookingTypeWise" formControlName="reportType" />
+                  <label class="form-check-label" for="reportReceiver3">Booking Type Wise Collection</label>
+                </div>
+              </div>
+            </div> -->
+        
+            <!-- Load Button -->
+            <div class="text-center">
+              <button type="button" class="btn btn-success " (click)="getCollectionReport()">Load</button>
+            </div>
+
+          </div>
+        </div>
+        
+
+      </div>
+    </form>
+  </div>
+</div>
