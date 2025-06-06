@@ -126,6 +126,7 @@ import { SubDeliveryStockComponent } from './SubAdmin/Reports/sub-delivery-stock
 import { SubPendingDispatchStockComponent } from './SubAdmin/Reports/sub-pending-dispatch-stock/sub-pending-dispatch-stock.component';
 import { SubMemoDispatchedComponent } from './SubAdmin/Reports/sub-memo-dispatched/sub-memo-dispatched.component';
 import { SubIncomingLuggageComponent } from './SubAdmin/Reports/sub-incoming-luggage/sub-incoming-luggage.component';
+import { ParcelVoucherDetailsComponent } from './SubAdmin/parcel-voucher-details/parcel-voucher-details.component';
 @NgModule({
   declarations: [
     // reports
@@ -244,6 +245,7 @@ import { SubIncomingLuggageComponent } from './SubAdmin/Reports/sub-incoming-lug
     SubPendingDispatchStockComponent,
     SubMemoDispatchedComponent,
     SubIncomingLuggageComponent,
+    ParcelVoucherDetailsComponent,
    
    
   ],

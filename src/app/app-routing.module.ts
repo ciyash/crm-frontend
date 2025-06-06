@@ -99,6 +99,8 @@ import { SubDeliveryStockComponent } from './SubAdmin/Reports/sub-delivery-stock
 import { SubPendingDispatchStockComponent } from './SubAdmin/Reports/sub-pending-dispatch-stock/sub-pending-dispatch-stock.component';
 import { SubMemoDispatchedComponent } from './SubAdmin/Reports/sub-memo-dispatched/sub-memo-dispatched.component';
 import { SubIncomingLuggageComponent } from './SubAdmin/Reports/sub-incoming-luggage/sub-incoming-luggage.component';
+import { ParcelVoucherDetailsComponent } from './SubAdmin/parcel-voucher-details/parcel-voucher-details.component';
+
 
 const routes: Routes = [
   {path:"login",component:LoginComponent },
@@ -221,6 +223,10 @@ const routes: Routes = [
   {path:"sub-unloading",component:SubUnloadingComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
   {path:"sub-branch-loading",component:SubBranchToBranchLoadingComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
   {path:"sub-branch-unloading",component:SubBranchToBranchUnloadingComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
+  {path:"sub-parcelvoucher-details",component:ParcelVoucherDetailsComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
+
+  
+  
 
   // Reports subAdmin
   {path:"sub-todaybooking",component:SubTodaybookingComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},

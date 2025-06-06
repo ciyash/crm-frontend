@@ -149,7 +149,7 @@ export class HeaderComponent implements OnInit {
             { label: 'Cancel Booking', routerLink: ['/cancel-booking'] },
             { label: 'Parcel Status', routerLink: ['/gnrnumberstatus'] },
             { label: 'Branch to Branch Unloading', routerLink: ['/sub-branch-unloading'] },
-            { label: 'Vouchers List Offline', routerLink: ['/voucherslistoffline'] },
+            { label: 'Vouchers List Offline', routerLink: ['/sub-parcelvoucher-details'] },
           ]
         },
         
