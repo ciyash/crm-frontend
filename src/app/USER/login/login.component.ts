@@ -230,6 +230,7 @@ export class LoginComponent implements OnInit {
       },
     });
   }
+  // /
 
   private getNavigationPath(role: string): string {
     switch (role) {
