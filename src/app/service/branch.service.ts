@@ -47,6 +47,8 @@ export class BranchService {
 
   GetCities(){
     const token1 = this.token.getToken();
+    console.log('Token:', token1); // 🔍 This will log the token to the console
+
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -195,17 +197,39 @@ export class BranchService {
     );
   }
 
+  // getData(endpoint: string, paramsObj?: any): Observable<any> {
+  //   const apiUrl = `${this.baseUrl}/${endpoint.replace(/^\/+/, '')}`; 
+  //   let params = new HttpParams();
+  //   if (paramsObj) {
+  //     Object.keys(paramsObj).forEach((key) => {
+  //       params = params.append(key, paramsObj[key]);
+  //     });
+  //   }
+  
+  //   return this.http.get(apiUrl, { params });
+  // }
   getData(endpoint: string, paramsObj?: any): Observable<any> {
-    const apiUrl = `${this.baseUrl}/${endpoint.replace(/^\/+/, '')}`; // Ensure no leading slash
+    const token1 = this.token.getToken();
+    const apiUrl = `${this.baseUrl}/${endpoint.replace(/^\/+/, '')}`;
+  
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    });
+  
     let params = new HttpParams();
     if (paramsObj) {
       Object.keys(paramsObj).forEach((key) => {
-        params = params.append(key, paramsObj[key]);
+        if (paramsObj[key] !== null && paramsObj[key] !== undefined) {
+          params = params.append(key, paramsObj[key]);
+        }
       });
     }
   
-    return this.http.get(apiUrl, { params });
+    return this.http.get(apiUrl, { headers, params });
   }
+  
+
 
   GetBookings(){
     const token1 = this.token.getToken();

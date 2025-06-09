@@ -32,19 +32,22 @@ export class CompanyLoginComponent implements OnInit {
       this.errorMessage = 'Please fill all required fields correctly.';
       return;
     }
-
     this.errorMessage = '';
     const payload = this.loginForm.value;
 
     this.api.Companylogin(payload).subscribe({
       next: (res: any) => {
-        this.router.navigate(['/create-company'])
-
+        this.token.saveToken(res.token);
+        this.token.setCompanyLoginFlag(); // ✅ Mark as company login (admin role)
+        this.router.navigate(['/create-admin']);
       },
       error: (err) => {
         this.errorMessage = err?.error?.message || 'Login failed. Please try again.';
       }
     });
+    
+    
+    
   }
 
  

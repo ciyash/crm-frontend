@@ -97,11 +97,11 @@ export class BookingComponent {
 
   ngOnInit() {
     this.getProfileData();
-
     this.getAllCompany();
     this.api.GetCities().subscribe((res:any)=>{
       console.log('citys',res);
       this.citydata=res;
+
     });
     //get branches
     this.api.GetBranch().subscribe((res:any)=>{

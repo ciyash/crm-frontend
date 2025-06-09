@@ -101,13 +101,14 @@ import { SubMemoDispatchedComponent } from './SubAdmin/Reports/sub-memo-dispatch
 import { SubIncomingLuggageComponent } from './SubAdmin/Reports/sub-incoming-luggage/sub-incoming-luggage.component';
 import { ParcelVoucherDetailsComponent } from './SubAdmin/parcel-voucher-details/parcel-voucher-details.component';
 import { CompanyLoginComponent } from './USER/company-login/company-login.component';
+import { cauthGuardGuard } from './service/cauth-guard.guard';
+import { CreateAdminComponent } from './pages/Admin/create-admin/create-admin.component';
 
 
 const routes: Routes = [
   {path:"login",component:LoginComponent },
-  // {path:"",component:LoginComponent },
-  {path:"",component:CompanyLoginComponent },
-
+   {path:"clogin",component:CompanyLoginComponent },
+  {path:"",component:LoginComponent },
   {path:"signup",component:SignupComponent, canActivate: [authGuard] },
   {path:"dashboard",component:DashboardComponent, canActivate: [authGuard] },
 
@@ -171,11 +172,15 @@ const routes: Routes = [
   {path:'parcelloading-offlinereport',component:ParcelLoadingOfflineReportComponent, canActivate: [authGuard]},
   {path:'dispatched-stock-report',component:DispatchedStockReportComponent, canActivate: [authGuard]},
   {path:'report-delivery',component:ReportDeliveryComponent, canActivate: [authGuard]},
-     //Admin Routing components
-  { path: 'createbranch', component: CreateBranchComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
-  { path: 'create-company', component: CreateBranchComponent, canActivate: [authGuard]},
 
-  { path: 'createemployee', component: CreateEmployeeComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
+  //Company Routing Components
+    { path: 'create-admin', component: CreateAdminComponent,canActivate: [authGuard]},
+
+    
+  //Admin Routing components
+  { path: 'createemployee', component: CreateEmployeeComponent, canActivate: [authGuard],data: { roles: ['admin'] }},
+
+  { path: 'createbranch', component: CreateBranchComponent, canActivate: [cauthGuardGuard], data: { roles: ['admin'] }},  
   { path: 'adminprofile', component: AdminProfileComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   { path: 'createvehicle', component: CreateVehicleComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   { path: 'createcity', component: CreateCitynameComponent, canActivate: [authGuard], data: { roles: ['admin'] }},

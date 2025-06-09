@@ -31,27 +31,27 @@ export class CreateEmployeeComponent {
         this.form = this.fb.group({
           name: ['', Validators.required],
           username: ['', Validators.required],
-          branchId: ['', Validators.required],
+          branchId: [''],
           location: ['', Validators.required],
           password: ['', Validators.required],
           phone: ['', Validators.required],
           email: ['', Validators.required],
           documents: ['', Validators.required],
           role: ['', Validators.required],
-          companyName:['', Validators.required],
+          // companyName:['', Validators.required],
             });
 
             this.form1 = this.fb.group({
               name: ['', Validators.required],
               username: ['', Validators.required],
-              branchId: ['', Validators.required],
+              branchId: [''],
               location: ['', Validators.required],
               password: ['', Validators.required],
               phone: ['', Validators.required],
               email: ['', Validators.required],
               documents: ['', Validators.required],
               role: ['', Validators.required],
-              companyName:[''],
+              // companyName:[''],
 
                 });
     }
@@ -71,17 +71,29 @@ export class CreateEmployeeComponent {
       this.edata[index].showPassword = !this.edata[index].showPassword;
     }
   
+    // branchData() {
+    //   this.bapi.getData('branch').subscribe({
+    //     next: (response: any) => {
+    //       console.log('Branch Data:', response);
+    //       this.branchdata = response; // Ensure response contains an array of branches
+    //     },
+    //     error: (error: any) => {
+    //       console.error('Error fetching branch data:', error);
+    //     }
+    //   });
+    // }
     branchData() {
       this.bapi.getData('branch').subscribe({
         next: (response: any) => {
           console.log('Branch Data:', response);
-          this.branchdata = response; // Ensure response contains an array of branches
+          this.branchdata = response;
         },
         error: (error: any) => {
           console.error('Error fetching branch data:', error);
         }
       });
     }
+    
   
     Add() {
       const payload = {
@@ -94,7 +106,7 @@ export class CreateEmployeeComponent {
         email: this.form.value.email,
         documents: this.form.value.documents,
         role: this.form.value.role,
-        companyName:this.form.value.companyName
+        // companyName:this.form.value.companyName
       };
       console.log('Final Payload:', payload);
       this.api.createEmployee(payload).subscribe({

@@ -128,6 +128,7 @@ import { SubMemoDispatchedComponent } from './SubAdmin/Reports/sub-memo-dispatch
 import { SubIncomingLuggageComponent } from './SubAdmin/Reports/sub-incoming-luggage/sub-incoming-luggage.component';
 import { ParcelVoucherDetailsComponent } from './SubAdmin/parcel-voucher-details/parcel-voucher-details.component';
 import { CompanyLoginComponent } from './USER/company-login/company-login.component';
+import { CreateAdminComponent } from './pages/Admin/create-admin/create-admin.component';
 @NgModule({
   declarations: [
     // reports
@@ -141,6 +142,7 @@ import { CompanyLoginComponent } from './USER/company-login/company-login.compon
     VocherDetailsReportComponent,
     GetCfmasterDataComponent,
     AddCfmasterComponent,
+    CompanyLoginComponent,
 
 
     AppComponent,
@@ -248,6 +250,7 @@ import { CompanyLoginComponent } from './USER/company-login/company-login.compon
     SubIncomingLuggageComponent,
     ParcelVoucherDetailsComponent,
     CompanyLoginComponent,
+    CreateAdminComponent,
    
    
   ],

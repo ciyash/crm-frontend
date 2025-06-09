@@ -1,8 +1,12 @@
 <div class="top-header" *ngIf="data">
-  Company: <strong class="fw-bold">{{ data.companyName }}</strong>
+  Company: <strong class="fw-bold">{{ data.companyId?.name }}</strong>
   * Branch: {{ data.branchId?.name  }}
   * User: <strong>{{ data.username  }}</strong>
 </div>
+<div class="top-header" *ngIf="!data">
+  WELCOME TO CRM
+</div>
+
 
 
 <nav class="navbar navbar-expand-lg sticky-top">

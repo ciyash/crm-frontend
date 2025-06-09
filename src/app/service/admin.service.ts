@@ -130,11 +130,11 @@ export class AdminService {
     password: string;
     documents: string;
     role: string;
-    companyName:String;
-    
-
+    // companyName:String;
   }) {
     const token1 = this.token.getToken();
+    console.log('Token being used for createEmployee:', token1); // ✅ Log the token
+
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -154,13 +154,55 @@ export class AdminService {
         'password': value.password,
         'documents': value.documents,
         'role': value.role,
-        "companyName":value.companyName
+        // "companyName":value.companyName
         
 
       },
       httpOptions 
     );
   }
+  createAdmin(value: {
+    name: string;
+    username: string;
+    branchId: string;
+    location: string;
+    phone: number;
+    email: string;
+    password: string;
+    documents: string;
+    role: string;
+    // companyName:String;
+  }) {
+    const token1 = this.token.getToken();
+    console.log('Token being used for createEmployee:', token1); // ✅ Log the token
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token1 // ✅ Added space after 'Bearer'
+      })
+    };
+  
+    return this.http.post(
+      AUTH_API + 'subadmin-auth/signup-by-company',  
+      { 
+        name: value.name,
+        'username': value.username,
+        'branchId': value.branchId,
+        'location': value.location,
+        'phone': value.phone,
+        'email': value.email,
+        'password': value.password,
+        'documents': value.documents,
+        'role': value.role,
+        // "companyName":value.companyName
+        
+
+      },
+      httpOptions 
+    );
+  }
+
 
   UpdateEmployee(id: any, value: {
     name: string;
