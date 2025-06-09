@@ -100,10 +100,13 @@ import { SubPendingDispatchStockComponent } from './SubAdmin/Reports/sub-pending
 import { SubMemoDispatchedComponent } from './SubAdmin/Reports/sub-memo-dispatched/sub-memo-dispatched.component';
 import { SubIncomingLuggageComponent } from './SubAdmin/Reports/sub-incoming-luggage/sub-incoming-luggage.component';
 import { ParcelVoucherDetailsComponent } from './SubAdmin/parcel-voucher-details/parcel-voucher-details.component';
+import { CompanyLoginComponent } from './USER/company-login/company-login.component';
+import { cauthGuardGuard } from './service/cauth-guard.guard';
 
 
 const routes: Routes = [
   {path:"login",component:LoginComponent },
+   {path:"clogin",component:CompanyLoginComponent },
   {path:"",component:LoginComponent },
   {path:"signup",component:SignupComponent, canActivate: [authGuard] },
   {path:"dashboard",component:DashboardComponent, canActivate: [authGuard] },
@@ -168,8 +171,11 @@ const routes: Routes = [
   {path:'parcelloading-offlinereport',component:ParcelLoadingOfflineReportComponent, canActivate: [authGuard]},
   {path:'dispatched-stock-report',component:DispatchedStockReportComponent, canActivate: [authGuard]},
   {path:'report-delivery',component:ReportDeliveryComponent, canActivate: [authGuard]},
-     //Admin Routing components
-  { path: 'createbranch', component: CreateBranchComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
+
+  //Company Routing Components
+    { path: 'createbranch', component: CreateBranchComponent, canActivate: [cauthGuardGuard]},  
+    
+  //Admin Routing components
   { path: 'createemployee', component: CreateEmployeeComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   { path: 'adminprofile', component: AdminProfileComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   { path: 'createvehicle', component: CreateVehicleComponent, canActivate: [authGuard], data: { roles: ['admin'] }},

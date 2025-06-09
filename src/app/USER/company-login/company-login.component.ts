@@ -38,7 +38,8 @@ export class CompanyLoginComponent implements OnInit {
 
     this.api.Companylogin(payload).subscribe({
       next: (res: any) => {
-        this.router.navigate(['/create-company'])
+        console.log(res);
+        this.router.navigate(['/createbranch'])
 
       },
       error: (err) => {
