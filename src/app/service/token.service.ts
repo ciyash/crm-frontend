@@ -57,10 +57,12 @@ export class TokenService {
     return !!(this.getToken() && this.getUser());
   }
 
+  isCompany(): boolean {
+    return  true
+  }
   isAdmin(): boolean {
     return this.getRole() === 'admin';
   }
-
   isSubAdmin(): boolean {
     return this.getRole() === 'subadmin';
   }
