@@ -323,7 +323,7 @@ export class DashboardReportComponent {
         this.api.AllParcelBookingReport(payload1).subscribe({
           next: (response: any) => {
             console.log('All Parcel loaded successfully:', response);
-      
+            this.toast.success(response?.message || 'Success');
             const finalData1 = {
               ...response,
               startDate: this.form1.value.startDate,

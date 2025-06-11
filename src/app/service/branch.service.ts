@@ -242,23 +242,7 @@ export class BranchService {
       return this.http.get<any>(AUTH_API + 'booking', httpOptions);
   }
 
-  // 
-// BookingsPage(page: number, limit: number) {
-//   const token1 = this.token.getToken();
-//   const httpOptions = {
-//     headers: new HttpHeaders({
-//       'Content-Type': 'application/json',
-//       'Authorization': 'Bearer ' + token1
-//     })
-//   };
-//   const pageDetails = `page=${page}&limit=${limit}`;
-//   return this.http.get(
-//     AUTH_API + `booking/pages?${pageDetails}`,
-//     httpOptions
-//   );
-// }
-
-
+  
 BookingsPage(page: number, limit: number) {
   const token1 = this.token.getToken();
   const httpOptions = {
@@ -267,8 +251,9 @@ BookingsPage(page: number, limit: number) {
       'Authorization': 'Bearer ' + token1
     })
   };
+  const pageDetails = `page=${page}&limit=${limit}`;
   return this.http.get(
-    AUTH_API + `booking/todaybookings`,
+    AUTH_API + `booking/pages?${pageDetails}`,
     httpOptions
   );
 }

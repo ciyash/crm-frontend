@@ -27,10 +27,11 @@ export class ParcelBranchComponent implements OnInit {
 
   constructor(private api: BranchService, private fb: FormBuilder, private router:Router,private toast:ToastrService) {
     this.form = this.fb.group({
-      fromBookingDate: ['', Validators.required],
-      toBookingDate: ['', Validators.required],
+      fromBookingDate: [this.getTodayDateString(), Validators.required],
+      toBookingDate: [this.getTodayDateString(), Validators.required],
       fromBranch: ['', Validators.required]
     });
+    
 
     this.form1 = this.fb.group({
       loadingType: ['branchLoad'],
@@ -73,6 +74,7 @@ export class ParcelBranchComponent implements OnInit {
     const day = ('0' + today.getDate()).slice(-2);
     return `${year}-${month}-${day}`; // yyyy-MM-dd
   }
+  
 
   ngAfterViewInit(): void {
   setTimeout(() => {
