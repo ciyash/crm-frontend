@@ -54,7 +54,7 @@ export class CreateEmployeeComponent {
     ngOnInit(){
       this.branchData();
 
-      this.api.GetEmployeesData().subscribe((res: any) => {
+      this.api.GetEmployees().subscribe((res: any) => {
         console.log('empdata', res);
         this.edata = res.map((employee: any) => {
           employee.showPassword = false; // Initialize show/hide 
@@ -67,7 +67,6 @@ export class CreateEmployeeComponent {
   showDialog(row: any) {
     this.visible = true;
     this.repd = row;
-  
     console.log("employeedata:", this.repd);
   
     this.form1.patchValue({

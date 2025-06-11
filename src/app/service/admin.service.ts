@@ -651,6 +651,16 @@ export class AdminService {
         return this.http.get(AUTH_API + 'subadmin-auth/subadmins', httpOptions);
     }
 
+    GetEmployees(){
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1
+        })
+      }
+        return this.http.get(AUTH_API + 'subadmin-auth/employees', httpOptions);
+    }
     
   GetUnderBranchEmployees(id:any){
     const token1 = this.token.getToken();
