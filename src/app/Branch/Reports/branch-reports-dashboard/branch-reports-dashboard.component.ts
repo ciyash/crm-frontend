@@ -340,13 +340,21 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
           fromDate: this.form.value.fromDate,
           toDate: this.form.value.toDate,
         };
-
+      //this.router.navigate(['/reports'], { state: { reportData: finalData } });
         // Save data in localStorage with a unique key
-        const key = 'parcelReportData';
-        localStorage.setItem(key, JSON.stringify(finalData));
+        // const key = 'parcelReportData';
+        // localStorage.setItem(key, JSON.stringify(finalData));
 
         // Open the reports route in a new tab
-        window.open(`/reports`, '_blank');
+        // window.open(`/reports`, '_blank');
+
+        localStorage.setItem('parcelReportData', JSON.stringify(finalData));
+
+      // Open the /cloud/reports route correctly in new tab
+      const baseUrl = window.location.origin;
+      const reportUrl = `${baseUrl}/cloud/reports`;
+      window.open(reportUrl, '_blank');
+      
       },
       error: (error: any) => {
         console.error('Parcel loading failed:', error);

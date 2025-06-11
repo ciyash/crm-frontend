@@ -8,7 +8,7 @@ export const cauthGuardGuard: CanActivateFn = (route, state) => {
   
     // ✅ Check if user is logged in
     if (!tokenService.isLogged()) {
-      router.navigate(['/clogin']);
+      router.navigate(['/createbranch']);
       return false;
     }
 

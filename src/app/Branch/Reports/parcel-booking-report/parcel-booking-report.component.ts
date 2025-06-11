@@ -18,14 +18,17 @@ fromDate:any;
 toDate:any;
   pfdata: any;
   parcelReportData:any;
-  constructor(private router: Router,private api:BranchService) {}
+  reportData: any;
+  constructor(private router: Router,private api:BranchService) {
+  const nav = this.router.getCurrentNavigation();
+  this.reportData = nav?.extras?.state?.['reportData'];
+  }
   ngOnInit(): void {
-
     // setInterval(() => {
     //   this.currentDate = new Date();
     //   this.currentTime = new Date();
     // }, 1000);
-
+console.log('Report Data:', this.reportData);
 
     const key = 'parcelReportData';
     const storedData = localStorage.getItem(key);

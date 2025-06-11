@@ -239,8 +239,6 @@ const routes: Routes = [
   {path:"sub-parcelvoucher-details",component:ParcelVoucherDetailsComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
 
   
-  
-
   // Reports subAdmin
   {path:"sub-todaybooking",component:SubTodaybookingComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
   {path:"sub-dashboard",component:SubDashboardBookingComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
@@ -255,55 +253,6 @@ const routes: Routes = [
   {path:"sub-pendingdispatch",component:SubPendingDispatchStockComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
   {path:"sub-memo-dispathed",component:SubMemoDispatchedComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
   {path:"sub-incoming-luggage",component:SubIncomingLuggageComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-  
-  
-
   
 ];
 
