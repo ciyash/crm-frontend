@@ -242,7 +242,7 @@ export class BranchService {
       return this.http.get<any>(AUTH_API + 'booking', httpOptions);
   }
 
-  
+  // 
 BookingsPage(page: number, limit: number) {
   const token1 = this.token.getToken();
   const httpOptions = {
