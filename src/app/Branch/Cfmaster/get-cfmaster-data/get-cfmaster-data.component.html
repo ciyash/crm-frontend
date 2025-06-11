@@ -228,7 +228,7 @@
               </div>
         
               <div class="col-12 md:col-12 text-center mt-3">
-                <button pButton type="button" class="btn btn-sm btn-success" (click)="edit(repd?._id)">Submit</button>
+                <button pButton type="button" class="btn btn-sm btn-success" data-bs-dismiss="modal" (click)="edit(repd?._id)">Submit</button>
               </div>
             </form>
           </div>        </div>
@@ -251,7 +251,7 @@
   <div class="modal-dialog modal-xl modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Centered XL Modal</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Adding Charge</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -308,15 +308,15 @@
             </div>
 
             <div class="col-12 md:col-12 text-center mt-3">
-              <button pButton type="button" class="btn btn-sm btn-success" (click)="setcharges()">Submit</button>
+              <button pButton type="button" class="btn btn-sm btn-success" data-bs-dismiss="modal" (click)="setcharges()">Submit</button>
             </div>
           </form>
         </div>
       </div>
-      <div class="modal-footer">
+      <!-- <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>
