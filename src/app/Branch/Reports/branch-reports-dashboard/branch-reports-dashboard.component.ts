@@ -340,6 +340,7 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
           fromDate: this.form.value.fromDate,
           toDate: this.form.value.toDate,
         };
+        //
       //this.router.navigate(['/reports'], { state: { reportData: finalData } });
         // Save data in localStorage with a unique key
         // const key = 'parcelReportData';
