@@ -103,6 +103,8 @@ import { ParcelVoucherDetailsComponent } from './SubAdmin/parcel-voucher-details
 import { CompanyLoginComponent } from './USER/company-login/company-login.component';
 import { cauthGuardGuard } from './service/cauth-guard.guard';
 import { CreateAdminComponent } from './pages/Admin/create-admin/create-admin.component';
+import { EmployeeDashboardComponent } from './empolyee/employee-dashboard/employee-dashboard.component';
+import { SubDashboardComponent } from './SubAdmin/sub-dashboard/sub-dashboard.component';
 
 
 const routes: Routes = [
@@ -110,7 +112,7 @@ const routes: Routes = [
    {path:"clogin",component:CompanyLoginComponent },
   {path:"",component:LoginComponent },
   {path:"signup",component:SignupComponent, canActivate: [authGuard] },
-  {path:"dashboard",component:DashboardComponent, canActivate: [authGuard] },
+  {path:"dashboard",component:DashboardComponent, canActivate: [authGuard], },
 
 
   //Branch type Component
@@ -187,9 +189,10 @@ const routes: Routes = [
   { path: 'adddispatchtype', component: AddDispatchTypeComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   { path: 'addextracharges', component: AddExtraChargesComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   { path: 'addpackagetype', component: AddPackagesTypeComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
-  // subadmin
-  {path:"dashboard",component:DashboardComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
+  
+  
     // Empolyee Routing components 
+  { path: 'employee-dashboard', component: EmployeeDashboardComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
   { path: 'employee-booking', component: BookingComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
   { path: 'employee-loading', component: LoadingComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
   { path: 'employee-unloading', component: UnloadingComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
@@ -227,7 +230,7 @@ const routes: Routes = [
 { path: 'dashboard-report', component: DashboardReportComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
 
 
-// subAdmin 
+// subAdmin  
   {path:"sub-booking",component:SubBookingComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
   {path:"sub-loading",component:SubLoadingComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
   {path:"sub-unloading",component:SubUnloadingComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},

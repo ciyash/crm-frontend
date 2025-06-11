@@ -9,18 +9,18 @@
     <div class="container pb-3">
             <div class="row pt-3">
                 <div class="col-md-3 col-sm-12">
-                <label class="form-label">Select Branch</label>
+                <label class="form-label form-after ">Select Branch</label>
                 <select class="form-select form-select-sm" formControlName="branch">
                     <option value="" selected>Select Branch</option>
                   <option *ngFor="let branch of branchdata" [value]="branch._id">{{ branch.name }}</option>
                 </select>
                 </div>
                 <div class="col-md-3 col-sm-12">
-                    <label class="form-label">Vehicle Number</label>
+                    <label class="form-label form-after">Vehicle Number</label>
                     <input type="text" class="form-control form-select-sm " formControlName="vehicleNo">
                 </div>
                 <div class="col-md-3 col-sm-12">
-                    <label class="form-label">Vehicle Type</label> 
+                    <label class="form-label form-after">Vehicle Type</label> 
                     <select class="form-select form-select-sm" formControlName="vehicleType">
                         <option value="" selected>Vehicle Type</option>
                       <option value="Bus">Bus</option>
@@ -30,23 +30,23 @@
                     </select>
                 </div>
                 <div class="col-md-3 col-sm-12">
-                    <label class="form-label">Registration Number</label>
+                    <label class="form-label form-after">Registration Number</label>
                     <input type="text" class="form-control form-select-sm " formControlName="registrationNo">
                 </div>
                 <div class="col-md-3 col-sm-12">
-                    <label class="form-label">Register Date</label>
+                    <label class="form-label form-after">Register Date</label>
                     <input type="date" class="form-control form-select-sm " formControlName="date">
                 </div>
                 <div class="col-md-3 col-sm-12">
-                    <label class="form-label">Rc Number</label>
+                    <label class="form-label form-after">Rc Number</label>
                     <input type="text" class="form-control form-select-sm " formControlName="RC">
                 </div>
                 <div class="col-md-3 col-sm-12">
-                    <label class="form-label">Pollution Exp Date</label>
+                    <label class="form-label form-after">Pollution Exp Date</label>
                     <input type="date" class="form-control form-select-sm " formControlName="polutionExpDate">
                 </div>
                 <div class="col-md-3 col-sm-12">
-                    <label class="form-label">Fuel Type</label> 
+                    <label class="form-label form-after ">Fuel Type</label> 
                     <select class="form-select form-select-sm" formControlName="fuelType">
                         <option value="" selected>Fuel Type</option>
                       <option value="Petrol">Petrol</option>

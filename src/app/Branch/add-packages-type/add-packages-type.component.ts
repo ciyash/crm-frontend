@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { BranchService } from 'src/app/service/branch.service';
 import { HeaderComponent } from "../../USER/header/header.component";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-packages-type',
@@ -27,7 +28,9 @@ export class AddPackagesTypeComponent {
         this.visible = true;
         this.repd=row;
     }
-    constructor(private fb:FormBuilder, private api:BranchService, private messageService:MessageService, private router:Router, private bapi:BranchService, private activeroute:ActivatedRoute){
+    constructor(private fb:FormBuilder, private api:BranchService, 
+      private messageService:MessageService, private router:Router, 
+      private bapi:BranchService, private activeroute:ActivatedRoute, private toast:ToastrService){
         this.form = this.fb.group({
           name: ['', Validators.required],
             });
@@ -47,69 +50,102 @@ export class AddPackagesTypeComponent {
   
  
   
+    // Add() {
+    //   const payload = {
+    //     name: this.form.value.name,
+    //   };
+    //   console.log('Final Payload:', payload);
+    //   this.api.packageType(payload).subscribe({
+    //     next: (response: any) => {
+    //       console.log('Parcel loaded successfully:', response);
+    //       // this.toast.success
+          
+    //       setTimeout(() => {
+    //        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+    //          this.router.navigate(['/addpackagestype']);
+    //        });
+    //      }, 500);
+    //     },
+    //     error: (error: any) => {
+    //       console.error('Create Packages Type failed:', error);
+    //       alert('Create Packages Type Failed. Please try again.');
+    //     },
+    //   });
+    // }
     Add() {
       const payload = {
         name: this.form.value.name,
       };
       console.log('Final Payload:', payload);
+      
       this.api.packageType(payload).subscribe({
         next: (response: any) => {
           console.log('Parcel loaded successfully:', response);
-          this.messageService.add({ severity: 'success', summary: 'success', detail: 'Create Packages Type successfully' });
-          
+    
+          // ✅ Show success message from backend in toast
+          this.toast.success(response?.message || 'Package type created successfully');
+    
+          // Navigate after short delay
           setTimeout(() => {
-           this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-             this.router.navigate(['/addpackagestype']);
-           });
-         }, 500);
+            this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+              this.router.navigate(['/addpackagestype']);
+            });
+          }, 500);
         },
         error: (error: any) => {
           console.error('Create Packages Type failed:', error);
-          alert('Create Packages Type Failed. Please try again.');
+    
+          // ✅ Show error message from backend if available
+          this.toast.error(error?.error?.message || 'Create Packages Type Failed. Please try again.');
+          
         },
       });
     }
+    
 
-
-    edit(id:any) {
+    edit(id: any) {
       console.log(this.form1.value);
+    
       if (this.form1.valid) {
         const val = {
           name: this.form1.value.name,
         };
-        this.api.UpdatePackagestype(id, val).subscribe(
-          (a: any) => {
-            if (a?.data) {
-              console.log(a);
-              this.messageService.add({ severity: 'success', summary: 'success', detail: 'Packages Type Update Successfully' });
-             
-            } else {
-              console.log(a);
-              // this.errorMessage = a.msg.message;
-              this.msg = 'Packages Type Successfully Updated !!!';
+    
+        this.api.UpdatePackagestype(id, val).subscribe({
+          next: (response: any) => {
+            if (response?.data) {
+              console.log(response);
+              this.toast.success(response.message || 'Package type updated successfully');
+    
               setTimeout(() => {
                 this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
                   this.router.navigate(['/addpackagestype']);
                 });
-                }, 1000);
+              }, 1000);
+            } else {
+              // Fallback case (rare)
+              console.log(response);
+              this.toast.success('Packages Type Successfully Updated !!!');
             }
           },
-          (err: any) => {
-            this.messageService.add({ severity: 'error', summary: 'error', detail: 'Packages Type not added' });
-            this.errorsMessage = err.error.message;
-          },
-        );
+          error: (err: any) => {
+            console.error(err);
+            this.toast.error(err?.error?.message || 'Package type update failed. Please try again.');
+            this.errorsMessage = err?.error?.message || 'Unknown error';
+          }
+        });
       }
-  
+    
       return false;
     }
+    
 
     Delete(id:any) {
       this.api.DeletePackagesType(id).subscribe(
         (a: any) => {
           if (a) {
             console.log('deletedid',a);
-            this.messageService.add({ severity: 'success', summary: 'success', detail: 'Delete Packages Type Successfully' });
+            this.toast.success(a?.message || 'Package type deleted successfully');
             setTimeout(() => {
               this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
                 this.router.navigate(['/addpackagestype']);
@@ -128,6 +164,7 @@ export class AddPackagesTypeComponent {
     return false;
   }
   
+
 
 
 

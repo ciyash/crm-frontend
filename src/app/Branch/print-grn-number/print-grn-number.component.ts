@@ -22,25 +22,48 @@ export class PrintGrnNumberComponent {
     private activeroute: ActivatedRoute,
     private location: Location
   ) {}
+  // ngOnInit() {
+  //   this.id = this.activeroute.snapshot.params['grnNo'];
+  //   this.api.GetGRNnumber(this.id).subscribe(
+  //     (res: any) => {
+  //       console.log('API Response:', res);
+  //       this.data1 = res;
+  //       if (this.id) {
+  //         this.qrData = String(this.id).trim();
+  //         console.log('QR Data Set:', this.qrData);
+  //       } else {
+  //         console.error('Invalid QR Data:', this.grnNo);
+  //       }
+  //     },
+  //     (err: any) => {
+  //       console.error('Error fetching data:', err);
+  //     }
+  //   );
+  //   this.getProfileData();
+  // }
   ngOnInit() {
     this.id = this.activeroute.snapshot.params['grnNo'];
+  
     this.api.GetGRNnumber(this.id).subscribe(
       (res: any) => {
         console.log('API Response:', res);
-        this.data1 = res;
+        this.data1 = res?.booking; // ✅ FIXED: assign correct booking data
+  
         if (this.id) {
           this.qrData = String(this.id).trim();
           console.log('QR Data Set:', this.qrData);
         } else {
-          console.error('Invalid QR Data:', this.grnNo);
+          console.error('Invalid QR Data:', this.id);
         }
       },
       (err: any) => {
         console.error('Error fetching data:', err);
       }
     );
+  
     this.getProfileData();
   }
+  
   getProfileData() {
     this.api.GetProfileData().subscribe((res: any) => {
       this.pfdata = res;

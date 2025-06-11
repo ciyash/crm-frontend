@@ -1,18 +1,21 @@
-<div class="print-area">
-  <div class="container-fluid" *ngIf="pfdata">
-    <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
+<app-header></app-header>
+<div class="print-area" style="margin-top: 8%;">
+  <div class="container" *ngIf="pfdata">
+    <h4 class="text-center fw-bold">{{ pfdata.companyId?.name }}</h4>
     <p class="text-center fw-bold">
       Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
       Phone No: {{ pfdata.phone }}
     </p>
   </div>
-  <div class="container-fluid mt-3">
-    <div class="row">
+  <div class="container-fluid mt-3" >
+    <div class="row" >
       <div class="col-3">
         <p class="fw-bold" >SENDER'S COPY</p>
       </div>
       <div class="col-6">
-        <h5 class="text-center">LR No: {{ data1.lrNumber }}</h5>
+        <!-- <h5 class="text-center">LR No: {{ data1.lrNumber }}</h5> -->
+        <h5 class="text-center" *ngIf="data1?.lrNumber">LR No: {{ data1.lrNumber }}</h5>
+
       </div>
       <div class="col-3 text-end">
             Status: 
@@ -34,7 +37,7 @@
             <th width="33%">To Branch</th>
             <th width="32%">Date</th>
           </tr>
-          <tr>
+          <tr *ngIf="data1">
             <td class="fw-bold">{{data1.pickUpBranchname}} - ({{data1.fromCity}})</td>
             <td class="fw-bold">{{data1.dropBranchname}} - ({{data1.toCity}})</td>
             <td>{{ data1.bookingDate | date: 'dd/MMM/yyyy' }}</td>
@@ -133,11 +136,7 @@
     </div>
   
   </div>
-  
-  
-  
-  
-  
+
   <div class="container-fluid d-flex justify-content-evenly" *ngIf="data1">
     <div class="row">
   

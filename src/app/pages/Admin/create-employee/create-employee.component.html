@@ -10,26 +10,26 @@ font-weight: 500;text-decoration: underline;word-wrap: break-word;margin-top: 8%
     <div class="container pb-3">
             <div class="row pt-3">
                 <div class="col-md-3 col-sm-12">
-                    <label class="form-label">Name</label>
+                    <label class="form-label form-after">Name</label>
                     <input type="text" class="form-control form-select-sm " formControlName="name">
                 </div>
                 <div class="col-md-3 col-sm-12">
-                <label class="form-label">Select Branch</label>
+                <label class="form-label form-after">Select Branch</label>
                 <select class="form-select form-select-sm" formControlName="branchId">
                     <option value="" selected>Select Branch</option>
                   <option *ngFor="let branch of branchdata" [value]="branch._id">{{ branch.name }}</option>
                 </select>
                 </div>
-                <div class="col-md-3 col-sm-12">
-                    <label class="form-label">Username</label>
+                <div class="col-md-3 col-sm-12 ">
+                    <label class="form-label form-after">Username</label>
                     <input type="text" class="form-control form-select-sm " formControlName="username">
                 </div>
-                <div class="col-md-3 col-sm-12">
-                    <label class="form-label">Password</label>
+                <div class="col-md-3 col-sm-12 ">
+                    <label class="form-label form-after">Password</label>
                     <input type="text" class="form-control form-select-sm " formControlName="password">
                 </div>
-                <div class="col-md-3 col-sm-12">
-                    <label class="form-label">Location</label>
+                <div class="col-md-3 col-sm-12 ">
+                    <label class="form-label form-after">Location</label>
                     <input type="text" class="form-control form-select-sm " formControlName="location">
                 </div>
                 <!-- <div class="col-md-3 col-sm-12">
@@ -37,7 +37,7 @@ font-weight: 500;text-decoration: underline;word-wrap: break-word;margin-top: 8%
                     <input type="text" class="form-control form-select-sm " formControlName="phone">
                 </div> -->
                 <div class="col-md-3 col-sm-12">
-                    <label class="form-label">Phone</label>
+                    <label class="form-label form-after" >Phone</label>
                     <input type="text" class="form-control form-select-sm" formControlName="phone">
                     
                     <!-- Error message when input is invalid -->
@@ -47,11 +47,11 @@ font-weight: 500;text-decoration: underline;word-wrap: break-word;margin-top: 8%
                 </div>
                 
                 <div class="col-md-3 col-sm-12">
-                    <label class="form-label">Email</label>
+                    <label class="form-label form-after">Email</label>
                     <input type="text" class="form-control form-select-sm " formControlName="email">
                 </div>
                 <div class="col-md-3 col-sm-12">
-                    <label class="form-label">Documents</label>
+                    <label class="form-label form-after">Documents</label>
                     <input type="text" class="form-control form-select-sm " formControlName="documents">
                 </div>
 
@@ -62,7 +62,7 @@ font-weight: 500;text-decoration: underline;word-wrap: break-word;margin-top: 8%
 
 
                 <div class="col-md-3 col-sm-12">
-                    <label class="form-label">Role</label> 
+                    <label class="form-label form-after " >Role</label> 
                     <select class="form-select form-select-sm" formControlName="role">
                         <option value="" selected>Select Role</option>
                         <!-- <option value="admin">Admin</option> -->

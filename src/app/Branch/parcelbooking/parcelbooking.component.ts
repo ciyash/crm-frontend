@@ -111,6 +111,7 @@ export class ParcelbookingComponent {
     this.api.GetPAckagesType().subscribe((res:any)=>{
       console.log(res);
       this.packdata=res;
+      console.log("packageData:",this.packdata)
     });
 
     this.admin.GetDispatchtypeData().subscribe((res:any)=>{

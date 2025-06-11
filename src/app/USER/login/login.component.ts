@@ -71,10 +71,12 @@ export class LoginComponent implements OnInit {
 
         const role = response.role ?? 'guest';
         this.router.navigate([this.getNavigationPath(role)]);
+        this.toast.success(response?.message );
       },
       error: (error) => {
         const message = error.error.message || 'Login failed';
-        this.toast.error('Please enter a valid password');
+        this.toast.error(error?.error?.message );
+
         this.errorMessage = message;
         this.isLoading = false;
       },

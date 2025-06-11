@@ -41,4 +41,9 @@ tbody tr:hover {
     color: #0056b3;
 }
 
+.form-after::after {
+    content: " *"; 
+    color: red;
+    font-weight: bold;
+}
 

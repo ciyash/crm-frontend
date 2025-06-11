@@ -39,7 +39,7 @@ export class CreateBranchComponent {
         pincode: ['', Validators.required],
         state: ['', Validators.required],
         country:['India'],
-        alternateMobile: ['', Validators.required],
+        alternateMobile: [''],
           });
 
           this.form1 = this.fb.group({

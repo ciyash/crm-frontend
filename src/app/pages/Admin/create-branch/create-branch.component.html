@@ -7,7 +7,7 @@
     <div class="container pb-3">
         <div class="row pt-3">
             <div class="col-md-3 col-sm-12">
-                <label class="form-label">Branch Name</label>
+                <label class="form-label form-after">Branch Name</label>
                 <input type="text" class="form-control form-select-sm " formControlName="name">
             </div>
             <!-- <div class="col-md-3 col-sm-12">
@@ -16,7 +16,7 @@
             </div> -->
 
             <div class="col-md-3 col-sm-12">
-                <label class="form-label">Branch Type</label>
+                <label class="form-label form-after">Branch Type</label>
                 <select class="form-select" formControlName="branchType">
                     <option value="" selected>Select City</option>
                     <option value="main" >Main</option>
@@ -28,22 +28,22 @@
 
 
             <div class="col-md-3 col-sm-12">
-                <label class="form-label">City</label>
+                <label class="form-label form-after">City</label>
                 <select class="form-select" formControlName="city">
                     <option value="" selected>Select City</option>
                     <option *ngFor="let branch of citydata" [value]="branch.cityName">{{ branch.cityName }}</option>
                 </select>
             </div>
             <div class="col-md-3 col-sm-12">
-                <label class="form-label">Location</label>
+                <label class="form-label form-after">Location</label>
                 <input type="text" class="form-control form-select-sm " formControlName="location">
             </div>
             <div class="col-md-3 col-sm-12">
-                <label class="form-label">Address</label>
+                <label class="form-label form-after">Address</label>
                 <input type="text" class="form-control form-select-sm " formControlName="address">
             </div>
             <div class="col-md-3 col-sm-12">
-                <label class="form-label">Phone</label>
+                <label class="form-label form-after">Phone</label>
                 <input type="text" class="form-control form-select-sm " formControlName="phone">
                 <div *ngIf="form.get('phone')?.invalid && form.get('phone')?.touched" class="text-danger">
                     Invalid phone number (must be 10 digits starting from 6-9)
@@ -58,15 +58,15 @@
                 </div>
             </div>
             <div class="col-md-3 col-sm-12">
-                <label class="form-label">Email</label>
+                <label class="form-label form-after">Email</label>
                 <input type="text" class="form-control form-select-sm " formControlName="email">
             </div>
             <div class="col-md-3 col-sm-12">
-                <label class="form-label">Pin Code</label>
+                <label class="form-label form-after">Pin Code</label>
                 <input type="text" class="form-control form-select-sm " formControlName="pincode">
             </div>
             <div class="col-md-3 col-sm-12">
-                <label class="form-label">State</label>
+                <label class="form-label form-after">State</label>
                 <select class="form-select form-select-sm" formControlName="state">
                     <option value="" selected> Select State </option>
                     <option value="Andhra Pradesh">Andhra Pradesh</option>

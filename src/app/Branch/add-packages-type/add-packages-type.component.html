@@ -39,7 +39,28 @@
                         <tr *ngFor="let row of data; let i=index" class="text-center">
                             <td>{{i + 1}}</td>
                             <td> {{row.name}} </td>
-                            <td> <a (click)="showDialog(row)" style="cursor: pointer;" class="p-2"><i class="fa fa-edit"></i></a> <a  class="text-danger" style="cursor: pointer;" (click)="Delete(row._id)"><i class="fa fa-trash"></i></a>  </td>
+                            <td>
+                                <a
+                                  (click)="showDialog(row)"
+                                  class="p-2 text-primary"
+                                  style="cursor: pointer;"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#exampleModal"
+                                >
+                                  <i class="fa fa-edit"></i>
+                                </a>
+                                
+                                <a
+                                  class="text-danger"
+                                  style="cursor: pointer;"
+                                  (click)="Delete(row._id)"
+                                >
+                                  <i class="fa fa-trash"></i>
+                                </a>
+                              </td>
+                              
+                            <!-- <td> <a (click)="showDialog(row)" style="cursor: pointer;" class="p-2">
+                                <i class="fa fa-edit"></i></a> <a  class="text-danger" style="cursor: pointer;" (click)="Delete(row._id)"><i class="fa fa-trash"></i></a>  </td> -->
                         </tr>
                     </tbody>
 
@@ -49,7 +70,7 @@
     </div>
 </div>
 
-<p-dialog header="" [(visible)]="visible" [modal]="true" [style]="{ width: '100vw' }" [draggable]="false" [resizable]="false" style="background-color: aliceblue;">
+<!-- <p-dialog header="" [(visible)]="visible" [modal]="true" [style]="{ width: '100vw' }" [draggable]="false" [resizable]="false" style="background-color: aliceblue;">
     <div class="card m-5 p-5" *ngIf="repd">
              <span class="text-primary">{{repd.name}}</span>  
                <form [formGroup]="form1" >
@@ -66,4 +87,37 @@
                     </div>
             </form>
         </div>
-</p-dialog>
+</p-dialog> -->
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Update Package </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="" *ngIf="repd">
+                <span class="text-primary">{{repd.name}}</span>  
+                  <form [formGroup]="form1" >
+                       <div class="row">
+                                   <div class="col-md-12 col-sm-12">
+                                       <label class="form-label">Packages Name</label>
+                                       <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.name"  formControlName="name">
+                                   </div>
+                                  
+                       </div>
+        
+                       <div class="col-12 md:col-12 text-center mt-3">
+                           <button pButton type="button" class="btn btn-sm btn-success" data-bs-dismiss="modal" (click)="edit(repd?._id)">Submit</button>
+                       </div>
+               </form>
+           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+

@@ -129,6 +129,8 @@ import { SubIncomingLuggageComponent } from './SubAdmin/Reports/sub-incoming-lug
 import { ParcelVoucherDetailsComponent } from './SubAdmin/parcel-voucher-details/parcel-voucher-details.component';
 import { CompanyLoginComponent } from './USER/company-login/company-login.component';
 import { CreateAdminComponent } from './pages/Admin/create-admin/create-admin.component';
+import { EmployeeDashboardComponent } from './empolyee/employee-dashboard/employee-dashboard.component';
+import { SubDashboardComponent } from './SubAdmin/sub-dashboard/sub-dashboard.component';
 @NgModule({
   declarations: [
     // reports
@@ -251,6 +253,8 @@ import { CreateAdminComponent } from './pages/Admin/create-admin/create-admin.co
     ParcelVoucherDetailsComponent,
     CompanyLoginComponent,
     CreateAdminComponent,
+    EmployeeDashboardComponent,
+    SubDashboardComponent,
    
    
   ],
