@@ -1,6 +1,6 @@
 <app-header></app-header>
 
-<form [formGroup]="form">
+<form [formGroup]="form" style="margin-top: 8%;">
     <div class="container card pb-5 mb-5">
             <div class="row pt-3 d-flex justify-content-center">
                 <h4 class="text-center  " style="color: #3C3C3C">Create City</h4>
@@ -48,7 +48,28 @@
                             <td>{{i + 1}}</td>
                             <td> {{row.state}} </td>
                             <td> {{row.cityName}} </td>
-                            <td> <a (click)="showDialog(row)"  class="text-primary p-2" style="cursor: pointer;">  <i class="fa fa-edit"></i> </a> <a (click)="Delete(row._id)" class="text-danger" style="cursor: pointer;"> <i class="fa fa-trash"></i> </a> </td>
+                            <!-- <td> <a (click)="showDialog(row)"  class="text-primary p-2" style="cursor: pointer;">  <i class="fa fa-edit"></i> </a> <a (click)="Delete(row._id)" class="text-danger" style="cursor: pointer;"> <i class="fa fa-trash"></i> </a> </td> -->
+                            <td>
+                                <!-- Edit button -->
+                                <button 
+                                  type="button"
+                                  class="btn btn-link text-primary p-0"
+                                  style="cursor: pointer;"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#myModal"
+                                  (click)="selectRow(row)">
+                                  <i class="fa fa-edit"></i>
+                                </button>
+                              
+                                <!-- Delete button -->
+                                <a 
+                                  (click)="Delete(row._id)" 
+                                  class="text-danger ms-2" 
+                                  style="cursor: pointer;">
+                                  <i class="fa fa-trash"></i>
+                                </a>
+                              </td>
+                              
                         </tr>
                     </tbody>
 
@@ -58,7 +79,7 @@
 </div>
 <app-footer></app-footer>
 
-<p-dialog header="" [(visible)]="visible" [modal]="true" [style]="{ width: '100vw' }" [draggable]="false" [resizable]="false" style="background-color: aliceblue;">
+<!-- <p-dialog header="" [(visible)]="visible" [modal]="true" [style]="{ width: '100vw' }" [draggable]="false" [resizable]="false" style="background-color: aliceblue;">
     <div class="card m-5 p-5" *ngIf="repd">
              <span class="text-primary">{{repd.cityName}}</span>  
                <form [formGroup]="form1" >
@@ -87,4 +108,55 @@
                     </div>
             </form>
         </div>
-</p-dialog>
+</p-dialog> -->
+
+
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+  
+        <div class="modal-header">
+          <h5 class="modal-title" id="myModalLabel">Edit City Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+  
+        <div class="modal-body">
+          <div class="card p-3" *ngIf="repd">
+            <span class="text-primary fw-bold mb-2 d-block">{{ repd.cityName }}</span>
+  
+            <form [formGroup]="form1">
+              <div class="row g-3">
+                <div class="col-md-12">
+                  <label class="form-label">State</label>
+                  <select class="form-select form-select-sm" formControlName="state">
+                    <option value="">{{ repd.state }}</option>
+                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                    <option value="Telangana">Telangana</option>
+                    <option value="Karnataka">Karnataka</option>
+                    <option value="Tamilnadu">Tamilnadu</option>
+                    <option value="Maharastra">Maharastra</option>
+                    <option value="Kerala">Kerala</option>
+                  </select>
+                </div>
+  
+                <div class="col-md-12">
+                  <label class="form-label">City Name</label>
+                  <input type="text" class="form-control form-select-sm" formControlName="cityName" [(ngModel)]="repd.cityName">
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+  
+        <div class="modal-footer">
+          <!-- <button type="button" class="btn btn-secondary btn-sm" >Close</button> -->
+          <button type="button" class="btn btn-success btn-sm"data-bs-dismiss="modal" (click)="edit(repd?._id)">Submit</button>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  

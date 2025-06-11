@@ -185,10 +185,12 @@ font-weight: 500;text-decoration: underline;word-wrap: break-word;margin-top: 8%
                                 <label class="form-label">Documents</label>
                                 <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.documents" formControlName="documents">
                             </div>
+                     
                             <div class="col-md-3 col-sm-12">
-                                <label class="form-label">CompanyName</label>
-                                <input type="text" class="form-control form-select-sm " [(ngModel)]="repd.companyName" formControlName="companyName">
-                            </div>
+                                <label class="form-label">Company Name</label>
+                                <input type="text" class="form-control form-select-sm" formControlName="companyName">
+                              </div>
+                              
                             <div class="col-md-3 col-sm-12">
                                 <label class="form-label">Role</label> 
                                 <select class="form-select form-select-sm" formControlName="role">
@@ -208,7 +210,7 @@ font-weight: 500;text-decoration: underline;word-wrap: break-word;margin-top: 8%
                             <div class="row">
                                 <div class="col-md-3 d-flex align-items-end">
                                     <button class="btn btn-primary btn-sm " type="button"
-                                        style=" width: 10rem;" (click)="edit(repd?._id)">Submit</button>
+                                        style=" width: 10rem;" (click)="edit();">Submit</button>
                                 </div>
                             </div>
                         </div>

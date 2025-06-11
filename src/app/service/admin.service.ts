@@ -204,7 +204,7 @@ export class AdminService {
   }
 
 
-  UpdateEmployee(id: any, value: {
+  UpdateEmployee(value: {
     name: string;
     username: string;
     branchId: string;
@@ -225,7 +225,7 @@ export class AdminService {
       })
     };
     return this.http.patch(
-      AUTH_API + 'vehicle/' + id,
+      AUTH_API + 'subadmin-auth/update-profile/',
       {
         name: value.name,
         'username': value.username,

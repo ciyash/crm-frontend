@@ -7,7 +7,7 @@
     <div class="container pb-3">
         <div class="row pt-3">
             <div class="col-md-3 col-sm-12">
-                <label class="form-label">Name</label>
+                <label class="form-label">Branch Name</label>
                 <input type="text" class="form-control form-select-sm " formControlName="name">
             </div>
             <!-- <div class="col-md-3 col-sm-12">
@@ -208,9 +208,9 @@
                                         <label>Alternate Mobile:</label>
                                         <input type="text" [(ngModel)]="repd.alternateMobile" formControlName="alternateMobile" class="form-control" />
                                     </div>
-                                    <div class="col-md-3 col-sm-12">
+                                    <div class="col-md-3 col-sm-12 mt-4">
 
-                                    <button type="button" (click)="edit(repd._id)"
+                                    <button type="button"  data-bs-dismiss="modal" (click)="edit(repd._id)"
                                         class="btn btn-success">Update</button>
                                     </div>
                                   

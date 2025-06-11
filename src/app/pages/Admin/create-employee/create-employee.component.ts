@@ -21,10 +21,6 @@ export class CreateEmployeeComponent {
     form1:FormGroup;
     visible: boolean = false;
     repd:any;
-    showDialog(row:any) {
-        this.visible = true;
-        this.repd=row;
-    }
     constructor(private fb:FormBuilder, private api:AdminService,
        private messageService:MessageService, private router:Router,
         private bapi:BranchService, private auth:AuthService, private toastr: ToastrService){
@@ -51,37 +47,48 @@ export class CreateEmployeeComponent {
               email: ['', Validators.required],
               documents: ['', Validators.required],
               role: ['', Validators.required],
-              // companyName:[''],
+              companyName:[''],
 
                 });
     }
     ngOnInit(){
       this.branchData();
+
       this.api.GetEmployeesData().subscribe((res: any) => {
         console.log('empdata', res);
         this.edata = res.map((employee: any) => {
-         
           employee.showPassword = false; // Initialize show/hide 
           return employee;
         });
         this.loading = false;
       });
     }
+
+  showDialog(row: any) {
+    this.visible = true;
+    this.repd = row;
+  
+    console.log("employeedata:", this.repd);
+  
+    this.form1.patchValue({
+      name: row.name,
+      username: row.username,
+      branchId: row.branchId?._id || '', // Assuming branchId is an object
+      location: row.location,
+      password: row.password,
+      phone: row.phone,
+      email: row.email,
+      documents: Array.isArray(row.documents) ? row.documents.join(', ') : row.documents,
+      role: row.role,
+      companyName: row.companyId?.name || ''
+    });
+  }
+  
     togglePassword(index: number) {
       this.edata[index].showPassword = !this.edata[index].showPassword;
     }
   
-    // branchData() {
-    //   this.bapi.getData('branch').subscribe({
-    //     next: (response: any) => {
-    //       console.log('Branch Data:', response);
-    //       this.branchdata = response; // Ensure response contains an array of branches
-    //     },
-    //     error: (error: any) => {
-    //       console.error('Error fetching branch data:', error);
-    //     }
-    //   });
-    // }
+
     branchData() {
       this.bapi.getData('branch').subscribe({
         next: (response: any) => {
@@ -128,40 +135,73 @@ export class CreateEmployeeComponent {
       });
     }
 
-    edit(id:any) {
+    // edit(id:any) {
+    //   const payload = {
+    //     name: this.form.value.name,
+    //     username: this.form.value.username,
+    //     branchId: this.form.value.branchId,
+    //     location: this.form.value.location,
+    //     password: this.form.value.password,
+    //     phone: this.form.value.phone,
+    //     email: this.form.value.email,
+    //     documents: this.form.value.documents,
+    //     role: this.form.value.role,
+    //     companyName:this.form1.value.companyName
+    //   };
+    
+    //   console.log('Final Payload:', payload);
+      
+    //   this.api.UpdateEmployee(id,payload).subscribe({
+    //     next: (response: any) => {
+    //       console.log('Parcel loaded successfully:', response);
+    //       this.toastr.success('Parcel loaded successfully', 'Success');
 
+    //       // this.messageService.add({ severity: 'success', summary: 'success', detail: 'Create Employee successfully' });
+    //       setTimeout(() => {
+    //        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+    //          this.router.navigate(['/createemployee']);
+    //        });
+    //      }, 500);
+    //     },
+    //     error: (error: any) => {
+    //       console.error('Create Employee failed:', error);
+    //       alert('Create Employee Failed. Please try again.');
+    //     },
+    //   });
+    // }
+
+    edit() {
       const payload = {
-        name: this.form.value.name,
-        username: this.form.value.username,
-        branchId: this.form.value.branchId,
-        location: this.form.value.location,
-        password: this.form.value.password,
-        phone: this.form.value.phone,
-        email: this.form.value.email,
-        documents: this.form.value.documents,
-        role: this.form.value.role,
-        companyName:this.form1.value.companyName
+        name: this.form1.value.name,
+        username: this.form1.value.username,
+        branchId: this.form1.value.branchId,
+        location: this.form1.value.location,
+        password: this.form1.value.password,
+        phone: this.form1.value.phone,
+        email: this.form1.value.email,
+        documents: this.form1.value.documents,
+        role: this.form1.value.role,
+        companyName: this.form1.value.companyName
       };
     
       console.log('Final Payload:', payload);
-      
-      this.api.UpdateEmployee(id,payload).subscribe({
+    
+      this.api.UpdateEmployee(payload).subscribe({
         next: (response: any) => {
-          console.log('Parcel loaded successfully:', response);
-          this.toastr.success('Parcel loaded successfully', 'Success');
-
-          // this.messageService.add({ severity: 'success', summary: 'success', detail: 'Create Employee successfully' });
+          console.log('Employee updated successfully:', response);
+          this.toastr.success('Employee updated successfully', 'Success');
+    
           setTimeout(() => {
-           this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-             this.router.navigate(['/createemployee']);
-           });
-         }, 500);
+            this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+              this.router.navigate(['/createemployee']);
+            });
+          }, 500);
         },
         error: (error: any) => {
-          console.error('Create Employee failed:', error);
-          alert('Create Employee Failed. Please try again.');
+          console.error('Update Employee failed:', error);
+          alert('Update Employee Failed. Please try again.');
         },
       });
     }
-
+    
 }

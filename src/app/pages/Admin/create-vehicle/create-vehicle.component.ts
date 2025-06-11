@@ -35,7 +35,7 @@ export class CreateVehicleComponent {
             RC: ['', Validators.required],
             polutionExpDate: ['', Validators.required],
             fuelType: ['', Validators.required],
-            branch: ['', Validators.required],
+            branch: [''],
             vehicleStatus: ['active'],
               });
 
@@ -90,25 +90,29 @@ export class CreateVehicleComponent {
         
         this.api.createVehicle(payload).subscribe({
           next: (response: any) => {
-            console.log('Parcel loaded successfully:', response);
-            this.toastr.success('Profile Successfully Updated ', 'Success');
-
+            this.toastr.success('Vehicle created successfully!', 'Success');
             setTimeout(() => {
              this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
                this.router.navigate(['/createvehicle']);
              });
            }, 500);
           },
+          // error: (error: any) => {
+          //   console.error('Create Vehicle failed:', error);
+          //   alert('Create Vehicle Failed. Please try again.');
+          // },
           error: (error: any) => {
-            console.error('Create Vehicle failed:', error);
-            alert('Create Vehicle Failed. Please try again.');
-          },
+            this.toastr.error('Create Vehicle Failed. Please try again.', 'Error');
+          }
+          
         });
       }
 
       
 
       edit(id:any) {
+        console.log("id:",id);
+        
         console.log(this.form1.value);
         if (this.form1.valid) {
           const val = {

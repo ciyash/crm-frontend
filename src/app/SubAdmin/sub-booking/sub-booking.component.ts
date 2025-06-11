@@ -19,7 +19,7 @@ import {  ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 export class SubBookingComponent {
 
 
-  
+
 
     adminData: any;
     form!:FormGroup;

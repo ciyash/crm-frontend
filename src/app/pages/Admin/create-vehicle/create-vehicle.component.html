@@ -97,7 +97,13 @@
                             <td> {{row.RC}} </td>
                             <td> {{row.registrationNo}} </td>
                             <td> {{row.polutionExpDate | date:'dd/MMM/YYYY' }} </td>
-                            <td> <a (click)="showDialog(row) " data-bs-toggle="modal" data-bs-target="#myModal" >  <i class="fa fa-edit"></i></a>  </td>
+                            <td> <a (click)="showDialog(row) " data-bs-toggle="modal" data-bs-target="#myModal" >  <i class="fa fa-edit"></i> 
+                             </a>              <a 
+                             (click)="Delete(row._id)" 
+                             class="text-danger ms-2" 
+                             style="cursor: pointer;">
+                             <i class="fa fa-trash"></i>
+                           </a>  </td>
                         </tr>
                     </tbody>
 
@@ -177,10 +183,6 @@
   <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl"> <!-- Extra Large Modal -->
       <div class="modal-content">
-        <!-- <div class="modal-header"> -->
-          <!-- <h5 class="modal-title" id="myModalLabel">Extra Large Modal</h5> -->
-          <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="margin-left: 65rem;"></button> -->
-        <!-- </div> -->
         <div class="modal-body">
             <div class="card m-5 p-5" *ngIf="repd">
                 <span class="text-primary">{{repd.vehicleNo}}</span>  
@@ -189,8 +191,8 @@
                                <div class="col-md-3 col-sm-12">
                                    <label class="form-label">Select Branch</label>
                                    <select class="form-select form-select-sm" formControlName="branch">
-                                       <option value="" selected> {{repd.branch}} </option>
-                                     <option *ngFor="let branch of branchdata" [value]="branch._id">{{ branch.name }}</option>
+                                       <option value="" selected *ngFor="let branch of branchdata">   {{ branch.name }}</option>
+                                     <option *ngFor="let branch of branchdata" [value]="branch">{{ branch.name }}</option>
                                    </select>
                                    </div>
                                    <div class="col-md-3 col-sm-12">
@@ -234,7 +236,7 @@
                        </div>
         
                        <div class="col-12 md:col-12 text-center mt-3">
-                           <button pButton type="button" class="btn btn-sm btn-success" (click)="edit(repd?.id)">Submit</button>
+                           <button pButton type="button" class="btn btn-sm btn-success"  data-bs-dismiss="modal" (click)="edit(repd?.id)">Submit</button>
                        </div>
                </form>
            </div>        </div>

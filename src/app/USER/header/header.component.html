@@ -38,7 +38,7 @@
       <!-- ✅ Right-aligned section -->
       <ul class="navbar-nav ms-auto d-flex align-items-center">
         <li *ngIf="data" class="nav-item text-white">
-          <span>{{ data.companyName }}</span>
+          <span>{{ data.companyId?.name }}</span>
         </li>
         <li *ngIf="data" class="nav-item text-white" ><i class="fa fa-user" aria-hidden="true"></i>&nbsp;
 

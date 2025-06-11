@@ -118,7 +118,7 @@ getbranchemployees(id:any){
     this.api.createBranch(payload).subscribe({
       next: (response: any) => {
         console.log('Parcel loaded dat:', response);
-        this.toast.success("success")
+        this.toast.success("Branch created successfully", "Success");
         setTimeout(() => {
          this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
            this.router.navigate(['/createbranch']);
@@ -127,7 +127,9 @@ getbranchemployees(id:any){
       },
       error: (error: any) => {
         console.error('Create Branch failed:', error);
-        alert('Create Branch Failed. Please try again.');
+        // alert('Create Branch Failed. Please try again.');
+        this.toast.error("Create Branch Failed. Please try again", "error");
+
       },
     });
   }

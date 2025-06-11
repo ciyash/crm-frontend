@@ -91,11 +91,17 @@ export class CreateCitynameComponent {
                   console.log(a);
                   // this.errorMessage = a.msg.message;
                   this.msg = 'Vehicle Successfully Updated !!!';
-                  setTimeout(() => {
-                    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-                      this.router.navigate(['/createcity']);
-                    });
-                    }, 1000);
+                  // setTimeout(() => {
+                  //   this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                  //     this.router.navigate(['/createcity']);
+                  //   });
+                  //   }, 1000);
+                  
+              setTimeout(() => {
+                this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                  this.router.navigate(['/createcity']);
+                });
+              }, 500);
                 }
               },
               (err: any) => {
@@ -109,6 +115,8 @@ export class CreateCitynameComponent {
         }
 
         Delete(id:any) {
+          console.log("id:",id);
+          
           this.api.DeleteCityname(id).subscribe(
             (a: any) => {
               if (a) {
@@ -131,5 +139,14 @@ export class CreateCitynameComponent {
           );
         return false;
       }
+      selectRow(row: any) {
+        this.repd = row;
+        // optionally patch form values
+        this.form1.patchValue({
+          cityName: row.cityName,
+          state: row.state
+        });
+      }
+      
 
 }
