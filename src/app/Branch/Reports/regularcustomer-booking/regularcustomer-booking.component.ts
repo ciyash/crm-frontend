@@ -22,7 +22,8 @@ export class RegularcustomerBookingComponent implements OnInit {
       this.data7 = navigation.extras.state['data7'];
       console.log('Customer data from router state:', this.data7);
       // ✅ Store in localStorage for refresh support
-      localStorage.setItem('regularCustomerData', JSON.stringify(this.data7));
+      // localStorage.setItem('regularCustomerData', JSON.stringify(this.data7));
+
     }
   }
 
@@ -32,6 +33,7 @@ export class RegularcustomerBookingComponent implements OnInit {
     // ✅ Fallback: if data7 not set in constructor, get from localStorage
     if (!this.data7) {
       const storedData = localStorage.getItem('regularCustomerData');
+      
       if (storedData) {
         this.data7 = JSON.parse(storedData);
         console.log('Customer data from localStorage:', this.data7);

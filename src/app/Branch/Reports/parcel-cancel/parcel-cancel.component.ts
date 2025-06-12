@@ -26,7 +26,7 @@ export class ParcelCancelComponent implements OnInit {
   }
 
   loadLocalStorageData(): void {
-    const dataString = localStorage.getItem('cancelReportData');
+    const dataString = localStorage.getItem('CancelData');
     if (dataString) {
       try {
         const stateData = JSON.parse(dataString);
@@ -35,21 +35,17 @@ export class ParcelCancelComponent implements OnInit {
   
         console.log('Loaded from localStorage:', stateData);
   
-        // ✅ Show success toast with message from stateData or fallback
         this.toast.success(stateData.message || 'Cancel report data loaded successfully!');
       } catch (e) {
         console.error('Failed to parse localStorage data', e);
-  
-        // ❌ Show error toast
         this.toast.error('Failed to load cancel report data. Please try again.');
       }
     } else {
       console.warn('No cancel report data found in localStorage.');
-  
-      // ⚠️ Show warning toast
       this.toast.warning('No cancel report data found.');
     }
   }
+  
   
   
   getProfileData(): void {

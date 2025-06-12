@@ -364,37 +364,7 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
     });
   }
 
-  // All Parcel Booking Report
-  // AllParcelBooking() {
-  //   const payload1 = {
-  //     startDate: this.form1.value.startDate,
-  //     endDate: this.form1.value.endDate,
-  //     fromCity: this.form1.value.fromCity,
-  //     toCity: this.form1.value.toCity,
-  //     pickUpBranch: this.form1.value.pickUpBranch,
-  //     dropBranch: this.form1.value.dropBranch,
-  //     bookingStatus: this.form1.value.bookingStatus,
-  //     vehicalNumber: this.form1.value.vehicalNumber || null,
-  //   };
-  //   console.log('All Parcel Booking Payload:', payload1);
-  //   this.api.AllParcelBookingReport(payload1).subscribe({
-  //     next: (response: any) => {
-  //       console.log('All Parcel loaded successfully:', response);
-  //       const finalData1 = {
-  //         ...response,
-  //         startDate: this.form1.value.startDate,
-  //         endDate: this.form1.value.endDate,
-  //       };
-  //       this.router.navigateByUrl('/allpercelbooking', {
-  //         state: { data1: finalData1 },
-  //       });
-  //     },
-  //     error: (error: any) => {
-  //       console.error('Parcel loading failed:', error);
-  //       this.toast.error('Parcel Loading Failed. Please try again.');
-  //     },
-  //   });
-  // }
+ 
   AllParcelBooking() {
     const payload1 = {
       startDate: this.form1.value.startDate,
@@ -419,11 +389,16 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
           endDate: this.form1.value.endDate,
         };
   
-        // Save data to localStorage
-        localStorage.setItem('allParcelBookingData', JSON.stringify(finalData1));
-  
-        // Open new tab and load the route
-        window.open('/allpercelbooking', '_blank');
+        // localStorage.setItem('allParcelBookingData', JSON.stringify(finalData1));
+        // window.open('/allpercelbooking', '_blank');
+
+        localStorage.setItem('allparcelReportData', JSON.stringify(finalData1));
+
+        // Open the /cloud/reports route correctly in new tab
+        const baseUrl = window.location.origin;
+        const allpercelbookingUrl = `${baseUrl}/cloud/allpercelbooking`;
+        window.open(allpercelbookingUrl, '_blank');
+
       },
       error: (error: any) => {
         console.error('Parcel loading failed:', error);
@@ -431,8 +406,6 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
       },
     });
   }
-  
-
 
   // Parcel Booking Report With Serial No
   parcelbookingserieno(): void {
@@ -462,11 +435,15 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
           toDate: this.form2.value.toDate,
         };
 
-        // Save data to localStorage
-        localStorage.setItem('bookingSerialData', JSON.stringify(finalData11));
+        // localStorage.setItem('bookingSerialData', JSON.stringify(finalData11));
+        // window.open('/bookingserial', '_blank');
 
-        // Open /bookingserial in a new tab
-        window.open('/bookingserial', '_blank');
+        localStorage.setItem('serialData', JSON.stringify(finalData11));
+        const baseUrl = window.location.origin;
+        const bookingserialUrl = `${baseUrl}/cloud/bookingserial`;
+        window.open(bookingserialUrl, '_blank');
+
+
       },
 
       error: (error: any) => {
@@ -504,11 +481,14 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
           toDate: this.form6.value.toDate,
         };
 
-        // ✅ Store in localStorage
-        localStorage.setItem('bookingSummaryData', JSON.stringify(finalData9));
+        // localStorage.setItem('bookingSummaryData', JSON.stringify(finalData9));
+        // window.open('/bookingsummary', '_blank');
 
-        // ✅ Open new tab
-        window.open('/bookingsummary', '_blank');
+        localStorage.setItem('serialData', JSON.stringify(finalData9));
+        const baseUrl = window.location.origin;
+        const bookingsummaryUrl = `${baseUrl}/cloud/bookingsummary`;
+        window.open(bookingsummaryUrl, '_blank');
+
       },
       error: (error: any) => {
         const errorMessage =
@@ -535,37 +515,33 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
     this.api.ParcelCancelReport(payload6).subscribe({
       next: (response: any) => {
         console.log('Cancel Report Loaded:', response);
-        const finalData = {
+        const finalData7 = {
           ...response,
           fromDate: payload6.fromDate,
           toDate: payload6.toDate,
         };
-
-        // Save data to localStorage
-        localStorage.setItem('cancelReportData', JSON.stringify(finalData));
-
-        // ✅ Show success toast
+        // localStorage.setItem('cancelReportData', JSON.stringify(finalData7));
         this.toast.success('Cancel Report generated successfully!');
+        // window.open('/cancel-report', '_blank');
 
-        // Open new tab
-        window.open('/cancel-report', '_blank');
+        localStorage.setItem('CancelData', JSON.stringify(finalData7));
+        const baseUrl = window.location.origin;
+        const cancelreportUrl = `${baseUrl}/cloud/cancelreport`;
+        window.open(cancelreportUrl, '_blank');
       },
       error: (error: any) => {
         console.error('Cancel Report Loading Failed:', error);
-
-        // ❌ Show error toast
         this.toast.error('Cancel Report loading failed. Please try again.');
       },
     });
   }
   //  mobile report
-  parcelbookingsmobile(): void {
+  bookingsmobile(): void {
     if (this.form4.invalid) {
       this.form4.markAllAsTouched();
       this.toast.error('Please enter mobile');
       return;
     }
-
     const payload3 = {
       fromDate: this.form4.value.fromDate,
       toDate: this.form4.value.toDate,
@@ -591,11 +567,14 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
           toDate: this.form4.value.toDate,
         };
 
-        // ✅ Store the data temporarily in localStorage
-        localStorage.setItem('mobileBookingData', JSON.stringify(finalData5));
+        // localStorage.setItem('mobileBookingData', JSON.stringify(finalData5));
+        // window.open('/bookingmobile', '_blank');
 
-        // ✅ Open new tab with route
-        window.open('/bookingmobile', '_blank');
+        localStorage.setItem('mobileBookingData', JSON.stringify(finalData5));
+        const baseUrl = window.location.origin;
+        const bookingmobileUrl = `${baseUrl}/cloud/bookingmobile`;
+        window.open(bookingmobileUrl, '_blank');
+
       },
       error: (error: any) => {
         console.error('Parcel Mobile Report loading failed:', error);
@@ -643,9 +622,14 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
           toDate: this.form5.value.toDate,
         };
 
-        localStorage.setItem('regularCustomerData', JSON.stringify(finalData2));
+        // localStorage.setItem('regularCustomerData', JSON.stringify(finalData2));
+        // window.open('/regularcustmer', '_blank');
 
-        window.open('/regularcustmer', '_blank');
+        localStorage.setItem('regularcustmerData', JSON.stringify(finalData2));
+
+        const baseUrl = window.location.origin;
+        const regularcustmerUrl = `${baseUrl}/cloud/regularcustmer`;
+        window.open(regularcustmerUrl, '_blank');
       },
       error: (error: any) => {
         console.error('Customer Report loading failed:', error);

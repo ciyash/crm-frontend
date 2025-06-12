@@ -134,6 +134,8 @@ export class ParcelDeliveryComponent {
         (res: any) => {
           console.log('API Response:', res);
 
+
+
           if (res && Array.isArray(res.data)) {
             this.data2 = res.data;
             this.errorMessage = '';
@@ -144,6 +146,8 @@ export class ParcelDeliveryComponent {
             this.data2 = [];
             this.errorMessage = 'No results found for the given search term.';
           }
+          console.log("data2:",this.data2);
+          
         },
         (err: any) => {
           this.errorMessage = err.error?.message || 'An error occurred while searching.';

@@ -231,49 +231,6 @@
 </div>
 
 
-    <style>
-        .recice {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .receipt-container {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            max-width: 700px;
-            width: 100%;
-        }
-        .receipt-header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .receipt-header h1 {
-            font-size: 1.8rem;
-            color: #343a40;
-        }
-   
-        .table {
-            margin-bottom: 20px;
-        }
-        .table th {
-            background-color: #e9ecef;
-            color: #343a40;
-        }
-        .footer {
-            text-align: center;
-            color: #6c757d;
-            font-size: 0.9rem;
-        }
-        .hidden {
-  display: none !important;
-}
-
-        
-    </style>
 
 
 <div class="recice" [class.hidden]="!showReceiptToPrint" id="printSection">
@@ -352,4 +309,49 @@
     </div>
 </div>
 
+
+
+<style>
+  .recice {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+  }
+  .receipt-container {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      max-width: 700px;
+      width: 100%;
+  }
+  .receipt-header {
+      text-align: center;
+      margin-bottom: 20px;
+  }
+  .receipt-header h1 {
+      font-size: 1.8rem;
+      color: #343a40;
+  }
+
+  .table {
+      margin-bottom: 20px;
+  }
+  .table th {
+      background-color: #e9ecef;
+      color: #343a40;
+  }
+  .footer {
+      text-align: center;
+      color: #6c757d;
+      font-size: 0.9rem;
+  }
+  .hidden {
+display: none !important;
+}
+
+  
+</style>
  

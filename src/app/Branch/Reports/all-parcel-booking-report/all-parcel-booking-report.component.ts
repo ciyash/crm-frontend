@@ -15,13 +15,25 @@ export class AllParcelBookingReportComponent {
   pfdata: any;
   today = new Date();
 
-  constructor(private router: Router,private api:BranchService,private toast:ToastrService) {
+  constructor(private router: 
+    Router,private api:BranchService,private toast:ToastrService) {
 
   }
   
+  // ngOnInit(): void {
+  //   this.getProfileData();
+  //   const storedData = localStorage.getItem('allParcelBookingData');
+  //   if (storedData) {
+  //     this.data1 = JSON.parse(storedData);
+  //     console.log('Received:', this.data1);
+  //   } else {
+  //     this.toast.error('No booking data found!');
+  //   }
+  // }
   ngOnInit(): void {
     this.getProfileData();
-    const storedData = localStorage.getItem('allParcelBookingData');
+    
+    const storedData = localStorage.getItem('allparcelReportData'); // ✅ Use the correct key
     if (storedData) {
       this.data1 = JSON.parse(storedData);
       console.log('Received:', this.data1);
@@ -29,6 +41,7 @@ export class AllParcelBookingReportComponent {
       this.toast.error('No booking data found!');
     }
   }
+  
   
   getProfileData() {
     this.api.GetProfileData().subscribe((res: any) => {

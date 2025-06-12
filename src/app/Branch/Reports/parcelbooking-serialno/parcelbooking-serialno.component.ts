@@ -22,33 +22,23 @@ export class ParcelbookingSerialnoComponent implements OnInit {
   constructor(private router: Router, private api: BranchService) {}
 
   ngOnInit(): void {
-    // Retrieve data from localStorage
-    const dataString = localStorage.getItem('bookingSerialData');
+    const dataString = localStorage.getItem('serialData'); // ✅ Correct key
     if (dataString) {
       this.data2 = JSON.parse(dataString);
       console.log("Data received from localStorage:", this.data2);
-
-      // Extract booking categories safely (check if data2.data exists)
       const data = this.data2.data || {};
-
       this.paidBookings = data.paid?.bookings || [];
       this.creditBookings = data.credit?.bookings || [];
       this.focBookings = data.FOC?.bookings || [];
       this.clrBookings = data.CLR?.bookings || [];
       this.topayBookings = data.toPay?.bookings || [];
-
-      // Optionally clear localStorage if you don't want stale data
-      // localStorage.removeItem('bookingSerialData');
     } else {
-      // Handle missing data scenario
-      console.error('No booking serial data found in localStorage.');
-      // e.g., show toast or redirect to a safe page
-      // this.toast.error('No booking serial data found.');
-      // this.router.navigate(['/somewhere']);
+      console.error('No booking serial data found in localStorage.')
     }
-
+  
     this.getProfileData();
   }
+  
 
   getProfileData() {
     this.api.GetProfileData().subscribe((res: any) => {
@@ -56,6 +46,7 @@ export class ParcelbookingSerialnoComponent implements OnInit {
       console.log('Profile data:', this.pfdata);
     });
   }
+
   Print(): void {
     const printContents = document.getElementById('print-section')?.innerHTML;
     if (printContents) {
@@ -69,10 +60,6 @@ export class ParcelbookingSerialnoComponent implements OnInit {
     }
   }
 
-
-
-
-  
     exportToExcel() {
       const wb = XLSX.utils.book_new();
   

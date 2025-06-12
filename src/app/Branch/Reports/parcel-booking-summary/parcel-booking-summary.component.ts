@@ -20,11 +20,10 @@ export class ParcelBookingSummaryComponent {
   toDate: string = '';
   constructor(private router: Router, private api: BranchService, private location: Location ,private toast:ToastrService) {}
   ngOnInit(): void {
-    const storedData = localStorage.getItem('bookingSummaryData');
+    const storedData = localStorage.getItem('serialData'); // <- use 'serialData'
     if (storedData) {
       const parsedData = JSON.parse(storedData);
-      
-      // Extract array-like data (number-keyed objects)
+  
       const dataArray: any[] = [];
       for (const key in parsedData) {
         if (!isNaN(+key)) {
@@ -44,6 +43,7 @@ export class ParcelBookingSummaryComponent {
   
     this.getProfileData();
   }
+  
   
 
   getProfileData() {

@@ -101,7 +101,7 @@ word-wrap: break-word">Parcel Booking</h4>
                         </thead>
                         <tbody>
                             <tr *ngFor="let item of packages.controls; let i = index" [formGroupName]="i">
-                                <td><input type="number" class="form-control form-select-sm " formControlName="quantity"
+                                <td><input type="text" class="form-control form-select-sm " formControlName="quantity"
                                         (input)="calculateTotal(i)"></td>
                                 <td>
                                     <select class="form-control form-select-sm" formControlName="packageType">

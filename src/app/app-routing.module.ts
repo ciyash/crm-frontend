@@ -153,7 +153,7 @@ const routes: Routes = [
   { path: 'reports', component: ParcelBookingReportComponent, canActivate: [authGuard] },
   {path:'allpercelbooking',component:AllParcelBookingReportComponent,canActivate: [authGuard] },
   {path:'bookingmobile',component:ParcelBookingMobileComponent, canActivate: [authGuard]},
-  {path:'cancel-report',component:ParcelCancelComponent, canActivate: [authGuard]},
+  {path:'cancelreport',component:ParcelCancelComponent, canActivate: [authGuard]},
   {path:'bookingsummary',component:ParcelBookingSummaryComponent, canActivate: [authGuard]},
   {path:'collectionreport',component:CollectionReportComponent, canActivate: [authGuard]},
   {path:'Consolidate',component:ConsolidatedComponent, canActivate: [authGuard]},

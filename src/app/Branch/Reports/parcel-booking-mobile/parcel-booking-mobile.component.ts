@@ -16,17 +16,33 @@ export class ParcelBookingMobileComponent implements OnInit {
 
   constructor(private api: BranchService) {}
 
+  // ngOnInit(): void {
+  //   this.getProfileData();
+  
+  //   const storedData = localStorage.getItem('mobileBookingData');
+  //   if (storedData) {
+  //     this.mdata = JSON.parse(storedData);
+  //     console.log('Loaded data (mdata) from localStorage:', this.mdata);
+  //   } else {
+  //     console.warn('No data found for bookingmobile report');
+  //   }
+  // }
   ngOnInit(): void {
     this.getProfileData();
   
     const storedData = localStorage.getItem('mobileBookingData');
     if (storedData) {
-      this.mdata = JSON.parse(storedData);
-      console.log('Loaded data (mdata) from localStorage:', this.mdata);
+      try {
+        this.mdata = JSON.parse(storedData);
+        console.log('Loaded data (mdata) from localStorage:', this.mdata);
+      } catch (error) {
+        console.error('Failed to parse localStorage data:', error);
+      }
     } else {
-      console.warn('No data found for bookingmobile report');
+      console.warn('No data found for mobile booking report');
     }
   }
+
   
   
 
