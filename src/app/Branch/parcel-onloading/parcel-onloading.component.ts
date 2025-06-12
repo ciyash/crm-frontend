@@ -179,7 +179,7 @@ onLoad() {
       this.apiResponse = data;
       this.bkdata = data.flatMap((item: any) => item.bookings);
 
-      // Prepare summary
+      // Prepare 
       this.summary = {};
       data.forEach((item: any) => {
         this.summary[item.bookingType] = {
