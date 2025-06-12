@@ -39,7 +39,7 @@ export class ParcelOnloadingComponent {
   @ViewChild('demoSelect') demoSelect!: ElementRef;
   selectedbranch: any;
   onVehicleSelect: any;
-  apiResponse: any;
+  apiResponse: any[] = [];
   bookings: any;
   bkdata: any[] = [];
   summary: any = {};
@@ -91,7 +91,10 @@ export class ParcelOnloadingComponent {
     return `${year}-${month}-${day}`; // ✔ HTML date input format
   }
   
-
+formatDateDisplay(dateStr: string): string {
+  const [year, month, day] = dateStr.split('-');
+  return `${day}-${month}-${year}`;
+}
 
   ngAfterViewInit(): void {
     new SlimSelect({
@@ -143,57 +146,71 @@ onLoad() {
     this.toastr.error('Please fill all required fields', 'Validation Error');
     return;
   }
+
   const formValues = this.form.value;
-  const payload = {
+
+  const payload: any = {
     fromDate: formValues.fromDate,
     toDate: formValues.toDate,
-    fromCity: formValues.fromCity.length ? formValues.fromCity : [],
-    toCity: formValues.toCity || '',
-    vehicalNumber: formValues.vehicalNumber || '',
-    branch: formValues.branch || '',
   };
-console.log("payload:",payload)
+
+  if (formValues.fromCity?.length) payload.fromCity = formValues.fromCity;
+  if (formValues.toCity) payload.toCity = formValues.toCity;
+  if (formValues.vehicalNumber) payload.vehicalNumber = formValues.vehicalNumber;
+  if (formValues.branch) payload.branch = formValues.branch;
+
+  console.log("Payload to be sent:", JSON.stringify(payload, null, 2));
+
   this.api.FilterParcelUnLoading(payload).subscribe({
     next: (response: any) => {
-      console.log('dataload', response)
-      if (response?.data?.length) {
-        this.apiResponse = response.data || [];
+      console.log('API Response:', response);
 
-        // Combine all bookings into one array
-        this.bkdata = this.apiResponse.flatMap((item: any) => item.bookings);
+      const data = response?.data || [];
 
-        // Prepare summary
-        this.summary = {};
-        this.apiResponse.forEach((item: any) => {
-          this.summary[item.bookingType] = {
-            totalQuantity: item.totalQuantity,
-            totalGrandTotal: item.totalGrandTotal,
-          };
-        });
-
-        this.LoadSuccess = true;
-        if (this.bkdata.length > 0) {
-          this.form1.patchValue({
-            branch: this.bkdata[0].branch,            
-          });
-          this.setFormArray('bookingType', this.bkdata.map((d: any) => d.bookingType));
-          this.setFormArray('grnNo', this.bkdata.map((d: any) => d.grnNo));
-          this.setFormArray('lrNumber', this.bkdata.map((d: any) => d.lrNumber));
-        }
-        this.toastr.success('Parcel unloaded Successfully', 'Success');
-      } else {
+      if (!data.length) {
         this.apiResponse = [];
         this.bkdata = [];
         this.summary = {};
         this.LoadSuccess = false;
-        this.toastr.error('No customer bookings found.', 'error');
-
+        this.toastr.error('No customer bookings found.', 'Error');
+        return;
       }
+
+      this.apiResponse = data;
+      this.bkdata = data.flatMap((item: any) => item.bookings);
+
+      // Prepare summary
+      this.summary = {};
+      data.forEach((item: any) => {
+        this.summary[item.bookingType] = {
+          totalQuantity: item.totalQuantity,
+          totalGrandTotal: item.totalGrandTotal,
+        };
+      });
+
+      this.LoadSuccess = true;
+
+      if (this.bkdata.length > 0) {
+        this.form1.patchValue({
+          branch: this.bkdata[0].branch,
+        });
+
+        this.setFormArray('bookingType', this.bkdata.map(d => d.bookingType));
+        this.setFormArray('grnNo', this.bkdata.map(d => d.grnNo));
+        this.setFormArray('lrNumber', this.bkdata.map(d => d.lrNumber));
+      }
+
+      this.toastr.success('Parcel unloaded Successfully', 'Success');
     },
-    error: (error: any) => {
-      console.error('Booking failed:', error);
+
+    error: (err) => {
+      console.error('API Error:', err);
+      this.apiResponse = [];
+      this.bkdata = [];
+      this.summary = {};
+      this.LoadSuccess = false;
       this.toastr.error('Parcel unloaded Data Not Found', 'Error');
-    },
+    }
   });
 }
 

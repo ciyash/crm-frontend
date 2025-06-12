@@ -7,6 +7,7 @@
         <div class="col-md-4 col-sm-12">
           <label class="form-label">From Date</label>
           <input type="date" class="form-control form-control-sm" formControlName="fromDate">
+          <!-- <span *ngIf="form.value.fromDate">From Date: {{ formatDateDisplay(form.value.fromDate) }}</span> -->
         </div>
         <div class="col-md-4 col-sm-12">
           <label class="form-label">From City</label>
@@ -19,8 +20,8 @@
           <label class="form-label">To City</label>
           <select #selectElem class="form-select form-select-sm" formControlName="toCity">
             <option value="" selected>Select City</option>
-            <option *ngFor="let city of cities" [value]="city.cityName">
-              {{ city.cityName }}
+            <option *ngFor="let city1 of cities" [value]="city1.cityName">
+              {{ city1.cityName }}
             </option>
           </select>
         </div>
