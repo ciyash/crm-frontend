@@ -624,7 +624,7 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
 
         // localStorage.setItem('regularCustomerData', JSON.stringify(finalData2));
         // window.open('/regularcustmer', '_blank');
-
+//
         localStorage.setItem('regularcustmerData', JSON.stringify(finalData2));
 
         const baseUrl = window.location.origin;
