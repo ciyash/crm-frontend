@@ -159,12 +159,20 @@ export class PendingDeliveryStockReportComponent
   
         this.gstdata = res;
         console.log('gstdata:', this.gstdata);
-  
-        // Save data to localStorage
         localStorage.setItem('gstData', JSON.stringify(this.gstdata));
-  
-        // Open new tab
-        window.open('/devliveryreport', '_blank');
+          window.open('/devliveryreport', '_blank');
+
+          const finalData = {
+            ...this.gstdata,
+            fromDate: payload.startDate,
+            toDate: payload.endDate
+          };
+          // localStorage.setItem('parcelReportData', JSON.stringify(finalData));
+
+          // Open the /cloud/reports route correctly in new tab
+          const baseUrl = window.location.origin;
+          const reportUrl = `${baseUrl}/cloud/reports`;
+          window.open(reportUrl, '_blank');
       },
       error: (err: any) => {
         console.error('Error fetching report:', err);

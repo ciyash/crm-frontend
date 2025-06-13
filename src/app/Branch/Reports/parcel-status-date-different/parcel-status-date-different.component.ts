@@ -34,13 +34,11 @@ export class ParcelStatusDateDifferentComponent implements OnInit, AfterViewInit
     private toast:ToastrService
   ) {
     this.form = this.fb.group({
-      // startDate: ['', Validators.required],
-      // endDate: ['', Validators.required],
       startDate: [this.getTodayDateString(), Validators.required],
       endDate: [this.getTodayDateString(), Validators.required],
-      fromCity: ['', Validators.required],
-      toCity: ['', Validators.required],
-      bookingStatus: ['', Validators.required],
+      fromCity: [''],
+      toCity: [''],
+      bookingStatus: [''],
     });
   }
 

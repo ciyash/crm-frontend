@@ -26,23 +26,22 @@ export class CollectionDataComponent {
     BranchService, private toast: ToastrService,private route: ActivatedRoute) {
     }
 
-  ngOnInit() {
-    this.getProfileData();
-
-      this.route.queryParamMap.subscribe(params => {
-        const encodedData = params.get('data');
-    
-        if (encodedData) {
-          try {
-            const decodedData = JSON.parse(decodeURIComponent(encodedData));
-            console.log('Decoded Data:', decodedData);
-            this.collectionReport=decodedData
-          } catch (error) {
-            console.error('Error decoding data:', error);
-          }
+    ngOnInit() {
+      this.getProfileData();
+          const rawData = localStorage.getItem('collectiondata');
+      if (rawData) {
+        try {
+          const parsedData = JSON.parse(rawData);
+          console.log('Loaded Collection Data from localStorage:', parsedData);
+          this.collectionReport = parsedData;
+        } catch (error) {
+          console.error('Error parsing collection data from localStorage:', error);
         }
-      });
+      } else {
+        this.toast.error('No collection data found.');
+      }
     }
+    
   
     
   

@@ -104,6 +104,8 @@ export class CollectionReportComponent implements OnInit, AfterViewInit {
 
     this.api.ParcelBranchWiseReport(payload).subscribe({
       next: (res: any) => {
+        console.log("collectiodata:",res);
+        
         const successMsg = res?.message || 'Report fetched successfully';
         this.toast.success(successMsg);
         const finalData = {
@@ -111,14 +113,22 @@ export class CollectionReportComponent implements OnInit, AfterViewInit {
           fromDate: payload.fromDate,
           toDate: payload.toDate
         };
-        const dataStr = encodeURIComponent(JSON.stringify(finalData));
-                const url = this.router.serializeUrl(
-          this.router.createUrlTree(['/collectiondata'], {
-            queryParams: { data: dataStr }
-          })
-        );
-        window.open(url, '_blank');
-        console.log("dataStr:",dataStr);
+
+
+        localStorage.setItem('collectiondata', JSON.stringify(finalData));
+        const baseUrl = window.location.origin;
+        const collectiondataUrl = `${baseUrl}/cloud/collectiondata`;
+        window.open(collectiondataUrl, '_blank');
+
+        // const dataStr = encodeURIComponent(JSON.stringify(finalData));
+        //         const url = this.router.serializeUrl(
+        //   this.router.createUrlTree(['/collectiondata'], {
+        //     queryParams: { data: dataStr }
+        //   })
+        // );
+        // window.open(url, '_blank');
+        // console.log("dataStr:",dataStr);
+
         
       },
 
