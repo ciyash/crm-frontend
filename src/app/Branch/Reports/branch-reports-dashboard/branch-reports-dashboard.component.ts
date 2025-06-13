@@ -348,7 +348,7 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
 
         // Open the reports route in a new tab
         // window.open(`/reports`, '_blank');
-
+// 
         localStorage.setItem('parcelReportData', JSON.stringify(finalData));
 
       // Open the /cloud/reports route correctly in new tab
