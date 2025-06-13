@@ -23,28 +23,51 @@ export class DeliveryStockReportComponent implements OnInit {
 
 
 
+  // constructor(
+  //   private api: BranchService,
+  //   private router: Router,
+  //   private toast: ToastrService // Inject ToastrService
+  // ) {
+  //   const gstDataString = localStorage.getItem('gstData');
+  
+  //   if (gstDataString) {
+  //     try {
+  //       const parsedData = JSON.parse(gstDataString);
+  //       this.reportData = parsedData?.data || {};
+  //       console.log("Received data:", this.reportData);
+  
+  //       this.toast.success(parsedData?.message || 'Report loaded successfully.');
+  //     } catch (e) {
+  //       console.error("Parsing error:", e);
+  //       this.toast.error('Failed to parse stored report data.');
+  //     }
+  //   } else {
+  //     this.toast.warning('No report data found in local storage.');
+  //   }
+  // }
   constructor(
     private api: BranchService,
     private router: Router,
-    private toast: ToastrService // Inject ToastrService
+    private toast: ToastrService
   ) {
-    const gstDataString = localStorage.getItem('gstData');
+    const pendingDataString = localStorage.getItem('pendingData');
   
-    if (gstDataString) {
+    if (pendingDataString) {
       try {
-        const parsedData = JSON.parse(gstDataString);
+        const parsedData = JSON.parse(pendingDataString);
         this.reportData = parsedData?.data || {};
-        console.log("Received data:", this.reportData);
+        console.log("Received pending delivery data:", this.reportData);
   
-        this.toast.success(parsedData?.message || 'Report loaded successfully.');
+        this.toast.success(parsedData?.message || 'Pending delivery report loaded successfully.');
       } catch (e) {
         console.error("Parsing error:", e);
-        this.toast.error('Failed to parse stored report data.');
+        this.toast.error('Failed to parse stored pending delivery report data.');
       }
     } else {
-      this.toast.warning('No report data found in local storage.');
+      this.toast.warning('No pending delivery report data found in local storage.');
     }
   }
+  
   
   
 

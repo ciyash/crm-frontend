@@ -188,27 +188,14 @@ currentPage = 1;
 pageSize = 10;
 totalPages = 0;
 
-// DispatchReport() {
-//   this.payload = this.form.value;
 
-//   this.api.DispatchedReport(this.payload).subscribe({
-//     next: (res: any) => {
-//       this.reportData = res;
-//       this.totalPages = Math.ceil(this.reportData.length / this.pageSize);
-//       this.setPaginatedData();
-//     },
-//     error: (err) => {
-//       console.error("API Error:", err);
-//       this.toast.error("Report loading failed. Please try again.");
-//     }
-//   });
-// }
+
 DispatchReport() {
   this.payload = this.form.value;
-
   this.api.DispatchedReport(this.payload).subscribe({
     next: (res: any) => {
-      // Check if API response contains a message
+      console.log("res:",res);
+      
       if (res.message) {
         this.toast.success(res.message); // ✅ show success toast
       } else {
@@ -221,8 +208,6 @@ DispatchReport() {
     },
     error: (err) => {
       console.error("API Error:", err);
-
-      // Extract message from error
       const errorMessage = err?.error?.message || "Report loading failed. Please try again.";
       this.toast.error(errorMessage); // ✅ show error toast
     }

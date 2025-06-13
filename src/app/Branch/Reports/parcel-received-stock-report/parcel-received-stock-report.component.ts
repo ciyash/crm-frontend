@@ -184,6 +184,8 @@ console.log("paload:",this.payload);
 
     this.api.ParcelReceivedStockReport(this.payload).subscribe({
       next: (res: any) => {
+        console.log("res:",res);
+        
         this.reportData = res.data;
         this.totalPages = Math.ceil(this.reportData.length / this.itemsPerPage);
         this.currentPage = 1;
@@ -209,6 +211,8 @@ console.log("paload:",this.payload);
       }
     });
   }
+
+
 
   getProfileData() {
     this.api.GetProfileData().subscribe((res: any) => {

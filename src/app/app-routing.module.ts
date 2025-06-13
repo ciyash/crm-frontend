@@ -168,7 +168,7 @@ const routes: Routes = [
   {path:'pendingluggage',component:PendingDeliveryLuggageReportComponent, canActivate: [authGuard]},
   {path:'receivedstock-report',component:ParcelReceivedStockReportComponent, canActivate: [authGuard]},
   {path:'incoming-report',component:ParcelIncomingLuggagesReportComponent, canActivate: [authGuard]},
-  {path:'parcel-incoming-report',component:ParcelIncomingReportComponent, canActivate: [authGuard]},
+  {path:'parcelincomingreport',component:ParcelIncomingReportComponent, canActivate: [authGuard]},
   {path:'dispacthed-memo-report',component:DispatchedMemoReportComponent, canActivate: [authGuard]},
   {path:'pending-dispatchedStock-report',component:PendingDispatchedStockReportComponent, canActivate: [authGuard]},
   {path:'parcelloading-offlinereport',component:ParcelLoadingOfflineReportComponent, canActivate: [authGuard]},

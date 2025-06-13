@@ -75,7 +75,7 @@
                 Pending Dispatch Stock Report
             </h5>
             <div class="container-fluid" *ngIf="pfdata">
-                <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
+                <h4 class="text-center fw-bold">{{ pfdata.companyId?.name }}</h4>
                 <p class="text-center fw-bold">
                     Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
                     Phone No: {{ pfdata.phone }}
@@ -172,7 +172,7 @@
                             <th>Amount</th>
                             <th>Source</th>
                             <th>Receipt No</th>
-                            <th>Remarks</th>
+                            <!-- <th>Remarks</th> -->
                             <th>Bookings Date</th>
                             <th>Days</th>
                         </tr>
@@ -189,8 +189,8 @@
                             <td>{{ items.wbType }}</td>
                             <td>{{ items.amount }}</td>
                             <td>{{ items.source }}</td>
-                            <td></td>
-                            <td></td>
+                            <td>{{items.receiptNo}}</td>
+                            <!-- <td>{{items.receiptNo}}</td> -->
                             <td>{{ items.bookingDate | date: 'dd/MM/yyyy' }}
                             </td>
                             <td>{{ items.days }}</td>

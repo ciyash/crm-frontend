@@ -106,23 +106,15 @@ totalPagesArray() {
       dropBranch: this.form.value.dropBranch,
       bookingType: this.form.value.bookingType
     };
-  
     console.log("Payload:", this.payload);
-  
     this.api.PendingDeliveryLuggageReport(this.payload).subscribe(
       (res: any) => {
-        if (res?.data?.length) {
+        console.log("res:",res);
           this.reportData = res.data;
-          console.log("report:",this.reportData);
-          
-          this.totalPages = Math.ceil(this.reportData.length / this.itemsPerPage);
-          this.currentPage = 1;
+        
           this.toast.success(res.message || 'Report fetched successfully.');
           console.log('Luggage Report:', this.reportData);
-        } else {
-          this.reportData = [];
-          this.toast.warning(res.message || 'No records found.');
-        }
+
       },
       (error) => {
         const errMsg = error?.error?.message || 'Something went wrong while fetching the report.';
@@ -136,9 +128,7 @@ totalPagesArray() {
       this.pfdata = res;
       console.log('profiledata:', this.pfdata);
     });
-  
 }
-
 
 
 printReport() {
@@ -205,13 +195,6 @@ printReport() {
     popupWin!.document.close();
   }
 }
-
-
-
-
-
-
- 
 ngAfterViewInit(): void {
   setTimeout(() => {
     // From City
@@ -252,7 +235,6 @@ ngAfterViewInit(): void {
   }, 0);
 }
 
-  
   onFromcitySelect(event: any) {
     const cityName = event.target.value;
     if (cityName) {

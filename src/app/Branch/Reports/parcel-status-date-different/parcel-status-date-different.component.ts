@@ -38,7 +38,7 @@ export class ParcelStatusDateDifferentComponent implements OnInit, AfterViewInit
       endDate: [this.getTodayDateString(), Validators.required],
       fromCity: [''],
       toCity: [''],
-      bookingStatus: [''],
+      bookingStatus: ['all'],
     });
   }
 
@@ -127,10 +127,14 @@ export class ParcelStatusDateDifferentComponent implements OnInit, AfterViewInit
         };
   
         // Store data in localStorage or sessionStorage
+        // localStorage.setItem('dateReportData', JSON.stringify(finalData));
+        // window.open('/datereport', '_blank');
+
         localStorage.setItem('dateReportData', JSON.stringify(finalData));
-  
-        // Open new tab to the target route
-        window.open('/datereport', '_blank');
+        const baseUrl = window.location.origin;
+        const datereportUrl = `${baseUrl}/cloud/datereport`;
+        window.open(datereportUrl, '_blank');
+
       },
       error: (err: any) => {
         console.error('Error fetching report:', err);

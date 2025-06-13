@@ -104,7 +104,7 @@ background-color: #fff;">
   <div  *ngIf="reportData" id="print-section">
     <div class="text-center mb-4 mt-5">
       <div class="container-fluid" *ngIf="pfdata">
-        <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
+        <h4 class="text-center fw-bold">{{ pfdata.companyId?.name }}</h4>
         <p class="text-center fw-bold">
           Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
           Phone No: {{ pfdata.phone }}
