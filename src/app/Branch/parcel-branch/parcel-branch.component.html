@@ -16,11 +16,11 @@
                 
                 <div class="col-md-3">
                     <label class="form-label">From Branch</label>
-                    <input type="text" class="form-control" [(ngModel)]="pdata.name" formControlName="fromBranch" readonly>
-                    <!-- <select class="form-select" formControlName="fromBranch">
+                    <!-- <input type="text" class="form-control" [(ngModel)]="pdata.name" formControlName="fromBranch" readonly> -->
+                    <select class="form-select" formControlName="fromBranch">
                         <option value="" selected>Select Branch</option>
                         <option *ngFor="let branch of citydata" [value]="branch.branchUniqueId">{{ branch.name }}</option>
-                    </select> -->
+                    </select>
                 </div>           
                 <div class="col-md-3 d-flex align-items-end">
                     <button type="button" class="btn btn-primary w-100" (click)="loaddata()">Load</button>
@@ -84,7 +84,7 @@
                     </div>
                     
                     <div class="col-md-3">
-                        <label class="form-label">To Branch</label>
+                        <label class="form-label">Unload Branch</label>
                         <select #toBranch class="form-select" formControlName="toBranch">
                           <option value="" selected>Select Branch</option>
                           <option *ngFor="let branch of citydata" [value]="branch.branchUniqueId">

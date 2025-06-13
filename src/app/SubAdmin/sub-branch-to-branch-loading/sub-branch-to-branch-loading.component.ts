@@ -35,15 +35,15 @@ export class SubBranchToBranchLoadingComponent {
     
 
     this.form1 = this.fb.group({
-      loadingType: ['branchLoad'],
       lrNumber: this.fb.array([], Validators.required),
       grnNo: this.fb.array([], Validators.required),
-      fromBookingDate: [this.getTodayDateString(), Validators.required],
-      toBookingDate: [this.getTodayDateString(), Validators.required],
       fromBranch: [''],
       toBranch: ['', Validators.required],
       vehicalNumber: ['', Validators.required],
       remarks: ['', Validators.required],
+      fromCity:[''],
+      tOCity:[''],
+
     });
 
   }
@@ -107,9 +107,7 @@ export class SubBranchToBranchLoadingComponent {
       toBookingDate: this.form.value.toBookingDate,
       fromBranch: this.form.value.fromBranch,
     };
-  
     console.log('Final Payload:', payload);
-  
     this.api.postBranchLoading(payload).subscribe({
       next: (response: any) => {
         console.log('loaded successfully:', response);
@@ -126,10 +124,8 @@ export class SubBranchToBranchLoadingComponent {
         if (this.data.length > 0) {
           this.form1.patchValue({
             fromBranch: this.form.value.fromBranch,
-            fromBookingDate: this.form.value.fromBookingDate,
-            toBookingDate: this.form.value.toBookingDate,
             fromCity: this.form.value.fromCity,
-            loadingDate: '', // You can keep it empty for user input
+            toCity: this.form.value.toCity,
             vehicalNumber: '',
             driverName: '',
             driverNo: '',
@@ -160,7 +156,6 @@ export class SubBranchToBranchLoadingComponent {
 
     onGrnNoChange(event: any, grnNo: string) {
       const formArray = this.form1.get('grnNo') as FormArray;
-    
       if (event.target.checked) {
         // Add if not already selected
         if (!formArray.value.includes(grnNo)) {
@@ -178,11 +173,9 @@ export class SubBranchToBranchLoadingComponent {
       this.allSelected = this.data.length === formArray.value.length;
       console.log('Selected GRN Numbers:', formArray.value);
     }
-    
     // ✅ Handle "Select All" checkbox
     onSelectAllChange(event: any) {
       const formArray = this.form1.get('grnNo') as FormArray;
-    
       if (event.target.checked) {
         // ✅ Select all if checked
         this.data.forEach((row:any) => {
@@ -199,22 +192,20 @@ export class SubBranchToBranchLoadingComponent {
       this.allSelected = event.target.checked;
       console.log('All GRN Numbers Selected:', formArray.value);
     }
-
     ParcelLoad() {
       const payload = {
         fromBranch: this.form1.value.fromBranch,
         toBranch: this.form1.value.toBranch,
         vehicalNumber: this.form1.value.vehicalNumber,
-        loadingType: this.form1.value.loadingType,
         remarks: this.form1.value.remarks,
-        fromBookingDate: this.form1.value.fromBookingDate,
-        toBookingDate: this.form1.value.toBookingDate,
         grnNo: this.form1.value.grnNo,
         lrNumber: this.form1.value.lrNumber,
+        fromCity:this.form1.value.fromCity,
+        toCity:this.form1.value.toCity,
+
       };
     
       console.log('Final Payload:', payload);
-      
       this.api.BranchtoBranchLoad(payload).subscribe({
         next: (response: any) => {
           console.log('Parcel loaded successfully:', response);

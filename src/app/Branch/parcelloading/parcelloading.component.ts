@@ -299,41 +299,7 @@ onLoad() {
   
 
 
-  // getQRdata(id: any) {
-  //   this.api.GetQrGRNnumber(id).subscribe((res: any) => {
-  //     console.log(res, 'qrdata');
-  //     let newData: any[] = [];
-  //     // Handle both object and array data responses
-  //     if (Array.isArray(res)) {
-  //       newData = res;
-  //     } else if (res && typeof res === 'object') {
-  //       // If it has grnNo or any parcel identifiers, push it even if success is false
-  //       if (res.grnNo || res.lrNumber) {
-  //         newData = [res];
-  //       }
-  //     }
-  
-  //     // Merge data to the table
-  //     if (newData.length > 0) {
-  //       this.data = [...this.data || [], ...newData];
-  //       this.form1.patchValue({
-  //         senderName: this.data[0]?.senderName || ''            
-  //       });
-  //       this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
-  //       this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
-  //     }
-  
-  //     // Show toast depending on success/failure
-  //     if (res.success) {
-       
-  //       this.toast.success(res.message || 'Parcel loaded successfully', 'Success');
-  //     } else {
-  //       this.toast.success(res.message || 'Parcel loaded successfully', 'Success');
-  //     }
-  //   }, err => {
-  //     this.toast.error('Parcel already loaded', 'Error');
-  //   });
-  // }
+ 
   getQRdata(id: any) {
     this.api.GetQrGRNnumber(id).subscribe((res: any) => {
       console.log(res, 'qrdata');
@@ -376,8 +342,6 @@ onLoad() {
       this.toast.error('Parcel already loaded', 'Error');
     });
   }
-  
-  
   // jkasdbksabd
   onFromcitySelect(event: any) {
     const cityName = event.target.value;
@@ -401,7 +365,6 @@ onLoad() {
       this.toast.warning('Please fill required fields correctly.', 'Validation');
       return;
     }
-  
     const payload = {
       loadingType: this.form1.value.loadingType,
       fromBranch: this.form1.value.fromBranch,
@@ -504,10 +467,6 @@ onLoad() {
         console.log( 'profiledata:',this.pfdata);
       });
     }
-
-
-    
-    
       ExportExel(): void {
         const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(this.printTable.nativeElement);
         const wb: XLSX.WorkBook = XLSX.utils.book_new();

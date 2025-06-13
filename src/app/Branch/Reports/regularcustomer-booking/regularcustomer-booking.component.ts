@@ -16,15 +16,13 @@ export class RegularcustomerBookingComponent implements OnInit {
   pfdata: any;
 
   constructor(private router: Router, private api: BranchService) {
-    // ✅ Try to get data from router state
-    const navigation = this.router.getCurrentNavigation();
-    if (navigation?.extras?.state?.['data7']) {
-      this.data7 = navigation.extras.state['data7'];
-      console.log('Customer data from router state:', this.data7);
-      // ✅ Store in localStorage for refresh support
-      // localStorage.setItem('regularCustomerData', JSON.stringify(this.data7));
+    // const navigation = this.router.getCurrentNavigation();
+    // if (navigation?.extras?.state?.['data7']) {
+    //   this.data7 = navigation.extras.state['data7'];
+    //   console.log('Customer data from router state:', this.data7);
+     
 
-    }
+    // }
   }
 
   ngOnInit(): void {

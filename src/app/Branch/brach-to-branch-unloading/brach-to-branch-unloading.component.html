@@ -6,11 +6,13 @@
         <form [formGroup]="form">
             <div class="row mb-3">
                 <div class="col-md-3">
-                    <label class="form-label">From Booking Date</label>
+                    <label class="form-label">From Loading Date :
+                    </label>
                     <input type="date" class="form-control" formControlName="fromLoadingDate">
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label">To Booking Date</label>
+                    <label class="form-label">To Loading Date :
+                    </label>
                     <input type="date" class="form-control" formControlName="toLoadingDate">
                 </div>
                 <div class="col-md-3">
@@ -21,7 +23,7 @@
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label">To Branch</label>
+                    <label class="form-label">Unload Branch</label>
                     <select #toBranch class="form-select" formControlName="toBranch">
                         <option value="" selected>Select Branch</option>
                         <option *ngFor="let branch of citydata" [value]="branch.branchUniqueId">{{ branch.name }}</option>

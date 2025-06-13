@@ -35,16 +35,17 @@ export class BranchToBranchLoadingComponent {
       });
   
       this.form1 = this.fb.group({
-        loadingType: ['branchLoad'],
         lrNumber: this.fb.array([], Validators.required),
         grnNo: this.fb.array([], Validators.required),
-        fromBookingDate: [this.getTodayDateString(), Validators.required],
-        toBookingDate: [this.getTodayDateString(), Validators.required],
         fromBranch: [''],
         toBranch: ['', Validators.required],
         vehicalNumber: ['', Validators.required],
         remarks: ['', Validators.required],
+        fromCity: [''],   // <-- ✅ Add these
+        // toCity: this.fb.array([], Validators.required),
+        toCity: this.fb.array([], Validators.required),
       });
+      
   
     }
   
@@ -99,27 +100,35 @@ export class BranchToBranchLoadingComponent {
   
     
   
-    // loaddata(){
-    //     const payload = {
-    //       fromBookingDate: this.form.value.fromBookingDate,
-    //       toBookingDate: this.form.value.toBookingDate,
-    //       fromBranch: this.form.value.fromBranch,
-    //     };
-    //     console.log('Final Payload:', payload);
-    //     this.api.postBranchLoading(payload).subscribe({
-    //       next: (response: any) => {
-    //         console.log('loaded successfully:', response);
-    //         this.toast.success('ParcelBranch to Branch loaded Successfully', 'Success');
-    //         this.data=response;
-    //         this.LoadSuccess = true;
+
+    
+    // loaddata() {
+    //   const payload = {
+    //     fromBookingDate: this.form.value.fromBookingDate,
+    //     toBookingDate: this.form.value.toBookingDate,
+    //     fromBranch: this.form.value.fromBranch,
+    //   };
+    
+    //   console.log('Final Payload:', payload);
+    
+    //   this.api.postBranchLoading(payload).subscribe({
+    //     next: (response: any) => {
+    //       console.log('loaded successfully:', response);
+    
+    //       // Show success message from backend (assuming response contains a message property)
+    //       const successMessage = response?.message || 'Parcel Branch loading successfully';
+    //       this.toast.success(successMessage, 'Success');
+    
+    //       // Store the data and set the success flag
+    //       this.data = response;
+    //       this.LoadSuccess = true;
+    
     //       // ✅ Assign loaded data to form1 fields
     //       if (this.data.length > 0) {
     //         this.form1.patchValue({
     //           fromBranch: this.form.value.fromBranch,
-    //           fromBookingDate: this.form.value.fromBookingDate,
-    //           toBookingDate: this.form.value.toBookingDate,
     //           fromCity: this.form.value.fromCity,
-    //           loadingDate: '', // You can keep it empty for user input
+    //           // toCity: this.form1.value.toCity || [],
     //           vehicalNumber: '',
     //           driverName: '',
     //           driverNo: '',
@@ -128,14 +137,17 @@ export class BranchToBranchLoadingComponent {
     //         // ✅ Set `toCity`, `grnNo`, and `lrNumber` as FormArray
     //         this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
     //         this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
+    //         this.setFormArray('toCity', this.data.map((d: any) => d.toCity));
+
     //       }
-    //       },
-    //       error: (error: any) => {
-    //         console.error('loading failed:', error);
-    //         this.toast.error('NO Parcel Loading', 'failed');
-  
-    //       },
-    //     });
+    //     },
+    //     error: (error: any) => {
+    //       console.error('loading failed:', error);
+    //       // Show error toast (if backend provides error details)
+    //       const errorMessage = error?.error?.message || 'Failed to load parcel data';
+    //       this.toast.error(errorMessage, 'Error');
+    //     },
+    //   });
     // }
     
     loaddata() {
@@ -150,52 +162,42 @@ export class BranchToBranchLoadingComponent {
       this.api.postBranchLoading(payload).subscribe({
         next: (response: any) => {
           console.log('loaded successfully:', response);
-    
-          // Show success message from backend (assuming response contains a message property)
           const successMessage = response?.message || 'Parcel Branch loading successfully';
           this.toast.success(successMessage, 'Success');
     
-          // Store the data and set the success flag
           this.data = response;
           this.LoadSuccess = true;
     
-          // ✅ Assign loaded data to form1 fields
           if (this.data.length > 0) {
             this.form1.patchValue({
               fromBranch: this.form.value.fromBranch,
-              fromBookingDate: this.form.value.fromBookingDate,
-              toBookingDate: this.form.value.toBookingDate,
               fromCity: this.form.value.fromCity,
-              loadingDate: '', // You can keep it empty for user input
-              vehicalNumber: '',
-              driverName: '',
-              driverNo: '',
             });
     
-            // ✅ Set `toCity`, `grnNo`, and `lrNumber` as FormArray
+     
+
             this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
             this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
+            this.setFormArray('toCity', this.data.map((d: any) => d.toCity)); // Ensure toCity is set
           }
         },
         error: (error: any) => {
           console.error('loading failed:', error);
-          // Show error toast (if backend provides error details)
           const errorMessage = error?.error?.message || 'Failed to load parcel data';
           this.toast.error(errorMessage, 'Error');
         },
       });
     }
-    
   
   
-     setFormArray(controlName: string, values: any[]) {
-        const formArray = this.form1.get(controlName) as FormArray;
-        formArray.clear(); // ✅ Clear previous values
+    //  setFormArray(controlName: string, values: any[]) {
+    //     const formArray = this.form1.get(controlName) as FormArray;
+    //     formArray.clear(); // ✅ Clear previous values
       
-        values.forEach(value => {
-          formArray.push(this.fb.control(value));
-        });
-      }
+    //     values.forEach(value => {
+    //       formArray.push(this.fb.control(value));
+    //     });
+    //   }
   
       onGrnNoChange(event: any, grnNo: string) {
         const formArray = this.form1.get('grnNo') as FormArray;
@@ -218,46 +220,81 @@ export class BranchToBranchLoadingComponent {
         console.log('Selected GRN Numbers:', formArray.value);
       }
       
-      // ✅ Handle "Select All" checkbox
       onSelectAllChange(event: any) {
-        const formArray = this.form1.get('grnNo') as FormArray;
+        const grnArray = this.form1.get('grnNo') as FormArray;
+        const lrArray = this.form1.get('lrNumber') as FormArray;
       
         if (event.target.checked) {
-          // ✅ Select all if checked
-          this.data.forEach((row:any) => {
-            if (!formArray.value.includes(row.grnNo)) {
-              formArray.push(this.fb.control(row.grnNo));
+          this.data.forEach((row: any) => {
+            if (!grnArray.value.includes(row.grnNo)) {
+              grnArray.push(this.fb.control(row.grnNo));
+            }
+            if (!lrArray.value.includes(row.lrNumber)) {
+              lrArray.push(this.fb.control(row.lrNumber));
             }
           });
         } else {
-          // ✅ Deselect all if unchecked
-          formArray.clear();
+          grnArray.clear();
+          lrArray.clear();
         }
       
-        // ✅ Update "Select All" status
         this.allSelected = event.target.checked;
-        console.log('All GRN Numbers Selected:', formArray.value);
+        console.log('All GRNs:', grnArray.value);
+        console.log('All LRs:', lrArray.value);
       }
+      
   
+      // ParcelLoad() {
+      //   const payload = {
+      //     fromBranch: this.form1.value.fromBranch,
+      //     toBranch: this.form1.value.toBranch,
+      //     vehicalNumber: this.form1.value.vehicalNumber,
+      //     remarks: this.form1.value.remarks,
+      //     grnNo: this.form1.value.grnNo,
+      //     lrNumber: this.form1.value.lrNumber,
+      //   };
+      
+      //   console.log('Final Payload:', payload);
+        
+      //   this.api.BranchtoBranchLoad(payload).subscribe({
+      //     next: (response: any) => {
+      //       console.log('Parcel loaded successfully:', response);
+      //       // alert('Parcel Loaded Successfully!');
+      //       setTimeout(() => {
+      //         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      //           this.router.navigate(['/parcel-branch']);
+      //         });
+      //       }, 1000);
+      //     },
+      //     error: (error: any) => {
+      //       console.error('Parcel loading failed:', error);
+      //       alert('Parcel Loading Failed. Please try again.');
+      //     },
+      //   });
+      // }
       ParcelLoad() {
+        if (this.form1.invalid) {
+          this.toast.error('Please fill all required fields, including To City.');
+          this.form1.markAllAsTouched();
+          return;
+        }
+      
         const payload = {
           fromBranch: this.form1.value.fromBranch,
           toBranch: this.form1.value.toBranch,
           vehicalNumber: this.form1.value.vehicalNumber,
-          loadingType: this.form1.value.loadingType,
           remarks: this.form1.value.remarks,
-          fromBookingDate: this.form1.value.fromBookingDate,
-          toBookingDate: this.form1.value.toBookingDate,
-          grnNo: this.form1.value.grnNo,
-          lrNumber: this.form1.value.lrNumber,
+          fromCity: this.form1.value.fromCity || '',
+          toCity: this.form1.value.toCity || [],
+          grnNo: this.form1.value.grnNo || [],
+          lrNumber: this.form1.value.lrNumber || [],
         };
       
-        console.log('Final Payload:', payload);
-        
+        console.log('Final Payload:', JSON.stringify(payload, null, 2));
+      
         this.api.BranchtoBranchLoad(payload).subscribe({
           next: (response: any) => {
-            console.log('Parcel loaded successfully:', response);
-            // alert('Parcel Loaded Successfully!');
+            this.toast.success('Parcel loaded successfully!', 'Success');
             setTimeout(() => {
               this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
                 this.router.navigate(['/parcel-branch']);
@@ -265,12 +302,23 @@ export class BranchToBranchLoadingComponent {
             }, 1000);
           },
           error: (error: any) => {
-            console.error('Parcel loading failed:', error);
-            alert('Parcel Loading Failed. Please try again.');
+            const errorMsg = error?.error?.message || 'Parcel Loading Failed. Please try again.';
+            this.toast.error(errorMsg, 'Error');
           },
         });
       }
+      
+      
+      
+      
+      
   
-  
+      setFormArray(controlName: string, values: any[]) {
+        const formArray = this.form1.get(controlName) as FormArray;
+        formArray.clear(); // Clear previous values
+        values.forEach(value => {
+          formArray.push(this.fb.control(value));
+        });
+      }
   }
   

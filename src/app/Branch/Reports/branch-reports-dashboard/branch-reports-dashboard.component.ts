@@ -597,7 +597,6 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
       this.form5.markAllAsTouched();
       return;
     }
-
     const payload4 = {
       fromDate: this.form5.value.fromDate,
       name: this.form5.value.name,
@@ -645,13 +644,19 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
     });
   }
 
+
+
   searchUser(): void {
     const searchTerm = this.form5.get('name')?.value?.trim();
 
     if (searchTerm && searchTerm.length >= 2) {
       this.api.searchUser(searchTerm).subscribe(
+        
         (res: any) => {
+          console.log("asdhbaydgauydgwydgwqydg:",res);
+
           this.searchResults = res;
+
         },
         (err: any) => {
           console.error('Search Error:', err);

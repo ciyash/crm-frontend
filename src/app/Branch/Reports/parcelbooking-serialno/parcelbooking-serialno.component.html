@@ -9,7 +9,7 @@
 <div  id="print-section" class="container  p-3 border rounded bg-light">
   <div class="container-fluid" *ngIf="pfdata">
     <h4 class="text-center fw-bold">
-      {{ pfdata.companyName  }}
+      {{ pfdata.companyId?.name }}
     </h4>
     <p class="text-center fw-bold">
       Address: {{ pfdata.location || 'Location not available' }} -

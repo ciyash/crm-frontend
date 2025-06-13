@@ -6,7 +6,7 @@
 <div   id="print-section" class="container my-4 p-3 border rounded bg-light"
   style="background-color: #e3eaf8">
   <div class="container-fluid" *ngIf="pfdata">
-    <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
+    <h4 class="text-center fw-bold">{{ pfdata.companyId?.name }}</h4>
     <p class="text-center fw-bold">
       Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
       Phone No: {{ pfdata.phone }}
@@ -79,9 +79,5 @@
       </tfoot>
     </table>
   </div>
+
 </div>
-<ng-template #noData>
-  <div class="alert alert-warning text-center mt-4">
-    {{ message }}
-  </div>
-</ng-template>

@@ -27,8 +27,8 @@ export class BrachToBranchUnloadingComponent {
       this.form = this.fb.group({
         fromLoadingDate: [this.getTodayDateString(), Validators.required],
         toLoadingDate: [this.getTodayDateString(), Validators.required],
-        fromBranch: ['', Validators.required],
-        toBranch: ['', Validators.required]
+        fromBranch: ['' ],
+        toBranch: ['']
       });
   
       this.form1 = this.fb.group({
@@ -42,6 +42,7 @@ export class BrachToBranchUnloadingComponent {
       });
   
     }
+    // add
   
     ngOnInit() {
       this.api.GetBranch().subscribe({
@@ -112,7 +113,7 @@ export class BrachToBranchUnloadingComponent {
           console.log('loaded successfully:', response);
           this.toast.success('ParcelBranch to Branch Unloaded Successfully', 'Success');
 
-          this.data = response;
+          this.data = response.data;
           this.LoadSuccess = true;
     
           if (this.data.length > 0) {

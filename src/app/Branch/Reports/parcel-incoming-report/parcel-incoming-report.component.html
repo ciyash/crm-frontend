@@ -42,7 +42,7 @@
     </div>
 
 
-    <div class="table-responsive">
+    <!-- <div class="table-responsive">
       <table class="table table-bordered table-sm text-center align-middle">
         
         <thead class="table-secondary">
@@ -93,7 +93,52 @@
         </tfoot>
     
       </table>
-    </div>
+    </div> -->
+
+    <div class="table-responsive mt-3" id="print-section">
+  <table class="table table-bordered table-sm table-striped">
+    <thead class="table-secondary text-center align-middle">
+      <tr>
+        <th>S.NO</th>
+        <th>From City</th>
+        <th>From Branch</th>
+        <th>To City</th>
+        <th>To Branch</th>
+        <th>Book Date</th>
+        <th>From Party</th>
+        <th>To Party</th>
+        <th>Total Qty</th>
+        <th>Total Charge</th>
+      </tr>
+    </thead>
+    <tbody class="text-center align-middle">
+      <tr *ngFor="let item of gdata; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ item.fromCity || '-' }}</td>
+        <td>{{ item.pickUpBranchname || '-' }}</td>
+        <td>{{ item.toCity || '-' }}</td>
+        <td>{{ item.dropBranchname || '-' }}</td>
+        <td>{{ item.bookingDate | date: 'dd-MM-yyyy' }}</td>
+        <td>{{ item.senderName }}</td>
+        <td>{{ item.receiverName }}</td>
+        <!-- <td>
+          {{
+            item.packages?.reduce((acc, p) => acc + (p.quantity || 0), 0)
+          }}
+        </td> -->
+        <td>{{ item.grandTotal | number: '1.2-2' }}</td>
+      </tr>
+    </tbody>
+    <tfoot class="table-light text-center fw-bold">
+      <tr>
+        <td colspan="8">Grand Total</td>
+        <td>{{ totalQuantity }}</td>
+        <td>{{ totalGrand | number: '1.2-2' }}</td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
     
     
       

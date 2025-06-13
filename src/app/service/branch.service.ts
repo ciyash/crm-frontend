@@ -535,16 +535,14 @@ postBranchLoading(value: {
 }
 
 BranchtoBranchLoad(value: {
-  loadingType: string;
-  lrNumber: [];
-  grnNo: [];
-  fromBookingDate:string;
-  toBookingDate:string;
   fromBranch:string;
   toBranch:string;
   vehicalNumber:string;
   remarks:string;
-
+  fromCity:string;
+  toCity: [];
+  lrNumber: [];
+  grnNo: [];
 }): Observable<any> {
   const token1 = this.token.getToken();
   const httpOptions = {
@@ -557,15 +555,16 @@ BranchtoBranchLoad(value: {
   return this.http.post(
     AUTH_API + 'parcel-loading/branch-to-branch-post',  
     {
-      "loadingType": value.loadingType,
-      "lrNumber": value.lrNumber,
-      "grnNo": value.grnNo,
-      "fromBookingDate": value.fromBookingDate,
-      "toBookingDate": value.toBookingDate,
       "fromBranch": value.fromBranch,
       "toBranch":value.toBranch,
       "vehicalNumber":value.vehicalNumber,
-      "remarks":value.remarks
+      "remarks":value.remarks,
+      "fromCity":value.fromCity,
+      "toCity":value.toCity,
+      "lrNumber": value.lrNumber,
+      "grnNo": value.grnNo,
+
+
     },
     httpOptions
   );
