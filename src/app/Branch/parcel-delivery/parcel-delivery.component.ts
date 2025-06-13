@@ -1,49 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-
-   
-   
-
-
-  
- 
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
-  
-
-  
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -59,24 +13,17 @@ import { ToastrService } from 'ngx-toastr';
 export class ParcelDeliveryComponent {
   searchTerm: string = '';
   searchResult: any[] = [];
-  data2: any;
+  data2: any[] = [];
   idselectmsg: string = '';
   regname: any[] = [];
   errorMessage: string = '';
   updata: any;
   form: FormGroup;
   form2: FormGroup;
-  emplooyee: any;
-  todayDate: string = '';
   employee: any;
   branchdata: any;
   citydata: any;
-  onPickupBranchSelect: any;
-  pdata: any;
-  tbcdata: any;
-  form1!: FormGroup;
   pfdata: any;
-  today: Date = new Date();
   showReceiptToPrint = false;
 
   constructor(
@@ -100,54 +47,40 @@ export class ParcelDeliveryComponent {
   }
 
   ngOnInit(): void {
-    // ✅ Handle query param grn
     this.activeroute.queryParams.subscribe(params => {
       const grn = params['grn'];
       if (grn) {
         this.searchTerm = grn;
-        this.form2.patchValue({ grnNo: grn }); // Optionally prefill form2
-        this.searchUser(); // Trigger search automatically
+        this.form2.patchValue({ grnNo: grn });
+        this.searchUser();
       }
     });
 
-    // Get cities
     this.api.GetCities().subscribe((res: any) => {
-      console.log('Cities:', res);
       this.citydata = res;
     });
 
-    // Get branches
     this.api.GetBranch().subscribe((res: any) => {
-      console.log('Branches:', res);
       this.branchdata = res;
     });
 
-    this.GetAllEmployee();
     this.getProfileData();
   }
 
   searchUser(): void {
     if (this.searchTerm && this.searchTerm.trim() !== '') {
-      console.log('Search Term:', this.searchTerm);
-
       this.api.GetGRNnumber(this.searchTerm.trim()).subscribe(
         (res: any) => {
-          console.log('API Response:', res);
-
-
-
-          if (res && Array.isArray(res.data)) {
-            this.data2 = res.data;
-            this.errorMessage = '';
-          } else if (res && typeof res === 'object') {
-            this.data2 = [res];
+          console.log("data:",res);
+          this.GetAllEmployee();
+          
+          if (res && res.booking) {
+            this.data2 = [res.booking]; // Flattened structure
             this.errorMessage = '';
           } else {
             this.data2 = [];
             this.errorMessage = 'No results found for the given search term.';
           }
-          console.log("data2:",this.data2);
-          
         },
         (err: any) => {
           this.errorMessage = err.error?.message || 'An error occurred while searching.';
@@ -160,19 +93,14 @@ export class ParcelDeliveryComponent {
     }
   }
 
-  getStatusLabel(status: number): string {
-    const statusLabels = ['booking', 'loading', 'unloading', 'missing', 'delivery', 'cancel'];
-    return statusLabels[status] || 'unknown';
-  }
-
   GetAllEmployee() {
-    this.admin.GetEmployeesData().subscribe({
+    this.admin.GetEmployees().subscribe({
       next: (res) => {
-        console.log('Employee data:', res);
         this.employee = res;
+        console.log("emolyee:",this.employee);
+        
       },
       error: (err) => {
-        console.error('Error fetching employee data:', err);
         this.errorMessage = 'Failed to fetch employee data.';
       },
     });
@@ -185,25 +113,13 @@ export class ParcelDeliveryComponent {
       receiverMobile: this.form2.value.receiverMobile,
     };
 
-    console.log('Final Payload:', payload);
-
     this.api.ReceivedParcelUpdate(payload).subscribe(
       (res: any) => {
-        console.log('Update Status:', res);
         this.updata = res;
-
-        if (res.message) {
-          this.toast.success(res.message, 'Success');
-        } else {
-          this.toast.success('Parcel status updated successfully', 'Success');
-        }
-
+        this.toast.success(res.message || 'Parcel status updated successfully', 'Success');
         this.searchUser(); // Refresh data
-                //  this.form2.reset();
-
       },
       (error) => {
-        console.error('Error updating status:', error);
         const errMsg = error.error?.message || 'Failed to update parcel status';
         this.toast.error(errMsg, 'Error');
       }
@@ -212,13 +128,10 @@ export class ParcelDeliveryComponent {
 
   onFromcitySelect(event: any) {
     const selectedCity = event.target.value;
-    console.log('Selected City:', selectedCity);
-
     if (selectedCity) {
       this.api.GetBranchbyCity(selectedCity).subscribe(
         (res: any) => {
-          console.log('Branches for selected city:', res);
-          this.pdata = res;
+          this.branchdata = res;
         },
         (error: any) => {
           console.error('Error fetching branches:', error);
@@ -230,9 +143,10 @@ export class ParcelDeliveryComponent {
   getProfileData() {
     this.api.GetProfileData().subscribe((res: any) => {
       this.pfdata = res;
-      console.log('Profile Data:', this.pfdata);
     });
   }
+
+
 
   printReceipt() {
     this.showReceiptToPrint = true;

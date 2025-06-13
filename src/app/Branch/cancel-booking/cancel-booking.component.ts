@@ -100,17 +100,23 @@ export class CancelBookingComponent {
           console.log('API Response:', res);
 
           // If `res` is an object, extract the data into an array
-          if (res && Array.isArray(res.data)) {
-            this.data2 = res.data;
-            console.log('data2:', this.data2);
-            this.errorMessage = '';
-          } else if (res && typeof res === 'object') {
-            this.data2 = [res]; // Wrap the object into an array
-            this.errorMessage = '';
+          // if (res && Array.isArray(res.data)) {
+          //   this.data2 = res.data;
+          //   console.log('data2:', this.data2);
+          //   this.errorMessage = '';
+          // } else if (res && typeof res === 'object') {
+          //   this.data2 = [res]; // Wrap the object into an array
+          //   this.errorMessage = '';
+          if (res && res.booking) {
+            this.data2 = [res.booking]; // Now each item is booking itself
           } else {
             this.data2 = [];
-            this.errorMessage = 'No results found for the given search term.';
           }
+          
+          // } else {
+          //   this.data2 = [];
+          //   this.errorMessage = 'No results found for the given search term.';
+          // }
         },
         (err: any) => {
           this.errorMessage =
@@ -136,7 +142,7 @@ export class CancelBookingComponent {
   }
 
   GetAllEmployee() {
-    this.admin.GetEmployeesData().subscribe({
+    this.admin.GetEmployees().subscribe({
       next: (res) => {
         console.log('Employee data:', res);
         this.employee = res;

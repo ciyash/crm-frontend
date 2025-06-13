@@ -470,6 +470,8 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
     this.api.ParcelBookingSummeryReport(payload5).subscribe({
       next: (response: any) => {
         this.summaryData = response;
+        console.log("summaryData:",this.summaryData);
+        
 
         const successMessage =
           response.message || 'Booking summary report loaded successfully!';
@@ -484,7 +486,7 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
         // localStorage.setItem('bookingSummaryData', JSON.stringify(finalData9));
         // window.open('/bookingsummary', '_blank');
 
-        localStorage.setItem('serialData', JSON.stringify(finalData9));
+        localStorage.setItem('bookingSummaryData', JSON.stringify(finalData9));
         const baseUrl = window.location.origin;
         const bookingsummaryUrl = `${baseUrl}/cloud/bookingsummary`;
         window.open(bookingsummaryUrl, '_blank');
@@ -556,6 +558,8 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
     this.api.ParcelBookingMobileNumber(payload3).subscribe({
       next: (response: any) => {
         this.mobiledata = response;
+        console.log("mobiledata:",this.mobiledata);
+        
 
         const successMessage =
           response?.message || 'Parcel Booking Report loaded successfully';
@@ -626,7 +630,6 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
         // window.open('/regularcustmer', '_blank');
 
         localStorage.setItem('regularcustmerData', JSON.stringify(finalData2));
-
         const baseUrl = window.location.origin;
         const regularcustmerUrl = `${baseUrl}/cloud/regularcustmer`;
         window.open(regularcustmerUrl, '_blank');

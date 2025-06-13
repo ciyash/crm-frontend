@@ -19,31 +19,47 @@ export class ParcelBookingSummaryComponent {
   fromDate: string = '';
   toDate: string = '';
   constructor(private router: Router, private api: BranchService, private location: Location ,private toast:ToastrService) {}
+  // ngOnInit(): void {
+  //   const storedData = localStorage.getItem('bookingSummaryData');
+  
+  //   if (storedData) {
+  //     const parsedData = JSON.parse(storedData);
+  
+  //     this.summaryData = parsedData.data || []; // ← FIXED ✅
+  //     this.fromDate = parsedData.fromDate;
+  //     this.toDate = parsedData.toDate;
+  
+  //     console.log('Parsed Summary Data from LocalStorage:', this.summaryData);
+  //   } else {
+  //     this.toast.error('No summary data found. Please generate the report again.');
+  //     this.router.navigate(['/home']);
+  //   }
+  
+  //   this.getProfileData();
+  // }
+  
   ngOnInit(): void {
-    const storedData = localStorage.getItem('serialData'); // <- use 'serialData'
+    const storedData = localStorage.getItem('bookingSummaryData');
+  
     if (storedData) {
-      const parsedData = JSON.parse(storedData);
+      try {
+        const parsedData = JSON.parse(storedData);
+        this.summaryData = Array.isArray(parsedData.data) ? parsedData.data : [];
+        this.fromDate = parsedData.fromDate || '';
+        this.toDate = parsedData.toDate || '';
   
-      const dataArray: any[] = [];
-      for (const key in parsedData) {
-        if (!isNaN(+key)) {
-          dataArray.push(parsedData[key]);
-        }
+        console.log('Parsed Summary Data from LocalStorage:', this.summaryData);
+      } catch (err) {
+        this.toast.error('Invalid report data format. Please try again.');
+        this.router.navigate(['/home']);
       }
-  
-      this.summaryData = dataArray;
-      this.fromDate = parsedData.fromDate;
-      this.toDate = parsedData.toDate;
-  
-      console.log('Parsed Summary Data from LocalStorage:', this.summaryData);
     } else {
-      this.toast?.error?.('No summary data found. Please generate the report again.');
+      this.toast.error('No summary data found. Please generate the report again.');
       this.router.navigate(['/home']);
     }
   
     this.getProfileData();
   }
-  
   
 
   getProfileData() {

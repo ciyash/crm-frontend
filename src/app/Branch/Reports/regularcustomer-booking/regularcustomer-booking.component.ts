@@ -34,6 +34,7 @@ export class RegularcustomerBookingComponent implements OnInit {
     if (!this.data7) {
       const storedData = localStorage.getItem('regularCustomerData');
       
+      
       if (storedData) {
         this.data7 = JSON.parse(storedData);
         console.log('Customer data from localStorage:', this.data7);

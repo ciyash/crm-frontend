@@ -1,7 +1,7 @@
 <app-header></app-header>
 
 <div class="container " style="margin-top: 8%;">
-  <h4 class="text-center mb-4 text-decoration-underline">Parcel Cancel</h4>
+  <h4 class="text-center text-danger mb-4 text-decoration-underline">Parcel Cancel</h4>
   <!-- Search Section -->
   <div class="section-border ">
     <form (ngSubmit)="searchUser()">
@@ -101,7 +101,7 @@
       </div>
       <div class="col-md-4">
         <label class="form-label">Booked By User</label>
-        <input type="text" class="form-control" [ngModel]="data2.bookedBy?.name" readonly>
+        <input type="text" class="form-control" [ngModel]="items.bookedBy?.name" readonly>
       </div>
 
       <div class="col-md-4">

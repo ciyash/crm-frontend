@@ -184,19 +184,19 @@
       </div>
       <div class="col-md-4">
         <label class="form-label">Booking Date</label>
-        <input type="text" class="form-control" [value]="items?.bookingDate" readonly />
+        <input type="text" class="form-control" [value]="items?.bookingDate | date:'short'" readonly />
       </div>
       <div class="col-md-4">
         <label class="form-label">Loading Date</label>
-        <input type="text" class="form-control" [value]="items?.loadingDate" readonly />
+        <input type="text" class="form-control" [value]="items?.loadingDate | date:'short'" readonly />
       </div>
       <div class="col-md-4">
         <label class="form-label">Unloading Date</label>
-        <input type="text" class="form-control" [value]="items?.unloadingDate" readonly />
+        <input type="text" class="form-control" [value]="items?.unloadingDate | date:'short'" readonly />
       </div>
       <div class="col-md-4">
         <label class="form-label">Delivery Date</label>
-        <input type="text" class="form-control" [value]="items?.deliveryDate" readonly />
+        <input type="text" class="form-control" [value]="items?.deliveryDate | date:'short'" readonly />
       </div>
       <div class="col-md-4">
         <label class="form-label">Load By User</label>
@@ -228,9 +228,55 @@
       </div>
     </div>
   </div>
+  
+
+
 </div>
 
 
+    <style>
+        .recice {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .receipt-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 700px;
+            width: 100%;
+        }
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .receipt-header h1 {
+            font-size: 1.8rem;
+            color: #343a40;
+        }
+   
+        .table {
+            margin-bottom: 20px;
+        }
+        .table th {
+            background-color: #e9ecef;
+            color: #343a40;
+        }
+        .footer {
+            text-align: center;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        .hidden {
+  display: none !important;
+}
+
+        
+    </style>
 
 
 <div class="recice" [class.hidden]="!showReceiptToPrint" id="printSection">
@@ -244,7 +290,7 @@
             </p>
           </div>      
             <h1>Delivery Receipt</h1>
-            <p>Issued on: {{ today | date: 'MMMM d, y' }}</p>
+            <!-- <p>Issued on: {{ today | date: 'MMMM d, y' }}</p> -->
           </div>
         <div class="table-responsive">
             <table class="table table-bordered table-hover">
@@ -309,49 +355,4 @@
     </div>
 </div>
 
-
-
-<style>
-  .recice {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-  }
-  .receipt-container {
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      max-width: 700px;
-      width: 100%;
-  }
-  .receipt-header {
-      text-align: center;
-      margin-bottom: 20px;
-  }
-  .receipt-header h1 {
-      font-size: 1.8rem;
-      color: #343a40;
-  }
-
-  .table {
-      margin-bottom: 20px;
-  }
-  .table th {
-      background-color: #e9ecef;
-      color: #343a40;
-  }
-  .footer {
-      text-align: center;
-      color: #6c757d;
-      font-size: 0.9rem;
-  }
-  .hidden {
-display: none !important;
-}
-
-  
-</style>
  
