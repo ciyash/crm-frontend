@@ -24,15 +24,10 @@ toDate:any;
   this.reportData = nav?.extras?.state?.['reportData'];
   }
   ngOnInit(): void {
-    // setInterval(() => {
-    //   this.currentDate = new Date();
-    //   this.currentTime = new Date();
-    // }, 1000);
-console.log('Report Data:', this.reportData);
 
+console.log('Report Data:', this.reportData);
     const key = 'parcelReportData';
     const storedData = localStorage.getItem(key);
-
     if (storedData) {
       this.parcelReportData = JSON.parse(storedData);
       console.log('Loaded Parcel Report Data:', this.parcelReportData);
@@ -58,10 +53,15 @@ console.log('Report Data:', this.reportData);
 
   getBookingStatus(status: number): string {
     switch (status) {
-      case 0: return 'Pending';
-      case 1: return 'Confirmed';
-      case 2: return 'Delivered';
+      case 0: return 'Booking';
+      case 1: return 'Loading';
+      case 2: return 'Unloading';
+      case 3: return 'Missing';
+      case 4: return 'Delivery';
+      case 5: return 'Cancel';
       default: return 'Unknown';
+
+    
     }
   }
 
@@ -143,7 +143,6 @@ console.log('Report Data:', this.reportData);
           'Booked By', 'Sender Name', 'Receiver Name', 'Agent', 'Quantity',
           'Weight', 'Charge', 'Hamali', 'Value of Goods', 'E-way Bill No'
         ];
-  
         // Prepare bookings data rows
         const dataRows = bookings.map((booking: any, i: number) => ([
           i + 1,

@@ -36,7 +36,7 @@ export class BrachToBranchUnloadingComponent {
         grnNo: this.fb.array([], ),
         fromDate: ['', ],
         toDate: ['', ],
-        branch:['', ],
+       fromBranch:['', ],
         unloadBranch:['', ],
         remarks: ['', Validators.required],
       });

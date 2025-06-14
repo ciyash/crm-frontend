@@ -111,6 +111,8 @@
         <th>Total Charge</th>
       </tr>
     </thead>
+ 
+
     <tbody class="text-center align-middle">
       <tr *ngFor="let item of gdata; let i = index">
         <td>{{ i + 1 }}</td>
@@ -129,6 +131,7 @@
         <td>{{ item.grandTotal | number: '1.2-2' }}</td>
       </tr>
     </tbody>
+    
     <tfoot class="table-light text-center fw-bold">
       <tr>
         <td colspan="8">Grand Total</td>

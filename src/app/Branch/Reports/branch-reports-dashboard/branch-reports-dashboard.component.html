@@ -84,35 +84,6 @@
                   End Date is required
                 </div>
               </div>
-              <!-- <div class="col-md-6">
-                <label class="form-label">From City</label>
-                <select #reportfrom class="form-select form-select-sm" formControlName="fromCity">
-                  <option value="" selected>Select City</option>
-                  <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
-                </select>
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">To City</label>
-                <select #reporttocity class="form-select form-select-sm" formControlName="toCity">
-                  <option value="" selected>Select City</option>
-                  <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
-                </select>
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">PickUpBranch</label>
-                <select #reportpickup class="form-select" formControlName="pickUpBranch">
-                  <option value="" selected>PickUpBranch</option>
-                  <option *ngFor="let row2 of branchdata" [value]="row2.branchUniqueId">{{ row2.name }}</option>
-                </select>
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">Drop Branch</label>
-                <select #reportdrop class="form-select" formControlName="dropBranch">
-                  <option value="" selected>Drop Branch</option>
-                  <option *ngFor="let row2 of branchdata" [value]="row2.branchUniqueId">{{ row2.name }}</option>
-                </select>
-              </div> -->
-   
               <div class="col-md-6">
                 <label class="form-label small">From City</label>
                 <select #reportfrom class="form-select form-select-sm" formControlName="fromCity">
@@ -467,17 +438,16 @@
                   placeholder="Enter name" 
                   formControlName="name"
                   (input)="searchUser()" />
-              
                 <!-- Search result dropdown -->
                 <div *ngIf="searchResults.length > 0"
                   class="position-absolute w-100 mt-1 border rounded bg-white z-3"
                   style="max-height: 160px; overflow-y: auto;">
                <div 
-                 *ngFor="let user of searchResults" 
-                 class="p-2 border-bottom hover-bg"
-                 (click)="selectUser(user.name)">
-                 {{ user.name }}
-               </div>
+  *ngFor="let user of searchResults" 
+  class="p-2 border-bottom hover-bg"
+  (mousedown)="selectUser(user.name)">
+  {{ user.name }}
+</div>
              </div>
               </div>
               

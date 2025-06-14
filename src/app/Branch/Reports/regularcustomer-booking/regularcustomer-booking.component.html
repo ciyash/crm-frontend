@@ -28,9 +28,6 @@
       <strong>From :</strong> {{ data7.fromDate | date: 'dd-MM-yyyy' }}
       <strong>To :</strong> {{ data7.toDate | date: 'dd-MM-yyyy' }}
     </div>
-
- 
-
     <div>
       <strong>Print Date :</strong> {{ today | date: 'dd-MM-yyyy' }}
       <strong>Time :</strong> {{ today | date: 'shortTime' }}
@@ -40,7 +37,7 @@
     <strong>Printed By:</strong> {{pfdata.name}}
   </div>
 
-  <div class="table-responsive mt-3">
+  <!-- <div class="table-responsive mt-3">
     <table class="table table-bordered table-sm table-striped">
       <thead class="table-secondary text-center align-middle">
         <tr>
@@ -78,6 +75,50 @@
         </tr>
       </tfoot>
     </table>
+  </div> -->
+
+  <div class="table-responsive mt-3">
+    <table class="table table-bordered table-sm table-striped">
+      <thead class="table-secondary text-center align-middle">
+        <tr>
+          <th>S.NO</th>
+          <th>From City</th>
+          <th>From Branch</th>
+          <th>To City</th>
+          <th>To Branch</th>
+          <th>Book Date</th>
+          <th>From Party</th>
+          <th>To Party</th>
+          <th>Total Qty</th>
+          <th>Total Charge</th>
+        </tr>
+      </thead>
+      <tbody class="text-center align-middle">
+        <tr *ngFor="let item of data7?.data || []; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ item?.fromCity || '-' }}</td>
+          <td>{{ item?.pickUpBranchname || '-' }}</td>
+          <td>{{ item?.toCity || '-' }}</td>
+          <td>{{ item?.dropBranchname || '-' }}</td>
+          <td>{{ item?.bookingDate | date: 'dd-MM-yyyy' }}</td>
+          <td>{{ item?.senderName || '-' }}</td>
+          <td>{{ item?.receiverName || '-' }}</td>
+          <td>{{ item?.totalQuantity || 0 }}</td>
+          <td>{{ item?.grandTotal || 0 | number: '1.2-2' }}</td>
+        </tr>
+        <tr *ngIf="(data7?.data?.length || 0) === 0">
+          <td colspan="10" class="text-center text-danger">No data available</td>
+        </tr>
+      </tbody>
+      <tfoot class="table-light text-center fw-bold">
+        <tr>
+          <td colspan="8">Grand Total</td>
+          <td>{{ data7?.allTotalQuantity || 0 }}</td>
+          <td>{{ data7?.allGrandTotal || 0 | number: '1.2-2' }}</td>
+        </tr>
+      </tfoot>
+    </table>
   </div>
+  
 
 </div>

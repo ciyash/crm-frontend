@@ -15,9 +15,6 @@ declare const SlimSelect: any;
   styleUrls: ['./sub-unloading.component.scss']
 })
 export class SubUnloadingComponent {
-
-
-
       adminData: any;
       form!: FormGroup;
       form1: FormGroup;
@@ -66,15 +63,18 @@ export class SubUnloadingComponent {
     
         });
         this.form1 = this.fb.group({
-          fromBookingDate: ['', ],
-          toBookingDate: ['', ],
+          fromBookingDate: [''],
+          toBookingDate: [''],
           fromCity: this.fb.array([]),
-          toCity: ['', ], // ✅ Ensure toCity is a FormControl, NOT a FormArray
-          branch: ['', ],
-          vehicalNumber: ['', ],
-          grnNo: this.fb.array([],),
-          bookingType: [''],
+          toCity: ['', ], 
+          grnNo: this.fb.array([]),
+          bookingType:[''],
+          branch: [''],
+          vehicalNumber: [''],
+          
         });
+
+
       }
       ngOnInit() {
         this.searchTerm = this.activeroute.snapshot.params['grnNumber'];
@@ -91,8 +91,6 @@ export class SubUnloadingComponent {
         const year = today.getFullYear();
         return `${year}-${month}-${day}`; // ✔ HTML date input format
       }
-      
-    
     
       ngAfterViewInit(): void {
         new SlimSelect({
@@ -129,75 +127,83 @@ export class SubUnloadingComponent {
           $(this.selectvehicle.nativeElement).select2();
           $(this.selectvehicle.nativeElement).on('select2:select', (event: any) => {
             const selectedVehicle = event.params.data.id;
-            this.form.get('vehicalNumber')?.setValue(selectedVehicle);
+            this.form1.get('vehicalNumber')?.setValue(selectedVehicle);
             console.log(
               'Updated Vehicle Number:',
-              this.form.get('vehicalNumber')?.value
+              this.form1.get('vehicalNumber')?.value
             );
           });
         }, 0);
       }
-    
-    
     onLoad() {
       if (this.form.invalid) {
         this.toastr.error('Please fill all required fields', 'Validation Error');
         return;
       }
+  
       const formValues = this.form.value;
-      const payload = {
+    
+      const payload: any = {
         fromDate: formValues.fromDate,
         toDate: formValues.toDate,
-        fromCity: formValues.fromCity.length ? formValues.fromCity : [],
-        toCity: formValues.toCity || '',
-        vehicalNumber: formValues.vehicalNumber || '',
-        branch: formValues.branch || '',
       };
-    console.log("payload:",payload)
       this.api.FilterParcelUnLoading(payload).subscribe({
         next: (response: any) => {
-          console.log('dataload', response)
-          if (response?.data?.length) {
-            this.apiResponse = response.data || [];
-    
-            // Combine all bookings into one array
-            this.bkdata = this.apiResponse.flatMap((item: any) => item.bookings);
-    
-            // Prepare summary
-            this.summary = {};
-            this.apiResponse.forEach((item: any) => {
-              this.summary[item.bookingType] = {
-                totalQuantity: item.totalQuantity,
-                totalGrandTotal: item.totalGrandTotal,
-              };
-            });
-    
-            this.LoadSuccess = true;
-            if (this.bkdata.length > 0) {
-              this.form1.patchValue({
-                branch: this.bkdata[0].branch,            
-              });
-              this.setFormArray('bookingType', this.bkdata.map((d: any) => d.bookingType));
-              this.setFormArray('grnNo', this.bkdata.map((d: any) => d.grnNo));
-              this.setFormArray('lrNumber', this.bkdata.map((d: any) => d.lrNumber));
-            }
-            this.toastr.success('Parcel unloaded Successfully', 'Success');
-          } else {
+          const data = response?.data || [];
+      
+          if (!data.length) {
             this.apiResponse = [];
             this.bkdata = [];
             this.summary = {};
             this.LoadSuccess = false;
-            this.toastr.error('No customer bookings found.', 'error');
-    
+            this.toastr.error('No customer bookings found.', 'Error');
+            return;
           }
+      
+          this.apiResponse = data;
+          this.bkdata = data; // <-- fix: directly assign response data
+      
+          // Prepare summary
+          this.summary = {};
+          data.forEach((item: any) => {
+            const type = item.bookingType;
+            if (!this.summary[type]) {
+              this.summary[type] = {
+                totalQuantity: 0,
+                totalGrandTotal: 0
+              };
+            }
+            this.summary[type].totalQuantity += item.totalQuantity || 0;
+            this.summary[type].totalGrandTotal += item.grandTotal || 0;
+          });
+      
+          this.LoadSuccess = true;
+          if (this.bkdata.length > 0) {
+            this.form1.patchValue({
+              branch: this.bkdata[0].dropBranch,
+              bookingType: this.bkdata[0].bookingType, // ✅ patch bookingType
+            });
+          
+            this.setFormArray('grnNo', this.bkdata.map(d => d.grnNo));
+            this.setFormArray('lrNumber', this.bkdata.map(d => d.lrNumber));
+          }
+          
+          this.toastr.success('Parcel unloaded Successfully', 'Success');
         },
-        error: (error: any) => {
-          console.error('Booking failed:', error);
+      
+        error: (err) => {
+          console.error('API Error:', err);
+          this.apiResponse = [];
+          this.bkdata = [];
+          this.summary = {};
+          this.LoadSuccess = false;
           this.toastr.error('Parcel unloaded Data Not Found', 'Error');
-        },
+        }
       });
+      
     }
     
+ 
     openScanner() {
       this.showScanner = true;
     }
@@ -208,11 +214,8 @@ export class SubUnloadingComponent {
     
     handleQrCodeResult(result: string) {
       this.closeScanner();
-    
-      // Don't set this.data = result directly here (it's just a string)
       this.getQRdata(result);
     }
-    
     
     getQRdata(id: string) {
       this.api.GetQrUnloadGRNnumber(id).subscribe(
@@ -221,32 +224,40 @@ export class SubUnloadingComponent {
     
           let newData: any[] = [];
     
-          // Normalize based on your API structure
           if (res?.data?.length) {
-            this.apiResponse = res.data || [];
-    
-            // Combine all bookings into one array
-            this.bkdata = this.apiResponse.flatMap((item: any) => item.bookings);
+            newData = res.data;
           } else if (Array.isArray(res)) {
             newData = res;
           } else if (typeof res === 'object') {
             newData = [res];
           }
     
-          this.bkdata = [...this.bkdata, ...newData]; // avoid push()
+          if (newData.length === 0) {
+            this.toastr.error('No data found for scanned QR code', 'Error');
+            return;
+          }
+    
+          // ✅ Append newData to existing bkdata
+          this.bkdata = [...this.bkdata, ...newData];
+    
+          // ✅ Update form1 fields
+          this.form1.patchValue({
+            branch: newData[0].dropBranch,
+            bookingType: newData[0].bookingType,
+          });
+    
+          this.setFormArray('grnNo', this.bkdata.map(d => d.grnNo));
+          this.setFormArray('lrNumber', this.bkdata.map(d => d.lrNumber));
     
           this.toastr.success('Parcel Unloaded successfully', 'Success');
-          this.cdRef.detectChanges(); // Ensure UI refresh if needed
+          this.cdRef.detectChanges();
         },
         (err) => {
           this.toastr.error('Parcel already Unloaded or Error occurred', 'Error');
         }
       );
     }
-    
-    
-    
-      
+
       onTocitySelect(event: any) {
         console.log('Event triggered:', event);
         console.log('Selected City:', event.target.value);
@@ -352,8 +363,15 @@ export class SubUnloadingComponent {
           },
         });
       }
-    
+
       ParcelLoad() {
+        console.log('ParcelLoad called');  // Confirm click
+        console.log('Form Value:', this.form1.value);  // Confirm data
+      
+        const grnNos = Array.isArray(this.form1.value.grnNo)
+          ? this.form1.value.grnNo
+          : [this.form1.value.grnNo];
+      
         const payload = {
           fromBookingDate: this.form1.value.fromBookingDate,
           toBookingDate: this.form1.value.toBookingDate,
@@ -361,22 +379,20 @@ export class SubUnloadingComponent {
           toCity: this.form1.value.toCity,
           branch: this.form1.value.branch,
           vehicalNumber: this.form1.value.vehicalNumber,
-          grnNo: this.form1.value.grnNo, // ✅ This must be an array!
+          grnNo: grnNos,
           bookingType: this.form1.value.bookingType,
         };
-    
+      
         console.log('Final Payload:', payload);
+      
         this.api.ParcelUnLoading(payload).subscribe({
           next: (response: any) => {
             console.log('Parcel unloaded successfully:', response);
-            this.toastr.success('Parcel unloaded successfully', ' successfully');
-    
+            this.toastr.success('Parcel unloaded successfully', 'Success');
             setTimeout(() => {
-              this.router
-                .navigateByUrl('/', { skipLocationChange: true })
-                .then(() => {
-                  this.router.navigate(['/parcelunloading']);
-                });
+              this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                this.router.navigate(['/sub-unloading']);
+              });
             }, 1000);
           },
           error: (error: any) => {
@@ -385,29 +401,6 @@ export class SubUnloadingComponent {
           },
         });
       }
-    
-    
-    
-    
-    
-    
-    
-      // selectedDate: string = moment().format('YYYY/MM/DD');
-      // formattedDate: string = '';
-      //   dateFormat: string = 'DD/MMMM/YYYY';
-      
-     
-      
-      //   updateFormattedDate() {
-      //     if (this.selectedDate) {
-      //       this.formattedDate = moment(this.selectedDate, 'YYYY-MM-DD').format(this.dateFormat);
-      //     }
-      //   }
-      
-      //   onSubmit() {
-      //     alert('Selected Date: ' + this.selectedDate + '\nFormatted: ' + this.formattedDate);
-      //   }
-    
       printTable() {
         const printContent = document.getElementById('print-section');
         const WindowPrt = window.open('', '', 'width=900,height=650');

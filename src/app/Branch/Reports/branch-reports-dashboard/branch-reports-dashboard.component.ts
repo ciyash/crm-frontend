@@ -331,7 +331,6 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
       bookingType: this.form.value.bookingType,
     };
     console.log('parcelbooking:', payload);
-
     this.api.ParcelBookingReport(payload).subscribe({
       next: (response: any) => {
         console.log('Parcel reports1:', response);
@@ -340,18 +339,7 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
           fromDate: this.form.value.fromDate,
           toDate: this.form.value.toDate,
         };
-        //
-      //this.router.navigate(['/reports'], { state: { reportData: finalData } });
-        // Save data in localStorage with a unique key
-        // const key = 'parcelReportData';
-        // localStorage.setItem(key, JSON.stringify(finalData));
-
-        // Open the reports route in a new tab
-        // window.open(`/reports`, '_blank');
-// 
         localStorage.setItem('parcelReportData', JSON.stringify(finalData));
-
-      // Open the /cloud/reports route correctly in new tab
       const baseUrl = window.location.origin;
       const reportUrl = `${baseUrl}/cloud/reports`;
       window.open(reportUrl, '_blank');
@@ -393,8 +381,6 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
         // window.open('/allpercelbooking', '_blank');
 
         localStorage.setItem('allparcelReportData', JSON.stringify(finalData1));
-
-        // Open the /cloud/reports route correctly in new tab
         const baseUrl = window.location.origin;
         const allpercelbookingUrl = `${baseUrl}/cloud/allpercelbooking`;
         window.open(allpercelbookingUrl, '_blank');
@@ -522,18 +508,21 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
           fromDate: payload6.fromDate,
           toDate: payload6.toDate,
         };
+                // this.toast.success(response.message || 'Operation successful');
+
         // localStorage.setItem('cancelReportData', JSON.stringify(finalData7));
-        this.toast.success('Cancel Report generated successfully!');
-        // window.open('/cancel-report', '_blank');
+        // window.open('/cancelreport', '_blank');
 
         localStorage.setItem('CancelData', JSON.stringify(finalData7));
         const baseUrl = window.location.origin;
         const cancelreportUrl = `${baseUrl}/cloud/cancelreport`;
         window.open(cancelreportUrl, '_blank');
+        this.toast.success(response.message || 'Operation successful');
+
       },
       error: (error: any) => {
         console.error('Cancel Report Loading Failed:', error);
-        this.toast.error('Cancel Report loading failed. Please try again.');
+        this.toast.error(error.message || 'Operation successful');
       },
     });
   }
@@ -591,6 +580,7 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
     });
   }
   // regular customer
+
   bookingCustomer(): void {
     if (this.form5.invalid) {
       this.toast.error('Please fill all required fields.');
@@ -607,18 +597,16 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
       dropBranch: this.form5.value.dropBranch,
     };
     console.log('Form5 Values:', this.form5.value);
-
     console.log('Customer Report Payload:', payload4);
-
     this.api.ParcelBookingRegularCustomer(payload4).subscribe({
       next: (response: any) => {
         this.customerdata = response;
         console.log('regularDara:', this.customerdata);
         const successMessage =
           response.message || 'Customer report loaded successfully!';
+          
         this.toast.success(successMessage);
         console.log('Form5 Values:', this.form5.value);
-
         const finalData2 = {
           ...response,
           fromDate: this.form5.value.fromDate,
@@ -643,20 +631,14 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
       },
     });
   }
-
-
-
   searchUser(): void {
     const searchTerm = this.form5.get('name')?.value?.trim();
-
+  
     if (searchTerm && searchTerm.length >= 2) {
       this.api.searchUser(searchTerm).subscribe(
-        
         (res: any) => {
-          console.log("asdhbaydgauydgwydgwqydg:",res);
-
-          this.searchResults = res;
-
+          console.log("API Response:", res);
+          this.searchResults = res.results || []; 
         },
         (err: any) => {
           console.error('Search Error:', err);
@@ -667,9 +649,15 @@ export class BranchReportsDashboardComponent implements AfterViewInit {
       this.searchResults = [];
     }
   }
-
+  
   selectUser(name: string): void {
     this.form5.get('name')?.setValue(name); // Set the selected name in the input
     this.searchResults = []; // Clear the search result list
   }
+  hideDropdown(): void {
+    setTimeout(() => {
+      this.searchResults = [];
+    }, 200); // Small delay to allow item click
+  }
+  
 }

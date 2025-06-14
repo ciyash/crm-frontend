@@ -130,10 +130,46 @@ export class SubLoadingreportComponent {
       console.log('Selected To Cities:', toCityArray.value);
     }
   
-    ParcelLoad() {
-      console.log('ParcelLoad() triggered');
-      console.log('form1 value:', this.form1.value);
+    // ParcelLoad() {
+    //   console.log('ParcelLoad() triggered');
+    //   console.log('form1 value:', this.form1.value);
     
+    //   const payload = {
+    //     fromDate: this.form1.value.fromDate,
+    //     toDate: this.form1.value.toDate,
+    //     fromCity: this.form1.value.fromCity,
+    //     toCity: this.form1.value.toCity,
+    //     fromBranch: this.form1.value.fromBranch,
+    //     dropBranch: this.form1.value.dropBranch,
+    //   };
+    
+    //   console.log("payload:", payload);
+    
+    //   this.api.ParcelOfflineReport(payload).subscribe({
+    //     next: (response: any) => {
+    //       console.log("After Load: Response received", response);
+    //       const finalData8 = {
+    //         ...response,
+    //         fromDate: this.form1.value.fromDate,
+    //         toDate: this.form1.value.toDate
+    //       };
+    //       // Save to localStorage
+    //       localStorage.setItem('parcelReportData', JSON.stringify(finalData8));
+    //       window.open('/parcelloadingofflinereport', '_blank');
+
+    //       // localStorage.setItem('parcelReportData', JSON.stringify(finalData8));
+    //       // const baseUrl = window.location.origin;
+    //       // const parcelloadingofflinereportUrl = `${baseUrl}/cloud/parcelloadingofflinereport`;
+    //       // window.open(parcelloadingofflinereportUrl, '_blank');
+    //     },
+    //     error: (error: any) => {
+    //       console.error('Parcel loading failed:', error);
+    //       this.data1 = [];
+    //     },
+    //   });
+    // }
+    
+    ParcelLoad() {
       const payload = {
         fromDate: this.form1.value.fromDate,
         toDate: this.form1.value.toDate,
@@ -143,22 +179,23 @@ export class SubLoadingreportComponent {
         dropBranch: this.form1.value.dropBranch,
       };
     
-      console.log("payload:", payload);
-    
       this.api.ParcelOfflineReport(payload).subscribe({
         next: (response: any) => {
-          console.log("After Load: Response received", response);
-          const finalData8 = {
+          console.log("response:",response);
+          
+          const finalData = {
             ...response,
             fromDate: this.form1.value.fromDate,
             toDate: this.form1.value.toDate
           };
     
-          // Save to localStorage
-          localStorage.setItem('parcelReportData', JSON.stringify(finalData8));
+          // ✅ Store in localStorage
+          localStorage.setItem('parcelReportData', JSON.stringify(finalData));
     
-          // Open new tab
-          window.open('/parcelloading-offlinereport', '_blank');
+          // ✅ Open new tab with route
+          const baseUrl = window.location.origin;
+          const reportUrl = `${baseUrl}/cloud/parcelloadingofflinereport`;
+          window.open(reportUrl, '_blank');
         },
         error: (error: any) => {
           console.error('Parcel loading failed:', error);

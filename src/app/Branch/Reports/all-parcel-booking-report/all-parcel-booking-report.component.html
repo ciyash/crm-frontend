@@ -46,7 +46,8 @@
           <td>{{ i + 1 }}</td>
           <td>{{ row.grnNo }}</td>
           <td>{{ row.bookingDate | date: 'dd-MM-yyyy' }}</td>
-          <td>{{ row.bookingStatus === 0 ? 'Loading' : 'Unknown' }}</td>
+          <!-- <td>{{ row.bookingStatus === 0 ? 'Loading' : 'Unknown' }}</td> -->
+          <td>{{ getBookingStatus(row.bookingStatus) }}</td>
           <td>{{ row.fromCity }}</td>
           <td>{{ row.toCity }}</td>
           <td>{{ row.bookingType | titlecase }}</td>

@@ -24,7 +24,7 @@ export class ParcelIncomingReportComponent {
     if (state?.data) {
       console.log('Received from state:', state.data);
       this.prow = state.data;
-      this.gdata = this.extractGData(state.data);
+      this.gdata = Array.isArray(state.data?.data) ? state.data.data : [];
       localStorage.setItem('incomingReportData', JSON.stringify(state.data));
     } else {
       const localData = localStorage.getItem('incomingReportData');
@@ -32,12 +32,13 @@ export class ParcelIncomingReportComponent {
         const parsedData = JSON.parse(localData);
         console.log('Received from localStorage:', parsedData);
         this.prow = parsedData;
-        this.gdata = this.extractGData(parsedData);
+        this.gdata = Array.isArray(parsedData?.data) ? parsedData.data : [];
       } else {
         console.warn('No report data found in router state or localStorage');
       }
     }
   }
+  
   
 
   ngOnInit() {
@@ -45,11 +46,11 @@ export class ParcelIncomingReportComponent {
     this.calculateTotal();
   }
 
-  extractGData(data: any): any[] {
-    return Object.values(data).filter(
-      item => typeof item === 'object' && item !== null && !Array.isArray(item)
-    );
-  }
+  // extractGData(data: any): any[] {
+  //   return Object.values(data).filter(
+  //     item => typeof item === 'object' && item !== null && !Array.isArray(item)
+  //   );
+  // }
 
   getProfileData() {
     this.api.GetProfileData().subscribe((res: any) => {
@@ -127,9 +128,6 @@ export class ParcelIncomingReportComponent {
       }
     });
   }
-
-
-
   exportToExcel(): void {
     const excelData: any[] = [];
 

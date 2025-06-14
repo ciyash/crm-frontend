@@ -17,40 +17,34 @@ export class ParcelLoadingOfflineReportComponent implements OnInit {
   toDate: any;
 
   constructor(private router: Router, private api: BranchService) {}
-
   ngOnInit() {
     this.getProfileData();
-
+  
     const localData = localStorage.getItem('parcelReportData');
+  
     if (localData) {
       const stateData = JSON.parse(localData);
+  
       console.log("Loaded from localStorage:", stateData);
+  
       this.data2 = stateData?.data || [];
       this.fromDate = stateData.fromDate;
       this.toDate = stateData.toDate;
-
-      // Optional: Clear the storage if it's one-time use
-
-      if (stateData) {
-        this.data2 = stateData.data || [];
-        this.fromDate = stateData.fromDate;
-        this.toDate = stateData.toDate;
-      
-        // Don't remove here to persist after refresh
-        // localStorage.removeItem('parcelReportData');
-      }
-          } else {
+  
+      // ❗ Optional: Uncomment if you want it to clear after one-time use
+      // localStorage.removeItem('parcelReportData');
+    } else {
       console.warn("No report data found in localStorage.");
     }
   }
-
+  
+  
   getProfileData() {
     this.api.GetProfileData().subscribe((res: any) => {
       this.pfdata = res;
       console.log('profiledata:', this.pfdata);
     });
   }
-
   printReport() {
     const printContents = document.getElementById('print-section')?.innerHTML;
     if (printContents) {
@@ -106,9 +100,6 @@ export class ParcelLoadingOfflineReportComponent implements OnInit {
       popupWin!.document.close();
     }
   }
-
-
-
 ExportEXcel(): void {
   const headerData = [];
 
@@ -187,7 +178,6 @@ formatDate(date: Date): string {
     .toString()
     .padStart(2, '0')}-${d.getFullYear()}`;
 }
-
 formatTime(date: Date): string {
   const d = new Date(date);
   return d.toLocaleTimeString('en-IN', {

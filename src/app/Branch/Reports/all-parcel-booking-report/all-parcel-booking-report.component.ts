@@ -17,19 +17,7 @@ export class AllParcelBookingReportComponent {
 
   constructor(private router: 
     Router,private api:BranchService,private toast:ToastrService) {
-
   }
-  
-  // ngOnInit(): void {
-  //   this.getProfileData();
-  //   const storedData = localStorage.getItem('allParcelBookingData');
-  //   if (storedData) {
-  //     this.data1 = JSON.parse(storedData);
-  //     console.log('Received:', this.data1);
-  //   } else {
-  //     this.toast.error('No booking data found!');
-  //   }
-  // }
   ngOnInit(): void {
     this.getProfileData();
     
@@ -50,6 +38,18 @@ export class AllParcelBookingReportComponent {
     });
   }
 
+  getBookingStatus(status: number): string {
+    switch (status) {
+      case 0: return 'Booking';
+      case 1: return 'Loading';
+      case 2: return 'Unloading';
+      case 3: return 'Missing';
+      case 4: return 'Delivery';
+      case 5: return 'Cancel';
+      default: return 'Unknown';
+    }
+  }
+  
 
  printPage(): void {
   const printContents = document.getElementById('print-section')?.innerHTML;

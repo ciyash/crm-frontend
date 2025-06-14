@@ -171,7 +171,7 @@ const routes: Routes = [
   {path:'parcelincomingreport',component:ParcelIncomingReportComponent, canActivate: [authGuard]},
   {path:'dispacthed-memo-report',component:DispatchedMemoReportComponent, canActivate: [authGuard]},
   {path:'pending-dispatchedStock-report',component:PendingDispatchedStockReportComponent, canActivate: [authGuard]},
-  {path:'parcelloading-offlinereport',component:ParcelLoadingOfflineReportComponent, canActivate: [authGuard]},
+  {path:'parcelloadingofflinereport',component:ParcelLoadingOfflineReportComponent, canActivate: [authGuard]},
   {path:'dispatched-stock-report',component:DispatchedStockReportComponent, canActivate: [authGuard]},
   {path:'report-delivery',component:ReportDeliveryComponent, canActivate: [authGuard]},
 

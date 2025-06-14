@@ -177,18 +177,25 @@ word-wrap: break-word">Parcel Booking</h4>
           <div class="col-lg-12">
 
             <div class="row mt-3">
-              <div class="col-md-3">
-                <!-- Sender Name Input -->
+              <div class="col-md-3" style="position: relative;">
                 <label class="form-label form-after">Sender Name</label>
-                <input type="text" class="form-control form-select-sm" formControlName="senderName"
-                  [(ngModel)]="searchTerm" (input)="searchUser()" (blur)="hideDropdown()">
-
-                <!-- Dropdown for Suggestions -->
-                <ul *ngIf="showDropdown && userList.length" class="dropdown-menu show">
-                  <li *ngFor="let user of userList" class="dropdown-item" (click)="selectUser(user)">
-                    {{ user.name }}
-                  </li>
-                </ul>
+                <input type="text" class="form-control form-select-sm"
+                       formControlName="senderName"
+                       autocomplete="off"
+                       (input)="searchUser()"
+                       (focus)="searchUser()"
+                       (blur)="hideDropdown()">
+              
+                <!-- Dropdown -->
+                <ul *ngIf="showDropdown && userList.length"
+                class="dropdown-menu show"
+                style="width: 100%; max-height: 150px; overflow-y: auto;">
+              <li *ngFor="let user of userList"
+                  class="dropdown-item"
+                  (mousedown)="selectUser(user)">
+                {{ user.name }}
+              </li>
+            </ul>
               </div>
               <!-- Other Fields (Auto-populated) -->
               <div class="col-md-3">
@@ -241,108 +248,109 @@ word-wrap: break-word">Parcel Booking</h4>
           </div>
         </div>
       </div>
-
-      <div class="row">
-        <div class="col-md-10">
-          <div class="row">
-            <div class="col-md-10">
-              <div class="row">
-                <div class="col-md-5 pt-1">
-                  <div class="d-grid gap-2 col-12 mx-auto mt-4">
-                    <!-- Modal for preview -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                      aria-hidden="true">
-
-                      <div class="modal-dialog modal-xl">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Booking Details Preview</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-
-                          </div>
-                          <div class="modal-body">
-                            <div class="container text-center">
-                              <div class="row">
-                                <div class="col-md-6">
-                                  <label for="fromCity"><strong>From City:</strong></label>
-                                  <p>{{ modelData?.fromCity }}</p>
-                                </div>
-                                <div class="col-md-6">
-                                  <label for="toCity"><strong>To City:</strong></label>
-                                  <p>{{ modelData?.toCity }}</p>
-                                </div>
-                              </div>
-                              <div class="row">
-                                <div class="col-md-6">
-                                  <label for="pickUpBranch"><strong>Pickup Branch:</strong></label>
-                                  <p>{{ modelData?.pickUpBranchName }}</p>
-                                </div>
-                                <div class="col-md-6">
-                                  <label for="dropBranch"><strong>Drop Branch:</strong></label>
-                                  <p>{{ modelData?.dropBranchName }}</p>
-                                </div>
-                              </div>
-                              <div class="row">
-                                <div class="col-md-6">
-                                  <label for="bookingType"><strong>Booking Type:</strong></label>
-                                  <p>{{ modelData?.bookingType }}</p>
-                                </div>
-                              </div>
-                              <div class="row">
-                                <div class="col-md-6">
-                                  <label for="senderName"><strong>Sender Name:</strong></label>
-                                  <p>{{ modelData?.senderName }}</p>
-                                </div>
-                                <div class="col-md-6">
-                                  <label for="senderMobile"><strong>Sender Mobile:</strong></label>
-                                  <p>{{ modelData?.senderMobile }}</p>
-                                </div>
-                              </div>
-                              <div class="row">
-                                <div class="col-md-6">
-                                  <label for="senderName"><strong>receiverName Name:</strong></label>
-                                  <p>{{ modelData?.receiverName }}</p>
-                                </div>
-                                <div class="col-md-6">
-                                  <label for="senderMobile"><strong>receiver Mobile:</strong></label>
-                                  <p>{{ modelData?.receiverMobile }}</p>
-
-                                </div>
-                              </div>
-                              <!-- Add Package Details -->
-                              <div class="row" *ngFor="let package of modelData?.packages; let i = index">
-                                <div class="col-md-4">
-                                  <label for="quantity"><strong>Quantity:</strong></label>
-                                  <p>{{ package.quantity }}</p>
-                                </div>
-                                <div class="col-md-4">
-                                  <label for="packageType"><strong>Package Type:</strong></label>
-                                  <p>{{ package.packageType }}</p>
-                                </div>
-                                <div class="col-md-4">
-                                  <label for="unitPrice"><strong>Unit Price:</strong></label>
-                                  <p>{{ package.unitPrice }}</p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary" (click)="confirmBooking()">Confirm</button>
-                          </div>
-                        </div>
+      <div class="container mt-3">
+        <!-- Submit Button -->
+        <div class="text-end mb-3">
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+            (click)="openPreviewModal()"
+          >
+            Submit
+          </button>
+        </div>
+      
+        <!-- Modal for preview -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Booking Details Preview</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+      
+              <div class="modal-body">
+                <div class="container">
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <strong>From City:</strong>
+                      <p>{{ modelData?.fromCity || '-' }}</p>
+                    </div>
+                    <div class="col-md-6">
+                      <strong>To City:</strong>
+                      <p>{{ modelData?.toCity || '-' }}</p>
+                    </div>
+                  </div>
+      
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <strong>Pickup Branch:</strong>
+                      <p>{{ modelData?.pickUpBranchName || '-' }}</p>
+                    </div>
+                    <div class="col-md-6">
+                      <strong>Drop Branch:</strong>
+                      <p>{{ modelData?.dropBranchName || '-' }}</p>
+                    </div>
+                  </div>
+      
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <strong>Booking Type:</strong>
+                      <p>{{ modelData?.bookingType || '-' }}</p>
+                    </div>
+                  </div>
+      
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <strong>Sender Name:</strong>
+                      <p>{{ modelData?.senderName || '-' }}</p>
+                    </div>
+                    <div class="col-md-6">
+                      <strong>Sender Mobile:</strong>
+                      <p>{{ modelData?.senderMobile || '-' }}</p>
+                    </div>
+                  </div>
+      
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <strong>Receiver Name:</strong>
+                      <p>{{ modelData?.receiverName || '-' }}</p>
+                    </div>
+                    <div class="col-md-6">
+                      <strong>Receiver Mobile:</strong>
+                      <p>{{ modelData?.receiverMobile || '-' }}</p>
+                    </div>
+                  </div>
+      
+                  <!-- Package Details -->
+                  <div *ngIf="modelData?.packages?.length" class="mb-3">
+                    <h6 class="text-primary">Package Details</h6>
+                    <div *ngFor="let package of modelData?.packages; let i = index" class="row border-bottom py-2">
+                      <div class="col-md-4">
+                        <strong>Quantity:</strong>
+                        <p>{{ package.quantity }}</p>
+                      </div>
+                      <div class="col-md-4">
+                        <strong>Package Type:</strong>
+                        <p>{{ package.packageType }}</p>
+                      </div>
+                      <div class="col-md-4">
+                        <strong>Unit Price:</strong>
+                        <p>{{ package.unitPrice }}</p>
                       </div>
                     </div>
-
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                      (click)="openPreviewModal()">Submit</button>
-
                   </div>
                 </div>
               </div>
+      
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" (click)="confirmBooking()">Confirm</button>
+              </div>
             </div>
           </div>
-
         </div>
       </div>
     </form>

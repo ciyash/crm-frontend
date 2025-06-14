@@ -21,7 +21,7 @@
 
 <div class="container  border rounded bg-light" id="print-section" style="background-color: #e3eaf8;" *ngIf="data4?.length">
   <div class="container-fluid" *ngIf="pfdata">
-    <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
+    <h4 class="text-center fw-bold">{{ pfdata.companyId?.name }}</h4>
     <p class="text-center fw-bold">
       Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
       Phone No: {{ pfdata.phone }}

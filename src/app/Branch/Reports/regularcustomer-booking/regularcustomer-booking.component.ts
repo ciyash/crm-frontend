@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationExtras } from '@angular/router';
+import { Router } from '@angular/router';
 import { BranchService } from 'src/app/service/branch.service';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
@@ -15,40 +15,23 @@ export class RegularcustomerBookingComponent implements OnInit {
   today = new Date();
   pfdata: any;
 
-  constructor(private router: Router, private api: BranchService) {
-    // const navigation = this.router.getCurrentNavigation();
-    // if (navigation?.extras?.state?.['data7']) {
-    //   this.data7 = navigation.extras.state['data7'];
-    //   console.log('Customer data from router state:', this.data7);
-     
-
-    // }
-  }
-
+  constructor(private router: Router, private api: BranchService) {}
   ngOnInit(): void {
     this.getProfileData();
-
-    // ✅ Fallback: if data7 not set in constructor, get from localStorage
-    if (!this.data7) {
-      const storedData = localStorage.getItem('regularCustomerData');
-      
-      
-      if (storedData) {
-        this.data7 = JSON.parse(storedData);
-        console.log('Customer data from localStorage:', this.data7);
-      } else {
-        console.warn('No customer data found in router state or localStorage');
-      }
+    const storedData = localStorage.getItem('regularcustmerData'); // ✅ Corrected key
+    if (storedData) {
+      this.data7 = JSON.parse(storedData);
+      console.log('Customer data from localStorage:', this.data7);
+    } else {
+      console.warn('No customer data found in localStorage');
     }
   }
-
   getProfileData(): void {
     this.api.GetProfileData().subscribe((res: any) => {
       this.pfdata = res;
       console.log('Profile data:', this.pfdata);
     });
   }
-
   printReport(): void {
     const printContents = document.getElementById('print-section')?.innerHTML;
     if (printContents) {
@@ -79,88 +62,65 @@ export class RegularcustomerBookingComponent implements OnInit {
     }
   }
 
+  ExportExcel(): void {
+    const aoa: any[][] = [];
 
-ExportExcel(): void {
-  const aoa: any[][] = [];
+    aoa.push([this.pfdata?.companyName || '']);
+    aoa.push([`Address: ${this.pfdata?.location || ''} - ${this.pfdata?.branchId?.name || ''} | Phone: ${this.pfdata?.phone || ''}`]);
+    aoa.push([]);
+    aoa.push(['Regular Customer Booking']);
+    aoa.push([]);
+    aoa.push([`From: ${this.formatDate(this.data7?.fromDate)}    To: ${this.formatDate(this.data7?.toDate)}`]);
+    aoa.push([`Print Date: ${this.formatDate(this.today)}    Time: ${this.formatTime(this.today)}`]);
+    aoa.push([`Printed By: ${this.pfdata?.name || ''}`]);
+    aoa.push([]);
 
-  // Add Header Info
-  aoa.push([this.pfdata?.companyName || '']);
-  aoa.push([
-    `Address: ${this.pfdata?.location || ''} - ${this.pfdata?.branchId?.name || ''} | Phone: ${this.pfdata?.phone || ''}`
-  ]);
-  aoa.push([]);
-  aoa.push(['Regular Customer Booking']);
-  aoa.push([]);
-
-  // Date Range & Printed Info
-  aoa.push([
-    `From: ${this.formatDate(this.data7?.fromDate)}    To: ${this.formatDate(this.data7?.toDate)}`
-  ]);
-  aoa.push([
-    `Print Date: ${this.formatDate(this.today)}    Time: ${this.formatTime(this.today)}`
-  ]);
-  aoa.push([
-    `Printed By: ${this.pfdata?.name || ''}`
-  ]);
-  aoa.push([]);
-
-  // Table Header
-  aoa.push([
-    'S.NO', 'From City', 'From Branch', 'To City', 'To Branch',
-    'Book Date', 'From Party', 'To Party', 'Total Qty', 'Total Charge'
-  ]);
-
-  // Table Rows
-  this.data7?.data?.forEach((item: any, index: number) => {
     aoa.push([
-      index + 1,
-      item.fromCity,
-      item.pickUpBranchname,
-      item.toCity,
-      item.dropBranchname,
-      this.formatDate(item.bookingDate),
-      item.senderName,
-      item.receiverName,
-      item.totalQuantity,
-      item.grandTotal
+      'S.NO', 'From City', 'From Branch', 'To City', 'To Branch',
+      'Book Date', 'From Party', 'To Party', 'Total Qty', 'Total Charge'
     ]);
-  });
 
-  // Footer Total
-  aoa.push([
-    '', '', '', '', '', '', '', 'Grand Total',
-    this.data7?.allTotalQuantity,
-    this.data7?.allGrandTotal
-  ]);
+    this.data7?.data?.forEach((item: any, index: number) => {
+      aoa.push([
+        index + 1,
+        item.fromCity,
+        item.pickUpBranchname,
+        item.toCity,
+        item.dropBranchname,
+        this.formatDate(item.bookingDate),
+        item.senderName,
+        item.receiverName,
+        item.totalQuantity,
+        item.grandTotal
+      ]);
+    });
 
-  // Create worksheet and workbook
-  const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(aoa);
-  const workbook: XLSX.WorkBook = {
-    Sheets: { 'RegularCustomerBooking': worksheet },
-    SheetNames: ['RegularCustomerBooking']
-  };
+    aoa.push([
+      '', '', '', '', '', '', '', 'Grand Total',
+      this.data7?.allTotalQuantity,
+      this.data7?.allGrandTotal
+    ]);
 
-  const excelBuffer: any = XLSX.write(workbook, {
-    bookType: 'xlsx',
-    type: 'array'
-  });
+    const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(aoa);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { 'RegularCustomerBooking': worksheet },
+      SheetNames: ['RegularCustomerBooking']
+    };
 
-  const blobData: Blob = new Blob([excelBuffer], {
-    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-  });
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const blobData: Blob = new Blob([excelBuffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    });
 
-  FileSaver.saveAs(blobData, `RegularCustomerBooking_${Date.now()}.xlsx`);
-}
+    FileSaver.saveAs(blobData, `RegularCustomerBooking_${Date.now()}.xlsx`);
+  }
 
-// Helper functions for date formatting
-formatDate(dateStr: any): string {
-  const date = new Date(dateStr);
-  return date.toLocaleDateString('en-GB'); // dd/mm/yyyy
-}
+  formatDate(dateStr: any): string {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('en-GB');
+  }
 
-formatTime(date: Date): string {
-  return date.toLocaleTimeString('en-US'); // hh:mm AM/PM
-}
-
-  
+  formatTime(date: Date): string {
+    return date.toLocaleTimeString('en-US');
+  }
 }

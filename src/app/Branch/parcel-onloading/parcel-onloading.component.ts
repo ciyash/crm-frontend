@@ -64,29 +64,17 @@ export class ParcelOnloadingComponent {
       branch: [''] // ✅
 
     });
-    // this.form1 = this.fb.group({
-    //   fromBookingDate: ['', ],
-    //   toBookingDate: ['', ],
-    //   fromCity: this.fb.array([]),
-    //   toCity: ['', ], // ✅ Ensure toCity is a FormControl, NOT a FormArray
-    //   branch: ['', ],
-    //   vehicalNumber: ['', ],
-    //   grnNo: this.fb.array([],),
-    //   bookingType: [''],
-    // });
     this.form1 = this.fb.group({
       fromBookingDate: [''],
       toBookingDate: [''],
       fromCity: this.fb.array([]),
-      toCity: ['', ], // ✅ Ensure toCity is a FormControl, NOT a FormArray
+      toCity: ['', ], 
       grnNo: this.fb.array([]),
       bookingType:[''],
       // lrNumber: this.fb.array([]),
       branch: [''],
       vehicalNumber: [''],
       
-
-
     });
     
   }
@@ -94,9 +82,7 @@ export class ParcelOnloadingComponent {
     this.searchTerm = this.activeroute.snapshot.params['grnNumber'];
     this.getCities();
     this.getvehicleData();
-
   }
-
   getTodayDateString(): string {
     const today = new Date();
     const day = ('0' + today.getDate()).slice(-2);
@@ -104,11 +90,7 @@ export class ParcelOnloadingComponent {
     const year = today.getFullYear();
     return `${year}-${month}-${day}`; // ✔ HTML date input format
   }
-  
-formatDateDisplay(dateStr: string): string {
-  const [year, month, day] = dateStr.split('-');
-  return `${day}-${month}-${year}`;
-}
+
 
   ngAfterViewInit(): void {
     new SlimSelect({
@@ -147,7 +129,6 @@ formatDateDisplay(dateStr: string): string {
         const selectedVehicle = event.params.data.id;
         // this.form.get('vehicalNumber')?.setValue(selectedVehicle);
         this.form1.get('vehicalNumber')?.setValue(selectedVehicle);  // ✅ CORRECT
-
         console.log(
           'Updated Vehicle Number:',
           this.form.get('vehicalNumber')?.value
@@ -183,10 +164,6 @@ formatDateDisplay(dateStr: string): string {
     this.form1.setControl('grnNo', grnArray);
     this.allSelected = checked;
   }
-  
-  
-
-
 onLoad() {
   if (this.form.invalid) {
     this.toastr.error('Please fill all required fields', 'Validation Error');
@@ -199,67 +176,6 @@ onLoad() {
     fromDate: formValues.fromDate,
     toDate: formValues.toDate,
   };
-
-  
-
-  // if (formValues.fromCity?.length) payload.fromCity = formValues.fromCity;
-  // if (formValues.toCity) payload.toCity = formValues.toCity;
-  // if (formValues.vehicalNumber) payload.vehicalNumber = formValues.vehicalNumber;
-  // if (formValues.branch) payload.branch = formValues.branch;
-
-  // console.log("Payload to be sent:", JSON.stringify(payload, null, 2));
-
-  // this.api.FilterParcelUnLoading(payload).subscribe({
-  //   next: (response: any) => {
-  //     console.log('API Response:', response);
-
-  //     const data = response?.data || [];
-
-  //     if (!data.length) {
-  //       this.apiResponse = [];
-  //       this.bkdata = [];
-  //       this.summary = {};
-  //       this.LoadSuccess = false;
-  //       this.toastr.error('No customer bookings found.', 'Error');
-  //       return;
-  //     }
-
-  //     this.apiResponse = data;
-  //     this.bkdata = data.flatMap((item: any) => item.bookings);
-
-  //     // Prepare 
-  //     this.summary = {};
-  //     data.forEach((item: any) => {
-  //       this.summary[item.bookingType] = {
-  //         totalQuantity: item.totalQuantity,
-  //         totalGrandTotal: item.totalGrandTotal,
-  //       };
-  //     });
-
-  //     this.LoadSuccess = true;
-
-  //     if (this.bkdata.length > 0) {
-  //       this.form1.patchValue({
-  //         branch: this.bkdata[0].branch,
-  //       });
-
-  //       this.setFormArray('bookingType', this.bkdata.map(d => d.bookingType));
-  //       this.setFormArray('grnNo', this.bkdata.map(d => d.grnNo));
-  //       this.setFormArray('lrNumber', this.bkdata.map(d => d.lrNumber));
-  //     }
-
-  //     this.toastr.success('Parcel unloaded Successfully', 'Success');
-  //   },
-
-  //   error: (err) => {
-  //     console.error('API Error:', err);
-  //     this.apiResponse = [];
-  //     this.bkdata = [];
-  //     this.summary = {};
-  //     this.LoadSuccess = false;
-  //     this.toastr.error('Parcel unloaded Data Not Found', 'Error');
-  //   }
-  // });
   this.api.FilterParcelUnLoading(payload).subscribe({
     next: (response: any) => {
       const data = response?.data || [];
@@ -340,38 +256,6 @@ handleQrCodeResult(result: string) {
   this.getQRdata(result);
 }
 
-
-// getQRdata(id: string) {
-//   this.api.GetQrUnloadGRNnumber(id).subscribe(
-//     (res: any) => {
-//       console.log('Scanned QR data:', res);
-
-//       let newData: any[] = [];
-
-//       // Normalize based on your API structure
-//       if (res?.data?.length) {
-//         this.apiResponse = res.data || [];
-
-//         // Combine all bookings into one array
-//         // this.bkdata = this.apiResponse.flatMap((item: any) => item.bookings);
-//       } else if (Array.isArray(res)) {
-//         newData = res;
-//       } else if (typeof res === 'object') {
-//         newData = [res];
-//       }
-
-//       this.bkdata = [...this.bkdata, ...newData]; // avoid push()
-
-//       this.toastr.success('Parcel Unloaded successfully', 'Success');
-//       this.cdRef.detectChanges(); // Ensure UI refresh if needed
-//     },
-//     (err) => {
-//       this.toastr.error('Parcel already Unloaded or Error occurred', 'Error');
-//     }
-//   );
-// }
-
-
 getQRdata(id: string) {
   this.api.GetQrUnloadGRNnumber(id).subscribe(
     (res: any) => {
@@ -412,8 +296,6 @@ getQRdata(id: string) {
     }
   );
 }
-
-  
   onTocitySelect(event: any) {
     console.log('Event triggered:', event);
     console.log('Selected City:', event.target.value);
@@ -462,7 +344,6 @@ getQRdata(id: string) {
     });
     console.log('Selected From Cities:', fromCityArray.value);
   }
-
   setFormArray(controlName: string, values: any[]) {
     const formArray = this.form1.get(controlName) as FormArray;
     formArray.clear(); // Clear existing
@@ -471,42 +352,6 @@ getQRdata(id: string) {
     });
   }
 
-  // onGrnNoChange(event: any, grnNo: string) {
-  //   const formArray = this.form1.get('grnNo') as FormArray;
-  //   if (event.target.checked) {
-  //     // Add if not already selected
-  //     if (!formArray.value.includes(grnNo)) {
-  //       formArray.push(this.fb.control(grnNo));
-  //     }
-  //   } else {
-  //     // Remove if unchecked
-  //     const index = formArray.value.indexOf(grnNo);
-  //     if (index > -1) {
-  //       formArray.removeAt(index);
-  //     }
-  //   }
-  
-  //   // ✅ Update "Select All" status based on selected values
-  //   this.allSelected = this.bkdata.length === formArray.value.length;
-  //   console.log('Selected GRN Numbers:', formArray.value);
-  // }
-
-  // onSelectAllChange(event: any) {
-  //   const formArray = this.form1.get('grnNo') as FormArray;
-  //   formArray.clear();
-
-  //   if (event.target.checked && this.bkdata?.length > 0) {
-  //     this.bkdata.forEach((row: any) => {
-  //       const grn = row?.grnNo;
-  //       if (grn && !formArray.value.includes(grn)) {
-  //         formArray.push(this.fb.control(grn));
-  //       }
-  //     });
-  //   }
-
-  //   this.allSelected = event.target.checked;
-  //   console.log('All selected GRNs:', formArray.value);
-  // }
 
   getvehicleData() {
     this.api.VehicleData().subscribe({
@@ -520,44 +365,6 @@ getQRdata(id: string) {
     });
   }
 
-  // ParcelLoad() {
-  //   const grnNos = Array.isArray(this.form1.value.grnNo)
-  //   ? this.form1.value.grnNo
-  //   : [this.form1.value.grnNo]; // fallback in case it's a single value
-  
-  // const payload = {
-  //   fromBookingDate: this.form1.value.fromBookingDate,
-  //   toBookingDate: this.form1.value.toBookingDate,
-  //   fromCity: this.form1.value.fromCity,
-  //   toCity: this.form1.value.toCity,
-  //   branch: this.form1.value.branch,
-  //   // vehicalNumber: this.form1.value.vehicalNumber,
-  //   vehicalNumber:this.form1.value.vehicalNumber,
-  //   grnNo: grnNos,
-  //   bookingType: this.form1.value.bookingType,
-  // };
-  
-
-  //   console.log('Final Payload:', payload);
-  //   this.api.ParcelUnLoading(payload).subscribe({
-  //     next: (response: any) => {
-  //       console.log('Parcel unloaded successfully:', response);
-  //       this.toastr.success('Parcel unloaded successfully', ' successfully');
-
-  //       setTimeout(() => {
-  //         this.router
-  //           .navigateByUrl('/', { skipLocationChange: true })
-  //           .then(() => {
-  //             this.router.navigate(['/parcelunloading']);
-  //           });
-  //       }, 1000);
-  //     },
-  //     error: (error: any) => {
-  //       console.error('Parcel unloading failed:', error);
-  //       alert('Parcel Unloading Failed. Please try again.');
-  //     },
-  //   });
-  // }
 
   ParcelLoad() {
     console.log('ParcelLoad called');  // Confirm click

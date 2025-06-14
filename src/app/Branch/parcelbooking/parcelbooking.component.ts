@@ -474,8 +474,8 @@ onTocitySelect(event: any) {
       this.api.searchUser(searchTerm).subscribe(
         (res: any) => {
           console.log('API Response:', res);
-          this.userList = res.length ? res : [];
-          this.showDropdown = !!this.userList.length;
+          this.userList = res?.results?.length ? res.results : [];
+          this.showDropdown = this.userList.length > 0;
         },
         (err: any) => {
           console.error('Search Error:', err);
@@ -489,20 +489,21 @@ onTocitySelect(event: any) {
     }
   }
   
+  
   selectUser(user: any): void {
     this.form.patchValue({
-      senderName: user.name,
-      senderMobile: user.phone,
-      senderAddress: user.address,
-      senderGST: user.gst
+      senderName: user.name || '',
+      senderMobile: user.phone || '',
+      senderAddress: user.address || '',
+      senderGST: user.gst || ''
     });
-       console.log('sender-address:', this.form.get('senderAddress')?.value);
-       console.log('sender-address:', this.form.get('senderMobile')?.value);
-
-
+  
+    console.log('sender-address:', this.form.get('senderAddress')?.value);
+    console.log('sender-mobile:', this.form.get('senderMobile')?.value);
+  
     this.showDropdown = false;
-    
   }
+  
   
   hideDropdown(): void {
     setTimeout(() => {
