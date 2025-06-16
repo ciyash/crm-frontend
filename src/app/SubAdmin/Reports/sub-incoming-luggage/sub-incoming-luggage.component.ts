@@ -76,7 +76,7 @@ export class SubIncomingLuggageComponent {
         this.getProfileData();
       }
   
-  
+  // 
       // LuaggageReport() {
       //   this.payload = {
       //     fromDate: this.form.value.fromDate,
