@@ -349,13 +349,7 @@ export class SubBookingComponent {
     }
   
   
-    // openPreviewModal() {
-    //   if (this.form.valid) {
-    //     this.modelData = { ...this.form.value };  // Copy form values into modelData
-    //   } else {
-    //     this.toastr.warning("Please fill all required fields", "Warning");
-    //   }
-    // }
+
     
    
   
@@ -495,11 +489,7 @@ export class SubBookingComponent {
         this.toastr.error("Unexpected error occurred. Please contact support.", "Error");
       }
     }
-    
-    
-    
-    
-  
+
     searchUser(): void {
       const searchTerm = this.form.get('senderName')?.value?.trim();
       if (searchTerm) {

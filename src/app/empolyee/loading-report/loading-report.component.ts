@@ -156,11 +156,19 @@ export class LoadingReportComponent {
             toDate: this.form1.value.toDate
           };
     
-          // Save to localStorage
           localStorage.setItem('parcelReportData', JSON.stringify(finalData8));
-    
-          // Open new tab
-          window.open('/parcelloading-offlinereport', '_blank');
+          const baseUrl = window.location.origin;
+          const parcelloadingofflinereportUrl = `${baseUrl}/cloud/parcelloadingofflinereport`;
+          window.open(parcelloadingofflinereportUrl, '_blank');
+          this.toast.success(response.message || 'Operation successful');
+
+          
+
+          // Save to localStorage
+          // localStorage.setItem('parcelReportData', JSON.stringify(finalData8));
+          // window.open('/parcelloading-offlinereport', '_blank');
+
+
         },
         error: (error: any) => {
           console.error('Parcel loading failed:', error);

@@ -171,17 +171,16 @@ export class BookingComponent {
       console.log('profile', res);
       this.ffdata = res.branchId;
       this.pfdata = res.branchId.city;
-      this.profileData = res;
-      console.log("profileData:", this.profileData);
-  
-      // Update form controls with profile data
+      this.profileData = res.branchId.name;
+      console.log("profileData:",this.profileData);
+      
+      // console.log("profileData:", this.profileData);
       this.form.patchValue({
         fromCity: this.pfdata || '', // Set fromCity to the city from branchId
         pickUpBranch: this.ffdata?.branchUniqueId || '' // Set pickUpBranch to branchUniqueId
+        // pickUpBranchname:this.ffdata?.name
       });
-  
-      // Fetch service charges after setting fromCity
-      this.fetchServiceCharges();
+        this.fetchServiceCharges();
     });
   }
 
@@ -319,66 +318,7 @@ onTocitySelect(event: any) {
   }
 
 
-  // openPreviewModal() {
-  //   if (this.form.valid) {
-  //     this.modelData = { ...this.form.value };  // Copy form values into modelData
-  //   } else {
-  //     this.toastr.warning("Please fill all required fields", "Warning");
-  //   }
-  // }
-  
- 
 
-  // openPreviewModal() {
-  //   if (this.form.valid) {
-  //     const orderDataToSend = this.packages.value.map((item: any) => ({
-  //       quantity: item.quantity,
-  //       packageType: item.packageType,
-  //       contains: item.contains,
-  //       weight: item.weight,
-  //       unitPrice: item.unitPrice,
-  //       totalPrice: item.totalPrice
-  //     }));
-  
-  //     const pickupBranchId = this.form.value.pickUpBranch;
-  //     const dropBranchId = this.form.value.dropBranch;
-  
-  //     const pickupBranchName = this.pdata.find((b: any) => b.branchUniqueId === pickupBranchId)?.name || "N/A";
-  //     const dropBranchName = this.tbcdata.find((b: any) => b.branchUniqueId === dropBranchId)?.name || "N/A";
-  
-  //     this.modelData = {
-  //       fromCity: this.form.value.fromCity,
-  //       toCity: this.form.value.toCity,
-  //       pickUpBranch: pickupBranchId,
-  //       dropBranch: dropBranchId,
-  //       pickUpBranchName: pickupBranchName,
-  //       dropBranchName: dropBranchName,
-  //       dispatchType: this.form.value.dispatchType,
-  //       bookingType: this.form.value.bookingType,
-  //       senderName: this.form.value.senderName,
-  //       senderMobile: this.form.value.senderMobile,
-  //       senderAddress: this.form.value.senderAddress,
-  //       senderGst: this.form.value.senderGST || "",
-  //       receiverName: this.form.value.receiverName,
-  //       receiverMobile: this.form.value.receiverMobile,
-  //       receiverAddress: this.form.value.receiverAddress,
-  //       receiverGst: this.form.value.receiverGST || "",
-  //       packages: orderDataToSend,
-  //       serviceCharges: this.form.value.serviceCharges,
-  //       hamaliCharges: this.form.value.hamaliCharges,
-  //       doorDeliveryCharges: this.form.value.doorDeliveryCharges,
-  //       doorPickupCharges: this.form.value.doorPickupCharges,
-  //       valueOfGoods: this.form.value.valueOfGoods,
-  //       grandTotal: this.form.value.grandTotal,
-  //       agent:this.form.value.agent
-  //     };
-  
-  //     // Then open modal using Bootstrap JS if needed (or it's already bound by button trigger)
-  //     console.log("Preview Data:", this.modelData);
-  //   } else {
-  //     this.toastr.warning("Please fill all required fields before previewing.", "Form Incomplete");
-  //   }
-  // }
   openPreviewModal() {
     if (this.form.valid) {
       const orderDataToSend = this.packages.value.map((item: any) => ({
@@ -394,9 +334,15 @@ onTocitySelect(event: any) {
       const dropBranchId = this.form.value.dropBranch;
   
       // Safely retrieve branch names
-      const pickupBranchName = this.pdata && this.pdata.length 
-        ? this.pdata.find((b: any) => b.branchUniqueId === pickupBranchId)?.name || "N/A"
-        : "N/A";
+      // const pickupBranchName = this.pdata && this.pdata.length 
+      //   ? this.pdata.find((b: any) => b.branchUniqueId === pickupBranchId)?.name || "N/A"
+      //   : "N/A";
+
+
+  
+const pickupBranchname =this.profileData
+console.log('Pickup Branch Name:', pickupBranchname);
+
       const dropBranchName = this.tbcdata && this.tbcdata.length 
         ? this.tbcdata.find((b: any) => b.branchUniqueId === dropBranchId)?.name || "N/A"
         : "N/A";
@@ -406,7 +352,7 @@ onTocitySelect(event: any) {
         toCity: this.form.value.toCity,
         pickUpBranch: pickupBranchId,
         dropBranch: dropBranchId,
-        pickUpBranchName: pickupBranchName,
+        pickupBranchname: pickupBranchname,
         dropBranchName: dropBranchName,
         dispatchType: this.form.value.dispatchType,
         bookingType: this.form.value.bookingType,
@@ -437,84 +383,6 @@ onTocitySelect(event: any) {
   confirmBooking() {
     this.add();  
   }
-  // add() {
-  //   console.log("Form Data Before Submission:", this.form.value);
-    
-  //   if (this.form.valid) {
-  //     const orderDataToSend = this.packages.value.map((item: any) => ({
-  //       quantity: item.quantity,
-  //       packageType: item.packageType,
-  //       contains: item.contains,
-  //       weight: item.weight,
-  //       unitPrice: item.unitPrice,
-  //       totalPrice: item.totalPrice
-  //     }));
-  //     const pickupBranchId = this.form.value.pickUpBranch;
-  //   const dropBranchId = this.form.value.dropBranch;
-
-  //   // Find branch names by ID
-  //   const pickupBranchName = this.pdata.find((b: any) => b.branchUniqueId === pickupBranchId)?.name || "N/A";
-  //   const dropBranchName = this.tbcdata.find((b: any) => b.branchUniqueId === dropBranchId)?.name || "N/A";
-
-  //     const val: any = {
-  //       fromCity: this.form.value.fromCity,
-  //       toCity: this.form.value.toCity,
-  //       pickUpBranchName: pickupBranchName, 
-  //       dropBranchName: dropBranchName, 
-  //       pickUpBranch: this.form.value.pickUpBranch || "N/A",  
-  //       dropBranch: this.form.value.dropBranch,
-  //       dispatchType: this.form.value.dispatchType,
-  //       bookingType: this.form.value.bookingType,
-  //       senderName: this.form.value.senderName,
-  //       senderMobile: this.form.value.senderMobile,
-  //       senderAddress: this.form.value.senderAddress,
-  //       senderGst: this.form.value.senderGST || "",  // Default empty string
-  //       receiverName: this.form.value.receiverName,
-  //       receiverMobile: this.form.value.receiverMobile,
-  //       receiverAddress: this.form.value.receiverAddress,
-  //       receiverGst: this.form.value.receiverGST || "",  // Default empty string
-  //       packages: orderDataToSend,
-  //       serviceCharges: this.form.value.serviceCharges,
-  //       hamaliCharges: this.form.value.hamaliCharges,
-  //       doorDeliveryCharges: this.form.value.doorDeliveryCharges,
-  //       doorPickupCharges: this.form.value.doorPickupCharges,
-  //       valueOfGoods: this.form.value.valueOfGoods,
-  //       grandTotal: this.form.value.grandTotal,
-  //       agent:this.form.value.agent
-  //     };
-  
-  //     console.log("Final Data to Submit:", val);
-    
-  //     this.modelData = val; 
-  
-  //     this.api.createBooking(val).subscribe(
-  //       (response: any) => {
-  //         console.log("Parcel saved successfully:", response);
-  
-  //         if (response?.data?.grnNo) {
-  //           this.gdata = response.data;
-  //           console.log("GRN Number:", this.gdata.grnNo);
-  //           this.toastr.success("Parcel Booked Successfully", "Success");
-  //           // this.router.navigateByUrl(`/printgrn/${this.gdata.grnNo}`);
-  //           this.router.navigateByUrl(`/printgrn/${this.gdata.grnNo}`).then(() => {
-  //             window.location.reload();
-  //           });
-            
-            
-
-  //         } else {
-  //           console.error("❌ Error: grnNo not found in response.");
-  //           this.toastr.warning("Booking successful, but grnNo is missing.", "Warning");
-  //         }
-  //       },
-  //       (error) => {
-  //         console.error("❌ Error saving order:", error);
-  //         this.toastr.error("Failed to book the parcel. Please try again.", "Error");
-  //       }
-  //     );
-  //   }
-  // }
-  
   add() {
     console.log("Form Data Before Submission:", this.form.value);
     
@@ -532,13 +400,13 @@ onTocitySelect(event: any) {
       const dropBranchId = this.form.value.dropBranch;
   
       // Find branch names by ID
-      const pickupBranchName = this.pdata?.find((b: any) => b.branchUniqueId === pickupBranchId)?.name || "N/A";
+      const pickupBranchname = this.pdata?.find((b: any) => b.branchUniqueId === pickupBranchId)?.name || "N/A";
       const dropBranchName = this.tbcdata?.find((b: any) => b.branchUniqueId === dropBranchId)?.name || "N/A";
   
       const val: any = {
         fromCity: this.form.value.fromCity,
         toCity: this.form.value.toCity,
-        pickUpBranchName: pickupBranchName, 
+        pickupBranchname: pickupBranchname, 
         dropBranchName: dropBranchName, 
         pickUpBranch: this.form.value.pickUpBranch,
         dropBranch: this.form.value.dropBranch,
@@ -597,8 +465,8 @@ onTocitySelect(event: any) {
       this.api.searchUser(searchTerm).subscribe(
         (res: any) => {
           console.log('API Response:', res);
-          this.userList = res.length ? res : [];
-          this.showDropdown = !!this.userList.length;
+          this.userList = res?.results?.length ? res.results : [];
+          this.showDropdown = this.userList.length > 0;
         },
         (err: any) => {
           console.error('Search Error:', err);
@@ -612,20 +480,21 @@ onTocitySelect(event: any) {
     }
   }
   
+  
   selectUser(user: any): void {
     this.form.patchValue({
-      senderName: user.name,
-      senderMobile: user.phone,
-      senderAddress: user.address,
-      senderGST: user.gst
+      senderName: user.name || '',
+      senderMobile: user.phone || '',
+      senderAddress: user.address || '',
+      senderGST: user.gst || ''
     });
-       console.log('sender-address:', this.form.get('senderAddress')?.value);
-       console.log('sender-address:', this.form.get('senderMobile')?.value);
-
-
+  
+    console.log('sender-address:', this.form.get('senderAddress')?.value);
+    console.log('sender-mobile:', this.form.get('senderMobile')?.value);
+  
     this.showDropdown = false;
-    
   }
+  
   
   hideDropdown(): void {
     setTimeout(() => {

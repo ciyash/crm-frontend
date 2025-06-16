@@ -2,20 +2,10 @@
     padding: 10px;
     border-bottom: 1px solid #ccc;
   }
-  
-  
-  
   ::ng-deep .ss-main .ss-multi-selected .ss-values .ss-value {
   background-color: #034F92 !important;
   }
   
-  
-  
-  // .form-label::after {
-  // content: " *"; 
-  // color: red;
-  // font-weight: bold;
-  // }
   .form-label{
   color: #3C3C3C;
   font-size: 15.17px;
@@ -32,14 +22,10 @@
   }
   
   th {
-  // background: #143374;
-  // color: white;
   border-radius: 0;
   top: 0;
   padding: 10px;
   }
-  
-  
   .table {
       width: 100%;
       border-collapse: collapse;
@@ -50,7 +36,7 @@
       background-color: #143374 !important; /* Dark Blue */
       color: white !important;
   }
-  
+
   .table th {
       padding: 10px;
       text-align: center;
@@ -81,15 +67,9 @@
       color: black;
   }
   
-  /* Delete Button */
   .text-danger {
       color: red !important;
   }
-  
-  
-  
-  
-  
   td{
       background: #8FA0C4;
       color: white;
@@ -98,7 +78,6 @@
       background-color: brown;
       position: sticky;
     }
-  
      th {
       background: #143374;
       color: white;
@@ -106,10 +85,7 @@
       top: 0;
       padding: 10px;
     }
-  
-  
-     
-  
+
     .table thead tr {
       background-color: #143374 !important;
       color: white !important;
@@ -142,7 +118,6 @@
   
   }
   
-  
   .form-control, .btn {
   border-radius: 5px;
   }
@@ -160,8 +135,6 @@
   background-color: #143374 !important;
   border-color: #143374 !important;
   }
-  
-  
   .select2-container .select2-selection--single{
   height:34px !important;
   }
@@ -180,42 +153,33 @@
   
   
   
-  input[type="date"]::-webkit-datetime-edit,
-  input[type="date"]::-webkit-inner-spin-button,
-  input[type="date"]::-webkit-clear-button {
-    color: #fff;
-    position: relative;
-  }
+//   input[type="date"]::-webkit-datetime-edit,
+//   input[type="date"]::-webkit-inner-spin-button,
+//   input[type="date"]::-webkit-clear-button {
+//     color: #fff;
+//     position: relative;
+//   }
   
-  input[type="date"]::-webkit-datetime-edit-year-field {
-    position: absolute !important;
-    color: #000;
-    left: 50px;
-  }
+//   input[type="date"]::-webkit-datetime-edit-year-field {
+//     position: absolute !important;
+//     color: #000;
+//     left: 50px;
+//   }
   
-  input[type="date"]::-webkit-datetime-edit-month-field {
-    position: absolute !important;
-    color: #000;
-    left: 26px;
-  }
+//   input[type="date"]::-webkit-datetime-edit-month-field {
+//     position: absolute !important;
+//     color: #000;
+//     left: 26px;
+//   }
   
-  input[type="date"]::-webkit-datetime-edit-day-field {
-    position: absolute !important;
-    color: #000;
-    left: 4px;
-  }
+//   input[type="date"]::-webkit-datetime-edit-day-field {
+//     position: absolute !important;
+//     color: #000;
+//     left: 4px;
+//   }
   
   
-  
-  // .select2-container--default.select2-container--focus .select2-selection--multiple {
-  //   border: solid #bd2424 1px;
-  //   outline: 0;
-  //   width: 54px!important;
-  // }
-  // select.form-control {
-  //   width: 20rem !important;
-  
-  // }
+
   
   
   

@@ -238,7 +238,6 @@ onLoad() {
     setTimeout(() => {
       // Initialize select2 for From City
       $(this.selectElem.nativeElement).select2();
-
       $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
         const selectedCity = event.params.data.id;  // Get selected value from select2 event
         console.log('Selected City:', selectedCity);
@@ -253,6 +252,34 @@ onLoad() {
         // Call your existing handler if you want to trigger API or other logic
         this.onFromcitySelect({ target: { value: selectedCity } });
       });
+      // Initialize Select2
+
+  // $(this.selectElem.nativeElement).select2({
+  //   placeholder: 'Select a city',
+  //   allowClear: true,
+  //   width: '100%'
+  // });
+
+  // // Set default value in Select2 and form
+  // const defaultCity = this.pfdata?.branchId?.city;
+  // if (defaultCity) {
+  //   $(this.selectElem.nativeElement).val(defaultCity).trigger('change');
+  //   this.form.get('fromCity')?.setValue(defaultCity);
+  // }
+
+  // // Handle selection changes
+  // $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
+  //   const selectedCity = event.params.data.id;
+  //   console.log('Selected City:', selectedCity);
+
+  //   this.form.get('fromCity')?.setValue(selectedCity);
+  //   this.form.get('fromCity')?.markAsTouched();
+  //   this.form.get('fromCity')?.updateValueAndValidity();
+
+  //   // Trigger any additional logic
+  //   this.onFromcitySelect({ target: { value: selectedCity } });
+  // });
+
       
 
       $(this.branchselect.nativeElement).on('select2:select', (event: any) => {

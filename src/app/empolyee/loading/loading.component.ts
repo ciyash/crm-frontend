@@ -230,9 +230,6 @@ onLoad() {
     this.allSelected = event.target.checked;
     console.log('All GRN Numbers Selected:', formArray.value);
   }
-
-
- 
   ngAfterViewInit(): void {
     // Initialize SlimSelect
     new SlimSelect({
@@ -240,11 +237,7 @@ onLoad() {
     });
   
     setTimeout(() => {
- 
-      
 
-      
-    
       // Initialize select2 for Vehicle Number
       $(this.SelectVechicle.nativeElement).select2();
       $(this.SelectVechicle.nativeElement).on('select2:select', (event: any) => {
@@ -257,61 +250,22 @@ onLoad() {
   }
   
 
+
+  
+
   openScanner() {
     this.showScanner = true;
   }
-
   closeScanner() {
     this.showScanner = false;
   }
-
   handleQrCodeResult(result: string) {
     this.closeScanner();
-  
-    // Don't set this.data = result directly here (it's just a string)
     this.getQRdata(result);
   }
-  
-
-
-  // getQRdata(id: any) {
-  //   this.api.GetQrGRNnumber(id).subscribe((res: any) => {
-  //     console.log(res, 'qrdata');
-  //     let newData: any[] = [];
-  //     // Handle both object and array data responses
-  //     if (Array.isArray(res)) {
-  //       newData = res;
-  //     } else if (res && typeof res === 'object') {
-  //       // If it has grnNo or any parcel identifiers, push it even if success is false
-  //       if (res.grnNo || res.lrNumber) {
-  //         newData = [res];
-  //       }
-  //     }
-  
-  //     // Merge data to the table
-  //     if (newData.length > 0) {
-  //       this.data = [...this.data || [], ...newData];
-  //       this.form1.patchValue({
-  //         senderName: this.data[0]?.senderName || ''            
-  //       });
-  //       this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
-  //       this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
-  //     }
-  
-  //     // Show toast depending on success/failure
-  //     if (res.success) {
-       
-  //       this.toast.success(res.message || 'Parcel loaded successfully', 'Success');
-  //     } else {
-  //       this.toast.success(res.message || 'Parcel loaded successfully', 'Success');
-  //     }
-  //   }, err => {
-  //     this.toast.error('Parcel already loaded', 'Error');
-  //   });
-  // }
   getQRdata(id: any) {
     this.api.GetQrGRNnumber(id).subscribe((res: any) => {
-      console.log(res, 'qrdata');
+      console.log(res, 'qrdatakjhgfdsdfghj');
       let newData: any[] = [];
   
       if (Array.isArray(res)) {
@@ -323,34 +277,47 @@ onLoad() {
       }
   
       if (newData.length > 0) {
+        // Prevent duplicates (optional enhancement)
+        newData = newData.filter(
+          (qr) => !this.data?.some((existing: { grnNo: any; }) => existing.grnNo === qr.grnNo)
+        );
+  
+        // Append new data
         this.data = [...this.data || [], ...newData];
   
         const qr = this.data[0];
+        console.log("Qr:", qr);
   
-        // Patch all required fields from QR
+        // Patch basic fields (non-array)
         this.form1.patchValue({
           senderName: qr?.senderName || '',
           fromCity: qr?.fromCity || '',
-          toCity: [qr?.toCity || ''], // use array if it's multiselect
           fromBranch: qr?.pickUpBranch || '',
           toBranch: qr?.dropBranch || '',
-          fromBookingDate: qr?.ltDate?.split('T')[0] || '', // format ISO to date (yyyy-mm-dd)
-          toBookingDate: qr?.bookingDate?.split('T')[0] || ''
+          fromBookingDate: qr?.ltDate?.split('T')[0] || '',
+          toBookingDate: qr?.bookingDate?.split('T')[0] || '',
         });
   
+        // Patch FormArray fields correctly
         this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
         this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
+        this.setFormArray('toCity', this.data.map((d: any) => d.toCity));
       }
   
-      if (res.success) {
-        this.toast.success(res.message || 'Parcel loaded successfully', 'Success');
-      } else {
-        this.toast.success(res.message || 'Parcel loaded successfully', 'Success');
-      }
+      console.log("before submitting:", this.form1.value);
+  
+      const message = res?.message || 'Parcel loaded successfully';
+      this.toast.success(message, 'Success');
     }, err => {
       this.toast.error('Parcel already loaded', 'Error');
     });
   }
+  
+  
+
+
+
+
   
   
   // jkasdbksabd

@@ -14,12 +14,12 @@
 
       <div class="col-md-4">
         <label class="form-label form-after">From City</label>
-        <input type="text" class="form-control" formControlName="fromCity" readonly />
+        <input type="text" class="form-control" formControlName="fromCity" readonly style="background-color: #EEEEEE; border: 1px solid #ced4da;" />
       </div>
 
       <div class="col-md-4">
         <label class="form-label form-after">Pickup Branch</label>
-        <input type="text" class="form-control" [value]="ffdata?.name || ''" readonly />
+        <input type="text" class="form-control" [value]="ffdata?.name || ''" readonly style="background-color: #EEEEEE; border: 1px solid #ced4da;" />
         <input type="hidden" formControlName="fromBranch" />
       </div>
 
@@ -44,4 +44,4 @@
   </form>
 </div>
 
-<app-footer></app-footer>
+<!-- <app-footer></app-footer> -->

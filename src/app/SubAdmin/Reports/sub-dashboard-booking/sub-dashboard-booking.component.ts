@@ -398,6 +398,7 @@ export class SubDashboardBookingComponent implements AfterViewInit{
           // const key = 'parcelReportData';
           // localStorage.setItem(key, JSON.stringify(finalData));
           // window.open(`/reports`, '_blank');
+          
           localStorage.setItem('parcelReportData', JSON.stringify(finalData));
           const baseUrl = window.location.origin;
           const reportUrl = `${baseUrl}/cloud/reports`;

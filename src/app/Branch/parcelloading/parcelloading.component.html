@@ -16,16 +16,33 @@ word-wrap: break-word">Parcel Loading Offline</h4>
           <input type="date" class="form-control form-control-sm" formControlName="startDate">
         </div>
 
-        <div class="col-md-4 col-sm-12">
+        <!-- <div class="col-md-4 col-sm-12">
           <label class="form-label">From City</label>
           <select #selectElem class="form-control select2" formControlName="fromCity">
-            <option value="" selected>Select City</option>
+            <option  [value]="pfdata.branchId.city" selected >{{pfdata.branchId.city}}</option>
             <option *ngFor="let city of cities" [value]="city.cityName">{{ city.cityName }}</option>
           </select>
           <div class="text-danger" *ngIf="form.get('fromCity')?.touched && form.get('fromCity')?.hasError('required')">
             From City is required.
           </div>
+        </div> -->
+        <div class="col-md-4 col-sm-12">
+          <label class="form-label">From City</label>
+          <select #selectElem class="form-control select2" formControlName="fromCity">
+            <!-- <option selected >Select city</option> -->
+            <option value="" selected>Select City</option>
+
+            <option *ngFor="let city of cities" [value]="city.cityName" 
+                    [hidden]="city.cityName === pfdata?.branchId?.city">
+              {{ city.cityName }}
+            </option>
+          </select>
+        
+          <div class="text-danger" *ngIf="form.get('fromCity')?.touched && form.get('fromCity')?.hasError('required')">
+            From City is required.
+          </div>
         </div>
+        
         
 
         <div class="col-md-4 col-sm-12">

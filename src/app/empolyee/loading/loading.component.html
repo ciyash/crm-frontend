@@ -18,7 +18,7 @@ word-wrap: break-word">Parcel Loading Offline</h4>
 
         <div class="col-md-4">
             <label class="form-label form-after">From City</label>
-            <input type="text" class="form-control" formControlName="fromCity" readonly />
+            <input type="text" class="form-control" formControlName="fromCity" style="background-color: #EEEEEE; border: 1px solid #ced4da;" readonly />
           </div>
         
 
@@ -37,13 +37,13 @@ word-wrap: break-word">Parcel Loading Offline</h4>
           <!-- To Booking Date -->
           <div class="col-12 col-md-6 col-lg-3">
             <label class="form-label">To Booking Date</label>
-            <input type="date" class="form-control form-control-sm" formControlName="endDate">
+            <input type="date" class="form-control form-control-sm" formControlName="endDate" >
           </div>
         
           <!-- Book Branch -->
             <div class="col-md-4">
                 <label class="form-label form-after">Pickup Branch</label>
-                <input type="text" class="form-control" [value]="ffdata?.name || ''" readonly />
+                <input type="text" class="form-control" [value]="ffdata?.name || ''" readonly style="background-color: #EEEEEE; border: 1px solid #ced4da;" />
                 <input type="hidden" formControlName="pickUpBranch" />
               </div>
        

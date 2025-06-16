@@ -267,6 +267,44 @@ export class DashboardReportComponent {
       }
     
       // PARCEL BOOKING REPORT
+      // parcelbooking() {
+      //   if (this.form.invalid) {
+      //     this.form.markAllAsTouched();
+      //     this.toast.error('Please fill all required fields');
+      //     return;
+      //   }
+      //   const payload = {
+      //     fromDate: this.form.value.fromDate,
+      //     toDate: this.form.value.toDate,
+      //     fromCity: this.form.value.fromCity,
+      //     toCity: this.form.value.toCity,
+      //     bookingStatus: this.form.value.bookingStatus,
+      //     bookingType: this.form.value.bookingType,
+      //   };
+      //   console.log('parcelbooking:', payload);
+    
+      //   this.api.ParcelBookingReport(payload).subscribe({
+      //     next: (response: any) => {
+      //       console.log('Parcel reports1:', response);
+      //       const finalData = {
+      //         ...response,
+      //         fromDate: this.form.value.fromDate,
+      //         toDate: this.form.value.toDate,
+      //       };
+    
+      //       // Save data in localStorage with a unique key
+      //       const key = 'parcelReportData';
+      //       localStorage.setItem(key, JSON.stringify(finalData));
+      //       window.open(`/reports`, '_blank');
+
+
+      //     },
+      //     error: (error: any) => {
+      //       console.error('Parcel loading failed:', error);
+      //       this.toast.error('Parcel Loading Failed. Please try again.');
+      //     },
+      //   });
+      // }
       parcelbooking() {
         if (this.form.invalid) {
           this.form.markAllAsTouched();
@@ -293,11 +331,14 @@ export class DashboardReportComponent {
             };
     
             // Save data in localStorage with a unique key
-            const key = 'parcelReportData';
-            localStorage.setItem(key, JSON.stringify(finalData));
-    
-            // Open the reports route in a new tab
-            window.open(`/reports`, '_blank');
+            // const key = 'parcelReportData';
+            // localStorage.setItem(key, JSON.stringify(finalData));
+            // window.open(`/reports`, '_blank');
+            
+            localStorage.setItem('parcelReportData', JSON.stringify(finalData));
+            const baseUrl = window.location.origin;
+            const reportUrl = `${baseUrl}/cloud/reports`;
+            window.open(reportUrl, '_blank');
           },
           error: (error: any) => {
             console.error('Parcel loading failed:', error);
@@ -305,6 +346,7 @@ export class DashboardReportComponent {
           },
         });
       }
+  
 
       AllParcelBooking() {
         const payload1 = {
@@ -331,10 +373,12 @@ export class DashboardReportComponent {
             };
       
             // Save data to localStorage
-            localStorage.setItem('allParcelBookingData', JSON.stringify(finalData1));
-      
-            // Open new tab and load the route
-            window.open('/allpercelbooking', '_blank');
+            // localStorage.setItem('allParcelBookingData', JSON.stringify(finalData1));
+            // window.open('/allpercelbooking', '_blank');
+            localStorage.setItem('allparcelReportData', JSON.stringify(finalData1));
+        const baseUrl = window.location.origin;
+        const allpercelbookingUrl = `${baseUrl}/cloud/allpercelbooking`;
+        window.open(allpercelbookingUrl, '_blank');
           },
           error: (error: any) => {
             console.error('Parcel loading failed:', error);
@@ -370,11 +414,10 @@ export class DashboardReportComponent {
               toDate: this.form2.value.toDate,
             };
     
-            // Save data to localStorage
-            localStorage.setItem('bookingSerialData', JSON.stringify(finalData11));
-    
-            // Open /bookingserial in a new tab
-            window.open('/bookingserial', '_blank');
+            localStorage.setItem('serialData', JSON.stringify(finalData11));
+            const baseUrl = window.location.origin;
+            const bookingserialUrl = `${baseUrl}/cloud/bookingserial`;
+            window.open(bookingserialUrl, '_blank');
           },
     
           error: (error: any) => {
@@ -401,20 +444,20 @@ export class DashboardReportComponent {
           this.api.ParcelCancelReport(payload6).subscribe({
             next: (response: any) => {
               console.log('Cancel Report Loaded:', response);
-              const finalData = {
+              const finalData7 = {
                 ...response,
                 fromDate: payload6.fromDate,
                 toDate: payload6.toDate,
               };
       
               // Save data to localStorage
-              localStorage.setItem('cancelReportData', JSON.stringify(finalData));
-      
-              // ✅ Show success toast
               this.toast.success('Cancel Report generated successfully!');
-      
-              // Open new tab
-              window.open('/cancel-report', '_blank');
+              localStorage.setItem('CancelData', JSON.stringify(finalData7));
+              const baseUrl = window.location.origin;
+              const cancelreportUrl = `${baseUrl}/cloud/cancelreport`;
+              window.open(cancelreportUrl, '_blank');
+              this.toast.success(response.message || 'Operation successful');
+
             },
             error: (error: any) => {
               console.error('Cancel Report Loading Failed:', error);
@@ -450,12 +493,11 @@ export class DashboardReportComponent {
               fromDate: this.form6.value.fromDate,
               toDate: this.form6.value.toDate,
             };
-    
-            // ✅ Store in localStorage
             localStorage.setItem('bookingSummaryData', JSON.stringify(finalData9));
-    
-            // ✅ Open new tab
-            window.open('/bookingsummary', '_blank');
+            const baseUrl = window.location.origin;
+            const bookingsummaryUrl = `${baseUrl}/cloud/bookingsummary`;
+            window.open(bookingsummaryUrl, '_blank');
+
           },
           error: (error: any) => {
             const errorMessage =
@@ -498,12 +540,11 @@ export class DashboardReportComponent {
               fromDate: this.form4.value.fromDate,
               toDate: this.form4.value.toDate,
             };
-    
-            // ✅ Store the data temporarily in localStorage
             localStorage.setItem('mobileBookingData', JSON.stringify(finalData5));
-    
-            // ✅ Open new tab with route
-            window.open('/bookingmobile', '_blank');
+            const baseUrl = window.location.origin;
+            const bookingmobileUrl = `${baseUrl}/cloud/bookingmobile`;
+            window.open(bookingmobileUrl, '_blank');
+
           },
           error: (error: any) => {
             console.error('Parcel Mobile Report loading failed:', error);
@@ -551,9 +592,11 @@ export class DashboardReportComponent {
               toDate: this.form5.value.toDate,
             };
     
-            localStorage.setItem('regularCustomerData', JSON.stringify(finalData2));
-    
-            window.open('/regularcustmer', '_blank');
+            localStorage.setItem('regularcustmerData', JSON.stringify(finalData2));
+            const baseUrl = window.location.origin;
+            const regularcustmerUrl = `${baseUrl}/cloud/regularcustmer`;
+            window.open(regularcustmerUrl, '_blank');
+      
           },
           error: (error: any) => {
             console.error('Customer Report loading failed:', error);
@@ -568,11 +611,12 @@ export class DashboardReportComponent {
     
       searchUser(): void {
         const searchTerm = this.form5.get('name')?.value?.trim();
-    
+      
         if (searchTerm && searchTerm.length >= 2) {
           this.api.searchUser(searchTerm).subscribe(
             (res: any) => {
-              this.searchResults = res;
+              console.log("API Response:", res);
+              this.searchResults = res.results || []; 
             },
             (err: any) => {
               console.error('Search Error:', err);
@@ -583,50 +627,18 @@ export class DashboardReportComponent {
           this.searchResults = [];
         }
       }
-    
+      
       selectUser(name: string): void {
         this.form5.get('name')?.setValue(name); // Set the selected name in the input
         this.searchResults = []; // Clear the search result list
       }
+      hideDropdown(): void {
+        setTimeout(() => {
+          this.searchResults = [];
+        }, 200); // Small delay to allow item click
+      }
 
-
-      // getProfileData() {
-      //   this.api.GetProfileData().subscribe((res: any) => {
-      //     console.log('profile', res);
-      //     this.ffdata = res.branchId;
-      //     this.citydata = res;
-      //     this.pfdata = res.branchId.city;
-      //     this.profileData = res;
-      //     console.log("profileData:", this.profileData);
-      //     // parcelnbooking
-      //       this.form.patchValue({
-      //       fromCity: this.pfdata || '',
-      //     });
-      //     // all parcel boking
-      //     this.form1.patchValue({
-      //       fromCity: this.pfdata || '', 
-      //       pickUpBranch: this.ffdata?.branchUniqueId || '' 
-      //     });
-      //     // serial no
-      //     this.form2.patchValue({
-      //       fromCity: this.pfdata || '', 
-      //     });
-      //     this.form7.patchValue({
-      //       fromCity: this.pfdata || '', 
-      //     });
-      //     this.form6.patchValue({
-      //       fromCity: this.pfdata || '', 
-      //       pickUpBranch: this.ffdata?.branchUniqueId || '' 
-
-      //     });
-      //     this.form5.patchValue({
-      //       fromCity: this.pfdata || '', 
-      //       pickUpBranch: this.ffdata?.branchUniqueId || '' 
-
-      //     });
-
-      //   });
-      // }
+   
       getProfileData() {
         this.api.GetProfileData().subscribe((res: any) => {
           console.log('profile', res);

@@ -323,17 +323,6 @@ onTocitySelect(event: any) {
     this.form.get('grandTotal')?.setValue(grandTotal, { emitEvent: false });
   }
 
-
-  // openPreviewModal() {
-  //   if (this.form.valid) {
-  //     this.modelData = { ...this.form.value };  // Copy form values into modelData
-  //   } else {
-  //     this.toastr.warning("Please fill all required fields", "Warning");
-  //   }
-  // }
-  
- 
-
   openPreviewModal() {
     if (this.form.valid) {
       const orderDataToSend = this.packages.value.map((item: any) => ({
