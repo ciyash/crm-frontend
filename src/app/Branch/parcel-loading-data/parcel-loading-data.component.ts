@@ -145,10 +145,8 @@ export class ParcelLoadingDataComponent {
       toCity: this.form1.value.toCity,
       fromBranch: this.form1.value.fromBranch,
       dropBranch: this.form1.value.dropBranch,
-    };
-  
+    }
     console.log("payload:", payload);
-  
     this.api.ParcelOfflineReport(payload).subscribe({
       next: (response: any) => {
         console.log("After Load: Response received", response);
@@ -157,12 +155,16 @@ export class ParcelLoadingDataComponent {
           fromDate: this.form1.value.fromDate,
           toDate: this.form1.value.toDate
         };
-  
         // Save to localStorage
+        // localStorage.setItem('parcelReportData', JSON.stringify(finalData8));
+        // window.open('/parcelloading-offlinereport', '_blank');
+
+
         localStorage.setItem('parcelReportData', JSON.stringify(finalData8));
-  
-        // Open new tab
-        window.open('/parcelloading-offlinereport', '_blank');
+        const baseUrl = window.location.origin;
+        const parcelloadingofflinereportUrl = `${baseUrl}/cloud/parcelloadingofflinereport`;
+        window.open(parcelloadingofflinereportUrl, '_blank');
+
       },
       error: (error: any) => {
         console.error('Parcel loading failed:', error);

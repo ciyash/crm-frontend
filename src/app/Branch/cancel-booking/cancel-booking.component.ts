@@ -156,23 +156,44 @@ export class CancelBookingComponent {
   }
 
 
+  // cancelbooking() {
+  //   const payload1 = {
+  //     ...this.form1.value,
+  //     grnNo: this.searchTerm 
+  //   };
+  //   console.log('Cancel Payload:', payload1);
+  //   this.api.BookingCancel(payload1, this.searchTerm).subscribe(
+  //     (res) => {
+  //       console.log('Booking cancelled successfully:', res);
+  //       this.toast.success("Parcel successfully cancelled");
+  //     },
+  //     (err) => {
+  //       console.error('Error cancelling booking:', err);
+  //     }
+  //   );
+  // }
   cancelbooking() {
     const payload1 = {
       ...this.form1.value,
       grnNo: this.searchTerm 
     };
     console.log('Cancel Payload:', payload1);
+  
     this.api.BookingCancel(payload1, this.searchTerm).subscribe(
       (res) => {
         console.log('Booking cancelled successfully:', res);
         this.toast.success("Parcel successfully cancelled");
+  
+        // Reset the form and other related fields
+        this.form1.reset();
+        this.searchTerm = '';  // Optional: clear the search term input
       },
       (err) => {
         console.error('Error cancelling booking:', err);
       }
     );
   }
-
+  
   
   onFromcitySelect(event: any) {
     const selectedCity = event.target.value;

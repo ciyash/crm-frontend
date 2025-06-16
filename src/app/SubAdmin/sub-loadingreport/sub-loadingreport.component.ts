@@ -194,8 +194,8 @@ export class SubLoadingreportComponent {
     
           // ✅ Open new tab with route
           const baseUrl = window.location.origin;
-          const reportUrl = `${baseUrl}/cloud/parcelloadingofflinereport`;
-          window.open(reportUrl, '_blank');
+          const parcelloadingofflinereportUrl = `${baseUrl}/cloud/parcelloadingofflinereport`;
+          window.open(parcelloadingofflinereportUrl, '_blank');
         },
         error: (error: any) => {
           console.error('Parcel loading failed:', error);

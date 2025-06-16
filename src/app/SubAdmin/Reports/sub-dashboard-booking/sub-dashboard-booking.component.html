@@ -446,17 +446,16 @@
                   placeholder="Enter name" 
                   formControlName="name"
                   (input)="searchUser()" />
-              
                 <!-- Search result dropdown -->
                 <div *ngIf="searchResults.length > 0"
                   class="position-absolute w-100 mt-1 border rounded bg-white z-3"
                   style="max-height: 160px; overflow-y: auto;">
                <div 
-                 *ngFor="let user of searchResults" 
-                 class="p-2 border-bottom hover-bg"
-                 (click)="selectUser(user.name)">
-                 {{ user.name }}
-               </div>
+  *ngFor="let user of searchResults" 
+  class="p-2 border-bottom hover-bg"
+  (mousedown)="selectUser(user.name)">
+  {{ user.name }}
+</div>
              </div>
               </div>
               <div class="d-grid gap-2 col-2 mx-auto mt-4">

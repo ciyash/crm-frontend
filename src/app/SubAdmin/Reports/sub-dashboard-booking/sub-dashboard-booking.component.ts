@@ -395,11 +395,13 @@ export class SubDashboardBookingComponent implements AfterViewInit{
           };
   
           // Save data in localStorage with a unique key
-          const key = 'parcelReportData';
-          localStorage.setItem(key, JSON.stringify(finalData));
-  
-          // Open the reports route in a new tab
-          window.open(`/reports`, '_blank');
+          // const key = 'parcelReportData';
+          // localStorage.setItem(key, JSON.stringify(finalData));
+          // window.open(`/reports`, '_blank');
+          localStorage.setItem('parcelReportData', JSON.stringify(finalData));
+          const baseUrl = window.location.origin;
+          const reportUrl = `${baseUrl}/cloud/reports`;
+          window.open(reportUrl, '_blank');
         },
         error: (error: any) => {
           console.error('Parcel loading failed:', error);
@@ -433,10 +435,14 @@ export class SubDashboardBookingComponent implements AfterViewInit{
           };
     
           // Save data to localStorage
-          localStorage.setItem('allParcelBookingData', JSON.stringify(finalData1));
-    
-          // Open new tab and load the route
-          window.open('/allpercelbooking', '_blank');
+          // localStorage.setItem('allParcelBookingData', JSON.stringify(finalData1));
+          //   window.open('/allpercelbooking', '_blank');
+
+          
+        localStorage.setItem('allparcelReportData', JSON.stringify(finalData1));
+        const baseUrl = window.location.origin;
+        const allpercelbookingUrl = `${baseUrl}/cloud/allpercelbooking`;
+        window.open(allpercelbookingUrl, '_blank');
         },
         error: (error: any) => {
           console.error('Parcel loading failed:', error);
@@ -476,10 +482,12 @@ export class SubDashboardBookingComponent implements AfterViewInit{
           };
   
           // Save data to localStorage
-          localStorage.setItem('bookingSerialData', JSON.stringify(finalData11));
-  
-          // Open /bookingserial in a new tab
-          window.open('/bookingserial', '_blank');
+          // localStorage.setItem('bookingSerialData', JSON.stringify(finalData11));
+          //   window.open('/bookingserial', '_blank');
+            localStorage.setItem('serialData', JSON.stringify(finalData11));
+            const baseUrl = window.location.origin;
+            const bookingserialUrl = `${baseUrl}/cloud/bookingserial`;
+            window.open(bookingserialUrl, '_blank');
         },
   
         error: (error: any) => {
@@ -518,10 +526,12 @@ export class SubDashboardBookingComponent implements AfterViewInit{
           };
   
           // ✅ Store in localStorage
+          // localStorage.setItem('bookingSummaryData', JSON.stringify(finalData9));
+          // window.open('/bookingsummary', '_blank');
           localStorage.setItem('bookingSummaryData', JSON.stringify(finalData9));
-  
-          // ✅ Open new tab
-          window.open('/bookingsummary', '_blank');
+          const baseUrl = window.location.origin;
+          const bookingsummaryUrl = `${baseUrl}/cloud/bookingsummary`;
+          window.open(bookingsummaryUrl, '_blank');
         },
         error: (error: any) => {
           const errorMessage =
@@ -548,20 +558,22 @@ export class SubDashboardBookingComponent implements AfterViewInit{
       this.api.ParcelCancelReport(payload6).subscribe({
         next: (response: any) => {
           console.log('Cancel Report Loaded:', response);
-          const finalData = {
+          const finalData7 = {
             ...response,
             fromDate: payload6.fromDate,
             toDate: payload6.toDate,
           };
   
           // Save data to localStorage
-          localStorage.setItem('cancelReportData', JSON.stringify(finalData));
-  
-          // ✅ Show success toast
+          // window.open('/cancel-report', '_blank');
+          // localStorage.setItem('cancelReportData', JSON.stringify(finalData));
           this.toast.success('Cancel Report generated successfully!');
-  
-          // Open new tab
-          window.open('/cancel-report', '_blank');
+
+          localStorage.setItem('CancelData', JSON.stringify(finalData7));
+          const baseUrl = window.location.origin;
+          const cancelreportUrl = `${baseUrl}/cloud/cancelreport`;
+          window.open(cancelreportUrl, '_blank');
+          this.toast.success(response.message || 'Operation successful');
         },
         error: (error: any) => {
           console.error('Cancel Report Loading Failed:', error);
@@ -605,10 +617,12 @@ export class SubDashboardBookingComponent implements AfterViewInit{
           };
   
           // ✅ Store the data temporarily in localStorage
+          // localStorage.setItem('mobileBookingData', JSON.stringify(finalData5));
+          // window.open('/bookingmobile', '_blank');
           localStorage.setItem('mobileBookingData', JSON.stringify(finalData5));
-  
-          // ✅ Open new tab with route
-          window.open('/bookingmobile', '_blank');
+          const baseUrl = window.location.origin;
+          const bookingmobileUrl = `${baseUrl}/cloud/bookingmobile`;
+          window.open(bookingmobileUrl, '_blank');
         },
         error: (error: any) => {
           console.error('Parcel Mobile Report loading failed:', error);
@@ -656,9 +670,12 @@ export class SubDashboardBookingComponent implements AfterViewInit{
             toDate: this.form5.value.toDate,
           };
   
-          localStorage.setItem('regularCustomerData', JSON.stringify(finalData2));
-  
-          window.open('/regularcustmer', '_blank');
+          // localStorage.setItem('regularCustomerData', JSON.stringify(finalData2));
+          // window.open('/regularcustmer', '_blank');
+          localStorage.setItem('regularcustmerData', JSON.stringify(finalData2));
+          const baseUrl = window.location.origin;
+          const regularcustmerUrl = `${baseUrl}/cloud/regularcustmer`;
+          window.open(regularcustmerUrl, '_blank');
         },
         error: (error: any) => {
           console.error('Customer Report loading failed:', error);
@@ -673,11 +690,12 @@ export class SubDashboardBookingComponent implements AfterViewInit{
   
     searchUser(): void {
       const searchTerm = this.form5.get('name')?.value?.trim();
-  
+    
       if (searchTerm && searchTerm.length >= 2) {
         this.api.searchUser(searchTerm).subscribe(
           (res: any) => {
-            this.searchResults = res;
+            console.log("API Response:", res);
+            this.searchResults = res.results || []; 
           },
           (err: any) => {
             console.error('Search Error:', err);
@@ -688,10 +706,15 @@ export class SubDashboardBookingComponent implements AfterViewInit{
         this.searchResults = [];
       }
     }
-  
+    
     selectUser(name: string): void {
       this.form5.get('name')?.setValue(name); // Set the selected name in the input
       this.searchResults = []; // Clear the search result list
+    }
+    hideDropdown(): void {
+      setTimeout(() => {
+        this.searchResults = [];
+      }, 200); // Small delay to allow item click
     }
   }
   

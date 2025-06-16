@@ -76,41 +76,75 @@ export class SubIncomingLuggageComponent {
         this.getProfileData();
       }
   
-  // hh
-      LuaggageReport() {
-        this.payload = {
-          fromDate: this.form.value.fromDate,
-          toDate: this.form.value.toDate,
-          fromCity: this.form.value.fromCity,
-          toCity: this.form.value.toCity,
-          pickUpBranch: this.form.value.pickUpBranch,
-          dropBranch: this.form.value.dropBranch,
-        };
-        console.log("payload:", this.payload);
+  
+      // LuaggageReport() {
+      //   this.payload = {
+      //     fromDate: this.form.value.fromDate,
+      //     toDate: this.form.value.toDate,
+      //     fromCity: this.form.value.fromCity,
+      //     toCity: this.form.value.toCity,
+      //     pickUpBranch: this.form.value.pickUpBranch,
+      //     dropBranch: this.form.value.dropBranch,
+      //   };
+      //   console.log("payload:", this.payload);
       
-        this.api.ParcelIncomingReport(this.payload).subscribe(
-          (res: any) => {
-            this.reportData = res.data;
-            console.log('Luggage Report:', this.reportData);
-            const  ddsts = res.data
+      //   this.api.ParcelIncomingReport(this.payload).subscribe(
+      //     (res: any) => {
+      //       this.reportData = res.data;
+      //       console.log('Luggage Report:', this.reportData);
+      //       const  ddsts = res.data
             
-            const finalData = {
-              ...this.reportData,
-              fromDate: this.payload.fromDate,
-              toDate: this.payload.toDate
-            };
+      //       const finalData = {
+      //         ...this.reportData,
+      //         fromDate: this.payload.fromDate,
+      //         toDate: this.payload.toDate
+      //       };
       
-            // Save to localStorage
-            localStorage.setItem('incomingReportData', JSON.stringify(finalData));
+      //       // Save to localStorage
+      //       localStorage.setItem('incomingReportData', JSON.stringify(finalData));
       
-            // Open new tab
-            window.open('/parcel-incoming-report', '_blank');
-          },
-          (error) => {
-            console.error('API Error:', error);
-          }
-        );
-      }
+      //       // Open new tab
+      //       window.open('/parcel-incoming-report', '_blank');
+      //     },
+      //     (error) => {
+      //       console.error('API Error:', error);
+      //     }
+      //   );
+      // }
+
+        LuaggageReport() {
+      this.payload = {
+        fromDate: this.form.value.fromDate,
+        toDate: this.form.value.toDate,
+        fromCity: this.form.value.fromCity,
+        toCity: this.form.value.toCity,
+        pickUpBranch: this.form.value.pickUpBranch,
+        dropBranch: this.form.value.dropBranch,
+      };
+      console.log("payload:", this.payload);
+    
+      this.api.ParcelIncomingReport(this.payload).subscribe(
+        (res: any) => {
+          this.reportData = res.data;
+          console.log('Luggage Report:', this.reportData);
+    
+          const finalData = {
+            data: this.reportData, // Wrap array inside `data`
+            fromDate: this.payload.fromDate,
+            toDate: this.payload.toDate
+          };
+    
+          localStorage.setItem('incomingReportData', JSON.stringify(finalData));
+    
+          const baseUrl = window.location.origin;
+          const parcelincomingreportUrl = `${baseUrl}/cloud/parcelincomingreport`;
+          window.open(parcelincomingreportUrl, '_blank');
+        },
+        (error) => {
+          console.error('API Error:', error);
+        }
+      );
+    }
       
     
 

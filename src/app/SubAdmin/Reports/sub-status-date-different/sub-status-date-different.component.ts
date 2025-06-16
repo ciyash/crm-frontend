@@ -121,6 +121,39 @@ export class SubStatusDateDifferentComponent implements OnInit, AfterViewInit  {
     
   
    
+    // StatusDate() {
+    //   const payload = this.form.value;
+    //   console.log('payload:', payload);
+    
+    //   this.api.ParcelStatusdateReport(payload).subscribe({
+    //     next: (res: any) => {
+    //       console.log('data:', res);
+    
+    //       const successMessage = res?.message || 'Report fetched successfully';
+    //       this.toast.success(successMessage);
+    
+    //       this.gstdata = res;
+    
+    //       const finalData = {
+    //         ...this.gstdata,
+    //         fromDate: payload.startDate,
+    //         toDate: payload.endDate
+    //       };
+    
+    //       // Store data in localStorage or sessionStorage
+    //       localStorage.setItem('dateReportData', JSON.stringify(finalData));
+    
+    //       // Open new tab to the target route
+    //       window.open('/datereport', '_blank');
+    //     },
+    //     error: (err: any) => {
+    //       console.error('Error fetching report:', err);
+    //       const errorMessage = err?.error?.message || 'Failed to fetch report';
+    //       this.toast.error(errorMessage);
+    //     }
+    //   });
+    // }
+    
     StatusDate() {
       const payload = this.form.value;
       console.log('payload:', payload);
@@ -141,10 +174,14 @@ export class SubStatusDateDifferentComponent implements OnInit, AfterViewInit  {
           };
     
           // Store data in localStorage or sessionStorage
+          // localStorage.setItem('dateReportData', JSON.stringify(finalData));
+          // window.open('/datereport', '_blank');
+  
           localStorage.setItem('dateReportData', JSON.stringify(finalData));
-    
-          // Open new tab to the target route
-          window.open('/datereport', '_blank');
+          const baseUrl = window.location.origin;
+          const datereportUrl = `${baseUrl}/cloud/datereport`;
+          window.open(datereportUrl, '_blank');
+  
         },
         error: (err: any) => {
           console.error('Error fetching report:', err);
@@ -153,7 +190,6 @@ export class SubStatusDateDifferentComponent implements OnInit, AfterViewInit  {
         }
       });
     }
-    
     
   
     

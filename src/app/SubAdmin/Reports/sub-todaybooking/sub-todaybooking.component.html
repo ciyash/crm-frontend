@@ -55,7 +55,7 @@
             {{ row.receiverName }}<br />
             <small>{{ row.receiverMobile }}</small>
           </td>
-          <td>
+          <!-- <td>
             <ng-container [ngSwitch]="row.bookingStatus">
               <ng-container *ngSwitchCase="'0'">
                 <i class="fa fa-times-circle mb-2 text-danger" title="Pending"></i> Pending
@@ -76,7 +76,31 @@
                 <i class="pi pi-times-circle mb-2 text-danger" title="Cancelled"></i> Package Cancel
               </ng-container>
             </ng-container>
+          </td> -->
+          <td>
+            <ng-container [ngSwitch]="row.bookingStatus">
+              <ng-container *ngSwitchCase="'0'">
+                <i class="fa fa-times-circle mb-2 text-danger" title="Pending"></i> Booking
+              </ng-container>
+              <ng-container *ngSwitchCase="'1'">
+                <i class="fa fa-check-circle mb-2 text-success" title="Package Load"></i> Loading
+              </ng-container>
+              <ng-container *ngSwitchCase="'2'">
+                <i class="fa fa-check-circle mb-2 text-primary" title="Package OnLoad"></i> Unloading
+              </ng-container>
+              <ng-container *ngSwitchCase="'3'">
+                <i class="fa fa-check-circle mb-2 text-warning" title="Received Branch"></i> Missing
+              </ng-container>
+              <ng-container *ngSwitchCase="'4'">
+                <i class="fa fa-check-circle mb-2 text-success" title="Delivered"></i> Delivery
+              </ng-container>
+              <ng-container *ngSwitchCase="'5'">
+                <i class="pi pi-times-circle mb-2 text-danger" title="Cancelled"></i>Cancel
+              </ng-container>
+            </ng-container>
           </td>
+
+
         </tr>
       </ng-template>
     </p-table>

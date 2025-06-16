@@ -119,33 +119,31 @@ export class SubDeliveryStockComponent {
       
         console.log("payload:", this.payload);
       
-        // 🧹 Clear previous data before making the API call
         this.reportData = [];
         this.Bdata = null;
       
         this.api.DeliveryStockReport(this.payload).subscribe(
           (res: any) => {
-             
-          console.log("res:",res);
-          this.reportData=res.deliveries
-          this.summmaryData=res.summary
-          this.Bdata=res.summary.bookingTypeSummary
-  
-          console.log("data:",this.reportData)
-          
-          const finalData = {
-            ...this.reportData,
-            fromDate: this.payload.fromDate,
-            toDate: this.payload.toDate
-          };
-            
+            console.log("res:", res);
+      
+            const data = res?.data;
+      
+            if (data) {
+              this.reportData = data.deliveries || [];
+              this.summmaryData = data.summary || {};
+              this.Bdata = data.summary?.bookingTypeSummary || null;
+              console.log("Deliveries:", this.reportData);
+              console.log("Summary:", this.summmaryData);
+            } else {
+              this.toast.warning('No data received in response.');
+            }
       
           },
           (error) => {
             console.error('API Error:', error);
             this.toast.warning('No stock found for the given criteria.');
             this.reportData = [];
-            this.rdata = null;
+            this.Bdata = null;
           }
         );
       }
