@@ -189,11 +189,11 @@ export class HeaderComponent implements OnInit {
           ],
         },
         
-        {
-          label: 'Profile',
-          icon: 'pi pi-fw pi-user-edit',
-          routerLink: ['/aprofile'],
-        },
+        // {
+        //   label: 'Profile',
+        //   icon: 'pi pi-fw pi-user-edit',
+        //   routerLink: ['/aprofile'],
+        // },
 
       ];
     }

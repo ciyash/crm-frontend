@@ -81,37 +81,71 @@ export class CollectionreportComponent {
   
 
   
-    getCollectionReport() {
-      const payload = this.form.value;
-      console.log("Payload:", payload);
+  //   getCollectionReport() {
+  //     const payload = this.form.value;
+  //     console.log("Payload:", payload);
   
-      this.api.ParcelBranchWiseReport(payload).subscribe({
-        next: (res: any) => {
-          const successMsg = res?.message || 'Report fetched successfully';
-          this.toast.success(successMsg);
-          const finalData = {
-            ...res,
-            fromDate: payload.fromDate,
-            toDate: payload.toDate
-          };
-          const dataStr = encodeURIComponent(JSON.stringify(finalData));
-                  const url = this.router.serializeUrl(
-            this.router.createUrlTree(['/collectiondata'], {
-              queryParams: { data: dataStr }
-            })
-          );
-          window.open(url, '_blank');
-          console.log("dataStr:",dataStr);
+  //     this.api.ParcelBranchWiseReport(payload).subscribe({
+  //       next: (res: any) => {
+  //         const successMsg = res?.message || 'Report fetched successfully';
+  //         this.toast.success(successMsg);
+  //         const finalData = {
+  //           ...res,
+  //           fromDate: payload.fromDate,
+  //           toDate: payload.toDate
+  //         };
+  //         const dataStr = encodeURIComponent(JSON.stringify(finalData));
+  //                 const url = this.router.serializeUrl(
+  //           this.router.createUrlTree(['/collectiondata'], {
+  //             queryParams: { data: dataStr }
+  //           })
+  //         );
+  //         window.open(url, '_blank');
+  //         console.log("dataStr:",dataStr);
           
-        },
+  //       },
   
-        error: (err: any) => {
-          console.error('Error fetching report:', err);
-          const errorMsg = err?.error?.message || err?.message || 'Failed to fetch report';
-          this.toast.error(errorMsg);
-        }
-      });
-  }
+  //       error: (err: any) => {
+  //         console.error('Error fetching report:', err);
+  //         const errorMsg = err?.error?.message || err?.message || 'Failed to fetch report';
+  //         this.toast.error(errorMsg);
+  //       }
+  //     });
+  // }
+
+
+
+  getCollectionReport() {
+    const payload = this.form.value;
+    console.log("Payload:", payload);
+
+    this.api.ParcelBranchWiseReport(payload).subscribe({
+      next: (res: any) => {
+        console.log("collectiodata:",res);
+        
+        const successMsg = res?.message || 'Report fetched successfully';
+        this.toast.success(successMsg);
+        const finalData = {
+          ...res,
+          fromDate: payload.fromDate,
+          toDate: payload.toDate
+        };
+
+
+        localStorage.setItem('collectiondata', JSON.stringify(finalData));
+        const baseUrl = window.location.origin;
+        const collectiondataUrl = `${baseUrl}/cloud/collectiondata`;
+        window.open(collectiondataUrl, '_blank');
+
+      },
+
+      error: (err: any) => {
+        console.error('Error fetching report:', err);
+        const errorMsg = err?.error?.message || err?.message || 'Failed to fetch report';
+        this.toast.error(errorMsg);
+      }
+    });
+}
   
   }
   

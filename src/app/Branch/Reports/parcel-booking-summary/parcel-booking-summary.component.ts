@@ -40,6 +40,8 @@ export class ParcelBookingSummaryComponent {
   
   ngOnInit(): void {
     const storedData = localStorage.getItem('bookingSummaryData');
+    console.log("storedData:",storedData);
+    
   
     if (storedData) {
       try {

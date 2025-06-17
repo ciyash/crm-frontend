@@ -430,43 +430,84 @@ export class DashboardReportComponent {
       }
     
         // Parcel Cancel Report
+        // cancelReport(): void {
+        //   const payload = {
+        //     fromDate: this.form7.value.fromDate,
+        //     toDate: this.form7.value.toDate,
+        //     fromCity: this.form7.value.fromCity,
+        //     toCity: this.form7.value.toCity,
+        //     bookingType: this.form7.value.bookingType,
+        //   };
+        
+        //   console.log('Cancel Report Payload:', payload);
+        
+        //   this.api.ParcelCancelReport(payload).subscribe({
+        //     next: (response: any) => {
+        //       console.log('Cancel Report Loaded:', response);
+        
+        //       const finalData = {
+        //         ...response,
+        //         fromDate: payload.fromDate,
+        //         toDate: payload.toDate,
+        //       };
+        
+        //       if (response.success) {
+        //         this.toast.success(response.message || 'Cancel Report loaded successfully');
+        //         localStorage.setItem('CancelData', JSON.stringify(finalData));
+        
+        //         const baseUrl = window.location.origin;
+        //         const cancelReportUrl = `${baseUrl}/cloud/cancelreport`;
+        //         window.open(cancelReportUrl, '_blank');
+        //       } else {
+        //         this.toast.error(response.message || 'Something went wrong while loading the Cancel Report');
+        //       }
+        //     },
+        //     error: (error: any) => {
+        //       console.error('Cancel Report Loading Failed:', error);
+        //       this.toast.error(error.message || 'An unexpected error occurred while loading the Cancel Report');
+        //     },
+        //   });
+        // }
         cancelReport(): void {
-          const payload6 = {
+          const payload = {
             fromDate: this.form7.value.fromDate,
             toDate: this.form7.value.toDate,
             fromCity: this.form7.value.fromCity,
             toCity: this.form7.value.toCity,
             bookingType: this.form7.value.bookingType,
           };
-      
-          console.log('Cancel Report Payload:', payload6);
-      
-          this.api.ParcelCancelReport(payload6).subscribe({
+        
+          console.log('Cancel Report Payload:', payload);
+        
+          this.api.ParcelCancelReport(payload).subscribe({
             next: (response: any) => {
               console.log('Cancel Report Loaded:', response);
-              const finalData7 = {
-                ...response,
-                fromDate: payload6.fromDate,
-                toDate: payload6.toDate,
-              };
-      
-              // Save data to localStorage
-              this.toast.success('Cancel Report generated successfully!');
-              localStorage.setItem('CancelData', JSON.stringify(finalData7));
-              const baseUrl = window.location.origin;
-              const cancelreportUrl = `${baseUrl}/cloud/cancelreport`;
-              window.open(cancelreportUrl, '_blank');
-              this.toast.success(response.message || 'Operation successful');
-
+        
+              // Check for success and valid data
+              if (response.success && response.data && response.data.length > 0) {
+                const finalData = {
+                  ...response,
+                  fromDate: payload.fromDate,
+                  toDate: payload.toDate,
+                };
+        
+                this.toast.success(response.message || 'Cancel Report loaded successfully');
+                localStorage.setItem('CancelData', JSON.stringify(finalData));
+        
+                const baseUrl = window.location.origin;
+                const cancelReportUrl = `${baseUrl}/cloud/cancelreport`;
+                window.open(cancelReportUrl, '_blank');
+              } else {
+                this.toast.error('No cancel report data found for the selected filters.');
+              }
             },
             error: (error: any) => {
               console.error('Cancel Report Loading Failed:', error);
-      
-              // ❌ Show error toast
-              this.toast.error('Cancel Report loading failed. Please try again.');
+              this.toast.error(error.message || 'An unexpected error occurred while loading the Cancel Report');
             },
           });
         }
+        
 
       BookingSummeryReport(): void {
         const payload5 = {
@@ -483,7 +524,7 @@ export class DashboardReportComponent {
         this.api.ParcelBookingSummeryReport(payload5).subscribe({
           next: (response: any) => {
             this.summaryData = response;
-    
+            console.log("summaty:",this.summaryData);
             const successMessage =
               response.message || 'Booking summary report loaded successfully!';
             this.toast.success(successMessage);

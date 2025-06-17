@@ -2,7 +2,10 @@
 <h5 class="text-center fw-bold text-danger" style="margin-top: 8%;">
   <u>Parcel Status Date Difference Report</u>
 </h5>
-<div class="container section-border mt-3 pb-4">
+<div class="container section-border mt-3 pb-4 p-4"  style=" 
+border: 1px solid #ccc; 
+border-radius: 5px;
+background-color: #fff;">
   <div class="rounded">
     <form [formGroup]="form">
       <div class="row mb-3">
@@ -36,7 +39,7 @@
         <div class="col-md-6">
           <label class="form-label">Parcel Status</label>
           <select class="form-select form-select-sm" formControlName="bookingStatus">
-            <option value="" selected>ALL Status</option>
+            <option value="all" selected>ALL Status</option>
             <option value="0">Booking</option>
             <option value="1">Loading</option>
             <option value="2">UnLoading</option>

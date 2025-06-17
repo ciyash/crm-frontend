@@ -94,13 +94,8 @@ export class BranchToBranchLoadingComponent {
     }, 0);}
     
   
-  
-  
-  
-  
-    
-  
 
+    
     
     // loaddata() {
     //   const payload = {
@@ -114,50 +109,49 @@ export class BranchToBranchLoadingComponent {
     //   this.api.postBranchLoading(payload).subscribe({
     //     next: (response: any) => {
     //       console.log('loaded successfully:', response);
-    
-    //       // Show success message from backend (assuming response contains a message property)
     //       const successMessage = response?.message || 'Parcel Branch loading successfully';
     //       this.toast.success(successMessage, 'Success');
     
-    //       // Store the data and set the success flag
     //       this.data = response;
     //       this.LoadSuccess = true;
     
-    //       // ✅ Assign loaded data to form1 fields
     //       if (this.data.length > 0) {
     //         this.form1.patchValue({
-    //           fromBranch: this.form.value.fromBranch,
-    //           fromCity: this.form.value.fromCity,
-    //           // toCity: this.form1.value.toCity || [],
-    //           vehicalNumber: '',
-    //           driverName: '',
-    //           driverNo: '',
+    //           // fromBranch: this.form.value.fromBranch,
+    //           // fromCity: this.form.value.fromCity,
+    //           fromBranch: this.form1.value.fromBranch,
+    //           fromCity: this.form1.value.fromCity,
+      
     //         });
-    
-    //         // ✅ Set `toCity`, `grnNo`, and `lrNumber` as FormArray
     //         this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
     //         this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
-    //         this.setFormArray('toCity', this.data.map((d: any) => d.toCity));
-
+    //         this.setFormArray('toCity', this.data.map((d: any) => d.toCity)); // Ensure toCity is set
     //       }
     //     },
     //     error: (error: any) => {
     //       console.error('loading failed:', error);
-    //       // Show error toast (if backend provides error details)
     //       const errorMessage = error?.error?.message || 'Failed to load parcel data';
     //       this.toast.error(errorMessage, 'Error');
     //     },
     //   });
     // }
-    
+
+
     loaddata() {
       const payload = {
         fromBookingDate: this.form.value.fromBookingDate,
         toBookingDate: this.form.value.toBookingDate,
         fromBranch: this.form.value.fromBranch,
       };
-    
       console.log('Final Payload:', payload);
+    
+      // 🔄 Reset relevant states before making API call
+      this.data = [];
+      this.LoadSuccess = false;
+    
+      // Optional: Clear form1 fields and arrays if needed
+      this.form1.reset();
+     
     
       this.api.postBranchLoading(payload).subscribe({
         next: (response: any) => {
@@ -169,16 +163,15 @@ export class BranchToBranchLoadingComponent {
           this.LoadSuccess = true;
     
           if (this.data.length > 0) {
+            const first = this.data[0];
             this.form1.patchValue({
               fromBranch: this.form.value.fromBranch,
-              fromCity: this.form.value.fromCity,
+              fromCity: first?.fromCity || '',
             });
     
-     
-
+            this.setFormArray('toCity', this.data.map((d: any) => d.toCity));
             this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
             this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
-            this.setFormArray('toCity', this.data.map((d: any) => d.toCity)); // Ensure toCity is set
           }
         },
         error: (error: any) => {
@@ -190,135 +183,89 @@ export class BranchToBranchLoadingComponent {
     }
   
   
-    //  setFormArray(controlName: string, values: any[]) {
-    //     const formArray = this.form1.get(controlName) as FormArray;
-    //     formArray.clear(); // ✅ Clear previous values
-      
-    //     values.forEach(value => {
-    //       formArray.push(this.fb.control(value));
-    //     });
-    //   }
+    setFormArray(controlName: string, values: any[]) {
+      const formArray = this.form1.get(controlName) as FormArray;
+      formArray.clear(); // ✅ Clear previous values
+      values.forEach(value => {
+        formArray.push(this.fb.control(value));
+      });
+    }
   
-      onGrnNoChange(event: any, grnNo: string) {
-        const formArray = this.form1.get('grnNo') as FormArray;
-      
-        if (event.target.checked) {
-          // Add if not already selected
-          if (!formArray.value.includes(grnNo)) {
-            formArray.push(this.fb.control(grnNo));
-          }
-        } else {
-          // Remove if unchecked
-          const index = formArray.value.indexOf(grnNo);
-          if (index > -1) {
-            formArray.removeAt(index);
-          }
+    onGrnNoChange(event: any, grnNo: string) {
+      const formArray = this.form1.get('grnNo') as FormArray;
+      if (event.target.checked) {
+        // Add if not already selected
+        if (!formArray.value.includes(grnNo)) {
+          formArray.push(this.fb.control(grnNo));
         }
-      
-        // ✅ Update "Select All" status based on selected values
-        this.allSelected = this.data.length === formArray.value.length;
-        console.log('Selected GRN Numbers:', formArray.value);
-      }
-      
-      onSelectAllChange(event: any) {
-        const grnArray = this.form1.get('grnNo') as FormArray;
-        const lrArray = this.form1.get('lrNumber') as FormArray;
-      
-        if (event.target.checked) {
-          this.data.forEach((row: any) => {
-            if (!grnArray.value.includes(row.grnNo)) {
-              grnArray.push(this.fb.control(row.grnNo));
-            }
-            if (!lrArray.value.includes(row.lrNumber)) {
-              lrArray.push(this.fb.control(row.lrNumber));
-            }
-          });
-        } else {
-          grnArray.clear();
-          lrArray.clear();
+      } else {
+        // Remove if unchecked
+        const index = formArray.value.indexOf(grnNo);
+        if (index > -1) {
+          formArray.removeAt(index);
         }
-      
-        this.allSelected = event.target.checked;
-        console.log('All GRNs:', grnArray.value);
-        console.log('All LRs:', lrArray.value);
       }
+    
+      // ✅ Update "Select All" status based on selected values
+      this.allSelected = this.data.length === formArray.value.length;
+      console.log('Selected GRN Numbers:', formArray.value);
+    }
+    
+    // ✅ Handle "Select All" checkbox
+    onSelectAllChange(event: any) {
+      const formArray = this.form1.get('grnNo') as FormArray;
+      if (event.target.checked) {
+        // ✅ Select all if checked
+        this.data.forEach((row:any) => {
+          if (!formArray.value.includes(row.grnNo)) {
+            formArray.push(this.fb.control(row.grnNo));
+          }
+        });
+      } else {
+        // ✅ Deselect all if unchecked
+        formArray.clear();
+      }
+      // ✅ Update "Select All" status
+      this.allSelected = event.target.checked;
+      console.log('All GRN Numbers Selected:', formArray.value);
+    }
       
-  
-      // ParcelLoad() {
-      //   const payload = {
-      //     fromBranch: this.form1.value.fromBranch,
-      //     toBranch: this.form1.value.toBranch,
-      //     vehicalNumber: this.form1.value.vehicalNumber,
-      //     remarks: this.form1.value.remarks,
-      //     grnNo: this.form1.value.grnNo,
-      //     lrNumber: this.form1.value.lrNumber,
-      //   };
+
       
-      //   console.log('Final Payload:', payload);
-        
-      //   this.api.BranchtoBranchLoad(payload).subscribe({
-      //     next: (response: any) => {
-      //       console.log('Parcel loaded successfully:', response);
-      //       // alert('Parcel Loaded Successfully!');
-      //       setTimeout(() => {
-      //         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      //           this.router.navigate(['/parcel-branch']);
-      //         });
-      //       }, 1000);
-      //     },
-      //     error: (error: any) => {
-      //       console.error('Parcel loading failed:', error);
-      //       alert('Parcel Loading Failed. Please try again.');
-      //     },
-      //   });
-      // }
       ParcelLoad() {
-        if (this.form1.invalid) {
-          this.toast.error('Please fill all required fields, including To City.');
-          this.form1.markAllAsTouched();
-          return;
-        }
-      
         const payload = {
           fromBranch: this.form1.value.fromBranch,
           toBranch: this.form1.value.toBranch,
           vehicalNumber: this.form1.value.vehicalNumber,
           remarks: this.form1.value.remarks,
-          fromCity: this.form1.value.fromCity || '',
-          toCity: this.form1.value.toCity || [],
+          fromCity: this.form1.value.fromCity,
+          toCity: this.form1.value.toCity || '',     
           grnNo: this.form1.value.grnNo || [],
           lrNumber: this.form1.value.lrNumber || [],
         };
       
-        console.log('Final Payload:', JSON.stringify(payload, null, 2));
+        console.log('Final Payload:', payload);
       
         this.api.BranchtoBranchLoad(payload).subscribe({
           next: (response: any) => {
+            console.log('Parcel loaded successfully:', response);
             this.toast.success('Parcel loaded successfully!', 'Success');
+      
             setTimeout(() => {
               this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-                this.router.navigate(['/parcel-branch']);
+                this.router.navigate(['/employee-branch-loading']);
               });
             }, 1000);
           },
           error: (error: any) => {
+            console.error('Parcel loading failed:', error);
             const errorMsg = error?.error?.message || 'Parcel Loading Failed. Please try again.';
             this.toast.error(errorMsg, 'Error');
           },
         });
       }
       
-      
-      
-      
-      
-  
-      setFormArray(controlName: string, values: any[]) {
-        const formArray = this.form1.get(controlName) as FormArray;
-        formArray.clear(); // Clear previous values
-        values.forEach(value => {
-          formArray.push(this.fb.control(value));
-        });
-      }
+    
+    
   }
   
