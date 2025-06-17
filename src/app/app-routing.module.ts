@@ -192,6 +192,8 @@ const routes: Routes = [
   
   
     // Empolyee Routing components 
+
+    
     
   { path: 'employee-dashboard', component: EmployeeDashboardComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
   { path: 'employee-booking', component: BookingComponent, canActivate: [authGuard],data: { roles: ['employee'] }},

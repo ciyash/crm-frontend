@@ -63,20 +63,20 @@
                   <div class="form-group">
                     <label>Delivery Receiver Name</label>
                   <input type="text" formControlName="grnNo" [(ngModel)]="data2[0].grnNo" hidden>
-                  <input type="text" [(ngModel)]="data2[0].receiverName" formControlName="receiverName">
+                  <input type="text" [(ngModel)]="data2[0].receiverName" formControlName="receiverName" readonly>
                   </div>
                   
                 </div>
                 <div class="col-md-4 ">
                   <div class="form-group">
                     <label>Delivery Receiver Phone</label>
-                    <input type="text" [(ngModel)]="data2[0].receiverMobile" formControlName="receiverMobile">
+                    <input type="text" [(ngModel)]="data2[0].receiverMobile" formControlName="receiverMobile" readonly>
                   </div>
                 </div>
                 <div class="col-md-4  ">
                   <div class="form-group mt-4 ">
                     <label></label>
-                    <button class="btn btn-success btn-sm" data-bs-dismiss="modal"  (click)="updateParcelStatus()"> Submit</button>
+                    <!-- <button class="btn btn-success btn-sm" data-bs-dismiss="modal"  (click)="updateParcelStatus()"> Submit</button> -->
                   </div>
                 </div>
               </div>
