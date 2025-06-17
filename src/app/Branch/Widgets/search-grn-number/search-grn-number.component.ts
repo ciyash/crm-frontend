@@ -18,7 +18,7 @@ export class SearchGrnNumberComponent {
   form: FormGroup;
   searchField: string = 'grnNo'; // Default selection
   searchTerm: string = '';
-
+// 
   branchId: any;
   constructor(
     private api: BranchService,
