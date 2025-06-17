@@ -26,10 +26,6 @@ declare const SlimSelect: any;
 })
 export class ConslidatedReportComponent {
 
-
-
-  
-
     BranchSelect: any;
     form: FormGroup;
     citydata: any;
@@ -142,7 +138,6 @@ export class ConslidatedReportComponent {
     
 
 
-  
     getCollectionReport() {
       const payload = {
         fromDate: this.form.value.fromDate,

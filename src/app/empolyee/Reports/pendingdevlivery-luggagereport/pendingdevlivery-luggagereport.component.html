@@ -106,7 +106,7 @@ background-color: #fff;">
     <div *ngIf="reportData" id="print-section" >
       <div class="text-center mb-4 mt-5">
         <div class="container-fluid" *ngIf="pfffdata">
-          <h4 class="text-center fw-bold">{{ pfffdata.companyName }}</h4>
+          <h4 class="text-center fw-bold">{{ pfffdata.companyId?.name }}</h4>
           <p class="text-center fw-bold">
             Address: {{ pfffdata.location }} - {{ pfffdata.branchId?.name }} |
             Phone No: {{ pfffdata.phone }}
@@ -119,7 +119,7 @@ background-color: #fff;">
           <thead>
             <tr >
               <th>From : {{payload.fromDate | date: 'dd-MM-yyyy'}} To : {{payload.toDate | date: 'dd-MM-yyyy'}}</th>
-              <th  *ngIf="pfdata">Print By : {{pfdata.username}}</th>
+              <th  *ngIf="pfffdata">Print By : {{pfffdata.username}}</th>
               <th >Print Date :{{ today | date: 'dd-MM-yyyy' }}  {{ today | date: 'hh:mm a' }} </th>
             </tr>
           </thead>
@@ -148,8 +148,9 @@ background-color: #fff;">
                       </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let data of pagedData(); let i = index">
-                <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+              <tr *ngFor="let data of reportData?.formattedDeliveries let i = index">
+                <!-- <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td> -->
+                <td>{{i+1}}</td>
                 <td>{{ data.grnNo }}</td>
                 <td>{{ data.receiverDate }}</td>
                 <td>{{ data.source }}</td>

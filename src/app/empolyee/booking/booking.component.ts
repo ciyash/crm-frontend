@@ -92,9 +92,7 @@ export class BookingComponent {
           fromCity: [''],
           toCity: ['', Validators.required],
             });
-            
    }
-
   ngOnInit() {
     this.getProfileData();
     this.getAllCompany();
@@ -107,21 +105,17 @@ export class BookingComponent {
     this.api.GetBranch().subscribe((res:any)=>{
       console.log(res);
       this.branchdata=res;
-      
     });
     //get Packages
     this.api.GetPAckagesType().subscribe((res:any)=>{
       console.log(res);
       this.packdata=res;
     });
-
     this.admin.GetDispatchtypeData().subscribe((res:any)=>{
       console.log(res);
       this.dptype=res;
     });
-
     this.addOrderItem()
-
     this.form.get('bookingType')?.valueChanges.subscribe((value) => {
       console.log("Booking type changed to:", value);
       if (value !== 'credit') {
@@ -136,13 +130,9 @@ export class BookingComponent {
       }
     });
   }
-  
  
-  
   ngAfterViewInit(): void {
-    setTimeout(() => {
-
-  
+    setTimeout(() => {  
       // Initialize Select2 for To City
       $(this.selectElem2.nativeElement).select2();
       $(this.selectElem2.nativeElement).on('select2:select', (event: any) => {
@@ -152,7 +142,6 @@ export class BookingComponent {
         console.log('Updated form value:', this.form.value);
         this.onTocitySelect({ target: { value: selectedToCity } });
       });
-  
       // Initialize Select2 for Drop Branch
       $(this.droupbranch.nativeElement).select2();
       $(this.droupbranch.nativeElement).on('select2:select', (event: any) => {
@@ -162,7 +151,7 @@ export class BookingComponent {
         console.log('Updated form value:', this.form.value);
         this.onDropBranchSelect({ target: { value: selectedDropBranch } });
       });
-  
+
     }, 0);
   }
   

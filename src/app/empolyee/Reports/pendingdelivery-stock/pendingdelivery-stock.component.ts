@@ -151,12 +151,23 @@ export class PendingdeliveryStockComponent {
     
           this.gstdata = res;
           console.log('gstdata:', this.gstdata);
-    
-          // Save data to localStorage
-          localStorage.setItem('gstData', JSON.stringify(this.gstdata));
-    
-          // Open new tab
-          window.open('/devliveryreport', '_blank');
+          // localStorage.setItem('gstData', JSON.stringify(this.gstdata));
+          //   window.open('/devliveryreport', '_blank');
+      
+  
+            const finalData = {
+              ...this.gstdata,
+              fromDate: payload.startDate,
+              toDate: payload.endDate,
+              fromCity:payload.fromCity,
+              toCity:payload.toCity,
+              pickUpBranch:payload.pickUpBranch,
+              dropBranch:payload.dropBranch,
+            };
+            localStorage.setItem('pendingData', JSON.stringify(finalData));
+            const baseUrl = window.location.origin;
+            const devliveryreportUrl = `${baseUrl}/cloud/devliveryreport`;
+            window.open(devliveryreportUrl, '_blank');
         },
         error: (err: any) => {
           console.error('Error fetching report:', err);

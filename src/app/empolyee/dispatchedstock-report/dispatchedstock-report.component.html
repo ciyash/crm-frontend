@@ -97,7 +97,7 @@ background-color: #fff;">
   <div *ngIf="reportData" id="print-section">
     <div class="text-center mb-4 mt-5">
       <div class="container-fluid" *ngIf="pffffdata">
-        <h4 class="text-center fw-bold">{{ pffffdata.companyName }}</h4>
+        <h4 class="text-center fw-bold">{{ pffffdata.companyId?.name }}</h4>
         <p class="text-center fw-bold">
           Address: {{ pffffdata.location }} - {{ pffffdata.branchId?.name }} |
           Phone No: {{ pffffdata.phone }}
@@ -111,7 +111,7 @@ background-color: #fff;">
         <thead>
           <tr>
             <th>From : {{payload.fromDate | date: 'dd-MM-yyyy'}} To : {{payload.toDate | date: 'dd-MM-yyyy'}}</th>
-            <th *ngIf="pfdata">Print By : {{pfdata.username}}</th>
+            <th *ngIf="pffffdata">Print By : {{pffffdata.username}}</th>
             <th>Print Date :{{ today | date: 'dd-MM-yyyy' }} {{ today | date: 'hh:mm a' }} </th>
           </tr>
         </thead>

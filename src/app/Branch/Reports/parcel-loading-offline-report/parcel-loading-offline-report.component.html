@@ -8,7 +8,7 @@
 <div class="container p-4 border rounded bg-light" id="print-section">
   <div class="text-center mb-4">
     <div class="container-fluid" *ngIf="pfdata">
-      <h4 class="text-center fw-bold">{{ pfdata.companyName }}</h4>
+      <h4 class="text-center fw-bold">{{ pfdata.companyId?.name }}</h4>
       <p class="text-center fw-bold">
         Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
         Phone No: {{ pfdata.phone }}

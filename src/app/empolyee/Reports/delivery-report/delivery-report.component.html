@@ -70,7 +70,7 @@ background-color: #fff;">
 <div   id="print-section"  *ngIf="reportData" >
   <div class="text-center mb-4 mt-5">
     <div class="container-fluid" *ngIf="pffffffdata">
-      <h4 class="text-center fw-bold">{{ pffffffdata.companyName }}</h4>
+      <h4 class="text-center fw-bold">{{ pffffffdata.companyId?.name }}</h4>
       <p class="text-center fw-bold">
         Address: {{ pffffffdata.location }} - {{ pffffffdata.branchId?.name }} |
         Phone No: {{ pffffffdata.phone }}
@@ -104,7 +104,6 @@ background-color: #fff;">
           <th>Consigner	</th>
           <th>Consignee	</th>
           <th>Packages</th>
-
             <th>Parcel Item	</th>
             <th>Pkgs	</th>
             <th>Total Amount</th>

@@ -12,9 +12,6 @@ declare var $: any;
   styleUrls: ['./pendingdevlivery-luggagereport.component.scss']
 })
 export class PendingdevliveryLuggagereportComponent {
-
-
-
     @ViewChild('selectElem') selectElem!: ElementRef;
     @ViewChild('pickupbranch') pickupbranch!: ElementRef;
     @ViewChild('selectElem2') selectElem2!: ElementRef;
@@ -34,6 +31,8 @@ export class PendingdevliveryLuggagereportComponent {
   ffdata: any;
   profileData: any;
   pfffdata: any;
+  dData: any;
+  data:any
   // /
   
     constructor(private api: BranchService, private fb: FormBuilder,private toast:ToastrService) {
@@ -102,44 +101,33 @@ export class PendingdevliveryLuggagereportComponent {
   totalPagesArray() {
     return Array(this.totalPages).fill(0);
   }
-    LuaggageReport() {
-      this.payload = {
-        fromDate: this.form.value.fromDate,
-        toDate: this.form.value.toDate,
-        fromCity: this.form.value.fromCity,
-        toCity: this.form.value.toCity,
-        pickUpBranch: this.form.value.pickUpBranch,
-        dropBranch: this.form.value.dropBranch,
-        bookingType: this.form.value.bookingType
-      };
-    
-      console.log("Payload:", this.payload);
-    
-      this.api.PendingDeliveryLuggageReport(this.payload).subscribe(
-        (res: any) => {
-          if (res?.data?.length) {
-            this.reportData = res.data;
-            console.log("report:",this.reportData);
-            
-            this.totalPages = Math.ceil(this.reportData.length / this.itemsPerPage);
-            this.currentPage = 1;
-            this.toast.success(res.message || 'Report fetched successfully.');
-            console.log('Luggage Report:', this.reportData);
-          } else {
-            this.reportData = [];
-            this.toast.warning(res.message || 'No records found.');
-          }
-        },
-        (error) => {
-          const errMsg = error?.error?.message || 'Something went wrong while fetching the report.';
-          this.toast.error(errMsg);
-          console.error('API Error:', error);
-        }
-      );
-    }
+  LuaggageReport() {
+    this.payload = {
+      fromDate: this.form.value.fromDate,
+      toDate: this.form.value.toDate,
+      fromCity: this.form.value.fromCity,
+      toCity: this.form.value.toCity,
+      pickUpBranch: this.form.value.pickUpBranch,
+      dropBranch: this.form.value.dropBranch,
+      bookingType: this.form.value.bookingType
+    };
+    console.log("Payload:", this.payload);
+    this.api.PendingDeliveryLuggageReport(this.payload).subscribe(
+      (res: any) => {
+        console.log("res:",res);
+          this.reportData = res.data;
+        
+          this.toast.success(res.message || 'Report fetched successfully.');
+          console.log('Luggage Report:', this.reportData);
 
-
-
+      },
+      (error) => {
+        const errMsg = error?.error?.message || 'Something went wrong while fetching the report.';
+        this.toast.error(errMsg);
+        console.error('API Error:', error);
+      }
+    );
+  }
       getProfileData() {
         this.api.GetProfileData().subscribe((res: any) => {
           console.log('profile', res);

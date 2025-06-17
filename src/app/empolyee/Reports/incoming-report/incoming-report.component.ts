@@ -101,13 +101,15 @@ export class IncomingReportComponent {
             };
       
             // Save to localStorage
+            // localStorage.setItem('incomingReportData', JSON.stringify(finalData));
+            // window.open('/parcel-incoming-report', '_blank');
             localStorage.setItem('incomingReportData', JSON.stringify(finalData));
-      
-            // Open new tab
-            window.open('/parcel-incoming-report', '_blank');
+            const baseUrl = window.location.origin;
+            const parcelincomingreportUrl = `${baseUrl}/cloud/parcelincomingreport`;
+            window.open(parcelincomingreportUrl, '_blank');
           },
           (error) => {
-            console.error('API Error:', error);
+            console.error('AP Error:', error);
           }
         );
       }

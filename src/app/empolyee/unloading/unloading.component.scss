@@ -177,6 +177,11 @@
 //     color: #000;
 //     left: 4px;
 //   }
+.form-after::after {
+    content: " *"; 
+    color: red;
+    font-weight: bold;
+  }
   
   
 
