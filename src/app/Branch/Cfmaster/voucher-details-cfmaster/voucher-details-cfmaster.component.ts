@@ -145,7 +145,40 @@ export class VoucherDetailsCfmasterComponent {
     }
 
 
-    printName(agentName: string) {
+    // printName(agentName: string) {
+    //   console.log('Agent Name:', agentName);
+    //   const payload = {
+    //     fromDate: this.form.value.fromDate,
+    //     toDate: this.form.value.toDate,
+    //     senderName: agentName
+    //   };
+    //   this.api.GetVoucherDetails(payload).subscribe({
+    //     next: (response: any) => {
+    //       console.log('Voucher Details:', response);
+    //       this.form1.patchValue({
+    //         senderName: response.senderName || agentName
+    //       })
+
+    //       // localStorage.setItem('voucherDetails', JSON.stringify(response));
+    //       this.toast.success('Voucher details loaded', 'Success');
+    //       // window.open('/voucherreport', '_blank');
+
+
+    //       localStorage.setItem('voucherDetails', JSON.stringify(response));
+    //       const baseUrl = window.location.origin;
+    //       const voucherreportUrl = `${baseUrl}/cloud/voucherreport`;
+    //       window.open(voucherreportUrl, '_blank');
+
+
+    //     },
+    //     error: (error: any) => {
+    //       console.error('Failed to fetch voucher details:', error);
+    //       this.toast.error('Failed to load voucher details', 'Error');
+    //     }
+    //   });
+    // }
+
+    printName(agentName: string): void {
       console.log('Agent Name:', agentName);
     
       const payload = {
@@ -158,13 +191,21 @@ export class VoucherDetailsCfmasterComponent {
         next: (response: any) => {
           console.log('Voucher Details:', response);
     
-          this.form1.patchValue({
-            senderName: response.senderName || agentName
-          });
+          if (response) {
+            this.form1.patchValue({
+              senderName: response.senderName || agentName
+            });
     
-          localStorage.setItem('voucherDetails', JSON.stringify(response));
-          this.toast.success('Voucher details loaded', 'Success');
-          window.open('/voucher-report', '_blank');
+            localStorage.setItem('voucherDetails', JSON.stringify(response));
+    
+            this.toast.success('Voucher details loaded successfully', 'Success');
+    
+            const baseUrl = window.location.origin;
+            const voucherReportUrl = `${baseUrl}/cloud/voucherreport`;
+            window.open(voucherReportUrl, '_blank');
+          } else {
+            this.toast.error('No data received for voucher details', 'Error');
+          }
         },
         error: (error: any) => {
           console.error('Failed to fetch voucher details:', error);
@@ -172,6 +213,7 @@ export class VoucherDetailsCfmasterComponent {
         }
       });
     }
+    
     
 
 

@@ -142,7 +142,7 @@ const routes: Routes = [
   { path: 'getcfmasterdata', component: GetCfmasterDataComponent, canActivate: [authGuard] },
   { path: 'creditvouchergenerate', component: CreditVoucherGenerateComponent, canActivate: [authGuard] },
   { path: 'voucherdetailscf', component: VoucherDetailsCfmasterComponent, canActivate: [authGuard] },
-  { path: 'voucher-report', component: VocherDetailsReportComponent, canActivate: [authGuard] },
+  { path: 'voucherreport', component: VocherDetailsReportComponent, canActivate: [authGuard] },
 
 
   // Reports
@@ -212,7 +212,7 @@ const routes: Routes = [
   { path: 'getcfmasterdata', component: GetCfmasterDataComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
   { path: 'creditvouchergenerate', component: CreditVoucherGenerateComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
   { path: 'voucherdetailscf', component: VoucherDetailsCfmasterComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
-  { path: 'voucher-report', component: VocherDetailsReportComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
+  { path: 'voucherreport', component: VocherDetailsReportComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
 
 // Employee Reports
 { path: 'todaybooking', component:TodaybookingComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
@@ -229,8 +229,6 @@ const routes: Routes = [
 { path: 'memo-stock-report', component: DisptchedMemoReportComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
 { path: 'incomingreport', component: IncomingReportComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
 { path: 'dashboard-report', component: DashboardReportComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
-
-
 // subAdmin  
   {path:"sub-booking",component:SubBookingComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
   {path:"sub-loading",component:SubLoadingComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},

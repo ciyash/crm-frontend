@@ -211,7 +211,7 @@ onLoad() {
     this.allSelected = this.data.length === formArray.value.length;
     console.log('Selected GRN Numbers:', formArray.value);
   }
-  
+
   // ✅ Handle "Select All" checkbox
   onSelectAllChange(event: any) {
     const formArray = this.form1.get('grnNo') as FormArray;
