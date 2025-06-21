@@ -9,6 +9,14 @@ font-weight: 500;
 text-decoration: underline;
 word-wrap: break-word">Parcel Booking</h4>
 <div class="container mt-4">
+  <div class="d-flex gap-5 mx-3 mb-2" *ngIf="Ttotal?.bookings?.length">
+    <h5 class="fw-bold" style="font-size: 20px; font-family: Poppins; font-weight: 500; word-wrap: break-word; color:rgb(38, 0, 128)">
+      Today Booking: <strong>{{ Ttotal.bookings[0].count }}</strong>
+    </h5>
+    <h5 class="fw-bold" style="font-size: 20px; font-family: Poppins; font-weight: 500; word-wrap: break-word; color:green">
+      Today Collection: Rs.<strong>{{ Ttotal.bookings[0].total }}</strong>
+    </h5>
+  </div>
     <div class="card p-4">
         <form [formGroup]="form">
             <div *ngIf="bookingSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
@@ -253,7 +261,7 @@ word-wrap: break-word">Parcel Booking</h4>
 
             <div class="container mt-3">
                 <!-- Submit Button -->
-                <div class="text-end mb-3">
+                <!-- <div class="text-end mb-3">
                   <button
                     type="button"
                     class="btn btn-primary"
@@ -263,6 +271,18 @@ word-wrap: break-word">Parcel Booking</h4>
                   >
                     Submit
                   </button>
+                </div> -->
+                <div class="text-end mb-3">
+                  <button *ngIf="!gdata"  type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                    (click)="openPreviewModal()">
+                    Submit
+                  </button>
+                    <button *ngIf="gdata" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                            (click)="openPreviewModal()">
+                      UPDATE
+                    </button>
+                  
+           
                 </div>
               
                 <!-- Modal for preview -->
@@ -350,7 +370,7 @@ word-wrap: break-word">Parcel Booking</h4>
               
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-success" (click)="confirmBooking()">Confirm</button>
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="confirmBooking()">Confirm</button>
                       </div>
                     </div>
                   </div>

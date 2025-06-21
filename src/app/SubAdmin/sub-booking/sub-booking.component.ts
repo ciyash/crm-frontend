@@ -17,10 +17,11 @@ import {  ElementRef, ViewChild, AfterViewInit } from '@angular/core';
   styleUrls: ['./sub-booking.component.scss']
 })
 export class SubBookingComponent {
-
-
-
-
+  @ViewChild('selectElem') selectElem!: ElementRef;
+  @ViewChild('pickupbranch') pickupbranch!: ElementRef;
+  @ViewChild('selectElem2') selectElem2!: ElementRef;
+  @ViewChild('droupbranch') droupbranch!: ElementRef;
+@ViewChild('Company')Company!:ElementRef
     adminData: any;
     form!:FormGroup;
     showTable: boolean = false;
@@ -46,14 +47,7 @@ export class SubBookingComponent {
     errorMessage: string = '';
     userList: any[] = [];
     showDropdown:boolean=true;
-    
-    dptype:any;
-    @ViewChild('selectElem') selectElem!: ElementRef;
-    @ViewChild('pickupbranch') pickupbranch!: ElementRef;
-    @ViewChild('selectElem2') selectElem2!: ElementRef;
-    @ViewChild('droupbranch') droupbranch!: ElementRef;
-  @ViewChild('Company')Company!:ElementRef
-    cdata: any;
+      cdata: any;
     grnNo: any;
     grnnumber: any;
     onPickupBranchSelect: any;
@@ -65,6 +59,16 @@ export class SubBookingComponent {
   profileData: any;
   fromCityValue: any;
   filteredCityList: any;
+  today = new Date();
+  form2:FormGroup;
+  tdata: any;
+  brachid: any;
+  Ttotal: any;
+  mogoId: any;
+    dptype:any;
+
+ 
+  
   
     constructor(private fb: FormBuilder, private api: BranchService, private token:TokenService,
        private cdr: ChangeDetectorRef,  private route: ActivatedRoute,private toastr:ToastrService, 
@@ -99,12 +103,68 @@ export class SubBookingComponent {
             fromCity: [''],
             toCity: ['', Validators.required],
               });
+
+              this.form2=this.fb.group({
+                bookingDate:['',Validators.required],
+                pickupBranch:['',Validators.required]
+              })
               
      }
   
     ngOnInit() {
+      this.route.paramMap.subscribe((params) => {
+        this.grnNo = params.get('grnNo');
+        console.log('updateid:', this.grnNo);
+        if (this.grnNo) {
+          this.api.GetGRNnumber(this.grnNo).subscribe((res: any) => {
+            console.log('Booking', res);
+            this.gdata = res;
+            this.mogoId = res.booking._id;
+            console.log('mogoId:', this.mogoId);
+            const booking = res.booking;
+            // Patch main form fields
+            this.form.patchValue({
+              fromCity: booking.fromCity,
+              toCity: booking.toCity,
+              pickUpBranch: booking.pickUpBranch,
+              dropBranch: booking.dropBranch,
+              dispatchType: booking.dispatchType,
+              bookingType: booking.bookingType,
+              agent: booking.agent,
+              senderName: booking.senderName,
+              senderMobile: booking.senderMobile,
+              senderAddress: booking.senderAddress,
+              senderGST: booking.senderGst,
+              receiverName: booking.receiverName,
+              receiverMobile: booking.receiverMobile,
+              receiverAddress: booking.receiverAddress,
+              receiverGST: booking.receiverGst,
+              serviceCharges: booking.serviceCharges,
+              hamaliCharges: booking.hamaliCharges,
+              doorDeliveryCharges: booking.doorDeliveryCharges,
+              doorPickupCharges: booking.doorPickupCharges,
+              valueOfGoods: booking.valueOfGoods,
+              grandTotal: booking.grandTotal,
+            });
+  
+            // Clear and refill the packages FormArray
+            const packageFGs = booking.packages.map((p: any) =>
+              this.fb.group({
+                quantity: [p.quantity],
+                packageType: [p.packageType],
+                contains: [p.contains],
+                weight: [p.weight],
+                unitPrice: [p.unitPrice],
+                totalPrice: [p.totalPrice],
+              })
+            );
+  
+            const packageFormArray = this.fb.array(packageFGs);
+            this.form.setControl('packages', packageFormArray);
+          });
+        }
+      });
       this.getAllCompany();
-      // const id = this.activate.snapshot.paramMap.get('id');
       this.api.GetCities().subscribe((res:any)=>{
         console.log('citys',res);
         this.citydata=res;
@@ -142,10 +202,9 @@ export class SubBookingComponent {
           console.log("Sender info and company selection cleared.");
         }
       });
+
+
     }
-    
-   
-    
     ngAfterViewInit(): void {
       setTimeout(() => {
         $(this.selectElem.nativeElement).select2();
@@ -196,7 +255,13 @@ export class SubBookingComponent {
     this.api.GetProfileData().subscribe((res: any) => {
       this.fromCityValue = res.branchId.city;
       this.filteredCityList = this.citydata.filter((city: { cityName: any; }) => city.cityName === this.fromCityValue);
-  
+      this.pfdata = res.branchId;
+      this.tdata=res.branchId;
+      this.brachid=this.tdata.branchUniqueId
+      console.log("brachid:",this.brachid);
+      
+      console.log(this.pfdata, 'branchid');
+      this.NumberofBooking(); // 👈 Call it here
       this.form.patchValue({
         fromCity: this.fromCityValue,
       });
@@ -213,12 +278,13 @@ export class SubBookingComponent {
       this.fetchServiceCharges();
     });
   }
+
+  
   
   
   fetchServiceCharges() {
     const fromCity = this.form.get('fromCity')?.value;
     const toCity = this.form.get('toCity')?.value;
-  
     if (fromCity && toCity) {
       this.api.FilterBookingServiceCharges({ fromCity, toCity }).subscribe(
         (res: any) => {
@@ -308,6 +374,45 @@ export class SubBookingComponent {
       this.calculateGrandTotal();
     }
   
+    // removeBarcodeData(index: number) {
+    //   this.packages.removeAt(index);
+    //   this.calculateGrandTotal();
+    // }
+  
+    // calculateTotal(index: number) {
+    //   const packageArray = this.form.get('packages') as FormArray;
+    //   const packageForm = packageArray.at(index);
+    
+    //   const quantity = packageForm.get('quantity')?.value || 0;
+    //   const unitPrice = packageForm.get('unitPrice')?.value || 0;
+      
+    //   const totalPrice = quantity * unitPrice;
+    //   packageForm.get('totalPrice')?.setValue(totalPrice);
+    
+    //   this.calculateGrandTotal();
+    // }
+  
+    // calculateGrandTotal() {
+    //   const packageArray = this.form.get('packages') as FormArray;
+      
+    //   // Calculate total price from all packages
+    //   let totalValue = 0;
+    //   packageArray.controls.forEach((pkg) => {
+    //     totalValue += pkg.get('totalPrice')?.value || 0;
+    //   });
+    
+    //   // Get charges from form inputs
+    //   const serviceCharges = this.form.get('serviceCharges')?.value || 0;
+    //   const hamaliCharges = this.form.get('hamaliCharges')?.value || 0;
+    //   const doorDeliveryCharges = this.form.get('doorDeliveryCharges')?.value || 0;
+    //   const doorPickupCharges = this.form.get('doorPickupCharges')?.value || 0;
+    
+    //   // Calculate Grand Total
+    //   const grandTotal = totalValue + serviceCharges + hamaliCharges + doorDeliveryCharges + doorPickupCharges;
+    
+    //   // Update Grand Total without triggering another event
+    //   this.form.get('grandTotal')?.setValue(grandTotal, { emitEvent: false });
+    // }
     removeBarcodeData(index: number) {
       this.packages.removeAt(index);
       this.calculateGrandTotal();
@@ -316,43 +421,43 @@ export class SubBookingComponent {
     calculateTotal(index: number) {
       const packageArray = this.form.get('packages') as FormArray;
       const packageForm = packageArray.at(index);
-    
       const quantity = packageForm.get('quantity')?.value || 0;
       const unitPrice = packageForm.get('unitPrice')?.value || 0;
-      
       const totalPrice = quantity * unitPrice;
       packageForm.get('totalPrice')?.setValue(totalPrice);
-    
       this.calculateGrandTotal();
     }
   
     calculateGrandTotal() {
       const packageArray = this.form.get('packages') as FormArray;
-      
       // Calculate total price from all packages
       let totalValue = 0;
       packageArray.controls.forEach((pkg) => {
         totalValue += pkg.get('totalPrice')?.value || 0;
       });
-    
+  
       // Get charges from form inputs
       const serviceCharges = this.form.get('serviceCharges')?.value || 0;
       const hamaliCharges = this.form.get('hamaliCharges')?.value || 0;
-      const doorDeliveryCharges = this.form.get('doorDeliveryCharges')?.value || 0;
+      const doorDeliveryCharges =
+        this.form.get('doorDeliveryCharges')?.value || 0;
       const doorPickupCharges = this.form.get('doorPickupCharges')?.value || 0;
-    
+  
       // Calculate Grand Total
-      const grandTotal = totalValue + serviceCharges + hamaliCharges + doorDeliveryCharges + doorPickupCharges;
-    
+      const grandTotal =
+        totalValue +
+        serviceCharges +
+        hamaliCharges +
+        doorDeliveryCharges +
+        doorPickupCharges;
+  
       // Update Grand Total without triggering another event
       this.form.get('grandTotal')?.setValue(grandTotal, { emitEvent: false });
     }
   
-  
 
     
-   
-  
+
     openPreviewModal() {
       if (this.form.valid) {
         const orderDataToSend = this.packages.value.map((item: any) => ({
@@ -403,9 +508,15 @@ export class SubBookingComponent {
         this.toastr.warning("Please fill all required fields before previewing.", "Form Incomplete");
       }
     }
-    
-    
+
+
     confirmBooking() {
+      if (!this.grnNo) {
+        this.add();
+      }
+      this.BookingId();
+    }
+    add() {
       try {
         console.log("Form Data Before Submission:", this.form.value);
     
@@ -461,16 +572,16 @@ export class SubBookingComponent {
           this.api.createBooking(val).subscribe(
             (response: any) => {
               console.log("Parcel saved successfully:", response);
-    
+          
               this.gdata = response.data;
               console.log("GRN Number:", this.gdata.grnNo);
               this.toastr.success("Parcel Booked Successfully", "Success");
-    
+          
               // Reload profile data and reset form
               this.getProfileData();
               this.form.reset();
               this.packages.clear();
-    
+          
               // Navigate to print and reload
               this.router.navigateByUrl(`/printgrn/${this.gdata.grnNo}`).then(() => {
                 window.location.reload();
@@ -478,9 +589,13 @@ export class SubBookingComponent {
             },
             (error: any) => {
               console.error("❌ API error during booking:", error);
-              this.toastr.error("Failed to book parcel. Try again.", "API Error");
+          
+              // Properly show error message from backend
+              const errorMessage = error?.error?.message || error?.message || 'An error occurred';
+              this.toastr.error(errorMessage, "Booking Failed");
             }
           );
+          
         } else {
           this.toastr.warning("Please fill all required fields", "Validation Failed");
         }
@@ -489,7 +604,6 @@ export class SubBookingComponent {
         this.toastr.error("Unexpected error occurred. Please contact support.", "Error");
       }
     }
-
     searchUser(): void {
       const searchTerm = this.form.get('senderName')?.value?.trim();
       if (searchTerm) {
@@ -586,5 +700,97 @@ export class SubBookingComponent {
     }
     
     
+    NumberofBooking() {
+      const payload = {
+        bookingDate: this.today.toISOString().split('T')[0],
+        pickupBranch: this.brachid
+      };
+    
+      console.log('Payload:', payload);
+    
+      this.api.GetTotal(payload).subscribe({
+        next: (res: any) => {
+          this.Ttotal=res
+          console.log('Total bookings response:', res);
+        },
+        error: (err) => {
+          console.error('Error fetching total bookings:', err);
+        }
+      });
+    }
+
+    BookingId() {
+      if (this.form.invalid) {
+        this.form.markAllAsTouched(); // highlight validation errors
+        console.warn('Form is invalid. Please fill all required fields.');
+        return;
+      }
+      const orderDataToSend = this.packages.value.map((item: any) => ({
+        quantity: item.quantity,
+        packageType: item.packageType,
+        contains: item.contains,
+        weight: item.weight,
+        unitPrice: item.unitPrice,
+        totalPrice: item.totalPrice,
+      }));
+  
+      const pickupBranchId = this.form.value.pickUpBranch;
+      const dropBranchId = this.form.value.dropBranch;
+  
+      const pickupBranchName =
+        this.pdata.find((b: any) => b.branchUniqueId === pickupBranchId)?.name ||
+        'N/A';
+      const dropBranchName =
+        this.tbcdata.find((b: any) => b.branchUniqueId === dropBranchId)?.name ||
+        'N/A';
+  
+      const val: any = {
+        fromCity: this.form.value.fromCity,
+        toCity: this.form.value.toCity,
+        pickUpBranchName: pickupBranchName,
+        dropBranchName: dropBranchName,
+        pickUpBranch: pickupBranchId,
+        dropBranch: dropBranchId,
+        dispatchType: this.form.value.dispatchType,
+        bookingType: this.form.value.bookingType,
+        senderName: this.form.value.senderName,
+        senderMobile: this.form.value.senderMobile,
+        senderAddress: this.form.value.senderAddress,
+        senderGst: this.form.value.senderGST || '',
+        receiverName: this.form.value.receiverName,
+        receiverMobile: this.form.value.receiverMobile,
+        receiverAddress: this.form.value.receiverAddress,
+        receiverGst: this.form.value.receiverGST || '',
+        packages: orderDataToSend,
+        serviceCharges: this.form.value.serviceCharges,
+        hamaliCharges: this.form.value.hamaliCharges,
+        doorDeliveryCharges: this.form.value.doorDeliveryCharges,
+        doorPickupCharges: this.form.value.doorPickupCharges,
+        valueOfGoods: this.form.value.valueOfGoods,
+        grandTotal: this.form.value.grandTotal,
+        agent: this.form.value.agent || '',
+      };
+      console.log('payload', val);
+  
+      if (!this.mogoId) {
+        console.error('No ID to update');
+        return;
+      }
+  
+      this.api.BookingId(this.mogoId, val).subscribe({
+        next: (res: any) => {
+          console.log('Booking updated:', res);
+          this.gdata = res;
+          this.toastr.success(res.message, 'Success');
+          this.router.navigateByUrl(`/sub-booking`).then(() => {
+            // window.location.reload();
+          });
+        },
+        error: (error) => {
+          console.error('Error updating booking:', error);
+          this.toastr.success(error.message, 'Success');
+        },
+      });
+    }
   
   }

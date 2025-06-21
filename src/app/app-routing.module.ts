@@ -116,7 +116,9 @@ const routes: Routes = [
 
 
   //Branch type Component
+  {path:'booking/:grnNo',component:ParcelbookingComponent, canActivate: [authGuard] },
   {path:"booking",component:ParcelbookingComponent, canActivate: [authGuard] },
+
   {path:'parcelloading',component:ParcelloadingComponent, canActivate: [authGuard]},
   {path:'bookingreport',component:BookingReportComponent, canActivate: [authGuard]},
   { path: 'printgrn/:grnNo', component: PrintGrnNumberComponent, canActivate: [authGuard] },
@@ -181,7 +183,6 @@ const routes: Routes = [
     
   //Admin Routing components
   { path: 'createemployee', component: CreateEmployeeComponent, canActivate: [authGuard],data: { roles: ['admin'] }},
-
   { path: 'createbranch', component: CreateBranchComponent, canActivate: [cauthGuardGuard], data: { roles: ['admin'] }},  
   { path: 'adminprofile', component: AdminProfileComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
   { path: 'createvehicle', component: CreateVehicleComponent, canActivate: [authGuard], data: { roles: ['admin'] }},
@@ -196,7 +197,9 @@ const routes: Routes = [
     
     
   { path: 'employee-dashboard', component: EmployeeDashboardComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
+  { path: 'employee-booking/:grnNo', component: BookingComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
   { path: 'employee-booking', component: BookingComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
+
   { path: 'employee-loading', component: LoadingComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
   { path: 'employee-unloading', component: UnloadingComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
   { path: 'employee-branch-loading', component:BranchToBranchLoadingComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
@@ -232,7 +235,9 @@ const routes: Routes = [
 { path: 'incomingreport', component: IncomingReportComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
 { path: 'dashboard-report', component: DashboardReportComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
 // subAdmin  
+  {path:"sub-booking/:grnNo",component:SubBookingComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
   {path:"sub-booking",component:SubBookingComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
+
   {path:"sub-loading",component:SubLoadingComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
   {path:"sub-unloading",component:SubUnloadingComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},
   {path:"sub-branch-loading",component:SubBranchToBranchLoadingComponent, canActivate: [authGuard], data: { roles: ['subadmin'] }},

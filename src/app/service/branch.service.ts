@@ -351,6 +351,26 @@ FilterParcelLoading(value:{
   );
 }
 
+GetTotal(value:{
+  bookingDate: string;
+  pickupBranch:string;}){
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'booking/get-total',  { 
+      "bookingDate": value.bookingDate,
+      "pickupBranch": value.pickupBranch
+    },
+     httpOptions 
+  );
+}
+
+
 ParcelLoading(value:{
   loadingType:string;
   fromBranch: string;
@@ -778,6 +798,21 @@ getbranchId(id: any) {
   };
   return this.http.get(AUTH_API + 'branch/branchUniqueId/' + id, httpOptions);
 }
+
+
+BookingId(id: any, payload: any) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.patch(`${AUTH_API}booking/${id}`, payload, httpOptions);
+}
+
+
+
 
 ReceivedParcelUpdate(value: {
   grnNo: string;

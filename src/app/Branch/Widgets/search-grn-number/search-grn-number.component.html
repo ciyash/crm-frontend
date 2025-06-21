@@ -1,85 +1,125 @@
-  <app-header></app-header>
-  <div class="container" style="padding-top: 8%;">
-    <form class="row mt-4 text-center" (ngSubmit)="searchUser()">
-      <div class="row justify-content-center">
-        <div class="col-md-4 mb-2">
-          <select class="form-select" [(ngModel)]="searchField" name="searchField" required>
-            <option [value]="'grnNo'">GRN No</option>
-            <option [value]="'lrNumber'">LR NO</option>
-            <option [value]="'senderMobile'">Mobile</option>
-            <option [value]="'senderName'">Search Customer</option>
-          </select>
-        </div>
-        <div class="col-md-4 mb-2">
-          <input required type="text" name="searchTerm" placeholder="Enter Search Value"
-            class="form-control" [(ngModel)]="searchTerm" />
-        </div>
-        <div class="col-md-4">
-          <button type="button" class="btn btn-secondary me-2" >Clear</button>
-          <button class="btn btn-primary" type="submit" data-bs-toggle="modal" data-bs-target="#extraLargeModal" >Load</button>
-        </div>
+<app-header></app-header>
+
+<div class="container" style="padding-top: 8%;">
+  <form class="row mt-4 text-center" (ngSubmit)="searchUser()">
+    <div class="row justify-content-center">
+      <div class="col-md-4 mb-2">
+        <select class="form-select" [(ngModel)]="searchField" name="searchField" required>
+          <option [value]="'grnNo'">GRN No</option>
+          <option [value]="'lrNumber'">LR No</option>
+          <option [value]="'senderMobile'">Mobile</option>
+          <option [value]="'senderName'">Search Customer</option>
+        </select>
       </div>
-    </form>
+
+      <div class="col-md-4 mb-2">
+        <input required type="text" name="searchTerm" placeholder="Enter Search Value" class="form-control"
+          [(ngModel)]="searchTerm" />
+      </div>
+
+      <div class="col-md-4">
+        <button type="button" class="btn btn-secondary me-2" (click)="searchTerm = ''">
+          Clear
+        </button>
+
+        <button class="btn btn-primary" type="submit" data-bs-toggle="modal" data-bs-target="#extraLargeModal">
+          Load
+        </button>
+      </div>
+    </div>
+  </form>
 </div>
+
+
+
 <!-- Modal -->
+
 <div class="modal fade" id="extraLargeModal" tabindex="-1" aria-labelledby="extraLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="extraLargeModalLabel"> Parcel Details </h5>
+        <h5 class="modal-title fw-bold" id="extraLargeModalLabel" style="color: #007bff;"> Parcel Details </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="container mt-4" *ngIf="data2?.length">
-          <div class="header">
-            <!-- <h2>Parcel Details</h2> -->
-            <div>
-              <!-- <button class="btn btn-secondary">BACK</button> -->
-              <span class="stamp">{{ data2[0].bookingType | uppercase }}</span>
-              <!-- <img src="https://via.placeholder.com/30" alt="Icons" class="ms-2"> -->
-            </div>
+        <div class="row" *ngIf="data2?.length">
+          <div class="col-md-3">
+            <h5>
+              GRN No: {{ data2[0].grnNo }} &nbsp;
+              <span>
+                <i class="fa fa-clipboard" style="color: rgb(31, 144, 50); cursor: pointer;"
+                  (click)="copyGRN(data2[0].grnNo)" title="Copy GRN No"></i>
+              </span>
+            </h5>
+          </div>
+
+          <div class="col-md-4">
+            <h5>
+              LR No: {{ data2[0].lrNumber }} &nbsp;
+              <span>
+                <i class="fa fa-clipboard" style="color: rgb(31, 144, 50); cursor: pointer;"
+                  (click)="copyLR(data2[0].lrNumber)" title="Copy LR No"></i>
+              </span>
+            </h5>
+          </div>
+          <div class="col-md-5" *ngIf="isEditable(data2[0].bookingDate, data2[0].bookingStatus)">
+            <button class="btn btn-success" data-bs-dismiss="modal" (click)="editBooking(data2[0].grnNo)">
+              Edit Booking
+            </button>
           </div>
           
-          <h2 class="text-danger text-center" *ngIf="data2[0].bookingStatus === 0" >Booking</h2>
-          <h2 class="text-danger text-center" *ngIf="data2[0].bookingStatus === 1" >Loading</h2>
-          <h2 class="text-danger text-center" *ngIf="data2[0].bookingStatus === 2" >Unloading</h2>
-          <h2 class="text-danger text-center" *ngIf="data2[0].bookingStatus === 3" >Missing</h2>
-          <h2 class="text-danger text-center" *ngIf="data2[0].bookingStatus === 5" >Cancel</h2>
-          <h2 class="text-danger text-center" *ngIf="data2[0].bookingStatus === 4" > Already Delivered</h2>
+          
+        </div>
 
 
-          <div class="row">
-            <div class="col-12">  
-              <strong>GRN No: {{ data2[0].grnNo }}</strong> | <strong>LR No: {{ data2[0].lrNumber }}</strong>
+
+        <hr style="border: 2px solid red;">
+
+        <div class="container mt-4" *ngIf="data2?.length">
+          <div class="header">
+            <div>
+              <span class="stamp">{{ data2[0].bookingType | uppercase }}</span>
             </div>
           </div>
-          <div  *ngIf="data2[0].bookingStatus===2">
+          <h2 class="text-danger text-center" *ngIf="data2[0].bookingStatus === 0">Booking</h2>
+          <h2 class="text-danger text-center" *ngIf="data2[0].bookingStatus === 1">Loading</h2>
+          <h2 class="text-danger text-center" *ngIf="data2[0].bookingStatus === 2">Unloading</h2>
+          <h2 class="text-danger text-center" *ngIf="data2[0].bookingStatus === 3">Missing</h2>
+          <h2 class="text-danger text-center" *ngIf="data2[0].bookingStatus === 5">Cancel</h2>
+          <h2 class="text-danger text-center" *ngIf="data2[0].bookingStatus === 4"> Already Delivered</h2>
+          <div class="row">
+            <!-- <div class="col-12">
+              <strong>GRN No: {{ data2[0].grnNo }}</strong> | <strong>LR No: {{ data2[0].lrNumber }}</strong>
+            </div> -->
+          </div>
+          <div *ngIf="data2[0].bookingStatus===2">
             <div class="col-12 section-title">Delivery Details</div>
-            <div >
-              <form [formGroup]="form" >
+            <div>
+              <form [formGroup]="form">
                 <div class="row">
 
-                <div class="col-md-4 ">
-                  <div class="form-group">
-                    <label>Delivery Receiver Name</label>
-                  <input type="text" formControlName="grnNo" [(ngModel)]="data2[0].grnNo" hidden>
-                  <input type="text" [(ngModel)]="data2[0].receiverName" formControlName="receiverName" readonly>
+                  <div class="col-md-4 ">
+                    <div class="form-group">
+                      <label>Delivery Receiver Name</label>
+                      <input type="text" formControlName="grnNo" [(ngModel)]="data2[0].grnNo" hidden>
+                      <input type="text" [(ngModel)]="data2[0].receiverName" formControlName="receiverName" readonly>
+                    </div>
+
                   </div>
-                  
-                </div>
-                <div class="col-md-4 ">
-                  <div class="form-group">
-                    <label>Delivery Receiver Phone</label>
-                    <input type="text" [(ngModel)]="data2[0].receiverMobile" formControlName="receiverMobile" readonly>
+                  <div class="col-md-4 ">
+                    <div class="form-group">
+                      <label>Delivery Receiver Phone</label>
+                      <input type="text" [(ngModel)]="data2[0].receiverMobile" formControlName="receiverMobile"
+                        readonly>
+                    </div>
+                  </div>
+                  <div class="col-md-4  ">
+                    <div class="form-group mt-4 ">
+                      <label></label>
+                      <!-- <button class="btn btn-success btn-sm" data-bs-dismiss="modal"  (click)="updateParcelStatus()"> Submit</button> -->
+                    </div>
                   </div>
                 </div>
-                <div class="col-md-4  ">
-                  <div class="form-group mt-4 ">
-                    <label></label>
-                    <!-- <button class="btn btn-success btn-sm" data-bs-dismiss="modal"  (click)="updateParcelStatus()"> Submit</button> -->
-                  </div>
-                </div>
-              </div>
               </form>
             </div>
           </div>
@@ -124,7 +164,7 @@
               </div>
             </div>
           </div>
-        
+
           <!-- Customer Details -->
           <div class="row">
             <div class="col-12 section-title">Customer Details</div>
@@ -161,7 +201,7 @@
               </div>
             </div>
           </div>
-        
+
           <!-- Booking Details -->
           <div class="row">
             <div class="col-12 section-title">Booking Details</div>
@@ -222,7 +262,7 @@
               </div>
             </div>
           </div>
-        
+
           <!-- Loading Details -->
           <div class="row">
             <div class="col-12 section-title">Loading Details</div>
@@ -233,7 +273,7 @@
                   <input type="text" [value]="data2[0].loadingBranchname || ''" readonly>
                 </div>
                 <div class="col-md-6 form-group">
-    <label>Loading User</label>
+                  <label>Loading User</label>
                   <input type="text" [value]="data2[0].loadingByemp || ''" readonly>
                 </div>
                 <div class="col-md-6 form-group">
@@ -255,7 +295,7 @@
               </div>
             </div>
           </div>
-        
+
           <!-- Unloading Details -->
           <div class="row">
             <div class="col-12 section-title">Unloading Details</div>
@@ -280,7 +320,7 @@
               </div>
             </div>
           </div>
-        
+
           <!-- Delivery Details -->
           <div class="row">
             <div class="col-12 section-title">Delivery Details</div>
@@ -317,7 +357,7 @@
               </div>
             </div>
           </div>
-        
+
           <!-- Cancel Details -->
           <div class="row">
             <div class="col-12 section-title">Cancel Details</div>
@@ -354,7 +394,7 @@
               </div>
             </div>
           </div>
-        
+
           <!-- Charge Details -->
           <div class="row">
             <div class="col-12 section-title">Charge Details</div>
@@ -395,54 +435,60 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >OK</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
         <button type="button" class="btn btn-primary">Save Changes</button>
       </div>
     </div>
   </div>
 </div>
-  <style>
-    .stamp {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      font-size: 24px;
-      color: red;
-      transform: rotate(15deg);
-      text-decoration: none;
-      border: 2px dashed red;
-      padding: 5px 20px;
-      z-index: 1;
-    }
-    .section-title {
-      background-color: #007bff;
-      color: white;
-      padding: 5px;
-      margin-bottom: 10px;
-      border-radius: 5px;
-    }
-    .form-group label {
-      font-weight: bold;
-      margin-bottom: 2px;
-    }
-    .form-group input {
-      border: 1px solid #007bff;
-      padding: 5px;
-      width: 100%;
-    }
-    .row {
-      margin-bottom: 15px;
-    }
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    .header .btn {
-      margin-left: 10px;
-    }
-  </style>
+<style>
+  .stamp {
+    position: absolute;
+    /* top: 10px; */
+    right: 20px;
+    font-size: 24px;
+    color: red;
+    transform: rotate(15deg);
+    text-decoration: none;
+    border: 2px dashed red;
+    padding: 5px 20px;
+    z-index: 1;
+  }
+
+  .section-title {
+    background-color: #007bff;
+    color: white;
+    padding: 5px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+
+  .form-group label {
+    font-weight: bold;
+    margin-bottom: 2px;
+  }
+
+  .form-group input {
+    border: 1px solid #007bff;
+    padding: 5px;
+    width: 100%;
+  }
+
+  .row {
+    margin-bottom: 15px;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .header .btn {
+    margin-left: 10px;
+  }
+</style>
 
 
 
@@ -461,8 +507,8 @@
 
 
 
- <!-- Search Results -->
- <!-- <div *ngIf="data2" class="mt-4">
+<!-- Search Results -->
+<!-- <div *ngIf="data2" class="mt-4">
     <h5>Search Results:</h5>
     <table class="table table-striped">
       <thead>

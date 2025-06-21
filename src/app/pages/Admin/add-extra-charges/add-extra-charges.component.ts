@@ -42,7 +42,6 @@ export class AddExtraChargesComponent {
                       cartageCharge: ['', ],
                         });
             }
-          
             ngOnInit(){
               this.api.GetextrachargesData().subscribe((res:any)=>{
                   console.log(res);
@@ -120,29 +119,50 @@ export class AddExtraChargesComponent {
               return false;
             }
     
-            Delete(id:any) {
-              this.api.Deletecharges(id).subscribe(
-                (a: any) => {
-                  if (a) {
-                    console.log('deletedid',a);
-                    setTimeout(() => {
-                      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-                        this.router.navigate(['/addextracharges']);
-                      });
-                      }, 1000);
-                  } else {
-                    console.log(a);
-                    // this.errorMessage = a.msg.message;
-                    this.msg = 'addextracharges Successfully Updated !!!';
-                  }
-                },
-                (err: any) => {
+          //   Delete(id:any) {
+          //     console.log("id:",id);
+              
+          //     this.api.Deletecharges(id).subscribe(
+          //       (a: any) => {
+          //         if (a) {
+          //           console.log('deletedid',a);
+          //           setTimeout(() => {
+          //             this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          //               this.router.navigate(['/addextracharges']);
+          //             });
+          //             }, 1000);
+          //         } else {
+          //           console.log(a);
+          //           // this.errorMessage = a.msg.message;
+          //           this.msg = 'addextracharges Successfully Updated !!!';
+          //         }
+          //       },
+          //       (err: any) => {
                    
-                },
-              );
+          //       },
+          //     );
+          //   return false;
+          // }
+          Delete(id: any) {
+            console.log("id:", id);
+          
+            this.api.Deletecharges(id).subscribe({
+              next: (res: any) => {
+                console.log('Deleted response:', res);
+                // Optional: You can remove the deleted item from data array directly:
+                this.data = this.data.filter((item: any) => item._id !== id);
+          
+                this.msg = 'Extra charge deleted successfully!';
+              },
+              error: (err: any) => {
+                console.error('Error during delete:', err);
+                this.msg = 'Error deleting the record. Try again.';
+              }
+            });
+          
             return false;
           }
-    
+          
           
 
 }

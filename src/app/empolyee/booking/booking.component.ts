@@ -20,6 +20,7 @@ export class BookingComponent {
   form!:FormGroup;
   showTable: boolean = false;
   id:any;
+  today=new Date
   citydata:any;
   branchdata:any;
   bdata: any[] = [];
@@ -58,6 +59,11 @@ export class BookingComponent {
   companyList:any;
   profileData: any;
   ffdata: any;
+  mogoId: any;
+  tdata: any;
+  brachid: any;
+  Ttotal: any;
+  form2:FormGroup;
 
   constructor(private fb: FormBuilder, private api: BranchService, private token:TokenService,
      private cdr: ChangeDetectorRef,  private route: ActivatedRoute,private toastr:ToastrService, 
@@ -92,8 +98,66 @@ export class BookingComponent {
           fromCity: [''],
           toCity: ['', Validators.required],
             });
+            this.form2=this.fb.group({
+              bookingDate:['',Validators.required],
+              pickupBranch:['',Validators.required]
+            })
    }
   ngOnInit() {
+
+    this.grnNo = '';
+    this.route.paramMap.subscribe((params) => {
+      this.grnNo = params.get('grnNo');
+      console.log('updateid:', this.grnNo);
+      if (this.grnNo) {
+        this.api.GetGRNnumber(this.grnNo).subscribe((res: any) => {
+          console.log('Booking', res);
+          this.gdata = res;
+          this.mogoId = res.booking._id;
+          console.log('mogoId:', this.mogoId);
+          const booking = res.booking;
+          // Patch main form fields
+          this.form.patchValue({
+            fromCity: booking.fromCity,
+            toCity: booking.toCity,
+            pickUpBranch: booking.pickUpBranch,
+            dropBranch: booking.dropBranch,
+            dispatchType: booking.dispatchType,
+            bookingType: booking.bookingType,
+            agent: booking.agent,
+            senderName: booking.senderName,
+            senderMobile: booking.senderMobile,
+            senderAddress: booking.senderAddress,
+            senderGST: booking.senderGst,
+            receiverName: booking.receiverName,
+            receiverMobile: booking.receiverMobile,
+            receiverAddress: booking.receiverAddress,
+            receiverGST: booking.receiverGst,
+            serviceCharges: booking.serviceCharges,
+            hamaliCharges: booking.hamaliCharges,
+            doorDeliveryCharges: booking.doorDeliveryCharges,
+            doorPickupCharges: booking.doorPickupCharges,
+            valueOfGoods: booking.valueOfGoods,
+            grandTotal: booking.grandTotal,
+          });
+
+          // Clear and refill the packages FormArray
+          const packageFGs = booking.packages.map((p: any) =>
+            this.fb.group({
+              quantity: [p.quantity],
+              packageType: [p.packageType],
+              contains: [p.contains],
+              weight: [p.weight],
+              unitPrice: [p.unitPrice],
+              totalPrice: [p.totalPrice],
+            })
+          );
+
+          const packageFormArray = this.fb.array(packageFGs);
+          this.form.setControl('packages', packageFormArray);
+        });
+      }
+    });
     this.getProfileData();
     this.getAllCompany();
     this.api.GetCities().subscribe((res:any)=>{
@@ -162,6 +226,11 @@ export class BookingComponent {
       this.pfdata = res.branchId.city;
       this.profileData = res.branchId.name;
       console.log("profileData:",this.profileData);
+
+
+
+      console.log(this.pfdata, 'branchid');
+      this.NumberofBooking(); // 👈 Call it here
       
       // console.log("profileData:", this.profileData);
       this.form.patchValue({
@@ -370,7 +439,10 @@ console.log('Pickup Branch Name:', pickupBranchname);
   }
   
   confirmBooking() {
-    this.add();  
+    if (!this.grnNo) {
+      this.add();
+    }
+    this.BookingId();
   }
   add() {
     console.log("Form Data Before Submission:", this.form.value);
@@ -542,6 +614,176 @@ console.log('Pickup Branch Name:', pickupBranchname);
     }
   }
   
+  // BookingId() {
+  //   if (this.form.invalid) {
+  //     this.form.markAllAsTouched(); // highlight validation errors
+  //     console.warn('Form is invalid. Please fill all required fields.');
+  //     return;
+  //   }
+  //   const orderDataToSend = this.packages.value.map((item: any) => ({
+  //     quantity: item.quantity,
+  //     packageType: item.packageType,
+  //     contains: item.contains,
+  //     weight: item.weight,
+  //     unitPrice: item.unitPrice,
+  //     totalPrice: item.totalPrice,
+  //   }));
+
+  //   const pickupBranchId = this.form.value.pickUpBranch;
+  //   const dropBranchId = this.form.value.dropBranch;
+
+  //   const pickupBranchName =
+  //     this.pdata.find((b: any) => b.branchUniqueId === pickupBranchId)?.name ||
+  //     'N/A';
+  //   const dropBranchName =
+  //     this.tbcdata.find((b: any) => b.branchUniqueId === dropBranchId)?.name ||
+  //     'N/A';
+
+  //   const val: any = {
+  //     fromCity: this.form.value.fromCity,
+  //     toCity: this.form.value.toCity,
+  //     pickUpBranchName: pickupBranchName,
+  //     dropBranchName: dropBranchName,
+  //     pickUpBranch: pickupBranchId,
+  //     dropBranch: dropBranchId,
+  //     dispatchType: this.form.value.dispatchType,
+  //     bookingType: this.form.value.bookingType,
+  //     senderName: this.form.value.senderName,
+  //     senderMobile: this.form.value.senderMobile,
+  //     senderAddress: this.form.value.senderAddress,
+  //     senderGst: this.form.value.senderGST || '',
+  //     receiverName: this.form.value.receiverName,
+  //     receiverMobile: this.form.value.receiverMobile,
+  //     receiverAddress: this.form.value.receiverAddress,
+  //     receiverGst: this.form.value.receiverGST || '',
+  //     packages: orderDataToSend,
+  //     serviceCharges: this.form.value.serviceCharges,
+  //     hamaliCharges: this.form.value.hamaliCharges,
+  //     doorDeliveryCharges: this.form.value.doorDeliveryCharges,
+  //     doorPickupCharges: this.form.value.doorPickupCharges,
+  //     valueOfGoods: this.form.value.valueOfGoods,
+  //     grandTotal: this.form.value.grandTotal,
+  //     agent: this.form.value.agent || '',
+  //   };
+  //   console.log('payload', val);
+
+  //   if (!this.mogoId) {
+  //     console.error('No ID to update');
+  //     return;
+  //   }
+
+  //   this.api.BookingId(this.mogoId, val).subscribe({
+  //     next: (res: any) => {
+  //       console.log('Booking updated:', res);
+  //       this.gdata = res;
+  //       this.toastr.success(res.message, 'Success');
+  //       this.router.navigateByUrl(`/booking`).then(() => {
+  //         // window.location.reload();
+  //       });
+  //     },
+  //     error: (error) => {
+  //       console.error('Error updating booking:', error);
+  //       this.toastr.success(error.message, 'Success');
+  //     },
+  //   });
+  // }
+
+  BookingId() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      console.warn('Form is invalid. Please fill all required fields.');
+      return;
+    }
+  
+    const orderDataToSend = this.packages.value.map((item: any) => ({
+      quantity: item.quantity,
+      packageType: item.packageType,
+      contains: item.contains,
+      weight: item.weight,
+      unitPrice: item.unitPrice,
+      totalPrice: item.totalPrice,
+    }));
+  
+    const pickupBranchId = this.form.value.pickUpBranch;
+    const dropBranchId = this.form.value.dropBranch;
+  
+    // ✅ Prevent .find() from throwing error
+    const pickupBranchName =
+      Array.isArray(this.pdata)
+        ? this.pdata.find((b: any) => b.branchUniqueId === pickupBranchId)?.name || 'N/A'
+        : 'N/A';
+  
+    const dropBranchName =
+      Array.isArray(this.tbcdata)
+        ? this.tbcdata.find((b: any) => b.branchUniqueId === dropBranchId)?.name || 'N/A'
+        : 'N/A';
+  
+    const val: any = {
+      fromCity: this.form.value.fromCity,
+      toCity: this.form.value.toCity,
+      pickUpBranchName: pickupBranchName,
+      dropBranchName: dropBranchName,
+      pickUpBranch: pickupBranchId,
+      dropBranch: dropBranchId,
+      dispatchType: this.form.value.dispatchType,
+      bookingType: this.form.value.bookingType,
+      senderName: this.form.value.senderName,
+      senderMobile: this.form.value.senderMobile,
+      senderAddress: this.form.value.senderAddress,
+      senderGst: this.form.value.senderGST || '',
+      receiverName: this.form.value.receiverName,
+      receiverMobile: this.form.value.receiverMobile,
+      receiverAddress: this.form.value.receiverAddress,
+      receiverGst: this.form.value.receiverGST || '',
+      packages: orderDataToSend,
+      serviceCharges: this.form.value.serviceCharges,
+      hamaliCharges: this.form.value.hamaliCharges,
+      doorDeliveryCharges: this.form.value.doorDeliveryCharges,
+      doorPickupCharges: this.form.value.doorPickupCharges,
+      valueOfGoods: this.form.value.valueOfGoods,
+      grandTotal: this.form.value.grandTotal,
+      agent: this.form.value.agent || '',
+    };
+  
+    console.log('payload', val);
+  
+    if (!this.mogoId) {
+      console.error('No ID to update');
+      return;
+    }
+  
+    this.api.BookingId(this.mogoId, val).subscribe({
+      next: (res: any) => {
+        console.log('Booking updated:', res);
+        this.gdata = res;
+        this.toastr.success(res.message, 'Success');
+        this.router.navigateByUrl(`/booking`);
+      },
+      error: (error) => {
+        console.error('Error updating booking:', error);
+        this.toastr.error(error?.error?.message || error.message || 'Update failed');
+      },
+    });
+  }
+  
+  NumberofBooking() {
+    const payload = {
+      bookingDate: this.today.toISOString().split('T')[0],
+      pickupBranch: this.brachid
+    };
+  
+    console.log('Payload:', payload);
+  
+    this.api.GetTotal(payload).subscribe({
+      next: (res: any) => {
+        this.Ttotal=res
+        console.log('Total bookings response:', res);
+      },
+      error: (err) => {
+        console.error('Error fetching total bookings:', err);
+      }
+    });
+  }
 
 }
 

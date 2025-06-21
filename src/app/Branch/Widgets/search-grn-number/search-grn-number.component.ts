@@ -10,7 +10,6 @@ import { BranchService } from 'src/app/service/branch.service';
 })
 export class SearchGrnNumberComponent {
   searchResult: any[] = [];
-  data2: any;
   idselectmsg: string = '';
   regname: any[] = [];
   errorMessage: string = '';
@@ -20,6 +19,7 @@ export class SearchGrnNumberComponent {
   searchTerm: string = '';
 // 
   branchId: any;
+  pfdata: any;
   constructor(
     private api: BranchService,
     private activeroute: ActivatedRoute,
@@ -36,86 +36,94 @@ export class SearchGrnNumberComponent {
     });
   }
   ngOnInit(): void {
-    this.searchTerm = this.activeroute.snapshot.params['grnNo'];
+    this.searchTerm = '';
+    this.getProfileData();  }
+
+
+
+data2: any[] = [];
+getProfileData() {
+  this.api.GetProfileData().subscribe((res: any) => {
+    console.log('profile', res);
+    this.pfdata = res.role;    
+    console.log(this.pfdata, 'branchid');
+
+  });
+
+}
+
+editBooking(grnNo: string): void {
+  if (this.pfdata === 'admin') {
+    this.router.navigateByUrl(`/booking/${grnNo}`).then(() => {
+      window.location.reload();
+    });
+  } else if (this.pfdata === 'subadmin') {
+    this.router.navigateByUrl(`/sub-booking/${grnNo}`).then(() => {
+      window.location.reload();
+    });
+  } else if (this.pfdata === 'employee') {
+    this.router.navigateByUrl(`/employee-booking/${grnNo}`).then(() => {
+      window.location.reload();
+    });
+  }
+}
+
+isEditable(bookingDate: string, bookingStatus: number): boolean {
+  if (bookingStatus === 1) {
+    return false; 
   }
 
-  updateParcelStatus() {
-    const payload = {
-      grnNo: this.form.value.grnNo,
-      receiverName: this.form.value.receiverName,
-      receiverMobile: this.form.value.receiverMobile,
+  const bookingTime = new Date(bookingDate).getTime();
+  const currentTime = new Date().getTime();
+  const timeDifferenceInHours = (currentTime - bookingTime) / (1000 * 60 * 60);
+
+  return timeDifferenceInHours <= 10;
+}
+
+searchUser(): void {
+  if (this.searchTerm && this.searchTerm.trim() !== '' && this.searchField) {
+    const searchPayload = {
+      mobile: '',
+      searchCustomer: '',
+      grnNo: '',
+      lrNumber: '',
     };
-    console.log('Final Payload:', payload);
-  
-    this.api.ReceivedParcelUpdate(payload).subscribe(
-      (res: any) => {
-        console.log('Update Status:', res);
-        this.updata = res;
-  
-        // ✅ Show success message from backend if available
-        if (res.message) {
-          this.toast.success(res.message, 'Success');
-        } else {
-          this.toast.success('Parcel status updated successfully', 'Success');
-        }
-  
-        // ✅ Redirect after short delayad
-        setTimeout(() => {
-          this.router
-            .navigateByUrl('/', { skipLocationChange: true })
-            .then(() => {
-              this.router.navigate(['/booking']);
-            });
-        }, 500);
-      },
-      (error) => {
-        console.error('Error updating status:', error);
-  
-        // ✅ Show error message from backend if available
-        if (error.error && error.error.message) {
-          this.toast.error(error.error.message, 'Error');
-        } else {
-          this.toast.error('Failed to update parcel status', 'Error');
-        }
-      }
-    );
-  }
-
-  searchUser(): void {
-    debugger;
-    if (this.searchTerm && this.searchTerm.trim() !== '' && this.searchField) {
-      console.log(
-        'Searching by:',
-        this.searchField,
-        'Value:',
-        this.searchTerm.trim()
-      );
-      const searchPayload = {
-        mobile: '',
-        searchCustomer: '',
-        grnNo: '',
-        lrNumber: '',
-      };
-      console.log('searchdata:', searchPayload);
-      switch (this.searchField) {
-        case 'senderMobile':
-          searchPayload.mobile = this.searchTerm.trim();
-          break;
-        case 'senderName':
-          searchPayload.searchCustomer = this.searchTerm.trim();
-          break;
-        case 'grnNo':
-          searchPayload.grnNo = this.searchTerm.trim();
-          break;
-        case 'lrNumber':
-          searchPayload.lrNumber = this.searchTerm.trim();
-          break;
-      }
-      this.api.GetSearch(searchPayload).subscribe((res: any) => {
-        this.data2 = res;
-        console.log('searchdataobject:', this.data2);
-        
-      });
+    switch (this.searchField) {
+      case 'senderMobile':
+        searchPayload.mobile = this.searchTerm.trim();
+        break;
+      case 'senderName':
+        searchPayload.searchCustomer = this.searchTerm.trim();
+        break;
+      case 'grnNo':
+        searchPayload.grnNo = this.searchTerm.trim();
+        break;
+      case 'lrNumber':
+        searchPayload.lrNumber = this.searchTerm.trim();
+        break;
     }
+
+    this.api.GetSearch(searchPayload).subscribe((res: any) => {
+      this.data2 = res;
+      console.log('Search result:', this.data2);
+    });
   }
+}
+
+clearSearch(): void {
+  this.searchTerm = '';
+  this.searchField = '';
+  this.data2 = [];
+}
+
+  copyGRN(grnNo: string): void {
+    navigator.clipboard.writeText(grnNo).then(() => {
+      this.toast.success(`GRN No copied: ${grnNo}`);
+    })}
+  copyLR(lrNo: string): void {
+    navigator.clipboard.writeText(lrNo).then(() => {
+      this.toast.success(`LR No copied: ${lrNo}`);
+    })
+  }
+  
 }

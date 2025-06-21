@@ -175,6 +175,10 @@ export class DashboardComponent implements AfterViewInit {
       },
     });
   }
+
+
+
+  
   loadPieChart1(): void {
     if (!this.ddata || !Array.isArray(this.ddata)) {
       return;

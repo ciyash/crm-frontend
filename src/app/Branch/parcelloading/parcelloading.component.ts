@@ -212,17 +212,14 @@ onLoad() {
   onSelectAllChange(event: any) {
     const formArray = this.form1.get('grnNo') as FormArray;
     if (event.target.checked) {
-      // ✅ Select all if checked
       this.data.forEach((row:any) => {
         if (!formArray.value.includes(row.grnNo)) {
           formArray.push(this.fb.control(row.grnNo));
         }
       });
     } else {
-      // ✅ Deselect all if unchecked
       formArray.clear();
     }
-    // ✅ Update "Select All" status
     this.allSelected = event.target.checked;
     console.log('All GRN Numbers Selected:', formArray.value);
   }
@@ -252,6 +249,8 @@ onLoad() {
         // Call your existing handler if you want to trigger API or other logic
         this.onFromcitySelect({ target: { value: selectedCity } });
       });
+
+
       // Initialize Select2
 
   // $(this.selectElem.nativeElement).select2({
@@ -279,9 +278,6 @@ onLoad() {
   //   // Trigger any additional logic
   //   this.onFromcitySelect({ target: { value: selectedCity } });
   // });
-
-      
-
       $(this.branchselect.nativeElement).on('select2:select', (event: any) => {
         const selectedDropBranch = event.params.data.id;
         console.log('Selected Drop Branch:', selectedDropBranch);

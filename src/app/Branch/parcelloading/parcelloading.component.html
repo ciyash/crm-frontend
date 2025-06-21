@@ -121,7 +121,7 @@ word-wrap: break-word">Parcel Loading Offline</h4>
       <table class="table table-bordered table-striped">
         <thead>
           <tr>
-            <th><input type="checkbox" (change)="onSelectAllChange($event)" [checked]="allSelected" /> Select All</th>
+            <th><input type="checkbox" /> Select All</th>
             <th>S.No</th>
             <th>LR No</th>
             <th>Book by Branch</th>
@@ -138,7 +138,7 @@ word-wrap: break-word">Parcel Loading Offline</h4>
         <tbody>
           <tr *ngFor="let row of data; let i = index">
             <td>
-              <input type="checkbox" [checked]="form1.get('grnNo')?.value.includes(row.grnNo)"
+              <input type="checkbox"
                 (change)="onGrnNoChange($event, row.grnNo)" />
             </td>
             <td>{{ i + 1 }}</td>
@@ -214,3 +214,5 @@ word-wrap: break-word">Parcel Loading Offline</h4>
   </form>
 </div>
 <app-parcel-loading-data></app-parcel-loading-data>
+
+

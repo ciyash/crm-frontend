@@ -2,15 +2,23 @@
 <div class="container">
   <app-search-grn-number></app-search-grn-number>
 </div>
-
-
-<h4 class="text-center  " style="color: #3C3C3C;
+<h4 class="text-center fw-bold text-danger " style="color: #3C3C3C;
 font-size: 20px;
 font-family: Poppins;
 font-weight: 500;
 text-decoration: underline;
 word-wrap: break-word">Parcel Booking</h4>
+
 <div class="container mt-4">
+  <div class="d-flex gap-5 mx-3 mb-2" *ngIf="Ttotal?.bookings?.length">
+    <h5 class="fw-bold" style="font-size: 20px; font-family: Poppins; font-weight: 500; word-wrap: break-word; color:rgb(38, 0, 128)">
+      Today Booking: <strong>{{ Ttotal.bookings[0].count }}</strong>
+    </h5>
+    <h5 class="fw-bold" style="font-size: 20px; font-family: Poppins; font-weight: 500; word-wrap: break-word; color:green">
+      Today Collection: Rs.<strong>{{ Ttotal.bookings[0].total }}</strong>
+    </h5>
+  </div>
+  
   <div class="card p-4">
     <form [formGroup]="form">
       <div *ngIf="bookingSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
@@ -25,12 +33,10 @@ word-wrap: break-word">Parcel Booking</h4>
             <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
           </select>
         </div>
-
         <div class="col-md-4">
           <label class="form-label form-after">Pickup Branch</label>
           <select #pickupbranch class="form-select form-select-sm" formControlName="pickUpBranch">
             <option value="" selected>Select Pickup Branch</option>
-            <!-- <option value="{{pfdata.branchUniqueId}}"  selected>{{pfdata.name}}</option> -->
             <option *ngFor="let row4 of pdata" [value]="row4.branchUniqueId"> {{ row4.name }} </option>
           </select>
         </div>
@@ -42,7 +48,6 @@ word-wrap: break-word">Parcel Booking</h4>
             <option *ngFor="let row of citydata" [value]="row.cityName">{{ row.cityName }}</option>
           </select>
         </div>
-
         <div class="col-md-4">
           <label class="form-label form-after">Drop Branch</label>
           <select #droupbranch class="form-select form-select-sm" formControlName="dropBranch">
@@ -50,7 +55,6 @@ word-wrap: break-word">Parcel Booking</h4>
             <option *ngFor="let row1 of tbcdata" [value]="row1.branchUniqueId"> {{ row1.name }} </option>
           </select>
         </div>
-
         <div class="col-md-4">
           <label class="form-label">Dispatch Type </label>
           <!-- <input type="text" class="form-control form-select-sm" formControlName="dispatchType"  /> -->
@@ -73,15 +77,6 @@ word-wrap: break-word">Parcel Booking</h4>
 
 
         <div class="col-md-4">
-
-          <!-- Show this only when bookingType is 'credit' -->
-          <!-- <div *ngIf="form.get('bookingType')?.value === 'credit'" class="mt-2">
-        <label class="form-label form-after">Agent</label>
-          <select  class="form-select form-select-sm" formControlName="toCity">
-            <option value="" selected>Select Company</option>
-            <option *ngFor="let row of companyList" [value]="row.name">{{ row.name }}</option>
-          </select>
-        </div> -->
           <div *ngIf="form.get('bookingType')?.value === 'credit'" class="mt-2">
             <label class="form-label form-after">Agent</label>
             <select class="form-select form-select-sm" formControlName="agent" (change)="onCompanySelect($event)">
@@ -89,12 +84,8 @@ word-wrap: break-word">Parcel Booking</h4>
               <option *ngFor="let row of companyList" [value]="row.name">{{ row.name }}</option>
             </select>
           </div>
-
-
         </div>
       </div>
-
-
       <h6 class="mt-0 text-success">Items</h6>
       <div formArrayName="packages">
         <div class="table-responsive">
@@ -179,23 +170,16 @@ word-wrap: break-word">Parcel Booking</h4>
             <div class="row mt-3">
               <div class="col-md-3" style="position: relative;">
                 <label class="form-label form-after">Sender Name</label>
-                <input type="text" class="form-control form-select-sm"
-                       formControlName="senderName"
-                       autocomplete="off"
-                       (input)="searchUser()"
-                       (focus)="searchUser()"
-                       (blur)="hideDropdown()">
-              
+                <input type="text" class="form-control form-select-sm" formControlName="senderName" autocomplete="off"
+                  (input)="searchUser()" (focus)="searchUser()" (blur)="hideDropdown()">
+
                 <!-- Dropdown -->
-                <ul *ngIf="showDropdown && userList.length"
-                class="dropdown-menu show"
-                style="width: 100%; max-height: 150px; overflow-y: auto;">
-              <li *ngFor="let user of userList"
-                  class="dropdown-item"
-                  (mousedown)="selectUser(user)">
-                {{ user.name }}
-              </li>
-            </ul>
+                <ul *ngIf="showDropdown && userList.length" class="dropdown-menu show"
+                  style="width: 100%; max-height: 150px; overflow-y: auto;">
+                  <li *ngFor="let user of userList" class="dropdown-item" (mousedown)="selectUser(user)">
+                    {{ user.name }}
+                  </li>
+                </ul>
               </div>
               <!-- Other Fields (Auto-populated) -->
               <div class="col-md-3">
@@ -251,17 +235,18 @@ word-wrap: break-word">Parcel Booking</h4>
       <div class="container mt-3">
         <!-- Submit Button -->
         <div class="text-end mb-3">
-          <button
-            type="button"
-            class="btn btn-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
-            (click)="openPreviewModal()"
-          >
+          <button *ngIf="!gdata"  type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+            (click)="openPreviewModal()">
             Submit
           </button>
+            <button *ngIf="gdata" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                    (click)="openPreviewModal()">
+              UPDATE
+            </button>
+          
+   
         </div>
-      
+
         <!-- Modal for preview -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-xl modal-dialog-scrollable">
@@ -270,7 +255,7 @@ word-wrap: break-word">Parcel Booking</h4>
                 <h5 class="modal-title" id="exampleModalLabel">Booking Details Preview</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-      
+
               <div class="modal-body">
                 <div class="container">
                   <div class="row mb-3">
@@ -283,7 +268,7 @@ word-wrap: break-word">Parcel Booking</h4>
                       <p>{{ modelData?.toCity || '-' }}</p>
                     </div>
                   </div>
-      
+
                   <div class="row mb-3">
                     <div class="col-md-6">
                       <strong>Pickup Branch:</strong>
@@ -294,14 +279,14 @@ word-wrap: break-word">Parcel Booking</h4>
                       <p>{{ modelData?.dropBranchName || '-' }}</p>
                     </div>
                   </div>
-      
+
                   <div class="row mb-3">
                     <div class="col-md-6">
                       <strong>Booking Type:</strong>
                       <p>{{ modelData?.bookingType || '-' }}</p>
                     </div>
                   </div>
-      
+
                   <div class="row mb-3">
                     <div class="col-md-6">
                       <strong>Sender Name:</strong>
@@ -312,7 +297,7 @@ word-wrap: break-word">Parcel Booking</h4>
                       <p>{{ modelData?.senderMobile || '-' }}</p>
                     </div>
                   </div>
-      
+
                   <div class="row mb-3">
                     <div class="col-md-6">
                       <strong>Receiver Name:</strong>
@@ -323,7 +308,7 @@ word-wrap: break-word">Parcel Booking</h4>
                       <p>{{ modelData?.receiverMobile || '-' }}</p>
                     </div>
                   </div>
-      
+
                   <!-- Package Details -->
                   <div *ngIf="modelData?.packages?.length" class="mb-3">
                     <h6 class="text-primary">Package Details</h6>
@@ -344,10 +329,12 @@ word-wrap: break-word">Parcel Booking</h4>
                   </div>
                 </div>
               </div>
-      
+
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-success" (click)="confirmBooking()">Confirm</button>
+                <button *ngIf="this.grnNo!=grnNo" type="button" class="btn btn-success" (click)="confirmBooking()">Confirm</button>
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="confirmBooking()">Confirm</button>
+
               </div>
             </div>
           </div>
