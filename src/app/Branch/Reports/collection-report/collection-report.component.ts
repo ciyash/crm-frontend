@@ -21,6 +21,7 @@ export class CollectionReportComponent implements OnInit, AfterViewInit {
   collectiondata: any;  
   pdata: any;
   onPickupBranchSelect:any;
+  collectionData: any;
   constructor(private fb: FormBuilder, private api: BranchService, private router: Router,private toast:ToastrService) {
     this.form = this.fb.group({ 
       fromDate: [this.getTodayDateString(), Validators.required],
@@ -28,7 +29,8 @@ export class CollectionReportComponent implements OnInit, AfterViewInit {
       fromCity: [''],
       pickUpBranch: [''],
       bookedBy: [''],
-      reportType: ['']
+      reportType: ['ALL']  // ✅ Set default value here
+
     });
     
   }
@@ -98,46 +100,92 @@ export class CollectionReportComponent implements OnInit, AfterViewInit {
     }
   }
 
-  getCollectionReport() {
-    const payload = this.form.value;
-    console.log("Payload:", payload);
+//   getCollectionReport() {
+//     const payload = this.form.value;
+//     console.log("Payload:", payload);
 
-    this.api.ParcelBranchWiseReport(payload).subscribe({
-      next: (res: any) => {
-        console.log("collectiodata:",res);
+//     this.api.SummaryBranchWiseReport(payload).subscribe({
+//       next: (res: any) => {
+//         console.log("collectiodata:",res);
         
-        const successMsg = res?.message || 'Report fetched successfully';
-        this.toast.success(successMsg);
-        const finalData = {
-          ...res,
-          fromDate: payload.fromDate,
-          toDate: payload.toDate
-        };
+//         const successMsg = res?.message || 'Report fetched successfully';
+//         this.toast.success(successMsg);
+//         const finalData = {
+//           ...res,
+//           fromDate: payload.fromDate,
+//           toDate: payload.toDate
+//         };
+//         localStorage.setItem('collectiondata', JSON.stringify(finalData));
+//         const baseUrl = window.location.origin;
+//         const collectiondataUrl = `${baseUrl}/cloud/collectiondata`;
+//         window.open(collectiondataUrl, '_blank');
 
+//       },
 
-        localStorage.setItem('collectiondata', JSON.stringify(finalData));
-        const baseUrl = window.location.origin;
-        const collectiondataUrl = `${baseUrl}/cloud/collectiondata`;
-        window.open(collectiondataUrl, '_blank');
+//       error: (err: any) => {
+//         console.error('Error fetching report:', err);
+//         const errorMsg = err?.error?.message || err?.message || 'Failed to fetch report';
+//         this.toast.error(errorMsg);
+//       }
+//     });
+// }
 
-        // const dataStr = encodeURIComponent(JSON.stringify(finalData));
-        //         const url = this.router.serializeUrl(
-        //   this.router.createUrlTree(['/collectiondata'], {
-        //     queryParams: { data: dataStr }
-        //   })
-        // );
-        // window.open(url, '_blank');
-        // console.log("dataStr:",dataStr);
+getCollectionReport() {
+  const payload = this.form.value;
+  const { reportType, fromDate, toDate } = payload;
 
-        
-      },
+  let apiCall;
+  let redirectRoute = '';
 
-      error: (err: any) => {
-        console.error('Error fetching report:', err);
-        const errorMsg = err?.error?.message || err?.message || 'Failed to fetch report';
-        this.toast.error(errorMsg);
-      }
-    });
+  // Decide API and route based on report type
+  switch (reportType) {
+    case 'ALL':
+    case 'report':
+      apiCall = this.api.SummaryBranchWiseReport(payload);
+      redirectRoute = '/collectiondata';
+      break;
+
+    case 'topay':
+      apiCall = this.api.topayReport(payload);
+      redirectRoute = '/topayreport';
+      break;
+
+    case 'AllCollection':
+      apiCall = this.api.ALLCollectionReport(payload);
+      redirectRoute = '/allcollectionreport';
+      break;
+
+    case 'BookingTypeWise':
+      apiCall = this.api.TypeWise(payload);
+      redirectRoute = '/bookingtypewise';
+      break;
+
+    default:
+      this.toast.warning('Invalid report type selected');
+      return;
+  }
+
+  // Make API call and handle response
+  apiCall.subscribe({
+    next: (res: any) => {
+      console.log('collectiodata:', res);
+
+      const finalData = {
+        ...res,
+        fromDate,
+        toDate
+      };
+
+      // Save to localStorage and navigate
+      localStorage.setItem('collectiondata', JSON.stringify(finalData));
+      this.router.navigate([redirectRoute]);
+    },
+    error: (err: any) => {
+      console.error('Error fetching report:', err);
+      this.toast.error('Failed to fetch report');
+    }
+  });
 }
 
 }
+

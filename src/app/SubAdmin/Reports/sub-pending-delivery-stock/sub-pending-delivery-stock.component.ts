@@ -34,6 +34,7 @@ export class SubPendingDeliveryStockComponent {
     onDropBranchSelect: any;
   fromCityValue: any;
   filteredCityList: any;
+  toCityValue: any;
     constructor(
       private fb: FormBuilder,
       private api: BranchService,
@@ -80,17 +81,17 @@ export class SubPendingDeliveryStockComponent {
         $(this.selectElem.nativeElement).val('all').trigger('change'); // ✅ force default
         $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
           const selectedCity = event.params.data.id;
-          this.form.patchValue({ fromCity: selectedCity });
+          this.form.patchValue({ toCity: selectedCity });
           this.onFromcitySelect({ target: { value: selectedCity } });
         });
     
         // Pickup Branch
-        $(this.pickupbranch.nativeElement).select2();
-        $(this.pickupbranch.nativeElement).val('all').trigger('change'); // ✅
-        $(this.pickupbranch.nativeElement).on('select2:select', (event: any) => {
-          const selectedBranch = event.params.data.id;
-          this.form.patchValue({ pickUpBranch: selectedBranch });
-          this.onPickupBranchSelect({ target: { value: selectedBranch } });
+        $(this.droupbranch.nativeElement).select2();
+        $(this.droupbranch.nativeElement).val('all').trigger('change'); // ✅
+        $(this.droupbranch.nativeElement).on('select2:select', (event: any) => {
+          const selectedDropBranch = event.params.data.id;
+          this.form.patchValue({ dropBranch: selectedDropBranch });
+          this.onPickupBranchSelect({ target: { value: selectedDropBranch } });
         });
     
         // To City
@@ -98,37 +99,34 @@ export class SubPendingDeliveryStockComponent {
         $(this.selectElem2.nativeElement).val('all').trigger('change'); // ✅
         $(this.selectElem2.nativeElement).on('select2:select', (event: any) => {
           const selectedToCity = event.params.data.id;
-          this.form.patchValue({ toCity: selectedToCity });
+          this.form.patchValue({ fromCity: selectedToCity });
           this.onTocitySelect({ target: { value: selectedToCity } });
         });
     
         // Drop Branch
-        $(this.droupbranch.nativeElement).select2();
-        $(this.droupbranch.nativeElement).val('all').trigger('change'); // ✅
-        $(this.droupbranch.nativeElement).on('select2:select', (event: any) => {
-          const selectedDropBranch = event.params.data.id;
-          this.form.patchValue({ dropBranch: selectedDropBranch });
-          this.onDropBranchSelect({ target: { value: selectedDropBranch } });
+        $(this.pickupbranch.nativeElement).select2();
+        $(this.pickupbranch.nativeElement).val('all').trigger('change'); // ✅
+        $(this.pickupbranch.nativeElement).on('select2:select', (event: any) => {
+          const selectedBranch = event.params.data.id;
+          this.form.patchValue({ pickUpBranch: selectedBranch });
+          this.onDropBranchSelect({ target: { value: selectedBranch } });
         });
       }, 0);
     }
     
     getProfileData() {
       this.api.GetProfileData().subscribe((res: any) => {
-        this.fromCityValue = res.branchId.city;
-        // Filter city list and set values to forms
+        this.toCityValue = res.branchId.city;
         this.filteredCityList = this.citydata.filter(
-          (city: { cityName: any }) => city.cityName === this.fromCityValue
+          (city: { cityName: any }) => city.cityName === this.toCityValue
         );
     
-        this.form.patchValue({ fromCity: this.fromCityValue });
+        this.form.patchValue({ toCity: this.toCityValue });
   
-        // Trigger form change logic if needed
-        this.onFromcitySelect({ target: { value: this.fromCityValue } });
+        this.onFromcitySelect({ target: { value: this.toCityValue } });
           setTimeout(() => {
-          // Update first select2
           $(this.selectElem.nativeElement).select2();
-          $(this.selectElem.nativeElement).val(this.fromCityValue).trigger('change');
+          $(this.selectElem.nativeElement).val(this.toCityValue).trigger('change');
           $(this.selectElem.nativeElement).prop('disabled', true).trigger('change.select2')
         }, 0);
       });

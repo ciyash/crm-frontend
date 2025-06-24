@@ -16,40 +16,51 @@
           <input type="date" class="form-control " formControlName="toDate">
         </div>
 
-        <!-- <div class="col-md-6">
+   
+
+   
+             <div class="col-md-6">
           <label class="form-label form-after">From City</label>
-          <select #selectElem class="form-select form-select-sm" formControlName="fromCity">
+          <select #selectElem2 class="form-select form-select-sm" formControlName="fromCity">
             <option value="all" selected> select all</option>
-            <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
+            <option *ngFor="let row of citydata" [value]="row.cityName">{{ row.cityName }}</option>
           </select>
-        </div> -->
+        </div>
+        
+
+        
         <div class="col-md-6">
-          <label class="form-label form-after">From City</label>
-          <select #selectElem class="form-select form-select-sm" formControlName="fromCity" >
-            <option value="" selected>Select City</option>
-            <option *ngFor="let row2 of filteredCityList" [value]="row2.cityName">{{ row2.cityName }}</option>
+          <label class="form-label form-after">Pickup Branch</label>
+          <select #droupbranch class="form-select form-select-sm" formControlName="dropBranch">
+            <option value="all" selected> select all</option>
+            <option *ngFor="let row1 of tbcdata" [value]="row1.branchUniqueId"> {{ row1.name }} </option>
           </select>
         </div>
 
-        <div class="col-md-6">
-          <label class="form-label form-after">Pickup Branch</label>
-          <select #pickupbranch class="form-select form-select-sm" formControlName="pickUpBranch">
-            <option value="all" selected> select all</option>
-            <option *ngFor="let row4 of pdata" [value]="row4.branchUniqueId"> {{ row4.name }} </option>
-          </select>
-        </div>
-        <div class="col-md-6">
+        <!-- <div class="col-md-6">
           <label class="form-label form-after">To City</label>
           <select #selectElem2 class="form-select form-select-sm" formControlName="toCity">
             <option value="all" selected> select all</option>
             <option *ngFor="let row of citydata" [value]="row.cityName">{{ row.cityName }}</option>
           </select>
+        </div> -->
+
+        <div class="col-md-6">
+          <label class="form-label form-after">To City</label>
+          <select #selectElem class="form-select form-select-sm" formControlName="toCity" >
+            <option value="" selected>Select City</option>
+            <option *ngFor="let row2 of filteredCityList" [value]="row2.cityName">{{ row2.cityName }}</option>
+          </select>
         </div>
+
+
+
+
         <div class="col-md-6">
           <label class="form-label form-after">Drop Branch</label>
-          <select #droupbranch class="form-select form-select-sm" formControlName="dropBranch">
-            <option value="all" selected> select all</option>
-            <option *ngFor="let row1 of tbcdata" [value]="row1.branchUniqueId"> {{ row1.name }} </option>
+          <select #pickupbranch class="form-select form-select-sm" formControlName="pickUpBranch">
+            <option value="" selected> select all</option>
+            <option *ngFor="let row4 of pdata" [value]="row4.branchUniqueId"> {{ row4.name }} </option>
           </select>
         </div>
       </div>

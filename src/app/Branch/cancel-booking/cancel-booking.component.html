@@ -40,19 +40,71 @@
       <div class="text-center mt-3">
         <button class="btn  ms-auto " style="background-color: #034F92; color: white;" type="submit">LOAD</button>
       </div>
-      <div *ngIf="data2" class="text-center"><i class="fa fa-print" style="font-size: 40px; color: green;" aria-hidden="true"
-          (click)="printReceipt()"></i>
+      <div *ngIf="data2" class="text-center"><i class="fa fa-print" style="font-size: 40px; color: green;"
+          aria-hidden="true" (click)="printReceipt()"></i>
       </div>
     </form>
+    <hr>
+    <div *ngFor="let items of data2">
+        <div *ngIf="items.bookingStatus !== 5">
+          <form [formGroup]="form1">
+            <div class="row">
+              <div class="col-md-6">
+                <label class="form-label form-after">From City</label>
+                <select #selectElem class="form-select form-select-sm" formControlName="cancelCity"
+                  (change)="onFromcitySelect($event)">
+                  <option value="" selected>Select city</option>
+                  <option *ngFor="let row2 of citydata" [value]="row2.cityName">
+                    {{ row2.cityName }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label form-after">Branch Name</label>
+                <select #pickupbranch class="form-select form-select-sm" formControlName="cancelBranch">
+                  <option value="" selected>Select branch</option>
+                  <option *ngFor="let row4 of pdata" [value]="row4.name">{{ row4.name }}</option>
+                </select>
+  
+              </div>
+  
+              <div class="col-md-6" *ngIf="employee?.length">
+                <label class="form-label">Cancel By User</label>
+                <select class="form-select" formControlName="cancelByUser">
+                  <option selected disabled>Select User</option>
+                  <option *ngFor="let emp of employee" [value]="emp.name">
+                    {{ emp.name }}
+                  </option>
+                </select>
+              </div>
+  
+              <div class="col-md-6">
+                <label class="form-label">Cancel Date</label>
+                <input type="text" class="form-control" formControlName="cancelDate" readonly>
+  
+  
+              </div>
+              <!-- <div class="col-md-6">
+                <label class="form-label">RefundCharege</label>
+                <input type="text" class="form-control" formControlName="refundCharge" placeholder="Enter RefundCharege">
+              </div> -->
+              <div class="col-md-6">
+                <label class="form-label">RefundAmount</label>
+                <input type="text" class="form-control" formControlName="refundAmount" placeholder="Enter RefundAmount">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Remarks</label>
+                <input type="text" class="form-control" formControlName="remarks" placeholder="Enter Remarks">
+              </div>
+            </div>
+            <div class="text-center mt-4 mb-4">
+              <button class="btn btn-danger" (click)="cancelbooking()">Cancel Booking</button>
+            </div>
+          </form>
+        </div>
+      </div>
   </div>
 
-  <!-- Search Results -->
-
-
-  <!-- Error Message -->
-  <!-- <div *ngIf="errorMessage" class="text-danger mt-3">
-    {{ errorMessage }}
-  </div> -->
 
 
   <!-- Form Table Section -->
@@ -129,7 +181,7 @@
         <input type="text" class="form-control" [ngModel]="items.unloadingByemp" readonly>
       </div>
       <div class="col-md-4">
-        <label class="form-label">Delivery  By User</label>
+        <label class="form-label">Delivery By User</label>
         <input type="text" class="form-control" [ngModel]="items.deliveryEmployee" readonly>
       </div>
       <div class="col-md-4">
@@ -149,65 +201,8 @@
         <input type="text" class="form-control" [ngModel]="items.bookingType" readonly>
       </div>
 
-      <hr>
-      <div *ngIf="items.bookingStatus !== 5">
-
-        <form [formGroup]="form1"> 
-          <div class="row">
-            <div class="col-md-6">
-              <label class="form-label form-after">From City</label>
-              <select #selectElem class="form-select form-select-sm" formControlName="cancelCity"
-                (change)="onFromcitySelect($event)">
-                <option value="" selected>Select city</option>
-                <option *ngFor="let row2 of citydata" [value]="row2.cityName">
-                  {{ row2.cityName }}
-                </option>
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label form-after">Branch Name</label>
-              <select #pickupbranch class="form-select form-select-sm" formControlName="cancelBranch">
-                <option value="" selected>Select branch</option>
-                <option *ngFor="let row4 of pdata" [value]="row4.name">{{ row4.name }}</option>
-              </select>
-  
-            </div>
-  
-            <div class="col-md-6" *ngIf="employee?.length">
-              <label class="form-label">Cancel By User</label>
-              <select class="form-select" formControlName="cancelByUser">
-                <option selected disabled>Select User</option>
-                <option *ngFor="let emp of employee" [value]="emp.name">
-                  {{ emp.name }}
-                </option>
-              </select>
-            </div>
-  
-            <div class="col-md-6">
-              <label class="form-label">Cancel Date</label>
-              <input type="text" class="form-control" formControlName="cancelDate" readonly >
-              
-             
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">RefundCharege</label>
-              <input type="text" class="form-control" formControlName="refundCharge" placeholder="Enter RefundCharege">
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">RefundAmount</label>
-              <input type="text" class="form-control" formControlName="refundAmount" placeholder="Enter RefundAmount">
-            </div>
-            <div class="col-md-6">
-              <label class="form-label">Remarks</label>
-              <input type="text" class="form-control" formControlName="remarks" placeholder="Enter Remarks">
-            </div>
-          </div>
-          <div class="text-center mt-4 mb-4">
-            <button class="btn btn-danger" (click)="cancelbooking()">Cancel Booking</button>
-          </div>
-        </form>
-    </div>
     
+
     </div>
   </div>
 </div>
@@ -262,33 +257,35 @@
   }
 
   @media print {
-  body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-  }
 
-  .receipt-container {
-    page-break-inside: avoid;
-    max-height: 100vh;
-    overflow: hidden;
-    font-size: 12px; /* reduce font-size if needed */
-  }
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
 
-  .table {
-    page-break-inside: avoid;
-  }
+    .receipt-container {
+      page-break-inside: avoid;
+      max-height: 100vh;
+      overflow: hidden;
+      font-size: 12px;
+      /* reduce font-size if needed */
+    }
 
-  .table tr {
-    page-break-inside: avoid;
-    page-break-after: auto;
-  }
+    .table {
+      page-break-inside: avoid;
+    }
 
-  .hidden {
-    display: none !important;
-  }
-}
+    .table tr {
+      page-break-inside: avoid;
+      page-break-after: auto;
+    }
 
+    .hidden {
+      display: none !important;
+    }
+  }
 </style>
 
 
@@ -359,7 +356,7 @@
             <td>Receiver Name</td>
             <td>{{items.receiverName}}</td>
           </tr>
-      
+
           <tr>
             <td>cancelByUser</td>
             <td>{{items.cancelByUser}}</td>
@@ -378,4 +375,3 @@
       </div>
     </div>
   </div>
-  

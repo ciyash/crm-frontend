@@ -29,10 +29,11 @@ export class ParcelloadingComponent implements OnInit {
   data2:any;
   data1:any;
   LoadSuccess: boolean = false;
-  allSelected: boolean = true;
   qrdata: string = '';
   showScanner: boolean = false;
   tbcdata:any;
+  allSelected: boolean = false;
+
    @ViewChild('selectElem') selectElem!: ElementRef;
    @ViewChild('branchselect') branchselect!: ElementRef;
    @ViewChild('SelectVechicle')SelectVechicle!:ElementRef;
@@ -187,51 +188,170 @@ onLoad() {
       formArray.push(this.fb.control(value));
     });
   }
+  // onGrnNoChange(event: any, grnNo: string) {
+  //   const formArray = this.form1.get('grnNo') as FormArray;
+  //   if (event.target.checked) {
+  //     // Add if not already selected
+  //     if (!formArray.value.includes(grnNo)) {
+  //       formArray.push(this.fb.control(grnNo));
+  //     }
+  //   } else {
+  //     // Remove if unchecked
+  //     const index = formArray.value.indexOf(grnNo);
+  //     if (index > -1) {
+  //       formArray.removeAt(index);
+  //     }
+  //   }
+  
+  //   // ✅ Update "Select All" status based on selected values
+  //   this.allSelected = this.data.length === formArray.value.length;
+  //   console.log('Selected GRN Numbers:', formArray.value);
+  // }
+  selectedGrns: string[] = [];
 
   onGrnNoChange(event: any, grnNo: string) {
     const formArray = this.form1.get('grnNo') as FormArray;
+  
     if (event.target.checked) {
-      // Add if not already selected
       if (!formArray.value.includes(grnNo)) {
         formArray.push(this.fb.control(grnNo));
       }
     } else {
-      // Remove if unchecked
       const index = formArray.value.indexOf(grnNo);
       if (index > -1) {
         formArray.removeAt(index);
       }
     }
   
-    // ✅ Update "Select All" status based on selected values
-    this.allSelected = this.data.length === formArray.value.length;
-    console.log('Selected GRN Numbers:', formArray.value);
+    // Update select all status
+    this.allSelected = this.data.every((row: { grnNo: any; }) =>
+      formArray.value.includes(row.grnNo)
+    );
   }
+
+  // onSelectAllChange(event: any) {
+  //   const formArray = this.form1.get('grnNo') as FormArray;
   
-  // ✅ Handle "Select All" checkbox
+  //   if (event.target.checked) {
+  //     this.data.forEach((row: { _checked: boolean; grnNo: any; }) => {
+  //       row._checked = true;
+  //       if (!formArray.value.includes(row.grnNo)) {
+  //         formArray.push(this.fb.control(row.grnNo));
+  //       }
+  //     });
+  //   } else {
+  //     this.data.forEach((row: { _checked: boolean; }) => row._checked = false);
+  //     formArray.clear();
+  //   }
+  
+  //   this.allSelected = event.target.checked;
+  // }
+
+  
   onSelectAllChange(event: any) {
     const formArray = this.form1.get('grnNo') as FormArray;
+  
     if (event.target.checked) {
-      this.data.forEach((row:any) => {
+      this.data.forEach((row: { _checked: boolean; grnNo: any; }) => {
+        row._checked = true;
         if (!formArray.value.includes(row.grnNo)) {
           formArray.push(this.fb.control(row.grnNo));
         }
       });
     } else {
+      this.data.forEach((row: { _checked: boolean; }) => row._checked = false);
       formArray.clear();
     }
+  
     this.allSelected = event.target.checked;
-    console.log('All GRN Numbers Selected:', formArray.value);
   }
+  
+  
+  // onSelectAllChange(event: any) {
+  //   const formArray = this.form1.get('grnNo') as FormArray;
+  //   if (event.target.checked) {
+  //     this.data.forEach((row: any) => {
+  //       if (row.grnNo && !formArray.value.includes(row.grnNo)) {
+  //         formArray.push(this.fb.control(row.grnNo));
+  //       }
+  //     });
+  //   }
+    
+  //   else {
+  //     formArray.clear();
+  //   }
+  //   this.allSelected = event.target.checked;
+  //   console.log('All GRN Numbers Selected:', formArray.value);
+  // }
 
+<<<<<<< HEAD
 // 
+=======
+  onManualCheckboxChange(row: any) {
+    const formArray = this.form1.get('grnNo') as FormArray;
+  
+    if (row._checked) {
+      if (!formArray.value.includes(row.grnNo)) {
+        formArray.push(this.fb.control(row.grnNo));
+      }
+    } else {
+      const index = formArray.value.indexOf(row.grnNo);
+      if (index > -1) {
+        formArray.removeAt(index);
+      }
+    }
+  
+    // Update Select All checkbox status
+    this.allSelected = this.data.every((item: { _checked: any; }) => item._checked);
+  }
+  
+  ParcelLoad() {
+    if (this.form1.invalid) {
+      this.form1.markAllAsTouched(); // show errors
+      this.toast.warning('Please fill required fields correctly.', 'Validation');
+      return;
+    }
+    const payload = {
+      loadingType: this.form1.value.loadingType,
+      fromBranch: this.form1.value.fromBranch,
+      toBranch: this.form1.value.toBranch,
+      vehicalNumber: this.form1.value.vehicalNumber,
+      driverName: this.form1.value.driverName,
+      driverNo: this.form1.value.driverNo,
+      fromBookingDate: this.form1.value.fromBookingDate,
+      toBookingDate: this.form1.value.toBookingDate,
+      fromCity: this.form1.value.fromCity,
+      senderName: this.form1.value.senderName,
+      toCity: this.form1.value.toCity,
+      grnNo: this.form1.value.grnNo,
+      lrNumber: this.form1.value.lrNumber,
+    };
+  
+    console.log('Final Payload:', payload);
+  
+    this.api.ParcelLoading(payload).subscribe({
+      next: (response: any) => {
+        console.log('Parcel loaded successfully:', response);
+        this.toast.success('Parcel loaded successfully', 'Success');
+        setTimeout(() => {
+          this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+            this.router.navigate(['/parcelloading']);
+          });
+        }, 1000);
+      },
+      error: (error: any) => {
+        console.error('Parcel loading failed:', error);
+        this.toast.error('Parcel Loading Failed. Please try again', 'Error');
+      },
+    });
+  }
+>>>>>>> pavan
  
   ngAfterViewInit(): void {
     // Initialize SlimSelect
     new SlimSelect({
       select: this.demoSelect.nativeElement
     });
-  
     setTimeout(() => {
       // Initialize select2 for From City
       $(this.selectElem.nativeElement).select2();
@@ -303,8 +423,6 @@ onLoad() {
       
     }, 0);
   }
-  
-
   openScanner() {
     this.showScanner = true;
   }
@@ -365,54 +483,6 @@ onLoad() {
       this.toast.error('Parcel already loaded', 'Error');
     });
   }
-  
-  
-
-
- 
-  // getQRdata(id: any) {
-  //   this.api.GetQrGRNnumber(id).subscribe((res: any) => {
-  //     console.log(res, 'qrdata');
-  //     let newData: any[] = [];
-  
-  //     if (Array.isArray(res)) {
-  //       newData = res;
-  //     } else if (res && typeof res === 'object') {
-  //       if (res.grnNo || res.lrNumber) {
-  //         newData = [res];
-  //       }
-  //     }
-  
-  //     if (newData.length > 0) {
-  //       this.data = [...this.data || [], ...newData];
-  
-  //       const qr = this.data[0];
-  
-  //       // Patch all required fields from QR
-  //       this.form1.patchValue({
-  //         senderName: qr?.senderName || '',
-  //         fromCity: qr?.fromCity || '',
-  //         toCity: [qr?.toCity || ''], // use array if it's multiselect
-  //         fromBranch: qr?.pickUpBranch || '',
-  //         toBranch: qr?.dropBranch || '',
-  //         fromBookingDate: qr?.ltDate?.split('T')[0] || '', // format ISO to date (yyyy-mm-dd)
-  //         toBookingDate: qr?.bookingDate?.split('T')[0] || ''
-  //       });
-  
-  //       this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
-  //       this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
-  //     }
-  
-  //     if (res.success) {
-  //       this.toast.success(res.message || 'Parcel loaded successfully', 'Success');
-  //     } else {
-  //       this.toast.success(res.message || 'Parcel loaded successfully', 'Success');
-  //     }
-  //   }, err => {
-  //     this.toast.error('Parcel already loaded', 'Error');
-  //   });
-  // }
-  // jkasdbksabd
   onFromcitySelect(event: any) {
     const cityName = event.target.value;
     if (cityName) {
@@ -429,47 +499,7 @@ onLoad() {
       this.tbcdata = [];
     }
   }
-  ParcelLoad() {
-    if (this.form1.invalid) {
-      this.form1.markAllAsTouched(); // show errors
-      this.toast.warning('Please fill required fields correctly.', 'Validation');
-      return;
-    }
-    const payload = {
-      loadingType: this.form1.value.loadingType,
-      fromBranch: this.form1.value.fromBranch,
-      toBranch: this.form1.value.toBranch,
-      vehicalNumber: this.form1.value.vehicalNumber,
-      driverName: this.form1.value.driverName,
-      driverNo: this.form1.value.driverNo,
-      fromBookingDate: this.form1.value.fromBookingDate,
-      toBookingDate: this.form1.value.toBookingDate,
-      fromCity: this.form1.value.fromCity,
-      senderName: this.form1.value.senderName,
-      toCity: this.form1.value.toCity,
-      grnNo: this.form1.value.grnNo,
-      lrNumber: this.form1.value.lrNumber,
-    };
-  
-    console.log('Final Payload:', payload);
-  
-    this.api.ParcelLoading(payload).subscribe({
-      next: (response: any) => {
-        console.log('Parcel loaded successfully:', response);
-        this.toast.success('Parcel loaded successfully', 'Success');
-        setTimeout(() => {
-          this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-            this.router.navigate(['/parcelloading']);
-          });
-        }, 1000);
-      },
-      error: (error: any) => {
-        console.error('Parcel loading failed:', error);
-        this.toast.error('Parcel Loading Failed. Please try again', 'Error');
-      },
-    });
-  }
-  
+
 
   getVehicleData() {
     this.api.getData('Vehicle').subscribe({
@@ -482,7 +512,6 @@ onLoad() {
       }
     });
   }
-
   branchData() {
     this.api.getData('branch').subscribe({
       next: (response: any) => {

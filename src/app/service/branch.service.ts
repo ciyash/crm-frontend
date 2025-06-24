@@ -1117,6 +1117,107 @@ ParcelBranchWiseReport(value: {
   );
 }
 
+SummaryBranchWiseReport(value: {
+  fromDate: string;
+  toDate: string;
+  fromCity: string;
+  pickUpBranch: string;
+  bookedBy:string;
+}) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'booking/collection-summary-report',
+    {
+      fromDate: value.fromDate,
+      toDate: value.toDate,
+      pickUpBranch: value.pickUpBranch,
+      bookedBy: value.bookedBy,
+  },
+    httpOptions
+  );
+}
+topayReport(value: {
+  fromDate: string;
+  toDate: string;
+  fromCity: string;
+  pickUpBranch: string;
+  bookedBy:string;
+}) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'booking/collection-toPay-report',
+    {
+      fromDate: value.fromDate,
+      toDate: value.toDate,
+      pickUpBranch: value.pickUpBranch,
+      bookedBy: value.bookedBy,
+  },
+    httpOptions
+  );
+}
+
+ALLCollectionReport(value: {
+  fromDate: string;
+  toDate: string;
+  fromCity: string;
+  pickUpBranch: string;
+  bookedBy:string;
+}) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'booking/all-collection-report',
+    {
+      fromDate: value.fromDate,
+      toDate: value.toDate,
+      pickUpBranch: value.pickUpBranch,
+      bookedBy: value.bookedBy,
+  },
+    httpOptions
+  );
+}
+TypeWise(value: {
+  fromDate: string;
+  toDate: string;
+  fromCity: string;
+  pickUpBranch: string;
+  bookedBy:string;
+}) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'booking/booking-typew-ise-collection',
+    {
+      fromDate: value.fromDate,
+      toDate: value.toDate,
+      pickUpBranch: value.pickUpBranch,
+      bookedBy: value.bookedBy,
+  },
+    httpOptions
+  );
+}
 
 ConsolidatedReport(value: {
   fromDate: string;
