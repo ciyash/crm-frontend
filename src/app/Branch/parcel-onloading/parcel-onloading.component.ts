@@ -137,33 +137,7 @@ export class ParcelOnloadingComponent {
     }, 0);
   }
 
-  onGrnNoChange(event: any, grnNo: number) {
-    const grnArray = this.form1.get('grnNo') as FormArray;
-  
-    if (event.target.checked) {
-      if (!grnArray.value.includes(grnNo)) {
-        grnArray.push(this.fb.control(grnNo));
-      }
-    } else {
-      const index = grnArray.controls.findIndex(x => x.value === grnNo);
-      if (index >= 0) {
-        grnArray.removeAt(index);
-      }
-    }
-  
-    this.allSelected = this.bkdata.length === grnArray.value.length;
-  }
-  onSelectAllChange(event: any) {
-    const checked = event.target.checked;
-    const grnArray = this.fb.array([]);
-  
-    if (checked) {
-      this.bkdata.forEach(d => grnArray.push(this.fb.control(d.grnNo)));
-    }
-  
-    this.form1.setControl('grnNo', grnArray);
-    this.allSelected = checked;
-  }
+
 onLoad() {
   if (this.form.invalid) {
     this.toastr.error('Please fill all required fields', 'Validation Error');
@@ -331,7 +305,6 @@ getQRdata(id: string) {
   get fromCityArray() {
     return this.form.get('fromCity') as FormArray;
   }
-
   onFromCityChange(event: any) {
     const selectedOptions = Array.from(event.target.selectedOptions).map(
       (option: any) => option.value
@@ -364,7 +337,82 @@ getQRdata(id: string) {
       },
     });
   }
-
+  // onGrnNoChange(event: any, grnNo: number) {
+  //   const grnArray = this.form1.get('grnNo') as FormArray;
+  
+  //   if (event.target.checked) {
+  //     if (!grnArray.value.includes(grnNo)) {
+  //       grnArray.push(this.fb.control(grnNo));
+  //     }
+  //   } else {
+  //     const index = grnArray.controls.findIndex(x => x.value === grnNo);
+  //     if (index >= 0) {
+  //       grnArray.removeAt(index);
+  //     }
+  //   }
+  
+  //   this.allSelected = this.bkdata.length === grnArray.value.length;
+  // }
+  onGrnNoChange(event: any, grnNo: number) {
+    const grnArray = this.form1.get('grnNo') as FormArray;
+  
+    if (event.target.checked) {
+      if (!grnArray.value.includes(grnNo)) {
+        grnArray.push(this.fb.control(grnNo));
+      }
+    } else {
+      const index = grnArray.controls.findIndex(x => x.value === grnNo);
+      if (index >= 0) {
+        grnArray.removeAt(index);
+      }
+    }
+  
+    this.allSelected = this.bkdata.length === grnArray.value.length;
+  }
+  onManualCheckboxChange(row: any) {
+    const grnArray = this.form1.get('grnNo') as FormArray;
+  
+    if (row._checked) {
+      if (!grnArray.value.includes(row.grnNo)) {
+        grnArray.push(this.fb.control(row.grnNo));
+      }
+    } else {
+      const index = grnArray.controls.findIndex(ctrl => ctrl.value === row.grnNo);
+      if (index >= 0) {
+        grnArray.removeAt(index);
+      }
+    }
+  
+    this.allSelected = this.bkdata.every(d => d._checked);
+  }
+  
+  
+  // onSelectAllChange(event: any) {
+  //   const checked = event.target.checked;
+  //   const grnArray = this.fb.array([]);
+  
+  //   if (checked) {
+  //     this.bkdata.forEach(d => grnArray.push(this.fb.control(d.grnNo)));
+  //   }
+  
+  //   this.form1.setControl('grnNo', grnArray);
+  //   this.allSelected = checked;
+  // }
+  onSelectAllChange(event: any) {
+    const checked = event.target.checked;
+    const grnArray = this.fb.array([]);
+  
+    this.bkdata.forEach(d => {
+      d._checked = checked;
+      if (checked) {
+        grnArray.push(this.fb.control(d.grnNo));
+      }
+    });
+  
+    this.form1.setControl('grnNo', grnArray);
+    this.allSelected = checked;
+  }
+  
 
   ParcelLoad() {
     console.log('ParcelLoad called');  // Confirm click

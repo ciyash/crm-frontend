@@ -131,6 +131,9 @@ import { CompanyLoginComponent } from './USER/company-login/company-login.compon
 import { CreateAdminComponent } from './pages/Admin/create-admin/create-admin.component';
 import { EmployeeDashboardComponent } from './empolyee/employee-dashboard/employee-dashboard.component';
 import { SubDashboardComponent } from './SubAdmin/sub-dashboard/sub-dashboard.component';
+import { TopayReportComponent } from './Branch/Reports/topay-report/topay-report.component';
+import { AllReportComponent } from './Branch/Reports/all-report/all-report.component';
+import { BookingTypeWiseReportComponent } from './Branch/Reports/booking-type-wise-report/booking-type-wise-report.component';
 @NgModule({
   declarations: [
     // reports
@@ -255,6 +258,9 @@ import { SubDashboardComponent } from './SubAdmin/sub-dashboard/sub-dashboard.co
     CreateAdminComponent,
     EmployeeDashboardComponent,
     SubDashboardComponent,
+    TopayReportComponent,
+    AllReportComponent,
+    BookingTypeWiseReportComponent,
    
    
   ],

@@ -606,6 +606,22 @@ export class SubBookingComponent {
     }
     searchUser(): void {
       const searchTerm = this.form.get('senderName')?.value?.trim();
+    
+      // ✅ Check required dropdowns are selected
+      const fromCity = this.form.get('fromCity')?.value;
+      const toCity = this.form.get('toCity')?.value;
+      const pickUpBranch = this.form.get('pickUpBranch')?.value;
+      const dropBranch = this.form.get('dropBranch')?.value;
+    
+      const allSelected = fromCity && toCity && pickUpBranch && dropBranch;
+    
+      if (!allSelected) {
+        console.warn('Please select From City, To City, Pickup Branch, and Drop Branch before searching.');
+        this.userList = [];
+        this.showDropdown = false;
+        return;
+      }
+    
       if (searchTerm) {
         this.api.searchUser(searchTerm).subscribe(
           (res: any) => {

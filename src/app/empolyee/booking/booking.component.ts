@@ -314,9 +314,6 @@ onTocitySelect(event: any) {
   }
   
 }
-
-
-
   get packages(): FormArray {
     return this.form.get('packages') as FormArray;
   }
@@ -520,8 +517,44 @@ console.log('Pickup Branch Name:', pickupBranchname);
     }
   }
   
+  // searchUser(): void {
+  //   const searchTerm = this.form.get('senderName')?.value?.trim();
+  //   if (searchTerm) {
+  //     this.api.searchUser(searchTerm).subscribe(
+  //       (res: any) => {
+  //         console.log('API Response:', res);
+  //         this.userList = res?.results?.length ? res.results : [];
+  //         this.showDropdown = this.userList.length > 0;
+  //       },
+  //       (err: any) => {
+  //         console.error('Search Error:', err);
+  //         this.userList = [];
+  //         this.showDropdown = false;
+  //       }
+  //     );
+  //   } else {
+  //     this.userList = [];
+  //     this.showDropdown = false;
+  //   }
+  // }
   searchUser(): void {
     const searchTerm = this.form.get('senderName')?.value?.trim();
+  
+    // ✅ Check required dropdowns are selected
+    const fromCity = this.form.get('fromCity')?.value;
+    const toCity = this.form.get('toCity')?.value;
+    const pickUpBranch = this.form.get('pickUpBranch')?.value;
+    const dropBranch = this.form.get('dropBranch')?.value;
+  
+    const allSelected = fromCity && toCity && pickUpBranch && dropBranch;
+  
+    if (!allSelected) {
+      console.warn('Please select From City, To City, Pickup Branch, and Drop Branch before searching.');
+      this.userList = [];
+      this.showDropdown = false;
+      return;
+    }
+  
     if (searchTerm) {
       this.api.searchUser(searchTerm).subscribe(
         (res: any) => {
@@ -540,7 +573,6 @@ console.log('Pickup Branch Name:', pickupBranchname);
       this.showDropdown = false;
     }
   }
-  
   
   selectUser(user: any): void {
     this.form.patchValue({

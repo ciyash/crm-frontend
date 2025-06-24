@@ -38,39 +38,37 @@
           <tr>
             <th>S.NO</th>
             <th>Branch Name</th>
-            <th>Total Amount</th> 
-             <th>Total Quantity</th>
+            <th>Paid Amount</th> 
+            <th>ToPay Amount</th> 
+            <th>Total Delivery Amount</th>
             <th>Cancel Amount</th>
-            <th>Net Amount</th>
-            <th>Net Quantity </th>
-            <th>Cancel Quantity</th>
-            <th>Net Total</th>
+            <th>Net Amount </th>
+          
           </tr>
         </thead>
         <tbody class="text-center ">
           <tr *ngFor="let item of collectionData.branches; let i = index">
             <td>{{ i + 1 }}</td>
             <td>{{ item.branchName }}</td>
-            <td>{{item.totalAmount}}</td>
-            <td>{{item.totalQuantity}}</td>
-            <td>{{ item.cancelAmount }}</td>
+            <td>{{item.paidAmount}}</td>
+            <td>{{item.toPayAmount}}</td>
+            <td>{{ item.deliveryAmount }}</td>
+            <td>{{item.cancelAmount}}</td>
             <td>{{item.netAmount}}</td>
-            <td>{{item.netQuantity}}</td>
-            <td>{{item.cancelQuantity}}</td>
-            <td>{{item.netTotal}}</td>
          
           </tr>
         </tbody>
         <tfoot class="fw-bold bg-light text-center align-middle">
           <tr *ngIf="collectionData">
             <td colspan="2" class="text-end">Total:</td>
-            <td>{{ collectionData.finalTotalAmount }}</td>
-            <td>{{ collectionData.finalTotalQuantity }}</td>
+            <td>{{ collectionData.finalPaidAmount }}</td>
+            <td>{{ collectionData.finalToPayAmount }}</td>
             <td>{{ collectionData.finalCancelAmount }}</td>
-            <td>{{ collectionData.finalTotalAmount - collectionData.finalCancelAmount }}</td>
-            <td>{{ collectionData.finalTotalQuantity - collectionData.finalCancelQuantity }}</td>
-            <td>{{ collectionData.finalCancelQuantity }}</td>
-            <td>{{ collectionData.finalNetTotal }}</td>
+            <td>{{ collectionData.finalDeliveryAmount }}</td>
+            <td>{{ collectionData.finalNetAmount }}</td>
+
+
+            
           </tr>
         </tfoot>
         

@@ -105,6 +105,9 @@ import { cauthGuardGuard } from './service/cauth-guard.guard';
 import { CreateAdminComponent } from './pages/Admin/create-admin/create-admin.component';
 import { EmployeeDashboardComponent } from './empolyee/employee-dashboard/employee-dashboard.component';
 import { SubDashboardComponent } from './SubAdmin/sub-dashboard/sub-dashboard.component';
+import { TopayReportComponent } from './Branch/Reports/topay-report/topay-report.component';
+import { AllReportComponent } from './Branch/Reports/all-report/all-report.component';
+import { BookingTypeWiseReportComponent } from './Branch/Reports/booking-type-wise-report/booking-type-wise-report.component';
 
 
 const routes: Routes = [
@@ -176,6 +179,12 @@ const routes: Routes = [
   {path:'parcelloadingofflinereport',component:ParcelLoadingOfflineReportComponent, canActivate: [authGuard]},
   {path:'dispatched-stock-report',component:DispatchedStockReportComponent, canActivate: [authGuard]},
   {path:'report-delivery',component:ReportDeliveryComponent, canActivate: [authGuard]},
+  {path:'topayreport',component:TopayReportComponent, canActivate: [authGuard]},
+  {path:'allcollectionreport',component:AllReportComponent, canActivate: [authGuard]},
+  {path:'bookingtypewise',component:BookingTypeWiseReportComponent, canActivate: [authGuard]},
+
+
+
 
   //Company Routing Components
     { path: 'create-admin', component: CreateAdminComponent,canActivate: [authGuard]},
