@@ -1,35 +1,61 @@
 @media print {
-  body, html {
-    margin: 0;
-    padding: 0;
-  }
-
-  .print-area {
-    width: 210mm; /* A4 width */
-    height: 148.5mm; /* Half of A4 height */
-    overflow: hidden;
-    page-break-after: always;
-  }
-
   .hide-on-print {
     display: none !important;
   }
 
-  table {
-    font-size: 11px;
+  body, html {
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
-  .table td, .table th {
-    padding: 4px 6px;
+  .print-area {
+    width: 100%;
+    height: 148mm; /* Half of A4 */
+    padding: 5mm;
+    page-break-after: always;
+  }
+
+  h4, h5, h6 {
+    font-size: 15px;
+    margin: 2px 0;
+  }
+
+  p {
+    font-size: 10px;
+    margin: 2px 0;
+  }
+
+  .table-custom th,
+  .table-custom td {
+    font-size: 12px;
+    padding: 3px;
+    border: 1px solid #000 !important;
+    color: #000 !important;
+    background-color: #fff !important;
+  }
+
+  .text-white {
+    color: #000 !important;
   }
 
   .qr-code {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 2mm;
+  }
+
+  .container,
+  .container-fluid {
+    padding: 0;
+    margin: 0;
+    width: 100%;
   }
 
   hr {
-    margin: 4px 0;
+    margin: 2mm 0;
   }
 }

@@ -33,128 +33,213 @@
       <table class="table table-bordered text-white table-custom">
         <thead class="table-header">
           <tr>
-            <th width="35%">From Branch</th>
-            <th width="33%">To Branch</th>
-            <th width="32%">Date</th>
-          </tr>
-          <tr *ngIf="data1">
-            <td class="fw-bold">{{data1.pickUpBranchname}} - ({{data1.fromCity}})</td>
-            <td class="fw-bold">{{data1.dropBranchname}} - ({{data1.toCity}})</td>
-            <td>{{ data1.bookingDate | date: 'dd/MMM/yyyy' }}</td>
-          </tr>
-          <tr>
             <th>Sender Details</th>
             <th>Receiver Details</th>
-            <th></th>
+            <th>{{ data1.bookingDate | date: 'dd/MM/yyyy' }}</th>
           </tr>
         </thead>
-  
+        
         <tbody>
-  
           <tr>
             <td>
-              <span> Name: {{ data1.senderName }}</span> <br>
-              <span > Mobile: {{data1.senderMobile}}</span>
+              <p class="fw-bold" style="font-size: 15px; text-transform: uppercase;">
+                {{ data1.senderName }}
+              <p class="fw-bold">{{data1.senderMobile}}
+               </p>
+            </td>
+            
+            
+            <td>
+              <p class="fw-bold">{{data1.receiverName}} </p>
+              <p class="fw-bold">{{data1.receiverMobile}}</p>
             </td>
             <td>
-              <span >Name: {{data1.receiverName}} </span><br>
-              <span>Mobile: {{data1.receiverMobile}}</span>
-            </td>
-            <td>
-              <div *ngIf="qrData" class="qr-code ">
-                <h6>LR No: {{ data1.lrNumber }}</h6>
-                <qrcode *ngIf="qrData" [qrdata]="qrData" [width]="50" [errorCorrectionLevel]="'M'"></qrcode>
+              <div class="d-flex justify-content-center align-items-center ">
+                <div *ngIf="qrData" class="qr-code text-center">
+                  <h6>{{ data1.lrNumber }}</h6>
+                  <qrcode *ngIf="qrData" [qrdata]="qrData" [width]="100" [errorCorrectionLevel]="'M'">
+                  </qrcode>
+                </div>
               </div>
             </td>
           </tr>
-          <tr class="text-primary">
-            <th width="25%">Details of Contents</th>
-            <th width="25%">No of Article</th>
-            <th width="50%">Charges</th>
-          </tr>
-  
-          <tr *ngFor="let cdata of data1.packages; let i = index">
-            <td>{{ cdata.contains }} ({{ cdata.packageType }})</td>
-            <td>{{ cdata.quantity }}</td>
-            <td *ngIf="i === 0" [attr.rowspan]="data1.packages.length">
-              <p style="margin-bottom: -5px;">Freight Charges: {{data1.totalCharge | currency:'INR':true:'1.0-0'}}</p>
-              <p style="margin-bottom: -5px;" *ngIf="data1.doorDeliveryCharges != '0'">Door Delivery Charges: {{
-                data1.doorDeliveryCharges | currency:'INR':true:'1.0-0' }}</p>
-              <p style="margin-bottom: -5px;" *ngIf="data1.doorPickupCharges != '0'">Door Pickup Charges: {{
-                data1.doorPickupCharges | currency:'INR':true:'1.0-0' }}</p>
-              <p style="margin-bottom: -5px;" *ngIf="data1.hamaliCharges != '0'">Hamali Charges: {{ data1.hamaliCharges |
-                currency:'INR':true:'1.0-0' }}</p>
-              <p style="margin-bottom: -5px;" *ngIf="data1.serviceCharges != '0'">LR Charges: {{ data1.serviceCharges |
-                currency:'INR':true:'1.0-0' }}</p>
-              <!-- <p><strong>NET AMOUNT: {{ data1.grandTotal | currency:'INR':true:'1.0-0' }}</strong></p> -->
-            </td>
-          </tr>
-  
-  
-          <tr>
-            <td colspan="3">
-              <p ><strong>NET AMOUNT: {{ data1.grandTotal | currency:'INR':true:'1.0-0' }}</strong></p>
-            </td>
-          </tr>
-  
-  
+          
         </tbody>
-  
-        <tfoot class="table-light text-center fw-bold">
-          <!-- <tr rowspan="1 " > -->
-  
-  
-  
-        </tfoot>
-  
-  
-  
+        <tr class="text-primary">
+          <th colspan="1" width="25%">Details of Contents</th>
+              <th colspan="1" width="25%">No of Article</th>
+              <th colspan="1" width="50%">No of Article</th>
+        </tr>
+        <tr>
+          <th>
+            <p>akljcndsn</p>
+             <p>lksdn</p>
+          </th>
+          <th>
+            <p>akljcndsn</p>
+          <p>lksdn</p>
+          </th>
+          <th>
+            <p>akljcndsn</p>
+          <p>lksdn</p>
+          </th>
+        </tr>
+
+        <!-- <table class="pavan" style="width: 100%;" >
+     
+          <tr>
+              <th>
+                <p>akljcndsn</p>
+              <p>lksdn</p>
+              </th>
+              <th>
+                <p>kjsbcjhbsd</p>
+                <p>kjsbcjhbsd</p>
+              </th>
+          </tr>
+          <tr>
+            <p>sendersign</p>
+            <td>
+              <h6>BOOKED AT OWNER'S RISK ONLY</h6>
+            </td>
+          </tr>
+      </table> -->
+      
+      
       </table>
-  
-      <div class="d-flex justify-content-end">
-        <h6 class="text-end">SenderSign</h6>&nbsp;&nbsp;
-        <hr class="text-end" style="border: 1px solid #1a1818; width: 10%;">
-      </div>
-  
-      <h6><u>Terms & Conditions</u></h6>
-      <div class="d-flex justify-content-center">
-        <p><i class="fa fa-arrow-right"></i> The Consignments are Packed, carried at Owner's risk. The Company does not
-          know the contents <br>
-          <i class="fa fa-arrow-right"></i> The Consignor is reponsible to provide the forms<br>
-          <i class="fa fa-arrow-right"></i> The Owners of the consignments are lible to pay all the taxes, cess or duties
-          that may be levied by the Government Authorities at the time of checking within 24 Hours.
-        </p>
-      </div>
-  
-      <div class="d-flex justify-content-center">
-        <div *ngIf="qrData" class="qr-code">
-          <qrcode *ngIf="qrData" [qrdata]="qrData" class="bg-light" [width]="140" [errorCorrectionLevel]="'M'"></qrcode>
-          <h6>LRno/GRno: {{ data1.lrNumber }}</h6>
-        </div>
-      </div>
-  
+ 
+    
     </div>
-  
+    <h4 class="text-end fw-bold">CONSIGMENT COPY</h4>
+    <div class="table-responsive mt-3">
+      <table class="table table-bordered text-white table-custom">
+        <thead class="table-header">
+          <tr>
+            <th>Sender Details</th>
+            <th>Receiver Details</th>
+            <!-- <th>{{data1.bookingDate
+                }}</th> -->
+            <th>{{ data1.bookingDate | date: 'dd/MM/yyyy' }}</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <p class="fw-bold" style="font-size: 15px; text-transform: uppercase;">
+                {{ data1.senderName }}
+              <p class="fw-bold">{{data1.senderMobile}} </p>
+            </td>
+            <td>
+              <p class="fw-bold">{{data1.receiverName}} </p>
+              <p class="fw-bold">{{data1.receiverMobile}}</p>
+            </td>
+            
+            <td>
+              <div class="d-flex justify-content-center align-items-center ">
+                <div *ngIf="qrData" class="qr-code text-center">
+                  <h6>{{ data1.lrNumber }}</h6>
+                  <qrcode *ngIf="qrData" [qrdata]="qrData" [width]="100" [errorCorrectionLevel]="'M'">
+                  </qrcode>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
+
+
+
+
 
   <div class="container-fluid d-flex justify-content-evenly" *ngIf="data1">
     <div class="row">
-  
+      <!-- <p class="fw-bold">To</p> -->
+      <!-- <p class="fw-bold" style="font-size: 20px; text-transform: uppercase;">
+      {{ data1.senderName }}
+  </p> -->
+      <!-- <p class="fw-bold">{{data1.senderMobile}}  </p> -->
+      <!-- <p class="fw-bold">Date: {{data1.bookingDate | date:'dd/MMM/yyyy'}} </p> 
+       <p class="fw-bold">{{data1.toCity}}</p> 
+      <p class="fw-bold">{{data1.grnNo}}</p> 
+      <p class="fw-bold">{{data1.dropBranchname}}</p> -->
     </div>
     <div>
-  
+      <!-- <p class="fw-bold">From</p> -->
+      <!-- <p class="fw-bold">{{data1.senderAddress}}  </p> -->
+      <!-- <p class="fw-bold">{{data1.receiverName}} </p>
+    <p class="fw-bold">{{data1.receiverMobile}}</p> -->
+      <!-- <p class="fw-bold">{{data1.receiverAddress}} </p>
+    <p class="fw-bold">{{data1.senderMobile}}  </p>
+     <p class="fw-bold">{{data1.pickUpBranchname}}  </p>
+    <p class="fw-bold">{{data1.fromCity}}  </p> -->
     </div>
   </div>
-  
-  
-  <div *ngIf="!loading" class="text-center m-3">
+
+
+  <div class="d-flex justify-content-end">
+    <h6 class="text-end">SenderSign</h6>&nbsp;&nbsp;
+    <hr class="text-end" style="border: 1px solid #1a1818; width: 10%;">
+  </div>
+
+  <div *ngIf="!loading">
     <div class="hide-on-print hide-on-pdf">
-      <button type="button" class="btn btn-sm btn-danger m-3" (click)="printPage()">
-        <i class="pi pi-print"></i> Print
-      </button>
-      <button type="button" class="btn btn-sm btn-primary ml-2" (click)="goBack()">
-        <i class="fa fa-arrow-left"></i> Go To Back
-      </button>
+      <!-- <button type="button" class="btn btn-sm btn-primary m-2 " (click)="downloadAsPDF()"><i class="pi pi-file-pdf"></i> PDF</button>   -->
+      <button type="button" class="btn btn-sm btn-danger" (click)="printPage()"><i class="pi pi-print"></i>
+        Print</button>
+      <button type="button" class="btn btn-sm btn-primary ml-2" routerLink="/bookingreport"><i class="pi pi-print"></i>
+        Back to New Booking</button>
     </div>
-  </div>
-</div>
+
+
+
+    
+
+
+  
+<!--     
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Table Borders</title>
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse; /* Ensures proper border rendering */
+            }
+            th, td {
+                border: 1px solid black; /* Adds border to cells */
+                padding: 8px;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+    
+        <table class="mb-5">
+          <thead>
+            <tr>
+              <th colspan="5">Person</th>
+              <th rowspan="3">Id</th>
+            </tr>
+            <tr>
+              <th colspan="2">Name</th>
+              <th rowspan="2">Age</th>
+              <th colspan="2">Job</th>
+            </tr>
+            <tr>
+              <th>First</th>
+              <th>Last</th>
+              <th>Position</th>
+              <th>Age</th>
+            </tr>
+          </thead>
+        </table>
+    
+    </body>
+    </html> -->
+    
