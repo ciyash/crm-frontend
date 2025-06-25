@@ -284,9 +284,6 @@ onLoad() {
   //   console.log('All GRN Numbers Selected:', formArray.value);
   // }
 
-<<<<<<< HEAD
-// 
-=======
   onManualCheckboxChange(row: any) {
     const formArray = this.form1.get('grnNo') as FormArray;
   
@@ -345,7 +342,6 @@ onLoad() {
       },
     });
   }
->>>>>>> pavan
  
   ngAfterViewInit(): void {
     // Initialize SlimSelect
