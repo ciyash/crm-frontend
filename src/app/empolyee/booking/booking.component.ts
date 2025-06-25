@@ -76,11 +76,13 @@ export class BookingComponent {
       dispatchType: [''],
       bookingType: ['', Validators.required],
       senderName: ['', Validators.required],
-      senderMobile: ['', Validators.required],
+      // senderMobile: ['', Validators.required],
       senderAddress: [''],
       senderGST: [''],
       receiverName:['', Validators.required],
-      receiverMobile: ['', Validators.required],
+      // receiverMobile: ['', Validators.required],
+      receiverMobile: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
+      senderMobile: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
       receiverAddress: [''],
       receiverGst: [''],
       serviceCharges: [0],  // ₹10 per item
@@ -219,6 +221,10 @@ export class BookingComponent {
     }, 0);
   }
   
+  
+
+
+
   getProfileData() {
     this.api.GetProfileData().subscribe((res: any) => {
       console.log('profile', res);
@@ -270,6 +276,13 @@ fetchServiceCharges() {
     );
   } else {
     console.warn('Both fromCity and toCity must be selected.');
+  }
+}
+
+allowOnlyNumbers(event: KeyboardEvent) {
+  const charCode = event.which ? event.which : event.keyCode;
+  if (charCode < 48 || charCode > 57) {
+    event.preventDefault(); // Only digits (0–9)
   }
 }
 

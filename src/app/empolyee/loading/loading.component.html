@@ -92,7 +92,13 @@ word-wrap: break-word">Parcel Loading Offline</h4>
       <table class="table table-bordered table-striped">
         <thead>
           <tr>
-            <th><input type="checkbox" (change)="onSelectAllChange($event)" [checked]="allSelected" /> Select All</th>
+            <!-- <th><input type="checkbox" (change)="onSelectAllChange($event)" [checked]="allSelected" /> Select All</th> -->
+            <th>
+              <input type="checkbox" 
+                     [checked]="allSelected" 
+                     (change)="onSelectAllChange($event)" /> Select All
+            </th>
+            
             <th>S.No</th>
             <th>LR No</th>
             <th>Book by Branch</th>
@@ -108,9 +114,13 @@ word-wrap: break-word">Parcel Loading Offline</h4>
         </thead>
         <tbody>
           <tr *ngFor="let row of data; let i = index">
-            <td>
-              <input type="checkbox" [checked]="form1.get('grnNo')?.value.includes(row.grnNo)"
-                (change)="onGrnNoChange($event, row.grnNo)" />
+            <td> 
+              <input
+                type="checkbox"
+                [(ngModel)]="row._checked"
+                name="grn_{{ row.grnNo }}"
+                (change)="onManualCheckboxChange(row)"
+              />
             </td>
             <td>{{ i + 1 }}</td>
             <td>{{ row.lrNumber }}</td>
@@ -155,14 +165,29 @@ word-wrap: break-word">Parcel Loading Offline</h4>
           </div>
         </div>
         
-        <div class="col-md-3 col-sm-12">
+        <!-- <div class="col-md-3 col-sm-12">
           <label class="form-label form-after">Driver Number</label>
           <input type="text" class="form-control form-select-sm" placeholder="Enter Conductor Number" formControlName="driverNo">
           <div class="text-danger" *ngIf="form1.get('driverNo')?.touched && form1.get('driverNo')?.invalid">
             <div *ngIf="form1.get('driverNo')?.errors?.['required']">Conductor Number is required.</div>
             <div *ngIf="form1.get('driverNo')?.errors?.['pattern']">Must be 10 digits.</div>
           </div>
+        </div> -->
+        <div class="col-md-3 col-sm-12">
+          <label class="form-label form-after">Driver Number</label>
+          <input type="text"
+                 class="form-control form-select-sm"
+                 placeholder="Enter Conductor Number"
+                 formControlName="driverNo"
+                 maxlength="10"
+                 (keypress)="allowOnlyNumbers($event)">
+          
+          <div class="text-danger" *ngIf="form1.get('driverNo')?.touched && form1.get('driverNo')?.invalid">
+            <div *ngIf="form1.get('driverNo')?.errors?.['required']">Conductor Number is required.</div>
+            <div *ngIf="form1.get('driverNo')?.errors?.['pattern']">Must be 10 digits.</div>
+          </div>
         </div>
+        
         
       
 

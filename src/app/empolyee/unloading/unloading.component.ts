@@ -46,6 +46,9 @@ summary: any = {};
 qrdata: string = '';
 showScanner: boolean = false;
 today = new Date();
+  ffdata: any;
+  pfdata: any;
+  profileData: any;
 
 constructor(
   private api: BranchService,
@@ -59,9 +62,9 @@ constructor(
     fromDate: [this.getTodayDateString(), Validators.required],
     toDate: [this.getTodayDateString(), Validators.required],
     fromCity: [''],
-    toCity: [''],
+    toCity: ['',Validators.required],
     vehicalNumber: ['',],
-    branch: [''] // ✅
+    branch: ['',Validators.required] 
 
   });
   this.form1 = this.fb.group({
@@ -82,7 +85,7 @@ ngOnInit() {
   this.searchTerm = this.activeroute.snapshot.params['grnNumber'];
   this.getCities();
   this.getvehicleData();
-  // this.updateFormattedDate();
+  this.getProfileData();
 
 }
 
@@ -109,21 +112,21 @@ ngAfterViewInit(): void {
       console.log('Updated To City:', this.form.get('fromCity')?.value);
     });
 
-    $(this.selectElem.nativeElement).select2();
-    $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
-      const selectedCity = event.params.data.id;
-      this.form.get('toCity')?.setValue(selectedCity);
-      this.onTocitySelect({ target: { value: selectedCity } });
-      console.log('Updated To City:', this.form.get('toCity')?.value);
-    });
+    // $(this.selectElem.nativeElement).select2();
+    // $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
+    //   const selectedCity = event.params.data.id;
+    //   this.form.get('toCity')?.setValue(selectedCity);
+    //   this.onTocitySelect({ target: { value: selectedCity } });
+    //   console.log('Updated To City:', this.form.get('toCity')?.value);
+    // });
 
  
-    $(this.branch.nativeElement).select2();
-    $(this.branch.nativeElement).on('select2:select', (event: any) => {
-      const selectedBranch = event.params.data.id;
-      this.form.get('branch')?.setValue(selectedBranch);
-      console.log('Updated Branch:', this.form.get('branch')?.value);
-    });
+    // $(this.branch.nativeElement).select2();
+    // $(this.branch.nativeElement).on('select2:select', (event: any) => {
+    //   const selectedBranch = event.params.data.id;
+    //   this.form.get('branch')?.setValue(selectedBranch);
+    //   console.log('Updated Branch:', this.form.get('branch')?.value);
+    // });
 
   
     $(this.selectvehicle.nativeElement).select2();
@@ -144,11 +147,15 @@ if (this.form.invalid) {
 }
 
 const formValues = this.form.value;
+console.log("formValues:",formValues)
 
 const payload: any = {
   fromDate: formValues.fromDate,
   toDate: formValues.toDate,
+  toCity:formValues.toCity,
+  branch:formValues.branch
 };
+console.log("payload:",payload)
 this.api.FilterParcelUnLoading(payload).subscribe({
   next: (response: any) => {
     const data = response?.data || [];
@@ -507,6 +514,24 @@ formatTime(date: Date): string {
     hour: '2-digit',
     minute: '2-digit',
     hour12: true
+  });
+}
+
+
+getProfileData() {
+  this.api.GetProfileData().subscribe((res: any) => {
+    console.log('profile', res);
+    this.ffdata = res.branchId;
+    this.pfdata = res.branchId.city;
+    this.profileData = res;
+    console.log("profileData:", this.profileData);
+
+    // Update form controls with profile data
+    this.form.patchValue({
+      toCity: this.pfdata || '', // Set fromCity to the city from branchId
+      branch: this.ffdata?.branchUniqueId || '' // Set pickUpBranch to branchUniqueId
+    });
+
   });
 }
 

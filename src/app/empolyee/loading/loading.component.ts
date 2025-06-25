@@ -18,6 +18,7 @@ declare const SlimSelect: any;
 })
 export class LoadingComponent {
 
+  allSelected = false; // Initialize as false
 
   adminData: any;
   form!: FormGroup;
@@ -32,7 +33,6 @@ export class LoadingComponent {
   data2:any;
   data1:any;
   LoadSuccess: boolean = false;
-  allSelected: boolean = true;
   qrdata: string = '';
   showScanner: boolean = false;
   tbcdata:any;
@@ -64,7 +64,9 @@ export class LoadingComponent {
         toBranch: ['',],
         vehicalNumber: ['', Validators.required],
         driverName: ['', [Validators.required, Validators.minLength(3)]],
-        driverNo: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+        // driverNo: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+        driverNo: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
+
         fromBookingDate: ['',],
         toBookingDate: ['', ],
         fromCity:[''],
@@ -85,6 +87,12 @@ export class LoadingComponent {
     this. getVehicleData();
     this.branchData();
     this.getProfileData();
+  }
+  allowOnlyNumbers(event: KeyboardEvent) {
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+    }
   }
 
   getTodayDateString(): string {
@@ -184,6 +192,14 @@ onLoad() {
     }
   });
 }
+  // setFormArray(controlName: string, values: any[]) {
+  //   const formArray = this.form1.get(controlName) as FormArray;
+  //   formArray.clear(); // ✅ Clear previous values
+  //   values.forEach(value => {
+  //     formArray.push(this.fb.control(value));
+  //   });
+  // }
+
   setFormArray(controlName: string, values: any[]) {
     const formArray = this.form1.get(controlName) as FormArray;
     formArray.clear(); // ✅ Clear previous values
@@ -192,44 +208,106 @@ onLoad() {
     });
   }
 
+  // onGrnNoChange(event: any, grnNo: string) {
+  //   const formArray = this.form1.get('grnNo') as FormArray;
+  //   if (event.target.checked) {
+  //     // Add if not already selected
+  //     if (!formArray.value.includes(grnNo)) {
+  //       formArray.push(this.fb.control(grnNo));
+  //     }
+  //   } else {
+  //     // Remove if unchecked
+  //     const index = formArray.value.indexOf(grnNo);
+  //     if (index > -1) {
+  //       formArray.removeAt(index);
+  //     }
+  //   }
+  
+  //   // ✅ Update "Select All" status based on selected values
+  //   this.allSelected = this.data.length === formArray.value.length;
+  //   console.log('Selected GRN Numbers:', formArray.value);
+  // }
+
+  // ✅ Handle "Select All" checkbox
+  // onSelectAllChange(event: any) {
+  //   const formArray = this.form1.get('grnNo') as FormArray;
+  //   if (event.target.checked) {
+  //     // ✅ Select all if checked
+  //     this.data.forEach((row:any) => {
+  //       if (!formArray.value.includes(row.grnNo)) {
+  //         formArray.push(this.fb.control(row.grnNo));
+  //       }
+  //     });
+  //   } else {
+  //     // ✅ Deselect all if unchecked
+  //     formArray.clear();
+  //   }
+  //   // ✅ Update "Select All" status
+  //   this.allSelected = event.target.checked;
+  //   console.log('All GRN Numbers Selected:', formArray.value);
+  // }
+  
+
+  selectedGrns: string[] = [];
+
   onGrnNoChange(event: any, grnNo: string) {
     const formArray = this.form1.get('grnNo') as FormArray;
+  
     if (event.target.checked) {
-      // Add if not already selected
       if (!formArray.value.includes(grnNo)) {
         formArray.push(this.fb.control(grnNo));
       }
     } else {
-      // Remove if unchecked
       const index = formArray.value.indexOf(grnNo);
       if (index > -1) {
         formArray.removeAt(index);
       }
     }
   
-    // ✅ Update "Select All" status based on selected values
-    this.allSelected = this.data.length === formArray.value.length;
-    console.log('Selected GRN Numbers:', formArray.value);
+    // Update select all status
+    this.allSelected = this.data.every((row: { grnNo: any; }) =>
+      formArray.value.includes(row.grnNo)
+    );
   }
 
-  // ✅ Handle "Select All" checkbox
   onSelectAllChange(event: any) {
     const formArray = this.form1.get('grnNo') as FormArray;
+  
     if (event.target.checked) {
-      // ✅ Select all if checked
-      this.data.forEach((row:any) => {
+      this.data.forEach((row: { _checked: boolean; grnNo: any; }) => {
+        row._checked = true;
         if (!formArray.value.includes(row.grnNo)) {
           formArray.push(this.fb.control(row.grnNo));
         }
       });
     } else {
-      // ✅ Deselect all if unchecked
+      this.data.forEach((row: { _checked: boolean; }) => row._checked = false);
       formArray.clear();
     }
-    // ✅ Update "Select All" status
+  
     this.allSelected = event.target.checked;
-    console.log('All GRN Numbers Selected:', formArray.value);
   }
+
+  
+
+  onManualCheckboxChange(row: any) {
+    const formArray = this.form1.get('grnNo') as FormArray;
+  
+    if (row._checked) {
+      if (!formArray.value.includes(row.grnNo)) {
+        formArray.push(this.fb.control(row.grnNo));
+      }
+    } else {
+      const index = formArray.value.indexOf(row.grnNo);
+      if (index > -1) {
+        formArray.removeAt(index);
+      }
+    }
+  
+    // Update Select All checkbox status
+    this.allSelected = this.data.every((item: { _checked: any; }) => item._checked);
+  }
+
   ngAfterViewInit(): void {
     // Initialize SlimSelect
     new SlimSelect({

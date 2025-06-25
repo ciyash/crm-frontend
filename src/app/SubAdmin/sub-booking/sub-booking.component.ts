@@ -81,11 +81,13 @@ export class SubBookingComponent {
         dispatchType: [''],
         bookingType: ['', Validators.required],
         senderName: ['', Validators.required],
-        senderMobile: ['', Validators.required],
+        // senderMobile: ['', Validators.required],
+        receiverMobile: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
+  senderMobile: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
         senderAddress: [''],
         senderGST: [''],
         receiverName:['', Validators.required],
-        receiverMobile: ['', Validators.required],
+        // receiverMobile: ['', Validators.required],
         receiverAddress: [''],
         receiverGst: [''],
         serviceCharges: [0],  // ₹10 per item
@@ -249,7 +251,12 @@ export class SubBookingComponent {
       }, 0);
     }
     
-
+    allowOnlyNumbers(event: KeyboardEvent) {
+      const charCode = event.which ? event.which : event.keyCode;
+      if (charCode < 48 || charCode > 57) {
+        event.preventDefault(); // Only digits (0–9)
+      }
+    }
 
   getProfileData() {
     this.api.GetProfileData().subscribe((res: any) => {

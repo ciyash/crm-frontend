@@ -89,111 +89,99 @@
 
 
 
-    <div class="d-flex justify-content-between">
-      <p> <strong> From :</strong> {{ fromDate | date:'dd-MM-yyyy' }} To : {{ toDate | date:'dd-MM-yyyy' }}
-      </p>
-      <p> <strong>Print Date :</strong> {{ today | date:'dd-MM-yyyy hh:mm a' }}
-      </p>
+ <div id="print-section">
+  <div class="d-flex justify-content-between">
+    <p>
+      <strong>From:</strong> {{ fromDate | date: 'dd-MM-yyyy' }}
+      <strong>To:</strong> {{ toDate | date: 'dd-MM-yyyy' }}
+    </p>
+    <p> <strong>Print Date :</strong> {{ today | date:'dd-MM-yyyy hh:mm a' }}
+    </p>
 
-    </div>
-    <p class="text-end" *ngIf="pfdata"><strong>Print By</strong> {{pfdata.name}} </p>
+  </div>
+  <p class="text-end" *ngIf="pfdata"><strong>Print By</strong> {{pfdata.name}} </p>
 
-    <div class="table-responsive">
-      <table class="table table-bordered table-custom">
-        <thead>
-          <tr>
-            <th></th>
-            <th></th>
-            <th colspan="7">Booking</th>
-            <th colspan="1">Cancel Total</th>
-            <th colspan="6">Delivery</th>
-            <th colspan="2">GST</th>
-          </tr>
-          <tr>
-            <th>Sr No.</th>
-            <th>Branch Name</th>
-            <th>Paid</th>
-            <th>ToPay</th>
-            <th>Credit</th>
-            <th>CLR</th>
-            <th>Foc</th>
-            <th>Total</th>
-            <th>afterCalculate</th>
-            <th>Cancel</th>
-            <th>Paid</th>
-            <th>ToPay</th>
-            <th>Credit</th>
-            <th>CLR</th>
-            <th>Foc</th>
-            <th>Total</th>
-            <th>SGST</th>
-            <th>IGST</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of Cdata.data; let i = index">
-            <td>{{ i + 1 }}</td>
-            <td>{{ item.branchName }}</td>
+  <div class="table-responsive">
+    <table class="table table-bordered table-custom">
+      <thead>
+        <!-- Group Headers -->
+        <tr>
+          <th></th>
+          <th></th>
+          <th colspan="4">Booking</th>
+          <th>Cancel</th>
+          <th>Delivery</th>
+          <th>Booking Total</th>
+          <th colspan="4">GST</th>
+        </tr>
+  
+        <!-- Column Headers -->
+        <tr>
+          <th>Sr No.</th>
+          <th>Branch Name</th>
+          <th>Paid</th>
+          <th>ToPay</th>
+          <th>Credit</th>
+          <th>Total</th>
+          <th>Cancel</th>
+          <th>Delivered</th>
+          <th>BookingTotal</th>
+          <th>CGST</th>
+          <th>SGST</th>
+          <th>IGST</th>
+          <th>Parcel GST</th>
+        </tr>
+      </thead>
+  
+      <tbody>
+        <tr *ngFor="let item of Cdata; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td style="color: green;cursor: pointer;">{{ item.branchName }}</td>
+  
+          <!-- Booking -->
+          <td>{{ item.paidAmount || 0 }}</td>
+          <td>{{ item.toPayAmount || 0 }}</td>
+          <td>{{ item.creditAmount || 0 }}</td>
+          <td>{{ item.total || 0 }}</td>
+  
+          <!-- Cancel -->
+          <td>{{ item.cancelAmount || 0 }}</td>
+  
+          <!-- Delivery -->
+          <td>{{ item.deliveryAmount || 0 }}</td>
+  
+          <!-- Booking Total -->
+          <td>{{ item.bookingTotal || 0 }}</td>
+  
+          <!-- GST -->
+          <td>{{ item.cgstAmount || 0 }}</td>
+          <td>{{ item.sgstAmount || 0 }}</td>
+          <td>{{ item.igstAmount || 0 }}</td>
+          <td>{{ item.parcelGstAmount || 0 }}</td>
+        </tr>
+  
+        <!-- Totals Row -->
+        <tr class="fw-bold">
+          <td></td>
+          <td>Total</td>
+          <td>{{ Tdata.finalPaidAmount || 0 }}</td>
+          <td>{{ Tdata.finalToPayAmount || 0 }}</td>
+          <td>{{ Tdata.finalCreditAmount || 0 }}</td>
+          <td>{{ Tdata.finalTotal || 0 }}</td>
+          <td>{{ Tdata.finalCancelAmount || 0 }}</td>
+          <td>{{ Tdata.finalDeliveryAmount || 0 }}</td>
+          <td>{{ Tdata.finalBookingTotal || 0 }}</td>
+          <td>{{ Tdata.totalCgst || 0 }}</td>
+          <td>{{ Tdata.totalSgst || 0 }}</td>
+          <td>{{ Tdata.totalIgst || 0 }}</td>
+          <td>{{ Tdata.finalParcelGstAmount || 0 }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+ </div>
     
-            <!-- Booking Data -->
-            <td>{{ item.paid }}</td>
-            <td>{{ item.toPay }}</td>
-            <td>{{ item.credit }}</td>
-            <td>{{ item.CLR }}</td>
-            <td>{{ item.FOC }}</td>
-            <td>{{ item.grandTotal }}</td>
-            <td>{{ item.afterCalculate }}</td>
     
-            <!-- Cancel -->
-            <td>{{ item.cancelAmount }}</td>
-    
-            <!-- Delivery Data (from deliveryData array) -->
-            <ng-container *ngIf="deliveryData[i]">
-              <td>{{ deliveryData[i].deliveredAmountByType.paid }}</td>
-              <td>{{ deliveryData[i].deliveredAmountByType.toPay }}</td>
-              <td>{{ deliveryData[i].deliveredAmountByType.credit }}</td>
-              <td>{{ deliveryData[i].deliveredAmountByType.CLR }}</td>
-              <td>{{ deliveryData[i].deliveredAmountByType.FOC }}</td>
-            </ng-container>
-            <td>{{ item.deliveredTotalAmount }}</td>
-            <!-- GST -->
-            <td>{{ item.sgstAmount }}</td>
-            <td>{{ item.igstAmount }}</td>
-            <!-- total -->
-
-          </tr>
-          <tr>
-            <td></td>
-            <td class="fw-bold">Total</td>
-            <td class="fw-bold">{{ Tdata.finalPaid }}</td>
-            <td class="fw-bold">{{ Tdata.finalToPay }}</td>
-            <td class="fw-bold">{{ Tdata.finalCredit }}</td>
-            <td class="fw-bold">{{ Tdata.finalCLR }}</td>
-            <td class="fw-bold">{{ Tdata.finalFOC }}</td>
-
-            <!-- <td class="fw-bold">{{ Tdata.finalTotal }}</td> -->
-
-            <td class="fw-bold" >{{Tdata.finalNetBookingAmount}}</td>
-            <td class="fw-bold">{{Tdata.finalBookingTotal}}</td>
-            <td class="fw-bold">{{ Tdata.finalTotalCancel }}</td>
-            <td class="fw-bold">{{ Tdata.finalDeliveredCredit }}</td>
-            <td class="fw-bold">{{ Tdata.finalDeliveredCredit }}</td>
-            <td class="fw-bold">{{ Tdata.finalDeliveredCredit }}</td>
-            <td class="fw-bold">{{ Tdata.finalDeliveredCredit }}</td>
-            <td class="fw-bold">{{ Tdata.finalDeliveredCredit }}</td>
-            <td class="fw-bold">{{ Tdata.finalTotalDelivery }}</td>
-            <td class="fw-bold">{{ Tdata.totalSgst }}</td>
-            <td class="fw-bold">{{ Tdata.totalIgst }}</td>
-          </tr>
-          
-          
-        </tbody>
-    
-
-      </table>
-    </div>
-    
-
 
   </div>
 

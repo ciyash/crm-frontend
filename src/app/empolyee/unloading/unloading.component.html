@@ -15,7 +15,7 @@
           </select>
         </div>
 
-        <div class="col-md-4 col-sm-12">
+        <!-- <div class="col-md-4 col-sm-12">
           <label class="form-label ">To City</label>
           <select #selectElem class="form-select form-select-sm" formControlName="toCity">
             <option value="" selected>Select City</option>
@@ -23,6 +23,10 @@
               {{ city.cityName }}
             </option>
           </select>
+        </div> -->
+        <div class="col-md-4">
+          <label class="form-label form-after">To City</label>
+          <input type="text" class="form-control" formControlName="toCity" style="background-color: #EEEEEE; border: 1px solid #ced4da;" readonly />
         </div>
 
         <div class="col-md-4 col-sm-12">
@@ -31,7 +35,7 @@
         </div>
 
 
-        <div class="col-md-4 col-sm-12">
+        <!-- <div class="col-md-4 col-sm-12">
           <label class="form-label">Branch</label>
           <select #branch class="form-select form-select-sm" formControlName="branch">
             <option value="" selected>Select Branch</option>
@@ -40,6 +44,11 @@
             </option>
           </select>
 
+        </div> -->
+        <div class="col-md-4">
+          <label class="form-label form-after">To Branch</label>
+          <input type="text" class="form-control" [value]="ffdata?.name || ''" readonly style="background-color: #EEEEEE; border: 1px solid #ced4da;" />
+          <input type="hidden" formControlName="branch" />
         </div>
 
 

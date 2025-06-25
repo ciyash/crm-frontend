@@ -42,6 +42,7 @@ export class ParcelloadingComponent implements OnInit {
 
   BranchSelect: any;
   pfdata: any;
+row: any;
   
 
   constructor(private api: BranchService, private token:TokenService,
@@ -61,7 +62,9 @@ export class ParcelloadingComponent implements OnInit {
         toBranch: ['',],
         vehicalNumber: ['', Validators.required],
         driverName: ['', [Validators.required, Validators.minLength(3)]],
-        driverNo: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+        // driverNo: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+        driverNo: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
+
         fromBookingDate: ['',],
         toBookingDate: ['', ],
         fromCity:[''],
@@ -82,6 +85,14 @@ export class ParcelloadingComponent implements OnInit {
     this. getVehicleData();
     this.branchData();
     this.getProfileData();
+  }
+
+
+  allowOnlyNumbers(event: KeyboardEvent) {
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+    }
   }
 
   getTodayDateString(): string {
@@ -207,6 +218,26 @@ onLoad() {
   //   this.allSelected = this.data.length === formArray.value.length;
   //   console.log('Selected GRN Numbers:', formArray.value);
   // }
+
+
+  // onSelectAllChange(event: any) {
+  //   const formArray = this.form1.get('grnNo') as FormArray;
+  
+  //   if (event.target.checked) {
+  //     this.data.forEach((row: { _checked: boolean; grnNo: any; }) => {
+  //       row._checked = true;
+  //       if (!formArray.value.includes(row.grnNo)) {
+  //         formArray.push(this.fb.control(row.grnNo));
+  //       }
+  //     });
+  //   } else {
+  //     this.data.forEach((row: { _checked: boolean; }) => row._checked = false);
+  //     formArray.clear();
+  //   }
+  
+  //   this.allSelected = event.target.checked;
+  // }
+
   selectedGrns: string[] = [];
 
   onGrnNoChange(event: any, grnNo: string) {
@@ -228,26 +259,6 @@ onLoad() {
       formArray.value.includes(row.grnNo)
     );
   }
-
-  // onSelectAllChange(event: any) {
-  //   const formArray = this.form1.get('grnNo') as FormArray;
-  
-  //   if (event.target.checked) {
-  //     this.data.forEach((row: { _checked: boolean; grnNo: any; }) => {
-  //       row._checked = true;
-  //       if (!formArray.value.includes(row.grnNo)) {
-  //         formArray.push(this.fb.control(row.grnNo));
-  //       }
-  //     });
-  //   } else {
-  //     this.data.forEach((row: { _checked: boolean; }) => row._checked = false);
-  //     formArray.clear();
-  //   }
-  
-  //   this.allSelected = event.target.checked;
-  // }
-
-  
   onSelectAllChange(event: any) {
     const formArray = this.form1.get('grnNo') as FormArray;
   
@@ -265,52 +276,103 @@ onLoad() {
   
     this.allSelected = event.target.checked;
   }
+onManualCheckboxChange(event: any, row: any) {
+  const formArray = this.form1.get('grnNo') as FormArray;
+  const isChecked = event.target.checked;
+
+  row._checked = isChecked; // update local row._checked
+
+  if (isChecked) {
+    if (!formArray.value.includes(row.grnNo)) {
+      formArray.push(this.fb.control(row.grnNo));
+    }
+  } else {
+    const index = formArray.value.indexOf(row.grnNo);
+    if (index > -1) {
+      formArray.removeAt(index);
+    }
+  }
+
+  // Update select all checkbox status
+  this.allSelected = this.data.length > 0 && this.data.every((item: any) => item._checked);
+}
+
   
-  
-  // onSelectAllChange(event: any) {
+  // onManualCheckboxChange(row: any) {
   //   const formArray = this.form1.get('grnNo') as FormArray;
-  //   if (event.target.checked) {
-  //     this.data.forEach((row: any) => {
-  //       if (row.grnNo && !formArray.value.includes(row.grnNo)) {
-  //         formArray.push(this.fb.control(row.grnNo));
-  //       }
-  //     });
+  
+  //   if (row._checked) {
+  //     if (!formArray.value.includes(row.grnNo)) {
+  //       formArray.push(this.fb.control(row.grnNo));
+  //     }
+  //   } else {
+  //     const index = formArray.value.indexOf(row.grnNo);
+  //     if (index > -1) {
+  //       formArray.removeAt(index);
+  //     }
   //   }
-    
-  //   else {
-  //     formArray.clear();
-  //   }
-  //   this.allSelected = event.target.checked;
-  //   console.log('All GRN Numbers Selected:', formArray.value);
+  
+  //   // Update Select All checkbox status
+  //   this.allSelected = this.data.every((item: { _checked: any; }) => item._checked);
   // }
 
-<<<<<<< HEAD
-// 
-=======
-  onManualCheckboxChange(row: any) {
-    const formArray = this.form1.get('grnNo') as FormArray;
+  // ParcelLoad() {
+  //   if (this.form1.invalid) {
+  //     this.form1.markAllAsTouched(); // show errors
+  //     this.toast.warning('Please fill required fields correctly.', 'Validation');
+  //     return;
+  //   }
+  //   const payload = {
+  //     loadingType: this.form1.value.loadingType,
+  //     fromBranch: this.form1.value.fromBranch,
+  //     toBranch: this.form1.value.toBranch,
+  //     vehicalNumber: this.form1.value.vehicalNumber,
+  //     driverName: this.form1.value.driverName,
+  //     driverNo: this.form1.value.driverNo,
+  //     fromBookingDate: this.form1.value.fromBookingDate,
+  //     toBookingDate: this.form1.value.toBookingDate,
+  //     fromCity: this.form1.value.fromCity,
+  //     senderName: this.form1.value.senderName,
+  //     toCity: this.form1.value.toCity,
+  //     grnNo: this.form1.value.grnNo,
+  //     lrNumber: this.form1.value.lrNumber,
+  //   };
   
-    if (row._checked) {
-      if (!formArray.value.includes(row.grnNo)) {
-        formArray.push(this.fb.control(row.grnNo));
-      }
-    } else {
-      const index = formArray.value.indexOf(row.grnNo);
-      if (index > -1) {
-        formArray.removeAt(index);
-      }
-    }
+  //   console.log('Final Payload:', payload);
   
-    // Update Select All checkbox status
-    this.allSelected = this.data.every((item: { _checked: any; }) => item._checked);
-  }
-  
+  //   this.api.ParcelLoading(payload).subscribe({
+  //     next: (response: any) => {
+  //       console.log('Parcel loaded successfully:', response);
+  //       this.toast.success('Parcel loaded successfully', 'Success');
+  //       setTimeout(() => {
+  //         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+  //           this.router.navigate(['/parcelloading']);
+  //         });
+  //       }, 1000);
+  //     },
+  //     error: (error: any) => {
+  //       console.error('Parcel loading failed:', error);
+  //       this.toast.error('Parcel Loading Failed. Please try again', 'Error');
+  //     },
+  //   });
+  // }
   ParcelLoad() {
     if (this.form1.invalid) {
-      this.form1.markAllAsTouched(); // show errors
+      this.form1.markAllAsTouched();
       this.toast.warning('Please fill required fields correctly.', 'Validation');
       return;
     }
+  
+    // ✅ Get only selected GRNs
+    const selectedGrns = this.data
+      .filter((row: any) => row._checked)
+      .map((row: any) => row.grnNo);
+  
+    if (selectedGrns.length === 0) {
+      this.toast.warning('Please select at least one GRN.', 'Validation');
+      return;
+    }
+  
     const payload = {
       loadingType: this.form1.value.loadingType,
       fromBranch: this.form1.value.fromBranch,
@@ -323,7 +385,7 @@ onLoad() {
       fromCity: this.form1.value.fromCity,
       senderName: this.form1.value.senderName,
       toCity: this.form1.value.toCity,
-      grnNo: this.form1.value.grnNo,
+      grnNo: selectedGrns, // ✅ Only selected GRNs
       lrNumber: this.form1.value.lrNumber,
     };
   
@@ -345,7 +407,26 @@ onLoad() {
       },
     });
   }
->>>>>>> pavan
+  
+
+
+    // onSelectAllChange(event: any) {
+  //   const formArray = this.form1.get('grnNo') as FormArray;
+  //   if (event.target.checked) {
+  //     this.data.forEach((row: any) => {
+  //       if (row.grnNo && !formArray.value.includes(row.grnNo)) {
+  //         formArray.push(this.fb.control(row.grnNo));
+  //       }
+  //     });
+  //   }
+    
+  //   else {
+  //     formArray.clear();
+  //   }
+  //   this.allSelected = event.target.checked;
+  //   console.log('All GRN Numbers Selected:', formArray.value);
+  // }
+
  
   ngAfterViewInit(): void {
     // Initialize SlimSelect
@@ -371,33 +452,7 @@ onLoad() {
       });
 
 
-      // Initialize Select2
-
-  // $(this.selectElem.nativeElement).select2({
-  //   placeholder: 'Select a city',
-  //   allowClear: true,
-  //   width: '100%'
-  // });
-
-  // // Set default value in Select2 and form
-  // const defaultCity = this.pfdata?.branchId?.city;
-  // if (defaultCity) {
-  //   $(this.selectElem.nativeElement).val(defaultCity).trigger('change');
-  //   this.form.get('fromCity')?.setValue(defaultCity);
-  // }
-
-  // // Handle selection changes
-  // $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
-  //   const selectedCity = event.params.data.id;
-  //   console.log('Selected City:', selectedCity);
-
-  //   this.form.get('fromCity')?.setValue(selectedCity);
-  //   this.form.get('fromCity')?.markAsTouched();
-  //   this.form.get('fromCity')?.updateValueAndValidity();
-
-  //   // Trigger any additional logic
-  //   this.onFromcitySelect({ target: { value: selectedCity } });
-  // });
+  
       $(this.branchselect.nativeElement).on('select2:select', (event: any) => {
         const selectedDropBranch = event.params.data.id;
         console.log('Selected Drop Branch:', selectedDropBranch);

@@ -167,38 +167,23 @@ export class ConsolidatedComponent {
       pickUpBranch: this.form.value.pickUpBranch,
       bookedBy: this.form.value.bookedBy,
     };
-
+  
     console.log('payload:', payload);
-    this.bdata = payload;
-    this.fromDate = this.form.value.fromDate;
-    this.toDate = this.form.value.toDate;
-
+  
+    // 👇 Store in component-level variables for display
+    this.fromDate = payload.fromDate;
+    this.toDate = payload.toDate;
+  
     this.api.ConsolidatedReport(payload).subscribe({
       next: (res: any) => {
         console.log('ConsolidatedReport:', res);
-
-        this.Cdata = res; 
-        this.Tdata=res
-        console.log("tdata:",this.Tdata)
-         
-
-          this.deliveryData=res.data
-        console.log("devliveryData:",this.deliveryData);
-
-        // Assuming the data you expect is in res.data or similar field
-        // if (res.data && res.data.length > 0) {
-        //   this.toast.success(res.message || 'Report fetched successfully!');
-        //   this.Cdata = res;
-        //   this.deliveryData=res.data.deliveredAmountByType
-        //   console.log("devliveryData:",this.deliveryData);
-          
-
-          
-        // } else {
-        //   // No data scenario
-        //   this.toast.info('No data available for the given filter.');
-        //   this.Cdata = []; // Clear previous data if any
-        // }
+  
+        this.Cdata = res.data || []; // data for table rows
+        this.Tdata = res || {};      // totals
+        this.deliveryData = res.data || [];
+  
+        console.log("Cdata:", this.Cdata);
+        console.log("Totals:", this.Tdata);
       },
       error: (err) => {
         this.toast.error('Failed to fetch report.');

@@ -142,6 +142,7 @@ export class ConsolidateComponent {
         this.pdata = [];
       }
     }
+
     getCollectionReport() {
       const payload = {
         fromDate: this.form.value.fromDate,
@@ -150,25 +151,23 @@ export class ConsolidateComponent {
         pickUpBranch: this.form.value.pickUpBranch,
         bookedBy: this.form.value.bookedBy,
       };
-  
+    
       console.log('payload:', payload);
-      this.bdata = payload;
-      this.fromDate = this.form.value.fromDate;
-      this.toDate = this.form.value.toDate;
-  
+    
+      // 👇 Store in component-level variables for display
+      this.fromDate = payload.fromDate;
+      this.toDate = payload.toDate;
+    
       this.api.ConsolidatedReport(payload).subscribe({
         next: (res: any) => {
           console.log('ConsolidatedReport:', res);
-  
-          this.Cdata = res; 
-          this.Tdata=res
-          console.log("tdata:",this.Tdata)
-           
-  
-            this.deliveryData=res.data
-          console.log("devliveryData:",this.deliveryData);
-  
-
+    
+          this.Cdata = res.data || []; // data for table rows
+          this.Tdata = res || {};      // totals
+          this.deliveryData = res.data || [];
+    
+          console.log("Cdata:", this.Cdata);
+          console.log("Totals:", this.Tdata);
         },
         error: (err) => {
           this.toast.error('Failed to fetch report.');
@@ -185,78 +184,59 @@ export class ConsolidateComponent {
     printReport() {
       const printContents = document.getElementById('print-section')?.innerHTML;
       if (printContents) {
-        const popupWin = window.open(
-          '',
-          '_blank',
-          'top=0,left=0,height=100%,width=auto'
-        );
-        popupWin!.document.open();
-        popupWin!.document.write(`
+        const popupWin = window.open('', '_blank', 'width=1000,height=800');
+        popupWin?.document.open();
+        popupWin?.document.write(`
           <html>
             <head>
               <title>Print Report</title>
               <style>
-                /* You can include more styles here as needed */
                 body {
                   font-family: Arial, sans-serif;
-                  margin: 20px;
+                  padding: 20px;
                 }
-    
                 table {
                   width: 100%;
                   border-collapse: collapse;
-                  font-size: 12px;
                 }
-    
                 th, td {
                   border: 1px solid #000;
-                  padding: 4px;
+                  padding: 6px;
                   text-align: center;
+                  font-size: 13px;
                 }
-    
-                h4, h6, p {
-                  margin: 4px 0;
+                th {
+                  background-color: #f2f2f2;
                 }
-    
-                .text-center {
-                  text-align: center;
+                .text-end {
+                  text-align: right;
                 }
-    
                 .fw-bold {
                   font-weight: bold;
                 }
-    
-                .text-decoration-underline {
-                  text-decoration: underline;
-                }
-    
-                .d-flex {
-                  display: flex;
-                  justify-content: space-between;
-                }
-    
-                @media print {
-                  .no-print {
-                    display: none;
-                  }
+                .text-center {
+                  text-align: center;
                 }
               </style>
             </head>
-            <body onload="window.print(); window.close();">
+            <body onload="window.print(); window.close()">
               ${printContents}
             </body>
           </html>
         `);
-        popupWin!.document.close();
+        popupWin?.document.close();
       }
     }
+    
+
+
+
   
     downloadExcel(): void {
       const fileName = 'Consolidated_Report.xlsx';
-  
       const wsData: any[][] = [];
-  
-      // Add company info
+    
+      // Company Info
       wsData.push([this.pfdata?.companyName || '']);
       wsData.push([
         `Address: ${this.pfdata?.location} - ${this.pfdata?.branchId?.name} | Phone No: ${this.pfdata?.phone}`,
@@ -264,16 +244,18 @@ export class ConsolidateComponent {
       wsData.push([]);
       wsData.push(['Consolidated Report']);
       wsData.push([]);
-  
-      // Add date info
+    
+      // Date Info
       const from = new Date(this.fromDate).toLocaleDateString('en-GB');
       const to = new Date(this.toDate).toLocaleDateString('en-GB');
       const today = new Date(this.today).toLocaleString('en-GB');
+    
       wsData.push([`From: ${from}   To: ${to}`]);
       wsData.push([`Print Date: ${today}`]);
+      wsData.push([`Print By: ${this.pfdata?.name || ''}`]);
       wsData.push([]);
-  
-      // Add table headers
+    
+      // Group headers
       wsData.push([
         '',
         '',
@@ -281,11 +263,16 @@ export class ConsolidateComponent {
         '',
         '',
         '',
-        'Cancel Total',
+        'Cancel',
         'Delivery',
+        '',
         'GST',
         '',
+        '',
+        '',
       ]);
+    
+      // Column headers
       wsData.push([
         'Sr No.',
         'Branch Name',
@@ -293,36 +280,60 @@ export class ConsolidateComponent {
         'ToPay',
         'Credit',
         'Total',
-        'Total',
-        'Total',
+        'Cancel',
+        'Delivered',
+        'BookingTotal',
+        'CGST',
         'SGST',
         'IGST',
+        'Parcel GST',
       ]);
-  
-      // Add table data
-      this.Cdata?.data?.forEach((item: any, index: number) => {
+    
+      // Table rows
+      this.Cdata.forEach((item: any, index: number) => {
         wsData.push([
           index + 1,
           item.branchName,
-          item.paid,
-          item.toPay,
-          item.credit,
-          item.bookingTotalAmount,
-          item.cancelTotalAmount,
-          item.deliveredTotalAmount,
-          item.sgstAmount,
-          item.igstAmount,
+          item.paidAmount || 0,
+          item.toPayAmount || 0,
+          item.creditAmount || 0,
+          item.total || 0,
+          item.cancelAmount || 0,
+          item.deliveryAmount || 0,
+          item.bookingTotal || 0,
+          item.cgstAmount || 0,
+          item.sgstAmount || 0,
+          item.igstAmount || 0,
+          item.parcelGstAmount || 0,
         ]);
       });
-  
-      // Create worksheet and workbook
+    
+      // Grand total row
+      wsData.push([]);
+      wsData.push([
+        '',
+        'Total',
+        this.Tdata.finalPaidAmount || 0,
+        this.Tdata.finalToPayAmount || 0,
+        this.Tdata.finalCreditAmount || 0,
+        this.Tdata.finalTotal || 0,
+        this.Tdata.finalCancelAmount || 0,
+        this.Tdata.finalDeliveryAmount || 0,
+        this.Tdata.finalBookingTotal || 0,
+        this.Tdata.totalCgst || 0,
+        this.Tdata.totalSgst || 0,
+        this.Tdata.totalIgst || 0,
+        this.Tdata.finalParcelGstAmount || 0,
+      ]);
+    
+      // Create worksheet
       const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(wsData);
       const workbook: XLSX.WorkBook = {
         Sheets: { 'Consolidated Report': worksheet },
         SheetNames: ['Consolidated Report'],
       };
-  
-      // Write and save Excel file
+    
+      // Export to Excel
       const excelBuffer: any = XLSX.write(workbook, {
         bookType: 'xlsx',
         type: 'array',
@@ -332,5 +343,9 @@ export class ConsolidateComponent {
       });
       FileSaver.saveAs(blob, fileName);
     }
+    
+
+
+
   }
   

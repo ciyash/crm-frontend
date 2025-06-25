@@ -17,12 +17,12 @@
         <h5 class="text-center" *ngIf="data1?.lrNumber">LR No: {{ data1.lrNumber }}</h5>
 
       </div>
-      <div class="col-3 text-end">
+      <div class="col-3 text-end fw-bold">
             Status: 
         <span class="text-success fw-bold font-size-100"> <ng-container *ngIf="data1?.bookingType === 'paid'">PAID</ng-container></span>
         <span class="text-danger fw-bold font-size-100"> <ng-container *ngIf="data1?.bookingType === 'toPay'">TOPAY</ng-container></span>
         <span class="text-warning fw-bold font-size-100"> <ng-container *ngIf="data1?.bookingType === 'credit'">CREDIT</ng-container></span>
-        <span class="text-primary fw-bold font-size-100"> <ng-container *ngIf="data1?.bookingType === 'CLR'">CLR</ng-container></span>
+        <span class="text-primary fw-bold font-size-100"> <ng-container *ngIf="data1?.bookingType === 'FOC'">FREE OF COST</ng-container></span>
       </div>
     </div>
     <div class="d-flex justify-content-between">

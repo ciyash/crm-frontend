@@ -317,6 +317,8 @@ getQRdata(id: string) {
     });
     console.log('Selected From Cities:', fromCityArray.value);
   }
+
+
   setFormArray(controlName: string, values: any[]) {
     const formArray = this.form1.get(controlName) as FormArray;
     formArray.clear(); // Clear existing
@@ -372,18 +374,35 @@ getQRdata(id: string) {
   onManualCheckboxChange(row: any) {
     const grnArray = this.form1.get('grnNo') as FormArray;
   
-    if (row._checked) {
-      if (!grnArray.value.includes(row.grnNo)) {
-        grnArray.push(this.fb.control(row.grnNo));
-      }
-    } else {
-      const index = grnArray.controls.findIndex(ctrl => ctrl.value === row.grnNo);
-      if (index >= 0) {
-        grnArray.removeAt(index);
-      }
+    // Clear the form array first
+    while (grnArray.length !== 0) {
+      grnArray.removeAt(0);
     }
   
-    this.allSelected = this.bkdata.every(d => d._checked);
+    // Rebuild the form array based on checked rows
+    this.bkdata.forEach((item: any) => {
+      if (item._checked) {
+        grnArray.push(this.fb.control(item.grnNo));
+      }
+    });
+  
+    // Update "Select All" status
+    this.allSelected = this.bkdata.every(item => item._checked);
+  }
+  
+  onSelectAllChange(event: any) {
+    const checked = event.target.checked;
+    const grnArray = this.fb.array([]);
+  
+    this.bkdata.forEach(row => {
+      row._checked = checked;
+      if (checked) {
+        grnArray.push(this.fb.control(row.grnNo));
+      }
+    });
+  
+    this.form1.setControl('grnNo', grnArray);
+    this.allSelected = checked;
   }
   
   
@@ -398,29 +417,57 @@ getQRdata(id: string) {
   //   this.form1.setControl('grnNo', grnArray);
   //   this.allSelected = checked;
   // }
-  onSelectAllChange(event: any) {
-    const checked = event.target.checked;
-    const grnArray = this.fb.array([]);
-  
-    this.bkdata.forEach(d => {
-      d._checked = checked;
-      if (checked) {
-        grnArray.push(this.fb.control(d.grnNo));
-      }
-    });
-  
-    this.form1.setControl('grnNo', grnArray);
-    this.allSelected = checked;
-  }
+
   
 
-  ParcelLoad() {
-    console.log('ParcelLoad called');  // Confirm click
-    console.log('Form Value:', this.form1.value);  // Confirm data
+  // ParcelLoad() {
+  //   console.log('ParcelLoad called');  // Confirm click
+  //   console.log('Form Value:', this.form1.value);  // Confirm data
   
-    const grnNos = Array.isArray(this.form1.value.grnNo)
-      ? this.form1.value.grnNo
-      : [this.form1.value.grnNo];
+  //   const grnNos = Array.isArray(this.form1.value.grnNo)
+  //     ? this.form1.value.grnNo
+  //     : [this.form1.value.grnNo];
+  
+  //   const payload = {
+  //     fromBookingDate: this.form1.value.fromBookingDate,
+  //     toBookingDate: this.form1.value.toBookingDate,
+  //     fromCity: this.form1.value.fromCity,
+  //     toCity: this.form1.value.toCity,
+  //     branch: this.form1.value.branch,
+  //     vehicalNumber: this.form1.value.vehicalNumber,
+  //     grnNo: grnNos,
+  //     bookingType: this.form1.value.bookingType,
+  //   };
+  
+  //   console.log('Final Payload:', payload);
+  
+  //   this.api.ParcelUnLoading(payload).subscribe({
+  //     next: (response: any) => {
+  //       console.log('Parcel unloaded successfully:', response);
+  //       this.toastr.success('Parcel unloaded successfully', 'Success');
+  //       setTimeout(() => {
+  //         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+  //           this.router.navigate(['/parcelunloading']);
+  //         });
+  //       }, 1000);
+  //     },
+  //     error: (error: any) => {
+  //       console.error('Parcel unloading failed:', error);
+  //       alert('Parcel Unloading Failed. Please try again.');
+  //     },
+  //   });
+  // }
+
+  ParcelLoad() {
+    console.log('ParcelLoad called');
+    console.log('Form Value:', this.form1.value);
+  
+    const grnNos = this.form1.value.grnNo || [];
+  
+    if (!grnNos.length) {
+      this.toastr.warning('Please select at least one GRN.', 'Validation');
+      return;
+    }
   
     const payload = {
       fromBookingDate: this.form1.value.fromBookingDate,
@@ -451,6 +498,7 @@ getQRdata(id: string) {
       },
     });
   }
+  
   
 
   printTable() {
