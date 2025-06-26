@@ -28,26 +28,31 @@ word-wrap: break-word">Parcel Booking</h4>
       <div class="row">
         <div class="col-md-4">
           <label class="form-label form-after">From City</label>
-          <select #selectElem class="form-select form-select-sm" formControlName="fromCity">
-            <option value="" selected>Select City</option>
-            <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
+          <select class="form-select form-select-sm" formControlName="fromCity" [attr.disabled]="true">
+            <option *ngFor="let row2 of citydata" [value]="row2.cityName">
+              {{ row2.cityName }}
+            </option>
           </select>
         </div>
+
         <div class="col-md-4">
           <label class="form-label form-after">Pickup Branch</label>
-          <select #pickupbranch class="form-select form-select-sm" formControlName="pickUpBranch">
-            <option value="" selected>Select Pickup Branch</option>
+          <select #pickupbranch class="form-select form-select-sm" formControlName="pickUpBranch" [attr.disabled]="true">
             <option *ngFor="let row4 of pdata" [value]="row4.branchUniqueId"> {{ row4.name }} </option>
           </select>
         </div>
 
         <div class="col-md-4">
-          <label class="form-label form-after">To City</label>
-          <select #selectElem2 class="form-select form-select-sm" formControlName="toCity">
-            <option value="" selected>Select City</option>
-            <option *ngFor="let row of citydata" [value]="row.cityName">{{ row.cityName }}</option>
-          </select>
-        </div>
+  <label class="form-label form-after">To City</label>
+  <select class="form-select form-select-sm" formControlName="toCity" (change)="onTocitySelect($event)">
+    <option value="" selected>Select City</option>
+    <option *ngFor="let row of citydata" [value]="row.cityName" 
+      [hidden]="row.cityName === form.get('fromCity')?.value">
+      {{ row.cityName }}
+    </option>
+  </select>
+</div>
+
         <div class="col-md-4">
           <label class="form-label form-after">Drop Branch</label>
           <select #droupbranch class="form-select form-select-sm" formControlName="dropBranch">
@@ -70,8 +75,7 @@ word-wrap: break-word">Parcel Booking</h4>
             <option value="paid">Paid</option>
             <option value="toPay">To Pay</option>
             <option value="credit">Credit</option>
-            <!-- <option value="CLR">CLR</option> -->
-            <option value="FOC">Free of Cost</option>
+            <option *ngIf="showFOCOption" value="FOC">Free of Cost</option>
           </select>
         </div>
 
@@ -113,7 +117,7 @@ word-wrap: break-word">Parcel Booking</h4>
                 </td>
                 <td><input type="text" class="form-control form-select-sm" formControlName="contains"></td>
                 <td><input type="number" class="form-control form-select-sm" formControlName="weight"></td>
-                <td><input type="number" class="form-control form-select-sm" formControlName="unitPrice"
+                <td><input type="number" class="form-control form-select-sm" [readonly]="disableUnitPrice" formControlName="unitPrice"
                     (input)="calculateTotal(i)"></td>
                 <td><input type="number" class="form-control form-select-sm" formControlName="totalPrice" readonly></td>
                 <!-- <td>
@@ -140,7 +144,7 @@ word-wrap: break-word">Parcel Booking</h4>
       <!-- <button type="button" class="btn btn-danger btn-sm" (click)="addOrderItem()">Add +</button> -->
       <tr style="font-size: small;">
         <!-- <button type="button" class="btn btn-danger btn-sm" (click)="addOrderItem()">Add +</button> -->
-      <tr style="font-size: 13px;">
+      <tr style="font-size: 13px;" *ngIf="!hideChargesRow">
         <th>GSt(+)</th>
         <th>Service Charges(+)</th>
         <th>Hamali Charges(+)</th>
@@ -149,7 +153,7 @@ word-wrap: break-word">Parcel Booking</h4>
         <th>Value of Goods</th>
         <th>Grand Total</th>
       </tr>
-      <tr>
+      <tr *ngIf="!hideChargesRow">
         <th><input type="number" class="form-control form-select-sm" readonly></th>
         <th><input type="number" class="form-control form-select-sm" value="{{sdata}}" formControlName="serviceCharges"
             (input)="calculateGrandTotal()"></th>

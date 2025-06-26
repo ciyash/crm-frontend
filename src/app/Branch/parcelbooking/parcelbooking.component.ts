@@ -63,6 +63,10 @@ export class ParcelbookingComponent {
   brachid: any;
   tdata: any;
   Ttotal: any;
+  showFOCOption = true;
+  selectedBookingType: string = '';
+   disableUnitPrice: boolean = false;   // For readonly input control
+  hideChargesRow: boolean = false;
   constructor(
     private fb: FormBuilder,
     private api: BranchService,
@@ -111,6 +115,29 @@ export class ParcelbookingComponent {
 
   ngOnInit() {
     this.NumberofBooking();
+
+    this.form.get('bookingType')?.valueChanges.subscribe((val: string) => {
+    this.disableUnitPrice = (val === 'FOC');
+    this.hideChargesRow = (val === 'FOC');
+    const packagesArray = (this.form.get('packages') as FormArray).controls;
+    if (val === 'FOC') {
+      for (let pkg of packagesArray) {
+        pkg.get('unitPrice')?.setValue(0);
+      }
+      this.form.get('serviceCharges')?.setValue(0); // Force serviceCharges = 0
+    } else {
+      // If from-to cities already selected, fetch charges again
+      const fromCity = this.form.get('fromCity')?.value;
+      const toCity = this.form.get('toCity')?.value;
+      if (fromCity && toCity) {
+        this.fetchServiceCharges(); // Get correct charges based on cities
+      }
+    }
+  });
+  // Optionally: Fetch service charges automatically when cities change
+  this.form.get('fromCity')?.valueChanges.subscribe(() => this.fetchServiceCharges());
+  this.form.get('toCity')?.valueChanges.subscribe(() => this.fetchServiceCharges());
+
     this.grnNo = '';
     this.route.paramMap.subscribe((params) => {
       this.grnNo = params.get('grnNo');
@@ -210,7 +237,7 @@ export class ParcelbookingComponent {
       console.warn('Form is invalid. Please fill all required fields.');
       return;
     }
-    const orderDataToSend = this.packages.value.map((item: any) => ({
+   const orderDataToSend = (this.form.get('packages') as FormArray).getRawValue().map((item: any) => ({
       quantity: item.quantity,
       packageType: item.packageType,
       contains: item.contains,
@@ -319,6 +346,8 @@ export class ParcelbookingComponent {
       this.showDropdown = false;
     }
   }
+
+ 
   
 
   ngAfterViewInit(): void {
@@ -364,50 +393,79 @@ export class ParcelbookingComponent {
     }, 0);
   }
 
-  getProfileData() {
-    this.api.GetProfileData().subscribe((res: any) => {
-      console.log('profile', res);
-      this.pfdata = res.branchId;
-      this.tdata=res.branchId;
-      this.brachid=this.tdata.branchUniqueId
-      console.log("brachid:",this.brachid);
-      
-      console.log(this.pfdata, 'branchid');
-      this.NumberofBooking(); // 👈 Call it here
+getProfileData() {
+  this.api.GetProfileData().subscribe((res: any) => {
+    this.pfdata = res.branchId;
+    this.tdata = res.branchId;
 
+    const fromCity = this.pfdata.city;
+    const pickUpBranch = this.pfdata.name;
+    this.brachid = this.pfdata.branchUniqueId;
+
+    console.log("Profile From City:", fromCity);
+    console.log("Pickup Branch:", pickUpBranch);
+
+    // ✅ Set fromCity and pickUpBranch values
+    this.form.patchValue({
+      fromCity: fromCity,
+      pickUpBranch: this.pfdata.branchUniqueId,
     });
 
-  }
-
-  fetchServiceCharges() {
-    const fromCity = this.form.get('fromCity')?.value;
-    const toCity = this.form.get('toCity')?.value;
-    if (fromCity && toCity) {
-      this.api.FilterBookingServiceCharges({ fromCity, toCity }).subscribe(
+    // ✅ Manually fetch branches for that fromCity (same as onFromcitySelect)
+    if (fromCity) {
+      this.api.GetBranchbyCity(fromCity).subscribe(
         (res: any) => {
-          console.log('Service Charges:', res);
-
-          if (res && res.length > 0) {
-            const chargeData = res[0]; // First item in the array
-            this.sdata = chargeData.serviceCharge || 0;
-
-            // Update form with service charges and recalculate total
-            this.form.patchValue({ serviceCharges: this.sdata });
-            this.calculateGrandTotal();
-          } else {
-            console.warn('No service charge found for the given cities.');
-            this.form.patchValue({ serviceCharges: 0 });
-            this.calculateGrandTotal();
-          }
+          this.pdata = res; // So the select shows options
+          // fetch service charges
+          this.fetchServiceCharges();
         },
         (error: any) => {
-          console.error('Error fetching service charges:', error);
+          console.error('Error fetching branches in getProfileData:', error);
         }
       );
-    } else {
-      console.warn('Both fromCity and toCity must be selected.');
     }
+
+    // Reset toCity if it's same as fromCity
+    if (this.form.get('toCity')?.value === fromCity) {
+      this.form.get('toCity')?.reset();
+    }
+
+    this.NumberofBooking();
+  });
+}
+
+
+
+  fetchServiceCharges() {
+  const fromCity = this.form.get('fromCity')?.value;
+  const toCity = this.form.get('toCity')?.value;
+
+  if (fromCity && toCity) {
+    this.api.FilterBookingServiceCharges({ fromCity, toCity }).subscribe(
+      (res: any) => {
+        if (res && res.length > 0) {
+          const chargeData = res[0];
+          this.sdata = chargeData.serviceCharge || 0;
+
+          // ✅ Check if FOC selected, set 0; else use API value
+          const bookingType = this.form.get('bookingType')?.value;
+          const updatedCharge = bookingType === 'FOC' ? 0 : this.sdata;
+
+          this.form.patchValue({ serviceCharges: updatedCharge });
+          this.calculateGrandTotal();
+        } else {
+          console.warn('No service charge found for cities');
+          this.form.patchValue({ serviceCharges: 0 });
+          this.calculateGrandTotal();
+        }
+      },
+      (error: any) => {
+        console.error('Error fetching service charges:', error);
+      }
+    );
   }
+}
+
 
   onFromcitySelect(event: any) {
     const cityName = event.target.value;
@@ -511,7 +569,7 @@ export class ParcelbookingComponent {
 
   openPreviewModal() {
     if (this.form.valid) {
-      const orderDataToSend = this.packages.value.map((item: any) => ({
+      const orderDataToSend = (this.form.get('packages') as FormArray).getRawValue().map((item: any) => ({
         quantity: item.quantity,
         packageType: item.packageType,
         contains: item.contains,
@@ -578,7 +636,7 @@ export class ParcelbookingComponent {
     console.log('Form Data Before Submission:', this.form.value);
 
     if (this.form.valid) {
-      const orderDataToSend = this.packages.value.map((item: any) => ({
+      const orderDataToSend = (this.form.get('packages') as FormArray).getRawValue().map((item: any) => ({
         quantity: item.quantity,
         packageType: item.packageType,
         contains: item.contains,
@@ -764,5 +822,46 @@ export class ParcelbookingComponent {
       }
     });
   }
+
+ onBookingTypeChange(event: any) {
+  const value = event.target.value;
+  this.selectedBookingType = value;
+
+  if (value === 'FOC') {
+    this.disableUnitPrice = true;
+    this.hideChargesRow = true;
+
+    // Set unitPrice = 0 for all packages
+    const packagesArray = (this.form.get('packages') as FormArray).controls;
+    for (let pkg of packagesArray) {
+      pkg.get('unitPrice')?.setValue(0);
+    }
+
+    // Set serviceCharges = 0
+    this.form.get('serviceCharges')?.setValue(0);
+
+  } else {
+    this.disableUnitPrice = false;
+    this.hideChargesRow = false;
+
+    // Restore default serviceCharges = 10
+    this.form.get('serviceCharges')?.setValue(10);
+  }
+}
+
+
+disableUnitPricesInPackages() {
+ const packagesArray = (this.form.get('packages') as FormArray).controls;
+  for (let pkg of packagesArray) {
+     pkg.get('unitPrice')?.disable();
+  }
+}
+
+enableUnitPricesInPackages() {
+  const packagesArray = (this.form.get('packages') as FormArray).controls;
+  for (let pkg of packagesArray) {
+    pkg.get('unitPrice')?.enable(); // ✅ Correct: ENABLE
+  }
+}
   
 }
