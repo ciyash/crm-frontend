@@ -16,9 +16,6 @@ declare const SlimSelect: any;
   styleUrls: ['./sub-loading.component.scss']
 })
 export class SubLoadingComponent {
-
-
-  
     adminData: any;
     form!: FormGroup;
     form1:FormGroup;

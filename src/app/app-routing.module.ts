@@ -219,9 +219,8 @@ const routes: Routes = [
   { path: 'employee-voucherdetails', component:VoucherDetailsListComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
   // { path: 'employee-cfmaster-data', component:CfmasterDataComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
   // { path: 'employee-addmaster', component:CfmasterDataComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
-
-
 // cfmaster
+
   { path: 'addcfmaster', component: AddCfmasterComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
   { path: 'getcfmasterdata', component: GetCfmasterDataComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
   { path: 'creditvouchergenerate', component: CreditVoucherGenerateComponent, canActivate: [authGuard],data: { roles: ['employee'] } },

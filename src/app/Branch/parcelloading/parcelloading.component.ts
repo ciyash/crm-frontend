@@ -199,50 +199,13 @@ onLoad() {
       formArray.push(this.fb.control(value));
     });
   }
-  // onGrnNoChange(event: any, grnNo: string) {
-  //   const formArray = this.form1.get('grnNo') as FormArray;
-  //   if (event.target.checked) {
-  //     // Add if not already selected
-  //     if (!formArray.value.includes(grnNo)) {
-  //       formArray.push(this.fb.control(grnNo));
-  //     }
-  //   } else {
-  //     // Remove if unchecked
-  //     const index = formArray.value.indexOf(grnNo);
-  //     if (index > -1) {
-  //       formArray.removeAt(index);
-  //     }
-  //   }
- 
-  //   // ✅ Update "Select All" status based on selected values
-  //   this.allSelected = this.data.length === formArray.value.length;
-  //   console.log('Selected GRN Numbers:', formArray.value);
-  // }
- 
- 
-  // onSelectAllChange(event: any) {
-  //   const formArray = this.form1.get('grnNo') as FormArray;
- 
-  //   if (event.target.checked) {
-  //     this.data.forEach((row: { _checked: boolean; grnNo: any; }) => {
-  //       row._checked = true;
-  //       if (!formArray.value.includes(row.grnNo)) {
-  //         formArray.push(this.fb.control(row.grnNo));
-  //       }
-  //     });
-  //   } else {
-  //     this.data.forEach((row: { _checked: boolean; }) => row._checked = false);
-  //     formArray.clear();
-  //   }
- 
-  //   this.allSelected = event.target.checked;
-  // }
+
  
   selectedGrns: string[] = [];
  
   onGrnNoChange(event: any, grnNo: string) {
     const formArray = this.form1.get('grnNo') as FormArray;
- 
+
     if (event.target.checked) {
       if (!formArray.value.includes(grnNo)) {
         formArray.push(this.fb.control(grnNo));
@@ -297,74 +260,14 @@ onManualCheckboxChange(event: any, row: any) {
   this.allSelected = this.data.length > 0 && this.data.every((item: any) => item._checked);
 }
  
- 
-  // onManualCheckboxChange(row: any) {
-  //   const formArray = this.form1.get('grnNo') as FormArray;
- 
-  //   if (row._checked) {
-  //     if (!formArray.value.includes(row.grnNo)) {
-  //       formArray.push(this.fb.control(row.grnNo));
-  //     }
-  //   } else {
-  //     const index = formArray.value.indexOf(row.grnNo);
-  //     if (index > -1) {
-  //       formArray.removeAt(index);
-  //     }
-  //   }
- 
-  //   // Update Select All checkbox status
-  //   this.allSelected = this.data.every((item: { _checked: any; }) => item._checked);
-  // }
- 
-  // ParcelLoad() {
-  //   if (this.form1.invalid) {
-  //     this.form1.markAllAsTouched(); // show errors
-  //     this.toast.warning('Please fill required fields correctly.', 'Validation');
-  //     return;
-  //   }
-  //   const payload = {
-  //     loadingType: this.form1.value.loadingType,
-  //     fromBranch: this.form1.value.fromBranch,
-  //     toBranch: this.form1.value.toBranch,
-  //     vehicalNumber: this.form1.value.vehicalNumber,
-  //     driverName: this.form1.value.driverName,
-  //     driverNo: this.form1.value.driverNo,
-  //     fromBookingDate: this.form1.value.fromBookingDate,
-  //     toBookingDate: this.form1.value.toBookingDate,
-  //     fromCity: this.form1.value.fromCity,
-  //     senderName: this.form1.value.senderName,
-  //     toCity: this.form1.value.toCity,
-  //     grnNo: this.form1.value.grnNo,
-  //     lrNumber: this.form1.value.lrNumber,
-  //   };
- 
-  //   console.log('Final Payload:', payload);
- 
-  //   this.api.ParcelLoading(payload).subscribe({
-  //     next: (response: any) => {
-  //       console.log('Parcel loaded successfully:', response);
-  //       this.toast.success('Parcel loaded successfully', 'Success');
-  //       setTimeout(() => {
-  //         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-  //           this.router.navigate(['/parcelloading']);
-  //         });
-  //       }, 1000);
-  //     },
-  //     error: (error: any) => {
-  //       console.error('Parcel loading failed:', error);
-  //       this.toast.error('Parcel Loading Failed. Please try again', 'Error');
-  //     },
-  //   });
-  // }
+
   ParcelLoad() {
     if (this.form1.invalid) {
       this.form1.markAllAsTouched();
       this.toast.warning('Please fill required fields correctly.', 'Validation');
       return;
     }
- 
-    // ✅ Get only selected GRNs
-    const selectedGrns = this.data
+     const selectedGrns = this.data
       .filter((row: any) => row._checked)
       .map((row: any) => row.grnNo);
  

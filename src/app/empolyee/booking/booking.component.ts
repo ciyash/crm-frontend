@@ -456,7 +456,6 @@ console.log('Pickup Branch Name:', pickupBranchname);
   }
   add() {
     console.log("Form Data Before Submission:", this.form.value);
-    
     if (this.form.valid) {
       const orderDataToSend = this.packages.value.map((item: any) => ({
         quantity: item.quantity,
@@ -529,27 +528,6 @@ console.log('Pickup Branch Name:', pickupBranchname);
       this.toastr.warning("Please fill all required fields", "Form Incomplete");
     }
   }
-  
-  // searchUser(): void {
-  //   const searchTerm = this.form.get('senderName')?.value?.trim();
-  //   if (searchTerm) {
-  //     this.api.searchUser(searchTerm).subscribe(
-  //       (res: any) => {
-  //         console.log('API Response:', res);
-  //         this.userList = res?.results?.length ? res.results : [];
-  //         this.showDropdown = this.userList.length > 0;
-  //       },
-  //       (err: any) => {
-  //         console.error('Search Error:', err);
-  //         this.userList = [];
-  //         this.showDropdown = false;
-  //       }
-  //     );
-  //   } else {
-  //     this.userList = [];
-  //     this.showDropdown = false;
-  //   }
-  // }
   searchUser(): void {
     const searchTerm = this.form.get('senderName')?.value?.trim();
   

@@ -118,12 +118,7 @@
         <thead>
           <tr>
             <th>
-              <input
-  type="checkbox"
-  [checked]="allSelected"
-  (change)="onSelectAllChange($event)"
-/> Select All
-
+              <input type="checkbox" (change)="onSelectAllChange($event)" [checked]="allSelected" /> Select All
             </th>
             <th>S.No</th>
             <th>GRN No</th>
@@ -141,13 +136,8 @@
         <tbody>
           <tr *ngFor="let row of bkdata; let i = index">
             <td>
- 
-              <input
-  type="checkbox"
-  [checked]="form1.get('grnNo')?.value.includes(row.grnNo)"
-  (change)="onGrnNoChange($event, row.grnNo)"
-/>
-
+              <input type="checkbox" [checked]="form1.get('grnNo')?.value.includes(row.grnNo)"
+                (change)="onGrnNoChange($event, row.grnNo)" />
             </td>
             <td>{{ i + 1 }}</td>
             <td>{{ row?.lrNumber }}</td>
@@ -166,7 +156,6 @@
     </div>
   </div>
   <form [formGroup]="form1">
-
     <div class="container">
       <div class="row">
         <div class="col-md-4 col-sm-12">

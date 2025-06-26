@@ -92,11 +92,19 @@ word-wrap: break-word">Parcel Loading Offline</h4>
       <table class="table table-bordered table-striped">
         <thead>
           <tr>
-            <th>
+            <!-- <th>
               <input type="checkbox" 
                      [checked]="allSelected" 
                      (change)="onSelectAllChange($event)" /> Select All
+            </th> -->
+            <th>
+              <input type="checkbox" 
+              [checked]="allSelected" 
+              (change)="onSelectAllChange($event)" /> Select All
             </th>
+     
+  
+   
             
             <th>S.No</th>
             <th>LR No</th>
@@ -113,23 +121,23 @@ word-wrap: break-word">Parcel Loading Offline</h4>
         </thead>
         <tbody>
           <tr *ngFor="let row of data; let i = index">
-            <!-- <td> 
-              <input
-                type="checkbox"
-                [(ngModel)]="row._checked"
-                name="grn_{{ row.grnNo }}"
-                (change)="onManualCheckboxChange(row)"
-              />
-            </td> -->
-          <td>
 
-            <input
+          <!-- <td>
+
+<input
   type="checkbox"
   [(ngModel)]="row._checked"
   name="grn_{{ row.grnNo }}"
-  (change)="onManualCheckboxChange(row)"
 />
 
+
+          </td> -->
+          <td> 
+            <input
+              type="checkbox"
+              [checked]="row._checked"
+              (change)="onManualCheckboxChange($event, row)"
+            />
           </td>
             <td>{{ i + 1 }}</td>
             <td>{{ row.lrNumber }}</td>

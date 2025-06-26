@@ -1,7 +1,7 @@
 <app-header class="hide-on-print"></app-header>
 <div style="margin-top: 6.5%;">
 <div class="print-area">
-<div class="container text-center" *ngIf="pfdata">
+<!-- <div class="container text-center" *ngIf="pfdata">
 <h4 class="fw-bold mb-1">{{ pfdata.companyId?.name }}</h4>
 <p class="fw-bold mb-0">
           Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }}
@@ -9,7 +9,42 @@
 <p class="fw-bold">
           Phone No: {{ pfdata.phone }}
 </p>
+</div> -->
+<div class="print-header text-center" *ngIf="pfdata">
+  <h4 class="fw-bold ">{{ pfdata.companyId?.name }}</h4>
+  <p class="fw-bold ">
+    Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }}
+  </p>
+  <p class="fw-bold">
+    Phone No: {{ pfdata.phone }}
+  </p>
 </div>
+<style>
+@media print {
+        .print-header {
+          width: 100%;
+          text-align: center;
+          margin: 0 auto;
+          display: block;
+        }
+      
+        .print-header h4,
+        .print-header p {
+          margin: 0;
+          padding: 4px 0;
+          font-size: 14px;
+        }
+      
+        body {
+          margin: 0;
+          padding: 0;
+          text-align: center;
+        }
+      }
+</style>
+
+      
+
 <hr>
 <div class="container-fluid mt-2" >
 <div class="row" >
