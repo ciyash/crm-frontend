@@ -30,7 +30,6 @@ errorMessage: string = '';
 data2: any;
 data1: any;
 LoadSuccess: boolean = false;
-allSelected: boolean = false;
 tbcdata: any;
 @ViewChild('selectElem') selectElem!: ElementRef;
 @ViewChild('branch') branch!: ElementRef;
@@ -49,6 +48,8 @@ today = new Date();
   ffdata: any;
   pfdata: any;
   profileData: any;
+  allSelected = false; // Initialize as false
+
 
 constructor(
   private api: BranchService,
@@ -193,7 +194,7 @@ this.api.FilterParcelUnLoading(payload).subscribe({
         bookingType: this.bkdata[0].bookingType, // ✅ patch bookingType
       });
     
-      this.setFormArray('grnNo', this.bkdata.map(d => d.grnNo));
+      // this.setFormArray('grnNo', this.bkdata.map(d => d.grnNo));
       this.setFormArray('lrNumber', this.bkdata.map(d => d.lrNumber));
     }
     
@@ -326,60 +327,47 @@ setFormArray(controlName: string, values: any[]) {
 
 onGrnNoChange(event: any, grnNo: string) {
   const formArray = this.form1.get('grnNo') as FormArray;
+
   if (event.target.checked) {
-    // Add if not already selected
     if (!formArray.value.includes(grnNo)) {
       formArray.push(this.fb.control(grnNo));
     }
   } else {
-    // Remove if unchecked
     const index = formArray.value.indexOf(grnNo);
     if (index > -1) {
       formArray.removeAt(index);
     }
   }
 
-  // ✅ Update "Select All" status based on selected values
-  this.allSelected = this.bkdata.length === formArray.value.length;
-  console.log('Selected GRN Numbers:', formArray.value);
-}
+  this.allSelected = this.bkdata.every(row =>
+    formArray.value.includes(row.grnNo)
+  );
 
+}
 onSelectAllChange(event: any) {
   const formArray = this.form1.get('grnNo') as FormArray;
-  formArray.clear();
+  formArray.clear(); // Clear previous
 
-  if (event.target.checked && this.bkdata?.length > 0) {
-    this.bkdata.forEach((row: any) => {
-      const grn = row?.grnNo;
-      if (grn && !formArray.value.includes(grn)) {
-        formArray.push(this.fb.control(grn));
+  if (event.target.checked) {
+    this.bkdata.forEach(row => {
+      if (row.grnNo) {
+        formArray.push(this.fb.control(row.grnNo));
       }
     });
+    this.allSelected = true;
+  } else {
+    this.allSelected = false;
   }
-
-  this.allSelected = event.target.checked;
-  console.log('All selected GRNs:', formArray.value);
 }
 
-getvehicleData() {
-  this.api.VehicleData().subscribe({
-    next: (response: any) => {
-      console.log('Vehicle:', response);
-      this.vehicle = response;
-    },
-    error: (error: any) => {
-      console.error('Error fetching vehicle data:', error);
-    },
-  });
-}
 
 ParcelLoad() {
-  console.log('ParcelLoad called');  // Confirm click
-  console.log('Form Value:', this.form1.value);  // Confirm data
+  const selectedGrns = this.form1.get('grnNo')?.value;
 
-  const grnNos = Array.isArray(this.form1.value.grnNo)
-    ? this.form1.value.grnNo
-    : [this.form1.value.grnNo];
+  if (!selectedGrns || selectedGrns.length === 0) {
+    this.toastr.warning('Please select at least one GRN.', 'Validation');
+    return;
+  }
 
   const payload = {
     fromBookingDate: this.form1.value.fromBookingDate,
@@ -388,27 +376,29 @@ ParcelLoad() {
     toCity: this.form1.value.toCity,
     branch: this.form1.value.branch,
     vehicalNumber: this.form1.value.vehicalNumber,
-    grnNo: grnNos,
+    grnNo: selectedGrns,
     bookingType: this.form1.value.bookingType,
   };
+
   console.log('Final Payload:', payload);
 
   this.api.ParcelUnLoading(payload).subscribe({
     next: (response: any) => {
-      console.log('Parcel unloaded successfully:', response);
       this.toastr.success('Parcel unloaded successfully', 'Success');
       setTimeout(() => {
-        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-          this.router.navigate(['/employee-unloading']);
-        });
-      }, 1000);
-    },
+                this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+                  this.router.navigate(['/employee-unloading']);
+                });
+              }, 1000);
+            },
     error: (error: any) => {
       console.error('Parcel unloading failed:', error);
       alert('Parcel Unloading Failed. Please try again.');
     },
   });
 }
+
+
 printTable() {
   const printContent = document.getElementById('print-section');
   const WindowPrt = window.open('', '', 'width=900,height=650');
@@ -437,7 +427,17 @@ printTable() {
     WindowPrt.document.close();
   }
 }
-
+getvehicleData() {
+  this.api.VehicleData().subscribe({
+    next: (response: any) => {
+      console.log('Vehicle:', response);
+      this.vehicle = response;
+    },
+    error: (error: any) => {
+      console.error('Error fetching vehicle data:', error);
+    },
+  });
+}
 
 ExportEXcel(): void {
   const headerData = [];
