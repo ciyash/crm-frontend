@@ -149,7 +149,13 @@ onLoad() {
   const payload: any = {
     fromDate: formValues.fromDate,
     toDate: formValues.toDate,
+    fromCity:formValues.fromCity,
+    branch:formValues.branch,
+    toCity:formValues.toCity
+    
   };
+  console.log("payload:",payload);
+  
   this.api.FilterParcelUnLoading(payload).subscribe({
     next: (response: any) => {
       const data = response?.data || [];

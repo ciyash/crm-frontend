@@ -59,8 +59,8 @@ export class SubUnloadingComponent {
           fromCity: [''],
           toCity: [''],
           vehicalNumber: ['',],
-          branch: [''] // ✅
-    
+          branch: [''] 
+
         });
         this.form1 = this.fb.group({
           fromBookingDate: [''],
@@ -146,6 +146,8 @@ export class SubUnloadingComponent {
       const payload: any = {
         fromDate: formValues.fromDate,
         toDate: formValues.toDate,
+        fromCity:formValues.fromCity,
+        branch:formValues.branch
       };
       this.api.FilterParcelUnLoading(payload).subscribe({
         next: (response: any) => {

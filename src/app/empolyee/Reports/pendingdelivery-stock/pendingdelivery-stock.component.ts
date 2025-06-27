@@ -16,12 +16,7 @@ declare var $: any;
   styleUrls: ['./pendingdelivery-stock.component.scss']
 })
 export class PendingdeliveryStockComponent {
-
-
-  
-
-    @ViewChild('selectElem') selectElem!: ElementRef;
-    @ViewChild('pickupbranch') pickupbranch!: ElementRef;
+   
     @ViewChild('selectElem2') selectElem2!: ElementRef;
     @ViewChild('droupbranch') droupbranch!: ElementRef;
     form: FormGroup;
@@ -74,28 +69,22 @@ export class PendingdeliveryStockComponent {
     }
     ngAfterViewInit(): void {
       setTimeout(() => {
-        // From City
-
-    
-        // Pickup Branch
-
-    
         // To City
         $(this.selectElem2.nativeElement).select2();
         $(this.selectElem2.nativeElement).val('all').trigger('change'); // ✅
         $(this.selectElem2.nativeElement).on('select2:select', (event: any) => {
-          const selectedToCity = event.params.data.id;
-          this.form.patchValue({ toCity: selectedToCity });
-          this.onTocitySelect({ target: { value: selectedToCity } });
+          const selectedfromCity = event.params.data.id;
+          this.form.patchValue({ fromCity: selectedfromCity });
+          this.onTocitySelect({ target: { value: selectedfromCity } });
         });
     
         // Drop Branch
         $(this.droupbranch.nativeElement).select2();
         $(this.droupbranch.nativeElement).val('all').trigger('change'); // ✅
         $(this.droupbranch.nativeElement).on('select2:select', (event: any) => {
-          const selectedDropBranch = event.params.data.id;
-          this.form.patchValue({ dropBranch: selectedDropBranch });
-          this.onDropBranchSelect({ target: { value: selectedDropBranch } });
+          const selectedpickBranch = event.params.data.id;
+          this.form.patchValue({ pickUpBranch: selectedpickBranch });
+          this.onDropBranchSelect({ target: { value: selectedpickBranch } });
         });
       }, 0);
     }
@@ -184,11 +173,10 @@ export class PendingdeliveryStockComponent {
         this.pfdata = res.branchId.city;
         this.profileData = res;
         console.log("profileData:", this.profileData);
-    
-        // Update form controls with profile data
+
         this.form.patchValue({
-          fromCity: this.pfdata || '', // Set fromCity to the city from branchId
-          pickUpBranch: this.ffdata?.branchUniqueId || '' // Set pickUpBranch to branchUniqueId
+          toCity: this.pfdata || '', // Set fromCity to the city from branchId
+          dropBranch: this.ffdata?.branchUniqueId || '' // Set pickUpBranch to branchUniqueId
         });
           });
     }

@@ -66,10 +66,12 @@ export class SubBookingComponent {
   Ttotal: any;
   mogoId: any;
     dptype:any;
+    disableUnitPrice: boolean = false;   // For readonly input control
+    hideChargesRow: boolean = false;
+  selectedBookingType: any;
+  loading: boolean = false;
 
- 
-  
-  
+
     constructor(private fb: FormBuilder, private api: BranchService, private token:TokenService,
        private cdr: ChangeDetectorRef,  private route: ActivatedRoute,private toastr:ToastrService, 
        private router:Router, private admin:AdminService) {
@@ -114,6 +116,26 @@ export class SubBookingComponent {
      }
   
     ngOnInit() {
+      // foc
+      this.form.get('bookingType')?.valueChanges.subscribe((val: string) => {
+        this.disableUnitPrice = (val === 'FOC');
+        this.hideChargesRow = (val === 'FOC');
+        const packagesArray = (this.form.get('packages') as FormArray).controls;
+        if (val === 'FOC') {
+          for (let pkg of packagesArray) {
+            pkg.get('unitPrice')?.setValue(0);
+          }
+          this.form.get('serviceCharges')?.setValue(0); // Force serviceCharges = 0
+        } else {
+          // If from-to cities already selected, fetch charges again
+          const fromCity = this.form.get('fromCity')?.value;
+          const toCity = this.form.get('toCity')?.value;
+          if (fromCity && toCity) {
+            this.fetchServiceCharges(); // Get correct charges based on cities
+          }
+        }
+      });
+
       this.route.paramMap.subscribe((params) => {
         this.grnNo = params.get('grnNo');
         console.log('updateid:', this.grnNo);
@@ -250,6 +272,61 @@ export class SubBookingComponent {
     
       }, 0);
     }
+    onBookingTypeChange(event: any) {
+      const value = event.target.value;
+      this.selectedBookingType = value;
+    
+      if (value === 'FOC') {
+        this.disableUnitPrice = true;
+        this.hideChargesRow = true;
+    
+        // Set unitPrice = 0 for all packages
+        const packagesArray = (this.form.get('packages') as FormArray).controls;
+        for (let pkg of packagesArray) {
+          pkg.get('unitPrice')?.setValue(0);
+        }
+    
+        // Set serviceCharges = 0
+        this.form.get('serviceCharges')?.setValue(0);
+    
+      } else {
+        this.disableUnitPrice = false;
+        this.hideChargesRow = false;
+    
+        // Restore default serviceCharges = 10
+        this.form.get('serviceCharges')?.setValue(10);
+      }
+    }
+
+    fetchServiceCharges() {
+      const fromCity = this.form.get('fromCity')?.value;
+      const toCity = this.form.get('toCity')?.value;
+    
+      if (fromCity && toCity) {
+        this.api.FilterBookingServiceCharges({ fromCity, toCity }).subscribe(
+          (res: any) => {
+            if (res && res.length > 0) {
+              const chargeData = res[0];
+              this.sdata = chargeData.serviceCharge || 0;
+    
+              // ✅ Check if FOC selected, set 0; else use API value
+              const bookingType = this.form.get('bookingType')?.value;
+              const updatedCharge = bookingType === 'FOC' ? 0 : this.sdata;
+    
+              this.form.patchValue({ serviceCharges: updatedCharge });
+              this.calculateGrandTotal();
+            } else {
+              console.warn('No service charge found for cities');
+              this.form.patchValue({ serviceCharges: 0 });
+              this.calculateGrandTotal();
+            }
+          },
+          (error: any) => {
+            console.error('Error fetching service charges:', error);
+          }
+        );
+      }
+    }
     
     allowOnlyNumbers(event: KeyboardEvent) {
       const charCode = event.which ? event.which : event.keyCode;
@@ -286,39 +363,6 @@ export class SubBookingComponent {
     });
   }
 
-  
-  
-  
-  fetchServiceCharges() {
-    const fromCity = this.form.get('fromCity')?.value;
-    const toCity = this.form.get('toCity')?.value;
-    if (fromCity && toCity) {
-      this.api.FilterBookingServiceCharges({ fromCity, toCity }).subscribe(
-        (res: any) => {
-          console.log('Service Charges:', res);
-  
-          if (res && res.length > 0) {
-            const chargeData = res[0]; // First item in the array
-            this.sdata = chargeData.serviceCharge || 0;
-  
-            // Update form with service charges and recalculate total
-            this.form.patchValue({ serviceCharges: this.sdata });
-            this.calculateGrandTotal();
-          } else {
-            console.warn('No service charge found for the given cities.');
-            this.form.patchValue({ serviceCharges: 0 });
-            this.calculateGrandTotal();
-          }
-        },
-        (error: any) => {
-          console.error('Error fetching service charges:', error);
-        }
-      );
-    } else {
-      console.warn('Both fromCity and toCity must be selected.');
-    }
-  }
-  
   onFromcitySelect(event: any) {
     const cityName = event.target.value;
     if (cityName) {
@@ -361,8 +405,6 @@ export class SubBookingComponent {
     
   }
   
-  
-  
     get packages(): FormArray {
       return this.form.get('packages') as FormArray;
     }
@@ -381,45 +423,7 @@ export class SubBookingComponent {
       this.calculateGrandTotal();
     }
   
-    // removeBarcodeData(index: number) {
-    //   this.packages.removeAt(index);
-    //   this.calculateGrandTotal();
-    // }
-  
-    // calculateTotal(index: number) {
-    //   const packageArray = this.form.get('packages') as FormArray;
-    //   const packageForm = packageArray.at(index);
-    
-    //   const quantity = packageForm.get('quantity')?.value || 0;
-    //   const unitPrice = packageForm.get('unitPrice')?.value || 0;
-      
-    //   const totalPrice = quantity * unitPrice;
-    //   packageForm.get('totalPrice')?.setValue(totalPrice);
-    
-    //   this.calculateGrandTotal();
-    // }
-  
-    // calculateGrandTotal() {
-    //   const packageArray = this.form.get('packages') as FormArray;
-      
-    //   // Calculate total price from all packages
-    //   let totalValue = 0;
-    //   packageArray.controls.forEach((pkg) => {
-    //     totalValue += pkg.get('totalPrice')?.value || 0;
-    //   });
-    
-    //   // Get charges from form inputs
-    //   const serviceCharges = this.form.get('serviceCharges')?.value || 0;
-    //   const hamaliCharges = this.form.get('hamaliCharges')?.value || 0;
-    //   const doorDeliveryCharges = this.form.get('doorDeliveryCharges')?.value || 0;
-    //   const doorPickupCharges = this.form.get('doorPickupCharges')?.value || 0;
-    
-    //   // Calculate Grand Total
-    //   const grandTotal = totalValue + serviceCharges + hamaliCharges + doorDeliveryCharges + doorPickupCharges;
-    
-    //   // Update Grand Total without triggering another event
-    //   this.form.get('grandTotal')?.setValue(grandTotal, { emitEvent: false });
-    // }
+ 
     removeBarcodeData(index: number) {
       this.packages.removeAt(index);
       this.calculateGrandTotal();
@@ -523,11 +527,98 @@ export class SubBookingComponent {
       }
       this.BookingId();
     }
+    // add() {
+    //   try {
+    //     console.log("Form Data Before Submission:", this.form.value);
+    
+    //     if (this.form.valid) {
+    //       const orderDataToSend = this.packages.value.map((item: any) => ({
+    //         quantity: item.quantity,
+    //         packageType: item.packageType,
+    //         contains: item.contains,
+    //         weight: item.weight,
+    //         unitPrice: item.unitPrice,
+    //         totalPrice: item.totalPrice
+    //       }));
+    
+    //       const pickupBranchId = this.form.value.pickUpBranch;
+    //       const dropBranchId = this.form.value.dropBranch;
+    
+    //       // Find branch names by ID
+    //       const pickupBranchName =
+    //         this.pdata.find((b: any) => b.branchUniqueId === pickupBranchId)?.name || "N/A";
+    //       const dropBranchName =
+    //         this.tbcdata.find((b: any) => b.branchUniqueId === dropBranchId)?.name || "N/A";
+    
+    //       const val: any = {
+    //         fromCity: this.form.value.fromCity,
+    //         toCity: this.form.value.toCity,
+    //         pickUpBranchName: pickupBranchName,
+    //         dropBranchName: dropBranchName,
+    //         pickUpBranch: pickupBranchId || "N/A",
+    //         dropBranch: dropBranchId,
+    //         dispatchType: this.form.value.dispatchType,
+    //         bookingType: this.form.value.bookingType,
+    //         senderName: this.form.value.senderName,
+    //         senderMobile: this.form.value.senderMobile,
+    //         senderAddress: this.form.value.senderAddress,
+    //         senderGst: this.form.value.senderGST || "",
+    //         receiverName: this.form.value.receiverName,
+    //         receiverMobile: this.form.value.receiverMobile,
+    //         receiverAddress: this.form.value.receiverAddress,
+    //         receiverGst: this.form.value.receiverGST || "",
+    //         packages: orderDataToSend,
+    //         serviceCharges: this.form.value.serviceCharges,
+    //         hamaliCharges: this.form.value.hamaliCharges,
+    //         doorDeliveryCharges: this.form.value.doorDeliveryCharges,
+    //         doorPickupCharges: this.form.value.doorPickupCharges,
+    //         valueOfGoods: this.form.value.valueOfGoods,
+    //         grandTotal: this.form.value.grandTotal,
+    //         agent: this.form.value.agent
+    //       };
+    
+    //       console.log("Final Data to Submit:", val);
+    //       this.modelData = val;
+    
+    //       this.api.createBooking(val).subscribe(
+    //         (response: any) => {
+    //           console.log("Parcel saved successfully:", response);
+          
+    //           this.gdata = response.data;
+    //           console.log("GRN Number:", this.gdata.grnNo);
+    //           this.toastr.success("Parcel Booked Successfully", "Success");
+    //           this.getProfileData();
+    //           this.form.reset();
+    //           this.packages.clear();
+          
+    //           this.router.navigateByUrl(`/printgrn/${this.gdata.grnNo}`).then(() => {
+    //             window.location.reload();
+    //           });
+    //         },
+    //         (error: any) => {
+    //           console.error("❌ API error during booking:", error);
+          
+    //           // Properly show error message from backend
+    //           const errorMessage = error?.error?.message || error?.message || 'An error occurred';
+    //           this.toastr.error(errorMessage, "Booking Failed");
+    //         }
+    //       );
+          
+    //     } else {
+    //       this.toastr.warning("Please fill all required fields", "Validation Failed");
+    //     }
+    //   } catch (error) {
+    //     console.error("❌ Unexpected error during booking:", error);
+    //     this.toastr.error("Unexpected error occurred. Please contact support.", "Error");
+    //   }
+    // }
     add() {
       try {
         console.log("Form Data Before Submission:", this.form.value);
     
         if (this.form.valid) {
+          this.loading = true; // ✅ Show loading state
+    
           const orderDataToSend = this.packages.value.map((item: any) => ({
             quantity: item.quantity,
             packageType: item.packageType,
@@ -540,11 +631,8 @@ export class SubBookingComponent {
           const pickupBranchId = this.form.value.pickUpBranch;
           const dropBranchId = this.form.value.dropBranch;
     
-          // Find branch names by ID
-          const pickupBranchName =
-            this.pdata.find((b: any) => b.branchUniqueId === pickupBranchId)?.name || "N/A";
-          const dropBranchName =
-            this.tbcdata.find((b: any) => b.branchUniqueId === dropBranchId)?.name || "N/A";
+          const pickupBranchName = this.pdata.find((b: any) => b.branchUniqueId === pickupBranchId)?.name || "N/A";
+          const dropBranchName = this.tbcdata.find((b: any) => b.branchUniqueId === dropBranchId)?.name || "N/A";
     
           const val: any = {
             fromCity: this.form.value.fromCity,
@@ -578,39 +666,35 @@ export class SubBookingComponent {
     
           this.api.createBooking(val).subscribe(
             (response: any) => {
+              this.loading = false; // ✅ Hide loading
               console.log("Parcel saved successfully:", response);
-          
               this.gdata = response.data;
-              console.log("GRN Number:", this.gdata.grnNo);
               this.toastr.success("Parcel Booked Successfully", "Success");
-          
-              // Reload profile data and reset form
               this.getProfileData();
               this.form.reset();
               this.packages.clear();
-          
-              // Navigate to print and reload
+    
               this.router.navigateByUrl(`/printgrn/${this.gdata.grnNo}`).then(() => {
                 window.location.reload();
               });
             },
             (error: any) => {
+              this.loading = false; // ✅ Hide loading on error
               console.error("❌ API error during booking:", error);
-          
-              // Properly show error message from backend
               const errorMessage = error?.error?.message || error?.message || 'An error occurred';
               this.toastr.error(errorMessage, "Booking Failed");
             }
           );
-          
         } else {
           this.toastr.warning("Please fill all required fields", "Validation Failed");
         }
       } catch (error) {
+        this.loading = false;
         console.error("❌ Unexpected error during booking:", error);
         this.toastr.error("Unexpected error occurred. Please contact support.", "Error");
       }
     }
+    
     searchUser(): void {
       const searchTerm = this.form.get('senderName')?.value?.trim();
     

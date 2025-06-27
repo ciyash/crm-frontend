@@ -159,6 +159,29 @@ word-wrap: break-word
      border-radius: 0px !important; 
 }
 
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(3px); /* ✅ blur background */
+    background-color: rgba(255, 255, 255, 0.4); /* optional light overlay */
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .loading-message {
+    text-align: center;
+    background-color: white;
+    padding: 30px 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+  
+
 
 
 

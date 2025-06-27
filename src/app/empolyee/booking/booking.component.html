@@ -126,8 +126,8 @@ word-wrap: break-word">Parcel Booking</h4>
                                 <td><input type="text" class="form-control form-select-sm" formControlName="weight">
                                 </td>
 
-                                <td ><input type="text" class="form-control form-select-sm" formControlName="unitPrice"
-                                        (input)="calculateTotal(i)"></td>
+                                <td><input type="number" class="form-control form-select-sm" [readonly]="disableUnitPrice" formControlName="unitPrice"
+                                  (input)="calculateTotal(i)"></td>
                                         
 <!-- git  -->
 
@@ -159,7 +159,7 @@ word-wrap: break-word">Parcel Booking</h4>
             <!-- <button type="button" class="btn btn-danger btn-sm" (click)="addOrderItem()">Add +</button> -->
             <tr style="font-size: small;">
                 <!-- <button type="button" class="btn btn-danger btn-sm" (click)="addOrderItem()">Add +</button> -->
-            <tr style="font-size: 13px;">
+            <tr style="font-size: 13px;" *ngIf="!hideChargesRow">
                 <th>GSt(+)</th>
                 <th>Service Charges(+)</th>
                 <th>Hamali Charges(+)</th>
@@ -168,7 +168,7 @@ word-wrap: break-word">Parcel Booking</h4>
                 <th>Value of Goods</th>
                 <th>Grand Total</th>
             </tr>
-            <tr>
+            <tr *ngIf="!hideChargesRow">
                 <th><input type="number" class="form-control form-select-sm" readonly></th>
                 <th><input type="number" class="form-control form-select-sm" value="{{sdata}}"
                         formControlName="serviceCharges" (input)="calculateGrandTotal()"></th>
@@ -397,7 +397,7 @@ word-wrap: break-word">Parcel Booking</h4>
               
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="confirmBooking()">Confirm</button>
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal"  [disabled]="loading" (click)="confirmBooking()">Confirm</button>
                       </div>
                     </div>
                   </div>
@@ -406,4 +406,14 @@ word-wrap: break-word">Parcel Booking</h4>
 
         </form>
     </div>
+</div>
+
+<!-- Loading Overlay -->
+<div *ngIf="loading" class="loading-overlay">
+  <div class="loading-message">
+    <div class="spinner-border text-primary mb-2" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="fw-bold text-primary mb-0">Please wait while booking...</p>
+  </div>
 </div>

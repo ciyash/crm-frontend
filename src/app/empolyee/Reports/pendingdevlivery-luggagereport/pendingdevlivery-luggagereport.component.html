@@ -27,43 +27,33 @@ background-color: #fff;">
               To Date is required
             </div>
           </div>
-          <!-- <div class="col-md-6">
+       
+          <div class="col-md-6">
             <label class="form-label">From City</label>
-            <select #selectElem class="form-select form-select-sm" formControlName="fromCity">
-              <option value="" selected> Select City</option>
-              <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
-            </select>
-          </div> -->
-          <div class="col-md-6">
-            <label class="form-label form-after">From City</label>
-            <input type="text" class="form-control" formControlName="fromCity" readonly />
-          </div>
-
-          <div class="col-md-6">
-            <label class="form-label">To City</label>
-            <select #selectElem2 class="form-select form-select-sm" formControlName="toCity">
+            <select #selectElem2 class="form-select form-select-sm" formControlName="fromCity">
               <option value="" selected> Select City</option>
               <option *ngFor="let row of citydata" [value]="row.cityName">{{ row.cityName }}</option>
             </select>
           </div>
-          <!-- <div class="col-md-6">
-            <label class="form-label">PickUpBranch</label>
-            <select #pickupbranch class="form-select form-select-sm" formControlName="pickUpBranch">
-              <option value="" selected> Select Branch</option>
-              <option *ngFor="let row4 of pdata" [value]="row4.branchUniqueId"> {{ row4.name }} </option>
-            </select>
-          </div> -->
           <div class="col-md-6">
-            <label class="form-label form-after">Pickup Branch</label>
-            <input type="text" class="form-control" [value]="ffdata?.name || ''" readonly />
-            <input type="hidden" formControlName="pickUpBranch" />
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">Drop Branch</label>
-            <select #droupbranch class="form-select form-select-sm" formControlName="dropBranch">
+            <label class="form-label">PickUp Branch</label>
+            <select #droupbranch class="form-select form-select-sm" formControlName="pickUpBranch">
               <option value="" selected> Select Branch</option>
               <option *ngFor="let row1 of tbcdata" [value]="row1.branchUniqueId"> {{ row1.name }} </option>
             </select>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label form-after">To City</label>
+            <input type="text" class="form-control" formControlName="toCity" readonly />
+          </div>
+   
+
+
+          <div class="col-md-6">
+            <label class="form-label form-after">Drop Branch </label>
+            <input type="text" class="form-control" [value]="ffdata?.name || ''" readonly />
+            <input type="hidden" formControlName="dropBranch" />
           </div>
           <div class="col-md-6">
             <label class="form-label">Booking Type 

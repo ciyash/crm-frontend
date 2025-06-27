@@ -19,6 +19,9 @@ word-wrap: break-word">Parcel Booking</h4>
       Today Collection: Rs.<strong>{{ Ttotal.bookings[0].total }}</strong>
     </h5>
   </div>
+
+ 
+  
   <div class="card p-4">
     <form [formGroup]="form">
       <div *ngIf="bookingSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
@@ -27,13 +30,6 @@ word-wrap: break-word">Parcel Booking</h4>
       </div>
       <div class="row">
 
-        <!-- <div class="col-md-4">
-          <label class="form-label form-after">From City</label>
-          <select #selectElem class="form-select form-select-sm" formControlName="fromCity">
-            <option value="" selected>Select City</option>
-            <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
-          </select>
-        </div> -->
         
         <div class="col-md-4">
             <label class="form-label form-after">From City</label>
@@ -140,8 +136,11 @@ word-wrap: break-word">Parcel Booking</h4>
                 </td>
                 <td><input type="text" class="form-control form-select-sm" formControlName="contains"></td>
                 <td><input type="text" class="form-control form-select-sm" formControlName="weight"></td>
-                <td><input type="text" class="form-control form-select-sm" formControlName="unitPrice"
-                    (input)="calculateTotal(i)"></td>
+                <!-- <td><input type="text" class="form-control form-select-sm" formControlName="unitPrice"
+                    (input)="calculateTotal(i)"></td> -->
+
+                    <td><input type="number" class="form-control form-select-sm" [readonly]="disableUnitPrice" formControlName="unitPrice"
+                      (input)="calculateTotal(i)"></td>
                 <td><input type="text" class="form-control form-select-sm" formControlName="totalPrice" readonly></td>
                 <!-- <td>
                                     <button type="button" class="btn btn-success btn-sm" (click)="addOrderItem()">Add +</button>
@@ -167,7 +166,7 @@ word-wrap: break-word">Parcel Booking</h4>
       <!-- <button type="button" class="btn btn-danger btn-sm" (click)="addOrderItem()">Add +</button> -->
       <tr style="font-size: small;">
         <!-- <button type="button" class="btn btn-danger btn-sm" (click)="addOrderItem()">Add +</button> -->
-      <tr style="font-size: 13px;">
+      <tr style="font-size: 13px;" *ngIf="!hideChargesRow" >
         <th>GSt(+)</th>
         <th>Service Charges(+)</th>
         <th>Hamali Charges(+)</th>
@@ -176,20 +175,7 @@ word-wrap: break-word">Parcel Booking</h4>
         <th>Value of Goods</th>
         <th>Grand Total</th>
       </tr>
-      <!-- <tr>
-        <th><input type="text" class="form-control form-select-sm" readonly></th>
-        <th><input type="text" class="form-control form-select-sm" value="{{sdata}}" formControlName="serviceCharges"
-            (input)="calculateGrandTotal()"></th>
-        <th><input type="text" class="form-control form-select-sm" formControlName="hamaliCharges"
-            (input)="calculateGrandTotal()"></th>
-        <th><input type="text" class="form-control form-select-sm" formControlName="doorDeliveryCharges"
-            (input)="calculateGrandTotal()"></th>
-        <th><input type="text" class="form-control form-select-sm" formControlName="doorPickupCharges"
-            (input)="calculateGrandTotal()"></th>
-        <th><input type="text" class="form-control form-select-sm" formControlName="valueOfGoods"></th>
-        <th><input type="text" class="form-control form-select-sm" formControlName="grandTotal" readonly></th>
-      </tr> -->
-      <tr>
+      <tr *ngIf="!hideChargesRow">
         <th><input type="number" class="form-control form-select-sm" readonly></th>
         <th><input type="number" class="form-control form-select-sm" value="{{sdata}}" formControlName="serviceCharges"
             (input)="calculateGrandTotal()"></th>
@@ -202,7 +188,6 @@ word-wrap: break-word">Parcel Booking</h4>
         <th><input type="number" class="form-control form-select-sm" formControlName="valueOfGoods"></th>
         <th><input type="number" class="form-control form-select-sm" formControlName="grandTotal" readonly></th>
       </tr>
-
       <div class="container mt-0">
         <div class="row">
           <div class="col-lg-12">
@@ -408,7 +393,7 @@ word-wrap: break-word">Parcel Booking</h4>
       
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="confirmBooking()">Confirm</button>
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal"  [disabled]="loading"   (click)="confirmBooking()">Confirm</button>
               </div>
             </div>
           </div>
@@ -418,3 +403,14 @@ word-wrap: break-word">Parcel Booking</h4>
     </form>
   </div>
 </div>
+
+<!-- Loading Overlay -->
+<div *ngIf="loading" class="loading-overlay">
+  <div class="loading-message">
+    <div class="spinner-border text-primary mb-2" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="fw-bold text-primary mb-0">Please wait while booking...</p>
+  </div>
+</div>
+

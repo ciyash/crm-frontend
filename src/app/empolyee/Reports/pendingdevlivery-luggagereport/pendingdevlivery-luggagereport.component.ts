@@ -77,10 +77,6 @@ export class PendingdevliveryLuggagereportComponent {
       this.getProfileData();
     }
   
-    
-   
-    
-  
   
     itemsPerPage = 10;
   currentPage = 1;
@@ -139,8 +135,8 @@ export class PendingdevliveryLuggagereportComponent {
           console.log("profileData:", this.profileData);
           // Update form controls with profile data
           this.form.patchValue({
-            fromCity: this.pfdata || '', // Set fromCity to the city from branchId
-            pickUpBranch: this.ffdata?.branchUniqueId || '' // Set pickUpBranch to branchUniqueId
+            toCity: this.pfdata || '', 
+            dropBranch: this.ffdata?.branchUniqueId || '' 
           });
       
  
@@ -224,40 +220,23 @@ export class PendingdevliveryLuggagereportComponent {
    
   ngAfterViewInit(): void {
     setTimeout(() => {
-      // From City
-      // $(this.selectElem.nativeElement).select2();
-      // $(this.selectElem.nativeElement).val('').trigger('change'); // ✅ Corrected
-      // $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
-      //   const selectedCity = event.params.data.id;
-      //   this.form.patchValue({ fromCity: selectedCity });
-      //   this.onFromcitySelect({ target: { value: selectedCity } });
-      // });
-  
-      // // Pickup Branch
-      // $(this.pickupbranch.nativeElement).select2();
-      // $(this.pickupbranch.nativeElement).val('').trigger('change'); // ✅ Corrected
-      // $(this.pickupbranch.nativeElement).on('select2:select', (event: any) => {
-      //   const selectedBranch = event.params.data.id;
-      //   this.form.patchValue({ pickUpBranch: selectedBranch });
-      //   this.onPickupBranchSelect({ target: { value: selectedBranch } });
-      // });
-  
+
       // To City
       $(this.selectElem2.nativeElement).select2();
       $(this.selectElem2.nativeElement).val('').trigger('change'); // ✅ Corrected
       $(this.selectElem2.nativeElement).on('select2:select', (event: any) => {
-        const selectedToCity = event.params.data.id;
-        this.form.patchValue({ toCity: selectedToCity });
-        this.onTocitySelect({ target: { value: selectedToCity } });
+        const selectedfromCity = event.params.data.id;
+        this.form.patchValue({ fromCity: selectedfromCity });
+        this.onTocitySelect({ target: { value: selectedfromCity } });
       });
   
       // Drop Branch
       $(this.droupbranch.nativeElement).select2();
       $(this.droupbranch.nativeElement).val('').trigger('change'); // ✅ Corrected
       $(this.droupbranch.nativeElement).on('select2:select', (event: any) => {
-        const selectedDropBranch = event.params.data.id;
-        this.form.patchValue({ dropBranch: selectedDropBranch });
-        this.onDropBranchSelect({ target: { value: selectedDropBranch } });
+        const selectedpickUpBranch = event.params.data.id;
+        this.form.patchValue({ pickUpBranch: selectedpickUpBranch });
+        this.onDropBranchSelect({ target: { value: selectedpickUpBranch } });
       });
     }, 0);
   }

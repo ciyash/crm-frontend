@@ -14,16 +14,6 @@
             <option *ngFor="let city of cities" [value]="city.cityName">{{ city.cityName }}</option>
           </select>
         </div>
-
-        <!-- <div class="col-md-4 col-sm-12">
-          <label class="form-label ">To City</label>
-          <select #selectElem class="form-select form-select-sm" formControlName="toCity">
-            <option value="" selected>Select City</option>
-            <option *ngFor="let city of cities" [value]="city.cityName">
-              {{ city.cityName }}
-            </option>
-          </select>
-        </div> -->
         <div class="col-md-4">
           <label class="form-label form-after">To City</label>
           <input type="text" class="form-control" formControlName="toCity" style="background-color: #EEEEEE; border: 1px solid #ced4da;" readonly />
@@ -33,18 +23,6 @@
           <label class="form-label form-after">To Date</label>
           <input type="date" class="form-control form-control-sm" formControlName="toDate">
         </div>
-
-
-        <!-- <div class="col-md-4 col-sm-12">
-          <label class="form-label">Branch</label>
-          <select #branch class="form-select form-select-sm" formControlName="branch">
-            <option value="" selected>Select Branch</option>
-            <option *ngFor="let branch of tbcdata" [value]="branch.branchUniqueId">
-              {{ branch.name }}
-            </option>
-          </select>
-
-        </div> -->
         <div class="col-md-4">
           <label class="form-label form-after">To Branch</label>
           <input type="text" class="form-control" [value]="ffdata?.name || ''" readonly style="background-color: #EEEEEE; border: 1px solid #ced4da;" />
