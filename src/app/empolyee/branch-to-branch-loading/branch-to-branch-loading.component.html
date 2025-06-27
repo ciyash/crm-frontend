@@ -66,13 +66,7 @@
 
             <form [formGroup]="form1">
                 <div class="row">
-                    <!-- <div class="col-md-3">
-                        <label class="form-label">Vehicle No</label>
-                        <select #vehicle class="form-select form-select-sm mb-3" formControlName="vehicalNumber" aria-label="Large select example">
-                            <option value="" selected>Select Vehicle Number</option>
-                            <option *ngFor="let vehicle of vdata" [value]="vehicle.vehicleNo">{{ vehicle.vehicleNo }}</option>
-                        </select>
-                    </div> -->
+               
                     <div class="col-md-3">
                       <label class="form-label form-after">Vehicle No</label>
                       <select #vehicle class="form-select form-select-sm mb-3" formControlName="vehicalNumber" aria-label="Large select example">
@@ -85,7 +79,7 @@
                         <label class="form-label form-after">To Branch</label>
                         <select #toBranch class="form-select" formControlName="toBranch">
                           <option value="" selected>Select Branch</option>
-                          <option *ngFor="let branch of citydata" [value]="branch.branchUniqueId">
+                          <option *ngFor="let branch of ddata" [value]="branch.branchUniqueId">
                             {{ branch.name }}
                           </option>
                         </select>

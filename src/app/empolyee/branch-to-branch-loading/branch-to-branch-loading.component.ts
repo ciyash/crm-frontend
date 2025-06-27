@@ -22,6 +22,8 @@ export class BranchToBranchLoadingComponent {
     pdata:any;
     @ViewChild('toBranch') toBranch!: ElementRef;
     @ViewChild('vehicle') vehicle!: ElementRef;
+  toCityValue: any;
+  ddata: any;
     constructor(private api: BranchService, private fb: FormBuilder, private router:Router,private toast:ToastrService) {
       this.form = this.fb.group({
         fromBookingDate: [this.getTodayDateString(), Validators.required],
@@ -43,8 +45,11 @@ export class BranchToBranchLoadingComponent {
       
   
     }
+
+
   
     ngOnInit() {
+      this.getProfileData();
       this.api.GetBranch().subscribe({
         next: (res: any) => {
           this.citydata = res;
@@ -56,13 +61,49 @@ export class BranchToBranchLoadingComponent {
           console.log('vdata',res);
           this.vdata=res;
       });
-      this.api.GetProfileData().subscribe((res:any)=>{
-        console.log('profile',res);
-        this.pdata=res.branchId;
-        console.log("branchDETAILS",this.pdata);
-        
-      })
+
     }
+
+    getProfileData(): void {
+      this.api.GetProfileData().subscribe(
+        (res: any) => {
+          if (res?.branchId) {
+            this.pdata = res.branchId;
+            console.log("Branch Details:", this.pdata);
+    
+            this.toCityValue = res.branchId.city;
+            console.log("toCityValue:", this.toCityValue);
+    
+            if (this.toCityValue) {
+              this.api.GetBranchbyCity(this.toCityValue).subscribe(
+                (branchRes: any) => {
+                  console.log('Branches for selected city:', branchRes);
+                  this.ddata = branchRes;
+                },
+                (err: any) => {
+                  console.error('Error fetching branches:', err);
+                  this.ddata = [];
+                }
+              );
+            } else {
+              console.warn('City value not found in branch data.');
+              this.ddata = [];
+            }
+          } else {
+            console.warn('branchId not found in profile response.');
+            this.ddata = [];
+          }
+        },
+        (error: any) => {
+          console.error('Error fetching profile:', error);
+          this.ddata = [];
+        }
+      );
+    }
+    
+
+
+
   
     getTodayDateString(): string {
       const today = new Date();

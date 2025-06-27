@@ -138,41 +138,7 @@ export class BrachToBranchUnloadingComponent {
     
 
   
-    // loaddata(){
-    //     const payload = {
-    //       fromLoadingDate: this.form.value.fromLoadingDate,
-    //       toLoadingDate: this.form.value.toLoadingDate,
-    //       fromBranch: this.form.value.fromBranch,
-    //       toBranch: this.form.value.toBranch,
-    //     };
-    //     console.log('Final Payload:', payload);
-    //     this.api.postBranchtobranchUnLoadingFilter(payload).subscribe({
-    //       next: (response: any) => {
-    //         console.log('loaded successfully:', response);
-    //         alert('Parcel Loaded Successfully!');
-    //         this.data=response;
-    //         this.LoadSuccess = true;
-    //       // ✅ Assign loaded data to form1 fields
-    //       if (this.data.length > 0) {
-    //         this.form1.patchValue({
-    //           fromDate: this.form.value.fromLoadingDate,
-    //           toDate: this.form.value.toLoadingDate,
-    //           branch:this.form.value.fromBranch,
-    //           unloadBranch:this.form.value.toBranch,
-    //         });
-    
-    //         // ✅ Set `toCity`, `grnNo`, and `lrNumber` as FormArray
-    //         this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
-    //         this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
-    //       }
-    //       },
-    //       error: (error: any) => {
-    //         console.error('loading failed:', error);
-    //         alert('NO Parcel Loading . Please try again.');
-    //       },
-    //     });
-      
-    // }
+   
   
      setFormArray(controlName: string, values: any[]) {
         const formArray = this.form1.get(controlName) as FormArray;
