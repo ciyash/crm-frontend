@@ -106,6 +106,7 @@ export class ParcelDeliveryComponent {
     });
   }
 
+  // /1
   updateParcelStatus() {
     const payload = {
       grnNo: this.form2.value.grnNo,
