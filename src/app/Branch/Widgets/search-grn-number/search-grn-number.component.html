@@ -22,9 +22,14 @@
           Clear
         </button>
 
-        <button class="btn btn-primary" type="submit" data-bs-toggle="modal" data-bs-target="#extraLargeModal">
+        <!-- <button class="btn btn-primary" type="submit" data-bs-toggle="modal" data-bs-target="#extraLargeModal">
+          Load
+        </button> -->
+        
+        <button class="btn btn-primary" type="button" (click)="searchUser()">
           Load
         </button>
+        
       </div>
     </div>
   </form>
@@ -502,66 +507,5 @@
 
 
 
-
-
-
-
-
-<!-- Search Results -->
-<!-- <div *ngIf="data2" class="mt-4">
-    <h5>Search Results:</h5>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>LR/Gr Number</th>
-          <th>Pickup</th>
-          <th>Drop</th>
-          <th>From</th>
-          <th>To</th>
-          <th>Sender</th>
-          <th>Receiver</th>
-          <th>Charges</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of data2;">
-          <td >{{ user.bookingDate | date:'dd/MM/YYYY' }}</td>
-          <td style="cursor: pointer; color: blueviolet;" (click)="orderinvoice(user.grnNo)">{{ user.lrNumber }} </td>
-          <td>{{ user.pickUpBranch }}</td>
-          <td>{{ user.dropBranch }}</td>
-          <td>{{ user.fromCity }}</td>
-          <td>{{ user.toCity }}</td>
-          <td> {{user.senderName}} <br> {{user.senderMobile}} </td>
-          <td> {{user.receiverName}} <br> {{user.receiverMobile}} </td>
-          <td> {{user.grandTotal | currency:'INR':true:'1.0-1' }} </td>
-          <td style="cursor: pointer;" (click)="updateParcelStatus(user.grnNo)">
-            <ng-container *ngIf="user.bookingStatus=='0'">
-              <i class="fa fa-times-circle mb-2 text-danger" title="Booked"></i>Parcel Booked
-          </ng-container>
-          <ng-container *ngIf="user.bookingStatus=='1'">
-              <i class="fa fa-check-circle mb-2 text-success" title="Parcel Load"></i> Parcel Load
-          </ng-container>
-          <ng-container *ngIf="user.bookingStatus=='2'">
-              <i class="fa fa-check-circle mb-2 text-primary" title="Parcel OnLoad"></i> Parcel OnLoad
-          </ng-container>
-          <ng-container *ngIf="user.bookingStatus=='3'">
-              <i class="fa fa-check-circle mb-2 text-warning" title="Parcel Missing"></i> Parcel Missing 
-          </ng-container>
-          <ng-container *ngIf="user.bookingStatus=='4'">
-              <i class="fa fa-check-circle mb-2 text-success" title="Parcel Delivered"></i> Parcel
-              Delivered
-          </ng-container>
-          <ng-container *ngIf="user.bookingStatus=='5'">
-              <i class="pi pi-times-circle mb-2 text-danger" title="Parcel Cancel"></i> Parcel Cancel
-          </ng-container>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div *ngIf="errorMessage" class="text-danger mt-3">
-    {{ errorMessage }}
-  </div> -->
+<!-- Hidden button for programmatic modal open -->
+<button #openModalBtn class="d-none" data-bs-toggle="modal" data-bs-target="#extraLargeModal"></button>

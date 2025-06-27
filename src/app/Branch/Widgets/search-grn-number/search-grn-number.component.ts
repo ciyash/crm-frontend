@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -9,6 +9,8 @@ import { BranchService } from 'src/app/service/branch.service';
   styleUrls: ['./search-grn-number.component.scss'],
 })
 export class SearchGrnNumberComponent {
+  @ViewChild('openModalBtn') openModalBtn!: ElementRef;
+
   searchResult: any[] = [];
   idselectmsg: string = '';
   regname: any[] = [];
@@ -88,6 +90,7 @@ searchUser(): void {
       grnNo: '',
       lrNumber: '',
     };
+
     switch (this.searchField) {
       case 'senderMobile':
         searchPayload.mobile = this.searchTerm.trim();
@@ -103,12 +106,28 @@ searchUser(): void {
         break;
     }
 
-    this.api.GetSearch(searchPayload).subscribe((res: any) => {
-      this.data2 = res;
-      console.log('Search result:', this.data2);
-    });
+    this.api.GetSearch(searchPayload).subscribe(
+      (res: any) => {
+        if (res && res.length > 0) {
+          this.data2 = res;
+          console.log('Search result:', this.data2);
+          // Programmatically trigger modal
+          this.openModalBtn.nativeElement.click();
+        } else {
+          this.toast.warning('No data found for your search.');
+          this.data2 = [];
+        }
+      },
+      (error) => {
+        console.error('Search error:', error);
+        this.toast.error('An error occurred while searching.');
+      }
+    );
   }
 }
+
+
+
 
 clearSearch(): void {
   this.searchTerm = '';

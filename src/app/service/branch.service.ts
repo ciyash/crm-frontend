@@ -5,8 +5,8 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { TokenService } from './token.service';
 
-// const AUTH_API = 'https://cargo-backend-bpq4.onrender.com/'
-const AUTH_API = 'http://3.109.182.152:4000/'
+const AUTH_API = 'https://cargo-backend-bpq4.onrender.com/'
+// const AUTH_API = 'http://3.109.182.152:4000/'
 
 
 @Injectable({

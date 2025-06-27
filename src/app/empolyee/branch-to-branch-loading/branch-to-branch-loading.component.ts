@@ -12,9 +12,6 @@ declare const SlimSelect: any;
   styleUrls: ['./branch-to-branch-loading.component.scss']
 })
 export class BranchToBranchLoadingComponent {
-
-
-
     citydata: any = []; // Ensure it's initialized to prevent undefined 
     form: FormGroup;
     vdata:any;
@@ -25,8 +22,6 @@ export class BranchToBranchLoadingComponent {
     pdata:any;
     @ViewChild('toBranch') toBranch!: ElementRef;
     @ViewChild('vehicle') vehicle!: ElementRef;
-  
-  
     constructor(private api: BranchService, private fb: FormBuilder, private router:Router,private toast:ToastrService) {
       this.form = this.fb.group({
         fromBookingDate: [this.getTodayDateString(), Validators.required],
@@ -93,49 +88,6 @@ export class BranchToBranchLoadingComponent {
         });
     }, 0);}
     
-  
-
-    
-    
-    // loaddata() {
-    //   const payload = {
-    //     fromBookingDate: this.form.value.fromBookingDate,
-    //     toBookingDate: this.form.value.toBookingDate,
-    //     fromBranch: this.form.value.fromBranch,
-    //   };
-    
-    //   console.log('Final Payload:', payload);
-    
-    //   this.api.postBranchLoading(payload).subscribe({
-    //     next: (response: any) => {
-    //       console.log('loaded successfully:', response);
-    //       const successMessage = response?.message || 'Parcel Branch loading successfully';
-    //       this.toast.success(successMessage, 'Success');
-    
-    //       this.data = response;
-    //       this.LoadSuccess = true;
-    
-    //       if (this.data.length > 0) {
-    //         this.form1.patchValue({
-    //           // fromBranch: this.form.value.fromBranch,
-    //           // fromCity: this.form.value.fromCity,
-    //           fromBranch: this.form1.value.fromBranch,
-    //           fromCity: this.form1.value.fromCity,
-      
-    //         });
-    //         this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
-    //         this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
-    //         this.setFormArray('toCity', this.data.map((d: any) => d.toCity)); // Ensure toCity is set
-    //       }
-    //     },
-    //     error: (error: any) => {
-    //       console.error('loading failed:', error);
-    //       const errorMessage = error?.error?.message || 'Failed to load parcel data';
-    //       this.toast.error(errorMessage, 'Error');
-    //     },
-    //   });
-    // }
-
 
     loaddata() {
       const payload = {
@@ -145,14 +97,10 @@ export class BranchToBranchLoadingComponent {
       };
       console.log('Final Payload:', payload);
     
-      // 🔄 Reset relevant states before making API call
       this.data = [];
       this.LoadSuccess = false;
-    
-      // Optional: Clear form1 fields and arrays if needed
       this.form1.reset();
-     
-    
+
       this.api.postBranchLoading(payload).subscribe({
         next: (response: any) => {
           console.log('loaded successfully:', response);
@@ -194,20 +142,16 @@ export class BranchToBranchLoadingComponent {
     onGrnNoChange(event: any, grnNo: string) {
       const formArray = this.form1.get('grnNo') as FormArray;
       if (event.target.checked) {
-        // Add if not already selected
         if (!formArray.value.includes(grnNo)) {
           formArray.push(this.fb.control(grnNo));
         }
       } else {
-        // Remove if unchecked
         const index = formArray.value.indexOf(grnNo);
         if (index > -1) {
           formArray.removeAt(index);
         }
       }
-    
-      // ✅ Update "Select All" status based on selected values
-      this.allSelected = this.data.length === formArray.value.length;
+          this.allSelected = this.data.length === formArray.value.length;
       console.log('Selected GRN Numbers:', formArray.value);
     }
     
@@ -215,14 +159,12 @@ export class BranchToBranchLoadingComponent {
     onSelectAllChange(event: any) {
       const formArray = this.form1.get('grnNo') as FormArray;
       if (event.target.checked) {
-        // ✅ Select all if checked
         this.data.forEach((row:any) => {
           if (!formArray.value.includes(row.grnNo)) {
             formArray.push(this.fb.control(row.grnNo));
           }
         });
       } else {
-        // ✅ Deselect all if unchecked
         formArray.clear();
       }
       // ✅ Update "Select All" status

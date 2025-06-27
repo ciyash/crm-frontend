@@ -3,9 +3,9 @@ import { TokenService } from './token.service';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-// const AUTH_API = 'https://cargo-backend-bpq4.onrender.com/'
+const AUTH_API = 'https://cargo-backend-bpq4.onrender.com/'
 
-const AUTH_API = 'http://3.109.182.152:4000/'
+// const AUTH_API = 'http://3.109.182.152:4000/'
 
 
 @Injectable({
