@@ -108,8 +108,6 @@ import { SubDashboardComponent } from './SubAdmin/sub-dashboard/sub-dashboard.co
 import { TopayReportComponent } from './Branch/Reports/topay-report/topay-report.component';
 import { AllReportComponent } from './Branch/Reports/all-report/all-report.component';
 import { BookingTypeWiseReportComponent } from './Branch/Reports/booking-type-wise-report/booking-type-wise-report.component';
-
-
 const routes: Routes = [
   {path:"login",component:LoginComponent },
    {path:"clogin",component:CompanyLoginComponent },

@@ -70,6 +70,8 @@ export class SubBookingComponent {
     hideChargesRow: boolean = false;
   selectedBookingType: any;
   loading: boolean = false;
+  previousCharges: any;
+  previousPackageValues:any;
 
 
     constructor(private fb: FormBuilder, private api: BranchService, private token:TokenService,
@@ -118,21 +120,70 @@ export class SubBookingComponent {
     ngOnInit() {
       // foc
       this.form.get('bookingType')?.valueChanges.subscribe((val: string) => {
-        this.disableUnitPrice = (val === 'FOC');
-        this.hideChargesRow = (val === 'FOC');
         const packagesArray = (this.form.get('packages') as FormArray).controls;
+      
         if (val === 'FOC') {
-          for (let pkg of packagesArray) {
+          // Store unit and total price for each package
+          this.previousPackageValues = packagesArray.map(pkg => ({
+            unitPrice: pkg.get('unitPrice')?.value || 0,
+            totalPrice: pkg.get('totalPrice')?.value || 0,
+          }));
+      
+          // Store all extra charges
+          this.previousCharges = {
+            serviceCharges: this.form.get('serviceCharges')?.value || 0,
+            hamaliCharges: this.form.get('hamaliCharges')?.value || 0,
+            doorDeliveryCharges: this.form.get('doorDeliveryCharges')?.value || 0,
+            doorPickupCharges: this.form.get('doorPickupCharges')?.value || 0,
+            valueOfGoods: this.form.get('valueOfGoods')?.value || 0,
+            grandTotal: this.form.get('grandTotal')?.value || 0,
+          };
+      
+          this.disableUnitPrice = true;
+          this.hideChargesRow = true;
+      
+          // Zero all prices
+          packagesArray.forEach(pkg => {
             pkg.get('unitPrice')?.setValue(0);
-          }
-          this.form.get('serviceCharges')?.setValue(0); // Force serviceCharges = 0
+            pkg.get('totalPrice')?.setValue(0);
+          });
+      
+          this.form.get('serviceCharges')?.setValue(0);
+          this.form.get('hamaliCharges')?.setValue(0);
+          this.form.get('doorDeliveryCharges')?.setValue(0);
+          this.form.get('doorPickupCharges')?.setValue(0);
+          this.form.get('valueOfGoods')?.setValue(0);
+          this.form.get('grandTotal')?.setValue(0);
+      
+          this.calculateGrandTotal();
         } else {
-          // If from-to cities already selected, fetch charges again
+          // Restore package prices
+          packagesArray.forEach((pkg, index) => {
+            const prev = this.previousPackageValues[index];
+            if (prev) {
+              pkg.get('unitPrice')?.setValue(prev.unitPrice);
+              pkg.get('totalPrice')?.setValue(prev.totalPrice);
+            }
+          });
+      
+          // Restore charges
+          this.form.get('serviceCharges')?.setValue(this.previousCharges.serviceCharges);
+          this.form.get('hamaliCharges')?.setValue(this.previousCharges.hamaliCharges);
+          this.form.get('doorDeliveryCharges')?.setValue(this.previousCharges.doorDeliveryCharges);
+          this.form.get('doorPickupCharges')?.setValue(this.previousCharges.doorPickupCharges);
+          this.form.get('valueOfGoods')?.setValue(this.previousCharges.valueOfGoods);
+          this.form.get('grandTotal')?.setValue(this.previousCharges.grandTotal);
+      
+          this.disableUnitPrice = false;
+          this.hideChargesRow = false;
+      
           const fromCity = this.form.get('fromCity')?.value;
           const toCity = this.form.get('toCity')?.value;
           if (fromCity && toCity) {
-            this.fetchServiceCharges(); // Get correct charges based on cities
+            this.fetchServiceCharges();
           }
+      
+          this.calculateGrandTotal();
         }
       });
 

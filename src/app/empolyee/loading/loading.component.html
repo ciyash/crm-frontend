@@ -92,20 +92,11 @@ word-wrap: break-word">Parcel Loading Offline</h4>
       <table class="table table-bordered table-striped">
         <thead>
           <tr>
-            <!-- <th>
-              <input type="checkbox" 
-                     [checked]="allSelected" 
-                     (change)="onSelectAllChange($event)" /> Select All
-            </th> -->
             <th>
               <input type="checkbox" 
               [checked]="allSelected" 
               (change)="onSelectAllChange($event)" /> Select All
             </th>
-     
-  
-   
-            
             <th>S.No</th>
             <th>LR No</th>
             <th>Book by Branch</th>
@@ -122,16 +113,6 @@ word-wrap: break-word">Parcel Loading Offline</h4>
         <tbody>
           <tr *ngFor="let row of data; let i = index">
 
-          <!-- <td>
-
-<input
-  type="checkbox"
-  [(ngModel)]="row._checked"
-  name="grn_{{ row.grnNo }}"
-/>
-
-
-          </td> -->
           <td> 
             <input
               type="checkbox"
@@ -153,11 +134,8 @@ word-wrap: break-word">Parcel Loading Offline</h4>
           </tr>
         </tbody>
       </table>
-
     </div>
-
   </div>
-
   <form [formGroup]="form1">
     <div class="container pb-3">
       <div class="row pt-3">
@@ -181,15 +159,7 @@ word-wrap: break-word">Parcel Loading Offline</h4>
             <div *ngIf="form1.get('driverName')?.errors?.['minlength']">Must be at least 3 characters.</div>
           </div>
         </div>
-        
-        <!-- <div class="col-md-3 col-sm-12">
-          <label class="form-label form-after">Driver Number</label>
-          <input type="text" class="form-control form-select-sm" placeholder="Enter Conductor Number" formControlName="driverNo">
-          <div class="text-danger" *ngIf="form1.get('driverNo')?.touched && form1.get('driverNo')?.invalid">
-            <div *ngIf="form1.get('driverNo')?.errors?.['required']">Conductor Number is required.</div>
-            <div *ngIf="form1.get('driverNo')?.errors?.['pattern']">Must be 10 digits.</div>
-          </div>
-        </div> -->
+      
         <div class="col-md-3 col-sm-12">
           <label class="form-label form-after">Driver Number</label>
           <input type="text"

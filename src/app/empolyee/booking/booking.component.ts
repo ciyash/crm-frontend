@@ -29,7 +29,6 @@ export class BookingComponent {
   pfdata:any;
   bookingSuccess: boolean = false;
   gdata:any;
-  packdata:any;
   fbcdata:any;
   tbcdata:any;
   pdata:any;
@@ -43,8 +42,6 @@ export class BookingComponent {
   userList: any[] = [];
   showDropdown:boolean=true;
   loading: boolean = false;
-
-  
   dptype:any;
   @ViewChild('selectElem') selectElem!: ElementRef;
   @ViewChild('pickupbranch') pickupbranch!: ElementRef;
@@ -69,8 +66,8 @@ export class BookingComponent {
   disableUnitPrice: boolean = false;
   hideChargesRow: boolean = false;
   selectedBookingType: any;
-  
-
+  previousCharges: any;
+  previousPackageValues: any
   constructor(private fb: FormBuilder, private api: BranchService, private token:TokenService,
      private cdr: ChangeDetectorRef,  private route: ActivatedRoute,private toastr:ToastrService, 
      private router:Router, private admin:AdminService) {
@@ -104,33 +101,81 @@ export class BookingComponent {
         this.form1 = this.fb.group({
           fromCity: [''],
           toCity: ['', Validators.required],
+          
             });
             this.form2=this.fb.group({
               bookingDate:['',Validators.required],
               pickupBranch:['',Validators.required]
             })
    }
-  ngOnInit() {
-    // FOC 
+   ngOnInit() {
     this.form.get('bookingType')?.valueChanges.subscribe((val: string) => {
-      this.disableUnitPrice = (val === 'FOC');
-      this.hideChargesRow = (val === 'FOC');
       const packagesArray = (this.form.get('packages') as FormArray).controls;
+    
       if (val === 'FOC') {
-        for (let pkg of packagesArray) {
+        // Store unit and total price for each package
+        this.previousPackageValues = packagesArray.map(pkg => ({
+          unitPrice: pkg.get('unitPrice')?.value || 0,
+          totalPrice: pkg.get('totalPrice')?.value || 0,
+        }));
+    
+        // Store all extra charges
+        this.previousCharges = {
+          serviceCharges: this.form.get('serviceCharges')?.value || 0,
+          hamaliCharges: this.form.get('hamaliCharges')?.value || 0,
+          doorDeliveryCharges: this.form.get('doorDeliveryCharges')?.value || 0,
+          doorPickupCharges: this.form.get('doorPickupCharges')?.value || 0,
+          valueOfGoods: this.form.get('valueOfGoods')?.value || 0,
+          grandTotal: this.form.get('grandTotal')?.value || 0,
+        };
+    
+        this.disableUnitPrice = true;
+        this.hideChargesRow = true;
+    
+        // Zero all prices
+        packagesArray.forEach(pkg => {
           pkg.get('unitPrice')?.setValue(0);
-        }
-        this.form.get('serviceCharges')?.setValue(0); // Force serviceCharges = 0
+          pkg.get('totalPrice')?.setValue(0);
+        });
+    
+        this.form.get('serviceCharges')?.setValue(0);
+        this.form.get('hamaliCharges')?.setValue(0);
+        this.form.get('doorDeliveryCharges')?.setValue(0);
+        this.form.get('doorPickupCharges')?.setValue(0);
+        this.form.get('valueOfGoods')?.setValue(0);
+        this.form.get('grandTotal')?.setValue(0);
+    
+        this.calculateGrandTotal();
       } else {
-        // If from-to cities already selected, fetch charges again
+        // Restore package prices
+        packagesArray.forEach((pkg, index) => {
+          const prev = this.previousPackageValues[index];
+          if (prev) {
+            pkg.get('unitPrice')?.setValue(prev.unitPrice);
+            pkg.get('totalPrice')?.setValue(prev.totalPrice);
+          }
+        });
+    
+        // Restore charges
+        this.form.get('serviceCharges')?.setValue(this.previousCharges.serviceCharges);
+        this.form.get('hamaliCharges')?.setValue(this.previousCharges.hamaliCharges);
+        this.form.get('doorDeliveryCharges')?.setValue(this.previousCharges.doorDeliveryCharges);
+        this.form.get('doorPickupCharges')?.setValue(this.previousCharges.doorPickupCharges);
+        this.form.get('valueOfGoods')?.setValue(this.previousCharges.valueOfGoods);
+        this.form.get('grandTotal')?.setValue(this.previousCharges.grandTotal);
+    
+        this.disableUnitPrice = false;
+        this.hideChargesRow = false;
+    
         const fromCity = this.form.get('fromCity')?.value;
         const toCity = this.form.get('toCity')?.value;
         if (fromCity && toCity) {
-          this.fetchServiceCharges(); // Get correct charges based on cities
+          this.fetchServiceCharges();
         }
+    
+        this.calculateGrandTotal();
       }
     });
-
     this.grnNo = '';
     this.route.paramMap.subscribe((params) => {
       this.grnNo = params.get('grnNo');
@@ -197,10 +242,7 @@ export class BookingComponent {
       this.branchdata=res;
     });
     //get Packages
-    this.api.GetPAckagesType().subscribe((res:any)=>{
-      console.log(res);
-      this.packdata=res;
-    });
+
     this.admin.GetDispatchtypeData().subscribe((res:any)=>{
       console.log(res);
       this.dptype=res;
@@ -221,6 +263,9 @@ export class BookingComponent {
     });
   }
  
+  
+
+  
   ngAfterViewInit(): void {
     setTimeout(() => {  
       // Initialize Select2 for To City
@@ -234,6 +279,15 @@ export class BookingComponent {
       });
       // Initialize Select2 for Drop Branch
       $(this.droupbranch.nativeElement).select2();
+
+      $(this.droupbranch.nativeElement).on('select2:opening', (event: any) => {
+        const toCity = this.form.get('toCity')?.value;
+        if (!toCity) {
+          this.toastr.warning('Please select To City first', 'Missing Input');
+          event.preventDefault(); // Prevent dropdown from opening
+        }
+      });
+      
       $(this.droupbranch.nativeElement).on('select2:select', (event: any) => {
         const selectedDropBranch = event.params.data.id;
         console.log('Selected Drop Branch:', selectedDropBranch);
@@ -241,10 +295,19 @@ export class BookingComponent {
         console.log('Updated form value:', this.form.value);
         this.onDropBranchSelect({ target: { value: selectedDropBranch } });
       });
+      
 
     }, 0);
   }
+
+  onDropBranchTouched(): void {
+    const dropBranchControl = this.form.get('dropBranch');
+    dropBranchControl?.markAsTouched();
   
+    if (!this.form.get('toCity')?.value) {
+      this.toastr.warning('Please select To City first', 'Missing Input');
+    }
+  }
   onBookingTypeChange(event: any) {
     const value = event.target.value;
     this.selectedBookingType = value;
@@ -270,6 +333,57 @@ export class BookingComponent {
       this.form.get('serviceCharges')?.setValue(10);
     }
   }
+
+  
+  canEnableUnitPriceFor(index: number): boolean {
+    const pkgArray = this.form.get('packages') as FormArray;
+    const item = pkgArray.at(index);
+  
+    return !!this.form.get('toCity')?.value &&
+           !!this.form.get('dropBranch')?.value &&
+           !!this.form.get('bookingType')?.value &&
+           !!item.get('packageType')?.value;
+  }
+  
+  isUnitPriceTouched(index: number): boolean {
+    const pkgArray = this.form.get('packages') as FormArray;
+    const control = pkgArray.at(index).get('unitPrice');
+    return !!control?.touched;
+  }
+  // 
+  senderMobileTouched = false;
+  get isSenderMobileEnabled(): boolean {
+    const pkgArray = this.form.get('packages') as FormArray;
+    const item = pkgArray.at(0); 
+    return !!this.form.get('fromCity')?.value &&
+           !!this.form.get('dropBranch')?.value &&
+           !!this.form.get('bookingType')?.value &&
+           !!item?.get('packageType')?.value &&
+           !!item?.get('unitPrice')?.value &&
+           !!this.form.get('senderName')?.value;
+  }
+
+  onSenderMobileBlur() {
+    this.senderMobileTouched = true;
+  }
+
+
+
+  
+
+
+
+  
+  
+  
+  
+  allowOnlyNumbers(event: KeyboardEvent): void {
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+    }
+  }
+  
   
 
 
@@ -297,36 +411,64 @@ export class BookingComponent {
     });
   }
 
-// fetchServiceCharges() {
-//   const fromCity = this.form.get('fromCity')?.value;
-//   const toCity = this.form.get('toCity')?.value;
-
-//   if (fromCity && toCity) {
-//     this.api.FilterBookingServiceCharges({ fromCity, toCity }).subscribe(
-//       (res: any) => {
-//         console.log('Service Charges:', res);
-
-//         if (res && res.length > 0) {
-//           const chargeData = res[0]; // First item in the array
-//           this.sdata = chargeData.serviceCharge || 0;
-
-//           // Update form with service charges and recalculate total
-//           this.form.patchValue({ serviceCharges: this.sdata });
-//           this.calculateGrandTotal();
-//         } else {
-//           console.warn('No service charge found for the given cities.');
-//           this.form.patchValue({ serviceCharges: 0 });
-//           this.calculateGrandTotal();
-//         }
-//       },
-//       (error: any) => {
-//         console.error('Error fetching service charges:', error);
-//       }
-//     );
-//   } else {
-//     console.warn('Both fromCity and toCity must be selected.');
-//   }
-// }
+  
+  packageTypeError: boolean = false;
+  packdata: any[] = [];
+  
+  get canEnablePackageType(): boolean {
+    // Purely checks conditions (no API call)
+    return !!this.form.get('toCity')?.value &&
+           !!this.form.get('dropBranch')?.value &&
+           !!this.form.get('bookingType')?.value;
+  }
+  
+  handlePackageTypeClick(): void {
+    if (this.canEnablePackageType) {
+      this.packageTypeError = false;
+  
+      // Only load package types once (optional: add a guard)
+      if (this.packdata.length === 0) {
+        this.loadPackageTypes();
+      }
+    } else {
+      this.packageTypeError = true;
+    }
+  }
+  
+  loadPackageTypes(): void {
+    this.api.GetPAckagesType().subscribe((res: any) => {
+      this.packdata = res;
+      console.log('Package Types:', this.packdata);
+    });
+  }
+  
+  
+  get canEnableSenderName(): boolean {
+    return !!this.form.get('fromCity')?.value &&
+           !!this.form.get('dropBranch')?.value &&
+           !!this.form.get('bookingType')?.value &&
+           !!this.form.get('packages')?.value?.[0]?.packageType &&
+           !!this.form.get('packages')?.value?.[0]?.unitPrice;
+  }
+  
+  senderWarning: boolean = false;
+  
+  onSenderFocus(): void {
+    this.senderWarning = !this.canEnableSenderName;
+  }
+  
+  onSenderInput(): void {
+    if (this.canEnableSenderName) {
+      this.searchUser();
+      this.senderWarning = false;
+    }
+  }
+  
+  
+  
+  
+  
+  
 
 fetchServiceCharges() {
   const fromCity = this.form.get('fromCity')?.value;
@@ -358,12 +500,12 @@ fetchServiceCharges() {
   }
 }
 
-allowOnlyNumbers(event: KeyboardEvent) {
-  const charCode = event.which ? event.which : event.keyCode;
-  if (charCode < 48 || charCode > 57) {
-    event.preventDefault(); // Only digits (0–9)
-  }
-}
+// allowOnlyNumbers(event: KeyboardEvent) {
+//   const charCode = event.which ? event.which : event.keyCode;
+//   if (charCode < 48 || charCode > 57) {
+//     event.preventDefault(); // Only digits (0–9)
+//   }
+// }
 
 onFromcitySelect(event: any) {
   const cityName = event.target.value;

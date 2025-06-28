@@ -17,9 +17,7 @@ declare const SlimSelect: any;
   styleUrls: ['./loading.component.scss']
 })
 export class LoadingComponent {
-
   allSelected = false; // Initialize as false
-
   adminData: any;
   form!: FormGroup;
   form1:FormGroup;
@@ -36,17 +34,13 @@ export class LoadingComponent {
   qrdata: string = '';
   showScanner: boolean = false;
   tbcdata:any;
-
    @ViewChild('SelectVechicle')SelectVechicle!:ElementRef;
   @ViewChild('demoSelect') demoSelect!: ElementRef;
   @ViewChild('printTable') printTable!: ElementRef;
-
   BranchSelect: any;
   pfdata: any;
   ffdata: any;
   profileData: any;
-  
-
   constructor(private api: BranchService, private token:TokenService,
      private fb: FormBuilder, private messageService:MessageService,
       private router:Router, private activeroute:ActivatedRoute,private toast:ToastrService) {
@@ -54,7 +48,7 @@ export class LoadingComponent {
         startDate: [this.getTodayDateString(), Validators.required],
         endDate: [this.getTodayDateString(), Validators.required],
         fromCity: ['',Validators.required],               
-        toCity: this.fb.array([]),     
+        toCity: this.fb.array([], Validators.required),
         pickUpBranch: ['',Validators.required], 
       });
 
@@ -64,9 +58,7 @@ export class LoadingComponent {
         toBranch: ['',],
         vehicalNumber: ['', Validators.required],
         driverName: ['', [Validators.required, Validators.minLength(3)]],
-        // driverNo: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
         driverNo: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
-
         fromBookingDate: ['',],
         toBookingDate: ['', ],
         fromCity:[''],
@@ -131,29 +123,22 @@ export class LoadingComponent {
 
 
 onLoad() {
-  if (this.form.invalid) {
-    this.form.markAllAsTouched(); // Trigger all validations
-    return;
-  }
   const today = this.getTodayDateString();
   const formValues = this.form.value;
-  
+
+  // Validate required fields
+  if (!formValues.startDate || !formValues.endDate || !formValues.fromCity || !formValues.toCity?.length || !formValues.pickUpBranch) {
+    this.toast.error('All fields (Start Date, End Date, From City, To City, Pickup Branch) are required.', 'Validation Error');
+    return;
+  }
+
   const payload: any = {
-    startDate: formValues.startDate || today,
-    endDate: formValues.startDate || today
+    startDate: formValues.startDate,
+    endDate: formValues.endDate,
+    fromCity: formValues.fromCity,
+    toCity: formValues.toCity,
+    pickUpBranch: formValues.pickUpBranch
   };
-
-  if (formValues.fromCity) {
-    payload.fromCity = formValues.fromCity;
-  }
-
-  if (formValues.toCity && formValues.toCity.length > 0) {
-    payload.toCity = formValues.toCity;
-  }
-
-  if (formValues.pickUpBranch) {
-    payload.pickUpBranch = formValues.pickUpBranch;
-  }
 
   console.log('Final Parcel Load Data:', payload);
 
@@ -182,9 +167,7 @@ onLoad() {
     },
     error: (error: any) => {
       console.error('Parcel Load Error:', error);
-
       const errorMessage = error?.error?.message || error?.message || 'An error occurred during parcel load.';
-
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
         this.router.navigate(['/employee-loading']);
         this.toast.error(errorMessage, "Parcel Load Failed");
@@ -195,6 +178,7 @@ onLoad() {
 
 
 
+
   setFormArray(controlName: string, values: any[]) {
     const formArray = this.form1.get(controlName) as FormArray;
     formArray.clear(); // ✅ Clear previous values
@@ -202,55 +186,6 @@ onLoad() {
       formArray.push(this.fb.control(value));
     });
   }
-
-
-  // onGrnNoChange(event: any, grnNo: string) {
-  //   const formArray = this.form1.get('grnNo') as FormArray;
-  
-  //   if (event.target.checked) {
-  //     if (!formArray.value.includes(grnNo)) {
-  //       formArray.push(this.fb.control(grnNo));
-  //     }
-  //   } else {
-  //     const index = formArray.value.indexOf(grnNo);
-  //     if (index > -1) {
-  //       formArray.removeAt(index);
-  //     }
-  //   }
-  
-  //   // Update select all status
-  //   this.allSelected = this.data.every((row: { grnNo: any; }) =>
-  //     formArray.value.includes(row.grnNo)
-  //   );
-  // }
-  // onSelectAllChange(event: any) {
-    
-  //   const formArray = this.form1.get('grnNo') as FormArray;
-  //   formArray.clear(); // Clear previous
-  
-  //   if (event.target.checked) {
-  //     this.data.forEach((row: any) => {
-  //       row._checked = true;
-  //       formArray.push(this.fb.control(row.grnNo)); // Push all GRNs
-  //     });
-  //   } else {
-  //     this.data.forEach((row: any) => row._checked = false);
-  //   }
-  
-  //   this.allSelected = event.target.checked;
-  // }
-  // onManualCheckboxChange(row: any) {
-  //   const formArray = this.form1.get('grnNo') as FormArray;
-  //   formArray.clear();
-  
-  //   this.data.forEach((item: any) => {
-  //     if (item._checked) {
-  //       formArray.push(this.fb.control(item.grnNo));
-  //     }
-  //   });
-  
-  //   this.allSelected = this.data.every((item: any) => item._checked);
-  // }
 
   selectedGrns: string[] = [];
  
