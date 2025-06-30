@@ -60,7 +60,7 @@
       
 
       </div>
-
+      
       <div class="text-center mt-3">
         <button class="btn ms-auto" style="background-color: #034F92; color: white;" type="submit">
           LOAD
@@ -83,7 +83,7 @@
       <form [formGroup]="form2">
         <div class="row">
           <input type="hidden" formControlName="grnNo" [ngModel]="data2[0]?.grnNo" />
-
+           <input type="text" class="form-control" formControlName="deliveryAmount" [ngModel]="data2[0]?.grandTotal" hidden />
           <div class="col-md-4 mb-3">
             <label for="receiverName1" class="form-label">Delivery Receiver Name</label>
             <input
@@ -107,7 +107,7 @@
           </div>
 
           <div class="col-md-2 d-flex align-items-end mb-3">
-            <button type="button" class="btn btn-success btn-lg w-100" (click)="updateParcelStatus()">
+            <button type="button" class="btn btn-success btn-sm w-100" (click)="updateParcelStatus()">
               Submit
             </button>
           </div>

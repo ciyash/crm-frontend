@@ -822,6 +822,7 @@ ReceivedParcelUpdate(value: {
   grnNo: string;
   receiverName:string;
   receiverMobile:string;
+  deliveryAmount:number;
   
 }) {
   const token1 = this.token.getToken();
@@ -837,6 +838,7 @@ ReceivedParcelUpdate(value: {
       grnNo: value.grnNo,
       receiverName:value.receiverName,
       receiverMobile:value.receiverMobile,
+      deliveryAmount:value.deliveryAmount,
       
   },
     httpOptions

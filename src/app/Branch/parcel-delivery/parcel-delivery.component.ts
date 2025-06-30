@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 export class ParcelDeliveryComponent {
   searchTerm: string = '';
   searchResult: any[] = [];
-  data2: any[] = [];
+  data2: any;
   idselectmsg: string = '';
   regname: any[] = [];
   errorMessage: string = '';
@@ -43,6 +43,7 @@ export class ParcelDeliveryComponent {
       receiverName: [''],
       receiverMobile: [''],
       lrNumber: [''],
+      deliveryAmount:[Validators.required],
     });
   }
 
@@ -112,8 +113,9 @@ export class ParcelDeliveryComponent {
       grnNo: this.form2.value.grnNo,
       receiverName: this.form2.value.receiverName,
       receiverMobile: this.form2.value.receiverMobile,
+      deliveryAmount:this.form2.value.deliveryAmount,
     };
-
+    console.log(this.form2.value.deliveryAmount);
     this.api.ReceivedParcelUpdate(payload).subscribe(
       (res: any) => {
         this.updata = res;
