@@ -95,7 +95,7 @@
             />
           </div>
 
-          <div class="col-md-4 mb-3">
+          <!-- <div class="col-md-4 mb-3">
             <label for="receiverMobile1" class="form-label">Delivery Receiver Phone</label>
             <input
               type="text"
@@ -104,7 +104,36 @@
               formControlName="receiverMobile"
               placeholder="Enter receiver phone"
             />
+          </div> -->
+          <div class="col-md-4 mb-3">
+            <label for="receiverMobile1" class="form-label">Delivery Receiver Phone</label>
+            <input
+              type="text"
+              class="form-control"
+              id="receiverMobile1"
+              formControlName="receiverMobile"
+              placeholder="Enter receiver phone"
+              maxlength="10"
+              inputmode="numeric"
+              (keypress)="allowOnlyNumbers($event)"
+            />
+          
+            <!-- Validation message -->
+            <div
+              class="text-danger mt-1"
+              *ngIf="form.get('receiverMobile')?.touched && form.get('receiverMobile')?.invalid"
+            >
+              <div *ngIf="form.get('receiverMobile')?.errors?.['required']">
+                Phone number is required.
+              </div>
+              <div *ngIf="form.get('receiverMobile')?.errors?.['pattern']">
+                Enter exactly 10 digits.
+              </div>
+            </div>
           </div>
+          
+
+
 
           <div class="col-md-2 d-flex align-items-end mb-3">
             <button type="button" class="btn btn-success btn-sm w-100" (click)="updateParcelStatus()">

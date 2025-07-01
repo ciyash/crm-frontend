@@ -41,7 +41,14 @@ export class ParcelDeliveryComponent {
     this.form2 = this.fb.group({
       grnNo: ['', Validators.required],
       receiverName: [''],
-      receiverMobile: [''],
+      // receiverMobile: [''],
+      receiverMobile: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^[0-9]{10}$') // Only 10-digit numbers allowed
+        ]
+      ],
       lrNumber: [''],
       deliveryAmount:[Validators.required],
     });
@@ -67,6 +74,15 @@ export class ParcelDeliveryComponent {
 
     this.getProfileData();
   }
+  allowOnlyNumbers(event: KeyboardEvent): void {
+    const charCode = event.key.charCodeAt(0);
+    // Allow only digits (0-9)
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+    }
+  }
+  
+  
 
   searchUser(): void {
     if (this.searchTerm && this.searchTerm.trim() !== '') {
@@ -107,8 +123,8 @@ export class ParcelDeliveryComponent {
     });
   }
 
-  // /1
   updateParcelStatus() {
+    
     const payload = {
       grnNo: this.form2.value.grnNo,
       receiverName: this.form2.value.receiverName,

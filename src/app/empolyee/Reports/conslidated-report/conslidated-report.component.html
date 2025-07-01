@@ -109,7 +109,7 @@
           <th></th>
           <th></th>
           <th colspan="4">Booking</th>
-          <th>Cancel</th>
+          <!-- <th>Total</th> -->
           <th>Delivery</th>
           <th>Booking Total</th>
           <th colspan="4">GST</th>
@@ -122,8 +122,8 @@
           <th>Paid</th>
           <th>ToPay</th>
           <th>Credit</th>
-          <th>Total</th>
           <th>Cancel</th>
+          <!-- <th>Total</th> -->
           <th>Delivered</th>
           <th>BookingTotal</th>
           <th>CGST</th>
@@ -134,26 +134,18 @@
       </thead>
   
       <tbody>
+        <!-- Branch Rows -->
         <tr *ngFor="let item of Cdata; let i = index">
           <td>{{ i + 1 }}</td>
-          <td style="color: green;cursor: pointer;">{{ item.branchName }}</td>
+          <td style="color: green; cursor: pointer;">{{ item.branchName }}</td>
   
-          <!-- Booking -->
           <td>{{ item.paidAmount || 0 }}</td>
           <td>{{ item.toPayAmount || 0 }}</td>
           <td>{{ item.creditAmount || 0 }}</td>
-          <td>{{ item.total || 0 }}</td>
-  
-          <!-- Cancel -->
           <td>{{ item.cancelAmount || 0 }}</td>
-  
-          <!-- Delivery -->
+          <!-- <td>{{ item.total || 0 }}</td> -->
           <td>{{ item.deliveryAmount || 0 }}</td>
-  
-          <!-- Booking Total -->
           <td>{{ item.bookingTotal || 0 }}</td>
-  
-          <!-- GST -->
           <td>{{ item.cgstAmount || 0 }}</td>
           <td>{{ item.sgstAmount || 0 }}</td>
           <td>{{ item.igstAmount || 0 }}</td>
@@ -161,14 +153,14 @@
         </tr>
   
         <!-- Totals Row -->
-        <tr class="fw-bold">
+        <tr class="fw-bold bg-light">
           <td></td>
           <td>Total</td>
           <td>{{ Tdata.finalPaidAmount || 0 }}</td>
           <td>{{ Tdata.finalToPayAmount || 0 }}</td>
           <td>{{ Tdata.finalCreditAmount || 0 }}</td>
-          <td>{{ Tdata.finalTotal || 0 }}</td>
           <td>{{ Tdata.finalCancelAmount || 0 }}</td>
+          <!-- <td>{{ Tdata.finalTotal || 0 }}</td> -->
           <td>{{ Tdata.finalDeliveryAmount || 0 }}</td>
           <td>{{ Tdata.finalBookingTotal || 0 }}</td>
           <td>{{ Tdata.totalCgst || 0 }}</td>
@@ -179,6 +171,8 @@
       </tbody>
     </table>
   </div>
+  
+
  </div>
     
     
