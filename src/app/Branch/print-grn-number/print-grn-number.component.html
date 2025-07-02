@@ -1,15 +1,7 @@
 <app-header class="hide-on-print"></app-header>
 <div style="margin-top: 6.5%;">
 <div class="print-area">
-<!-- <div class="container text-center" *ngIf="pfdata">
-<h4 class="fw-bold mb-1">{{ pfdata.companyId?.name }}</h4>
-<p class="fw-bold mb-0">
-          Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }}
-</p>
-<p class="fw-bold">
-          Phone No: {{ pfdata.phone }}
-</p>
-</div> -->
+
 <div class="print-header text-center" *ngIf="pfdata">
   <h4 class="fw-bold ">{{ pfdata.companyId?.name }}</h4>
   <p class="fw-bold ">
@@ -52,7 +44,6 @@
 <p class="fw-bold" >SENDER'S COPY</p>
 </div>
 <div class="col-6">
-<!-- <h5 class="text-center">LR No: {{ data1.lrNumber }}</h5> -->
 <h5 class="text-center" *ngIf="data1?.lrNumber">LR No: {{ data1.lrNumber }}</h5>
  
             </div>
@@ -98,7 +89,6 @@
 </td>
 <td>
 <div *ngIf="qrData" class="qr-code ">
-<!-- <p>LR No: {{ data1.lrNumber }}</p> -->
 <qrcode *ngIf="qrData" [qrdata]="qrData" [width]="80" [errorCorrectionLevel]="'M'"></qrcode>
 </div>
 </td>
@@ -121,7 +111,6 @@
                       currency:'INR':true:'1.0-0' }}</p>
 <p style="margin-bottom: -5px;" *ngIf="data1.serviceCharges != '0'">LR Charges: {{ data1.serviceCharges |
                       currency:'INR':true:'1.0-0' }}</p>
-<!-- <p><strong>NET AMOUNT: {{ data1.grandTotal | currency:'INR':true:'1.0-0' }}</strong></p> -->
 </td>
 </tr>
 
@@ -178,3 +167,223 @@
 </div>
 </div>
 </div>
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Parcel Ticket</title>
+  <style>
+    @media print {
+      #printBtn {
+        display: none;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .header {
+      text-align: center;
+      font-weight: bold;
+      line-height: 1.5;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .column {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bold {
+      font-weight: bold;
+    }
+
+    .item-row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    .item-row div {
+      flex: 0;
+      text-align: center;
+    }
+
+    .tax-wrapper {
+      margin-top: 20px;
+    }
+
+    .gst-label {
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .tax-row {
+      display: flex;
+      justify-content: flex-end;
+      gap: 30px;
+      font-weight: bold;
+    }
+
+    .footer {
+      text-align: right;
+      font-weight: bold;
+      font-size: 22px;
+      margin-top: 20px;
+    }
+
+    #printBtn {
+      margin: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <button id="printBtn" onclick="window.print()">🖨️ Print Ticket</button>
+
+  <div class="container" id="ticket">
+    <div class="header">
+      D.No.6-1-91, Sensation Theatre Road, Vasavi Complex, Lak-Di-Kapool, Hyderabad,<br>
+      Telangana
+    </div>
+
+    <div class="row">
+      <div class="column bold" style="text-align: left;">
+        <div>20-06-2025 11:43</div>
+        <div>AM</div>
+      </div>
+      <div class="column bold" style="text-align: center;">
+        <div>SKLK/3</div>
+      </div>
+      <div class="column bold" style="text-align: right;">
+        <div>PAID</div>
+        <div>Gajuwaka - - <span class="bold">9912262444</span></div>
+      </div>
+    </div>
+
+
+    <div class="row d-flex justify-content-between mx-5">
+      <div class="col-auto bold">
+        <div>TESTING</div>
+        <div style="font-weight: normal;">0987654321</div>
+      </div>
+      <div class="col-auto bold text-end">
+        <div>TESTING</div>
+        <div style="font-weight: normal;">0987654321</div>
+      </div>
+    </div>
+    
+
+    <div class="item-row">
+      <div>Books</div>
+      <div>testing</div>
+      <div>1</div>
+      <div class="text-end">
+        <div class="tax-col">1</div>
+        <div class="tax-col">0</div>
+        <div class="tax-col">10</div>
+      </div>
+    </div>
+
+    <div class="tax-wrapper">
+      <div class="gst-label">GST</div>
+      <div class="tax-row">
+        <div>CGST: 0</div>
+        <div>SGST: 0</div>
+        <div>0</div>
+      </div>
+    </div>
+
+    <div class="footer">21</div>
+  </div>
+  <div class="container" id="ticket">
+    <div class="header">
+      D.No.6-1-91, Sensation Theatre Road, Vasavi Complex, Lak-Di-Kapool, Hyderabad,<br>
+      Telangana
+    </div>
+
+    <div class="row">
+      <div class="column bold" style="text-align: left;">
+        <div>20-06-2025 11:43</div>
+        <div>AM</div>
+      </div>
+      <div class="column bold" style="text-align: center;">
+        <div>SKLK/3</div>
+      </div>
+      <div class="column bold" style="text-align: right;">
+        <div>PAID</div>
+        <div>Gajuwaka - - <span class="bold">9912262444</span></div>
+      </div>
+    </div>
+
+
+    <div class="row d-flex justify-content-between mx-5">
+      <div class="col-auto bold">
+        <div>TESTING</div>
+        <div style="font-weight: normal;">0987654321</div>
+      </div>
+      <div class="col-auto bold text-end">
+        <div>TESTING</div>
+        <div style="font-weight: normal;">0987654321</div>
+      </div>
+    </div>
+    
+
+    <div class="item-row">
+      <div>Books</div>
+      <div>testing</div>
+      <div>1</div>
+      <div class="text-end">
+        <div class="tax-col">1</div>
+        <div class="tax-col">0</div>
+        <div class="tax-col">10</div>
+      </div>
+    </div>
+
+    <div class="tax-wrapper">
+      <div class="gst-label">GST</div>
+      <div class="tax-row">
+        <div>CGST: 0</div>
+        <div>SGST: 0</div>
+        <div>0</div>
+      </div>
+    </div>
+
+    <div class="footer">21</div>
+  </div>
+
+</body>
+</html> -->
+
+
+
+
+
+
+

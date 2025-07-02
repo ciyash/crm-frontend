@@ -42,11 +42,7 @@ export class ParcelDeliveryComponent {
       grnNo: ['', Validators.required],
       receiverName: [''],
       // receiverMobile: [''],
-      receiverMobile: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern('^[0-9]{10}$') // Only 10-digit numbers allowed
+      receiverMobile: ['', [ Validators.required, Validators.pattern('^[0-9]{10}$') // Only 10-digit numbers allowed
         ]
       ],
       lrNumber: [''],
@@ -82,6 +78,7 @@ export class ParcelDeliveryComponent {
     }
   }
   
+
   
 
   searchUser(): void {
@@ -123,15 +120,43 @@ export class ParcelDeliveryComponent {
     });
   }
 
-  updateParcelStatus() {
+  // updateParcelStatus() {
     
+  //   const payload = {
+  //     grnNo: this.form2.value.grnNo,
+  //     receiverName: this.form2.value.receiverName,
+  //     receiverMobile: this.form2.value.receiverMobile,
+  //     deliveryAmount:this.form2.value.deliveryAmount,
+  //   };
+  //   console.log(this.form2.value.deliveryAmount);
+  //   this.api.ReceivedParcelUpdate(payload).subscribe(
+  //     (res: any) => {
+  //       this.updata = res;
+  //       this.toast.success(res.message || 'Parcel status updated successfully', 'Success');
+  //       this.searchUser(); // Refresh data
+  //     },
+  //     (error) => {
+  //       const errMsg = error.error?.message || 'Failed to update parcel status';
+  //       this.toast.error(errMsg, 'Error');
+  //     }
+  //   );
+  // }
+  updateParcelStatus() {
+    if (this.form2.invalid) {
+      this.form2.markAllAsTouched(); // Show validation messages
+      this.toast.error('Please fill all required fields correctly.', 'Form Error');
+      return;
+    }
+  
     const payload = {
       grnNo: this.form2.value.grnNo,
       receiverName: this.form2.value.receiverName,
       receiverMobile: this.form2.value.receiverMobile,
-      deliveryAmount:this.form2.value.deliveryAmount,
+      deliveryAmount: this.form2.value.deliveryAmount,
     };
-    console.log(this.form2.value.deliveryAmount);
+  
+    console.log('Delivery Amount:', payload.deliveryAmount);
+  
     this.api.ReceivedParcelUpdate(payload).subscribe(
       (res: any) => {
         this.updata = res;
@@ -144,6 +169,7 @@ export class ParcelDeliveryComponent {
       }
     );
   }
+  
 
   onFromcitySelect(event: any) {
     const selectedCity = event.target.value;
