@@ -96,6 +96,7 @@ export class ParcelbookingComponent {
       senderGST: [''],
       receiverName: ['', Validators.required],
       // receiverMobile: ['', Validators.required],
+      // qqq
       receiverAddress: [''],
       receiverGst: [''],
       serviceCharges: [10], // ₹10 per item
