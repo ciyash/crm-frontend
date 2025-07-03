@@ -113,7 +113,7 @@ export class ReceivedstockReportComponent {
         $(this.selectElem2.nativeElement).val('').trigger('change');  // <-- empty string default
         $(this.selectElem2.nativeElement).on('select2:select', (event: any) => {
           const selectedToCity = event.params.data.id;
-          this.form.patchValue({ toCity: selectedToCity });
+          this.form.patchValue({ fromCity: selectedToCity });
           this.onTocitySelect({ target: { value: selectedToCity } });
         });
   
@@ -122,7 +122,7 @@ export class ReceivedstockReportComponent {
         $(this.droupbranch.nativeElement).val('').trigger('change');  // <-- empty string default
         $(this.droupbranch.nativeElement).on('select2:select', (event: any) => {
           const selectedDropBranch = event.params.data.id;
-          this.form.patchValue({ dropBranch: selectedDropBranch });
+          this.form.patchValue({ pickUpBranch: selectedDropBranch });
           if(this.onDropBranchSelect) {
             this.onDropBranchSelect({ target: { value: selectedDropBranch } });
           }
@@ -141,8 +141,8 @@ export class ReceivedstockReportComponent {
     
         // Update form controls with profile data
         this.form.patchValue({
-          fromCity: this.pfdata || '', // Set fromCity to the city from branchId
-          pickUpBranch: this.ffdata?.branchUniqueId || '' // Set pickUpBranch to branchUniqueId
+          toCity: this.pfdata || '', // Set fromCity to the city from branchId
+          dropBranch: this.ffdata?.branchUniqueId || '' // Set pickUpBranch to branchUniqueId
         });
           });
     }

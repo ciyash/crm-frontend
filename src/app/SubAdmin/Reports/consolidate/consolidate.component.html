@@ -120,10 +120,10 @@
         <tr>
           <th></th>
           <th></th>
-          <th colspan="4">Booking</th>
-          <th>Cancel</th>
-          <th>Delivery</th>
-          <th>Booking Total</th>
+          <th colspan="5">Booking</th>
+          <!-- <th>Cancel</th> -->
+          <th>Delivered</th>
+          <th>Total Amount</th>
           <th colspan="4">GST</th>
         </tr>
   
@@ -134,10 +134,11 @@
           <th>Paid</th>
           <th>ToPay</th>
           <th>Credit</th>
-          <th>Total</th>
           <th>Cancel</th>
+
+          <th>Total Booking</th>
           <th>Delivered</th>
-          <th>BookingTotal</th>
+          <th>Total</th>
           <th>CGST</th>
           <th>SGST</th>
           <th>IGST</th>
@@ -154,16 +155,20 @@
           <td>{{ item.paidAmount || 0 }}</td>
           <td>{{ item.toPayAmount || 0 }}</td>
           <td>{{ item.creditAmount || 0 }}</td>
-          <td>{{ item.total || 0 }}</td>
+          <td>{{ item.cancelAmount || 0 }}</td>
+
+          <td>{{ item.bookingTotal || 0 }}</td>
+
   
           <!-- Cancel -->
-          <td>{{ item.cancelAmount || 0 }}</td>
   
           <!-- Delivery -->
           <td>{{ item.deliveryAmount || 0 }}</td>
   
           <!-- Booking Total -->
-          <td>{{ item.bookingTotal || 0 }}</td>
+          <!-- <td>{{ item.bookingTotal || 0 }}</td> -->
+          <td>{{ item.total || 0 }}</td>
+
   
           <!-- GST -->
           <td>{{ item.cgstAmount || 0 }}</td>
@@ -179,10 +184,13 @@
           <td>{{ Tdata.finalPaidAmount || 0 }}</td>
           <td>{{ Tdata.finalToPayAmount || 0 }}</td>
           <td>{{ Tdata.finalCreditAmount || 0 }}</td>
-          <td>{{ Tdata.finalTotal || 0 }}</td>
           <td>{{ Tdata.finalCancelAmount || 0 }}</td>
-          <td>{{ Tdata.finalDeliveryAmount || 0 }}</td>
           <td>{{ Tdata.finalBookingTotal || 0 }}</td>
+
+          <td>{{ Tdata.finalDeliveryAmount || 0 }}</td>
+          <!-- <td>{{ Tdata.finalBookingTotal || 0 }}</td> -->
+          <td>{{ Tdata.finalTotal || 0 }}</td>
+
           <td>{{ Tdata.totalCgst || 0 }}</td>
           <td>{{ Tdata.totalSgst || 0 }}</td>
           <td>{{ Tdata.totalIgst || 0 }}</td>

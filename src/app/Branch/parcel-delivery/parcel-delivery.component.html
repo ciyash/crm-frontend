@@ -40,12 +40,7 @@
           </ng-container>
         </div> -->
         <div class="col-md-4 mt-5 d-flex flex-column gap-2" *ngIf="data2 && data2.length > 0">
-          <!-- Booking Type -->
-          <!-- <label for="bookingType">Booking Type</label> -->
           <h2 class="text-center">{{ data2[0]?.bookingType | uppercase }}</h2>
-        
-          <!-- Parcel Status -->
-          <!-- <label for="parcelStatus">Parcel Status</label> -->
           <ng-container [ngSwitch]="data2[0]?.bookingStatus">
             <h2 class="text-success text-center" *ngSwitchCase="0">Parcel Booked</h2>
             <h2 class="text-success text-center" *ngSwitchCase="1">Parcel Loaded</h2>
@@ -67,13 +62,14 @@
         </button>
         
       </div>
-<div class="text-center" *ngIf="data2">
-  <i class="fa fa-print" style="font-size: 40px; color:
-   green; cursor: pointer;" aria-hidden="true" (click)="printReceipt()"></i>
-
+      
+<div class="text-center" *ngIf="data2 && data2.length > 0">
+  <ng-container [ngSwitch]="data2[0]?.bookingStatus">
+    <i  *ngSwitchCase="4" class="fa fa-print" style="font-size: 40px; color:
+    green; cursor: pointer;" aria-hidden="true" (click)="printReceipt()"></i>
+  </ng-container>
 </div>
     </form>
-
     <!-- Delivery Form when status is Unloaded -->
     <div *ngIf="data2?.[0]?.bookingStatus === 2" class="mt-2">
       <div class="col-12 mb-3">
@@ -177,14 +173,25 @@
         <label class="form-label">Sender Phone</label>
         <input type="text" class="form-control" [value]="items?.senderMobile" readonly />
       </div>
-      <div class="col-md-4">
+      <div class="col-md-4" >
         <label class="form-label">Receiver Name</label>
         <input type="text" class="form-control" [value]="items?.receiverName" readonly />
       </div>
-      <div class="col-md-4">
+      <div class="col-md-4" >
         <label class="form-label">Receiver Phone</label>
         <input type="text" class="form-control" [value]="items?.receiverMobile" readonly />
       </div>
+      <!-- <div class="col-md-4" *ngIf="items?.bookingStatus === 4">
+        <label class="form-label text-success">Receiver Name</label>
+        <input type="text" class="form-control border-success text-success" [value]="items?.receiverName" readonly />
+      </div>
+      
+      <div class="col-md-4" *ngIf="items?.bookingStatus === 4">
+        <label class="form-label text-success">Receiver Phone</label>
+        <input type="text" class="form-control border-success text-success" [value]="items?.receiverMobile" readonly />
+      </div> -->
+      
+      
       <div class="col-md-4">
         <label class="form-label">From City</label>
         <input type="text" class="form-control" [value]="items?.fromCity" readonly />
@@ -302,7 +309,6 @@
   display: none !important;
 }
 
-        
     </style>
 
 
@@ -317,57 +323,56 @@
             </p>
           </div>      
             <h1>Delivery Receipt</h1>
-            <!-- <p>Issued on: {{ today | date: 'MMMM d, y' }}</p> -->
           </div>
+
         <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">Detail</th>
-                        <th scope="col">Information</th>
-                    </tr>
-                </thead>
-                <tbody *ngFor="let items of data2">
-                    <tr >
-                        <td>GRN Number</td>
-                        <td>{{items.grnNo}}</td>
-                    </tr>
-                  <tr>
-                      <td>Paid Type</td>
-                      <td>{{items.bookingType}}</td>
-                  </tr>
-                  <tr>
-                    <td>Total Amount</td>
-                    <td>{{items.grandTotal}}</td>
-
-                </tr>
-                    <tr>
-                        <td>Sender Name</td>
-                        <td>{{items.senderName}}</td>
-
-                    </tr>
-                    <tr>
-                        <td>Receiver Name</td>
-                        <td>{{items.receiverName}}</td>
-
-                    </tr>
-                    <tr>
-                        <td>Booking Type</td>
-                        <td>{{items.bookingType}}</td>
-                    </tr>
-                    <tr>
-                        <td>Receiver Name</td>
-                        <td>{{items.receiverName}}</td>
-
-                    </tr>
-                    <tr>
-                      <td>Receiver Number</td>
-                      <td>{{items.receiverMobile}}</td>
-
-                  </tr>
-           
-                </tbody>
-            </table>
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Detail</th>
+                <th scope="col">Information</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let items of data2">
+              <tr>
+                <td>GRN Number</td>
+                <td>{{ items.grnNo }}</td>
+              </tr>
+              <tr>
+                <td>Paid Type</td>
+                <td>{{ items.bookingType }}</td>
+              </tr>
+              <tr>
+                <td>Total Amount</td>
+                <td>{{ items.grandTotal }}</td>
+              </tr>
+              <tr>
+                <td>Sender Name</td>
+                <td>{{ items.senderName }}</td>
+              </tr>
+              <tr>
+                <td class="fw-bold">Receiver Name</td>
+                <td class="fw-bold">{{ items.receiverName }}</td>
+              </tr>
+              <tr>
+                <td class="fw-bold">Receiver Number</td>
+                <td class="fw-bold">{{ items.receiverMobile }}</td>
+              </tr>
+          
+              <!-- ✅ Package Details -->
+              <tr *ngIf="items?.packages?.length">
+                <td class="fw-bold">Package Details</td>
+                <td>
+                  <div *ngFor="let pkg of items.packages">
+                    <span class="me-3 fw-bold">{{ pkg.packageType }}</span>
+                    <span class="fw-bold">Qty: {{ pkg.quantity }}</span>
+                    <span class="ms-3 fw-bold">Unit Price: {{ pkg.unitPrice }}</span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          
             <div class="d-flex justify-content-end mt-4">
               
               <div class="d-flex justify-content-end flex-column align-items-end" style="width: 200px; margin-top: 20px;">

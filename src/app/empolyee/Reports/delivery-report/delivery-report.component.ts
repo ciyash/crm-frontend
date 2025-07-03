@@ -172,8 +172,8 @@ export class DeliveryReportComponent {
       
           // Update form controls with profile data
           this.form.patchValue({
-            fromCity: this.pfdata || '', // Set fromCity to the city from branchId
-            pickUpBranch: this.ffdata?.branchUniqueId || '' // Set pickUpBranch to branchUniqueId
+            toCity: this.pfdata || '', // Set fromCity to the city from branchId
+            dropBranch: this.ffdata?.branchUniqueId || '' // Set pickUpBranch to branchUniqueId
           });
             });
       } 
@@ -188,7 +188,7 @@ export class DeliveryReportComponent {
           $(this.selectElem2.nativeElement).val('all').trigger('change'); // ✅
           $(this.selectElem2.nativeElement).on('select2:select', (event: any) => {
             const selectedToCity = event.params.data.id;
-            this.form.patchValue({ toCity: selectedToCity });
+            this.form.patchValue({ fromCity: selectedToCity });
             this.onTocitySelect({ target: { value: selectedToCity } });
           });
       
@@ -197,7 +197,7 @@ export class DeliveryReportComponent {
           $(this.droupbranch.nativeElement).val('all').trigger('change'); // ✅
           $(this.droupbranch.nativeElement).on('select2:select', (event: any) => {
             const selectedDropBranch = event.params.data.id;
-            this.form.patchValue({ dropBranch: selectedDropBranch });
+            this.form.patchValue({ pickUpBranch: selectedDropBranch });
             this.onDropBranchSelect({ target: { value: selectedDropBranch } });
           });
         }, 0);

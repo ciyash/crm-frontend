@@ -22,7 +22,7 @@ word-wrap: break-word">Parcel Loading Offline</h4>
           </div>
         
 
-        <div class="col-md-4 col-sm-12">
+        <!-- <div class="col-md-4 col-sm-12">
           <label class="form-label  ">To City</label>
           <select #demoSelect multiple class="form-control" (change)="onToCityChange($event)">
             <option *ngFor="let city of cities" [value]="city.cityName">
@@ -30,7 +30,21 @@ word-wrap: break-word">Parcel Loading Offline</h4>
             </option>
           </select>
 
+        </div> -->
+        <div class="col-md-4 col-sm-12">
+          <label class="form-label">To City</label>
+          <select #demoSelect multiple class="form-control" (change)="onToCityChange($event)">
+            <option *ngFor="let city of cities" [value]="city.cityName">
+              {{ city.cityName }}
+            </option>
+          </select>
+        
+          <!-- Validation error message shown below this field -->
+          <div *ngIf="form.get('toCity')?.touched && form.get('toCity')?.errors?.['required']" class="text-danger mt-1">
+            Please select at least one To City.
+          </div>
         </div>
+        
 
         <div class="row g-3 align-items-end">
 
@@ -196,4 +210,48 @@ word-wrap: break-word">Parcel Loading Offline</h4>
     </div> -->
   </form>
 </div>
+
+<div #printParcelTable class="table-responsive mt-4" *ngIf="parcelResponse">
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>LR No</th>
+        <th>GRN No</th>
+        <th>From City</th>
+        <th>Drop City</th>
+        <!-- <th>Drop Branch</th> -->
+        <th>Sender Name</th>
+        <th>Driver Name</th>
+        <th>Driver No</th>
+        <th>Vehicle Number</th>
+        <th>Voucher No</th>
+        <th>LoadingDate Date</th>
+        <th>Paid Type</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let lr of parcelResponse.lrNumber; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ lr }}</td>
+        <td>{{ parcelResponse.grnNo?.[i] || parcelResponse.grnNo?.[0] }}</td>
+        <td>{{ parcelResponse.fromCity }}</td>
+        <td>{{ parcelResponse.toCity?.[i] || parcelResponse.toCity?.[0] }}</td>
+        <!-- <td>{{ parcelResponse.toBranch || '-' }}</td> -->
+        <td>{{ parcelResponse.senderName }}</td>
+        <td>{{ parcelResponse.driverName }}</td>
+        <td>{{ parcelResponse.driverNo }}</td>
+        <td>{{ parcelResponse.vehicalNumber }}</td>
+        <td>{{ parcelResponse.vocherNoUnique }}</td>
+        <td>{{ parcelResponse.loadingDate | date: 'dd-MM-yyyy HH:mm:ss' }}</td>
+        <td>{{ parcelResponse.bookingType || '-' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+
 <app-loading-report></app-loading-report>

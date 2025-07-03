@@ -68,6 +68,7 @@ export class BookingComponent {
   selectedBookingType: any;
   previousCharges: any;
   previousPackageValues: any
+  packdata: any;
   constructor(private fb: FormBuilder, private api: BranchService, private token:TokenService,
      private cdr: ChangeDetectorRef,  private route: ActivatedRoute,private toastr:ToastrService, 
      private router:Router, private admin:AdminService) {
@@ -88,7 +89,7 @@ export class BookingComponent {
       senderMobile: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
       receiverAddress: [''],
       receiverGst: [''],
-      serviceCharges: [0],  // ₹10 per item
+      serviceCharges: [10],  // ₹10 per item
       hamaliCharges: [0],
       doorDeliveryCharges: [0],
       doorPickupCharges: [0],
@@ -109,6 +110,9 @@ export class BookingComponent {
             })
    }
    ngOnInit() {
+
+
+
     this.form.get('bookingType')?.valueChanges.subscribe((val: string) => {
       const packagesArray = (this.form.get('packages') as FormArray).controls;
     
@@ -176,6 +180,10 @@ export class BookingComponent {
         this.calculateGrandTotal();
       }
     });
+    
+
+    
+
     this.grnNo = '';
     this.route.paramMap.subscribe((params) => {
       this.grnNo = params.get('grnNo');
@@ -242,6 +250,11 @@ export class BookingComponent {
       this.branchdata=res;
     });
     //get Packages
+    this.api.GetPAckagesType().subscribe((res: any) => {
+      console.log(res);
+      this.packdata = res;
+      console.log('packageData:', this.packdata);
+    });
 
     this.admin.GetDispatchtypeData().subscribe((res:any)=>{
       console.log(res);
@@ -412,57 +425,57 @@ export class BookingComponent {
   }
 
   
-  packageTypeError: boolean = false;
-  packdata: any[] = [];
+  // packageTypeError: boolean = false;
+  // packdata: any[] = [];
   
-  get canEnablePackageType(): boolean {
-    // Purely checks conditions (no API call)
-    return !!this.form.get('toCity')?.value &&
-           !!this.form.get('dropBranch')?.value &&
-           !!this.form.get('bookingType')?.value;
-  }
+  // get canEnablePackageType(): boolean {
+  //   // Purely checks conditions (no API call)
+  //   return !!this.form.get('toCity')?.value &&
+  //          !!this.form.get('dropBranch')?.value &&
+  //          !!this.form.get('bookingType')?.value;
+  // }
   
-  handlePackageTypeClick(): void {
-    if (this.canEnablePackageType) {
-      this.packageTypeError = false;
+  // handlePackageTypeClick(): void {
+  //   if (this.canEnablePackageType) {
+  //     this.packageTypeError = false;
   
-      // Only load package types once (optional: add a guard)
-      if (this.packdata.length === 0) {
-        this.loadPackageTypes();
-      }
-    } else {
-      this.packageTypeError = true;
-    }
-  }
+  //     // Only load package types once (optional: add a guard)
+  //     if (this.packdata.length === 0) {
+  //       this.loadPackageTypes();
+  //     }
+  //   } else {
+  //     this.packageTypeError = true;
+  //   }
+  // }
   
-  loadPackageTypes(): void {
-    this.api.GetPAckagesType().subscribe((res: any) => {
-      this.packdata = res;
-      console.log('Package Types:', this.packdata);
-    });
-  }
+  // loadPackageTypes(): void {
+  //   this.api.GetPAckagesType().subscribe((res: any) => {
+  //     this.packdata = res;
+  //     console.log('Package Types:', this.packdata);
+  //   });
+  // }
   
   
-  get canEnableSenderName(): boolean {
-    return !!this.form.get('fromCity')?.value &&
-           !!this.form.get('dropBranch')?.value &&
-           !!this.form.get('bookingType')?.value &&
-           !!this.form.get('packages')?.value?.[0]?.packageType &&
-           !!this.form.get('packages')?.value?.[0]?.unitPrice;
-  }
+  // get canEnableSenderName(): boolean {
+  //   return !!this.form.get('fromCity')?.value &&
+  //          !!this.form.get('dropBranch')?.value &&
+  //          !!this.form.get('bookingType')?.value &&
+  //          !!this.form.get('packages')?.value?.[0]?.packageType &&
+  //          !!this.form.get('packages')?.value?.[0]?.unitPrice;
+  // }
   
-  senderWarning: boolean = false;
+  // senderWarning: boolean = false;
   
-  onSenderFocus(): void {
-    this.senderWarning = !this.canEnableSenderName;
-  }
+  // onSenderFocus(): void {
+  //   this.senderWarning = !this.canEnableSenderName;
+  // }
   
-  onSenderInput(): void {
-    if (this.canEnableSenderName) {
-      this.searchUser();
-      this.senderWarning = false;
-    }
-  }
+  // onSenderInput(): void {
+  //   if (this.canEnableSenderName) {
+  //     this.searchUser();
+  //     this.senderWarning = false;
+  //   }
+  // }
   
   
   

@@ -120,20 +120,28 @@ export class ParcelDeliveryComponent {
     });
   }
 
+  
   // updateParcelStatus() {
-    
+  //   if (this.form2.invalid) {
+  //     this.form2.markAllAsTouched(); // Show validation messages
+  //     this.toast.error('Please fill all required fields correctly.', 'Form Error');
+  //     return;
+  //   }
+  
   //   const payload = {
   //     grnNo: this.form2.value.grnNo,
   //     receiverName: this.form2.value.receiverName,
   //     receiverMobile: this.form2.value.receiverMobile,
-  //     deliveryAmount:this.form2.value.deliveryAmount,
+  //     deliveryAmount: this.form2.value.deliveryAmount,
   //   };
-  //   console.log(this.form2.value.deliveryAmount);
+  
+  //   console.log('Delivery Amount:', payload.deliveryAmount);
+  
   //   this.api.ReceivedParcelUpdate(payload).subscribe(
   //     (res: any) => {
   //       this.updata = res;
   //       this.toast.success(res.message || 'Parcel status updated successfully', 'Success');
-  //       this.searchUser(); // Refresh data
+  //       this.searchUser();
   //     },
   //     (error) => {
   //       const errMsg = error.error?.message || 'Failed to update parcel status';
@@ -141,6 +149,7 @@ export class ParcelDeliveryComponent {
   //     }
   //   );
   // }
+
   updateParcelStatus() {
     if (this.form2.invalid) {
       this.form2.markAllAsTouched(); // Show validation messages
@@ -161,7 +170,9 @@ export class ParcelDeliveryComponent {
       (res: any) => {
         this.updata = res;
         this.toast.success(res.message || 'Parcel status updated successfully', 'Success');
-        this.searchUser(); // Refresh data
+  
+        this.searchUser();     // Re-fetch user data
+        this.form2.reset();    // ✅ Clear all form fields after success
       },
       (error) => {
         const errMsg = error.error?.message || 'Failed to update parcel status';
@@ -169,6 +180,7 @@ export class ParcelDeliveryComponent {
       }
     );
   }
+  
   
 
   onFromcitySelect(event: any) {

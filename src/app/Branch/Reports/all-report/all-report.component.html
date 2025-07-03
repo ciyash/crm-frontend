@@ -40,6 +40,8 @@
             <th>Branch Name</th>
             <th>Paid Amount</th> 
             <th>ToPay Amount</th> 
+            <th>Credit Amount</th> 
+
             <th>Total Delivery Amount</th>
             <th>Cancel Amount</th>
             <th>Net Amount </th>
@@ -52,6 +54,9 @@
             <td>{{ item.branchName }}</td>
             <td>{{item.paidAmount}}</td>
             <td>{{item.toPayAmount}}</td>
+            <td>{{item.creditAmount}}</td>
+
+
             <td>{{ item.deliveryAmount }}</td>
             <td>{{item.cancelAmount}}</td>
             <td>{{item.netAmount}}</td>
@@ -63,6 +68,7 @@
             <td colspan="2" class="text-end">Total:</td>
             <td>{{ collectionData.finalPaidAmount }}</td>
             <td>{{ collectionData.finalToPayAmount }}</td>
+            <td>{{collectionData.finalCreditAmount}}</td>
             <td>{{ collectionData.finalDeliveryAmount
             }}</td>
             <td>{{ collectionData.finalCancelAmount }}</td>

@@ -27,7 +27,7 @@ background-color: #fff;">
             To Date is required
           </div>
         </div>
-
+<!-- 
         <div class="col-md-6">
             <label class="form-label form-after">From City</label>
             <input type="text" class="form-control" formControlName="fromCity" readonly />
@@ -52,9 +52,44 @@ background-color: #fff;">
             <option value="" selected> Select Branch</option>
             <option *ngFor="let row1 of tbcdata" [value]="row1.branchUniqueId"> {{ row1.name }} </option>
           </select>
-        </div>
+        </div> -->
 
         <!-- <div class="col-md-6">
+            <label class="form-label">Booking Type  </label>
+             <input type="text" class="mt-3 form-select-sm"  formControlName="receiverName">
+          </div> -->
+
+
+          <div class="col-md-6">
+            <label class="form-label"> From City</label>
+            <select #selectElem2 class="form-select form-select-sm" formControlName="fromCity">
+              <option value="" selected> select to City</option>
+              <option *ngFor="let row of citydata" [value]="row.cityName">{{ row.cityName }}</option>
+            </select>
+          </div>
+
+
+          <div class="col-md-6">
+            <label class="form-label form-after">To City</label>
+            <input type="text" class="form-control" formControlName="toCity" readonly />
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">PickUp Branch</label>
+            <select #droupbranch class="form-select form-select-sm" formControlName="pickUpBranch">
+              <option value="" selected> Select Branch</option>
+              <option *ngFor="let row1 of tbcdata" [value]="row1.branchUniqueId"> {{ row1.name }} </option>
+            </select>
+          </div> 
+
+          <div class="col-md-6">
+            <label class="form-label form-after">Drop Branch</label>
+            <input type="text" class="form-control" [value]="ffdata?.name || ''" readonly />
+            <input type="hidden" formControlName="dropBranch" />
+          </div>
+
+
+  <!-- <div class="col-md-6">
             <label class="form-label">Booking Type  </label>
              <input type="text" class="mt-3 form-select-sm"  formControlName="receiverName">
           </div> -->

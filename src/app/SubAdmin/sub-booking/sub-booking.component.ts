@@ -94,7 +94,7 @@ export class SubBookingComponent {
         // receiverMobile: ['', Validators.required],
         receiverAddress: [''],
         receiverGst: [''],
-        serviceCharges: [0],  // ₹10 per item
+        serviceCharges: [10],  // ₹10 per item
         hamaliCharges: [0],
         doorDeliveryCharges: [0],
         doorPickupCharges: [0],

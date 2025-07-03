@@ -44,7 +44,7 @@ word-wrap: break-word">Parcel Booking</h4>
                         <option *ngFor="let row of citydata" [value]="row.cityName">{{ row.cityName }}</option>
                     </select>
                 </div>
-                <!-- <div class="col-md-4">
+                <div class="col-md-4">
                     <label class="form-label form-after">Drop Branch</label>
                     <select #droupbranch class="form-select form-select-sm" formControlName="dropBranch">
                       <select class="form-control" formControlName="dropBranch"
@@ -53,9 +53,9 @@ word-wrap: break-word">Parcel Booking</h4>
                         <option value="" selected>Select Drop Branch</option>
                         <option *ngFor="let row1 of tbcdata" [value]="row1.branchUniqueId"> {{ row1.name }} </option>
                     </select>
-                </div> -->
+                </div>
 
-                <div class="col-md-4">
+                <!-- <div class="col-md-4">
                   <label class="form-label form-after">Drop Branch</label>
                   <select #droupbranch
                           class="form-select form-select-sm"
@@ -71,7 +71,7 @@ word-wrap: break-word">Parcel Booking</h4>
                        class="text-danger small mt-1">
                     ⚠ Please select To City first
                   </div>
-                </div>
+                </div> -->
                 
                 
                 
@@ -86,7 +86,7 @@ word-wrap: break-word">Parcel Booking</h4>
                     </select>
                 </div>
                 
-                <!-- <div class="col-md-4">
+                <div class="col-md-4">
                     <label class="form-label form-after">Booking Type </label>
                     <select #bookingtype class="form-select form-select-sm" formControlName="bookingType">
                         <option value="" selected>Select Booking Type</option>
@@ -95,27 +95,8 @@ word-wrap: break-word">Parcel Booking</h4>
                         <option value="credit">Credit</option>
                         <option value="FOC">Free of Cost</option>
                     </select>
-                </div> -->
-                <div class="col-md-4">
-                  <label class="form-label form-after">Booking Type</label>
-                  <select #bookingtype class="form-select form-select-sm" formControlName="bookingType">
-                    <option value="" selected>Select Booking Type</option>
-                
-                    <!-- Show options only if both are selected -->
-                    <ng-container *ngIf="form.get('toCity')?.value && form.get('dropBranch')?.value">
-                      <option value="paid">Paid</option>
-                      <option value="toPay">To Pay</option>
-                      <option value="credit">Credit</option>
-                      <option value="FOC">Free of Cost</option>
-                    </ng-container>
-                  </select>
-                
-                  <!-- Red warning below dropdown -->
-                  <div *ngIf="form.get('bookingType')?.touched && (!form.get('toCity')?.value || !form.get('dropBranch')?.value)"
-                       class="text-danger small mt-1">
-                    ⚠ Please select both To City and Drop Branch first
-                  </div>
                 </div>
+             
                 
 
 
@@ -155,14 +136,16 @@ word-wrap: break-word">Parcel Booking</h4>
                             <tr *ngFor="let item of packages.controls; let i = index" [formGroupName]="i">
                                 <td><input type="text" class="form-control form-select-sm " formControlName="quantity"
                                         (input)="calculateTotal(i)"></td>
-                                <!-- <td>
+
+                                <td>
                                     <select class="form-control form-select-sm" formControlName="packageType">
                                         <option value="" selected>Select Package Type</option>
                                         <option *ngFor="let pack of packdata" value="{{pack.name}}">{{pack.name}}
                                         </option>
                                     </select>
-                                </td> -->
-                                <td>
+                                </td>
+                                
+                                <!-- <td>
                                   <select class="form-control form-select-sm"
                                           formControlName="packageType"
                                           [disabled]="!canEnablePackageType"
@@ -174,7 +157,7 @@ word-wrap: break-word">Parcel Booking</h4>
                                   <div *ngIf="packageTypeError" class="text-danger small mt-1">
                                     ⚠ Please select To City, Drop Branch, and Booking Type first
                                   </div>
-                                </td>
+                                </td> -->
                                 
                                 
                                 
@@ -186,17 +169,8 @@ word-wrap: break-word">Parcel Booking</h4>
 
                                 <!-- <td><input type="number" class="form-control form-select-sm" [readonly]="disableUnitPrice" formControlName="unitPrice"
                                   (input)="calculateTotal(i)"></td> -->
-                                  <td>
-                                    <input 
-                                           class="form-control form-select-sm"
-                                           [readonly]="!canEnableUnitPriceFor(i)"
-                                           formControlName="unitPrice"
-                                           (input)="calculateTotal(i)">
-                                  
-                                    <div *ngIf="!canEnableUnitPriceFor(i) && isUnitPriceTouched(i)" class="text-danger small mt-1">
-                                      ⚠ Please select To City, Drop Branch, Booking Type, and Package Type first
-                                    </div>
-                                  </td>
+                                  <td><input type="number" class="form-control form-select-sm" [readonly]="disableUnitPrice" formControlName="unitPrice"
+                                    (input)="calculateTotal(i)"></td>
                                   
                                   
 
@@ -273,76 +247,56 @@ word-wrap: break-word">Parcel Booking</h4>
                                 {{ user.name }}
                               </li>
                             </ul>
-                              </div>          -->
+                              </div>      -->
 
-                            <div class="col-md-3" style="position: relative;">
-  <label class="form-label form-after">Sender Name</label>
-  <input type="text"
-         class="form-control form-select-sm"
-         formControlName="senderName"
-         [readonly]="!canEnableSenderName"
-         autocomplete="off"
-         (focus)="onSenderFocus()"
-         (input)="onSenderInput()"
-         (blur)="hideDropdown()">
 
-  <!-- ❌ Error message -->
-  <div *ngIf="senderWarning" class="text-danger small mt-1">
-    ⚠ Please select From City, Drop Branch, Booking Type, Package Type, and Unit Price first
-  </div>
-
-  <!-- ✅ Dropdown -->
-  <ul *ngIf="showDropdown && userList.length"
-      class="dropdown-menu show"
-      style="width: 100%; max-height: 150px; overflow-y: auto;">
-    <li *ngFor="let user of userList"
-        class="dropdown-item"
-        (mousedown)="selectUser(user)">
-      {{ user.name }}
-    </li>
-  </ul>
-</div>
-
-<div class="col-md-3" style="position: relative;">
-  <label class="form-label form-after">Sender Mobile Number</label>
-  <input type="text"
-         class="form-control form-select-sm"
-         formControlName="senderMobile"
-         [readonly]="!isSenderMobileEnabled"
-         maxlength="10"
-         (keypress)="allowOnlyNumbers($event)"
-         (blur)="onSenderMobileBlur()">
-
-  <!-- Validation errors -->
-  <div class="text-danger" *ngIf="form.get('senderMobile')?.touched && form.get('senderMobile')?.invalid">
-    <div *ngIf="form.get('senderMobile')?.errors?.['required']">Sender mobile is required.</div>
-    <div *ngIf="form.get('senderMobile')?.errors?.['pattern']">Must be exactly 10 digits.</div>
-  </div>
-
-  <!-- Show this warning only if the field was touched and not eligible -->
-  <div class="text-danger mt-1 small" *ngIf="senderMobileTouched && !isSenderMobileEnabled">
-    ⚠ Please fill From City, Drop Branch, Booking Type, Package Type, Unit Price, and Sender Name first.
-  </div>
-</div>
-
-                            
-                            
-
-                            <div class="col-md-3">
-                                <label class="form-label">Sender Address</label>
-                                <input type="text" class="form-control form-select-sm" formControlName="senderAddress">
-                            </div>
-
-                            <!-- <div class="col-md-3">
-                <label class="form-label">Sender Address</label>
-                <input type="text" class="form-control form-select-sm" formControlName="senderAddress">
-              </div> -->
-
-                            <div class="col-md-3">
-                                <label class="form-label">Sender GST No(0)</label>
-                                <input type="text" class="form-control form-select-sm" formControlName="senderGST">
-                            </div>
-
+                              <div class="row mt-3">
+                                <div class="col-md-3" style="position: relative;">
+                                  <label class="form-label form-after">Sender Name</label>
+                                  <input type="text" class="form-control form-select-sm" formControlName="senderName" autocomplete="off"
+                                    (input)="searchUser()" (focus)="searchUser()" (blur)="hideDropdown()">
+                  
+                                  <!-- Dropdown -->
+                                  <ul *ngIf="showDropdown && userList.length" class="dropdown-menu show"
+                                    style="width: 100%; max-height: 150px; overflow-y: auto;">
+                                    <li *ngFor="let user of userList" class="dropdown-item" (mousedown)="selectUser(user)">
+                                      {{ user.name }}
+                                    </li>
+                                  </ul>
+                                </div>
+                                <!-- Other Fields (Auto-populated) -->
+                                <!-- <div class="col-md-3">
+                                  <label class="form-label form-after">Sender Mobile Number</label>
+                                  <input class="form-control form-select-sm" formControlName="senderMobile">
+                                </div> -->
+                                <div class="col-md-3">
+                                  <label class="form-label form-after">Sender Mobile Number</label>
+                                  <input type="text"
+                                         class="form-control form-select-sm"
+                                         formControlName="senderMobile"
+                                         maxlength="10"
+                                         (keypress)="allowOnlyNumbers($event)">
+                                  <div class="text-danger" *ngIf="form1.get('senderMobile')?.touched && form1.get('senderMobile')?.invalid">
+                                    <div *ngIf="form1.get('senderMobile')?.errors?.['required']">Sender mobile is required.</div>
+                                    <div *ngIf="form1.get('senderMobile')?.errors?.['pattern']">Must be exactly 10 digits.</div>
+                                  </div>
+                                </div>
+                  
+                                <div class="col-md-3">
+                                  <label class="form-label">Sender Address</label>
+                                  <input type="text" class="form-control form-select-sm" formControlName="senderAddress">
+                                </div>
+                  
+                                <!-- <div class="col-md-3">
+                                  <label class="form-label">Sender Address</label>
+                                  <input type="text" class="form-control form-select-sm" formControlName="senderAddress">
+                                </div> -->
+                  
+                                <div class="col-md-3">
+                                  <label class="form-label">Sender GST No(0)</label>
+                                  <input type="text" class="form-control form-select-sm" formControlName="senderGST">
+                                </div>
+                              </div>
                         </div>
 
                         <div class="form-check mt-0">

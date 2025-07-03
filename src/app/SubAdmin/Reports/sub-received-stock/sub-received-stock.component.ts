@@ -12,10 +12,10 @@ import * as FileSaver from 'file-saver';
   styleUrls: ['./sub-received-stock.component.scss']
 })
 export class SubReceivedStockComponent {
-    @ViewChild('selectElem') selectElem!: ElementRef;
-    @ViewChild('pickupbranch') pickupbranch!: ElementRef;
-    @ViewChild('selectElem2') selectElem2!: ElementRef;
-    @ViewChild('droupbranch') droupbranch!: ElementRef;
+  @ViewChild('selectElem') selectElem!: ElementRef;
+  @ViewChild('pickupbranch') pickupbranch!: ElementRef;
+  @ViewChild('selectElem2') selectElem2!: ElementRef;
+  @ViewChild('droupbranch') droupbranch!: ElementRef;
   
     form!: FormGroup;
     reportData: any;
@@ -31,6 +31,7 @@ export class SubReceivedStockComponent {
     pdata: any;
   fromCityValue: any;
   filteredCityList: any;
+  toCityValue: any;
   
     constructor(
       private api: BranchService, 
@@ -76,22 +77,22 @@ export class SubReceivedStockComponent {
     }
     getProfileData() {
       this.api.GetProfileData().subscribe((res: any) => {
-        this.fromCityValue = res.branchId.city;
+        this.toCityValue = res.branchId.city;
         // Filter city list and set values to forms
         this.filteredCityList = this.citydata.filter(
-          (city: { cityName: any }) => city.cityName === this.fromCityValue
+          (city: { cityName: any }) => city.cityName === this.toCityValue
         );
         this.pfdata = res;
 
     
-        this.form.patchValue({ fromCity: this.fromCityValue });
+        this.form.patchValue({ toCity: this.toCityValue });
   
         // Trigger form change logic if needed
-        this.onFromcitySelect({ target: { value: this.fromCityValue } });
+        this.onFromcitySelect({ target: { value: this.toCityValue } });
           setTimeout(() => {
           // Update first select2
           $(this.selectElem.nativeElement).select2();
-          $(this.selectElem.nativeElement).val(this.fromCityValue).trigger('change');
+          $(this.selectElem.nativeElement).val(this.toCityValue).trigger('change');
           $(this.selectElem.nativeElement).prop('disabled', true).trigger('change.select2')
         }, 0);
       });
@@ -128,46 +129,87 @@ export class SubReceivedStockComponent {
       }
     }
   
+    // ngAfterViewInit(): void {
+    //   setTimeout(() => {
+    //     // From City select2 init with empty default value
+    //     $(this.selectElem.nativeElement).select2();
+    //     $(this.selectElem.nativeElement).val('').trigger('change');   // <-- empty string to match default option
+    //     $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
+    //       const selectedCity = event.params.data.id;
+    //       this.form.patchValue({ fromCity: selectedCity });
+    //       this.onFromcitySelect({ target: { value: selectedCity } });
+    //     });
+  
+    //     // Pickup Branch select2 init with empty default value
+    //     $(this.pickupbranch.nativeElement).select2();
+    //     $(this.pickupbranch.nativeElement).val('').trigger('change');  // <-- empty string default
+    //     $(this.pickupbranch.nativeElement).on('select2:select', (event: any) => {
+    //       const selectedBranch = event.params.data.id;
+    //       this.form.patchValue({ pickUpBranch: selectedBranch });
+    //       if(this.onPickupBranchSelect) {
+    //         this.onPickupBranchSelect({ target: { value: selectedBranch } });
+    //       }
+    //     });
+  
+    //     // To City select2 init with empty default value
+    //     $(this.selectElem2.nativeElement).select2();
+    //     $(this.selectElem2.nativeElement).val('').trigger('change');  // <-- empty string default
+    //     $(this.selectElem2.nativeElement).on('select2:select', (event: any) => {
+    //       const selectedToCity = event.params.data.id;
+    //       this.form.patchValue({ toCity: selectedToCity });
+    //       this.onTocitySelect({ target: { value: selectedToCity } });
+    //     });
+  
+    //     // Drop Branch select2 init with empty default value
+    //     $(this.droupbranch.nativeElement).select2();
+    //     $(this.droupbranch.nativeElement).val('').trigger('change');  // <-- empty string default
+    //     $(this.droupbranch.nativeElement).on('select2:select', (event: any) => {
+    //       const selectedDropBranch = event.params.data.id;
+    //       this.form.patchValue({ dropBranch: selectedDropBranch });
+    //       if(this.onDropBranchSelect) {
+    //         this.onDropBranchSelect({ target: { value: selectedDropBranch } });
+    //       }
+    //     });
+    //   }, 0);
+    // }
+
+
     ngAfterViewInit(): void {
       setTimeout(() => {
-        // From City select2 init with empty default value
+        // From City
         $(this.selectElem.nativeElement).select2();
-        $(this.selectElem.nativeElement).val('').trigger('change');   // <-- empty string to match default option
+        $(this.selectElem.nativeElement).val('all').trigger('change'); // ✅ force default
         $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
           const selectedCity = event.params.data.id;
-          this.form.patchValue({ fromCity: selectedCity });
+          this.form.patchValue({ toCity: selectedCity });
           this.onFromcitySelect({ target: { value: selectedCity } });
         });
-  
-        // Pickup Branch select2 init with empty default value
-        $(this.pickupbranch.nativeElement).select2();
-        $(this.pickupbranch.nativeElement).val('').trigger('change');  // <-- empty string default
-        $(this.pickupbranch.nativeElement).on('select2:select', (event: any) => {
-          const selectedBranch = event.params.data.id;
-          this.form.patchValue({ pickUpBranch: selectedBranch });
-          if(this.onPickupBranchSelect) {
-            this.onPickupBranchSelect({ target: { value: selectedBranch } });
-          }
-        });
-  
-        // To City select2 init with empty default value
-        $(this.selectElem2.nativeElement).select2();
-        $(this.selectElem2.nativeElement).val('').trigger('change');  // <-- empty string default
-        $(this.selectElem2.nativeElement).on('select2:select', (event: any) => {
-          const selectedToCity = event.params.data.id;
-          this.form.patchValue({ toCity: selectedToCity });
-          this.onTocitySelect({ target: { value: selectedToCity } });
-        });
-  
-        // Drop Branch select2 init with empty default value
+    
+        // Pickup Branch
         $(this.droupbranch.nativeElement).select2();
-        $(this.droupbranch.nativeElement).val('').trigger('change');  // <-- empty string default
+        $(this.droupbranch.nativeElement).val('all').trigger('change'); // ✅
         $(this.droupbranch.nativeElement).on('select2:select', (event: any) => {
           const selectedDropBranch = event.params.data.id;
           this.form.patchValue({ dropBranch: selectedDropBranch });
-          if(this.onDropBranchSelect) {
-            this.onDropBranchSelect({ target: { value: selectedDropBranch } });
-          }
+          this.onPickupBranchSelect({ target: { value: selectedDropBranch } });
+        });
+    
+        // To City
+        $(this.selectElem2.nativeElement).select2();
+        $(this.selectElem2.nativeElement).val('all').trigger('change'); // ✅
+        $(this.selectElem2.nativeElement).on('select2:select', (event: any) => {
+          const selectedToCity = event.params.data.id;
+          this.form.patchValue({ fromCity: selectedToCity });
+          this.onTocitySelect({ target: { value: selectedToCity } });
+        });
+    
+        // Drop Branch
+        $(this.pickupbranch.nativeElement).select2();
+        $(this.pickupbranch.nativeElement).val('all').trigger('change'); // ✅
+        $(this.pickupbranch.nativeElement).on('select2:select', (event: any) => {
+          const selectedBranch = event.params.data.id;
+          this.form.patchValue({ pickUpBranch: selectedBranch });
+          this.onDropBranchSelect({ target: { value: selectedBranch } });
         });
       }, 0);
     }

@@ -134,40 +134,7 @@ export class CreateEmployeeComponent {
       });
     }
 
-    // edit(id:any) {
-    //   const payload = {
-    //     name: this.form.value.name,
-    //     username: this.form.value.username,
-    //     branchId: this.form.value.branchId,
-    //     location: this.form.value.location,
-    //     password: this.form.value.password,
-    //     phone: this.form.value.phone,
-    //     email: this.form.value.email,
-    //     documents: this.form.value.documents,
-    //     role: this.form.value.role,
-    //     companyName:this.form1.value.companyName
-    //   };
-    
-    //   console.log('Final Payload:', payload);
-      
-    //   this.api.UpdateEmployee(id,payload).subscribe({
-    //     next: (response: any) => {
-    //       console.log('Parcel loaded successfully:', response);
-    //       this.toastr.success('Parcel loaded successfully', 'Success');
-
-    //       // this.messageService.add({ severity: 'success', summary: 'success', detail: 'Create Employee successfully' });
-    //       setTimeout(() => {
-    //        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-    //          this.router.navigate(['/createemployee']);
-    //        });
-    //      }, 500);
-    //     },
-    //     error: (error: any) => {
-    //       console.error('Create Employee failed:', error);
-    //       alert('Create Employee Failed. Please try again.');
-    //     },
-    //   });
-    // }
+ 
 
     edit() {
       const payload = {

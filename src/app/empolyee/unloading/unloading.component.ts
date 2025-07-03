@@ -37,6 +37,8 @@ tbcdata: any;
 @ViewChild('selectvehicle') selectvehicle!: ElementRef;
 // @ViewChild('droupbranch') droupbranch!: ElementRef;
 @ViewChild('demoSelect') demoSelect!: ElementRef;
+@ViewChild('printParcelTable') printParcelTable!: ElementRef; // Reference to the table div
+  parcelResponse: any; // Holds the JSON response
 selectedbranch: any;
 onVehicleSelect: any;
 apiResponse: any;
@@ -122,78 +124,7 @@ ngAfterViewInit(): void {
     });
   }, 0);
 }
-// onLoad() {
-// if (this.form.invalid) {
-//   this.toastr.error('Please fill all required fields', 'Validation Error');
-//   return;
-// }
 
-// const formValues = this.form.value;
-// console.log("formValues:",formValues)
-
-// const payload: any = {
-//   fromDate: formValues.fromDate,
-//   toDate: formValues.toDate,
-//   toCity:formValues.toCity,
-//   branch:formValues.branch,
-//   fromCity:formValues.fromCity
-// };
-// console.log("payload:",payload)
-// this.api.FilterParcelUnLoading(payload).subscribe({
-//   next: (response: any) => {
-//     const data = response?.data || [];
-
-//     if (!data.length) {
-//       this.apiResponse = [];
-//       this.bkdata = [];
-//       this.summary = {};
-//       this.LoadSuccess = false;
-//       this.toastr.error('No customer bookings found.', 'Error');
-//       return;
-//     }
-
-//     this.apiResponse = data;
-//     this.bkdata = data; // <-- fix: directly assign response data
-
-//     // Prepare summary
-//     this.summary = {};
-//     data.forEach((item: any) => {
-//       const type = item.bookingType;
-//       if (!this.summary[type]) {
-//         this.summary[type] = {
-//           totalQuantity: 0,
-//           totalGrandTotal: 0
-//         };
-//       }
-//       this.summary[type].totalQuantity += item.totalQuantity || 0;
-//       this.summary[type].totalGrandTotal += item.grandTotal || 0;
-//     });
-
-//     this.LoadSuccess = true;
-//     if (this.bkdata.length > 0) {
-//       this.form1.patchValue({
-//         branch: this.bkdata[0].dropBranch,
-//         bookingType: this.bkdata[0].bookingType, // ✅ patch bookingType
-//       });
-    
-//       this.setFormArray('grnNo', this.bkdata.map(d => d.grnNo));
-//       this.setFormArray('lrNumber', this.bkdata.map(d => d.lrNumber));
-//     }
-    
-//     this.toastr.success('Parcel unloaded Successfully', 'Success');
-//   },
-
-//   error: (err) => {
-//     console.error('API Error:', err);
-//     this.apiResponse = [];
-//     this.bkdata = [];
-//     this.summary = {};
-//     this.LoadSuccess = false;
-//     this.toastr.error('Parcel unloaded Data Not Found', 'Error');
-//   }
-// });
-
-// }
 
 onLoad() {
   if (this.form.invalid) {
@@ -459,9 +390,12 @@ ParcelLoad() {
 
   this.api.ParcelUnLoading(payload).subscribe({
     next: (response: any) => {
+      this.parcelResponse=response
+
       console.log('Parcel unloaded successfully:', response);
       this.toastr.success('Parcel unloaded successfully', 'Success');
       setTimeout(() => {
+        this.PrintTable()
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
           this.router.navigate(['/employee-unloading']);
         });
@@ -601,7 +535,66 @@ getProfileData() {
   });
 }
 
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  // Method to print the table in landscape orientation
+  PrintTable() {
+    if (!this.parcelResponse) {
+      console.error('No data to print. Call ParcelLoad() first.');
+      alert('No data available to print.');
+      return;
+    }
+
+    // Get the table HTML
+    const printContent = this.printParcelTable.nativeElement.innerHTML;
+
+    // Create a new window for printing with landscape orientation
+    const printWindow = window.open('', '_blank');
+    if (printWindow) {
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>Print Parcel Table</title>
+            <style>
+              @page { size: A4 landscape; } /* Force landscape orientation */
+              table { width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 12px; }
+              th, td { border: 1px solid black; padding: 8px; text-align: left; }
+              th { background-color: #f2f2f2; font-weight: bold; }
+              .table-striped tbody tr:nth-of-type(odd) { background-color: #f9f9f9; }
+              .table-responsive { overflow-x: auto; margin: 10px; }
+              @media print {
+                body { margin: 0; }
+                .table-responsive { margin: 10mm; }
+              }
+            </style>
+          </head>
+          <body onload="window.print(); window.close()">
+            <div class="table-responsive">
+              ${printContent}
+            </div>
+          </body>
+        </html>
+      `);
+      printWindow.document.close();
+    } else {
+      console.error('Could not open print window.');
+      alert('Failed to open print window.');
+    }
+  }
 }
+
+
 
 
 
