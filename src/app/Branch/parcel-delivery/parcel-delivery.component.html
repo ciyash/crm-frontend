@@ -358,6 +358,10 @@
                 <td class="fw-bold">Receiver Number</td>
                 <td class="fw-bold">{{ items.receiverMobile }}</td>
               </tr>
+              <tr>
+                <td class="fw-bold">Total Amount</td>
+                <td class="fw-bold">{{ items.grandTotal }}</td>
+              </tr>
           
               <!-- ✅ Package Details -->
               <tr *ngIf="items?.packages?.length">

@@ -34,7 +34,14 @@ export class CreateBranchComponent {
         city: ['', Validators.required],
         location: ['', Validators.required],
         address: ['', Validators.required],
-        phone: ['', Validators.required],
+        // phone: ['', Validators.required],
+        phone: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern(/^[6-9][0-9]{9}$/)
+          ]
+        ],
         email: ['', Validators.required],
         pincode: ['', Validators.required],
         state: ['', Validators.required],
@@ -53,8 +60,8 @@ export class CreateBranchComponent {
             pincode: ['', ],
             state: ['', ],
             country:['India'],
-            alternateMobile: ['', ],
-              });
+            alternateMobile: ['', Validators.pattern(/^[6-9][0-9]{9}$/)],
+          });
   }
 
   ngOnInit(){
@@ -69,6 +76,14 @@ export class CreateBranchComponent {
     })
 
   }
+
+  allowOnlyNumbers(event: KeyboardEvent) {
+    const charCode = event.key.charCodeAt(0);
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+    }
+  }
+  
 
   onEdit(row: any) {
     this.visible = true; // Show the edi

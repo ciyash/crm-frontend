@@ -1,7 +1,8 @@
 <app-header></app-header>
 <div class="text-center" style="margin-top: 8%;">
   <i class="fa fa-print" aria-hidden="true" style="font-size: 38px;color: green;cursor: pointer;" (click)="print()"></i>
-  <i class="fa fa-file-excel-o mx-2" (click)="Export()" style="font-size: 30px;color: green;cursor: pointer;" aria-hidden="true"></i>
+  <i class="fa fa-file-excel-o mx-2" (click)="Export()" style="font-size: 30px;color: green;cursor: pointer;"
+    aria-hidden="true"></i>
 </div>
 <div class="container-fluid  " id="printableArea">
   <div>
@@ -13,7 +14,7 @@
       </p>
     </div>
     <h5 class="text-center">Parcel Booking Report</h5>
-    
+
     <div class="row">
       <div class="col-8">
         <p><strong>From:</strong>
@@ -22,7 +23,7 @@
         </p>
       </div>
       <div class="col-4 text-right">
-        <strong>Print Date:</strong>   {{ currentDate | date:'dd-MM-yyyy' }} {{ currentTime | date:'hh:mm a' }}
+        <strong>Print Date:</strong> {{ currentDate | date:'dd-MM-yyyy' }} {{ currentTime | date:'hh:mm a' }}
       </div>
     </div>
 
@@ -75,17 +76,24 @@
               <td>{{ booking.eWayBillNo || '-' }}</td>
             </tr>
             <!-- Totals Row -->
-            <tr class="table-success fw-bold">
-              <td colspan="11">Total</td>
+            <!-- <tr class="table-success fw-bold">
+              <td colspan="10">Total</td>
               <td>{{ data[category].allTotalQuantity }}</td>
               <td></td>
               <td>{{ data[category].allGrandTotal }}</td>
-              <td colspan="4"></td>
-            </tr>
+              <td colspan="3"></td>
+            </tr> -->
           </tbody>
+          <tfoot class="table-success fw-bold  text-center align-middle" >
+            <tr   *ngFor="let booking of (data[category]?.bookings || []); let i = index" >
+              <td colspan="10" class="text-end">Total:</td>
+              <td>{{ data[category].allTotalQuantity }}</td>
+              <td colspan="2">{{ data[category].allGrandTotal }}</td>
+            </tr>
+          </tfoot>
         </table>
       </div>
-<!--  -->
+      <!--  -->
       <ng-template #noBookings>
         <div class="alert alert-warning">No bookings found for {{ category }}</div>
       </ng-template>

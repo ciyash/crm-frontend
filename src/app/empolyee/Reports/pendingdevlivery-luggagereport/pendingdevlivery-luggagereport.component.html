@@ -157,6 +157,20 @@ background-color: #fff;">
                 <td>{{ data.amount }}</td>
               </tr>
             </tbody>
+
+            <tfoot class="fw-bold bg-light text-center align-middle">
+              <tr *ngIf="reportData">
+                <td colspan="11" class="text-end">Total:</td>
+                <td>{{ reportData.grandTotalQuantity}}</td>
+                      <td>{{ reportData.grandTotalAmount }}</td>
+              </tr>
+            </tfoot>
+
+
+            
+
+
+
             
         </table>
       

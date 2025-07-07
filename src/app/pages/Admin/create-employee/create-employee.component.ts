@@ -30,11 +30,18 @@ export class CreateEmployeeComponent {
           branchId: [''],
           location: ['', Validators.required],
           password: ['', Validators.required],
-          phone: ['', Validators.required],
+          // phone: ['', Validators.required],
+          phone: [
+            '',
+            [
+              Validators.required,
+              Validators.pattern(/^[6-9][0-9]{9}$/)
+            ]
+          ],
           email: ['', Validators.required],
           documents: ['', Validators.required],
           role: ['', Validators.required],
-          // companyName:['', Validators.required],
+          companyName:['', Validators.required],
             });
 
             this.form1 = this.fb.group({
@@ -99,6 +106,11 @@ export class CreateEmployeeComponent {
         }
       });
     }
+    allowOnlyDigits(event: any) {
+      const input = event.target;
+      input.value = input.value.replace(/[^0-9]/g, '');
+    }
+    
     
   
     Add() {

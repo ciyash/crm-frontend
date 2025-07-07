@@ -11,7 +11,7 @@ font-weight: 500;text-decoration: underline;word-wrap: break-word;margin-top: 8%
             <div class="row pt-3">
                 <div class="col-md-3 col-sm-12">
                     <label class="form-label form-after">Name</label>
-                    <input type="text" class="form-control form-select-sm " formControlName="name">
+                    <input type="text" placeholder="Enter Name" class="form-control form-select-sm " formControlName="name">
                 </div>
                 <div class="col-md-3 col-sm-12">
                 <label class="form-label form-after">Select Branch</label>
@@ -22,44 +22,61 @@ font-weight: 500;text-decoration: underline;word-wrap: break-word;margin-top: 8%
                 </div>
                 <div class="col-md-3 col-sm-12 ">
                     <label class="form-label form-after">Username</label>
-                    <input type="text" class="form-control form-select-sm " formControlName="username">
+                    <input type="text" placeholder="Enter UserName" class="form-control form-select-sm " formControlName="username">
                 </div>
                 <div class="col-md-3 col-sm-12 ">
                     <label class="form-label form-after">Password</label>
-                    <input type="text" class="form-control form-select-sm " formControlName="password">
+                    <input type="text" placeholder="Enter Password" class="form-control form-select-sm " formControlName="password">
                 </div>
                 <div class="col-md-3 col-sm-12 ">
-                    <label class="form-label form-after">Location</label>
-                    <input type="text" class="form-control form-select-sm " formControlName="location">
+                    <label class="form-label form-after"> Address</label>
+                    <input type="text" placeholder="Enter Full Address" class="form-control form-select-sm " formControlName="location">
                 </div>
                 <!-- <div class="col-md-3 col-sm-12">
                     <label class="form-label">Phone</label>
                     <input type="text" class="form-control form-select-sm " formControlName="phone">
                 </div> -->
-                <div class="col-md-3 col-sm-12">
+                <!-- <div class="col-md-3 col-sm-12">
                     <label class="form-label form-after" >Phone</label>
                     <input type="text" class="form-control form-select-sm" formControlName="phone">
                     
-                    <!-- Error message when input is invalid -->
+                    Error message when input is invalid
                     <div *ngIf="form.get('phone')?.invalid && form.get('phone')?.touched" class="text-danger">
                         Invalid phone number (must be 10 digits starting from 6-9)
                     </div>
-                </div>
+                </div> -->
+
+                <div class="col-md-3 col-sm-12">
+                    <label class="form-label form-after">Phone</label>
+                    <input
+                      type="text"
+                      class="form-control form-select-sm"
+                      formControlName="phone" placeholder="Enter Mobile Number"
+                      maxlength="10"
+                      pattern="^[6-9][0-9]{9}$"
+                      (input)="allowOnlyDigits($event)"
+                    />
+                  
+                    <!-- Error message when input is invalid -->
+                    <div *ngIf="form.get('phone')?.invalid && form.get('phone')?.touched" class="text-danger">
+                      Invalid phone number (must be 10 digits starting from 6-9)
+                    </div>
+                  </div>
+                  
                 
                 <div class="col-md-3 col-sm-12">
                     <label class="form-label form-after">Email</label>
-                    <input type="text" class="form-control form-select-sm " formControlName="email">
+                    <input type="text" placeholder="Enter Email" class="form-control form-select-sm " formControlName="email">
                 </div>
                 <div class="col-md-3 col-sm-12">
                     <label class="form-label form-after">Documents</label>
-                    <input type="text" class="form-control form-select-sm " formControlName="documents">
+                    <input type="text" placeholder="Enter Documents " class="form-control form-select-sm " formControlName="documents">
                 </div>
 
-                <!-- <div class="col-md-3 col-sm-12">
+                <div class="col-md-3 col-sm-12">
                     <label class="form-label">CompanyName</label>
-                    <input type="text" class="form-control form-select-sm " formControlName="companyName">
-                </div> -->
-
+                    <input type="text" placeholder="Enter Company Name" class="form-control form-select-sm " formControlName="companyName">
+                </div>
 
                 <div class="col-md-3 col-sm-12">
                     <label class="form-label form-after " >Role</label> 
