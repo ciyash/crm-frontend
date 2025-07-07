@@ -101,7 +101,11 @@ word-wrap: break-word">Parcel Loading Offline</h4>
       <table class="table table-bordered table-striped">
         <thead>
           <tr>
-            <th><input type="checkbox" (change)="onSelectAllChange($event)" [checked]="allSelected" /> Select All</th>
+            <th>
+              <input type="checkbox" 
+                     (change)="onSelectAllChange($event)" 
+                     [checked]="allSelected" /> Select All
+            </th>
             <th>S.No</th>
             <th>LR No</th>
             <th>Book by Branch</th>
@@ -118,8 +122,9 @@ word-wrap: break-word">Parcel Loading Offline</h4>
         <tbody>
           <tr *ngFor="let row of data; let i = index">
             <td>
-              <input type="checkbox" [checked]="form1.get('grnNo')?.value.includes(row.grnNo)"
-                (change)="onGrnNoChange($event, row.grnNo)" />
+              <input type="checkbox"
+                     [checked]="form1.get('grnNo')?.value.includes(row.grnNo)"
+                     (change)="onGrnNoChange($event, row.grnNo)" />
             </td>
             <td>{{ i + 1 }}</td>
             <td>{{ row.lrNumber }}</td>
@@ -135,8 +140,8 @@ word-wrap: break-word">Parcel Loading Offline</h4>
           </tr>
         </tbody>
       </table>
-
     </div>
+    
 
   </div>
 
@@ -164,14 +169,31 @@ word-wrap: break-word">Parcel Loading Offline</h4>
           </div>
         </div>
         
-        <div class="col-md-3 col-sm-12">
+        <!-- <div class="col-md-3 col-sm-12">
           <label class="form-label">Driver Number</label>
           <input type="text" class="form-control form-select-sm" placeholder="Enter Conductor Number" formControlName="driverNo">
           <div class="text-danger" *ngIf="form1.get('driverNo')?.touched && form1.get('driverNo')?.invalid">
             <div *ngIf="form1.get('driverNo')?.errors?.['required']">Conductor Number is required.</div>
             <div *ngIf="form1.get('driverNo')?.errors?.['pattern']">Must be 10 digits.</div>
           </div>
+        </div> -->
+        <div class="col-md-3 col-sm-12">
+          <label class="form-label">Driver Number</label>
+          <input
+            type="tel"
+            class="form-control form-select-sm"
+            maxlength="10"
+            placeholder="Enter Conductor Number"
+            formControlName="driverNo"
+            pattern="[0-9]{10}"
+            (keypress)="onlyNumber($event)"
+          />
+          <div class="text-danger" *ngIf="form1.get('driverNo')?.touched && form1.get('driverNo')?.invalid">
+            <div *ngIf="form1.get('driverNo')?.errors?.['required']">Conductor Number is required.</div>
+            <div *ngIf="form1.get('driverNo')?.errors?.['pattern']">Must be 10 digits.</div>
+          </div>
         </div>
+        
         
       
 
@@ -193,4 +215,51 @@ word-wrap: break-word">Parcel Loading Offline</h4>
     </div> -->
   </form>
 </div>
+
+
+
+<div #printParcelTable class="table-responsive mt-4" *ngIf="parcelloadingData?.grnNo?.length">
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>GRN No</th>
+        <th>LR No</th>
+        <th>From City</th>
+        <th>Drop City</th>
+        <th>Sender Name</th>
+        <th>Driver Name</th>
+        <th>Driver No</th>
+        <th>Vehicle Number</th>
+        <th>Voucher No</th>
+        <th>Loading Date</th>
+        <th>Booking Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let grn of parcelloadingData.grnNo; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ grn }}</td>
+        <td>{{ parcelloadingData.lrNumber[i] }}</td>
+        <td>{{ parcelloadingData.fromCity }}</td>
+        <td>{{ parcelloadingData.toCity?.join(', ') }}</td>
+        <td>{{ parcelloadingData.senderName }}</td>
+        <td>{{ parcelloadingData.driverName }}</td>
+        <td>{{ parcelloadingData.driverNo }}</td>
+        <td>{{ parcelloadingData.vehicalNumber }}</td>
+        <td>{{ parcelloadingData.vocherNoUnique }}</td>
+        <td>{{ parcelloadingData.loadingDate | date: 'dd-MM-yyyy, h:mm a' }}</td>
+        <td>{{ parcelloadingData.bookingStatus === '1' ? 'Paid' : 'Unpaid' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+
+
+
+
+
 <app-sub-loadingreport></app-sub-loadingreport>

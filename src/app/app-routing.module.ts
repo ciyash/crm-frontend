@@ -221,7 +221,7 @@ const routes: Routes = [
 
   { path: 'addcfmaster', component: AddCfmasterComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
   { path: 'getcfmasterdata', component: GetCfmasterDataComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
-  { path: 'creditvouchergenerate', component: CreditVoucherGenerateComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
+  // { path: 'creditvouchergenerate', component: CreditVoucherGenerateComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
   { path: 'voucherdetailscf', component: VoucherDetailsCfmasterComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
   { path: 'voucherreport', component: VocherDetailsReportComponent, canActivate: [authGuard],data: { roles: ['employee'] } },
 

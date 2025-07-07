@@ -32,7 +32,7 @@ word-wrap: break-word">Parcel Loading Offline</h4>
 
         </div> -->
         <div class="col-md-4 col-sm-12">
-          <label class="form-label">To City</label>
+          <label class="form-label form-after ">To City</label>
           <select #demoSelect multiple class="form-control" (change)="onToCityChange($event)">
             <option *ngFor="let city of cities" [value]="city.cityName">
               {{ city.cityName }}
@@ -216,40 +216,64 @@ word-wrap: break-word">Parcel Loading Offline</h4>
     <thead>
       <tr>
         <th>S.No</th>
-        <th>LR No</th>
         <th>GRN No</th>
+        <th>LR No</th>
         <th>From City</th>
         <th>Drop City</th>
-        <!-- <th>Drop Branch</th> -->
         <th>Sender Name</th>
         <th>Driver Name</th>
         <th>Driver No</th>
         <th>Vehicle Number</th>
         <th>Voucher No</th>
-        <th>LoadingDate Date</th>
-        <th>Paid Type</th>
-        
+        <th>Loading Date</th>
+        <th>Booking Status</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let lr of parcelResponse.lrNumber; let i = index">
+      <tr *ngFor="let grn of parcelResponse.grnNo; let i = index">
         <td>{{ i + 1 }}</td>
-        <td>{{ lr }}</td>
-        <td>{{ parcelResponse.grnNo?.[i] || parcelResponse.grnNo?.[0] }}</td>
+        <td>{{ grn }}</td>
+        <td>{{ parcelResponse.lrNumber[i] }}</td>
         <td>{{ parcelResponse.fromCity }}</td>
-        <td>{{ parcelResponse.toCity?.[i] || parcelResponse.toCity?.[0] }}</td>
-        <!-- <td>{{ parcelResponse.toBranch || '-' }}</td> -->
+        <td>{{ parcelResponse.toCity?.join(', ') }}</td>
         <td>{{ parcelResponse.senderName }}</td>
         <td>{{ parcelResponse.driverName }}</td>
         <td>{{ parcelResponse.driverNo }}</td>
         <td>{{ parcelResponse.vehicalNumber }}</td>
         <td>{{ parcelResponse.vocherNoUnique }}</td>
-        <td>{{ parcelResponse.loadingDate | date: 'dd-MM-yyyy HH:mm:ss' }}</td>
-        <td>{{ parcelResponse.bookingType || '-' }}</td>
+        <td>{{ parcelResponse.loadingDate | date: 'dd-MM-yyyy, h:mm a' }}</td>
+        <td>
+          <ng-container [ngSwitch]="parcelResponse.bookingStatus">
+            <ng-container *ngSwitchCase="'0'">
+              <i class="fa fa-times-circle mb-2 text-danger" title="Pending"></i> Booking
+            </ng-container>
+            <ng-container *ngSwitchCase="'1'">
+              <i class="fa fa-check-circle mb-2 text-success" title="Package Load"></i> Loading
+            </ng-container>
+            <ng-container *ngSwitchCase="'2'">
+              <i class="fa fa-check-circle mb-2 text-primary" title="Package OnLoad"></i> Unloading
+            </ng-container>
+            <ng-container *ngSwitchCase="'3'">
+              <i class="fa fa-check-circle mb-2 text-warning" title="Received Branch"></i> Missing
+            </ng-container>
+            <ng-container *ngSwitchCase="'4'">
+              <i class="fa fa-check-circle mb-2 text-success" title="Delivered"></i> Delivery
+            </ng-container>
+            <ng-container *ngSwitchCase="'5'">
+              <i class="pi pi-times-circle mb-2 text-danger" title="Cancelled"></i>Cancel
+            </ng-container>
+          </ng-container>
+        </td>
+
+        
+
+
       </tr>
     </tbody>
   </table>
 </div>
+
+
 
 
 

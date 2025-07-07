@@ -628,8 +628,14 @@ export class LoadingComponent {
   }
 
   printParcelLoadTable() {
+    if (!this.parcelResponse) {
+      console.error('No data to print. Call ParcelLoad() first.');
+      alert('No data available to print.');
+      return;
+    }
+  
     const printContents = this.printParcelTable.nativeElement.innerHTML;
-    const popupWindow = window.open('', '_blank', 'width=800,height=600');
+    const popupWindow = window.open('', '_blank', 'width=1200,height=800');
   
     if (popupWindow) {
       popupWindow.document.open();
@@ -639,16 +645,23 @@ export class LoadingComponent {
           <head>
             <title>Parcel Load Print</title>
             <style>
-              * {
-                box-sizing: border-box;
+              @page {
+                size: A4 landscape;
+                margin: 10mm;
               }
               body {
                 font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+              }
+              .table-responsive {
                 margin: 20px;
+                overflow-x: auto;
               }
               table {
                 width: 100%;
                 border-collapse: collapse;
+                font-size: 12px;
               }
               th, td {
                 border: 1px solid #444;
@@ -657,16 +670,17 @@ export class LoadingComponent {
               }
               th {
                 background-color: #f0f0f0;
+                font-weight: bold;
               }
-              @media print {
-                body {
-                  margin: 0;
-                }
+              .table-striped tbody tr:nth-child(odd) {
+                background-color: #f9f9f9;
               }
             </style>
           </head>
           <body>
-            ${printContents}
+            <div class="table-responsive">
+              ${printContents}
+            </div>
             <script>
               window.onload = function() {
                 window.print();
@@ -677,7 +691,11 @@ export class LoadingComponent {
         </html>
       `);
       popupWindow.document.close();
+    } else {
+      console.error('Could not open print window.');
+      alert('Failed to open print window.');
     }
   }
+  
   
 }

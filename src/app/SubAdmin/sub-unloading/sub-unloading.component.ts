@@ -16,6 +16,7 @@ declare const SlimSelect: any;
 })
 export class SubUnloadingComponent {
       adminData: any;
+      pecelloading:any;
       form!: FormGroup;
       form1: FormGroup;
       cities: any;
@@ -35,6 +36,9 @@ export class SubUnloadingComponent {
       @ViewChild('selectvehicle') selectvehicle!: ElementRef;
       // @ViewChild('droupbranch') droupbranch!: ElementRef;
       @ViewChild('demoSelect') demoSelect!: ElementRef;
+      @ViewChild('printParcelTable') printParcelTable!: ElementRef; // Reference to the table div
+
+
       selectedbranch: any;
       onVehicleSelect: any;
       apiResponse: any;
@@ -44,6 +48,10 @@ export class SubUnloadingComponent {
       qrdata: string = '';
       showScanner: boolean = false;
       today = new Date();
+  fromCityValue: any;
+  filteredCityList: any;
+  onPickupBranchSelect: any;
+  parcelResponse: any;
       
       constructor(
         private api: BranchService,
@@ -57,7 +65,7 @@ export class SubUnloadingComponent {
           fromDate: [this.getTodayDateString(), Validators.required],
           toDate: [this.getTodayDateString(), Validators.required],
           fromCity: [''],
-          toCity: [''],
+          toCity: ['',Validators.required],
           vehicalNumber: ['',],
           branch: [''] 
 
@@ -77,6 +85,7 @@ export class SubUnloadingComponent {
 
       }
       ngOnInit() {
+        this.getProfileData();
         this.searchTerm = this.activeroute.snapshot.params['grnNumber'];
         this.getCities();
         this.getvehicleData();
@@ -99,28 +108,29 @@ export class SubUnloadingComponent {
     
         setTimeout(() => {
     
-          // $(this.demoSelect.nativeElement).select2();
           $(this.demoSelect.nativeElement).on('select2:select', (event: any) => {
             const selectedCity = event.params.data.id;
             this.form.get('fromCity')?.setValue(selectedCity);
             this.onFromCityChange({ target: { value: selectedCity } });
             console.log('Updated To City:', this.form.get('fromCity')?.value);
           });
-    
+
           $(this.selectElem.nativeElement).select2();
           $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
             const selectedCity = event.params.data.id;
-            this.form.get('toCity')?.setValue(selectedCity);
-            this.onTocitySelect({ target: { value: selectedCity } });
-            console.log('Updated To City:', this.form.get('toCity')?.value);
+            console.log('Selected City:', selectedCity);
+            this.form.patchValue({ toCity: selectedCity });
+            console.log('Updated form value:', this.form.value);
+            this.onFromcitySelect({ target: { value: selectedCity } });
           });
     
-       
           $(this.branch.nativeElement).select2();
           $(this.branch.nativeElement).on('select2:select', (event: any) => {
             const selectedBranch = event.params.data.id;
-            this.form.get('branch')?.setValue(selectedBranch);
-            console.log('Updated Branch:', this.form.get('branch')?.value);
+            console.log('Selected Pickup Branch:', selectedBranch);
+            this.form.patchValue({ branch: selectedBranch });
+            console.log('Updated form value:', this.form.value);
+            this.onPickupBranchSelect({ target: { value: selectedBranch } });
           });
     
         
@@ -133,77 +143,13 @@ export class SubUnloadingComponent {
               this.form1.get('vehicalNumber')?.value
             );
           });
+
+          
         }, 0);
       }
-    onLoad() {
-      if (this.form.invalid) {
-        this.toastr.error('Please fill all required fields', 'Validation Error');
-        return;
-      }
-  
-      const formValues = this.form.value;
-    
-      const payload: any = {
-        fromDate: formValues.fromDate,
-        toDate: formValues.toDate,
-        fromCity:formValues.fromCity,
-        branch:formValues.branch
-      };
-      this.api.FilterParcelUnLoading(payload).subscribe({
-        next: (response: any) => {
-          const data = response?.data || [];
-      
-          if (!data.length) {
-            this.apiResponse = [];
-            this.bkdata = [];
-            this.summary = {};
-            this.LoadSuccess = false;
-            this.toastr.error('No customer bookings found.', 'Error');
-            return;
-          }
-      
-          this.apiResponse = data;
-          this.bkdata = data; // <-- fix: directly assign response data
-      
-          // Prepare summary
-          this.summary = {};
-          data.forEach((item: any) => {
-            const type = item.bookingType;
-            if (!this.summary[type]) {
-              this.summary[type] = {
-                totalQuantity: 0,
-                totalGrandTotal: 0
-              };
-            }
-            this.summary[type].totalQuantity += item.totalQuantity || 0;
-            this.summary[type].totalGrandTotal += item.grandTotal || 0;
-          });
-      
-          this.LoadSuccess = true;
-          if (this.bkdata.length > 0) {
-            this.form1.patchValue({
-              branch: this.bkdata[0].dropBranch,
-              bookingType: this.bkdata[0].bookingType, // ✅ patch bookingType
-            });
-          
-            this.setFormArray('grnNo', this.bkdata.map(d => d.grnNo));
-            this.setFormArray('lrNumber', this.bkdata.map(d => d.lrNumber));
-          }
-          
-          this.toastr.success('Parcel unloaded Successfully', 'Success');
-        },
-      
-        error: (err) => {
-          console.error('API Error:', err);
-          this.apiResponse = [];
-          this.bkdata = [];
-          this.summary = {};
-          this.LoadSuccess = false;
-          this.toastr.error('Parcel unloaded Data Not Found', 'Error');
-        }
-      });
-      
-    }
+
+
+   
     
  
     openScanner() {
@@ -308,39 +254,258 @@ export class SubUnloadingComponent {
         });
         console.log('Selected From Cities:', fromCityArray.value);
       }
+
+      onFromcitySelect(event: any) {
+        const cityName = event.target.value;
+        if (cityName) {
+          this.api.GetBranchbyCity(cityName).subscribe(
+            (res: any) => {
+              console.log('Branches for selected city:', res);
+              this.tbcdata = res;
+            },
+            (error: any) => {
+              console.error('Error fetching branches:', error);
+            }
+          );
+        } else {
+          this.tbcdata = [];
+        }
+      }
+
+      // onLoad() {
+      //   if (this.form.invalid) {
+      //     this.toastr.error('Please fill all required fields', 'Validation Error');
+      //     return;
+      //   }
     
+      //   const formValues = this.form.value;
+      
+      //   const payload: any = {
+      //     fromDate: formValues.fromDate,
+      //     toDate: formValues.toDate,
+      //     fromCity:formValues.fromCity,
+      //     toCity:formValues.toCity,
+      //     branch:formValues.branch
+      //   };
+      //   console.log("payload:",payload);
+        
+      //   this.api.FilterParcelUnLoading(payload).subscribe({
+      //     next: (response: any) => {
+      //       this.pecelloading=response
+      //       console.log("parcel successfully loaded:", this.pecelloading);
+            
+  
+      //       const data = response?.data || [];
+        
+      //       if (!data.length) {
+      //         this.apiResponse = [];
+      //         this.bkdata = [];
+      //         this.summary = {};
+      //         this.LoadSuccess = false;
+      //         this.toastr.error('No customer bookings found.', 'Error');
+      //         return;
+      //       }
+        
+      //       this.apiResponse = data;
+      //       this.bkdata = data; // <-- fix: directly assign response data
+        
+      //       // Prepare summary
+      //       this.summary = {};
+      //       data.forEach((item: any) => {
+      //         const type = item.bookingType;
+      //         if (!this.summary[type]) {
+      //           this.summary[type] = {
+      //             totalQuantity: 0,
+      //             totalGrandTotal: 0
+      //           };
+      //         }
+      //         this.summary[type].totalQuantity += item.totalQuantity || 0;
+      //         this.summary[type].totalGrandTotal += item.grandTotal || 0;
+      //       });
+        
+      //       this.LoadSuccess = true;
+      //       if (this.bkdata.length > 0) {
+      //         this.form1.patchValue({
+      //           branch: this.bkdata[0].dropBranch,
+      //           bookingType: this.bkdata[0].bookingType, // ✅ patch bookingType
+      //         });
+            
+      //         this.setFormArray('grnNo', this.bkdata.map(d => d.grnNo));
+      //         this.setFormArray('lrNumber', this.bkdata.map(d => d.lrNumber));
+      //       }
+            
+      //       this.toastr.success('Parcel unloaded Successfully', 'Success');
+      //     },
+        
+      //     error: (err) => {
+      //       console.error('API Error:', err);
+      //       this.apiResponse = [];
+      //       this.bkdata = [];
+      //       this.summary = {};
+      //       this.LoadSuccess = false;
+      //       this.toastr.error('Parcel unloaded Data Not Found', 'Error');
+      //     }
+      //   });
+        
+      // }
+    
+      // setFormArray(controlName: string, values: any[]) {
+      //   const formArray = this.form1.get(controlName) as FormArray;
+      //   formArray.clear(); // Clear existing
+      //   values.flat().forEach((value) => {
+      //     formArray.push(this.fb.control(value));
+      //   });
+      // }
+    
+      // onGrnNoChange(event: any, grnNo: string) {
+      //   const formArray = this.form1.get('grnNo') as FormArray;
+      //   if (event.target.checked) {
+      //     // Add if not already selected
+      //     if (!formArray.value.includes(grnNo)) {
+      //       formArray.push(this.fb.control(grnNo));
+      //     }
+      //   } else {
+      //     // Remove if unchecked
+      //     const index = formArray.value.indexOf(grnNo);
+      //     if (index > -1) {
+      //       formArray.removeAt(index);
+      //     }
+      //   }
+      
+      //   // ✅ Update "Select All" status based on selected values
+      //   this.allSelected = this.bkdata.length === formArray.value.length;
+      //   console.log('Selected GRN Numbers:', formArray.value);
+      // }
+    
+      // onSelectAllChange(event: any) {
+      //   const formArray = this.form1.get('grnNo') as FormArray;
+      //   formArray.clear();
+    
+      //   if (event.target.checked && this.bkdata?.length > 0) {
+      //     this.bkdata.forEach((row: any) => {
+      //       const grn = row?.grnNo;
+      //       if (grn && !formArray.value.includes(grn)) {
+      //         formArray.push(this.fb.control(grn));
+      //       }
+      //     });
+      //   }
+    
+      //   this.allSelected = event.target.checked;
+      //   console.log('All selected GRNs:', formArray.value);
+      // }
+
+      onLoad() {
+        if (this.form.invalid) {
+          this.toastr.error('Please fill all required fields', 'Validation Error');
+          return;
+        }
+      
+        const formValues = this.form.value;
+      
+        const payload: any = {
+          fromDate: formValues.fromDate,
+          toDate: formValues.toDate,
+          fromCity: formValues.fromCity,
+          toCity: formValues.toCity,
+          branch: formValues.branch
+        };
+      
+        console.log("Payload:", payload);
+      
+        this.api.FilterParcelUnLoading(payload).subscribe({
+          next: (response: any) => {
+            this.pecelloading = response;
+            console.log("Parcel successfully loaded:", this.pecelloading);
+      
+            const data = response?.data || [];
+      
+            if (!data.length) {
+              this.apiResponse = [];
+              this.bkdata = [];
+              this.summary = {};
+              this.LoadSuccess = false;
+              this.toastr.error('No customer bookings found.', 'Error');
+              return;
+            }
+      
+            this.apiResponse = data;
+            this.bkdata = data;
+      
+            // Prepare summary
+            this.summary = {};
+            data.forEach((item: any) => {
+              const type = item.bookingType;
+              if (!this.summary[type]) {
+                this.summary[type] = {
+                  totalQuantity: 0,
+                  totalGrandTotal: 0
+                };
+              }
+              this.summary[type].totalQuantity += item.totalQuantity || 0;
+              this.summary[type].totalGrandTotal += item.grandTotal || 0;
+            });
+      
+            this.LoadSuccess = true;
+      
+            if (this.bkdata.length > 0) {
+              this.form1.patchValue({
+                branch: this.bkdata[0].dropBranch,
+                bookingType: this.bkdata[0].bookingType,
+              });
+      
+              // ✅ Don't auto-select GRNs
+              const grnArray = this.form1.get('grnNo') as FormArray;
+              grnArray?.clear();
+      
+              const lrArray = this.form1.get('lrNumber') as FormArray;
+              lrArray?.clear();
+      
+              this.allSelected = false; // also reset select all status
+            }
+      
+            this.toastr.success('Parcel unloaded Successfully', 'Success');
+          },
+      
+          error: (err) => {
+            console.error('API Error:', err);
+            this.apiResponse = [];
+            this.bkdata = [];
+            this.summary = {};
+            this.LoadSuccess = false;
+            this.toastr.error('Parcel unloaded Data Not Found', 'Error');
+          }
+        });
+      }
+      
       setFormArray(controlName: string, values: any[]) {
         const formArray = this.form1.get(controlName) as FormArray;
-        formArray.clear(); // Clear existing
-        values.flat().forEach((value) => {
+        formArray.clear();
+        values.flat().forEach(value => {
           formArray.push(this.fb.control(value));
         });
       }
-    
+      
       onGrnNoChange(event: any, grnNo: string) {
         const formArray = this.form1.get('grnNo') as FormArray;
         if (event.target.checked) {
-          // Add if not already selected
           if (!formArray.value.includes(grnNo)) {
             formArray.push(this.fb.control(grnNo));
           }
         } else {
-          // Remove if unchecked
           const index = formArray.value.indexOf(grnNo);
           if (index > -1) {
             formArray.removeAt(index);
           }
         }
       
-        // ✅ Update "Select All" status based on selected values
         this.allSelected = this.bkdata.length === formArray.value.length;
         console.log('Selected GRN Numbers:', formArray.value);
       }
-    
+      
       onSelectAllChange(event: any) {
         const formArray = this.form1.get('grnNo') as FormArray;
         formArray.clear();
-    
+      
         if (event.target.checked && this.bkdata?.length > 0) {
           this.bkdata.forEach((row: any) => {
             const grn = row?.grnNo;
@@ -349,11 +514,12 @@ export class SubUnloadingComponent {
             }
           });
         }
-    
+      
         this.allSelected = event.target.checked;
         console.log('All selected GRNs:', formArray.value);
       }
-    
+      
+
       getvehicleData() {
         this.api.VehicleData().subscribe({
           next: (response: any) => {
@@ -366,13 +532,27 @@ export class SubUnloadingComponent {
         });
       }
 
+    
+
       ParcelLoad() {
-        console.log('ParcelLoad called');  // Confirm click
-        console.log('Form Value:', this.form1.value);  // Confirm data
+        console.log('ParcelLoad called');
+        console.log('Form Value:', this.form1.value);
       
+        // Validate GRN numbers
         const grnNos = Array.isArray(this.form1.value.grnNo)
           ? this.form1.value.grnNo
-          : [this.form1.value.grnNo];
+          : this.form1.value.grnNo ? [this.form1.value.grnNo] : [];
+      
+        if (!grnNos.length) {
+          this.toastr.warning('Please select at least one GRN number.', 'Validation');
+          return;
+        }
+      
+        // Validate vehicalNumber (fix spelling if API expects "vehicleNumber")
+        if (!this.form1.value.vehicalNumber || this.form1.value.vehicalNumber.trim() === '') {
+          this.toastr.error('Vehicle Number is required.', 'Validation Error');
+          return;
+        }
       
         const payload = {
           fromBookingDate: this.form1.value.fromBookingDate,
@@ -390,8 +570,11 @@ export class SubUnloadingComponent {
         this.api.ParcelUnLoading(payload).subscribe({
           next: (response: any) => {
             console.log('Parcel unloaded successfully:', response);
+            this.parcelResponse = response;
             this.toastr.success('Parcel unloaded successfully', 'Success');
+      
             setTimeout(() => {
+              this.PrintTable();
               this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
                 this.router.navigate(['/sub-unloading']);
               });
@@ -399,10 +582,16 @@ export class SubUnloadingComponent {
           },
           error: (error: any) => {
             console.error('Parcel unloading failed:', error);
-            alert('Parcel Unloading Failed. Please try again.');
+      
+            // Extract and show backend error message if available
+            const errorMessage = error?.error?.message || 'Parcel Unloading Failed. Please try again.';
+            this.toastr.error(errorMessage, 'Error');
           },
         });
       }
+      
+      
+
       printTable() {
         const printContent = document.getElementById('print-section');
         const WindowPrt = window.open('', '', 'width=900,height=650');
@@ -431,8 +620,6 @@ export class SubUnloadingComponent {
           WindowPrt.document.close();
         }
       }
-      
-    
       ExportEXcel(): void {
         const headerData = [];
       
@@ -493,8 +680,6 @@ export class SubUnloadingComponent {
       
         FileSaver.saveAs(blob, 'Parcel_GRN_Report.xlsx');
       }
-      
-      
       formatDate(date: Date): string {
         const d = new Date(date);
         return `${d.getDate().toString().padStart(2, '0')}-${(d.getMonth() + 1)
@@ -510,8 +695,70 @@ export class SubUnloadingComponent {
           hour12: true
         });
       }
+
+      getProfileData() {
+        this.api.GetProfileData().subscribe((res: any) => {
+          this.fromCityValue = res.branchId.city; 
+          this.filteredCityList = this.cities.filter(
+            (city: { cityName: string }) =>
+              city.cityName?.trim().toLowerCase() === this.fromCityValue?.trim().toLowerCase()
+          );
       
-    
+          this.form.patchValue({ toCity: this.fromCityValue });
+      
+          this.onFromcitySelect({ target: { value: this.fromCityValue } });
+          setTimeout(() => {
+            const select2Ref = $(this.selectElem.nativeElement);
+            select2Ref.select2('destroy');
+            select2Ref.select2();
+            select2Ref.val(this.fromCityValue).trigger('change.select2');
+            select2Ref.prop('disabled', true); 
+          }, 0);
+        });
+      }
+
+      PrintTable() {
+        if (!this.parcelResponse) {
+          console.error('No data to print. Call ParcelLoad() first.');
+          alert('No data available to print.');
+          return;
+        }
+        // Get the table HTML
+        const printContent = this.printParcelTable.nativeElement.innerHTML;
+        // Create a new window for printing with landscape orientation
+        const printWindow = window.open('', '_blank');
+        if (printWindow) {
+          printWindow.document.write(`
+            <html>
+              <head>
+                <title>Print Parcel Table</title>
+                <style>
+                  @page { size: A4 landscape; } /* Force landscape orientation */
+                  table { width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 12px; }
+                  th, td { border: 1px solid black; padding: 8px; text-align: left; }
+                  th { background-color: #f2f2f2; font-weight: bold; }
+                  .table-striped tbody tr:nth-of-type(odd) { background-color: #f9f9f9; }
+                  .table-responsive { overflow-x: auto; margin: 10px; }
+                  @media print {
+                    body { margin: 0; }
+                    .table-responsive { margin: 10mm; }
+                  }
+                </style>
+              </head>
+              <body onload="window.print(); window.close()">
+                <div class="table-responsive">
+                  ${printContent}
+                </div>
+              </body>
+            </html>
+          `);
+          printWindow.document.close();
+        } else {
+          console.error('Could not open print window.');
+          alert('Failed to open print window.');
+        }
+      }
+      
       }
       
     
