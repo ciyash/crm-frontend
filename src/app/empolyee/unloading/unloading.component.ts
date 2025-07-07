@@ -536,29 +536,14 @@ getProfileData() {
 }
 
 
-
-
-
-  
-
-
-
-
-
-
-
-
-  // Method to print the table in landscape orientation
   PrintTable() {
     if (!this.parcelResponse) {
       console.error('No data to print. Call ParcelLoad() first.');
       alert('No data available to print.');
       return;
     }
-
     // Get the table HTML
     const printContent = this.printParcelTable.nativeElement.innerHTML;
-
     // Create a new window for printing with landscape orientation
     const printWindow = window.open('', '_blank');
     if (printWindow) {

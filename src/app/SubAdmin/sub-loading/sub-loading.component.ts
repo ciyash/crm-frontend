@@ -17,6 +17,7 @@ declare const SlimSelect: any;
 })
 export class SubLoadingComponent {
     adminData: any;
+    parcelloadingData:any
     form!: FormGroup;
     form1:FormGroup;
     cities:any;
@@ -38,6 +39,8 @@ export class SubLoadingComponent {
      @ViewChild('SelectVechicle')SelectVechicle!:ElementRef;
     @ViewChild('demoSelect') demoSelect!: ElementRef;
     @ViewChild('printTable') printTable!: ElementRef;
+    @ViewChild('printParcelTable') printParcelTable!: ElementRef;
+
   
     BranchSelect: any;
     pfdata: any;
@@ -55,7 +58,7 @@ export class SubLoadingComponent {
           endDate: [this.getTodayDateString(), Validators.required],
           fromCity: ['',Validators.required],               
           toCity: this.fb.array([]),     
-          pickUpBranch: ['',Validators.required], 
+          pickUpBranch: ['',], 
         });
   
         this.form1 = this.fb.group({
@@ -64,7 +67,9 @@ export class SubLoadingComponent {
           toBranch: ['',],
           vehicalNumber: ['', Validators.required],
           driverName: ['', [Validators.required, Validators.minLength(3)]],
-          driverNo: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+          // driverNo: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+          driverNo: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+
           fromBookingDate: ['',],
           toBookingDate: ['', ],
           fromCity:[''],
@@ -86,6 +91,14 @@ export class SubLoadingComponent {
       this.branchData();
       this.getProfileData();
     }
+
+    onlyNumber(event: KeyboardEvent) {
+      const charCode = event.key;
+      if (!/^\d$/.test(charCode)) {
+        event.preventDefault();
+      }
+    }
+    
   
     getTodayDateString(): string {
       const today = new Date();
@@ -124,115 +137,226 @@ export class SubLoadingComponent {
   }
   
   
-  onLoad() {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched(); // Trigger all validations
-      return;
-    }
-    const today = this.getTodayDateString();
-    const formValues = this.form.value;
+  // onLoad() {
+  //   if (this.form.invalid) {
+  //     this.form.markAllAsTouched(); // Trigger all validations
+  //     return;
+  //   }
+  //   const today = this.getTodayDateString();
+  //   const formValues = this.form.value;
     
-    const payload: any = {
-      startDate: formValues.startDate || today,
-      endDate: formValues.startDate || today
-    };
+  //   const payload: any = {
+  //     startDate: formValues.startDate || today,
+  //     endDate: formValues.startDate || today
+  //   };
   
-    if (formValues.fromCity) {
-      payload.fromCity = formValues.fromCity;
-    }
+  //   if (formValues.fromCity) {
+  //     payload.fromCity = formValues.fromCity;
+  //   }
   
-    if (formValues.toCity && formValues.toCity.length > 0) {
-      payload.toCity = formValues.toCity;
-    }
+  //   if (formValues.toCity && formValues.toCity.length > 0) {
+  //     payload.toCity = formValues.toCity;
+  //   }
   
-    if (formValues.pickUpBranch) {
-      payload.pickUpBranch = formValues.pickUpBranch;
-    }
+  //   if (formValues.pickUpBranch) {
+  //     payload.pickUpBranch = formValues.pickUpBranch;
+  //   }
   
-    console.log('Final Parcel Load Data:', payload);
+  //   console.log('Final Parcel Load Data:', payload);
   
-    this.api.FilterParcelLoading(payload).subscribe({
-      next: (response: any) => {
-        this.toast.success('Parcel Load successful', 'Success');
-        console.log("data:", response);
-        this.data = response || [];
+  //   this.api.FilterParcelLoading(payload).subscribe({
+  //     next: (response: any) => {
+  //       this.toast.success('Parcel Load successful', 'Success');
+  //       console.log("data:", response);
+  //       this.data = response || [];
   
-        this.LoadSuccess = true;
+  //       this.LoadSuccess = true;
   
-        if (this.data.length > 0) {
-          this.form1.patchValue({
-            fromBranch: this.data[0].pickUpBranch,
-            toBranch: this.data[0].dropBranch,
-            fromBookingDate: this.form.value.startDate,
-            toBookingDate: this.form.value.endDate,
-            fromCity: this.form.value.fromCity,
-            senderName: this.data[0]?.senderName || ''
-          });
+  //       if (this.data.length > 0) {
+  //         this.form1.patchValue({
+  //           fromBranch: this.data[0].pickUpBranch,
+  //           toBranch: this.data[0].dropBranch,
+  //           fromBookingDate: this.form.value.startDate,
+  //           toBookingDate: this.form.value.endDate,
+  //           fromCity: this.form.value.fromCity,
+  //           senderName: this.data[0]?.senderName || ''
+  //         });
   
-          this.setFormArray('toCity', this.data.map((d: any) => d.toCity));
-          this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
-          this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
-        }
-      },
-      error: (error: any) => {
-        console.error('Parcel Load Error:', error);
+  //         this.setFormArray('toCity', this.data.map((d: any) => d.toCity));
+  //         this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
+  //         this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
+  //       }
+  //     },
+  //     error: (error: any) => {
+  //       console.error('Parcel Load Error:', error);
   
-        const errorMessage = error?.error?.message || error?.message || 'An error occurred during parcel load.';
+  //       const errorMessage = error?.error?.message || error?.message || 'An error occurred during parcel load.';
   
-        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-          this.router.navigate(['/sub-loading']);
-          this.toast.error(errorMessage, "Parcel Load Failed");
-        });
-      }
-    });
+  //       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+  //         this.router.navigate(['/sub-loading']);
+  //         this.toast.error(errorMessage, "Parcel Load Failed");
+  //       });
+  //     }
+  //   });
+  // }
+  //   setFormArray(controlName: string, values: any[]) {
+  //     const formArray = this.form1.get(controlName) as FormArray;
+  //     formArray.clear(); // ✅ Clear previous values
+  //     values.forEach(value => {
+  //       formArray.push(this.fb.control(value));
+  //     });
+  //   }
+  
+  //   onGrnNoChange(event: any, grnNo: string) {
+  //     const formArray = this.form1.get('grnNo') as FormArray;
+  //     if (event.target.checked) {
+  //       // Add if not already selected
+  //       if (!formArray.value.includes(grnNo)) {
+  //         formArray.push(this.fb.control(grnNo));
+  //       }
+  //     } else {
+  //       // Remove if unchecked
+  //       const index = formArray.value.indexOf(grnNo);
+  //       if (index > -1) {
+  //         formArray.removeAt(index);
+  //       }
+  //     }
+    
+  //     // ✅ Update "Select All" status based on selected values
+  //     this.allSelected = this.data.length === formArray.value.length;
+  //     console.log('Selected GRN Numbers:', formArray.value);
+  //   }
+    
+  //   onSelectAllChange(event: any) {
+  //     const formArray = this.form1.get('grnNo') as FormArray;
+  //     if (event.target.checked) {
+  //       // ✅ Select all if checked
+  //       this.data.forEach((row:any) => {
+  //         if (!formArray.value.includes(row.grnNo)) {
+  //           formArray.push(this.fb.control(row.grnNo));
+  //         }
+  //       });
+  //     } else {
+  //       // ✅ Deselect all if unchecked
+  //       formArray.clear();
+  //     }
+  //     // ✅ Update "Select All" status
+  //     this.allSelected = event.target.checked;
+  //     console.log('All GRN Numbers Selected:', formArray.value);
+  //   }
+
+
+  onLoad() {
+  if (this.form.invalid) {
+    this.form.markAllAsTouched(); // Trigger all validations
+    return;
   }
-    setFormArray(controlName: string, values: any[]) {
-      const formArray = this.form1.get(controlName) as FormArray;
-      formArray.clear(); // ✅ Clear previous values
-      values.forEach(value => {
-        formArray.push(this.fb.control(value));
+
+  const formValues = this.form.value;
+
+  const payload: any = {
+    startDate: formValues.startDate,
+    endDate: formValues.endDate ,
+  };
+
+  if (formValues.fromCity) {
+    payload.fromCity = formValues.fromCity;
+  }
+
+  if (formValues.toCity && formValues.toCity.length > 0) {
+    payload.toCity = formValues.toCity;
+  }
+
+  if (formValues.pickUpBranch) {
+    payload.pickUpBranch = formValues.pickUpBranch;
+  }
+
+  console.log('Final Parcel Load Data:', payload);
+
+  this.api.FilterParcelLoading(payload).subscribe({
+    next: (response: any) => {
+      this.toast.success('Parcel Load successful', 'Success');
+      console.log("data:", response);
+      this.data = response || [];
+
+      this.LoadSuccess = true;
+
+      if (this.data.length > 0) {
+        this.form1.patchValue({
+          fromBranch: this.data[0].pickUpBranch,
+          toBranch: this.data[0].dropBranch,
+          fromBookingDate: this.form.value.startDate,
+          toBookingDate: this.form.value.endDate,
+          fromCity: this.form.value.fromCity,
+          senderName: this.data[0]?.senderName || ''
+        });
+
+        this.setFormArray('toCity', this.data.map((d: any) => d.toCity));
+        // ❌ Do not set grnNo here to avoid auto-selection
+        this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
+      }
+
+      // Clear previously selected GRNs on new load
+      const grnArray = this.form1.get('grnNo') as FormArray;
+      grnArray.clear();
+      this.allSelected = false;
+    },
+    error: (error: any) => {
+      console.error('Parcel Load Error:', error);
+
+      const errorMessage = error?.error?.message || error?.message || 'An error occurred during parcel load.';
+
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['/sub-loading']);
+        this.toast.error(errorMessage, "Parcel Load Failed");
       });
     }
-  
-    onGrnNoChange(event: any, grnNo: string) {
-      const formArray = this.form1.get('grnNo') as FormArray;
-      if (event.target.checked) {
-        // Add if not already selected
-        if (!formArray.value.includes(grnNo)) {
-          formArray.push(this.fb.control(grnNo));
-        }
-      } else {
-        // Remove if unchecked
-        const index = formArray.value.indexOf(grnNo);
-        if (index > -1) {
-          formArray.removeAt(index);
-        }
-      }
-    
-      // ✅ Update "Select All" status based on selected values
-      this.allSelected = this.data.length === formArray.value.length;
-      console.log('Selected GRN Numbers:', formArray.value);
+  });
+}
+
+setFormArray(controlName: string, values: any[]) {
+  const formArray = this.form1.get(controlName) as FormArray;
+  formArray.clear();
+  values.forEach(value => {
+    formArray.push(this.fb.control(value));
+  });
+}
+
+onGrnNoChange(event: any, grnNo: string) {
+  const formArray = this.form1.get('grnNo') as FormArray;
+  if (event.target.checked) {
+    if (!formArray.value.includes(grnNo)) {
+      formArray.push(this.fb.control(grnNo));
     }
-    
-    // ✅ Handle "Select All" checkbox
-    onSelectAllChange(event: any) {
-      const formArray = this.form1.get('grnNo') as FormArray;
-      if (event.target.checked) {
-        // ✅ Select all if checked
-        this.data.forEach((row:any) => {
-          if (!formArray.value.includes(row.grnNo)) {
-            formArray.push(this.fb.control(row.grnNo));
-          }
-        });
-      } else {
-        // ✅ Deselect all if unchecked
-        formArray.clear();
-      }
-      // ✅ Update "Select All" status
-      this.allSelected = event.target.checked;
-      console.log('All GRN Numbers Selected:', formArray.value);
+  } else {
+    const index = formArray.value.indexOf(grnNo);
+    if (index > -1) {
+      formArray.removeAt(index);
     }
-  
+  }
+
+  this.allSelected = this.data.length > 0 && formArray.value.length === this.data.length;
+  console.log('Selected GRN Numbers:', formArray.value);
+}
+
+onSelectAllChange(event: any) {
+  const formArray = this.form1.get('grnNo') as FormArray;
+  if (event.target.checked) {
+    this.data.forEach((row: any) => {
+      if (!formArray.value.includes(row.grnNo)) {
+        formArray.push(this.fb.control(row.grnNo));
+      }
+    });
+  } else {
+    formArray.clear();
+  }
+  this.allSelected = event.target.checked;
+  console.log('All GRN Numbers Selected:', formArray.value);
+}
+
+
+
+
     ngAfterViewInit(): void {
       // Initialize SlimSelect
       new SlimSelect({
@@ -298,67 +422,6 @@ export class SubLoadingComponent {
         }, 0);
       });
     }
-    
-    
-    
-    // openScanner() {
-    //   this.showScanner = true;
-    // }
-  
-    // closeScanner() {
-    //   this.showScanner = false;
-    // }
-  
-    // handleQrCodeResult(result: string) {
-    //   this.closeScanner();
-    
-    //   // Don't set this.data = result directly here (it's just a string)
-    //   this.getQRdata(result);
-    // }
-  
-    // getQRdata(id: any) {
-    //   this.api.GetQrGRNnumber(id).subscribe((res: any) => {
-    //     console.log(res, 'qrdata');
-    //     let newData: any[] = [];
-    
-    //     if (Array.isArray(res)) {
-    //       newData = res;
-    //     } else if (res && typeof res === 'object') {
-    //       if (res.grnNo || res.lrNumber) {
-    //         newData = [res];
-    //       }
-    //     }
-    
-    //     if (newData.length > 0) {
-    //       this.data = [...this.data || [], ...newData];
-    
-    //       const qr = this.data[0];
-    
-    //       // Patch all required fields from QR
-    //       this.form1.patchValue({
-    //         senderName: qr?.senderName || '',
-    //         fromCity: qr?.fromCity || '',
-    //         toCity: [qr?.toCity || ''], // use array if it's multiselect
-    //         fromBranch: qr?.pickUpBranch || '',
-    //         toBranch: qr?.dropBranch || '',
-    //         fromBookingDate: qr?.ltDate?.split('T')[0] || '', // format ISO to date (yyyy-mm-dd)
-    //         toBookingDate: qr?.bookingDate?.split('T')[0] || ''
-    //       });
-    
-    //       this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
-    //       this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
-    //     }
-    
-    //     if (res.success) {
-    //       this.toast.success(res.message || 'Parcel loaded successfully', 'Success');
-    //     } else {
-    //       this.toast.success(res.message || 'Parcel loaded successfully', 'Success');
-    //     }
-    //   }, err => {
-    //     this.toast.error('Parcel already loaded', 'Error');
-    //   });
-    // }
-
     openScanner() {
       this.showScanner = true;
     }
@@ -418,11 +481,7 @@ export class SubLoadingComponent {
       }, err => {
         this.toast.error('Parcel already loaded', 'Error');
       });
-    }
-    
-    
-    
-    // jkasdbksabd
+    }    
     onFromcitySelect(event: any) {
       const cityName = event.target.value;
       if (cityName) {
@@ -439,9 +498,10 @@ export class SubLoadingComponent {
         this.tbcdata = [];
       }
     }
+    
     ParcelLoad() {
       if (this.form1.invalid) {
-        this.form1.markAllAsTouched(); // show errors
+        this.form1.markAllAsTouched(); 
         this.toast.warning('Please fill required fields correctly.', 'Validation');
         return;
       }
@@ -468,7 +528,9 @@ export class SubLoadingComponent {
         next: (response: any) => {
           console.log('Parcel loaded successfully:', response);
           this.toast.success('Parcel loaded successfully', 'Success');
+          this.parcelloadingData = response.parcel;
           setTimeout(() => {
+            this.printParcelLoadTable();
             this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
               this.router.navigate(['/sub-loading']);
             });
@@ -480,8 +542,7 @@ export class SubLoadingComponent {
         },
       });
     }
-    
-  
+
     getVehicleData() {
       this.api.getData('Vehicle').subscribe({
         next: (response: any) => {
@@ -554,8 +615,76 @@ export class SubLoadingComponent {
       
           FileSaver.saveAs(blob, `ParcelBooking_${new Date().toISOString().slice(0, 10)}.xlsx`);
         }
-      }
+    
+
+      printParcelLoadTable() {
+        if (!this.parcelloadingData || !this.parcelloadingData.grnNo?.length) {
+          alert('No data available to print.');
+          return;
+        }
       
+        const printContents = this.printParcelTable.nativeElement.innerHTML;
+        const popupWindow = window.open('', '_blank', 'width=1200,height=800');
+      
+        if (popupWindow) {
+          popupWindow.document.open();
+          popupWindow.document.write(`
+            <!DOCTYPE html>
+            <html>
+              <head>
+                <title>Parcel Loading Print</title>
+                <style>
+                  @page {
+                    size: A4 landscape;
+                    margin: 10mm;
+                  }
+                  body {
+                    font-family: Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                  }
+                  .table-responsive {
+                    margin: 20px;
+                    overflow-x: auto;
+                  }
+                  table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    font-size: 12px;
+                  }
+                  th, td {
+                    border: 1px solid #444;
+                    padding: 8px;
+                    text-align: center;
+                  }
+                  th {
+                    background-color: #f0f0f0;
+                    font-weight: bold;
+                  }
+                  .table-striped tbody tr:nth-child(odd) {
+                    background-color: #f9f9f9;
+                  }
+                </style>
+              </head>
+              <body>
+                <div class="table-responsive">
+                  ${printContents}
+                </div>
+                <script>
+                  window.onload = function() {
+                    window.print();
+                    window.close();
+                  };
+                </script>
+              </body>
+            </html>
+          `);
+          popupWindow.document.close();
+        } else {
+          alert('Failed to open print window.');
+        }
+      }
+    }
     
     
     

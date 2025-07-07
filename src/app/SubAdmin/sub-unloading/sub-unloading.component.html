@@ -16,11 +16,21 @@
           </select>
         </div>
 
-        <div class="col-md-4 col-sm-12">
+        <!-- <div class="col-md-4 col-sm-12">
           <label class="form-label">To City</label>
           <select #selectElem class="form-select form-select-sm" formControlName="toCity">
             <option value="" selected>Select City</option>
             <option *ngFor="let city of cities" [value]="city.cityName">
+              {{ city.cityName }}
+            </option>
+          </select>
+        </div> -->
+
+        <div class="col-md-4 col-sm-12">
+          <label class="form-label">To City</label>
+          <select #selectElem class="form-control select2" formControlName="toCity">
+            <option value="">Select City</option>
+            <option *ngFor="let city of filteredCityList" [value]="city.cityName">
               {{ city.cityName }}
             </option>
           </select>
@@ -32,7 +42,7 @@
         </div>
 
 
-        <div class="col-md-4 col-sm-12">
+        <!-- <div class="col-md-4 col-sm-12">
           <label class="form-label">Branch</label>
           <select #branch class="form-select form-select-sm" formControlName="branch">
             <option value="" selected>Select Branch</option>
@@ -41,7 +51,22 @@
             </option>
           </select>
 
+        </div> -->
+
+
+        <div class="col-12 col-md-6 col-lg-3">
+          <label class="form-label"> Branch</label>
+          <select #branch class="form-select form-select-sm" formControlName="branch">
+            <option value="" selected>Select Branch</option>
+            <option *ngFor="let branch of tbcdata" [value]="branch.branchUniqueId">{{ branch.name }}</option>
+          </select>
         </div>
+
+
+
+
+
+        
         <!-- <div class="col-md-4 col-sm-12">
           <label class="form-label">Vehicle Number</label>
           <select #selectvehicle class="form-select form-select-sm mb-3" formControlName="vehicalNumber"
@@ -142,11 +167,12 @@
         <tbody>
           <tr *ngFor="let row of bkdata; let i = index">
             <td>
-              <input type="checkbox" [checked]="form1.get('grnNo')?.value.includes(row.grnNo)"
+              <input type="checkbox"
+                [checked]="form1.get('grnNo')?.value.includes(row.grnNo)"
                 (change)="onGrnNoChange($event, row.grnNo)" />
             </td>
             <td>{{ i + 1 }}</td>
-            <td>{{ row?.lrNumber }}</td>
+            <td>{{ row?.grnNo }}</td>
             <td>{{ row?.pickUpBranchname }}</td>
             <td>{{ row?.dropBranchname }}</td>
             <td>{{ row?.fromCity }}</td>
@@ -154,18 +180,21 @@
             <td>{{ row?.bookingDate | date: 'short' }}</td>
             <td>{{ row?.senderName }}</td>
             <td>{{ row?.receiverName }}</td>
-            <td>{{ row.totalQuantity }}</td>
-            <td>{{ row.grandTotal }}</td>
+            <td>{{ row?.totalQuantity }}</td>
+            <td>{{ row?.grandTotal }}</td>
           </tr>
         </tbody>
       </table>
     </div>
+    
+
+
   </div>
 
-  <form [formGroup]="form1" *ngIf="bkdata.length > 0">
-    <div class="container">
+  <form [formGroup]="form1" >
+    <div class="container" *ngIf="bkdata.length > 0">
       <div class="row align-items-end">
-        <!-- Vehicle Number Select -->
+        
         <div class="col-md-4 col-sm-12">
           <label class="form-label">Vehicle Number</label>
           <select #selectvehicle class="form-select form-select-sm" formControlName="vehicalNumber"
@@ -174,7 +203,7 @@
             <option *ngFor="let vehicle of vehicle" [value]="vehicle.vehicleNo">{{ vehicle.vehicleNo }}</option>
           </select>
         </div>
-        <!-- Save Button -->
+
         <div class="col-md-2 col-sm-12">
           <button class="btn btn-primary btn-sm mt-3 mt-md-0" type="button" style="width: 10rem;" (click)="ParcelLoad()">
             Save
@@ -184,4 +213,40 @@
     </div>
   </form>
   
+</div>
+
+
+<div #printParcelTable class="table-responsive mt-4" *ngIf="parcelResponse">
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>LR No</th>
+        <th>GRN No</th>
+        <th>From City</th>
+        <th>Drop City</th>
+        <th>Drop Branch</th>
+        <th>Sender Name</th>
+        <th>Vehicle Number</th>
+        <th>Voucher No</th>
+        <th>Unloading Date</th>
+        <th>booking Type </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let booking of parcelResponse.bookingDetails; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ booking.lrNumber || '-' }}</td>
+        <td>{{ parcelResponse.data.grnNo[i] || parcelResponse.data.grnNo[0] || '-' }}</td>
+        <td>{{ booking.fromCity || '-' }}</td>
+        <td>{{ booking.toCity || '-' }}</td>
+        <td>{{ booking.unloadingBranchname || booking.dropBranchname || '-' }}</td>
+        <td>{{ booking.senderName || '-' }}</td>
+        <td>{{ booking.vehicalNumber || '-' }}</td>
+        <td>{{ parcelResponse.data.unLoadingVoucher || '-' }}</td>
+        <td>{{ booking.unloadingDate | date: 'dd-MM-yyyy HH:mm:ss' }}</td>
+        <td>{{ booking.bookingType || '-' }}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
