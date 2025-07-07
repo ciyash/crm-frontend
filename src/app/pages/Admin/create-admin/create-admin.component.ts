@@ -36,7 +36,7 @@ export class CreateAdminComponent {
             phone: ['', Validators.required],
             email: ['', Validators.required],
             documents: ['', Validators.required],
-            role: ['admin', Validators.required],
+            role: ['admin'],
             // companyName:['', Validators.required],
               });
   

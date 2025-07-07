@@ -768,174 +768,64 @@
 </html> -->
 
 
-  <style>
-    @media print {
-      #printBtn {
-        display: none;
-      }
-    }
+  <app-header class="hide-on-print"></app-header>
+  <button id="printBtn" class="hide-on-print" onclick="window.print()" style="margin-top: 8%;">🖨️ Print Ticket</button>
 
-    * {
-      box-sizing: border-box;
-    }
-
-
-
-    .container {
-      padding: 20px;
-      max-width: 800px;
-      margin: 0 auto 40px;
-      border: 1px solid #000;
-    }
-
-    .header {
-      text-align: center;
-      font-weight: bold;
-      line-height: 1.5;
-      color: red;
-    }
-
-    .header span {
-      font-size: 24px;
-    }
-
-    .row {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 10px;
-    }
-
-    .column {
-      flex: 1;
-      text-align: center;
-    }
-
-    .bold {
-      font-weight: bold;
-    }
-
-    .details-section {
-      display: flex;
-      border-top: 1px dashed #000;
-      padding-top: 10px;
-      margin-top: 10px;
-    }
-
-    .content-label {
-      font-weight: bold;
-      width: 180px;
-      padding-right: 10px;
-    }
-
-    .package-column {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .package-row {
-      display: flex;
-      justify-content: space-between;
-      padding-right: 30px;
-    }
-
-    .charges {
-      width: 250px;
-      text-align: right;
-      font-weight: bold;
-    }
-
-    .footer {
-      text-align: right;
-      font-weight: bold;
-      font-size: 20px;
-      margin-top: 20px;
-      border-top: 1px dashed #000;
-      padding-top: 10px;
-    }
-
-    .note {
-      font-size: 12px;
-      text-align: center;
-      margin-top: 5px;
-    }
-
-    #printBtn {
-      margin: 20px;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-  </style>
-
-  <app-header></app-header>
-  <button id="printBtn" onclick="window.print()" style="margin-top: 8%;">🖨️ Print Ticket</button>
-
+  <div class="print-area">
   <div *ngFor="let copy of [1, 2]" class="container">
-    <div class="header">
-      <span>{{ pfdata?.code || 'SKK' }}</span> {{ pfdata?.companyId?.name || 'SREE KALESWARI LOGISTICS' }}<br>
-      {{ pfdata?.address || 'D.No.6-1-91, Sensation Theatre Road, Vasavi Complex, Lak-Di-Kapool, Hyderabad,' }}<br>
-      {{ pfdata?.city || 'Telangana' }}
+    <div class="header" [class.blue]="copy === 2">
+      {{ pfdata?.address || 'D.No.6-1-91, Sensation Theatre Road, Vasavi Complex, Lak-Di-Kapool, Hyderabad,' }} {{ pfdata?.city || 'Telangana' }}
     </div>
 
     <div class="row">
-      <div class="column bold">
-        <br> {{ data1?.bookingDate | date: 'dd-MM-yyyy hh:mm a' }}
+      <div class="col-sm-4">
+       <br> <br> {{ data1?.bookingDate | date: 'dd-MM-yyyy hh:mm a' }}
       </div>
-      <div class="column bold">
-      <br> {{ data1?.lrNumber }}
+      <div class="col-sm-4">
+       <br> <br> {{ data1?.lrNumber }}
       </div>
-      <div class="column bold">
-      
-        <ng-container [ngSwitch]="data1?.bookingType">
+      <div class="col-sm-4">
+         <br> <ng-container [ngSwitch]="data1?.bookingType">
           <span *ngSwitchCase="'paid'">PAID</span>
           <span *ngSwitchCase="'toPay'">TOPAY</span>
           <span *ngSwitchCase="'credit'">CREDIT</span>
           <span *ngSwitchCase="'FOC'">FOC</span>
           <span *ngSwitchDefault>---</span>
         </ng-container>
-        <br>
-         {{ data1?.dropBranchname }}<br>{{ data1?.receiverMobile }}
+       <br>  {{ data1?.dropBranchname }} ({{ data1?.receiverMobile }})
       </div>
     </div>
 
     <div class="row">
-      <div class="column bold">
-        <br>
-        {{ data1?.senderName }}<br>
-        Ph No.: {{ data1?.senderMobile }}
+      <div class="column left text-center">
+       <br> <br>  {{ data1?.senderName }}<br>
+         {{ data1?.senderMobile }}
       </div>
-      <div class="column bold">
-        <br>
-        {{ data1?.receiverName }}<br>
-        Ph No.: {{ data1?.receiverMobile }}
+      <div class="column right text-center">
+      <br> <br>   {{ data1?.receiverName }}<br>
+         {{ data1?.receiverMobile }}
       </div>
     </div>
 
-    <!-- Package and Charges Section -->
     <div class="details-section">
-      <div class="content-label">
-        
-      </div>
-
       <div class="package-column">
         <div class="package-row" *ngFor="let pkg of data1?.packages">
-          <div>{{ pkg.packageType }}</div>
-          <div class="fw-bold"> {{ pkg.quantity }}</div>
+         <div>  <br> <br>  {{ pkg.packageType }}</div>
+         <div style="margin-right: 40%;"> <br> <br> {{ pkg.quantity }}</div>
         </div>
       </div>
 
       <div class="charges">
-        <div>Freight Charges: {{ data1?.totalCharge || 0 }}</div>
-        <div>Door Delivery Charges: {{ data1?.doorDeliveryCharges || 0 }}</div>
-        <div>GST: CGST: {{ data1?.cgst || 0 }} SGST: {{ data1?.sgst || 0 }}</div>
-        <div>Net Amount: {{ data1?.grandTotal || 0 }}</div>
+        <div><br> <br>  {{ data1?.totalCharge || 0 }}</div>
+        <div>{{ data1?.doorDeliveryCharges || 0 }}</div>
+        <div>CGST: {{ data1?.cgst || 0 }} SGST: {{ data1?.sgst || 0 }}</div>
+        <div><br> {{ data1?.grandTotal || 0 }}</div>
       </div>
     </div>
-
-
   </div>
+</div>
+
+
 
 
 
