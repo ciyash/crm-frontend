@@ -43,7 +43,10 @@ export class PrintGrnNumberComponent {
   }
   getProfileData() {
     this.api.GetProfileData().subscribe((res: any) => {
+      console.log("res:",res);
+
       this.pfdata = res;
+      
       console.log( 'profiledata:',this.pfdata);
     });
   }

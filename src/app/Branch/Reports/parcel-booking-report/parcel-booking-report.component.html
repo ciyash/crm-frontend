@@ -27,16 +27,14 @@
       </div>
     </div>
 
-    <div *ngFor="let category of ['toPay', 'paid', 'credit', 'FOC', 'CLR']">
+    <!-- <div *ngFor="let category of ['toPay', 'paid', 'credit', 'FOC', 'CLR']">
       <h5 class="mt-4 text-uppercase">{{ category }}</h5>
-
       <div *ngIf="data[category]?.bookings?.length > 0; else noBookings">
         <table class="table table-bordered">
           <thead>
             <tr>
               <th>S.No</th>
               <th>GRN No</th>
-              <!-- <th>Manual Ticket No</th> -->
               <th>Status</th>
               <th>Date</th>
               <th>From Branch</th>
@@ -50,7 +48,6 @@
               <th>Charge</th>
               <th>Hamali</th>
               <th>Value of Goods</th>
-              <!-- <th>Invoice No</th> -->
               <th>E-way Bill No</th>
             </tr>
           </thead>
@@ -58,7 +55,6 @@
             <tr *ngFor="let booking of (data[category]?.bookings || []); let i = index">
               <td>{{ i + 1 }}</td>
               <td>{{ booking.grnNo || '-' }}</td>
-              <!-- <td>{{ booking.manualTicketNo || '-' }}</td> -->
               <td>{{ getBookingStatus(booking.bookingStatus) }}</td>
               <td>{{ booking.bookingDate | date: 'dd/MM/yyyy' }}</td>
               <td>{{ booking.pickUpBranchname || '-' }}</td>
@@ -72,17 +68,9 @@
               <td>{{ booking.grandTotal || 0 }}</td>
               <td>{{ booking.hamali || 0 }}</td>
               <td>{{ booking.valueOfGoods || 0 }}</td>
-              <!-- <td>{{ booking.invoiceNo || '-' }}</td> -->
               <td>{{ booking.eWayBillNo || '-' }}</td>
             </tr>
-            <!-- Totals Row -->
-            <!-- <tr class="table-success fw-bold">
-              <td colspan="10">Total</td>
-              <td>{{ data[category].allTotalQuantity }}</td>
-              <td></td>
-              <td>{{ data[category].allGrandTotal }}</td>
-              <td colspan="3"></td>
-            </tr> -->
+      
           </tbody>
           <tfoot class="table-success fw-bold  text-center align-middle" >
             <tr   *ngFor="let booking of (data[category]?.bookings || []); let i = index" >
@@ -93,11 +81,142 @@
           </tfoot>
         </table>
       </div>
-      <!--  -->
+      <ng-template #noBookings>
+        <div class="alert alert-warning">No bookings found for {{ category }}</div>
+      </ng-template>
+    </div> -->
+
+
+    <!-- <div *ngFor="let category of ['toPay', 'paid', 'credit', 'FOC', 'CLR']">
+      <h5 class="mt-4 text-uppercase">{{ category }}</h5>
+    
+      <div *ngIf="data[category]?.bookings?.length > 0; else noBookings">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>S.No</th>
+              <th>GRN No</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>From Branch</th>
+              <th>To Branch</th>
+              <th>Booked By</th>
+              <th>Sender Name</th>
+              <th>Receiver Name</th>
+              <th>Agent</th>
+              <th>Quantity</th>
+              <th>Weight</th>
+              <th>Charge</th>
+              <th>Hamali</th>
+              <th>Value of Goods</th>
+              <th>E-way Bill No</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let booking of (data[category]?.bookings || []); let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ booking.grnNo || '-' }}</td>
+              <td>{{ getBookingStatus(booking.bookingStatus) }}</td>
+              <td>{{ booking.bookingDate | date: 'dd/MM/yyyy' }}</td>
+              <td>{{ booking.pickUpBranchname || '-' }}</td>
+              <td>{{ booking.dropBranchname || '-' }}</td>
+              <td>{{ booking.bookedBy?.name || '-' }}</td>
+              <td>{{ booking.senderName || '-' }}</td>
+              <td>{{ booking.receiverName || '-' }}</td>
+              <td>{{ booking.agentName || '-' }}</td>
+              <td>{{ booking.totalQuantity || 0 }}</td>
+              <td>{{ getTotalWeight(booking.packages) }}</td>
+              <td>{{ booking.grandTotal || 0 }}</td>
+              <td>{{ booking.hamali || 0 }}</td>
+              <td>{{ booking.valueOfGoods || 0 }}</td>
+              <td>{{ booking.eWayBillNo || '-' }}</td>
+            </tr>
+          </tbody>
+    
+          <tfoot class=" fw-bold text-center align-middle">
+            <tr>
+              <td colspan="10" class="text-end">Total:</td>
+              <td>{{ data[category]?.allTotalQuantity || 0 }}</td>
+              <td></td>
+              <td colspan="2">{{ data[category]?.allGrandTotal || 0 }}</td>
+              <td ></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    
+      <ng-template #noBookings>
+        <div class="alert alert-warning">No bookings found for {{ category }}</div>
+      </ng-template>
+    </div> -->
+    
+    <div *ngFor="let category of ['toPay', 'paid', 'credit', 'FOC', 'CLR']">
+      <h5 class="mt-4 text-uppercase">{{ category }}</h5>
+    
+      <div *ngIf="data[category]?.bookings?.length > 0; else noBookings">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>S.No</th>
+              <th>GRN No</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>From Branch</th>
+              <th>To Branch</th>
+              <th>Booked By</th>
+              <th>Sender Name</th>
+              <th>Receiver Name</th>
+              <th>Agent</th>
+              <th>Quantity</th>
+              <th>Weight</th>
+              <th>Charge</th>
+              <th>Hamali</th>
+              <th>Value of Goods</th>
+              <th>E-way Bill No</th>
+            </tr>
+          </thead>
+    
+          <tbody>
+            <tr *ngFor="let booking of data[category]?.bookings; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ booking.grnNo || '-' }}</td>
+              <td>{{ getBookingStatus(booking.bookingStatus) }}</td>
+              <td>{{ booking.bookingDate | date: 'dd/MM/yyyy' }}</td>
+              <td>{{ booking.pickUpBranchname || '-' }}</td>
+              <td>{{ booking.dropBranchname || '-' }}</td>
+              <td>{{ booking.bookedBy?.name || '-' }}</td>
+              <td>{{ booking.senderName || '-' }}</td>
+              <td>{{ booking.receiverName || '-' }}</td>
+              <td>{{ booking.agentName || '-' }}</td>
+              <td>{{ booking.totalQuantity || 0 }}</td>
+              <td>{{ getTotalWeight(booking.packages) }}</td>
+              <td>{{ booking.grandTotal || 0 }}</td>
+              <td>{{ booking.hamali || 0 }}</td>
+              <td>{{ booking.valueOfGoods || 0 }}</td>
+              <td>{{ booking.eWayBillNo || '-' }}</td>
+            </tr>
+          </tbody>
+    
+          <tfoot class="table-success fw-bold text-center align-middle">
+            <tr>
+              <td colspan="10" class="text-end">Total:</td>
+              <td>{{ data[category]?.allTotalQuantity || 0 }}</td>
+              <td></td>
+              <td colspan="2">{{ data[category]?.allGrandTotal || 0 }}</td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    
       <ng-template #noBookings>
         <div class="alert alert-warning">No bookings found for {{ category }}</div>
       </ng-template>
     </div>
+    
+
+
+
 
   </div>
 </div>

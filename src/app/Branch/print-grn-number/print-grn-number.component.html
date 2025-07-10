@@ -389,7 +389,7 @@
   <div class="print-area">
   <div *ngFor="let copy of [1, 2]" class="container">
     <div class="header" [class.blue]="copy === 2">
-    {{pfdata.location}}- {{ pfdata.branchId?.city }},
+    {{pfdata.location}}-{{ pfdata.branchId?.name }}, {{ pfdata.branchId?.city }},
     </div>
 
     <div class="row">
