@@ -407,7 +407,7 @@
           <span *ngSwitchCase="'FOC'">FOC</span>
           <span *ngSwitchDefault>---</span>
         </ng-container>
-       <br>  {{ data1?.dropBranchname }} ({{ data1?.receiverMobile }})
+       <br>  {{ data1?.dropBranchname }} <span *ngIf="pfdata">({{ pfdata.phone }})</span>
       </div>
     </div>
 
@@ -426,13 +426,21 @@
       <div class="package-column">
         <div class="package-row" *ngFor="let pkg of data1?.packages">
          <div>  <br> <br>  {{ pkg.packageType }}</div>
+         <div>  <br> <br>  {{ pkg.contains
+         }}</div>
+
          <div style="margin-right: 40%;"> <br> <br> {{ pkg.quantity }}</div>
         </div>
       </div>
 
       <div class="charges">
         <div><br> <br>  {{ data1?.totalCharge || 0 }}</div>
-        <div>{{ data1?.doorDeliveryCharges || 0 }}</div>
+        <div>doorDeliveryCharges{{ data1?.doorDeliveryCharges || 0 }}</div>
+        <div>hamali{{ data1?.hamaliCharges || 0 }}</div>
+        <div>serviceCharges{{ data1?.serviceCharges || 0 }}</div>
+        <div>doorPickupCharges {{ data1?.doorPickupCharges || 0 }}</div>
+        <!-- <div>valueOfGoods{{data1?.valueOfGoods || 0}}</div> -->
+
         <div>CGST: {{ data1?.cgst || 0 }} SGST: {{ data1?.sgst || 0 }}</div>
         <div><br> {{ data1?.grandTotal || 0 }}</div>
       </div>

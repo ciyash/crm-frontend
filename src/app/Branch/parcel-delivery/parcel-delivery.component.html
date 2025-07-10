@@ -339,6 +339,16 @@
                 <td>{{ items.grnNo }}</td>
               </tr>
               <tr>
+                <td>Booking Date</td>
+                <td>{{ items.bookingDate | date: 'dd/MM/yyyy'
+                }}</td>
+              </tr>
+              <tr>
+                <td>Booked Branch</td>
+                <td>{{ items.dropBranchname
+                }}</td>
+              </tr>
+              <tr>
                 <td>Paid Type</td>
                 <td>{{ items.bookingType }}</td>
               </tr>
@@ -361,6 +371,11 @@
               <tr>
                 <td class="fw-bold">Total Amount</td>
                 <td class="fw-bold">{{ items.grandTotal }}</td>
+              </tr>
+              <tr>
+                <td class="fw-bold">Door Delivery Amount</td>
+                <td class="fw-bold">{{ items.doorDeliveryCharges
+                }}</td>
               </tr>
           
               <!-- ✅ Package Details -->

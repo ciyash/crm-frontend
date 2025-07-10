@@ -26,8 +26,6 @@ word-wrap: break-word">Parcel Booking</h4>
             <div class="row">
                 <div class="col-md-4">
                     <label class="form-label form-after">From City</label>
-                    <!-- <input type="text" class="form-control" formControlName="fromCity" readonly /> -->
-                    <!-- <input type="text" class="form-control" formControlName="fromCity" readonly style="background-color: #EEEEEE;" /> -->
                     <input type="text" class="form-control" formControlName="fromCity" readonly
                         style="background-color: #EEEEEE; border: 1px solid #ced4da;" />
                 </div>
@@ -55,28 +53,6 @@ word-wrap: break-word">Parcel Booking</h4>
                     </select>
                 </div>
 
-                <!-- <div class="col-md-4">
-                  <label class="form-label form-after">Drop Branch</label>
-                  <select #droupbranch
-                          class="form-select form-select-sm"
-                          formControlName="dropBranch"
-                          [disabled]="!form.get('toCity')?.value"
-                          (click)="onDropBranchTouched()">
-                    <option value="" selected>Select Drop Branch</option>
-                    <option *ngFor="let row1 of tbcdata" [value]="row1.branchUniqueId">
-                      {{ row1.name }}
-                    </option>
-                  </select>
-                   <div *ngIf="form.get('dropBranch')?.touched && !form.get('toCity')?.value"
-                       class="text-danger small mt-1">
-                    ⚠ Please select To City first
-                  </div>
-                </div> -->
-                
-                
-                
-              
-                
                 <div class="col-md-4">
                     <label class="form-label">Dispatch Type </label>
                     <!-- <input type="text" class="form-control form-select-sm" formControlName="dispatchType"  /> -->

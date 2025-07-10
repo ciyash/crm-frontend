@@ -70,6 +70,7 @@ export class ParcelbookingComponent {
   loading: boolean = false;
   previousPackageValues: any;
   previousCharges: any;
+  toCityFilteredList: any;
 
   constructor(
     private fb: FormBuilder,
@@ -425,52 +426,153 @@ export class ParcelbookingComponent {
  
   
 
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      $(this.selectElem.nativeElement).select2();
-      $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
-        const selectedCity = event.params.data.id;
-        console.log('Selected City:', selectedCity);
-        this.form.patchValue({ fromCity: selectedCity });
-        console.log('Updated form value:', this.form.value);
-        this.onFromcitySelect({ target: { value: selectedCity } });
-      });
+  // ngAfterViewInit(): void {
+  //   setTimeout(() => {
+  //     $(this.selectElem.nativeElement).select2();
+  //     $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
+  //       const selectedCity = event.params.data.id;
+  //       console.log('Selected City:', selectedCity);
+  //       this.form.patchValue({ fromCity: selectedCity });
+  //       console.log('Updated form value:', this.form.value);
+  //       this.onFromcitySelect({ target: { value: selectedCity } });
+  //     });
 
-      // Initialize Select2 for Pickup Branch
+  //     // Initialize Select2 for Pickup Branch
      
-      $(this.pickupbranch.nativeElement).select2();
+  //     $(this.pickupbranch.nativeElement).select2();
 
-      $(this.pickupbranch.nativeElement).on('select2:select', (event: any) => {
-        const selectedBranch = event.params.data.id;
-        console.log('Selected Pickup Branch:', selectedBranch);
-        this.form.patchValue({ pickUpBranch: selectedBranch });
-        console.log('Updated form value:', this.form.value);
-        this.onPickupBranchSelect({ target: { value: selectedBranch } });
+  //     $(this.pickupbranch.nativeElement).on('select2:select', (event: any) => {
+  //       const selectedBranch = event.params.data.id;
+  //       console.log('Selected Pickup Branch:', selectedBranch);
+  //       this.form.patchValue({ pickUpBranch: selectedBranch });
+  //       console.log('Updated form value:', this.form.value);
+  //       this.onPickupBranchSelect({ target: { value: selectedBranch } });
+  //     });
+
+  //     // Initialize Select2 for To City
+  //     $(this.selectElem2.nativeElement).select2();
+  //     $(this.selectElem2.nativeElement).on('select2:select', (event: any) => {
+  //       const selectedToCity = event.params.data.id;
+  //       console.log('Selected To City:', selectedToCity);
+  //       this.form.patchValue({ toCity: selectedToCity });
+  //       console.log('Updated form value:', this.form.value);
+  //       this.onTocitySelect({ target: { value: selectedToCity } });
+  //     });
+
+  //     // Initialize Select2 for Drop Branch
+  //     $(this.droupbranch.nativeElement).select2();
+  //     $(this.droupbranch.nativeElement).on('select2:select', (event: any) => {
+  //       const selectedDropBranch = event.params.data.id;
+  //       console.log('Selected Drop Branch:', selectedDropBranch);
+  //       this.form.patchValue({ dropBranch: selectedDropBranch });
+  //       console.log('Updated form value:', this.form.value);
+  //       this.onDropBranchSelect({ target: { value: selectedDropBranch } });
+  //     });
+  //   }, 0);
+  // }
+
+
+
+
+ngAfterViewInit(): void {
+  setTimeout(() => {
+    // === FROM CITY ===
+    $(this.selectElem.nativeElement).select2();
+    $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
+      const selectedCity = event.params.data.id;
+      this.form.patchValue({ fromCity: selectedCity });
+
+      // Filter To City list to exclude From City
+      this.toCityFilteredList = this.citydata.filter(
+        (city: any) => city.cityName !== selectedCity
+      );
+
+      // Rebuild To City Select2 options
+      const $toCity = $(this.selectElem2.nativeElement);
+      $toCity.empty().append('<option value="">Select City</option>');
+      this.toCityFilteredList.forEach((city: any) => {
+        const option = new Option(city.cityName, city.cityName, false, false);
+        $toCity.append(option);
       });
+      $toCity.val('').trigger('change.select2');
 
-      // Initialize Select2 for To City
-      $(this.selectElem2.nativeElement).select2();
-      $(this.selectElem2.nativeElement).on('select2:select', (event: any) => {
-        const selectedToCity = event.params.data.id;
-        console.log('Selected To City:', selectedToCity);
-        this.form.patchValue({ toCity: selectedToCity });
-        console.log('Updated form value:', this.form.value);
-        this.onTocitySelect({ target: { value: selectedToCity } });
-      });
+      this.onFromcitySelect({ target: { value: selectedCity } });
+    });
 
-      // Initialize Select2 for Drop Branch
-      $(this.droupbranch.nativeElement).select2();
-      $(this.droupbranch.nativeElement).on('select2:select', (event: any) => {
-        const selectedDropBranch = event.params.data.id;
-        console.log('Selected Drop Branch:', selectedDropBranch);
-        this.form.patchValue({ dropBranch: selectedDropBranch });
-        console.log('Updated form value:', this.form.value);
-        this.onDropBranchSelect({ target: { value: selectedDropBranch } });
-      });
-    }, 0);
-  }
+    // === PICKUP BRANCH ===
+    $(this.pickupbranch.nativeElement).select2();
+    $(this.pickupbranch.nativeElement).on('select2:select', (event: any) => {
+      const selectedBranch = event.params.data.id;
+      this.form.patchValue({ pickUpBranch: selectedBranch });
+      this.onPickupBranchSelect({ target: { value: selectedBranch } });
+    });
+
+    // === TO CITY ===
+    $(this.selectElem2.nativeElement).select2();
+    $(this.selectElem2.nativeElement).on('select2:select', (event: any) => {
+      const selectedToCity = event.params.data.id;
+      this.form.patchValue({ toCity: selectedToCity });
+      this.onTocitySelect({ target: { value: selectedToCity } });
+    });
+
+    // === DROP BRANCH ===
+    $(this.droupbranch.nativeElement).select2();
+    $(this.droupbranch.nativeElement).on('select2:select', (event: any) => {
+      const selectedDropBranch = event.params.data.id;
+      this.form.patchValue({ dropBranch: selectedDropBranch });
+      this.onDropBranchSelect({ target: { value: selectedDropBranch } });
+    });
+  }, 0);
+}
 
 
+
+
+// getProfileData() {
+//   this.api.GetProfileData().subscribe((res: any) => {
+//     const branchObj = res.branchId;
+//     this.pfdata = branchObj;
+//     this.brachid = branchObj.branchUniqueId;
+
+//     const fromCity = branchObj.city;
+//     const pickUpBranchId = branchObj.branchUniqueId;
+
+//     console.log("Profile From City:", fromCity);
+//     console.log("Pickup Branch ID:", pickUpBranchId);
+
+//     this.form.patchValue({
+//       fromCity: fromCity,
+//       pickUpBranch: pickUpBranchId
+//     });
+
+//     // Fetch branches for that city and populate pickupBranch list
+//     if (fromCity) {
+//       this.api.GetBranchbyCity(fromCity).subscribe(
+//         (res: any) => {
+//           this.pdata = res;
+
+//           // ✅ If current profile branch exists in list, keep it selected
+//           const match = this.pdata.find((branch: { branchUniqueId: any; }) => branch.branchUniqueId === pickUpBranchId);
+//           if (!match && this.pdata.length > 0) {
+//             this.form.patchValue({ pickUpBranch: this.pdata[0].branchUniqueId });
+//           }
+
+//           setTimeout(() => {
+//             $(this.pickupbranch.nativeElement).trigger('change.select2');
+//             $(this.selectElem.nativeElement).trigger('change.select2');
+//           }, 0);
+
+//           this.fetchServiceCharges();
+//         },
+//         (error: any) => {
+//           console.error('Error fetching branches in getProfileData:', error);
+//         }
+//       );
+//     }
+
+//     this.NumberofBooking();
+//   });
+// }
 
 getProfileData() {
   this.api.GetProfileData().subscribe((res: any) => {
@@ -484,28 +586,53 @@ getProfileData() {
     console.log("Profile From City:", fromCity);
     console.log("Pickup Branch ID:", pickUpBranchId);
 
+    // Patch form values
     this.form.patchValue({
       fromCity: fromCity,
       pickUpBranch: pickUpBranchId
     });
 
-    // Fetch branches for that city and populate pickupBranch list
+    // ✅ Update To City list to exclude From City
+    this.toCityFilteredList = this.citydata.filter(
+      (city: any) => city.cityName !== fromCity
+    );
+
+    // ✅ Update Select2 To City dropdown UI
+    setTimeout(() => {
+      const $toCity = $(this.selectElem2.nativeElement);
+      $toCity.empty().append('<option value="">Select City</option>');
+
+      this.toCityFilteredList.forEach((city: any) => {
+        const option = new Option(city.cityName, city.cityName, false, false);
+        $toCity.append(option);
+      });
+
+      $toCity.val('').trigger('change.select2'); // reset selected value
+    }, 0);
+
+    // ✅ Fetch branches based on fromCity
     if (fromCity) {
       this.api.GetBranchbyCity(fromCity).subscribe(
         (res: any) => {
           this.pdata = res;
 
-          // ✅ If current profile branch exists in list, keep it selected
-          const match = this.pdata.find((branch: { branchUniqueId: any; }) => branch.branchUniqueId === pickUpBranchId);
+          // If current branch is not in list, select first available
+          const match = this.pdata.find(
+            (branch: { branchUniqueId: any }) =>
+              branch.branchUniqueId === pickUpBranchId
+          );
+
           if (!match && this.pdata.length > 0) {
             this.form.patchValue({ pickUpBranch: this.pdata[0].branchUniqueId });
           }
 
+          // ✅ Refresh Select2 UIs for Pickup Branch and From City
           setTimeout(() => {
             $(this.pickupbranch.nativeElement).trigger('change.select2');
             $(this.selectElem.nativeElement).trigger('change.select2');
           }, 0);
 
+          // Optional additional logic
           this.fetchServiceCharges();
         },
         (error: any) => {
@@ -514,9 +641,11 @@ getProfileData() {
       );
     }
 
+    // Optional: load number of bookings
     this.NumberofBooking();
   });
 }
+
 
 
 

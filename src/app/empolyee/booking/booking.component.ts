@@ -69,6 +69,7 @@ export class BookingComponent {
   previousCharges: any;
   previousPackageValues: any
   packdata: any;
+  masterCityData: any;
   constructor(private fb: FormBuilder, private api: BranchService, private token:TokenService,
      private cdr: ChangeDetectorRef,  private route: ActivatedRoute,private toastr:ToastrService, 
      private router:Router, private admin:AdminService) {
@@ -239,11 +240,20 @@ export class BookingComponent {
     });
     this.getProfileData();
     this.getAllCompany();
-    this.api.GetCities().subscribe((res:any)=>{
-      console.log('citys',res);
-      this.citydata=res;
+    // cites
+    // this.api.GetCities().subscribe((res:any)=>{
+    //   console.log('citys',res);
+    //   this.citydata=res;
 
+    // });
+    this.api.GetCities().subscribe((res: any) => {
+      this.masterCityData = res;
+      this.citydata = [...res];  // Initially all cities
     });
+
+
+    
+    
     //get branches
     this.api.GetBranch().subscribe((res:any)=>{
       console.log(res);
@@ -396,93 +406,31 @@ export class BookingComponent {
       event.preventDefault();
     }
   }
-  
-  // 
+
+  // getProfileData() {
+  //   this.api.GetProfileData().subscribe((res: any) => {
+  //     console.log('profile', res);
+  //     this.ffdata = res.branchId;
+  //     this.pfdata = res.branchId.city;
+  //     this.profileData = res.branchId.name;
+  //     console.log("profileData:",this.profileData);
 
 
 
-  getProfileData() {
-    this.api.GetProfileData().subscribe((res: any) => {
-      console.log('profile', res);
-      this.ffdata = res.branchId;
-      this.pfdata = res.branchId.city;
-      this.profileData = res.branchId.name;
-      console.log("profileData:",this.profileData);
-
-
-
-      console.log(this.pfdata, 'branchid');
-      this.NumberofBooking(); // 👈 Call it here
+  //     console.log(this.pfdata, 'branchid');
+  //     this.NumberofBooking(); // 👈 Call it here
       
-      // console.log("profileData:", this.profileData);
-      this.form.patchValue({
-        fromCity: this.pfdata || '', // Set fromCity to the city from branchId
-        pickUpBranch: this.ffdata?.branchUniqueId || '' // Set pickUpBranch to branchUniqueId
-        // pickUpBranchname:this.ffdata?.name
-      });
-        this.fetchServiceCharges();
-    });
-  }
-
-  
-  // packageTypeError: boolean = false;
-  // packdata: any[] = [];
-  
-  // get canEnablePackageType(): boolean {
-  //   // Purely checks conditions (no API call)
-  //   return !!this.form.get('toCity')?.value &&
-  //          !!this.form.get('dropBranch')?.value &&
-  //          !!this.form.get('bookingType')?.value;
-  // }
-  
-  // handlePackageTypeClick(): void {
-  //   if (this.canEnablePackageType) {
-  //     this.packageTypeError = false;
-  
-  //     // Only load package types once (optional: add a guard)
-  //     if (this.packdata.length === 0) {
-  //       this.loadPackageTypes();
-  //     }
-  //   } else {
-  //     this.packageTypeError = true;
-  //   }
-  // }
-  
-  // loadPackageTypes(): void {
-  //   this.api.GetPAckagesType().subscribe((res: any) => {
-  //     this.packdata = res;
-  //     console.log('Package Types:', this.packdata);
+  //     // console.log("profileData:", this.profileData);
+  //     this.form.patchValue({
+  //       fromCity: this.pfdata || '', // Set fromCity to the city from branchId
+  //       pickUpBranch: this.ffdata?.branchUniqueId || '' // Set pickUpBranch to branchUniqueId
+  //       // pickUpBranchname:this.ffdata?.name
+  //     });
+  //       this.fetchServiceCharges();
   //   });
   // }
-  
-  
-  // get canEnableSenderName(): boolean {
-  //   return !!this.form.get('fromCity')?.value &&
-  //          !!this.form.get('dropBranch')?.value &&
-  //          !!this.form.get('bookingType')?.value &&
-  //          !!this.form.get('packages')?.value?.[0]?.packageType &&
-  //          !!this.form.get('packages')?.value?.[0]?.unitPrice;
-  // }
-  
-  // senderWarning: boolean = false;
-  
-  // onSenderFocus(): void {
-  //   this.senderWarning = !this.canEnableSenderName;
-  // }
-  
-  // onSenderInput(): void {
-  //   if (this.canEnableSenderName) {
-  //     this.searchUser();
-  //     this.senderWarning = false;
-  //   }
-  // }
-  
-  
-  
-  
-  
-  
 
+ 
 fetchServiceCharges() {
   const fromCity = this.form.get('fromCity')?.value;
   const toCity = this.form.get('toCity')?.value;
@@ -513,13 +461,6 @@ fetchServiceCharges() {
   }
 }
 
-// allowOnlyNumbers(event: KeyboardEvent) {
-//   const charCode = event.which ? event.which : event.keyCode;
-//   if (charCode < 48 || charCode > 57) {
-//     event.preventDefault(); // Only digits (0–9)
-//   }
-// }
-
 onFromcitySelect(event: any) {
   const cityName = event.target.value;
   if (cityName) {
@@ -537,7 +478,6 @@ onFromcitySelect(event: any) {
     this.pdata = [];
   }
 }
-
 
 onTocitySelect(event: any) {
   console.log('Event triggered:', event);
@@ -766,82 +706,7 @@ console.log('Pickup Branch Name:', pickupBranchname);
       this.toastr.warning("Please fill all required fields", "Form Incomplete");
     }
   }
-  
 
-  // add() {
-  //   console.log("Form Data Before Submission:", this.form.value);
-  //   if (this.form.valid) {
-  //     const orderDataToSend = this.packages.value.map((item: any) => ({
-  //       quantity: item.quantity,
-  //       packageType: item.packageType,
-  //       contains: item.contains,
-  //       weight: item.weight,
-  //       unitPrice: item.unitPrice,
-  //       totalPrice: item.totalPrice
-  //     }));
-  
-  //     const pickupBranchId = this.form.value.pickUpBranch;
-  //     const dropBranchId = this.form.value.dropBranch;
-  
-  //     // Find branch names by ID
-  //     const pickupBranchname = this.pdata?.find((b: any) => b.branchUniqueId === pickupBranchId)?.name || "N/A";
-  //     const dropBranchName = this.tbcdata?.find((b: any) => b.branchUniqueId === dropBranchId)?.name || "N/A";
-  
-  //     const val: any = {
-  //       fromCity: this.form.value.fromCity,
-  //       toCity: this.form.value.toCity,
-  //       pickupBranchname: pickupBranchname, 
-  //       dropBranchName: dropBranchName, 
-  //       pickUpBranch: this.form.value.pickUpBranch,
-  //       dropBranch: this.form.value.dropBranch,
-  //       dispatchType: this.form.value.dispatchType,
-  //       bookingType: this.form.value.bookingType,
-  //       senderName: this.form.value.senderName,
-  //       senderMobile: this.form.value.senderMobile,
-  //       senderAddress: this.form.value.senderAddress,
-  //       senderGst: this.form.value.senderGST || "",
-  //       receiverName: this.form.value.receiverName,
-  //       receiverMobile: this.form.value.receiverMobile,
-  //       receiverAddress: this.form.value.receiverAddress,
-  //       receiverGst: this.form.value.receiverGST || "",
-  //       packages: orderDataToSend,
-  //       serviceCharges: this.form.value.serviceCharges,
-  //       hamaliCharges: this.form.value.hamaliCharges,
-  //       doorDeliveryCharges: this.form.value.doorDeliveryCharges,
-  //       doorPickupCharges: this.form.value.doorPickupCharges,
-  //       valueOfGoods: this.form.value.valueOfGoods,
-  //       grandTotal: this.form.value.grandTotal,
-  //       agent: this.form.value.agent
-  //     };
-  
-  //     console.log("Final Data to Submit:", val);
-      
-  //     this.modelData = val; 
-  
-  //     this.api.createBooking(val).subscribe(
-  //       (response: any) => {
-  //         console.log("Parcel saved successfully:", response);
-  //         if (response?.data?.grnNo) {
-  //           this.gdata = response.data;
-  //           console.log("GRN Number:", this.gdata.grnNo);
-  //           this.toastr.success("Parcel Booked Successfully", "Success");
-  //           this.router.navigateByUrl(`/employee-printgrn/${this.gdata.grnNo}`).then(() => {
-  //             window.location.reload();
-  //           });
-  //         } else {
-  //           console.error("❌ Error: grnNo not found in response.");
-  //           this.toastr.warning("Booking successful, but grnNo is missing.", "Warning");
-  //         }
-  //       },
-  //       (error) => {
-  //         console.error("❌ Error saving order:", error);
-  //         this.toastr.error("Failed to book the parcel. Please try again.", "Error");
-  //       }
-  //     );
-  //   } else {
-  //     this.toastr.warning("Please fill all required fields", "Form Incomplete");
-  //   }
-  // }
   searchUser(): void {
     const searchTerm = this.form.get('senderName')?.value?.trim();
   
@@ -1048,6 +913,43 @@ console.log('Pickup Branch Name:', pickupBranchname);
       }
     });
   }
+
+  filterToCityOptions(): void {
+    const fromCity = this.form.get('fromCity')?.value;
+  
+    // Filter the toCity list
+    this.citydata = this.masterCityData.filter((city: any) => city.cityName !== fromCity);
+  
+    // Refresh Select2 options manually
+    setTimeout(() => {
+      const toCitySelect = $(this.selectElem2.nativeElement);
+      toCitySelect.empty().append('<option value="">Select City</option>');
+  
+      this.citydata.forEach((city: any) => {
+        toCitySelect.append(`<option value="${city.cityName}">${city.cityName}</option>`);
+      });
+  
+      toCitySelect.val('').trigger('change');
+    }, 0);
+  }
+  getProfileData() {
+    this.api.GetProfileData().subscribe((res: any) => {
+      this.ffdata = res.branchId;
+      this.pfdata = res.branchId.city;
+      this.profileData = res.branchId.name;
+  
+      this.NumberofBooking();
+  
+      this.form.patchValue({
+        fromCity: this.pfdata || '',
+        pickUpBranch: this.ffdata?.branchUniqueId || ''
+      });
+  
+      this.filterToCityOptions(); // ✅ Exclude fromCity in ToCity dropdown
+      this.fetchServiceCharges();
+    });
+  }
+    
 
 }
 

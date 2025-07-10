@@ -136,7 +136,7 @@ background-color: #fff;">
   </div>
 
 
-  <div class="table-responsive">
+  <!-- <div class="table-responsive">
     <table class="table table-bordered table-sm text-center align-middle">
       <thead class="table-secondary">
         <tr>
@@ -214,7 +214,112 @@ background-color: #fff;">
     
 
 
+  </div> -->
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-sm text-center align-middle">
+      <thead class="table-secondary">
+        <tr>
+          <th>No</th>
+          <th>LR No</th>
+          <th>Source Subregion</th>
+          <th>Received By	</th>
+          <th>Consigner	</th>
+          <th>Consignee	</th>
+          <th>Packages</th>
+            <th>Parcel Item	</th>
+            <th>Pkgs	</th>
+            <th>Total Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let items of reportData; let i=index">
+          <td>{{i+1}}</td>
+          <td>{{items.WBNo}}</td>
+        <td>{{items.SourceSubregion}}</td>
+          <td>{{items.ReceivedBy
+          }}</td>
+          <td>{{items.Consigner}}</td>
+          <td>{{items.Consignee}}</td>
+          <td>{{items.WBType}}</td>
+          <td>{{items.ParcelItem}}</td>
+          <td>{{items.Pkgs}}</td>
+          <td>{{items.Amount}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="table-responsive">
+      <table class="table table-bordered table-sm text-center align-middle">
+        <thead class="table-secondary">
+          <tr>
+            <th>Sr. No</th>
+            <th>WB Type</th>
+            <th>Freight Amount</th>
+            <th>GST</th>
+          <th>Door Deliverycharges</th>
+            <th>Other Charges</th>
+            <th>Net Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="Bdata?.Paid">
+            <td>1</td>
+            <td>Paid</td>
+            <td>{{ Bdata.Paid.freight }}</td>
+            <td>{{ Bdata.Paid.gst }}</td>
+            <td>{{ Bdata.Paid.doorDeliveryCharges
+            }}</td>
+            <td>{{ Bdata.Paid.otherCharges }}</td>
+            <td>{{ Bdata.Paid.netAmount }}</td>
+          </tr>
+          <tr *ngIf="Bdata?.ToPay">
+            <td>2</td>
+            <td>ToPay</td>
+            <td>{{ Bdata.ToPay.freight }}</td>
+            <td>{{ Bdata.ToPay.gst }}</td>
+
+            <td>{{ Bdata.ToPay.doorDeliveryCharges
+            }}</td>
+
+            
+
+
+            <td>{{ Bdata.ToPay.otherCharges }}</td>
+            <td>{{ Bdata.ToPay.netAmount }}</td>
+          </tr>
+          <tr *ngIf="Bdata?.Credit">
+            <td>2</td>
+            <td>Credit</td>
+            <td>{{ Bdata.Credit.freight }}</td>
+            <td>{{ Bdata.Credit.gst }}</td>
+            <td>{{ Bdata.Credit.doorDeliveryCharges
+            }}</td>
+
+            <td>{{ Bdata.Credit.otherCharges }}</td>
+            <td>{{ Bdata.Credit.netAmount }}</td>
+          </tr>
+          <tr class="table fw-bold" *ngIf="summmaryData
+          ">
+          <!-- sdd -->
+            <td colspan="2">TOTAL:</td>
+            <td>{{summmaryData.totalFreight
+}}            </td>
+            <td>{{summmaryData.totalGST}}</td>
+            <td>{{summmaryData.totalDeliveryCharges
+            }}
+            </td>
+            <td>{{summmaryData.totalOtherCharges
+            }}</td>
+            <td>{{summmaryData.totalNetAmount}}</td>
+        </tbody>
+      </table>
+    </div>
+    
+
+
   </div>
+
 </div>
 
 

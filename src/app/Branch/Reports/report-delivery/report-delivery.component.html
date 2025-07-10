@@ -109,7 +109,6 @@ background-color: #fff;">
           <th>Consigner	</th>
           <th>Consignee	</th>
           <th>Packages</th>
-
             <th>Parcel Item	</th>
             <th>Pkgs	</th>
             <th>Total Amount</th>
@@ -140,6 +139,7 @@ background-color: #fff;">
             <th>WB Type</th>
             <th>Freight Amount</th>
             <th>GST</th>
+          <th>Door Deliverycharges</th>
             <th>Other Charges</th>
             <th>Net Amount</th>
           </tr>
@@ -150,6 +150,8 @@ background-color: #fff;">
             <td>Paid</td>
             <td>{{ Bdata.Paid.freight }}</td>
             <td>{{ Bdata.Paid.gst }}</td>
+            <td>{{ Bdata.Paid.doorDeliveryCharges
+            }}</td>
             <td>{{ Bdata.Paid.otherCharges }}</td>
             <td>{{ Bdata.Paid.netAmount }}</td>
           </tr>
@@ -158,15 +160,37 @@ background-color: #fff;">
             <td>ToPay</td>
             <td>{{ Bdata.ToPay.freight }}</td>
             <td>{{ Bdata.ToPay.gst }}</td>
+
+            <td>{{ Bdata.ToPay.doorDeliveryCharges
+            }}</td>
+
+            
+
+
             <td>{{ Bdata.ToPay.otherCharges }}</td>
             <td>{{ Bdata.ToPay.netAmount }}</td>
           </tr>
+          <tr *ngIf="Bdata?.Credit">
+            <td>2</td>
+            <td>Credit</td>
+            <td>{{ Bdata.Credit.freight }}</td>
+            <td>{{ Bdata.Credit.gst }}</td>
+            <td>{{ Bdata.Credit.doorDeliveryCharges
+            }}</td>
+
+            <td>{{ Bdata.Credit.otherCharges }}</td>
+            <td>{{ Bdata.Credit.netAmount }}</td>
+          </tr>
           <tr class="table fw-bold" *ngIf="summmaryData
           ">
+          <!-- sdd -->
             <td colspan="2">TOTAL:</td>
             <td>{{summmaryData.totalFreight
 }}            </td>
             <td>{{summmaryData.totalGST}}</td>
+            <td>{{summmaryData.totalDeliveryCharges
+            }}
+            </td>
             <td>{{summmaryData.totalOtherCharges
             }}</td>
             <td>{{summmaryData.totalNetAmount}}</td>
@@ -177,7 +201,6 @@ background-color: #fff;">
 
 
   </div>
-
 </div>
 
 

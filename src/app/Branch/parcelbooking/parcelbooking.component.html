@@ -27,7 +27,7 @@ word-wrap: break-word">Parcel Booking</h4>
       </div>
       <div class="row">
  
-        <div class="col-md-4">
+        <!-- <div class="col-md-4">
           <label class="form-label form-after">From City</label>
           <select #selectElem class="form-select form-select-sm" formControlName="fromCity" (change)="onFromcitySelect($event)">
             <option value="">Select City</option>
@@ -65,7 +65,54 @@ word-wrap: break-word">Parcel Booking</h4>
             <option value="" selected>Select Drop Branch</option>
             <option *ngFor="let row1 of tbcdata" [value]="row1.branchUniqueId"> {{ row1.name }} </option>
           </select>
-        </div>
+        </div> -->
+
+
+
+        <!-- FROM CITY -->
+<div class="col-md-4">
+  <label class="form-label form-after">From City</label>
+  <select #selectElem class="form-select form-select-sm" formControlName="fromCity">
+    <option value="">Select City</option>
+    <option *ngFor="let row2 of citydata" [value]="row2.cityName">
+      {{ row2.cityName }}
+    </option>
+  </select>
+</div>
+
+<!-- PICKUP BRANCH -->
+<div class="col-md-4">
+  <label class="form-label form-after">Pickup Branch</label>
+  <select #pickupbranch class="form-select form-select-sm" formControlName="pickUpBranch">
+    <option value="">Select Branch</option>
+    <option *ngFor="let row4 of pdata" [value]="row4.branchUniqueId">
+      {{ row4.name }}
+    </option>
+  </select>
+</div>
+
+<!-- TO CITY -->
+<div class="col-md-4">
+  <label class="form-label form-after">To City</label>
+  <select #selectElem2 class="form-select form-select-sm" formControlName="toCity">
+    <option value="">Select City</option>
+    <option *ngFor="let row of toCityFilteredList" [value]="row.cityName">
+      {{ row.cityName }}
+    </option>
+  </select>
+</div>
+
+<!-- DROP BRANCH -->
+<div class="col-md-4">
+  <label class="form-label form-after">Drop Branch</label>
+  <select #droupbranch class="form-select form-select-sm" formControlName="dropBranch">
+    <option value="">Select Drop Branch</option>
+    <option *ngFor="let row1 of tbcdata" [value]="row1.branchUniqueId">
+      {{ row1.name }}
+    </option>
+  </select>
+</div>
+
 
         <div class="col-md-4">
           <label class="form-label">Dispatch Type </label>

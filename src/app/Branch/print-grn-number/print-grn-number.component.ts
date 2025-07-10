@@ -47,7 +47,7 @@ export class PrintGrnNumberComponent {
 
       this.pfdata = res;
       
-      console.log( 'profiledata:',this.pfdata);
+      console.log( 'profiledata:',this.pfdata.phone);
     });
   }
  

@@ -76,6 +76,7 @@
 
         <div class="d-grid gap-2 col-2 mx-auto mt-4">
           <button type="button" class="btn btn-success w-100" (click)="getCollectionReport()">Load</button>
+          
         </div>
       </div>
     </form>
@@ -121,7 +122,6 @@
           <th></th>
           <th></th>
           <th colspan="5">Booking</th>
-          <!-- <th>Cancel</th> -->
           <th>Delivered</th>
           <th>Total Amount</th>
           <th colspan="4">GST</th>
@@ -150,26 +150,14 @@
         <tr *ngFor="let item of Cdata; let i = index">
           <td>{{ i + 1 }}</td>
           <td style="color: green;cursor: pointer;">{{ item.branchName }}</td>
-  
           <!-- Booking -->
           <td>{{ item.paidAmount || 0 }}</td>
           <td>{{ item.toPayAmount || 0 }}</td>
           <td>{{ item.creditAmount || 0 }}</td>
           <td>{{ item.cancelAmount || 0 }}</td>
-
           <td>{{ item.bookingTotal || 0 }}</td>
-
-  
-          <!-- Cancel -->
-  
-          <!-- Delivery -->
           <td>{{ item.deliveryAmount || 0 }}</td>
-  
-          <!-- Booking Total -->
-          <!-- <td>{{ item.bookingTotal || 0 }}</td> -->
           <td>{{ item.total || 0 }}</td>
-
-  
           <!-- GST -->
           <td>{{ item.cgstAmount || 0 }}</td>
           <td>{{ item.sgstAmount || 0 }}</td>
@@ -199,6 +187,7 @@
       </tbody>
     </table>
   </div>
+
 </div>
  
     
@@ -207,3 +196,6 @@
   </div>
 
 </div>
+
+
+
