@@ -1,3 +1,5 @@
+
+
 <app-header></app-header>
 
 <div class="container " style="margin-top: 8%;">
@@ -13,37 +15,37 @@
           <label class="form-label">To Booking Date</label>
           <input type="date" class="form-control" formControlName="toDate">
         </div>
-        <!-- <div class="col-md-3">
+        <div class="col-md-3">
                     <label class="form-label">From City </label>
-                    <select class="form-select form-select-sm" formControlName="fromCity"
+                   <select #selectElem class="form-select form-select-sm" formControlName="fromCity"
                         (change)="onFromcitySelect($event)">
                         <option value="" selected>Select City</option>
                         <option *ngFor="let row2 of citydata" value="{{row2.cityName}}"> {{row2.cityName}} </option>
                     </select>
-                </div> -->
-        <div class="col-md-3">
-          <label class="form-label form-after">From City</label>
-          <input type="text" class="form-control" formControlName="fromCity" readonly />
-        </div>
+                </div>
+
+   
+
         <div class="col-md-3">
           <label class="form-label">To City </label>
-          <select #selectElem2 class="form-select form-select-sm" formControlName="toCity">
+          <select #branch class="form-select form-select-sm" formControlName="toCity">
             <option value="" selected>Select City</option>
             <option *ngFor="let row1 of citydata" value="{{row1.cityName}}"> {{row1.cityName}} </option>
           </select>
         </div>
-        <!-- <div class="col-md-3">
-                    <label class="form-label">From Branch</label>
-                    <select class="form-select" formControlName="fromBranch">
-                        <option value="" selected>Select Branch</option>
-                        <option *ngFor="let branch of cbdata" [value]="branch.branchUniqueId">{{ branch.name }}</option>
-                    </select>
-                </div> -->
-        <div class="col-md-3">
-          <label class="form-label form-after">From Branch</label>
-          <input type="text" class="form-control" [value]="ffdata?.name || ''" readonly />
-          <input type="hidden" formControlName="fromBranch" />
+
+
+     <div class="col-md-3 ">
+          <label class="form-label"> From Branch</label>
+          <select #branch class="form-select form-select-sm" formControlName="fromBranch">
+            <option value="" selected>Select Branch</option>
+            <option *ngFor="let branch of tbcdata" [value]="branch.branchUniqueId">
+              {{ branch.name }}
+            </option>
+          </select>
         </div>
+
+   
         <div class="col-md-3">
           <label class="form-label">Vehicles</label>
           <select class="form-select" formControlName="vehicalNumber">
@@ -163,7 +165,7 @@
 
 
 
-<div id="print-section" *ngIf="getgrndata" >
+<div id="print-section" *ngIf="getgrndata" hidden  >
 
   <div class="report-header text-center" *ngIf="company">
     <h1 class="fw-bold">{{company.name}}</h1>
@@ -175,21 +177,29 @@
       }}</div>
   </div>
 
-  <table class="no-border">
-    <tr *ngIf="voucherno">
-      <td class="fw-bold">Dispatch No : <strong>{{ voucherno }}</strong></td>
-      <td class="fw-bold">Generate Date : <strong>01-07-2025</strong></td>
-
-    </tr>
-    <tr *ngIf="getgrndata?.bookings?.length">
-      <td class="fw-bold">Vehicle No : <strong>{{ getgrndata.bookings[0].BusNo }}</strong></td>
-      <td class="fw-bold">Print Date : <strong>{{ today | date:'dd-MM-yyyy hh:mm a' }}</strong></td>
-    </tr>
+  <table class="table no-border w-100 mb-2" *ngIf="voucherno">
     <tr>
-      <td class="fw-bold">From City : <strong>{{ form.value.fromCity }}</strong></td>
-      <td class="fw-bold">To City : <strong>{{ form.value.toCity }}</strong></td>
+      <td class="fw-bold">Dispatch No: <strong>{{ voucherno }}</strong></td>
+      <td class="fw-bold">Generate Date: <strong>01-07-2025</strong></td>
     </tr>
   </table>
+  
+  <table class="table no-border w-100 mb-2" *ngIf="getgrndata?.bookings?.length">
+    <tr>
+      <td class="fw-bold">Vehicle No: <strong>{{ getgrndata.bookings[0].BusNo }}</strong></td>
+      <td class="fw-bold">Print Date: <strong>{{ today | date:'dd-MM-yyyy hh:mm a' }}</strong></td>
+    </tr>
+  </table>
+  
+  <table class="table no-border w-100 mb-2">
+    <tr>
+      <td class="fw-bold">From City: <strong>{{ form.value.fromCity }}</strong></td>
+      <td class="fw-bold">To City: <strong>{{ form.value.toCity }}</strong></td>
+    </tr>
+  </table>
+  
+  
+  
   <table class="table table-bordered">
     <thead>
       <tr>
@@ -219,7 +229,7 @@
             {{ item.bookingDate ? (item.bookingDate | date:'dd-MM-yyyy') : '' }}<br>
             {{ item.bookingTime || '' }}
           </td>
-          <td>{{ item.toCity }} ({{ item.pickUpBranchname }})</td>
+          <td>{{ item.toCity }} ({{ item.dropBranchname }})</td>
           <td>{{ item.BusNo }}</td>
           <td>{{ item.Sender }}</td>
           <td>{{ item.Receiver }}</td>
@@ -242,7 +252,7 @@
         </tr>
 
         <tr>
-          <td colspan="15" style="height: 50px; border: 2px solid #000;"></td>
+          <td colspan="15" style="height: 50px; border: 1px solid #000;"></td>
         </tr>
       </ng-container>
 

@@ -47,34 +47,68 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="row" *ngIf="data2?.length">
-          <div class="col-md-3">
-            <h5>
-              GRN No: {{ data2[0].grnNo }} &nbsp;
+        <!-- <div class="row" *ngIf="data2?.length">
+          <div class="col-lg-3">
+            <h6>
+              GRN No: {{ data2[0].grnNo }} 
               <span>
                 <i class="fa fa-clipboard" style="color: rgb(31, 144, 50); cursor: pointer;"
                   (click)="copyGRN(data2[0].grnNo)" title="Copy GRN No"></i>
               </span>
-            </h5>
+            </h6>
           </div>
 
-          <div class="col-md-4">
-            <h5>
-              LR No: {{ data2[0].lrNumber }} &nbsp;
+          <div class="col-lg-3">
+            <h6>
+              LR No: {{ data2[0].lrNumber }}
               <span>
                 <i class="fa fa-clipboard" style="color: rgb(31, 144, 50); cursor: pointer;"
                   (click)="copyLR(data2[0].lrNumber)" title="Copy LR No"></i>
               </span>
-            </h5>
+            </h6>
           </div>
-          <div class="col-md-5" *ngIf="isEditable(data2[0].bookingDate, data2[0].bookingStatus)">
+          <div class="col-lg-3 mt-2" style="cursor: pointer;" *ngIf="isEditable(data2[0].bookingDate, data2[0].bookingStatus)">
             <button class="btn btn-success" data-bs-dismiss="modal" (click)="editBooking(data2[0].grnNo)">
               Edit Booking
             </button>
           </div>
+          <div class="col-lg-3 mt-2">
+            <button class="btn btn-success"  style="cursor: pointer;"> Print LR
+            </button>     
+               </div>
           
           
+        </div> -->
+        <div class="d-flex flex-wrap justify-content-center align-items-center gap-4 text-center" *ngIf="data2?.length">
+          <div>
+            <h6 class="mb-0">
+              GRN No: {{ data2[0].grnNo }}
+              <i class="fa fa-clipboard ms-1" style="color: rgb(31, 144, 50); cursor: pointer;"
+                 (click)="copyGRN(data2[0].grnNo)" title="Copy GRN No"></i>
+            </h6>
+          </div>
+        
+          <div>
+            <h6 class="mb-0">
+              LR No: {{ data2[0].lrNumber }}
+              <i class="fa fa-clipboard ms-1" style="color: rgb(31, 144, 50); cursor: pointer;"
+                 (click)="copyLR(data2[0].lrNumber)" title="Copy LR No"></i>
+            </h6>
+          </div>
+        
+          <div *ngIf="isEditable(data2[0].bookingDate, data2[0].bookingStatus)">
+            <button class="btn btn-success" data-bs-dismiss="modal" (click)="editBooking(data2[0].grnNo)">
+              Edit Booking
+            </button>
+          </div>
+        
+          <div>
+            <button class="btn btn-success " data-bs-dismiss="modal"   (click)="printlr()">
+              Print LR
+            </button>
+          </div>
         </div>
+        
 
 
 

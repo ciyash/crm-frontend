@@ -1,7 +1,7 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core'; 
 
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BranchService } from 'src/app/service/branch.service';
 declare var $: any;
@@ -13,6 +13,9 @@ declare const SlimSelect: any;
 })
 export class VoucherDetailsListComponent {
   @ViewChild('selectElem2') selectElem2!: ElementRef;
+   @ViewChild('selectElem') selectElem!: ElementRef;
+  @ViewChild('branch') branch!: ElementRef;
+ 
   citydata: any = []; // Ensure it's initialized to prevent undefined
   form: FormGroup;
   vdata: any;
@@ -81,19 +84,45 @@ export class VoucherDetailsListComponent {
     });
   }
 
+
+
+
   ngAfterViewInit(): void {
+  
+
     setTimeout(() => {
-      // Initialize Select2 for To City
-      $(this.selectElem2.nativeElement).select2();
-      $(this.selectElem2.nativeElement).on('select2:select', (event: any) => {
-        const selectedToCity = event.params.data.id;
-        console.log('Selected To City:', selectedToCity);
-        this.form.patchValue({ toCity: selectedToCity });
-        console.log('Updated form value:', this.form.value);
-        this.onTocitySelect({ target: { value: selectedToCity } });
+      $(this.selectElem.nativeElement).select2();
+      $(this.selectElem.nativeElement).on('select2:select', (event: any) => {
+        const selectedCity = event.params.data.id;
+        this.form.get('fromCity')?.setValue(selectedCity);
+        this.onTocitySelect({ target: { value: selectedCity } });
+        console.log('Updated To City:', this.form.get('fromCity')?.value);
       });
+
+   
+      $(this.branch.nativeElement).select2();
+      $(this.branch.nativeElement).on('select2:select', (event: any) => {
+        const selectedBranch = event.params.data.id;
+        this.form.get('toCity')?.setValue(selectedBranch);
+        console.log('Updated Branch:', this.form.get('toCity')?.value);
+      });
+
+
+          $(this.selectElem2.nativeElement).select2();
+      $(this.selectElem2.nativeElement).on('select2:select', (event: any) => {
+       const selectedToCity = event.params.data.id;
+         console.log('Selected To City:', selectedToCity);
+       this.form.patchValue({ fromBranch: selectedToCity });
+       console.log('Updated form value:', this.form.value);
+         this.onTocitySelect({ target: { value: selectedToCity } });
+       });
+
+    
     }, 0);
   }
+
+
+
 
   getTodayDateString(): string {
     const today = new Date();
@@ -180,10 +209,7 @@ export class VoucherDetailsListComponent {
       console.log("hgjygyt:",this.company);
       
 
-      this.form.patchValue({
-        fromCity: this.pfdata || '', // Set fromCity to the city from branchId
-        fromBranch: this.ffdata?.branchUniqueId || '', // Set pickUpBranch to branchUniqueId
-      });
+   
     });
   }
 
@@ -248,48 +274,88 @@ printgrnData(id: any): void {
 }
 
 printReport(): void {
-  setTimeout(() => {
-    const printContent = document.getElementById('print-section');
+  const printContents = document.getElementById('print-section')?.innerHTML;
 
-    if (!printContent) {
-      console.error('Print section not found');
-      return;
-    }
-// dhhdhdhdgir
-    const WindowPrt = window.open('', '', 'width=900,height=800');
-    if (WindowPrt) {
-      WindowPrt.document.write(`
+  if (printContents) {
+    const popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+
+    if (popupWin) {
+      popupWin.document.open();
+      popupWin.document.write(`
         <html>
           <head>
             <title>Dispatched Stock Report</title>
             <style>
-              body { font-family: Arial, sans-serif; }
-              table { border-collapse: collapse; width: 100%; }
-              th, td { border: 1px solid #000; padding: 5px; text-align: left; }
-              .no-border th, .no-border td { border: none !important; }
-              .text-center { text-align: center; }
-              .fw-bold { font-weight: bold; }
-              .text-end { text-align: end; }
-              .summary-table { margin-top: 20px; }
-              .remarks { margin-top: 30px; font-size: 14px; }
+              body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+              }
+
+              table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 12px;
+              }
+
+              th, td {
+                border: 1px solid #000;
+                padding: 4px;
+                text-align: center;
+              }
+
+              h1, h4, h6, p {
+                margin: 4px 0;
+              }
+
+              .text-center {
+                text-align: center;
+              }
+
+              .fw-bold {
+                font-weight: bold;
+              }
+
+              .text-end {
+                text-align: right;
+              }
+
+              .summary-table {
+                margin-top: 20px;
+              }
+
+              .remarks {
+                margin-top: 30px;
+                font-size: 14px;
+              }
+
+              .no-border {
+                border: none !important;
+              }
+
+              .no-border th, .no-border td {
+                border: none !important;
+              }
+
+              @media print {
+                .no-print {
+                  display: none !important;
+                }
+              }
             </style>
           </head>
-          <body>
-            ${printContent.innerHTML}
-            <script>
-              window.onload = function () {
-                window.print();
-                window.close();
-              };
-            </script>
+          <body onload="window.print(); window.close();">
+            ${printContents}
           </body>
         </html>
       `);
-      WindowPrt.document.close();
+      popupWin.document.close();
+    } else {
+      console.error('Popup blocked or failed to open.');
     }
-  }, 300); // slight delay to ensure Angular finished DOM update
+  } else {
+    console.error('Print section not found.');
+  }
 }
 
-}
 
-// hhghhh
+}

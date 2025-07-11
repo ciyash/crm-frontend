@@ -30,7 +30,7 @@ export class BranchToBranchUnloadingComponent {
           fromLoadingDate: [this.getTodayDateString(), Validators.required],
           toLoadingDate: [this.getTodayDateString(), Validators.required],
           fromBranch: ['', Validators.required],
-          toBranch: ['', Validators.required]
+          toBranch: ['', ]
         });
     
         this.form1 = this.fb.group({

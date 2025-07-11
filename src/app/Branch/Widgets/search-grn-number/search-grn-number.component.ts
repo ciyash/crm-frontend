@@ -22,6 +22,7 @@ export class SearchGrnNumberComponent {
 // 
   branchId: any;
   pfdata: any;
+  printlR: any;
   constructor(
     private api: BranchService,
     private activeroute: ActivatedRoute,
@@ -81,6 +82,16 @@ isEditable(bookingDate: string, bookingStatus: number): boolean {
 
   return timeDifferenceInHours <= 10;
 }
+printlr() {
+  if (this.data2 && this.data2.length > 0) {
+    this.printlR = this.data2;
+    const grnNo = this.data2[0].grnNo; // Extract the GRN No
+    console.log('GRN No:', grnNo);
+    this.router.navigate(['/employee-printgrn/' + grnNo]);
+
+  }
+}
+
 
 searchUser(): void {
   if (this.searchTerm && this.searchTerm.trim() !== '' && this.searchField) {
