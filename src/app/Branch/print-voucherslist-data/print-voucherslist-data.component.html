@@ -23,8 +23,7 @@
     </div>
 
     <div *ngFor="let item of getgrndata?.bookingDetails; let i = index">
-      
-    
+
         <table class="table table-bordered" style="border: 2px solid black;">
             <thead>
                 <tr>
@@ -116,8 +115,10 @@
         </table>
     
     </div>
-    <div class="container-fluid" >
 
+
+
+    <div class="container-fluid" >
         <div class="remarks">
             <p><strong>Loading Remarks :-</strong></p>
             <p><strong>Driver Name :</strong> {{getgrndata.driverName}} </p>
@@ -126,7 +127,6 @@
         <button class="btn btn-primary d-print-none" onclick="window.print()">Print Report</button>
     
     </div>
-    
     </div>
 
 

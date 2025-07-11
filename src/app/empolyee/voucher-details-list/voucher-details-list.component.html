@@ -1,19 +1,19 @@
 <app-header></app-header>
 
 <div class="container " style="margin-top: 8%;">
-    <h5 class="text-center fw-bold text-danger"><u>Offline Parcel Voucher Details</u></h5>
-    <div class="border rounded p-4" style="margin-top: 2rem;">
-        <form [formGroup]="form">
-            <div class="row mb-3">
-                <div class="col-md-3">
-                    <label class="form-label">From Booking Date</label>
-                    <input type="date" class="form-control" formControlName="fromDate">
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">To Booking Date</label>
-                    <input type="date" class="form-control" formControlName="toDate">
-                </div>
-                <!-- <div class="col-md-3">
+  <h5 class="text-center fw-bold text-danger"><u>Offline Parcel Voucher Details</u></h5>
+  <div class="border rounded p-4" style="margin-top: 2rem;">
+    <form [formGroup]="form">
+      <div class="row mb-3">
+        <div class="col-md-3">
+          <label class="form-label">From Booking Date</label>
+          <input type="date" class="form-control" formControlName="fromDate">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">To Booking Date</label>
+          <input type="date" class="form-control" formControlName="toDate">
+        </div>
+        <!-- <div class="col-md-3">
                     <label class="form-label">From City </label>
                     <select class="form-select form-select-sm" formControlName="fromCity"
                         (change)="onFromcitySelect($event)">
@@ -21,84 +21,80 @@
                         <option *ngFor="let row2 of citydata" value="{{row2.cityName}}"> {{row2.cityName}} </option>
                     </select>
                 </div> -->
-                <div class="col-md-3">
-                    <label class="form-label form-after">From City</label>
-                    <input type="text" class="form-control" formControlName="fromCity" readonly />
-                  </div>
-                <div class="col-md-3">
-                    <label class="form-label">To City </label>
-                    <select #selectElem2 class="form-select form-select-sm" formControlName="toCity">
-                        <option value="" selected>Select City</option>
-                        <option *ngFor="let row1 of citydata" value="{{row1.cityName}}"> {{row1.cityName}} </option>
-                    </select>
-                </div>
-                <!-- <div class="col-md-3">
+        <div class="col-md-3">
+          <label class="form-label form-after">From City</label>
+          <input type="text" class="form-control" formControlName="fromCity" readonly />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">To City </label>
+          <select #selectElem2 class="form-select form-select-sm" formControlName="toCity">
+            <option value="" selected>Select City</option>
+            <option *ngFor="let row1 of citydata" value="{{row1.cityName}}"> {{row1.cityName}} </option>
+          </select>
+        </div>
+        <!-- <div class="col-md-3">
                     <label class="form-label">From Branch</label>
                     <select class="form-select" formControlName="fromBranch">
                         <option value="" selected>Select Branch</option>
                         <option *ngFor="let branch of cbdata" [value]="branch.branchUniqueId">{{ branch.name }}</option>
                     </select>
                 </div> -->
-                <div class="col-md-3">
-                    <label class="form-label form-after">From Branch</label>
-                    <input type="text" class="form-control" [value]="ffdata?.name || ''" readonly />
-                    <input type="hidden" formControlName="fromBranch" />
-                  </div>
-                <div class="col-md-3">
-                    <label class="form-label">Vehicles</label>
-                    <select class="form-select" formControlName="vehicalNumber">
-                        <option value="" selected>Select Vehicles</option>
-                        <option *ngFor="let vvda of vdata" [value]="vvda.vehicleNo">{{ vvda.vehicleNo }}</option>
-                    </select>
-                </div>
-                <div class="col-md-2 mt-2 d-flex align-items-end text-center">
-                    <button type="button" class="btn btn-success w-100" (click)="VoucherLoad()">Load</button>
-                </div>
-            </div>
-        </form>
-        <!-- fetch data -->
-        <div class="table-responsive mt-4" *ngIf="data1?.length">
-                <table class="table table-bordered table-striped">
-                    <thead>
-                    <tr>
-                        <th>S.No</th>
-                        <th>Voucher No</th>
-                        <th>From City</th>
-                        <th>To city</th>
-                        <th>Generate Date</th>
-                        <th>Bus No</th>
-                        <th>Total Parcel</th>
-                        <th>Total Qty</th>
-                        <th>Total Charges</th>
-                        <th>Print</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr *ngFor="let row of data1; let i = index">
-                        <td>{{ i + 1 }}</td>
-                        <td
-                        (click)="getvouchersdata(row.voucherNo)"
-                        data-bs-toggle="modal"
-                        data-bs-target="#parcelModal"
-                        style="cursor: pointer; text-decoration: underline; color: blue;"
-                        >
-                        {{ row.voucherNo }}
-                        </td>
-                        <td>{{ row.fromCity }}</td>
-                        <td>{{ row.toCity }}</td>
-                        <td>{{ row.loadingDate | date: 'dd/MMM/yyyy' }}</td>
-                        <td>{{ row.vehicalNumber }}</td>
-                        <td>{{ row.totalParcel }}</td>
-                        <td>{{ row.totalQuantity }}</td>
-                        <td>{{ row.grandTotal }}</td>
-                        <td (click)="printgrnData(row.voucherNo)" style="cursor: pointer; color: red;">
-                        <i class="fa fa-print"></i>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-         </div>
+        <div class="col-md-3">
+          <label class="form-label form-after">From Branch</label>
+          <input type="text" class="form-control" [value]="ffdata?.name || ''" readonly />
+          <input type="hidden" formControlName="fromBranch" />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Vehicles</label>
+          <select class="form-select" formControlName="vehicalNumber">
+            <option value="" selected>Select Vehicles</option>
+            <option *ngFor="let vvda of vdata" [value]="vvda.vehicleNo">{{ vvda.vehicleNo }}</option>
+          </select>
+        </div>
+        <div class="col-md-2 mt-2 d-flex align-items-end text-center">
+          <button type="button" class="btn btn-success w-100" (click)="VoucherLoad()">Load</button>
+        </div>
+      </div>
+    </form>
+    <!-- fetch data -->
+    <div class="table-responsive mt-4" *ngIf="data1?.length">
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>Voucher No</th>
+            <th>From City</th>
+            <th>To city</th>
+            <th>Generate Date</th>
+            <th>Bus No</th>
+            <th>Total Parcel</th>
+            <th>Total Qty</th>
+            <th>Total Charges</th>
+            <th>Print</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of data1; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td (click)="getvouchersdata(row.voucherNo)" data-bs-toggle="modal" data-bs-target="#parcelModal"
+              style="cursor: pointer; text-decoration: underline; color: blue;">
+              {{ row.voucherNo }}
+            </td>
+            <td>{{ row.fromCity }}</td>
+            <td>{{ row.toCity }}</td>
+            <td>{{ row.loadingDate | date: 'dd/MMM/yyyy' }}</td>
+            <td>{{ row.vehicalNumber }}</td>
+            <td>{{ row.totalParcel }}</td>
+            <td>{{ row.totalQuantity }}</td>
+            <td>{{ row.grandTotal }}</td>
+            <td (click)="printgrnData(row.voucherNo)" style="cursor: pointer; color: red;">
+              <i class="fa fa-print"></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+  </div>
 
 </div>
 
@@ -167,14 +163,156 @@
 
 
 
+<div id="print-section" *ngIf="getgrndata" >
 
+  <div class="report-header text-center" *ngIf="company">
+    <h1 class="fw-bold">{{company.name}}</h1>
+    <div class="fw-bold"> Address : <span *ngIf="pfdata">{{pfdata}}</span>-<span *ngIf="ffdata">{{ffdata.name}}</span>
+    </div>
+    <div class="fw-bold">Phone No : {{profileData.phone}}</div>
+    <div class="text-bold">Dispatched Stock Report</div>
+    <div *ngIf="profileData" class="fw-bold">Prepared By : {{profileData.name
+      }}</div>
+  </div>
 
+  <table class="no-border">
+    <tr *ngIf="voucherno">
+      <td class="fw-bold">Dispatch No : <strong>{{ voucherno }}</strong></td>
+      <td class="fw-bold">Generate Date : <strong>01-07-2025</strong></td>
 
+    </tr>
+    <tr *ngIf="getgrndata?.bookings?.length">
+      <td class="fw-bold">Vehicle No : <strong>{{ getgrndata.bookings[0].BusNo }}</strong></td>
+      <td class="fw-bold">Print Date : <strong>{{ today | date:'dd-MM-yyyy hh:mm a' }}</strong></td>
+    </tr>
+    <tr>
+      <td class="fw-bold">From City : <strong>{{ form.value.fromCity }}</strong></td>
+      <td class="fw-bold">To City : <strong>{{ form.value.toCity }}</strong></td>
+    </tr>
+  </table>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Sr. No</th>
+        <th>GNR</th>
+        <th>Booking Date</th>
+        <th>Destination</th>
+        <th>Bus No</th>
+        <th>Sender</th>
+        <th>Receiver</th>
+        <th>Receiver No.</th>
+        <th>Type</th>
+        <th>Pkgs Details</th>
+        <th>Parcel Contains</th>
+        <th>Qty</th>
+        <th>Amount</th>
+        <th>Remarks</th>
+        <th>Receiver Sign</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let item of getgrndata?.bookings; let i = index">
+        <tr>
+          <td>{{ i + 1 }}</td>
+          <td>{{ item.lrNumber }}</td>
+          <td>
+            {{ item.bookingDate ? (item.bookingDate | date:'dd-MM-yyyy') : '' }}<br>
+            {{ item.bookingTime || '' }}
+          </td>
+          <td>{{ item.toCity }} ({{ item.pickUpBranchname }})</td>
+          <td>{{ item.BusNo }}</td>
+          <td>{{ item.Sender }}</td>
+          <td>{{ item.Receiver }}</td>
+          <td>{{ item.receiverMobile }}</td>
+          <td>{{ item.bookingType }}</td>
+          <td>
+            <ng-container *ngFor="let pkg of item.packages">
+              {{ pkg.quantity }} - {{ pkg.packageType }}<br>
+            </ng-container>
+          </td>
+          <td>
+            <ng-container *ngFor="let pkg of item.packages">
+              {{ pkg.contains || '-' }}<br>
+            </ng-container>
+          </td>
+          <td>{{ item.totalQuantity }}</td>
+          <td>{{ item.Amount }}</td>
+          <td>{{ item.remarks || '' }}</td>
+          <td></td>
+        </tr>
 
+        <tr>
+          <td colspan="15" style="height: 50px; border: 2px solid #000;"></td>
+        </tr>
+      </ng-container>
 
+      <tr class="summary-row">
+        <td colspan="11" class="text-end fw-bold">Total</td>
+        <td class="fw-bold">{{ getgrndata?.allQuantity }}</td>
+        <td class="fw-bold">{{ getgrndata?.allTotal }}</td>
+        <td colspan="2"></td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+    <div>
+      <table class="table table-bordered summary-table w-auto">
+        <thead>
+          <tr>
+            <th style="width: 100px;">Category</th>
+            <th>Total</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Paid</td>
+            <td>{{ getgrndata?.bookingTypeSummary?.paid?.totalBookings || 0 }}</td>
+            <td>{{ getgrndata?.bookingTypeSummary?.paid?.grandTotal || 0 }}</td>
+          </tr>
+          <tr>
+            <td>ToPay</td>
+            <td>{{ getgrndata?.bookingTypeSummary?.toPay?.totalBookings || 0 }}</td>
+            <td>{{ getgrndata?.bookingTypeSummary?.toPay?.grandTotal || 0 }}</td>
+          </tr>
+          <tr>
+            <td>Credit</td>
+            <td>{{ getgrndata?.bookingTypeSummary?.credit?.totalBookings || 0 }}</td>
+            <td>{{ getgrndata?.bookingTypeSummary?.credit?.grandTotal || 0 }}</td>
+          </tr>
+          <tr>
+            <td>FOC</td>
+            <td>{{ getgrndata?.bookingTypeSummary?.FOC?.totalBookings || 0 }}</td>
+            <td>{{ getgrndata?.bookingTypeSummary?.FOC?.grandTotal || 0 }}</td>
+          </tr>
+          <tr>
+            <td><strong>Total</strong></td>
+            <td>
+              {{
+              (getgrndata?.bookingTypeSummary?.paid?.totalBookings || 0) +
+              (getgrndata?.bookingTypeSummary?.toPay?.totalBookings || 0) +
+              (getgrndata?.bookingTypeSummary?.credit?.totalBookings || 0) +
+              (getgrndata?.bookingTypeSummary?.FOC?.totalBookings || 0)
+              }}
+            </td>
+            <td>
+              {{
+              (getgrndata?.bookingTypeSummary?.paid?.grandTotal || 0) +
+              (getgrndata?.bookingTypeSummary?.toPay?.grandTotal || 0) +
+              (getgrndata?.bookingTypeSummary?.credit?.grandTotal || 0) +
+              (getgrndata?.bookingTypeSummary?.FOC?.grandTotal || 0)
+              }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-   
+      <div class="remarks">
+        <p><strong>Loading Remarks:</strong> -</p>
+        <p><strong>Driver Name:</strong> {{ getgrndata?.driverName || '-' }}</p>
+        <p><strong>Cleaner Name:</strong> {{ getgrndata?.cleanerName || '-' }}</p>
+      </div>
+    </div>
 
-
-
-
+  </div>
+</div>

@@ -789,6 +789,20 @@ UpdatePackagestype(id: any, value: {
 
 
 
+    PrintVoucher(id:any){
+      const token1 = this.token.getToken();
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token1
+        })
+      }
+        return this.http.get<any>(AUTH_API + 'parcel-loading/voucher-details-print/'+id, httpOptions);
+    }
+
+
+
+
 
 // branch/branchUniqueId/HYAM2687
 

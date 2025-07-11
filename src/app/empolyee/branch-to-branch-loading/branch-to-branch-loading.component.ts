@@ -321,6 +321,8 @@ export class BranchToBranchLoadingComponent {
     this.api.BranchtoBranchLoad(payload).subscribe({
       next: (response: any) => {
         this.parcelResponse = response.parcel;
+        console.log("loadedData:",this.parcelResponse);
+        
     
         // Map GRN to other values
         this.mappedParcelData = response.parcel.grnNo.map((grn: string, index: number) => ({
