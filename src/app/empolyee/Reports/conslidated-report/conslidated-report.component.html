@@ -148,7 +148,8 @@
           <td>{{ item.cancelAmount || 0 }}</td>
           <td>{{ item.bookingTotal || 0 }}</td>
 
-          <td>{{ item.deliveryAmount || 0 }}</td>
+          <td>{{ item.toPayDeliveredAmount
+            || 0 }}</td>
                     <td>{{ item.total || 0 }}</td>
 
           <td>{{ item.cgstAmount || 0 }}</td>
@@ -166,7 +167,7 @@
           <td>{{ Tdata.finalCreditAmount || 0 }}</td>
           <td>{{ Tdata.finalCancelAmount || 0 }}</td>
           <td>{{ Tdata.finalBookingTotal || 0 }}</td>
-          <td>{{ Tdata.finalDeliveryAmount || 0 }}</td>
+          <td>{{ Tdata.finalToPayDeliveredAmount || 0 }}</td>
           <td>{{ Tdata.finalTotal || 0 }}</td>
 
           <td>{{ Tdata.totalCgst || 0 }}</td>
