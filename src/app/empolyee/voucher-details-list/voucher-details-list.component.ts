@@ -255,7 +255,7 @@ printReport(): void {
       console.error('Print section not found');
       return;
     }
-
+// dhhdhdhdgir
     const WindowPrt = window.open('', '', 'width=900,height=800');
     if (WindowPrt) {
       WindowPrt.document.write(`
