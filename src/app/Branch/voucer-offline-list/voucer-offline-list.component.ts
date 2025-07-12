@@ -8,13 +8,21 @@ import { BranchService } from 'src/app/service/branch.service';
   templateUrl: './voucer-offline-list.component.html',
   styleUrls: ['./voucer-offline-list.component.scss']
 })
-export class VoucerOfflineListComponent {
+export class VoucerOfflineListComponent{
 
   
      citydata: any = []; // Ensure it's initialized to prevent undefined 
       form: FormGroup;
       vdata:any;
-      data1:any = [];;
+      data1:any = [];voucherno: any;
+  getgrndata: any;
+  ffdata: any;
+  profileData: any;
+  company: any;
+  pfdata: any;
+  today = new Date();
+  todayDateTime: any;
+;
       LoadSuccess: boolean = false;
       allSelected: boolean = false;
       pdata:any;
@@ -33,6 +41,18 @@ export class VoucerOfflineListComponent {
       }
     
       ngOnInit() {
+
+        const now = new Date();
+
+        const options: Intl.DateTimeFormatOptions = {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: true
+        };
+        this.todayDateTime = now.toLocaleString('en-GB', options).replace(',', '');
         this.api.GetBranch().subscribe({
           next: (res: any) => {
             this.branchData = res;
@@ -144,8 +164,130 @@ export class VoucerOfflineListComponent {
         })
       }
 
-        printgrnData(id:any){
-          this.router.navigateByUrl('/printvouchersdata/'+id);
-        }
+
+
+
+      
+printgrnData(id: any): void {
+  this.voucherno = id;
+  console.log('voucherno:', this.voucherno);
+
+  this.api.PrintVoucher(id).subscribe({
+    next: (res) => {
+      console.log('printVoucher:', res);
+      this.getgrndata = res;
+
+      // Delay to allow Angular to update the DOM with new data
+      setTimeout(() => {
+        this.printReport();
+      }, 200); // 200ms delay is usually sufficient
+    },
+    error: (err) => {
+      console.error('Error fetching voucher:', err);
+    },
+  });
+}
+
+printReport(): void {
+  const printContents = document.getElementById('print-section')?.innerHTML;
+
+  if (printContents) {
+    const popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+
+    if (popupWin) {
+      popupWin.document.open();
+      popupWin.document.write(`
+        <html>
+          <head>
+            <title>Dispatched Stock Report</title>
+            <style>
+              body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+              }
+
+              table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 12px;
+              }
+
+              th, td {
+                border: 1px solid #000;
+                padding: 4px;
+                text-align: center;
+              }
+
+              h1, h4, h6, p {
+                margin: 4px 0;
+              }
+
+              .text-center {
+                text-align: center;
+              }
+
+              .fw-bold {
+                font-weight: bold;
+              }
+
+              .text-end {
+                text-align: right;
+              }
+
+              .summary-table {
+                margin-top: 20px;
+              }
+
+              .remarks {
+                margin-top: 30px;
+                font-size: 14px;
+              }
+
+              .no-border {
+                border: none !important;
+              }
+
+              .no-border th, .no-border td {
+                border: none !important;
+              }
+
+              @media print {
+                .no-print {
+                  display: none !important;
+                }
+              }
+            </style>
+          </head>
+          <body onload="window.print(); window.close();">
+            ${printContents}
+          </body>
+        </html>
+      `);
+      popupWin.document.close();
+    } else {
+      console.error('Popup blocked or failed to open.');
+    }
+  } else {
+    console.error('Print section not found.');
+  }
+}
+
+
+
+getProfileData() {
+  this.api.GetProfileData().subscribe((res: any) => {
+    console.log('profile', res);
+    
+    this.ffdata = res.branchId;
+    this.pfdata = res.branchId.city;
+    this.profileData = res;
+    console.log('profileData:', this.profileData);
+    this.company=this.profileData.companyId
+    console.log("hgjygyt:",this.company);
+    
+
+ 
+  });
+}
 
 }
