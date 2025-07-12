@@ -46,7 +46,7 @@ export class ParcelDeliveryComponent {
         ]
       ],
       lrNumber: [''],
-      deliveryAmount:[Validators.required],
+      toPayDeliveredAmount:[''],
     });
   }
 
@@ -161,21 +161,28 @@ export class ParcelDeliveryComponent {
       grnNo: this.form2.value.grnNo,
       receiverName: this.form2.value.receiverName,
       receiverMobile: this.form2.value.receiverMobile,
-      deliveryAmount: this.form2.value.deliveryAmount,
+      toPayDeliveredAmount: this.form2.value.toPayDeliveredAmount,
     };
+    console.log("payload:",payload);
+    
   
-    console.log('Delivery Amount:', payload.deliveryAmount);
+    // console.log('Delivery Amount:', payload);
   
     this.api.ReceivedParcelUpdate(payload).subscribe(
       (res: any) => {
+        console.log("res:",res);
+
         this.updata = res;
-        this.toast.success(res.message || 'Parcel status updated successfully', 'Success');
+        console.log("updata:",this.updata);
+
+        
+        this.toast.success(res.message, 'Success');
   
-        this.searchUser();     // Re-fetch user data
-        this.form2.reset();    // ✅ Clear all form fields after success
+        this.searchUser();    
+        this.form2.reset();    
       },
       (error) => {
-        const errMsg = error.error?.message || 'Failed to update parcel status';
+        const errMsg = error.error?.message;
         this.toast.error(errMsg, 'Error');
       }
     );

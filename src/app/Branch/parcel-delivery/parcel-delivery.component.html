@@ -79,7 +79,7 @@
       <form [formGroup]="form2">
         <div class="row">
           <input type="hidden" formControlName="grnNo" [ngModel]="data2[0]?.grnNo" />
-           <input type="text" class="form-control" formControlName="deliveryAmount" [ngModel]="data2[0]?.grandTotal" hidden />
+           <input type="text" class="form-control" formControlName="toPayDeliveredAmount" [ngModel]="data2[0]?.grandTotal" hidden />
           <div class="col-md-4 mb-3">
             <label for="receiverName1" class="form-label">Delivery Receiver Name</label>
             <input
