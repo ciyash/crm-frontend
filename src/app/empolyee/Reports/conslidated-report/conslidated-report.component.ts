@@ -57,7 +57,7 @@ export class ConslidatedReportComponent {
         branchSummary: [false],
       });
     }
-  
+  // 
     ngOnInit() {
       this.getCities();
       this.getProfileData();
