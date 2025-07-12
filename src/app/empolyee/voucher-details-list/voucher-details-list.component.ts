@@ -197,21 +197,7 @@ export class VoucherDetailsListComponent {
 
  
 
-  getProfileData() {
-    this.api.GetProfileData().subscribe((res: any) => {
-      console.log('profile', res);
-      
-      this.ffdata = res.branchId;
-      this.pfdata = res.branchId.city;
-      this.profileData = res;
-      console.log('profileData:', this.profileData);
-      this.company=this.profileData.companyId
-      console.log("hgjygyt:",this.company);
-      
 
-   
-    });
-  }
 
   onFromcitySelect(event: any) {
     const cityName = event.target.value;
@@ -355,6 +341,19 @@ printReport(): void {
   } else {
     console.error('Print section not found.');
   }
+}
+getProfileData() {
+  this.api.GetProfileData().subscribe((res: any) => {
+    console.log('profile', res);
+    
+    this.ffdata = res.branchId;
+    this.pfdata = res.branchId.city;
+    this.profileData = res;
+    console.log('profileData:', this.profileData);
+    this.company=this.profileData.companyId
+    console.log("hgjygyt:",this.company);
+    
+  });
 }
 
 

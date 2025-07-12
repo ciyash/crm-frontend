@@ -41,7 +41,7 @@ export class VoucerOfflineListComponent{
       }
     
       ngOnInit() {
-
+this.getProfileData();
         const now = new Date();
 
         const options: Intl.DateTimeFormatOptions = {

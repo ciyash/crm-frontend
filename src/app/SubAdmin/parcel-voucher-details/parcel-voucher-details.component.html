@@ -206,3 +206,168 @@
     </div>
   </div>
 </div>
+
+
+
+
+<div id="print-section" *ngIf="getgrndata" hidden  >
+  <div class="report-header text-center" *ngIf="company">
+    <h1 class="fw-bold">{{company.name}}</h1>
+    <div class="fw-bold"> Address : <span *ngIf="pfdata">{{pfdata}}</span>-<span *ngIf="ffdata">{{ffdata.name}}</span>
+    </div>
+    <div class="fw-bold">Phone No : {{profileData.phone}}</div>
+    <div class="text-bold">Dispatched Stock Report</div>
+    <div *ngIf="profileData" class="fw-bold">Prepared By : {{profileData.name
+      }}</div>
+  </div>
+
+  <table class="table no-border w-100 mb-2" *ngIf="voucherno">
+    <tr>
+      <td class="fw-bold">Dispatch No: <strong>{{ voucherno }}</strong></td>
+      <td class="fw-bold">Generate Date: <strong>01-07-2025</strong></td>
+    </tr>
+  </table>
+  
+  <table class="table no-border w-100 mb-2" *ngIf="getgrndata?.bookings?.length">
+    <tr>
+      <td class="fw-bold">Vehicle No: <strong>{{ getgrndata.bookings[0].BusNo }}</strong></td>
+      <td class="fw-bold">Print Date: <strong>{{ today | date:'dd-MM-yyyy hh:mm a' }}</strong></td>
+    </tr>
+  </table>
+  
+  <table class="table no-border w-100 mb-2">
+    <tr>
+      <td class="fw-bold">From City: <strong>{{ form.value.fromCity }}</strong></td>
+      <td class="fw-bold">To City: <strong>{{ form.value.toCity }}</strong></td>
+    </tr>
+  </table>
+  
+  
+  
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Sr. No</th>
+        <th>GNR</th>
+        <th>Booking Date</th>
+        <th>Destination</th>
+        <th>Bus No</th>
+        <th>Sender</th>
+        <th>Receiver</th>
+        <th>Receiver No.</th>
+        <th>Type</th>
+        <th>Pkgs Details</th>
+        <th>Parcel Contains</th>
+        <th>Qty</th>
+        <th>Amount</th>
+        <th>Remarks</th>
+        <th>Receiver Sign</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let item of getgrndata?.bookings; let i = index">
+        <tr>
+          <td>{{ i + 1 }}</td>
+          <td>{{ item.lrNumber }}</td>
+          <td>
+            {{ item.bookingDate ? (item.bookingDate | date:'dd-MM-yyyy') : '' }}<br>
+            {{ item.bookingTime || '' }}
+          </td>
+          <td>{{ item.toCity }} ({{ item.dropBranchname }})</td>
+          <td>{{ item.BusNo }}</td>
+          <td>{{ item.Sender }}</td>
+          <td>{{ item.Receiver }}</td>
+          <td>{{ item.receiverMobile }}</td>
+          <td>{{ item.bookingType }}</td>
+          <td>
+            <ng-container *ngFor="let pkg of item.packages">
+              {{ pkg.quantity }} - {{ pkg.packageType }}<br>
+            </ng-container>
+          </td>
+          <td>
+            <ng-container *ngFor="let pkg of item.packages">
+              {{ pkg.contains || '-' }}<br>
+            </ng-container>
+          </td>
+          <td>{{ item.totalQuantity }}</td>
+          <td>{{ item.Amount }}</td>
+          <td>{{ item.remarks || '' }}</td>
+          <td></td>
+        </tr>
+
+        <tr>
+          <td colspan="15" style="height: 50px; border: 1px solid #000;"></td>
+        </tr>
+      </ng-container>
+
+      <tr class="summary-row">
+        <td colspan="11" class="text-end fw-bold">Total</td>
+        <td class="fw-bold">{{ getgrndata?.allQuantity }}</td>
+        <td class="fw-bold">{{ getgrndata?.allTotal }}</td>
+        <td colspan="2"></td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+    <div>
+      <table class="table table-bordered summary-table w-auto">
+        <thead>
+          <tr>
+            <th style="width: 100px;">Category</th>
+            <th>Total</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Paid</td>
+            <td>{{ getgrndata?.bookingTypeSummary?.paid?.totalBookings || 0 }}</td>
+            <td>{{ getgrndata?.bookingTypeSummary?.paid?.grandTotal || 0 }}</td>
+          </tr>
+          <tr>
+            <td>ToPay</td>
+            <td>{{ getgrndata?.bookingTypeSummary?.toPay?.totalBookings || 0 }}</td>
+            <td>{{ getgrndata?.bookingTypeSummary?.toPay?.grandTotal || 0 }}</td>
+          </tr>
+          <tr>
+            <td>Credit</td>
+            <td>{{ getgrndata?.bookingTypeSummary?.credit?.totalBookings || 0 }}</td>
+            <td>{{ getgrndata?.bookingTypeSummary?.credit?.grandTotal || 0 }}</td>
+          </tr>
+          <tr>
+            <td>FOC</td>
+            <td>{{ getgrndata?.bookingTypeSummary?.FOC?.totalBookings || 0 }}</td>
+            <td>{{ getgrndata?.bookingTypeSummary?.FOC?.grandTotal || 0 }}</td>
+          </tr>
+          <tr>
+            <td><strong>Total</strong></td>
+            <td>
+              {{
+              (getgrndata?.bookingTypeSummary?.paid?.totalBookings || 0) +
+              (getgrndata?.bookingTypeSummary?.toPay?.totalBookings || 0) +
+              (getgrndata?.bookingTypeSummary?.credit?.totalBookings || 0) +
+              (getgrndata?.bookingTypeSummary?.FOC?.totalBookings || 0)
+              }}
+            </td>
+            <td>
+              {{
+              (getgrndata?.bookingTypeSummary?.paid?.grandTotal || 0) +
+              (getgrndata?.bookingTypeSummary?.toPay?.grandTotal || 0) +
+              (getgrndata?.bookingTypeSummary?.credit?.grandTotal || 0) +
+              (getgrndata?.bookingTypeSummary?.FOC?.grandTotal || 0)
+              }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="remarks">
+        <p><strong>Loading Remarks:</strong> -</p>
+        <p><strong>Driver Name:</strong> {{ getgrndata?.driverName || '-' }}</p>
+        <p><strong>Cleaner Name:</strong> {{ getgrndata?.cleanerName || '-' }}</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
