@@ -178,12 +178,8 @@ export class ConsolidatedComponent {
       next: (res: any) => {
         console.log('ConsolidatedReport:', res);
   
-        this.Cdata = res.data || []; // data for table rows
-        this.Tdata = res || {};      // totals
-        this.deliveryData = res.data || [];
-  
-        console.log("Cdata:", this.Cdata);
-        console.log("Totals:", this.Tdata);
+        this.Cdata = res
+       
       },
       error: (err) => {
         this.toast.error('Failed to fetch report.');

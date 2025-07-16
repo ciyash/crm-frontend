@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { BranchService } from 'src/app/service/branch.service';
 
 @Component({
@@ -29,7 +30,7 @@ export class VoucerOfflineListComponent{
       cbdata:any;
       branchData:any;
       vldata:any;
-      constructor(private api: BranchService, private fb: FormBuilder, private router:Router) {
+      constructor(private api: BranchService, private fb: FormBuilder, private router:Router, private toast:ToastrService) {
         this.form = this.fb.group({
           fromDate: [this.getTodayDateString(), Validators.required],
           toDate: [this.getTodayDateString(), Validators.required],
@@ -130,6 +131,31 @@ this.getProfileData();
         }
         
         
+        // VoucherLoad() {
+        //   const payload = {
+        //     fromDate: this.form.value.fromDate,
+        //     toDate: this.form.value.toDate,
+        //     vehicalNumber: this.form.value.vehicalNumber,
+        //     fromCity: this.form.value.fromCity,
+        //     toCity: this.form.value.toCity,
+        //     fromBranch: this.form.value.fromBranch,
+        //   };
+        
+        //   console.log('Final Payload:', payload);
+          
+        //   this.api.ParcelVouchersDetails(payload).subscribe({
+        //     next: (response: any) => {
+        //       console.log('Parcel loaded successfully:', response);
+        //       // alert('Parcel Loaded Successfully!');
+        //       this.data1=response;
+              
+        //     },
+        //     error: (error: any) => {
+        //       console.error('Parcel loading failed:', error);
+        //     },
+        //   });
+        // }
+
         VoucherLoad() {
           const payload = {
             fromDate: this.form.value.fromDate,
@@ -141,21 +167,25 @@ this.getProfileData();
           };
         
           console.log('Final Payload:', payload);
-          
+        
           this.api.ParcelVouchersDetails(payload).subscribe({
             next: (response: any) => {
               console.log('Parcel loaded successfully:', response);
-              // alert('Parcel Loaded Successfully!');
-              this.data1=response;
-              
+              this.data1 = response;
+              this.toast.success('Parcel loaded successfully!', 'Success');
             },
             error: (error: any) => {
               console.error('Parcel loading failed:', error);
-              alert('Parcel Loading Failed. Please try again.');
+        
+              this.data1 = null;
+                 const message =
+                error?.error?.message || 'Parcel loading failed. Please try again.';
+              this.toast.error(message, 'Error');
             },
           });
         }
-
+        
+        
           getvouchersdata(id:any){
         this.api.GetVouchersListData(id).subscribe((res)=>{
             console.log('vouchersdata',res);

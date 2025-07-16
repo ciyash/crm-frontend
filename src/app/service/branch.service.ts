@@ -847,7 +847,7 @@ ReceivedParcelUpdate(value: {
     })
   };
   return this.http.post(
-    AUTH_API + 'booking/receivedBooking',
+    AUTH_API + 'booking/delivery-booking',
     {
       grnNo: value.grnNo,
       receiverName:value.receiverName,

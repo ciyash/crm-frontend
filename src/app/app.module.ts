@@ -40,7 +40,6 @@ import { AddExtraChargesComponent } from './pages/Admin/add-extra-charges/add-ex
 import { BrachToBranchUnloadingComponent } from './Branch/brach-to-branch-unloading/brach-to-branch-unloading.component';
 import { FilterGrnComponent } from './Branch/filter-grn/filter-grn.component';
  
-import { PrintVoucherslistDataComponent } from './Branch/print-voucherslist-data/print-voucherslist-data.component';
 import { ParcelBookingReportComponent } from './Branch/Reports/parcel-booking-report/parcel-booking-report.component';
 import { DispatchedReportComponent } from './Branch/dispatched-report/dispatched-report.component';
 import { BranchReportsDashboardComponent } from './Branch/Reports/branch-reports-dashboard/branch-reports-dashboard.component';
@@ -134,6 +133,7 @@ import { SubDashboardComponent } from './SubAdmin/sub-dashboard/sub-dashboard.co
 import { TopayReportComponent } from './Branch/Reports/topay-report/topay-report.component';
 import { AllReportComponent } from './Branch/Reports/all-report/all-report.component';
 import { BookingTypeWiseReportComponent } from './Branch/Reports/booking-type-wise-report/booking-type-wise-report.component';
+import { BranchwiseBookingdetailsComponent } from './Branch/Reports/branchwise-bookingdetails/branchwise-bookingdetails.component';
 @NgModule({
   declarations: [
     // reports
@@ -176,7 +176,6 @@ import { BookingTypeWiseReportComponent } from './Branch/Reports/booking-type-wi
     AddExtraChargesComponent,
     BrachToBranchUnloadingComponent,
     FilterGrnComponent,
-    PrintVoucherslistDataComponent,
     ParcelBookingReportComponent,
     DispatchedReportComponent,
     BranchReportsDashboardComponent,
@@ -261,6 +260,7 @@ import { BookingTypeWiseReportComponent } from './Branch/Reports/booking-type-wi
     TopayReportComponent,
     AllReportComponent,
     BookingTypeWiseReportComponent,
+    BranchwiseBookingdetailsComponent,
    
    
   ],

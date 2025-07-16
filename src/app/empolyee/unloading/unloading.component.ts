@@ -373,9 +373,6 @@ ParcelLoad() {
   const grnNos = Array.isArray(this.form1.value.grnNo)
     ? this.form1.value.grnNo
     : [this.form1.value.grnNo];
-
-    
-
   const payload = {
     fromBookingDate: this.form1.value.fromBookingDate,
     toBookingDate: this.form1.value.toBookingDate,
@@ -577,6 +574,8 @@ getProfileData() {
       alert('Failed to open print window.');
     }
   }
+
+
 }
 
 

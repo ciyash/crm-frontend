@@ -219,3 +219,39 @@
   </form>
 
 </div>
+
+
+<div #printParcelTable class="table-responsive mt-4" *ngIf="parcelResponse">
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>LR No</th>
+        <th>GRN No</th>
+        <th>From City</th>
+        <th>Drop City</th>
+        <th>Drop Branch</th>
+        <th>Sender Name</th>
+        <th>Vehicle Number</th>
+        <th>Voucher No</th>
+        <th>Unloading Date</th>
+        <th>booking Type </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let booking of parcelResponse.bookingDetails; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ booking.lrNumber || '-' }}</td>
+        <td>{{ parcelResponse.data.grnNo[i] || parcelResponse.data.grnNo[0] || '-' }}</td>
+        <td>{{ booking.fromCity || '-' }}</td>
+        <td>{{ booking.toCity || '-' }}</td>
+        <td>{{ booking.unloadingBranchname || booking.dropBranchname || '-' }}</td>
+        <td>{{ booking.senderName || '-' }}</td>
+        <td>{{ booking.vehicalNumber || '-' }}</td>
+        <td>{{ parcelResponse.data.unLoadingVoucher || '-' }}</td>
+        <td>{{ booking.unloadingDate | date: 'dd-MM-yyyy HH:mm:ss' }}</td>
+        <td>{{ booking.bookingType || '-' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

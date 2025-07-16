@@ -128,91 +128,6 @@ export class BranchToBranchLoadingComponent {
     }, 0);}
     
 
-    // loaddata() {
-    //   const payload = {
-    //     fromBookingDate: this.form.value.fromBookingDate,
-    //     toBookingDate: this.form.value.toBookingDate,
-    //     fromBranch: this.form.value.fromBranch,
-    //   };
-    //   console.log('Final Payload:', payload);
-    
-    //   this.data = [];
-    //   this.LoadSuccess = false;
-    //   this.form1.reset();
-
-    //   this.api.postBranchLoading(payload).subscribe({
-    //     next: (response: any) => {
-    //       console.log('loaded successfully:', response);
-    //       const successMessage = response?.message || 'Parcel Branch loading successfully';
-    //       this.toast.success(successMessage, 'Success');
-    
-    //       this.data = response;
-    //       this.LoadSuccess = true;
-    
-    //       if (this.data.length > 0) {
-    //         const first = this.data[0];
-    //         this.form1.patchValue({
-    //           fromBranch: this.form.value.fromBranch,
-    //           fromCity: first?.fromCity || '',
-    //         });
-    
-    //         this.setFormArray('toCity', this.data.map((d: any) => d.toCity));
-    //         this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
-    //         this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
-    //       }
-    //     },
-    //     error: (error: any) => {
-    //       console.error('loading failed:', error);
-    //       const errorMessage = error?.error?.message || 'Failed to load parcel data';
-    //       this.toast.error(errorMessage, 'Error');
-    //     },
-    //   });
-    // }
-    // setFormArray(controlName: string, values: any[]) {
-    //   const formArray = this.form1.get(controlName) as FormArray;
-    //   formArray.clear(); // ✅ Clear previous values
-    //   values.forEach(value => {
-    //     formArray.push(this.fb.control(value));
-    //   });
-    // }
-  
-    // onGrnNoChange(event: any, grnNo: string) {
-    //   const formArray = this.form1.get('grnNo') as FormArray;
-    //   if (event.target.checked) {
-    //     if (!formArray.value.includes(grnNo)) {
-    //       formArray.push(this.fb.control(grnNo));
-    //     }
-    //   } else {
-    //     const index = formArray.value.indexOf(grnNo);
-    //     if (index > -1) {
-    //       formArray.removeAt(index);
-    //     }
-    //   }
-    //       this.allSelected = this.data.length === formArray.value.length;
-    //   console.log('Selected GRN Numbers:', formArray.value);
-    // }
-    
-    // onSelectAllChange(event: any) {
-    //   const formArray = this.form1.get('grnNo') as FormArray;
-    //   if (event.target.checked) {
-    //     this.data.forEach((row:any) => {
-    //       if (!formArray.value.includes(row.grnNo)) {
-    //         formArray.push(this.fb.control(row.grnNo));
-    //       }
-    //     });
-    //   } else {
-    //     formArray.clear();
-    //   }
-    //   // ✅ Update "Select All" status
-    //   this.allSelected = event.target.checked;
-    //   console.log('All GRN Numbers Selected:', formArray.value);
-    // }
-
-
-
-
-
-
   
   loaddata() {
     const payload = {
@@ -356,42 +271,7 @@ export class BranchToBranchLoadingComponent {
 
 
 
-  // ParcelLoad() {
-  //   const payload = {
-  //     fromBranch: this.form1.value.fromBranch,
-  //     toBranch: this.form1.value.toBranch,
-  //     vehicalNumber: this.form1.value.vehicalNumber,
-  //     remarks: this.form1.value.remarks,
-  //     fromCity: this.form1.value.fromCity,
-  //     toCity: this.form1.value.toCity || '',
-  //     grnNo: this.form1.value.grnNo || [],
-  //     lrNumber: this.form1.value.lrNumber || [],
-  //   };
-  
-  //   console.log('Final Payload:', payload);
-  
-  //   this.api.BranchtoBranchLoad(payload).subscribe({
-  //     next: (response: any) => {
-  //       console.log('Parcel loaded successfully:', response);
-  //       this.parcelResponse = response.parcel;
-  
-  //       this.toast.success('Parcel loaded successfully!', 'Success');
-  
-  //       setTimeout(() => {
-  //         this.printParcelTable1();
-  //         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-  //           this.router.navigate(['/employee-branch-loading']);
-  //         });
-  //       }, 1000);
-  //     },
-  //     error: (error: any) => {
-  //       console.error('Parcel loading failed:', error);
-  //       const errorMsg = error?.error?.message || 'Parcel Loading Failed. Please try again.';
-  //       this.toast.error(errorMsg, 'Error');
-  //     },
-  //   });
-  // }
-  
+ 
 
 
   printParcelTable1(): void {

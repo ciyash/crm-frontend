@@ -1,218 +1,208 @@
 <app-header></app-header>
-<h5 class="text-center fw-bold text-danger"  style=" margin-top: 8%;"><u>
-Delivered Stock report
+<h5 class="text-center fw-bold text-danger" style=" margin-top: 8%;"><u>
+    Delivered Stock report
   </u>
 </h5>
 <div class="card container" style=" 
 border: 2px solid #ccc; 
 border-radius: 5px;
 background-color: #fff;">
-    <div class="rounded p-4">
-      <form [formGroup]="form">
-        <div class="row mb-2">
-          <div class="col-md-6">
-            <label class="form-label">From  Date</label>
-            <input type="date" class="form-control form-select-sm" formControlName="fromDate">
-            <div *ngIf="form.get('fromDate')?.invalid && form.get('fromDate')?.touched" class="text-danger">
-              From Date is required
-            </div>
-          </div>
-          <div class="col-md-6">
-            <label class="form-label">To  Date</label>
-            <input type="date" class="form-control form-select-sm" formControlName="toDate">
-            <div *ngIf="form.get('toDate')?.invalid && form.get('toDate')?.touched" class="text-danger">
-              To Date is required
-            </div>
-          </div>
-          <div class="col-md-6">
-            <label class="form-label form-after">From City</label>
-            <select #selectElem class="form-select form-select-sm" formControlName="fromCity">
-              <option value="all" selected> All From City</option>
-              <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
-            </select>
-          </div>
-          <div class="col-md-6">
-            <label class="form-label form-after">To City</label>
-            <select #selectElem2 class="form-select form-select-sm" formControlName="toCity">
-              <option value="all" selected> All To City</option>
-              <option *ngFor="let row of citydata" [value]="row.cityName">{{ row.cityName }}</option>
-            </select>
-          </div>
-
-
-          <div class="col-md-6">
-            <label class="form-label form-after">Pickup Branch</label>
-            <select #pickupbranch class="form-select form-select-sm" formControlName="pickUpBranch">
-              <option value="all" selected> All From Branch</option>
-              <option *ngFor="let row4 of pdata" [value]="row4.branchUniqueId"> {{ row4.name }} </option>
-            </select>
-          </div>
-
-          <div class="col-md-6">
-            <label class="form-label form-after">Drop Branch</label>
-            <select #droupbranch class="form-select form-select-sm" formControlName="dropBranch">
-              <option value="all" selected> All To Branch</option>
-              <option *ngFor="let row1 of tbcdata" [value]="row1.branchUniqueId"> {{ row1.name }} </option>
-            </select>
-          </div>
-          <div class="d-grid gap-2 col-2 mx-auto mt-4">
-            <button type="button" class="btn btn-success w-100" (click)="DeliveryReport()">Load</button>
+  <div class="rounded p-4">
+    <form [formGroup]="form">
+      <div class="row mb-2">
+        <div class="col-md-6">
+          <label class="form-label">From Date</label>
+          <input type="date" class="form-control form-select-sm" formControlName="fromDate">
+          <div *ngIf="form.get('fromDate')?.invalid && form.get('fromDate')?.touched" class="text-danger">
+            From Date is required
           </div>
         </div>
-      </form>
-    </div>
+        <div class="col-md-6">
+          <label class="form-label">To Date</label>
+          <input type="date" class="form-control form-select-sm" formControlName="toDate">
+          <div *ngIf="form.get('toDate')?.invalid && form.get('toDate')?.touched" class="text-danger">
+            To Date is required
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label form-after">From City</label>
+          <select #selectElem class="form-select form-select-sm" formControlName="fromCity">
+            <option value="all" selected> All From City</option>
+            <option *ngFor="let row2 of citydata" [value]="row2.cityName">{{ row2.cityName }}</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label form-after">To City</label>
+          <select #selectElem2 class="form-select form-select-sm" formControlName="toCity">
+            <option value="all" selected> All To City</option>
+            <option *ngFor="let row of citydata" [value]="row.cityName">{{ row.cityName }}</option>
+          </select>
+        </div>
 
-    <div class="hr" style="  border: 1px solid #ccc; /* light gray border */
+
+        <div class="col-md-6">
+          <label class="form-label form-after">Pickup Branch</label>
+          <select #pickupbranch class="form-select form-select-sm" formControlName="pickUpBranch">
+            <option value="all" selected> All From Branch</option>
+            <option *ngFor="let row4 of pdata" [value]="row4.branchUniqueId"> {{ row4.name }} </option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label form-after">Drop Branch</label>
+          <select #droupbranch class="form-select form-select-sm" formControlName="dropBranch">
+            <option value="all" selected> All To Branch</option>
+            <option *ngFor="let row1 of tbcdata" [value]="row1.branchUniqueId"> {{ row1.name }} </option>
+          </select>
+        </div>
+        <div class="d-grid gap-2 col-2 mx-auto mt-4">
+          <button type="button" class="btn btn-success w-100" (click)="DeliveryReport()">Load</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="hr" style="  border: 1px solid #ccc; /* light gray border */
     background-color: #fff;"></div>
 
-    <div class="text-center" *ngIf="reportData" >
-      <i class="fa fa-print" style="font-size: 40px; color: green;" aria-hidden="true" (click)="printReport()"></i>
-      <i class="fa fa-file-excel-o mx-3" style="font-size: 34px; color: green; cursor: pointer;" aria-hidden="true" (click)="exportToExcel()"></i>
+  <div class="text-center" *ngIf="reportData">
+    <i class="fa fa-print" style="font-size: 40px; color: green;" aria-hidden="true" (click)="printReport()"></i>
+    <i class="fa fa-file-excel-o mx-3" style="font-size: 34px; color: green; cursor: pointer;" aria-hidden="true"
+      (click)="exportToExcel()"></i>
 
 
-    </div>
-
-<div   id="print-section"  *ngIf="reportData" >
-  <div class="text-center mb-4 mt-5">
-    <div class="container-fluid" *ngIf="pfdata">
-      <h4 class="text-center fw-bold">{{ pfdata.companyId?.name }}</h4>
-      <p class="text-center fw-bold">
-        Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
-        Phone No: {{ pfdata.phone }}
-      </p>
-    </div>
-    <h6 class="text-decoration-underline">Delivered Stock report
-    </h6>
-  </div>
-  <div class="table-responsive mb-1 ">
-    <table class="table table-bordered table-sm text-center align-middle">
-      <thead>
-        <tr>
-          <th>From : {{payload.fromDate | date: 'dd-MM-yyyy'}} To : {{payload.toDate | date: 'dd-MM-yyyy'}}</th>
-          <th *ngIf="pfdata">Print By : {{pfdata.username}}</th>
-          <th>Print Date :{{ today | date: 'dd-MM-yyyy' }} {{ today | date: 'hh:mm a' }} </th>
-        </tr>
-      </thead>
-
-    </table>
   </div>
 
+  <div id="print-section" *ngIf="reportData">
+    <div class="text-center mb-4 mt-5">
+      <div class="container-fluid" *ngIf="pfdata">
+        <h4 class="text-center fw-bold">{{ pfdata.companyId?.name }}</h4>
+        <p class="text-center fw-bold">
+          Address: {{ pfdata.location }} - {{ pfdata.branchId?.name }} |
+          Phone No: {{ pfdata.phone }}
+        </p>
+      </div>
+      <h6 class="text-decoration-underline">Delivered Stock report
+      </h6>
+    </div>
+    <div class="table-responsive mb-1 ">
+      <table class="table table-bordered table-sm text-center align-middle">
+        <thead>
+          <tr>
+            <th>From : {{payload.fromDate | date: 'dd-MM-yyyy'}} To : {{payload.toDate | date: 'dd-MM-yyyy'}}</th>
+            <th *ngIf="pfdata">Print By : {{pfdata.username}}</th>
+            <th>Print Date :{{ today | date: 'dd-MM-yyyy' }} {{ today | date: 'hh:mm a' }} </th>
+          </tr>
+        </thead>
 
-  <div class="table-responsive">
-    <table class="table table-bordered table-sm text-center align-middle">
-      <thead class="table-secondary">
-        <tr>
-          <th>No</th>
-          <th>LR No</th>
-          <th>Source Subregion</th>
-          <th>Received By	</th>
-          <th>Consigner	</th>
-          <th>Consignee	</th>
-          <th>Packages</th>
-            <th>Parcel Item	</th>
-            <th>Pkgs	</th>
-            <th>Total Amount</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let items of reportData; let i=index">
-          <td>{{i+1}}</td>
-          <td>{{items.WBNo}}</td>
-        <td>{{items.SourceSubregion}}</td>
-          <td>{{items.ReceivedBy
-          }}</td>
-          <td>{{items.Consigner}}</td>
-          <td>{{items.Consignee}}</td>
-          <td>{{items.WBType}}</td>
-          <td>{{items.ParcelItem}}</td>
-          <td>{{items.Pkgs}}</td>
-          <td>{{items.Amount}}</td>
-        </tr>
-      </tbody>
-    </table>
+      </table>
+    </div>
+
 
     <div class="table-responsive">
       <table class="table table-bordered table-sm text-center align-middle">
         <thead class="table-secondary">
           <tr>
-            <th>Sr. No</th>
-            <th>WB Type</th>
-            <th>Freight Amount</th>
-            <th>GST</th>
-          <th>Door Deliverycharges</th>
-            <th>Other Charges</th>
-            <th>Net Amount</th>
+            <th>No</th>
+            <th>LR No</th>
+            <th>Source Subregion</th>
+            <th>Received By </th>
+            <th>Consigner </th>
+            <th>Consignee </th>
+            <th>Packages</th>
+            <th>Parcel Item </th>
+            <th>Pkgs </th>
+            <th>Total Amount</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="Bdata?.Paid">
-            <td>1</td>
-            <td>Paid</td>
-            <td>{{ Bdata.Paid.freight }}</td>
-            <td>{{ Bdata.Paid.gst }}</td>
-            <td>{{ Bdata.Paid.doorDeliveryCharges
-            }}</td>
-            <td>{{ Bdata.Paid.otherCharges }}</td>
-            <td>{{ Bdata.Paid.netAmount }}</td>
+          <tr *ngFor="let items of reportData; let i=index">
+            <td>{{i+1}}</td>
+            <td>{{items.WBNo}}</td>
+            <td>{{items.SourceSubregion}}</td>
+            <td>{{items.ReceivedBy
+              }}</td>
+            <td>{{items.Consigner}}</td>
+            <td>{{items.Consignee}}</td>
+            <td>{{items.WBType}}</td>
+            <td>{{items.ParcelItem}}</td>
+            <td>{{items.Pkgs}}</td>
+            <td>{{items.Amount}}</td>
           </tr>
-          <tr *ngIf="Bdata?.ToPay">
-            <td>2</td>
-            <td>ToPay</td>
-            <td>{{ Bdata.ToPay.freight }}</td>
-            <td>{{ Bdata.ToPay.gst }}</td>
-
-            <td>{{ Bdata.ToPay.doorDeliveryCharges
-            }}</td>
-
-            
-
-
-            <td>{{ Bdata.ToPay.otherCharges }}</td>
-            <td>{{ Bdata.ToPay.netAmount }}</td>
-          </tr>
-          <tr *ngIf="Bdata?.Credit">
-            <td>2</td>
-            <td>Credit</td>
-            <td>{{ Bdata.Credit.freight }}</td>
-            <td>{{ Bdata.Credit.gst }}</td>
-            <td>{{ Bdata.Credit.doorDeliveryCharges
-            }}</td>
-
-            <td>{{ Bdata.Credit.otherCharges }}</td>
-            <td>{{ Bdata.Credit.netAmount }}</td>
-          </tr>
-          <tr class="table fw-bold" *ngIf="summmaryData
-          ">
-          <!-- sdd -->
-            <td colspan="2">TOTAL:</td>
-            <td>{{summmaryData.totalFreight
-}}            </td>
-            <td>{{summmaryData.totalGST}}</td>
-            <td>{{summmaryData.totalDeliveryCharges
-            }}
-            </td>
-            <td>{{summmaryData.totalOtherCharges
-            }}</td>
-            <td>{{summmaryData.totalNetAmount}}</td>
         </tbody>
       </table>
+
+      <div class="table-responsive">
+        <table class="table table-bordered table-sm text-center align-middle">
+          <thead class="table-secondary">
+            <tr>
+              <th>Sr. No</th>
+              <th>WB Type</th>
+              <th>Freight Amount</th>
+              <th>GST</th>
+              <th>Door Deliverycharges</th>
+              <th>Other Charges</th>
+              <th>Net Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="Bdata?.Paid">
+              <td>1</td>
+              <td>Paid</td>
+              <td>{{ Bdata.Paid.freight }}</td>
+              <td>{{ Bdata.Paid.gst }}</td>
+              <td>{{ Bdata.Paid.doorDeliveryCharges
+                }}</td>
+              <td>{{ Bdata.Paid.otherCharges }}</td>
+              <td>{{ Bdata.Paid.netAmount }}</td>
+            </tr>
+            <tr *ngIf="Bdata?.ToPay">
+              <td>2</td>
+              <td>ToPay</td>
+              <td>{{ Bdata.ToPay.freight }}</td>
+              <td>{{ Bdata.ToPay.gst }}</td>
+
+              <td>{{ Bdata.ToPay.doorDeliveryCharges
+                }}</td>
+
+
+
+
+              <td>{{ Bdata.ToPay.otherCharges }}</td>
+              <td>{{ Bdata.ToPay.netAmount }}</td>
+            </tr>
+            <tr *ngIf="Bdata?.Credit">
+              <td>2</td>
+              <td>Credit</td>
+              <td>{{ Bdata.Credit.freight }}</td>
+              <td>{{ Bdata.Credit.gst }}</td>
+              <td>{{ Bdata.Credit.doorDeliveryCharges
+                }}</td>
+
+              <td>{{ Bdata.Credit.otherCharges }}</td>
+              <td>{{ Bdata.Credit.netAmount }}</td>
+            </tr>
+            <tr class="table fw-bold" *ngIf="summmaryData
+          ">
+              <!-- sdd -->
+              <td colspan="2">TOTAL:</td>
+              <td>{{summmaryData.totalFreight
+                }} </td>
+              <td>{{summmaryData.totalGST}}</td>
+              <td>{{summmaryData.totalDeliveryCharges
+                }}
+              </td>
+              <td>{{summmaryData.totalOtherCharges
+                }}</td>
+              <td>{{summmaryData.totalNetAmount}}</td>
+          </tbody>
+        </table>
+      </div>
+
+
+
     </div>
     
-
-
   </div>
-</div>
-
-
-
 
 </div>
-
-
-
-
-
-
-
-
-

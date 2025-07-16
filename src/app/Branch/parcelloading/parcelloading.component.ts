@@ -17,6 +17,8 @@ declare const SlimSelect: any;
 })
 export class ParcelloadingComponent implements OnInit {
   adminData: any;
+  showPrintTable = false;
+
   form!: FormGroup;
   form1:FormGroup;
   cities:any;
@@ -39,10 +41,14 @@ export class ParcelloadingComponent implements OnInit {
    @ViewChild('SelectVechicle')SelectVechicle!:ElementRef;
   @ViewChild('demoSelect') demoSelect!: ElementRef;
   @ViewChild('printTable') printTable!: ElementRef;
+  @ViewChild('printParcelTable') printParcelTable!: ElementRef;
+
  
   BranchSelect: any;
   pfdata: any;
 row: any;
+  parcelResponse: any;
+  parcelPrintRows: any;
  
  
   constructor(private api: BranchService, private token:TokenService,
@@ -261,21 +267,74 @@ onManualCheckboxChange(event: any, row: any) {
 }
  
 
+  // ParcelLoad() {
+  //   if (this.form1.invalid) {
+  //     this.form1.markAllAsTouched();
+  //     this.toast.warning('Please fill required fields correctly.', 'Validation');
+  //     return;
+  //   }
+  //    const selectedGrns = this.data
+  //     .filter((row: any) => row._checked)
+  //     .map((row: any) => row.grnNo);
+ 
+  //   if (selectedGrns.length === 0) {
+  //     this.toast.warning('Please select at least one GRN.', 'Validation');
+  //     return;
+  //   }
+ 
+  //   const payload = {
+  //     loadingType: this.form1.value.loadingType,
+  //     fromBranch: this.form1.value.fromBranch,
+  //     toBranch: this.form1.value.toBranch,
+  //     vehicalNumber: this.form1.value.vehicalNumber,
+  //     driverName: this.form1.value.driverName,
+  //     driverNo: this.form1.value.driverNo,
+  //     fromBookingDate: this.form1.value.fromBookingDate,
+  //     toBookingDate: this.form1.value.toBookingDate,
+  //     fromCity: this.form1.value.fromCity,
+  //     senderName: this.form1.value.senderName,
+  //     toCity: this.form1.value.toCity,
+  //     grnNo: selectedGrns, // ✅ Only selected GRNs
+  //     lrNumber: this.form1.value.lrNumber,
+  //   };
+ 
+  //   console.log('Final Payload:', payload);
+ 
+  //   this.api.ParcelLoading(payload).subscribe({
+  //     next: (response: any) => {
+  //       this.parcelResponse=response.parcel
+  //       console.log("parcelloded:",this.parcelResponse);
+        
+  //       console.log('Parcel loaded successfully:', response);
+  //       this.toast.success('Parcel loaded successfully', 'Success');
+  //       setTimeout(() => {
+  //         this.printParcelLoadTable()
+  //         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+  //           this.router.navigate(['/parcelloading']);
+  //         });
+  //       }, 1000);
+  //     },
+  //     error: (error: any) => {
+  //       console.error('Parcel loading failed:', error);
+  //       this.toast.error('Parcel Loading Failed. Please try again', 'Error');
+  //     },
+  //   });
+  // }
   ParcelLoad() {
     if (this.form1.invalid) {
       this.form1.markAllAsTouched();
       this.toast.warning('Please fill required fields correctly.', 'Validation');
       return;
     }
-     const selectedGrns = this.data
-      .filter((row: any) => row._checked)
-      .map((row: any) => row.grnNo);
- 
+  
+    const selectedGrnRows = this.data.filter((row: any) => row._checked);
+    const selectedGrns = selectedGrnRows.map((row: any) => row.grnNo);
+  
     if (selectedGrns.length === 0) {
       this.toast.warning('Please select at least one GRN.', 'Validation');
       return;
     }
- 
+  
     const payload = {
       loadingType: this.form1.value.loadingType,
       fromBranch: this.form1.value.fromBranch,
@@ -288,17 +347,24 @@ onManualCheckboxChange(event: any, row: any) {
       fromCity: this.form1.value.fromCity,
       senderName: this.form1.value.senderName,
       toCity: this.form1.value.toCity,
-      grnNo: selectedGrns, // ✅ Only selected GRNs
+      grnNo: selectedGrns,
       lrNumber: this.form1.value.lrNumber,
     };
- 
+  
     console.log('Final Payload:', payload);
- 
+  
     this.api.ParcelLoading(payload).subscribe({
       next: (response: any) => {
-        console.log('Parcel loaded successfully:', response);
+        this.parcelResponse = response.parcel;
+  
+        // ✅ Store only selected GRN rows for printing
+        this.parcelPrintRows = selectedGrnRows;
+  
+        console.log('Parcel loaded:', this.parcelResponse);
         this.toast.success('Parcel loaded successfully', 'Success');
+  
         setTimeout(() => {
+          this.printParcelLoadTable();
           this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
             this.router.navigate(['/parcelloading']);
           });
@@ -310,26 +376,7 @@ onManualCheckboxChange(event: any, row: any) {
       },
     });
   }
- 
- 
- 
-    // onSelectAllChange(event: any) {
-  //   const formArray = this.form1.get('grnNo') as FormArray;
-  //   if (event.target.checked) {
-  //     this.data.forEach((row: any) => {
-  //       if (row.grnNo && !formArray.value.includes(row.grnNo)) {
-  //         formArray.push(this.fb.control(row.grnNo));
-  //       }
-  //     });
-  //   }
-   
-  //   else {
-  //     formArray.clear();
-  //   }
-  //   this.allSelected = event.target.checked;
-  //   console.log('All GRN Numbers Selected:', formArray.value);
-  // }
- 
+  
  
   ngAfterViewInit(): void {
     // Initialize SlimSelect
@@ -537,6 +584,84 @@ onManualCheckboxChange(event: any, row: any) {
    
         FileSaver.saveAs(blob, `ParcelBooking_${new Date().toISOString().slice(0, 10)}.xlsx`);
       }
+
+      printParcelLoadTable() {
+        if (!this.parcelResponse) {
+          console.error('No data to print. Call ParcelLoad() first.');
+          alert('No data available to print.');
+          return;
+        }
+      
+        this.showPrintTable = true; // Show the table temporarily
+      
+        setTimeout(() => {
+          const printContents = this.printParcelTable.nativeElement.innerHTML;
+          const popupWindow = window.open('', '_blank', 'width=1200,height=800');
+      
+          if (popupWindow) {
+            popupWindow.document.open();
+            popupWindow.document.write(`
+              <!DOCTYPE html>
+              <html>
+                <head>
+                  <title>Parcel Load Print</title>
+                  <style>
+                    @page {
+                      size: A4 landscape;
+                      margin: 10mm;
+                    }
+                    body {
+                      font-family: Arial, sans-serif;
+                      margin: 0;
+                      padding: 0;
+                    }
+                    .table-responsive {
+                      margin: 20px;
+                      overflow-x: auto;
+                    }
+                    table {
+                      width: 100%;
+                      border-collapse: collapse;
+                      font-size: 12px;
+                    }
+                    th, td {
+                      border: 1px solid #444;
+                      padding: 8px;
+                      text-align: center;
+                    }
+                    th {
+                      background-color: #f0f0f0;
+                      font-weight: bold;
+                    }
+                    .table-striped tbody tr:nth-child(odd) {
+                      background-color: #f9f9f9;
+                    }
+                  </style>
+                </head>
+                <body>
+                  <div class="table-responsive">
+                    ${printContents}
+                  </div>
+                  <script>
+                    window.onload = function() {
+                      window.print();
+                      window.close();
+                    };
+                  </script>
+                </body>
+              </html>
+            `);
+            popupWindow.document.close();
+          } else {
+            console.error('Could not open print window.');
+            alert('Failed to open print window.');
+          }
+      
+          this.showPrintTable = false; // Hide the table again
+        }, 100); // slight delay to render the DOM
+      }
+      
+
     }
    
  

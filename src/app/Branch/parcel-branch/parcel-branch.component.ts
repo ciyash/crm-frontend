@@ -23,8 +23,7 @@ export class ParcelBranchComponent implements OnInit {
   pdata:any;
   @ViewChild('toBranch') toBranch!: ElementRef;
   @ViewChild('vehicle') vehicle!: ElementRef;
-
-
+  @ViewChild('frombranch') frombranch!: ElementRef;
   constructor(private api: BranchService, private fb: FormBuilder, private router:Router,private toast:ToastrService) {
     this.form = this.fb.group({
       fromBookingDate: [this.getTodayDateString(), Validators.required],
@@ -63,7 +62,6 @@ export class ParcelBranchComponent implements OnInit {
       
     })
   }
-
   getTodayDateString(): string {
     const today = new Date();
     const year = today.getFullYear();
@@ -79,11 +77,19 @@ export class ParcelBranchComponent implements OnInit {
   initSelect2() {
     setTimeout(() => {
       if (this.toBranch?.nativeElement && this.vehicle?.nativeElement) {
+
         $(this.toBranch.nativeElement).select2();
         $(this.toBranch.nativeElement).on('select2:select', (event: any) => {
           const selectedBranch = event.params.data.id;
           this.form1.get('toBranch')?.setValue(selectedBranch);
         });
+
+
+          $(this.frombranch.nativeElement).select2();
+          $(this.frombranch.nativeElement).on('select2:select', (event: any) => {
+            const selectedBranch = event.params.data.id;
+            this.form.get('fromBranch')?.setValue(selectedBranch);
+          });
   
         $(this.vehicle.nativeElement).select2();
         $(this.vehicle.nativeElement).on('select2:select', (event: any) => {
@@ -94,41 +100,6 @@ export class ParcelBranchComponent implements OnInit {
     }, 100);
   }
 
-  // loaddata() {
-  //   const payload = {
-  //     fromBookingDate: this.form.value.fromBookingDate,
-  //     toBookingDate: this.form.value.toBookingDate,
-  //     fromBranch: this.form.value.fromBranch,
-  //   };
-  //   console.log('Final Payload:', payload);
-  
-  //   this.api.postBranchLoading(payload).subscribe({
-  //     next: (response: any) => {
-  //       console.log('loaded successfully:', response);
-  //       const successMessage = response?.message || 'Parcel Branch loading successfully';
-  //       this.toast.success(successMessage, 'Success');
-  //       this.data = response;
-  //       this.LoadSuccess = true;
-  //       if (this.data.length > 0) {
-  //         const first = this.data[0];
-  //         this.form1.patchValue({
-  //           fromBranch: this.form.value.fromBranch,
-  //           fromCity: first?.fromCity || '',
-  //         });
-  //         this.setFormArray('toCity', this.data.map((d: any) => d.toCity));
-  //         this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
-  //         this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
-  //       }
-        
-  //     },
-  //     error: (error: any) => {
-  //       console.error('loading failed:', error);
-  //       // Show error toast (if backend provides error details)
-  //       const errorMessage = error?.error?.message || 'Failed to load parcel data';
-  //       this.toast.error(errorMessage, 'Error');
-  //     },
-  //   });
-  // }
   loaddata() {
     const payload = {
       fromBookingDate: this.form.value.fromBookingDate,
@@ -136,24 +107,16 @@ export class ParcelBranchComponent implements OnInit {
       fromBranch: this.form.value.fromBranch,
     };
     console.log('Final Payload:', payload);
-  
-    // 🔄 Reset relevant states before making API call
     this.data = [];
     this.LoadSuccess = false;
-  
-    // Optional: Clear form1 fields and arrays if needed
     this.form1.reset();
-   
-  
     this.api.postBranchLoading(payload).subscribe({
       next: (response: any) => {
+        this.data = response;
+        this.LoadSuccess = true;
         console.log('loaded successfully:', response);
         const successMessage = response?.message || 'Parcel Branch loading successfully';
         this.toast.success(successMessage, 'Success');
-  
-        this.data = response;
-        this.LoadSuccess = true;
-  
         if (this.data.length > 0) {
           const first = this.data[0];
           this.form1.patchValue({
@@ -162,19 +125,18 @@ export class ParcelBranchComponent implements OnInit {
           });
   
           this.setFormArray('toCity', this.data.map((d: any) => d.toCity));
-          this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
-          this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
+          // this.setFormArray('grnNo', this.data.map((d: any) => d.grnNo));
+          // this.setFormArray('lrNumber', this.data.map((d: any) => d.lrNumber));
         }
       },
       error: (error: any) => {
         console.error('loading failed:', error);
+        this.data=null
         const errorMessage = error?.error?.message || 'Failed to load parcel data';
         this.toast.error(errorMessage, 'Error');
       },
     });
   }
-  
-
 
   setFormArray(controlName: string, values: any[]) {
     const formArray = this.form1.get(controlName) as FormArray;
@@ -187,7 +149,6 @@ export class ParcelBranchComponent implements OnInit {
   onGrnNoChange(event: any, grnNo: string) {
     const formArray = this.form1.get('grnNo') as FormArray;
     if (event.target.checked) {
-      // Add if not already selected
       if (!formArray.value.includes(grnNo)) {
         formArray.push(this.fb.control(grnNo));
       }
@@ -199,33 +160,35 @@ export class ParcelBranchComponent implements OnInit {
       }
     }
   
-    // ✅ Update "Select All" status based on selected values
     this.allSelected = this.data.length === formArray.value.length;
     console.log('Selected GRN Numbers:', formArray.value);
   }
   
-  // ✅ Handle "Select All" checkbox
   onSelectAllChange(event: any) {
     const formArray = this.form1.get('grnNo') as FormArray;
     if (event.target.checked) {
-      // ✅ Select all if checked
       this.data.forEach((row:any) => {
         if (!formArray.value.includes(row.grnNo)) {
           formArray.push(this.fb.control(row.grnNo));
         }
       });
     } else {
-      // ✅ Deselect all if unchecked
       formArray.clear();
     }
-    // ✅ Update "Select All" status
     this.allSelected = event.target.checked;
     console.log('All GRN Numbers Selected:', formArray.value);
   }
 
-  
 
     ParcelLoad() {
+      const grnList = this.form1.value.grnNo || [];
+    
+      // 🚫 If no GRN is selected, show a toast and return
+      if (!grnList.length) {
+        this.toast.error('Please select at least one GRN before loading.', 'Warning');
+        return;
+      }
+    
       const payload = {
         fromBranch: this.form1.value.fromBranch,
         toBranch: this.form1.value.toBranch,
@@ -233,7 +196,7 @@ export class ParcelBranchComponent implements OnInit {
         remarks: this.form1.value.remarks,
         fromCity: this.form1.value.fromCity,
         toCity: this.form1.value.toCity || '',     
-        grnNo: this.form1.value.grnNo || [],
+        grnNo: grnList,
         lrNumber: this.form1.value.lrNumber || [],
       };
     

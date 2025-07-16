@@ -42,6 +42,7 @@ export class ConslidatedReportComponent {
     Tdata: any;
   profileData: any;
   ffdata: any;
+  ddata: any;
     constructor(
       private fb: FormBuilder,
       private api: BranchService,
@@ -125,6 +126,8 @@ export class ConslidatedReportComponent {
       });
     }
 
+   
+
     getCollectionReport() {
       const payload = {
         fromDate: this.form.value.fromDate,
@@ -136,7 +139,7 @@ export class ConslidatedReportComponent {
     
       console.log('payload:', payload);
     
-      // 👇 Store in component-level variables for display
+      // Save filter dates for display if needed
       this.fromDate = payload.fromDate;
       this.toDate = payload.toDate;
     
@@ -144,12 +147,7 @@ export class ConslidatedReportComponent {
         next: (res: any) => {
           console.log('ConsolidatedReport:', res);
     
-          this.Cdata = res.data || []; // data for table rows
-          this.Tdata = res || {};      // totals
-          this.deliveryData = res.data || [];
-    
-          console.log("Cdata:", this.Cdata);
-          console.log("Totals:", this.Tdata);
+          this.Cdata = res
         },
         error: (err) => {
           this.toast.error('Failed to fetch report.');
@@ -157,6 +155,7 @@ export class ConslidatedReportComponent {
         },
       });
     }
+    
 
     
     get showFilter(): boolean {

@@ -37,6 +37,7 @@ export class ParcelOnloadingComponent {
   @ViewChild('selectvehicle') selectvehicle!: ElementRef;
   // @ViewChild('droupbranch') droupbranch!: ElementRef;
   @ViewChild('demoSelect') demoSelect!: ElementRef;
+  @ViewChild('printParcelTable')printParcelTable!:ElementRef
   selectedbranch: any;
   onVehicleSelect: any;
   apiResponse: any[] = [];
@@ -46,6 +47,7 @@ export class ParcelOnloadingComponent {
   qrdata: string = '';
   showScanner: boolean = false;
   today = new Date();
+  parcelResponse: any;
   
   constructor(
     private api: BranchService,
@@ -324,7 +326,6 @@ getQRdata(id: string) {
     console.log('Selected From Cities:', fromCityArray.value);
   }
 
-
   setFormArray(controlName: string, values: any[]) {
     const formArray = this.form1.get(controlName) as FormArray;
     formArray.clear(); // Clear existing
@@ -345,22 +346,7 @@ getQRdata(id: string) {
       },
     });
   }
-  // onGrnNoChange(event: any, grnNo: number) {
-  //   const grnArray = this.form1.get('grnNo') as FormArray;
-  
-  //   if (event.target.checked) {
-  //     if (!grnArray.value.includes(grnNo)) {
-  //       grnArray.push(this.fb.control(grnNo));
-  //     }
-  //   } else {
-  //     const index = grnArray.controls.findIndex(x => x.value === grnNo);
-  //     if (index >= 0) {
-  //       grnArray.removeAt(index);
-  //     }
-  //   }
-  
-  //   this.allSelected = this.bkdata.length === grnArray.value.length;
-  // }
+ 
   onGrnNoChange(event: any, grnNo: number) {
     const grnArray = this.form1.get('grnNo') as FormArray;
   
@@ -412,57 +398,7 @@ getQRdata(id: string) {
   }
   
   
-  // onSelectAllChange(event: any) {
-  //   const checked = event.target.checked;
-  //   const grnArray = this.fb.array([]);
-  
-  //   if (checked) {
-  //     this.bkdata.forEach(d => grnArray.push(this.fb.control(d.grnNo)));
-  //   }
-  
-  //   this.form1.setControl('grnNo', grnArray);
-  //   this.allSelected = checked;
-  // }
 
-  
-
-  // ParcelLoad() {
-  //   console.log('ParcelLoad called');  // Confirm click
-  //   console.log('Form Value:', this.form1.value);  // Confirm data
-  
-  //   const grnNos = Array.isArray(this.form1.value.grnNo)
-  //     ? this.form1.value.grnNo
-  //     : [this.form1.value.grnNo];
-  
-  //   const payload = {
-  //     fromBookingDate: this.form1.value.fromBookingDate,
-  //     toBookingDate: this.form1.value.toBookingDate,
-  //     fromCity: this.form1.value.fromCity,
-  //     toCity: this.form1.value.toCity,
-  //     branch: this.form1.value.branch,
-  //     vehicalNumber: this.form1.value.vehicalNumber,
-  //     grnNo: grnNos,
-  //     bookingType: this.form1.value.bookingType,
-  //   };
-  
-  //   console.log('Final Payload:', payload);
-  
-  //   this.api.ParcelUnLoading(payload).subscribe({
-  //     next: (response: any) => {
-  //       console.log('Parcel unloaded successfully:', response);
-  //       this.toastr.success('Parcel unloaded successfully', 'Success');
-  //       setTimeout(() => {
-  //         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-  //           this.router.navigate(['/parcelunloading']);
-  //         });
-  //       }, 1000);
-  //     },
-  //     error: (error: any) => {
-  //       console.error('Parcel unloading failed:', error);
-  //       alert('Parcel Unloading Failed. Please try again.');
-  //     },
-  //   });
-  // }
 
   ParcelLoad() {
     console.log('ParcelLoad called');
@@ -490,9 +426,11 @@ getQRdata(id: string) {
   
     this.api.ParcelUnLoading(payload).subscribe({
       next: (response: any) => {
+        this.parcelResponse=response
         console.log('Parcel unloaded successfully:', response);
         this.toastr.success('Parcel unloaded successfully', 'Success');
         setTimeout(() => {
+          this.PrintTable()
           this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
             this.router.navigate(['/parcelunloading']);
           });
@@ -615,6 +553,50 @@ getQRdata(id: string) {
     });
   }
   
+
+  PrintTable() {
+    if (!this.parcelResponse) {
+      console.error('No data to print. Call ParcelLoad() first.');
+      alert('No data available to print.');
+      return;
+    }
+    // Get the table HTML
+    const printContent = this.printParcelTable.nativeElement.innerHTML;
+    // Create a new window for printing with landscape orientation
+    const printWindow = window.open('', '_blank');
+    if (printWindow) {
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>Print Parcel Table</title>
+            <style>
+              @page { size: A4 landscape; } /* Force landscape orientation */
+              table { width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 12px; }
+              th, td { border: 1px solid black; padding: 8px; text-align: left; }
+              th { background-color: #f2f2f2; font-weight: bold; }
+              .table-striped tbody tr:nth-of-type(odd) { background-color: #f9f9f9; }
+              .table-responsive { overflow-x: auto; margin: 10px; }
+              @media print {
+                body { margin: 0; }
+                .table-responsive { margin: 10mm; }
+              }
+            </style>
+          </head>
+          <body onload="window.print(); window.close()">
+            <div class="table-responsive">
+              ${printContent}
+            </div>
+          </body>
+        </html>
+      `);
+      printWindow.document.close();
+    } else {
+      console.error('Could not open print window.');
+      alert('Failed to open print window.');
+    }
+  }
+
+
 
   }
   

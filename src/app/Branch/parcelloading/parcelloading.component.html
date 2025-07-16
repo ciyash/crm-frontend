@@ -252,3 +252,41 @@ word-wrap: break-word">Parcel Loading Offline</h4>
 <app-parcel-loading-data></app-parcel-loading-data>
 
 
+<div #printParcelTable class="table-responsive mt-4" *ngIf="parcelPrintRows?.length" hidden>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>GRN No</th>
+        <th>LR No</th>
+        <th>From City</th>
+        <th>Drop City</th>
+        <th>Sender Name</th>
+        <th>Driver Name</th>
+        <th>Driver No</th>
+        <th>Vehicle Number</th>
+        <th>Voucher No</th>
+        <th>Loading Date</th>
+        <th>Booking Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of parcelPrintRows; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ row.grnNo }}</td>
+        <td>{{ row.lrNumber }}</td>
+        <td>{{ form1.value.fromCity }}</td>
+        <td>{{ form1.value.toCity?.join(', ') }}</td>
+        <td>{{ form1.value.senderName }}</td>
+        <td>{{ form1.value.driverName }}</td>
+        <td>{{ form1.value.driverNo }}</td>
+        <td>{{ form1.value.vehicalNumber }}</td>
+        <td>{{ parcelResponse.vocherNoUnique }}</td>
+        <td>{{ parcelResponse.loadingDate | date: 'dd-MM-yyyy, h:mm a' }}</td>
+        <td>
+          <i class="fa fa-check-circle mb-2 text-success" title="Package Load"></i> Loading
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

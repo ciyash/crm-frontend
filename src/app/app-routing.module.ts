@@ -25,7 +25,6 @@ import { AddDispatchTypeComponent } from './pages/Admin/add-dispatch-type/add-di
 import { AddExtraChargesComponent } from './pages/Admin/add-extra-charges/add-extra-charges.component';
 import { BrachToBranchUnloadingComponent } from './Branch/brach-to-branch-unloading/brach-to-branch-unloading.component';
 import { FilterGrnComponent } from './Branch/filter-grn/filter-grn.component';
-import { PrintVoucherslistDataComponent } from './Branch/print-voucherslist-data/print-voucherslist-data.component';
 import { DispatchedReportComponent } from './Branch/dispatched-report/dispatched-report.component';
 import { BranchReportsDashboardComponent } from './Branch/Reports/branch-reports-dashboard/branch-reports-dashboard.component';
 import { GetCfmasterDataComponent } from './Branch/Cfmaster/get-cfmaster-data/get-cfmaster-data.component';
@@ -108,6 +107,7 @@ import { SubDashboardComponent } from './SubAdmin/sub-dashboard/sub-dashboard.co
 import { TopayReportComponent } from './Branch/Reports/topay-report/topay-report.component';
 import { AllReportComponent } from './Branch/Reports/all-report/all-report.component';
 import { BookingTypeWiseReportComponent } from './Branch/Reports/booking-type-wise-report/booking-type-wise-report.component';
+import { BranchwiseBookingdetailsComponent } from './Branch/Reports/branchwise-bookingdetails/branchwise-bookingdetails.component';
 const routes: Routes = [
   {path:"login",component:LoginComponent },
    {path:"clogin",component:CompanyLoginComponent },
@@ -134,7 +134,7 @@ const routes: Routes = [
   { path: 'addpackagestype', component: AddPackagesTypeComponent, canActivate: [authGuard] },
   { path: 'searchgrn', component: SearchGrnNumberComponent, canActivate: [authGuard] },
   { path: 'gnrnumberstatus', component: FilterGrnComponent, canActivate: [authGuard] },
-  { path: 'printvouchersdata/:vocherNoUnique', component: PrintVoucherslistDataComponent, canActivate: [authGuard] },
+  // { path: 'printvouchersdata/:vocherNoUnique', component: PrintVoucherslistDataComponent, canActivate: [authGuard] },
   { path: 'voucherslistoffline', component: VoucerOfflineListComponent, canActivate: [authGuard] },
   { path: 'addpackagetype', component: AddPackagesTypeComponent, canActivate: [authGuard],},
   { path: 'parcel-delivery', component: ParcelDeliveryComponent, canActivate: [authGuard],},
@@ -180,6 +180,8 @@ const routes: Routes = [
   {path:'topayreport',component:TopayReportComponent, canActivate: [authGuard]},
   {path:'allcollectionreport',component:AllReportComponent, canActivate: [authGuard]},
   {path:'bookingtypewise',component:BookingTypeWiseReportComponent, canActivate: [authGuard]},
+  {path:'branchwise',component:BranchwiseBookingdetailsComponent, canActivate: [authGuard]},
+
 
 
 

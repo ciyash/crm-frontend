@@ -1,0 +1,301 @@
+<app-header></app-header>
+<h5 class="text-center fw-bold text-danger" style=" margin-top: 8%;"><u>
+        Parcel Branch Consolidated Report </u>
+</h5>
+<div class="card container" style=" 
+border: 1px solid #ccc; 
+border-radius: 5px;
+background-color: #fff;">
+    <!-- <div class="hr" style="  border: 1px solid #ccc; /* light gray border */
+    background-color: #fff;"></div> -->
+    <div class="text-center">
+        <i class="fa fa-print" style="font-size: 40px; color: green;" aria-hidden="true" (click)="printReport()"></i>
+        <i class="fa fa-file-excel-o mx-3" style="font-size: 34px; color: green; cursor: pointer;"
+            aria-hidden="true"></i>
+    </div>
+    <div id="print-section">
+        <div class="text-center mb-4 mt-5">
+            <div class="container-fluid" *ngIf="pffffffdata">
+                <h4 class="text-center fw-bold">{{ pffffffdata.companyId?.name }}</h4>
+                <p class="text-center fw-bold">
+                    Address: {{ pffffffdata.location }} - {{ pffffffdata.branchId?.name }} |
+                    Phone No: {{ pffffffdata.phone }}
+                </p>
+            </div>
+            <h6 class="text-decoration-underline">Delivered Stock report
+            </h6>
+        </div>
+        <div class="table-responsive mb-1 ">
+            <table class="table table-bordered table-sm text-center align-middle">
+                <thead>
+                    <tr>
+                        <!-- <th>From : {{payload.fromDate | date: 'dd-MM-yyyy'}} To : {{payload.toDate | date: 'dd-MM-yyyy'}}</th> -->
+                        <th *ngIf="pfdata">Print By : {{pfdata.username}}</th>
+                        <th>Print Date :{{ today | date: 'dd-MM-yyyy' }} {{ today | date: 'hh:mm a' }} </th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+
+        <div class="table-responsive">
+            <!-- table 1 -->
+            <table class="table table-bordered table-sm text-center align-middle">
+                <thead>
+                    <!-- Custom Heading Row -->
+                    <tr>
+                        <th colspan="15" class="  text-center">
+                            Booked Paid Details
+
+                        </th>
+                    </tr>
+
+                    <!-- Column Headers -->
+                    <tr class="table-secondary">
+                        <th>No</th>
+                        <th>LR No</th>
+                        <th>Booking Date</th>
+                        <th>Booked By</th>
+                        <th>Remarks</th>
+                        <th>Destination</th>
+                        <th>Consignor</th>
+                        <th>Consignee</th>
+                        <th>Pkgs</th>
+                        <th>Freight</th>
+                        <th>Loading</th>
+                        <th>Door Pickup</th>
+                        <th>Other</th>
+                        <th>Amount</th>
+                        <th>Net Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data rows go here -->
+                </tbody>
+            </table>
+            <!-- table 2 -->
+            <table class="table table-bordered table-sm text-center align-middle">
+                <thead>
+                    <!-- Custom Heading Row -->
+                    <tr>
+                        <th colspan="15" class="  text-center">
+                            Booked To Pay Details
+
+                        </th>
+                    </tr>
+
+                    <!-- Column Headers -->
+                    <tr class="table-secondary">
+                        <th>No</th>
+                        <th>LR No</th>
+                        <th>Booking Date</th>
+                        <th>Booked By</th>
+                        <th>Remarks</th>
+                        <th>Destination</th>
+                        <th>Consignor</th>
+                        <th>Consignee</th>
+                        <th>Pkgs</th>
+                        <th>Freight</th>
+                        <th>Loading</th>
+                        <th>Door Pickup</th>
+                        <th>Other</th>
+                        <th>Amount</th>
+                        <th>Net Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data rows go here -->
+                </tbody>
+            </table>
+            <!-- table 3 -->
+            <table class="table table-bordered table-sm text-center align-middle">
+                <thead>
+                    <!-- Custom Heading Row -->
+                    <tr>
+                        <th colspan="15" class="  text-center">
+                            Deliver ToPay Details
+
+
+                        </th>
+                    </tr>
+                    <!-- Column Headers -->
+                    <tr class="table-secondary">
+                        <th>No</th>
+                        <th>LR No</th>
+                        <th>Booking Date</th>
+                        <th>Booked By</th>
+                        <th>Remarks</th>
+                        <th>Destination</th>
+                        <th>Consignor</th>
+                        <th>Consignee</th>
+                        <th>Pkgs</th>
+                        <th>Freight</th>
+                        <th>Loading</th>
+                        <th>Other</th>
+                        <th>Amount</th>
+                        <th>Net Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data rows go here -->
+                </tbody>
+            </table>
+            <!-- Second Table -->
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm text-center align-middle">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th colspan="15" class="  text-center">
+                                City Wise Booking Details
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>City Name	</th>
+                            <th>No Of Parcel	</th>
+                            <th>Paid Amount	</th>
+                            <th>To Pay Amount	</th>
+                            <th>FOC Amount</th>
+                            <th>Credit For Amount	</th>
+                            <th>Total Booking Amount</th>
+                            <th>Total Cancel Amount	</th>
+                            <th>Total Amount	</th>
+                            <th>Total Refund Charge	</th>
+                            <th>Total Net Amount</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Visakhapatnam - Hyderabad</td>
+                        </tr>
+                        <tr>
+                            <td>Visakhapatnam - Hyderabad</td>
+                        </tr>
+                        <tr>
+                            <td>Visakhapatnam - Hyderabad</td>
+                        </tr>
+                        <tr class="fw-bold">
+                            <td colspan="1">TOTAL:</td>
+                            <!-- You can complete total row cells here -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm text-center align-middle">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th colspan="15" class="  text-center">
+                                City Wise Delivery Details
+                                                        </th>
+                        </tr>
+                        <tr>
+                            <th>City Name	</th>
+                            <th>No Of Parcel	</th>
+                            <th>Paid Amount	</th>
+                            <th>To Pay Amount	</th>
+                            <th>FOC Amount</th>
+                            <th>Credit For Amount	</th>
+                            <th>Total Booking Amount</th>
+                            <th>Total Cancel Amount	</th>
+                            <th>Total Amount	</th>
+                            <th>Total Refund Charge	</th>
+                            <th>Total Net Amount</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Visakhapatnam - Hyderabad</td>
+                        </tr>
+                        <tr>
+                            <td>Visakhapatnam - Hyderabad</td>
+                        </tr>
+                        <tr>
+                            <td>Visakhapatnam - Hyderabad</td>
+                        </tr>
+                        <tr class="fw-bold">
+                            <td colspan="1">TOTAL:</td>
+                            <!-- You can complete total row cells here -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm text-center align-middle">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th colspan="15" class="  text-center">
+                                Category Wise Booking Details
+                                     </th>
+                        </tr>
+                        <tr>
+                            <th>CATEGORY	</th>
+                            <th>No Of Pkgs		</th>
+                            <th>Freight	</th>
+                            <th>Loading	</th>
+                            <th>Door Pickup	</th>
+                            <th>Service Charge		</th>
+                            <th>Door Delivery	</th>
+                            <th>Handling	</th>
+                            <th>Express		</th>
+                            <th>Other Charge	</th>
+                            <th>Refund Charge	</th>
+                            <th>Amount</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Paid</td>
+                        </tr>
+                        <tr>
+                            <td>To Pay	</td>
+                        </tr>
+                        <tr>
+                            <td>ToPay Delivery	</td>
+                        </tr>
+                        <tr class="fw-bold">
+                            <td colspan="1">TOTAL:</td>
+                            <!-- You can complete total row cells here -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+
+
+
+            <div class="table-responsive" >
+                <table class="table table-bordered table-sm text-center align-middle" >
+                    <thead class=" d-flex justify-content-center" style="border: 2px solid black;">
+                        <tr>
+                            <th colspan="1" class="  text-center">
+                                Booking Total - Cancellation Total + Delivery Total :
+                                     </th>
+                        </tr>
+
+                        <tr>
+                            <th colspan="4" class="  text-center">
+                                6660
+                                     </th>
+                        </tr>
+
+
+
+                    </thead>
+                  
+                </table>
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>
