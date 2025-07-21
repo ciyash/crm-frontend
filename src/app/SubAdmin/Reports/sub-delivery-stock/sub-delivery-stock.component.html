@@ -72,7 +72,7 @@ background-color: #fff;">
           </div>
           <div class="col-md-6">
             <label class="form-label form-after">Pickup Branch</label>
-            <select #droupbranch class="form-select form-select-sm" formControlName="dropBranch">
+            <select #droupbranch class="form-select form-select-sm" formControlName="pickUpBranch">
               <option value="all" selected> select all</option>
               <option *ngFor="let row1 of tbcdata" [value]="row1.branchUniqueId"> {{ row1.name }} </option>
             </select>
@@ -87,7 +87,7 @@ background-color: #fff;">
 
           <div class="col-md-6">
             <label class="form-label form-after">Drop Branch</label>
-            <select #pickupbranch class="form-select form-select-sm" formControlName="pickUpBranch">
+            <select #pickupbranch class="form-select form-select-sm" formControlName="dropBranch">
               <option value="select all" selected> select all</option>
               <option *ngFor="let row4 of pdata" [value]="row4.branchUniqueId"> {{ row4.name }} </option>
             </select>

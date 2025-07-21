@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
@@ -12,74 +12,117 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './create-employee.component.html',
   styleUrls: ['./create-employee.component.scss']
 })
-export class CreateEmployeeComponent {
+export class CreateEmployeeComponent implements OnInit {
+  form: FormGroup;
+  form1: FormGroup;
+  branchdata: any[] = [];
+  edata: any[] = [];
+  loading = true;
+  visible = false;
+  repd: any;
+  updatedemployeee: any;
 
-   form:FormGroup;
-    branchdata:any;
-    edata:any;
-    loading:boolean=true;
-    form1:FormGroup;
-    visible: boolean = false;
-    repd:any;
-    constructor(private fb:FormBuilder, private api:AdminService,
-       private messageService:MessageService, private router:Router,
-        private bapi:BranchService, private auth:AuthService, private toastr: ToastrService){
-        this.form = this.fb.group({
-          name: ['', Validators.required],
-          username: ['', Validators.required],
-          branchId: [''],
-          location: ['', Validators.required],
-          password: ['', Validators.required],
-          // phone: ['', Validators.required],
-          phone: [
-            '',
-            [
-              Validators.required,
-              Validators.pattern(/^[6-9][0-9]{9}$/)
-            ]
-          ],
-          email: ['', Validators.required],
-          documents: ['', Validators.required],
-          role: ['', Validators.required],
-          companyName:['', Validators.required],
-            });
+  constructor(
+    private fb: FormBuilder,
+    private api: AdminService,
+    private messageService: MessageService,
+    private router: Router,
+    private bapi: BranchService,
+    private auth: AuthService,
+    private toastr: ToastrService
+  ) {
+    this.form = this.fb.group({
+      name: ['', Validators.required],
+      username: ['', Validators.required],
+      branchId: [''],
+      location: ['', Validators.required],
+      password: ['', Validators.required],
+      phone: ['', [Validators.required, Validators.pattern(/^[6-9][0-9]{9}$/)]],
+      email: ['', [Validators.required, Validators.email]],
+      documents: ['', Validators.required],
+      role: ['', Validators.required],
+      companyName: ['', Validators.required]
+    });
 
-            this.form1 = this.fb.group({
-              name: ['', Validators.required],
-              username: ['', Validators.required],
-              branchId: [''],
-              location: ['', Validators.required],
-              password: ['', Validators.required],
-              phone: ['', Validators.required],
-              email: ['', Validators.required],
-              documents: ['', Validators.required],
-              role: ['', Validators.required],
-              companyName:[''],
+    // this.form1 = this.fb.group({
+    //   name: ['', Validators.required],
+    //   username: ['', Validators.required],
+    //   branchId: [''],
+    //   location: ['', Validators.required],
+    //   password: ['', Validators.required],
+    //   phone: ['', [Validators.required, Validators.pattern(/^[6-9][0-9]{9}$/)]],
+    //   email: ['', [Validators.required, Validators.email]],
+    //   documents: ['', Validators.required],
+    //   role: ['', Validators.required],
+    //   companyName: ['', Validators.required]
+    // });
+    this.form1 = this.fb.group({
+      _id: [''],
+      name: ['', Validators.required],
+      username: ['', Validators.required],
+      branchId: [''],
+      location: ['', Validators.required],
+      password: ['', Validators.required],
+      phone: ['', [Validators.required, Validators.pattern(/^[6-9][0-9]{9}$/)]],
+      email: ['', [Validators.required, Validators.email]],
+      documents: ['', Validators.required],
+      role: ['', Validators.required],
+      companyName: ['', Validators.required]
+    });
+    
+  }
 
-                });
-    }
-    ngOnInit(){
-      this.branchData();
+  ngOnInit(): void {
+    this.branchData();
 
-      this.api.GetEmployees().subscribe((res: any) => {
-        console.log('empdata', res);
+    this.api.GetEmployees().subscribe({
+      next: (res: any) => {
+        console.log('API Response:', res);
         this.edata = res.map((employee: any) => {
-          employee.showPassword = false; // Initialize show/hide 
-          return employee;
+          return { ...employee, showPassword: false };
         });
         this.loading = false;
-      });
-    }
+      },
+      error: (err: any) => {
+        console.error('API Error:', err);
+        this.loading = false;
+      }
+    });
 
-  showDialog(row: any) {
+
+  }
+
+  branchData(): void {
+    this.bapi.getData('branch').subscribe({
+      next: (res: any) => {
+        this.branchdata = res;
+      },
+      error: (err) => {
+        console.error('Error fetching branch data:', err);
+      }
+    });
+  }
+
+  allowOnlyDigits(event: any): void {
+    const input = event.target;
+    input.value = input.value.replace(/[^0-9]/g, '');
+  }
+
+  togglePassword(index: number): void {
+    this.edata[index].showPassword = !this.edata[index].showPassword;
+  }
+
+
+
+  showDialog(row: any): void {
     this.visible = true;
     this.repd = row;
-    console.log("employeedata:", this.repd);
-  
     this.form1.patchValue({
+      _id: row._id,
+  
       name: row.name,
       username: row.username,
-      branchId: row.branchId?._id || '', // Assuming branchId is an object
+      branchId: row.branchId?._id || '',
       location: row.location,
       password: row.password,
       phone: row.phone,
@@ -89,97 +132,63 @@ export class CreateEmployeeComponent {
       companyName: row.companyId?.name || ''
     });
   }
-  
-    togglePassword(index: number) {
-      this.edata[index].showPassword = !this.edata[index].showPassword;
-    }
-  
 
-    branchData() {
-      this.bapi.getData('branch').subscribe({
-        next: (response: any) => {
-          console.log('Branch Data:', response);
-          this.branchdata = response;
-        },
-        error: (error: any) => {
-          console.error('Error fetching branch data:', error);
-        }
+  Add(): void {
+    if (this.form.invalid) {
+      this.toastr.warning('Please fill all required fields correctly', 'Warning');
+      return;
+    }
+
+    const payload = this.form.value;
+    console.log('Creating Employee:', payload);
+
+    this.api.createEmployee(payload).subscribe({
+      next: (res) => {
+        this.toastr.success('Employee created successfully', 'Success');
+        this.reload();
+      },
+      error: (err) => {
+        console.error('Create Employee failed:', err);
+        this.toastr.error('Failed to create employee', 'Error');
+      }
+    });
+  }
+
+  edit(): void {
+    if (!this.repd || !this.repd._id) {
+      this.toastr.error('No employee selected for update.', 'Error');
+      return;
+    }
+
+    const payload = {
+      _id: this.repd._id,
+
+      ...this.form1.value
+    };
+
+    console.log("payload:",payload);
+    
+
+    this.api.UpdateEmployee(payload).subscribe({
+      next: (res) => {
+        this.updatedemployeee=res
+        console.log("updatedemployeee:",this.updatedemployeee)
+        this.toastr.success('Employee updated successfully', 'Success');
+        this.reload();
+      },
+      error: (err) => {
+        console.error('Update Employee failed:', err);
+        this.toastr.error('Failed to update employee', 'Error');
+      }
+    });
+  }
+
+  reload(): void {
+    setTimeout(() => {
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['/createemployee']);
       });
-    }
-    allowOnlyDigits(event: any) {
-      const input = event.target;
-      input.value = input.value.replace(/[^0-9]/g, '');
-    }
-    
-    
-  
-    Add() {
-      const payload = {
-        name: this.form.value.name,
-        username: this.form.value.username,
-        branchId: this.form.value.branchId,
-        location: this.form.value.location,
-        password: this.form.value.password,
-        phone: this.form.value.phone,
-        email: this.form.value.email,
-        documents: this.form.value.documents,
-        role: this.form.value.role,
-        // companyName:this.form.value.companyName
-      };
-      console.log('Final Payload:', payload);
-      this.api.createEmployee(payload).subscribe({
-        next: (response: any) => {
-          console.log('Parcel loaded successfully:', response);
-          this.toastr.success('Parcel loaded successfully', 'Success');
+    }, 500);
+  }
 
-          // this.messageService.add({ severity: 'success', summary: 'success', detail: 'Create Employee successfully' });
-          setTimeout(() => {
-           this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-             this.router.navigate(['/createemployee']);
-           });
-         }, 500);
-        },
-        error: (error: any) => {
-          console.error('Create Employee failed:', error);
-          alert('Create Employee Failed. Please try again.');
-        },
-      });
-    }
-
- 
-
-    edit() {
-      const payload = {
-        name: this.form1.value.name,
-        username: this.form1.value.username,
-        branchId: this.form1.value.branchId,
-        location: this.form1.value.location,
-        password: this.form1.value.password,
-        phone: this.form1.value.phone,
-        email: this.form1.value.email,
-        documents: this.form1.value.documents,
-        role: this.form1.value.role,
-        companyName: this.form1.value.companyName
-      };
-    
-      console.log('Final Payload:', payload);
-    
-      this.api.UpdateEmployee(payload).subscribe({
-        next: (response: any) => {
-          console.log('Employee updated successfully:', response);
-          this.toastr.success('Employee updated successfully', 'Success');
-    
-          setTimeout(() => {
-            this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-              this.router.navigate(['/createemployee']);
-            });
-          }, 500);
-        },
-        error: (error: any) => {
-          console.error('Update Employee failed:', error);
-          alert('Update Employee Failed. Please try again.');
-        },
-      });
-    }
-    
 }

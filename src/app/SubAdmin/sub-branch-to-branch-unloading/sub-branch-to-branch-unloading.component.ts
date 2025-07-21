@@ -29,7 +29,7 @@ export class SubBranchToBranchUnloadingComponent {
           this.form = this.fb.group({
             fromLoadingDate: [this.getTodayDateString(), Validators.required],
             toLoadingDate: [this.getTodayDateString(), Validators.required],
-            fromBranch: ['', Validators.required],
+            fromCity: [''],
             toBranch: ['', Validators.required]
           });
       
@@ -123,9 +123,9 @@ export class SubBranchToBranchUnloadingComponent {
           }
         
           const payload = {
-            fromLoadingDate: this.form.value.fromLoadingDate,
-            toLoadingDate: this.form.value.toLoadingDate,
-            fromBranch: this.form.value.fromBranch,
+            fromDate: this.form.value.fromDate,
+            toDate: this.form.value.toDate,
+            fromCity: this.form.value.fromCity,
             toBranch: this.form.value.toBranch,
           };
         
@@ -141,9 +141,9 @@ export class SubBranchToBranchUnloadingComponent {
         
               if (this.data.length > 0) {
                 this.form1.patchValue({
-                  fromDate: payload.fromLoadingDate,
-                  toDate: payload.toLoadingDate,
-                  branch: payload.fromBranch,
+                  fromDate: payload.fromDate,
+                  toDate: payload.toDate,
+                  fromCity: payload.fromCity,
                   unloadBranch: payload.toBranch,
                 });
         

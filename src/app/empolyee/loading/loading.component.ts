@@ -154,7 +154,6 @@ export class LoadingComponent {
 
     selectedOptions.forEach((city) => toCityArray.push(new FormControl(city)));
 
-    // Mark for validation display
     toCityArray.markAsTouched();
     toCityArray.updateValueAndValidity();
   }
@@ -483,47 +482,7 @@ export class LoadingComponent {
       this.tbcdata = [];
     }
   }
-  // ParcelLoad() {
-  //   if (this.form1.invalid) {
-  //     this.form1.markAllAsTouched(); // show errors
-  //     this.toast.warning('Please fill required fields correctly.', 'Validation');
-  //     return;
-  //   }
 
-  //   const payload = {
-  //     loadingType: this.form1.value.loadingType,
-  //     fromBranch: this.form1.value.fromBranch,
-  //     toBranch: this.form1.value.toBranch,
-  //     vehicalNumber: this.form1.value.vehicalNumber,
-  //     driverName: this.form1.value.driverName,
-  //     driverNo: this.form1.value.driverNo,
-  //     fromBookingDate: this.form1.value.fromBookingDate,
-  //     toBookingDate: this.form1.value.toBookingDate,
-  //     fromCity: this.form1.value.fromCity,
-  //     senderName: this.form1.value.senderName,
-  //     toCity: this.form1.value.toCity,
-  //     grnNo: this.form1.value.grnNo,
-  //     lrNumber: this.form1.value.lrNumber,
-  //   };
-
-  //   console.log('Final Payload:', payload);
-
-  //   this.api.ParcelLoading(payload).subscribe({
-  //     next: (response: any) => {
-  //       console.log('Parcel loaded successfully:', response);
-  //       this.toast.success('Parcel loaded successfully', 'Success');
-  //       setTimeout(() => {
-  //         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-  //           this.router.navigate(['/employee-loading']);
-  //         });
-  //       }, 1000);
-  //     },
-  //     error: (error: any) => {
-  //       console.error('Parcel loading failed:', error);
-  //       this.toast.error('Parcel Loading Failed. Please try again', 'Error');
-  //     },
-  //   });
-  // }
 
   getVehicleData() {
     this.api.getData('Vehicle').subscribe({

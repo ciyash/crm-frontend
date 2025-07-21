@@ -596,10 +596,11 @@ BranchtoBranchLoad(value: {
 
 //branch to branch unloading apis
 postBranchtobranchUnLoadingFilter(value: {
-  fromLoadingDate: string;
-  toLoadingDate: string;
-  fromBranch: string;
+  fromDate: string;
+  toDate: string;
+  fromCity: [];
   toBranch:string;
+
 }): Observable<any> {
   const token1 = this.token.getToken();
   const httpOptions = {
@@ -610,48 +611,78 @@ postBranchtobranchUnLoadingFilter(value: {
   };
 
   return this.http.post(
-    AUTH_API + 'parcel-unloading/branch-to-branch-load',  
+    AUTH_API + 'parcel-unloading/branch-to-branch-unload',  
     {
-      "fromLoadingDate": value.fromLoadingDate,  
-      "toLoadingDate": value.toLoadingDate,
-      "fromBranch": value.fromBranch,
+      "fromDate": value.fromDate,  
+      "toDate": value.toDate,
+      "fromCity": value.fromCity,
       "toBranch": value.toBranch,
     },
     httpOptions
   );
 }
 
+// BranchtobranchUnLoading(value: {
+//   grnNo: [];
+//   lrNumber: [];
+//   fromDate: string;
+//   toDate:string;
+//   unloadBranch:string;
+//   remarks:string;
+// }): Observable<any> {
+//   const token1 = this.token.getToken();
+//   const httpOptions = {
+//     headers: new HttpHeaders({
+//       'Content-Type': 'application/json',
+//       'Authorization': 'Bearer ' + token1
+//     })
+//   };
+
+//   return this.http.post(
+//     AUTH_API + 'parcel-unloading/branch-to-branch-post',  
+//     {
+//       "grnNo": value.grnNo,  
+//       "lrNumber": value.lrNumber,
+//       "fromDate": value.fromDate,
+//       "toDate": value.toDate,
+//       "unloadBranch":value.unloadBranch,
+//       "remarks": value.remarks,
+//     },
+//     httpOptions
+//   );
+// }
+
+
 BranchtobranchUnLoading(value: {
-  grnNo: string;
-  lrNumber: string;
+  grnNo: string[];
+  lrNumber: string[];
   fromDate: string;
-  toDate:string;
-  branch:string;
-  unloadBranch:string;
-  remarks:string;
+  toDate: string;
+  unloadBranch: string;
+  remarks: string;
 }): Observable<any> {
   const token1 = this.token.getToken();
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token1
-    })
+      'Authorization': 'Bearer ' + token1,
+    }),
   };
 
   return this.http.post(
-    AUTH_API + 'parcel-unloading/branch-to-branch-post',  
+    AUTH_API + 'parcel-unloading/branch-to-branch-post',
     {
-      "grnNo": value.grnNo,  
-      "lrNumber": value.lrNumber,
-      "fromDate": value.fromDate,
-      "toDate": value.toDate,
-      "branch":value.branch,
-      "unloadBranch":value.unloadBranch,
-      "remarks": value.remarks,
+      grnNo: value.grnNo,
+      lrNumber: value.lrNumber,
+      fromDate: value.fromDate,
+      toDate: value.toDate,
+      unloadBranch: value.unloadBranch,
+      remarks: value.remarks,
     },
     httpOptions
   );
 }
+
 
 //packages type apis
 packageType(value:{
@@ -1209,6 +1240,8 @@ ALLCollectionReport(value: {
       toDate: value.toDate,
       pickUpBranch: value.pickUpBranch,
       bookedBy: value.bookedBy,
+      fromCity: value.fromCity,
+
   },
     httpOptions
   );
@@ -1260,6 +1293,8 @@ ConsolidatedReport(value: {
       toDate: value.toDate,
       pickUpBranch: value.pickUpBranch,
       bookedBy: value.bookedBy,
+      fromCity: value.fromCity,
+
   },
     httpOptions
   );

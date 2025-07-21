@@ -1,7 +1,7 @@
 <app-header></app-header>
 <h5 class="text-center fw-bold text-danger " style="margin-top: 9%;"><u class="mb-2">Parcel Branch Consolidated Report
   </u></h5>
-<div class="container section-border  ">
+<div class="container section-border">
 
   <div class="rounded">
     <form [formGroup]="form">
@@ -147,7 +147,7 @@
       </thead>
   
       <tbody>
-        <tr *ngFor="let item of Cdata; let i = index">
+        <tr *ngFor="let item of Cdata.data; let i = index">
           <td>{{ i + 1 }}</td>
           <td style="color: green;cursor: pointer;">{{ item.branchName }}</td>
           <!-- Booking -->
@@ -156,7 +156,7 @@
           <td>{{ item.creditAmount || 0 }}</td>
           <td>{{ item.cancelAmount || 0 }}</td>
           <td>{{ item.bookingTotal || 0 }}</td>
-          <td>{{ item.deliveryAmount || 0 }}</td>
+          <td>{{ item.toPayDeliveredAmount || 0 }}</td>
           <td>{{ item.total || 0 }}</td>
           <!-- GST -->
           <td>{{ item.cgstAmount || 0 }}</td>
@@ -169,20 +169,17 @@
         <tr class="fw-bold">
           <td></td>
           <td>Total</td>
-          <td>{{ Tdata.finalPaidAmount || 0 }}</td>
-          <td>{{ Tdata.finalToPayAmount || 0 }}</td>
-          <td>{{ Tdata.finalCreditAmount || 0 }}</td>
-          <td>{{ Tdata.finalCancelAmount || 0 }}</td>
-          <td>{{ Tdata.finalBookingTotal || 0 }}</td>
-
-          <td>{{ Tdata.finalDeliveryAmount || 0 }}</td>
-          <!-- <td>{{ Tdata.finalBookingTotal || 0 }}</td> -->
-          <td>{{ Tdata.finalTotal || 0 }}</td>
-
-          <td>{{ Tdata.totalCgst || 0 }}</td>
-          <td>{{ Tdata.totalSgst || 0 }}</td>
-          <td>{{ Tdata.totalIgst || 0 }}</td>
-          <td>{{ Tdata.finalParcelGstAmount || 0 }}</td>
+          <td>{{ Cdata.finalPaidAmount || 0 }}</td>
+          <td>{{ Cdata.finalToPayAmount || 0 }}</td>
+          <td>{{ Cdata.finalCreditAmount || 0 }}</td>
+          <td>{{ Cdata.finalCancelAmount || 0 }}</td>
+          <td>{{ Cdata.finalBookingTotal || 0 }}</td>
+          <td>{{ Cdata.finalToPayDeliveredAmount || 0 }}</td>
+          <td>{{ Cdata.finalTotal || 0 }}</td>
+          <td>{{ Cdata.totalCgst || 0 }}</td>
+          <td>{{ Cdata.totalSgst || 0 }}</td>
+          <td>{{ Cdata.totalIgst || 0 }}</td>
+          <td>{{ Cdata.finalParcelGstAmount || 0 }}</td>
         </tr>
       </tbody>
     </table>

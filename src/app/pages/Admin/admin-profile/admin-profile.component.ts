@@ -22,6 +22,7 @@ export class AdminProfileComponent implements OnInit {
   errorMessage1: string = '';
   errorsMessage: any;
   msg: any;
+  updateProfile: any;
 
   constructor(
     private api: AdminService,
@@ -91,11 +92,13 @@ export class AdminProfileComponent implements OnInit {
       };
   
       this.api.UpdateAdminProfile(val).subscribe(
-        (a: any) => {
-          if (a?.data) {
+        (res: any) => {
+          this.updateProfile=res
+          console.log("updateProfile:",this.updateProfile);
+          
+          if (res?.data) {
             this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Profile Updated Successfully' });
             
-            // ✅ Reset to read-only mode
             this.isEditable = false;
             this.form.disable();
           } else {

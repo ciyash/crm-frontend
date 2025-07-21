@@ -218,14 +218,6 @@ export class SubPendingDeliveryLuggageComponent {
       popupWin!.document.close();
     }
   }
-  
-  
-  
-  
-  
-
-
-  
   ngAfterViewInit(): void {
     setTimeout(() => {
       // From City
@@ -242,7 +234,7 @@ export class SubPendingDeliveryLuggageComponent {
       $(this.droupbranch.nativeElement).val('all').trigger('change'); // ✅
       $(this.droupbranch.nativeElement).on('select2:select', (event: any) => {
         const selectedDropBranch = event.params.data.id;
-        this.form.patchValue({ dropBranch: selectedDropBranch });
+        this.form.patchValue({ pickUpBranch: selectedDropBranch });
         this.onPickupBranchSelect({ target: { value: selectedDropBranch } });
       });
   
@@ -260,7 +252,7 @@ export class SubPendingDeliveryLuggageComponent {
       $(this.pickupbranch.nativeElement).val('all').trigger('change'); // ✅
       $(this.pickupbranch.nativeElement).on('select2:select', (event: any) => {
         const selectedBranch = event.params.data.id;
-        this.form.patchValue({ pickUpBranch: selectedBranch });
+        this.form.patchValue({ dropBranch: selectedBranch });
         this.onDropBranchSelect({ target: { value: selectedBranch } });
       });
     }, 0);

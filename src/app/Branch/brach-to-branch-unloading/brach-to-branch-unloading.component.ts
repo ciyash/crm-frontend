@@ -25,9 +25,9 @@ export class BrachToBranchUnloadingComponent {
     @ViewChild('toBranch') toBranch!: ElementRef;
     constructor(private api: BranchService, private fb: FormBuilder, private router:Router,private toast:ToastrService) {
       this.form = this.fb.group({
-        fromLoadingDate: [this.getTodayDateString(), Validators.required],
-        toLoadingDate: [this.getTodayDateString(), Validators.required],
-        fromBranch: ['' ],
+        fromDate: [this.getTodayDateString(), Validators.required],
+        toDate: [this.getTodayDateString(), Validators.required],
+        fromCity: ['' ],
         toBranch: ['']
       });
   
@@ -100,9 +100,9 @@ export class BrachToBranchUnloadingComponent {
       }
     
       const payload = {
-        fromLoadingDate: this.form.value.fromLoadingDate,
-        toLoadingDate: this.form.value.toLoadingDate,
-        fromBranch: this.form.value.fromBranch,
+        fromDate: this.form.value.fromDate,
+        toDate: this.form.value.toDate,
+        fromCity: this.form.value.fromCity,
         toBranch: this.form.value.toBranch,
       };
     
@@ -118,9 +118,9 @@ export class BrachToBranchUnloadingComponent {
     
           if (this.data.length > 0) {
             this.form1.patchValue({
-              fromDate: payload.fromLoadingDate,
-              toDate: payload.toLoadingDate,
-              branch: payload.fromBranch,
+              fromDate: payload.fromDate,
+              toDate: payload.toDate,
+              fromCity: payload.fromCity,
               unloadBranch: payload.toBranch,
             });
     

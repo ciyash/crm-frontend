@@ -1,268 +1,227 @@
 <app-header></app-header>
 
+<h4 class="text-center mt-4" style="color: #3C3C3C; font-size: 20px; font-family: Poppins;
+font-weight: 500; text-decoration: underline; word-wrap: break-word;">Create Employee</h4>
 
-
-<h4 class="text-center  " style="color: #3C3C3C;font-size: 20px;font-family: Poppins;
-font-weight: 500;text-decoration: underline;word-wrap: break-word;margin-top: 8%;">Create Employee</h4>
 <p-toast></p-toast>
-  
-<form [formGroup]="form"  >
-    <div class="container pb-3">
-            <div class="row pt-3">
-                <div class="col-md-3 col-sm-12">
-                    <label class="form-label form-after">Name</label>
-                    <input type="text" placeholder="Enter Name" class="form-control form-select-sm " formControlName="name">
-                </div>
-                <div class="col-md-3 col-sm-12">
-                <label class="form-label form-after">Select Branch</label>
-                <select class="form-select form-select-sm" formControlName="branchId">
-                    <option value="" selected>Select Branch</option>
-                  <option *ngFor="let branch of branchdata" [value]="branch._id">{{ branch.name }}</option>
-                </select>
-                </div>
-                <div class="col-md-3 col-sm-12 ">
-                    <label class="form-label form-after">Username</label>
-                    <input type="text" placeholder="Enter UserName" class="form-control form-select-sm " formControlName="username">
-                </div>
-                <div class="col-md-3 col-sm-12 ">
-                    <label class="form-label form-after">Password</label>
-                    <input type="text" placeholder="Enter Password" class="form-control form-select-sm " formControlName="password">
-                </div>
-                <div class="col-md-3 col-sm-12 ">
-                    <label class="form-label form-after"> Address</label>
-                    <input type="text" placeholder="Enter Full Address" class="form-control form-select-sm " formControlName="location">
-                </div>
-                <!-- <div class="col-md-3 col-sm-12">
-                    <label class="form-label">Phone</label>
-                    <input type="text" class="form-control form-select-sm " formControlName="phone">
-                </div> -->
-                <!-- <div class="col-md-3 col-sm-12">
-                    <label class="form-label form-after" >Phone</label>
-                    <input type="text" class="form-control form-select-sm" formControlName="phone">
-                    
-                    Error message when input is invalid
-                    <div *ngIf="form.get('phone')?.invalid && form.get('phone')?.touched" class="text-danger">
-                        Invalid phone number (must be 10 digits starting from 6-9)
-                    </div>
-                </div> -->
 
-                <div class="col-md-3 col-sm-12">
-                    <label class="form-label form-after">Phone</label>
-                    <input
-                      type="text"
-                      class="form-control form-select-sm"
-                      formControlName="phone" placeholder="Enter Mobile Number"
-                      maxlength="10"
-                      pattern="^[6-9][0-9]{9}$"
-                      (input)="allowOnlyDigits($event)"
-                    />
-                  
-                    <!-- Error message when input is invalid -->
-                    <div *ngIf="form.get('phone')?.invalid && form.get('phone')?.touched" class="text-danger">
-                      Invalid phone number (must be 10 digits starting from 6-9)
-                    </div>
-                  </div>
-                  
-                
-                <div class="col-md-3 col-sm-12">
-                    <label class="form-label form-after">Email</label>
-                    <input type="text" placeholder="Enter Email" class="form-control form-select-sm " formControlName="email">
-                </div>
-                <div class="col-md-3 col-sm-12">
-                    <label class="form-label form-after">Documents</label>
-                    <input type="text" placeholder="Enter Documents " class="form-control form-select-sm " formControlName="documents">
-                </div>
+<!-- Main Form -->
+<form [formGroup]="form">
+  <div class="container pb-3">
+    <div class="row pt-3">
+      <div class="col-md-3 col-sm-12">
+        <label class="form-label form-after">Name</label>
+        <input type="text" placeholder="Enter Name" class="form-control form-select-sm" formControlName="name">
+      </div>
 
-                <div class="col-md-3 col-sm-12">
-                    <label class="form-label">CompanyName</label>
-                    <input type="text" placeholder="Enter Company Name" class="form-control form-select-sm " formControlName="companyName">
-                </div>
+      <div class="col-md-3 col-sm-12">
+        <label class="form-label form-after">Select Branch</label>
+        <select class="form-select form-select-sm" formControlName="branchId">
+          <option value="">Select Branch</option>
+          <option *ngFor="let branch of branchdata" [value]="branch._id">{{ branch.name }}</option>
+        </select>
+      </div>
 
-                <div class="col-md-3 col-sm-12">
-                    <label class="form-label form-after " >Role</label> 
-                    <select class="form-select form-select-sm" formControlName="role">
-                        <option value="" selected>Select Role</option>
-                        <!-- <option value="admin">Admin</option> -->
-                      <option value="subadmin">Sub-Admin</option>
-                      <option value="employee">Employee</option>
-                      <option value="accountant">Accountant</option>
-                      <option value="superviser">Superviser</option>
-                      <option value="driver">Driver</option>
-                    </select>
-                </div>
-                
-            </div>
-    
+      <div class="col-md-3 col-sm-12">
+        <label class="form-label form-after">Username</label>
+        <input type="text" placeholder="Enter UserName" class="form-control form-select-sm" formControlName="username">
+      </div>
+
+      <div class="col-md-3 col-sm-12">
+        <label class="form-label form-after">Password</label>
+        <input type="text" placeholder="Enter Password" class="form-control form-select-sm" formControlName="password">
+      </div>
+
+      <div class="col-md-3 col-sm-12">
+        <label class="form-label form-after">Address</label>
+        <input type="text" placeholder="Enter Full Address" class="form-control form-select-sm" formControlName="location">
+      </div>
+
+      <div class="col-md-3 col-sm-12">
+        <label class="form-label form-after">Phone</label>
+        <input
+          type="text"
+          class="form-control form-select-sm"
+          formControlName="phone"
+          placeholder="Enter Mobile Number"
+          maxlength="10"
+          pattern="^[6-9][0-9]{9}$"
+          (input)="allowOnlyDigits($event)"
+        />
+        <div *ngIf="form.get('phone')?.invalid && form.get('phone')?.touched" class="text-danger">
+          Invalid phone number (must be 10 digits starting from 6-9)
         </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-3 d-flex align-items-end">
-                        <button class="btn btn-primary btn-sm " type="button"
-                            style=" width: 10rem;" (click)="Add()" [disabled]="!form.valid">Submit</button>
-                    </div>
-                </div>
-            </div>
-</form>
+      </div>
 
+      <div class="col-md-3 col-sm-12">
+        <label class="form-label form-after">Email</label>
+        <input type="text" placeholder="Enter Email" class="form-control form-select-sm" formControlName="email">
+      </div>
 
-<div class="container mt-5 mb-2">
-    <div class="row">
-        <div class="table-responsive">
-            <div *ngIf="loading" class="text-center">
-                <img src="assets/loading.gif" alt=""  style="height:40px;">
-                <p class="text-danger text-center">Please Wait ....</p>
-            </div>
-                <table class="table table-striped table-bordered" *ngIf="!loading">
-                    <thead class="p-2">
-                        <th>S.no</th>
-                        <th>Name</th>
-                        <th>CompanyName</th>
-                        <th>Phone</th>
-                        <th>Email</th>
-                        <th>Location</th>
-                        <th>Role</th>
-                        <th>Username</th>
-                        <th>Password</th>
-                        <th>Branch</th>
-                        <th>Action</th>
-                    </thead>
+      <div class="col-md-3 col-sm-12">
+        <label class="form-label form-after">Documents</label>
+        <input type="text" placeholder="Enter Documents" class="form-control form-select-sm" formControlName="documents">
+      </div>
 
-                    <tbody>
-                        <ng-container *ngFor="let row of edata; let i = index">
-                          <tr *ngIf="row.role !== 'admin'">
-                            <td>{{ i + 1 }}</td>
-                            <td>{{ row.name }}</td>
-                            <td>{{ row.companyId?.name }}</td>
-                            <td>{{ row.phone }}</td>
-                            <td>{{ row.email }}</td>
-                            <td>{{ row.location }}</td>
-                            <td>{{ row.role }}</td>
-                            <td>{{ row.username }}</td>
-                            <td>
-                              {{ row.showPassword ? row.password : '******' }}
-                              <button type="button" (click)="togglePassword(i)" class="btn btn-sm">
-                                <i class="fa" [ngClass]="row.showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
-                              </button>
-                            </td>
-                            <td>{{ row.branchId?.name || 'N/A' }}</td>
+      <div class="col-md-3 col-sm-12">
+        <label class="form-label">Company Name</label>
+        <input type="text" placeholder="Enter Company Name" class="form-control form-select-sm" formControlName="companyName">
+      </div>
 
-                            <!-- <td (click)="showDialog(row)">
-                              <i class="fa fa-edit"></i>
-                            </td> -->
-
-                            <td 
-  (click)="showDialog(row)" 
-  data-bs-toggle="modal" 
-  data-bs-target="#exampleModal"
-  style="cursor: pointer;"
->
-  <i class="fa fa-edit"></i>
-</td>
-
-                          </tr>
-                        </ng-container>
-                      </tbody>
-                      
-
-                </table>
-            
-        </div>
-    </div>
-</div>
-
-
-
-
-
-
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg"> <!-- Large Modal -->
-      <div class="modal-content">
-        
-        <!-- Modal Header -->
-        <div class="modal-header  text-primary">
-          <h5 class="modal-title" id="exampleModalLabel">Edit User Details</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-  
-        <!-- Modal Body -->
-        <div class="modal-body">
-          <form [formGroup]="form1" *ngIf="repd">
-            <div class="container">
-              <div class="row g-3">
-                <!-- Name -->
-                <div class="col-md-4">
-                  <label class="form-label">Name</label>
-                  <input type="text" class="form-control" [(ngModel)]="repd.name" formControlName="name">
-                </div>
-  
-                <!-- Branch -->
-                <div class="col-md-4">
-                  <label class="form-label">Select Branch</label>
-                  <select class="form-select" formControlName="branchId">
-                    <option disabled selected>{{ repd.branchId?.name || 'Select Branch' }}</option>
-                    <option *ngFor="let branch of branchdata" [value]="branch._id">
-                      {{ branch.name }}
-                    </option>
-                  </select>
-                </div>
-  
-                <!-- Username -->
-                <div class="col-md-4">
-                  <label class="form-label">Username</label>
-                  <input type="text" class="form-control" [(ngModel)]="repd.username" formControlName="username">
-                </div>
-  
-                <!-- Password -->
-                <div class="col-md-4">
-                  <label class="form-label">Password</label>
-                  <input type="text" class="form-control" [(ngModel)]="repd.password" formControlName="password">
-                </div>
-  
-                <!-- Location -->
-                <div class="col-md-4">
-                  <label class="form-label">Location</label>
-                  <input type="text" class="form-control" [(ngModel)]="repd.location" formControlName="location">
-                </div>
-  
-                <!-- Email -->
-                <div class="col-md-4">
-                  <label class="form-label">Email</label>
-                  <input type="email" class="form-control" [(ngModel)]="repd.email" formControlName="email">
-                </div>
-  
-                <!-- Documents -->
-                <div class="col-md-4">
-                  <label class="form-label">Documents</label>
-                  <input type="text" class="form-control" [(ngModel)]="repd.documents" formControlName="documents">
-                </div>
-  
-                <!-- Role -->
-                <div class="col-md-4">
-                  <label class="form-label">Role</label>
-                  <select class="form-select" formControlName="role">
-                    <option disabled selected>{{ repd.role || 'Select Role' }}</option>
-                    <option value="subadmin">Sub Branch</option>
-                    <option value="employee">Employee</option>
-                    <option value="accountant">Accountant</option>
-                    <option value="superviser">Supervisor</option>
-                    <option value="driver">Driver</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-  
-        <!-- Modal Footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="edit()">submit</button>
-        </div>
-
+      <div class="col-md-3 col-sm-12">
+        <label class="form-label form-after">Role</label>
+        <select class="form-select form-select-sm" formControlName="role">
+          <option value="">Select Role</option>
+          <option value="subadmin">Sub-Admin</option>
+          <option value="employee">Employee</option>
+          <option value="accountant">Accountant</option>
+          <option value="superviser">Supervisor</option>
+          <option value="driver">Driver</option>
+        </select>
       </div>
     </div>
   </div>
-  
-  
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 d-flex align-items-end">
+        <button class="btn btn-primary btn-sm" type="button" style="width: 10rem;" (click)="Add()" [disabled]="!form.valid">Submit</button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!-- Employee Table -->
+<div class="container mt-5 mb-2">
+  <div class="row">
+    <div class="table-responsive">
+      <div *ngIf="loading" class="text-center">
+        <img src="assets/loading.gif" alt="" style="height:40px;">
+        <p class="text-danger text-center">Please Wait ....</p>
+      </div>
+
+      <table class="table table-striped table-bordered" *ngIf="!loading">
+        <thead class="p-2">
+          <tr>
+            <th>S.no</th>
+            <th>Name</th>
+            <th>CompanyName</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Location</th>
+            <th>Role</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Branch</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <ng-container *ngFor="let row of edata; let i = index">
+            <tr *ngIf="row.role !== 'admin'">
+              <td>{{ i + 1 }}</td>
+              <td>{{ row.name }}</td>
+              <td>{{ row.companyId?.name }}</td>
+              <td>{{ row.phone }}</td>
+              <td>{{ row.email }}</td>
+              <td>{{ row.location }}</td>
+              <td>{{ row.role }}</td>
+              <td>{{ row.username }}</td>
+              <td>
+                {{ row.showPassword ? row.password : '******' }}
+                <button type="button" (click)="togglePassword(i)" class="btn btn-sm">
+                  <i class="fa" [ngClass]="row.showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                </button>
+              </td>
+              <td>{{ row.branchId?.name || 'N/A' }}</td>
+              <td (click)="showDialog(row)" data-bs-toggle="modal" data-bs-target="#exampleModal" style="cursor: pointer;">
+                <i class="fa fa-edit"></i>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header text-primary">
+        <h5 class="modal-title" id="exampleModalLabel">Edit User Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <form [formGroup]="form1" *ngIf="repd">
+          <div class="container">
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control" formControlName="name">
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label">Select Branch</label>
+                <select class="form-select" formControlName="branchId">
+                  <option value="">Select Branch</option>
+                  <option *ngFor="let branch of branchdata" [value]="branch._id">
+                    {{ branch.name }}
+                  </option>
+                </select>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label">Username</label>
+                <input type="text" class="form-control" formControlName="username">
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label">Password</label>
+                <input type="text" class="form-control" formControlName="password">
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label">Location</label>
+                <input type="text" class="form-control" formControlName="location">
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" formControlName="email">
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label">Documents</label>
+                <input type="text" class="form-control" formControlName="documents">
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label">Role</label>
+                <select class="form-select" formControlName="role">
+                  <option value="">Select Role</option>
+                  <option value="subadmin">Subadmin</option>
+                  <option value="employee">Employee</option>
+                  <option value="accountant">Accountant</option>
+                  <option value="superviser">Supervisor</option>
+                  <option value="driver">Driver</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="edit()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>

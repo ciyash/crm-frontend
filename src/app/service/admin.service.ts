@@ -207,7 +207,46 @@ export class AdminService {
   }
 
 
+  // UpdateEmployee(value: {
+  //   name: string;
+  //   username: string;
+  //   branchId: string;
+  //   location: string;
+  //   phone: number;
+  //   email: string;
+  //   password: string;
+  //   documents: string;
+  //   role: string;
+  //   companyName:String;
+
+  // }) {
+  //   const token1 = this.token.getToken();
+  //   const httpOptions = {
+  //     headers: new HttpHeaders({
+  //       'Content-Type': 'application/json',
+  //       'Authorization': 'Bearer ' + token1
+  //     })
+  //   };
+  //   return this.http.patch(
+  //     AUTH_API + 'subadmin-auth/update-profile/{id}',
+  //     {
+  //       name: value.name,
+  //       'username': value.username,
+  //       'branchId': value.branchId,
+  //       'location': value.location,
+  //       'phone': value.phone,
+  //       'email': value.email,
+  //       'password': value.password,
+  //       'documents': value.documents,
+  //       'role': value.role,
+  //       "companyName":value.companyName,
+
+  //   },
+  //     httpOptions
+  //   );
+  // }
   UpdateEmployee(value: {
+    _id: string;
     name: string;
     username: string;
     branchId: string;
@@ -217,8 +256,7 @@ export class AdminService {
     password: string;
     documents: string;
     role: string;
-    companyName:String;
-
+    companyName: string;
   }) {
     const token1 = this.token.getToken();
     const httpOptions = {
@@ -227,25 +265,26 @@ export class AdminService {
         'Authorization': 'Bearer ' + token1
       })
     };
+  
+    // Append _id to the URL
     return this.http.patch(
-      AUTH_API + 'subadmin-auth/update-profile/',
+      `${AUTH_API}subadmin-auth/update-profile/${value._id}`,
       {
         name: value.name,
-        'username': value.username,
-        'branchId': value.branchId,
-        'location': value.location,
-        'phone': value.phone,
-        'email': value.email,
-        'password': value.password,
-        'documents': value.documents,
-        'role': value.role,
-        "companyName":value.companyName,
-
-    },
+        username: value.username,
+        branchId: value.branchId,
+        location: value.location,
+        phone: value.phone,
+        email: value.email,
+        password: value.password,
+        documents: value.documents,
+        role: value.role,
+        companyName: value.companyName
+      },
       httpOptions
     );
   }
-
+  
 
    GetProfileData(){
       const token1 = this.token.getToken();
@@ -276,7 +315,7 @@ export class AdminService {
         })
       };
       return this.http.patch(
-        AUTH_API + 'subadmin-auth/update-profile',   { 
+        AUTH_API + 'subadmin-auth/admin-profile',   { 
           "companyName":value.companyName, 
           "name":value.name, 
           "username":value.username, 

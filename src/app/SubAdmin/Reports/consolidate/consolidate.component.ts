@@ -53,7 +53,7 @@ export class ConsolidateComponent {
       this.form = this.fb.group({
         fromDate: [this.getTodayDateString(), Validators.required],
         toDate: [this.getTodayDateString(), Validators.required],
-        fromCity: [''],
+        fromCity: ['',Validators.required],
         pickUpBranch: [''],
         // bookedBy: [''],
         displayBookingDetails: [false],
@@ -143,75 +143,7 @@ export class ConsolidateComponent {
       }
     }
 
-    // getCollectionReport() {
-    //   const payload = {
-    //     fromDate: this.form.value.fromDate,
-    //     toDate: this.form.value.toDate,
-    //     fromCity: this.form.value.fromCity,
-    //     pickUpBranch: this.form.value.pickUpBranch,
-    //     bookedBy: this.form.value.bookedBy,
-    //   };
     
-    //   console.log('payload:', payload);
-    
-    //   this.fromDate = payload.fromDate;
-    //   this.toDate = payload.toDate;
-    
-    //   this.api.ConsolidatedReport(payload).subscribe({
-    //     next: (res: any) => {
-    //       console.log('ConsolidatedReport:', res);
-    
-    //       this.Cdata = res.data || []; // data for table rows
-    //       this.Tdata = res || {};      // totals
-    //       this.deliveryData = res.data || [];
-    
-    //       console.log("Cdata:", this.Cdata);
-    //       console.log("Totals:", this.Tdata);
-    //     },
-    //     error: (err) => {
-    //       this.toast.error('Failed to fetch report.');
-    //       console.error(err);
-    //     },
-    //   });
-    // }
-
-    // getCollectionReport() {
-    //   const payload = {
-    //     fromDate: this.form.value.fromDate,
-    //     toDate: this.form.value.toDate,
-    //     fromCity: this.form.value.fromCity,
-    //     pickUpBranch: this.form.value.pickUpBranch,
-    //     bookedBy: this.form.value.bookedBy,
-    //   };
-    
-    //   console.log('payload:', payload);
-    
-    //   this.fromDate = payload.fromDate;
-    //   this.toDate = payload.toDate;
-    
-    //   this.api.ConsolidatedReport(payload).subscribe({
-    //     next: (res: any) => {
-    //       console.log('ConsolidatedReport:', res);
-    
-    //       this.Cdata = res.data || [];
-    //       this.Tdata = res || {};
-    //       this.deliveryData = res.data || [];
-    
-    //       console.log("Cdata:", this.Cdata);
-    //       console.log("Totals:", this.Tdata);
-    
-    //       // Optional: show success toast
-    //       this.toast.success('Report fetched successfully!');
-    //     },
-    //     error: (err) => {
-    //       console.error('API Error:', err);
-    
-    //       // Check if backend sent a custom message
-    //       const errorMessage = err?.error?.message || 'Failed to fetch report.';
-    //       this.toast.error(errorMessage);
-    //     },
-    //   });
-    // }
     getCollectionReport() {
       const payload = {
         fromDate: this.form.value.fromDate,
@@ -226,44 +158,22 @@ export class ConsolidateComponent {
       this.fromDate = payload.fromDate;
       this.toDate = payload.toDate;
     
-      // ⛔ Clear previous data before request
-      this.Cdata = [];
-      this.Tdata = {};
-      this.deliveryData = [];
+    
     
       this.api.ConsolidatedReport(payload).subscribe({
         next: (res: any) => {
           console.log('ConsolidatedReport:', res);
     
-          const data = res?.data || [];
+          this.Cdata = res
     
-          if (data.length === 0) {
-            // ✅ Clear if no data returned
-            this.Cdata = [];
-            this.Tdata = {};
-            this.deliveryData = [];
-            this.toast.info('No records found for the selected filters.');
-            return;
-          }
-    
-          // ✅ Populate only if data exists
-          this.Cdata = data;
-          this.Tdata = res;
-          this.deliveryData = data;
+      
     
           console.log("Cdata:", this.Cdata);
-          console.log("Totals:", this.Tdata);
     
           this.toast.success('Report fetched successfully!');
         },
         error: (err) => {
           console.error('API Error:', err);
-    
-          // ⛔ Clear previous data on error
-          this.Cdata = [];
-          this.Tdata = {};
-          this.deliveryData = [];
-    
           const errorMessage = err?.error?.message || 'Failed to fetch report.';
           this.toast.error(errorMessage);
         },
