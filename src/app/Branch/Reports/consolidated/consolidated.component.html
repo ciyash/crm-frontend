@@ -148,7 +148,10 @@ th {
       <!-- Branch Rows -->
       <tr *ngFor="let item of Cdata.data; let i = index">
         <td>{{ i + 1 }}</td>
-        <td style="color: green; cursor: pointer;">{{ item.branchName }}</td>
+        <!-- <td style="color: green; cursor: pointer;" (click)="branchReport()">{{ item.branchName }}</td> -->
+        <td style="color: green; cursor: pointer;" (click)="branchReport(item)">
+          {{ item.branchName }}
+        </td>
 
         <td>{{ item.paidAmount || 0 }}</td>
         <td>{{ item.toPayAmount || 0 }}</td>
@@ -190,4 +193,9 @@ th {
 
   </div>
 
+</div>
+
+<div *ngIf="branchWise">
+  <h5>Branch Wise Report</h5>
+  <pre>{{ branchWise | json }}</pre>
 </div>

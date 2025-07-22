@@ -27,7 +27,6 @@
                 </div>
                 <div class="col-md-12 text-center">
                     <button type="button" class="btn btn-danger btn-sm m-3" (click)="VoucherDetailsLoad()" data-bs-dismiss="modal">Load</button>
-                    <!-- <button type="button" class="btn btn-primary btn-sm" (click)="VoucherGenerate()" data-bs-dismiss="modal">Save</button> -->
                 </div>
             </div>
         
@@ -54,7 +53,7 @@
                             <td> {{row.noOfParcel}} </td>
                             <td> {{row.amount | currency:'INR':true:'1.0-1'}} </td>
                             <td>
-                                <i class="fa fa-print" style="cursor: pointer;color:green;" (click)="printName(row.agentName)"></i>
+                                <i class="fa fa-print" style="cursor: pointer;color:green;" (click)="printName(row)"></i>
                               </td>
 </tr>
                     </tbody>

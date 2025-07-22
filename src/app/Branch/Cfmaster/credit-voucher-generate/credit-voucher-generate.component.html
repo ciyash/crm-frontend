@@ -17,13 +17,13 @@
                 <div class="col-md-4 col-sm-12">
                     <label class="form-label">Sender Name</label>
                     <input type="text" class="form-control form-select-sm" formControlName="senderName"  [(ngModel)]="searchTerm" (input)="searchUser()" (blur)="hideDropdown()">
-                        <!-- Dropdown for Suggestions -->
                         <ul *ngIf="showDropdown && userList.length" class="dropdown-menu show">
                             <li *ngFor="let user of userList" class="dropdown-item" (click)="selectUser(user)">
                                 {{ user.name }}
                             </li>
                         </ul>            
                 </div>
+                
                 <div class="col-md-12 text-center">
                     <button type="button" class="btn btn-danger btn-sm m-3" (click)="VoucherLoad()" data-bs-dismiss="modal">Load</button>
                     <button type="button" *ngIf="vldata" class="btn btn-primary btn-sm" (click)="VoucherGenerate()" data-bs-dismiss="modal">Save</button>

@@ -16,6 +16,7 @@ import { BranchService } from 'src/app/service/branch.service';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 declare module 'file-saver';
 declare var $: any;
 declare const SlimSelect: any;
@@ -48,7 +49,9 @@ export class ConsolidateComponent {
     constructor(
       private fb: FormBuilder,
       private api: BranchService,
-      private toast: ToastrService
+      private toast: ToastrService,
+      private router: Router
+
     ) {
       this.form = this.fb.group({
         fromDate: [this.getTodayDateString(), Validators.required],
@@ -143,7 +146,40 @@ export class ConsolidateComponent {
       }
     }
 
+    branchReport(item: any) {
+      const payload = {
+        fromDate: this.fromDate,
+        toDate: this.toDate,
+        fromCity: item.fromCity || this.form.value.fromCity,
+        pickUpBranch: item.branchId || this.form.value.pickUpBranch, // Adjust if key is different
+      };
     
+      console.log('Branch Report Payload:', payload);
+    
+      this.api.ConsolidatedReportbyBranch(payload).subscribe({
+        next: (res: any) => {
+          console.log('Branch Wise Report:', res);
+    
+          const finalData = {
+            ...res,
+            fromDate: payload.fromDate,
+            toDate: payload.toDate,
+            fromCity: payload.fromCity,
+            pickUpBranch: payload.pickUpBranch,
+          };
+    
+          localStorage.setItem('collectiondata', JSON.stringify(finalData));
+          this.router.navigate(['/branchwise']);
+        },
+        error: (err) => {
+          this.toast.error('Failed to fetch branch report.');
+          console.error(err);
+        }
+      });
+    }
+    
+
+
     getCollectionReport() {
       const payload = {
         fromDate: this.form.value.fromDate,

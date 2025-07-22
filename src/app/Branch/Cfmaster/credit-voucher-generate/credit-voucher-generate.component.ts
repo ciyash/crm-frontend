@@ -27,7 +27,7 @@ export class CreditVoucherGenerateComponent {
           this.form1 = this.fb.group({
             fromDate: ['', ],
             toDate: ['', ],
-            grnNo: ['', ],   
+            grnNo: ['',Validators.required ],   
             creditForAgent: ['', ],
             fromBranch: ['', ],
             toBranch: ['', ],    
@@ -88,11 +88,46 @@ export class CreditVoucherGenerateComponent {
     });
   }
 
+  // VoucherGenerate() {
+  //   const payload = {
+  //     fromDate: this.form1.value.fromDate,
+  //     toDate: this.form1.value.toDate,
+  //     grnNo: this.form1.value.grnNo,
+  //     creditForAgent: this.form1.value.creditForAgent,
+  //     fromBranch: this.form1.value.fromBranch,
+  //     toBranch: this.form1.value.toBranch,
+  //     consignor: this.form1.value.consignor,
+  //     bookingStatus: this.form1.value.bookingStatus,
+  //     charge: this.form1.value.charge,
+  //   };
+  
+  //   console.log('Final Payload:', payload);
+  //   this.api.VoucherGenerate(payload).subscribe({
+  //     next: (response: any) => {
+  //       console.log('Parcel loaded successfully:', response);
+  //       this.toast.success('Credit Voucher Successfully Generated','Success')
+  //       setTimeout(() => {
+  //         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+  //           this.router.navigate(['/creditvouchergenerate']);
+  //         });
+  //       }, 1000);
+  //     },
+  //     error: (error: any) => {
+  //       console.error('Parcel loading failed:', error);
+  //       this.toast.error('Parcel Loading Failed. Please try again', 'Error')
+
+  //     },
+  //   });
+  // }
+
   VoucherGenerate() {
+    // Extract all GRN numbers (lrNumber) from vldata
+    const allGRNs = this.vldata.map((item: any) => item.grnNo);
+  
     const payload = {
       fromDate: this.form1.value.fromDate,
       toDate: this.form1.value.toDate,
-      grnNo: this.form1.value.grnNo,
+      grnNo: allGRNs, // Pass all GRNs here
       creditForAgent: this.form1.value.creditForAgent,
       fromBranch: this.form1.value.fromBranch,
       toBranch: this.form1.value.toBranch,
@@ -101,11 +136,12 @@ export class CreditVoucherGenerateComponent {
       charge: this.form1.value.charge,
     };
   
-    console.log('Final Payload:', payload);
+    console.log('Final Payload to Generate Voucher:', payload);
+  
     this.api.VoucherGenerate(payload).subscribe({
       next: (response: any) => {
-        console.log('Parcel loaded successfully:', response);
-        this.toast.success('Credit Voucher Successfully Generated','Success')
+        console.log('Voucher generated successfully:', response);
+        this.toast.success('Credit Voucher Successfully Generated', 'Success');
         setTimeout(() => {
           this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
             this.router.navigate(['/creditvouchergenerate']);
@@ -113,12 +149,14 @@ export class CreditVoucherGenerateComponent {
         }, 1000);
       },
       error: (error: any) => {
-        console.error('Parcel loading failed:', error);
-        this.toast.error('Parcel Loading Failed. Please try again', 'Error')
-
-      },
+        console.error('Voucher generation failed:', error);
+        this.toast.error('Voucher Generation Failed. Please try again.', 'Error');
+      }
     });
   }
+  
+
+
 
   searchUser(): void {
     const searchTerm = this.form.get('senderName')?.value?.trim();

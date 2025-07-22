@@ -17,6 +17,7 @@ export class BranchwiseBookingdetailsComponent {
   profileData: any;
   pffffffdata: any;
   today= new Date()
+  branchReportData: any;
   constructor(
     private api: BranchService,
     private fb: FormBuilder,
@@ -31,10 +32,22 @@ export class BranchwiseBookingdetailsComponent {
     const year = today.getFullYear();
     return `${year}-${month}-${day}`; // ✔ HTML date input format
   }
-
   ngOnInit() {
     this.getProfileData();
+
+    const data = localStorage.getItem('collectiondata');
+    if (data) {
+      this.branchReportData = JSON.parse(data);
+      console.log('Branchwise Report Data:', this.branchReportData);
+    }
   }
+  
+  getTotal(field: string): number {
+    return this.branchReportData.cityWiseDeliveryDetails.reduce((sum: number, item: any) => {
+      return sum + (item[field] || 0);
+    }, 0);
+  }
+  
 
   getProfileData() {
     this.api.GetProfileData().subscribe((res: any) => {
@@ -43,10 +56,7 @@ export class BranchwiseBookingdetailsComponent {
       this.pfdata = res.branchId.city;
       this.profileData = res;
       this.pffffffdata = res;
-
       console.log('profileData:', this.profileData);
-
-   
     });
   }
 
@@ -119,116 +129,96 @@ export class BranchwiseBookingdetailsComponent {
     }
   }
 
-  // exportToExcel(): void {
-  //   const data: any[][] = [];
-
-  //   // 1. Header Info
-  //   data.push([`Company: ${this.pffffffdata?.companyName || ''}`]);
-  //   data.push([
-  //     `Address: ${this.pffffffdata?.location || ''} - ${
-  //       this.pffffffdata?.branchId?.name || ''
-  //     } | Phone No: ${this.pfdata?.phone || ''}`,
-  //   ]);
-  //   data.push([`Delivered Stock Report`]);
-  //   data.push([
-  //     `From: ${
-  //       this.payload?.fromDate
-  //         ? new Date(this.payload.fromDate).toLocaleDateString()
-  //         : ''
-  //     }`,
-  //     `To: ${
-  //       this.payload?.toDate
-  //         ? new Date(this.payload.toDate).toLocaleDateString()
-  //         : ''
-  //     }`,
-  //     `Print By: ${this.pffffffdata?.username || ''}`,
-  //     `Print Date: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`,
-  //   ]);
-  //   data.push([]); // empty row
-
-  //   // 2. Table Header for Report Data
-  //   data.push([
-  //     'No',
-  //     'LR No',
-  //     'Source Subregion',
-  //     'Received By',
-  //     'Consigner',
-  //     'Consignee',
-  //     'Packages',
-  //     'Parcel Item',
-  //     'Pkgs',
-  //     'Total Amount',
-  //   ]);
-
-  //   // 3. Report Data Rows
-  //   this.reportData?.forEach((item: any, index: number) => {
-  //     data.push([
-  //       index + 1,
-  //       item.WBNo,
-  //       item.SourceSubregion,
-  //       item.ReceivedBy,
-  //       item.Consigner,
-  //       item.Consignee,
-  //       item.WBType,
-  //       item.ParcelItem,
-  //       item.Pkgs,
-  //       item.Amount,
-  //     ]);
-  //   });
-
-  //   data.push([]); // space between tables
-
-  //   // 4. WB Summary Table Headers
-  //   data.push([
-  //     'Sr. No',
-  //     'WB Type',
-  //     'Freight Amount',
-  //     'GST',
-  //     'Other Charges',
-  //     'Net Amount',
-  //   ]);
-
-  //   // 5. WB Summary Data (Paid / ToPay)
-  //   let rowIndex = 1;
-  //   if (this.Bdata?.Paid) {
-  //     data.push([
-  //       rowIndex++,
-  //       'Paid',
-  //       this.Bdata.Paid.freight,
-  //       this.Bdata.Paid.gst,
-  //       this.Bdata.Paid.otherCharges,
-  //       this.Bdata.Paid.netAmount,
-  //     ]);
-  //   }
-
-  //   if (this.Bdata?.ToPay) {
-  //     data.push([
-  //       rowIndex++,
-  //       'ToPay',
-  //       this.Bdata.ToPay.freight,
-  //       this.Bdata.ToPay.gst,
-  //       this.Bdata.ToPay.otherCharges,
-  //       this.Bdata.ToPay.netAmount,
-  //     ]);
-  //   }
-
-  //   // 6. Grand Total Row
-  //   if (this.summmaryData) {
-  //     data.push([
-  //       '',
-  //       'TOTAL:',
-  //       this.summmaryData.totalFreight,
-  //       this.summmaryData.totalGST,
-  //       this.summmaryData.totalOtherCharges,
-  //       this.summmaryData.totalNetAmount,
-  //     ]);
-  //   }
-
-  //   // 7. Convert and export
-  //   const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(data);
-  //   const wb: XLSX.WorkBook = XLSX.utils.book_new();
-  //   XLSX.utils.book_append_sheet(wb, ws, 'Delivered Report');
-
-  //   XLSX.writeFile(wb, `Delivered_Report_${new Date().getTime()}.xlsx`);
-  // }
+  exportToExcel(): void {
+    const wb = XLSX.utils.book_new();
+  
+    // Booked Paid Details
+    const paidData = this.branchReportData.paidDetails.map((item: { grnNo: any; bookingDate: string | number | Date; toCity: any; senderName: any; receiverName: any; toTalPackages: any; doorPickupCharges: any; totalCharge: any; grandTotal: any; }, index: number) => ({
+      No: index + 1,
+      'LR No': item.grnNo,
+      'Booking Date': new Date(item.bookingDate).toLocaleString(),
+      'Destination': item.toCity,
+      'Consignor': item.senderName,
+      'Consignee': item.receiverName,
+      'Pkgs': item.toTalPackages,
+      'Door Pickup': item.doorPickupCharges,
+      'Other': item.totalCharge,
+      'Net Amount': item.grandTotal
+    }));
+    const paidSheet = XLSX.utils.json_to_sheet(paidData);
+    XLSX.utils.book_append_sheet(wb, paidSheet, 'Paid Bookings');
+  
+    // Booked To Pay Details
+    const toPayData = this.branchReportData.toPayDetails.map((item: { grnNo: any; bookingDate: string | number | Date; toCity: any; senderName: any; receiverName: any; toTalPackages: any; doorPickupCharges: any; totalCharge: any; grandTotal: any; }, index: number) => ({
+      No: index + 1,
+      'LR No': item.grnNo,
+      'Booking Date': new Date(item.bookingDate).toLocaleString(),
+      'Destination': item.toCity,
+      'Consignor': item.senderName,
+      'Consignee': item.receiverName,
+      'Pkgs': item.toTalPackages,
+      'Door Pickup': item.doorPickupCharges,
+      'Other': item.totalCharge,
+      'Net Amount': item.grandTotal
+    }));
+    const toPaySheet = XLSX.utils.json_to_sheet(toPayData);
+    XLSX.utils.book_append_sheet(wb, toPaySheet, 'To Pay Bookings');
+  
+    // Delivered To Pay Details
+    const deliveredData = this.branchReportData.deliveredToPayDetails.map((item: { grnNo: any; deliveryDate: string | number | Date; deliveryEmployee: any; toCity: any; senderName: any; receiverName: any; totalPackages: any; doorDeliveryCharges: any; otherCharges: any; totalAmount: any; grandTotal: any; }, index: number) => ({
+      No: index + 1,
+      'LR No': item.grnNo,
+      'Delivery Date': new Date(item.deliveryDate).toLocaleString(),
+      'Delivered By': item.deliveryEmployee,
+      'Destination': item.toCity,
+      'Consignor': item.senderName,
+      'Consignee': item.receiverName,
+      'Pkgs': item.totalPackages,
+      'Door Delivery Charge': item.doorDeliveryCharges,
+      'Other': item.otherCharges,
+      'Amount': item.totalAmount,
+      'Net Amount': item.grandTotal
+    }));
+    const deliveredSheet = XLSX.utils.json_to_sheet(deliveredData);
+    XLSX.utils.book_append_sheet(wb, deliveredSheet, 'Delivered ToPay');
+  
+    // City Wise Booking
+    const cityBooking = this.branchReportData.branchWiseBookingDetails.map((item: { deliveryCity: any; noOfParcels: any; paid: any; toPay: any; FOC: any; credit: any; totalBooking: any; totalAmount: any; refundAmount: any; }) => ({
+      City: item.deliveryCity,
+      'No Of Parcel': item.noOfParcels,
+      'Paid Amount': item.paid,
+      'To Pay': item.toPay,
+      'FOC': item.FOC,
+      'Credit': item.credit,
+      'Total Booking': item.totalBooking,
+      'Total Amount': item.totalAmount,
+      'Refund Amount': item.refundAmount,
+      'Net Amount': (item.totalAmount || 0) - (item.refundAmount || 0),
+    }));
+    const cityBookingSheet = XLSX.utils.json_to_sheet(cityBooking);
+    XLSX.utils.book_append_sheet(wb, cityBookingSheet, 'City Booking');
+  
+    // City Wise Delivery
+    const cityDelivery = this.branchReportData.cityWiseDeliveryDetails.map((item: { deliveryCity: any; noOfParcels: any; paid: any; toPay: any; FOC: any; credit: any; totalBooking: any; totalAmount: any; refundAmount: any; }) => ({
+      City: item.deliveryCity,
+      'No Of Parcel': item.noOfParcels,
+      'Paid Amount': item.paid,
+      'To Pay': item.toPay,
+      'FOC': item.FOC,
+      'Credit': item.credit,
+      'Total Booking': item.totalBooking,
+      'Total Amount': item.totalAmount,
+      'Refund Amount': item.refundAmount,
+      'Net Amount': (item.totalAmount || 0) - (item.refundAmount || 0),
+    }));
+    const cityDeliverySheet = XLSX.utils.json_to_sheet(cityDelivery);
+    XLSX.utils.book_append_sheet(wb, cityDeliverySheet, 'City Delivery');
+  
+    // Save workbook
+    const fileName = `Daily_Report_${new Date().toISOString().slice(0, 10)}.xlsx`;
+    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    FileSaver.saveAs(blob, fileName);
+  }
+  
 }

@@ -1302,6 +1302,37 @@ ConsolidatedReport(value: {
 
 
 
+ConsolidatedReportbyBranch(value: {
+  fromDate: string;
+  toDate: string;
+  fromCity: string;
+  pickUpBranch: string;
+}) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'booking/consolidated-report-branch',
+    {
+      fromDate: value.fromDate,
+      toDate: value.toDate,
+      pickUpBranch: value.pickUpBranch,
+      fromCity: value.fromCity,
+
+  },
+    httpOptions
+  );
+}
+
+
+
+
+
+
 
 SenderRecevierGstReport(value: {
   fromDate: string;
@@ -1771,7 +1802,7 @@ LoadVouchers(value:{
 VoucherGenerate(value:{
   fromDate: string;
   toDate: string;
-  grnNo:string;
+  grnNo: any[];
   creditForAgent:string;
   fromBranch:string;
   toBranch:string;
@@ -1825,9 +1856,12 @@ VoucherDetailsLoad(value:{
 }
 
 GetVoucherDetails(value:{
-  fromDate: string;
-  toDate: string;
-  senderName:string;
+  // fromDate: string;
+  // toDate: string;
+  // senderName:string;
+  voucherNo:string;
+  creditForAgent:string;
+
 }){
   const token1 = this.token.getToken();
   const httpOptions = {
@@ -1838,9 +1872,11 @@ GetVoucherDetails(value:{
   };
   return this.http.post(
     AUTH_API + 'voucher-generate/voucher-details-print',  { 
-      "fromDate": value.fromDate,
-      "toDate": value.toDate,
-      "senderName": value.senderName,
+      // "fromDate": value.fromDate,
+      // "toDate": value.toDate,
+      // "senderName": value.senderName,
+      "voucherNo":value.voucherNo,
+      "creditForAgent":value.creditForAgent,
     },
      httpOptions 
   );
