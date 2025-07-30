@@ -43,21 +43,19 @@ background-color: #fff;">
     <div class="table-responsive">
       <table class="table table-bordered table-sm text-center align-middle">
         <thead class="table-secondary">
-   
           <!-- Custom Heading Row -->
           <tr>
-            <th colspan="15" class="  text-center">
+            <th colspan="12" class="text-center">
               Booked Paid Details
             </th>
           </tr>
-
+    
           <!-- Column Headers -->
           <tr class="table-secondary">
             <th>No</th>
             <th>LR No</th>
             <th>Booking Date</th>
             <th>Booked By</th>
-            <th>Remarks</th>
             <th>Destination</th>
             <th>Consignor</th>
             <th>Consignee</th>
@@ -69,93 +67,168 @@ background-color: #fff;">
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of branchReportData.paidDetails; let i = index">
+          <tr *ngFor="let item of branchReportData?.BookingTypes?.paid; let i = index">
             <td>{{ i + 1 }}</td>
-            <td>{{ item.grnNo }}</td>
-            <td>{{ item.bookingDate| date:'dd-MM-yyyy, h:mm a' }}</td>
-            <td></td>
-            <td></td>
+            <td>{{ item.lrNumber }}</td>
+            <td>{{ item.bookingDate | date:'dd-MM-yyyy, h:mm a' }}</td>
+            <td>{{ item.bookedBy }}</td>
             <td>{{ item.toCity }}</td>
             <td>{{ item.senderName }}</td>
             <td>{{ item.receiverName }}</td>
             <td>{{ item.toTalPackages }}</td>
-
-            <td></td>
-            <td>{{ item.doorPickupCharges }}</td>
-            <td>{{ item.totalCharge }}</td>
-            <td>{{ item.grandTotal }}</td>
+            <td>{{ item.totalCharge || 0 }}</td>
+            <td>{{ item.doorPickupCharges || 0 }}</td>
+            <td>{{ item.otherCharges || 0 }}</td>
+            <td>{{ item.grandTotal || 0 }}</td>
           </tr>
-          <tr *ngIf="!branchReportData?.paidDetails?.length">
-            <td colspan="11" class="text-center text-muted">No data available</td>
+    
+          <!-- Totals Row -->
+          <tr class="table-success fw-bold" *ngIf="branchReportData?.totals?.paid">
+            <td colspan="7">Total</td>
+            <td>{{ branchReportData?.totals?.paid?.totalParcels || 0 }}</td>
+            <td>{{ branchReportData?.totals?.paid?.totalCharge || 0 }}</td>
+            <td>{{ branchReportData?.totals?.paid?.doorPickupCharges || 0 }}</td>
+            <td>{{ branchReportData?.totals?.paid?.otherCharges || 0 }}</td>
+            <td>{{ branchReportData?.totals?.paid?.totalgrandTotal || 0 }}</td>
+          </tr>
+    
+          <!-- No Data Row -->
+          <tr *ngIf="!branchReportData?.BookingTypes?.paid?.length">
+            <td colspan="12" class="text-center text-muted">No data available</td>
           </tr>
         </tbody>
       </table>
     </div>
+    
+    
       <!-- table 2 -->
-      
-
-      
       <div class="table-responsive">
         <table class="table table-bordered table-sm text-center align-middle">
           <thead class="table-secondary">
-
+            <!-- Custom Heading Row -->
+            <tr>
+              <th colspan="12" class="text-center">
+                Booked To Pay Details
+              </th>
+            </tr>
       
-          <tr>
-            <th colspan="15" class="  text-center">
-              Booked To Pay Details
-
-            </th>
-          </tr>
-
-          <!-- Column Headers -->
-          <tr class="table-secondary">
-            <th>No</th>
-            <th>LR No</th>
-            <th>Booking Date</th>
-            <th>Booked By</th>
-            <th>Remarks</th>
-            <th>Destination</th>
-            <th>Consignor</th>
-            <th>Consignee</th>
-            <th>Pkgs</th>
-            <th>Freight</th>
-            <th>Door Pickup</th>
-            <th>Other</th>
-            <th>Net Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of branchReportData.toPayDetails let i = index">
-            <td>{{ i + 1 }}</td>
-            <td>{{ item.grnNo }}</td>
-            <td>{{ item.bookingDate| date:'dd-MM-yyyy, h:mm a' }}</td>
-            <td></td>
-            <td></td>
-
-            <td>{{ item.toCity }}</td>
-            <td>{{ item.senderName }}</td>
-            <td>{{ item.receiverName }}</td>
-            <td>{{ item.toTalPackages }}</td>
-
-            <td></td>
-            <td>{{ item.doorPickupCharges }}</td>
-            <td>{{ item.totalCharge }}</td>
-            <td>{{ item.grandTotal }}</td>
-          </tr>
-          <tr *ngIf="!branchReportData?.toPayDetails?.length">
-            <td colspan="11" class="text-center text-muted">No data available</td>
-
-
-          </tr>
-        </tbody>
-      </table>
+            <!-- Column Headers -->
+            <tr class="table-secondary">
+              <th>No</th>
+              <th>LR No</th>
+              <th>Booking Date</th>
+              <th>Booked By</th>
+              <th>Destination</th>
+              <th>Consignor</th>
+              <th>Consignee</th>
+              <th>Pkgs</th>
+              <th>Freight</th>
+              <th>Door Pickup</th>
+              <th>Other</th>
+              <th>Net Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of branchReportData?.BookingTypes?.toPay; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ item.lrNumber }}</td>
+              <td>{{ item.bookingDate | date:'dd-MM-yyyy, h:mm a' }}</td>
+              <td>{{ item.bookedBy }}</td>
+              <td>{{ item.toCity }}</td>
+              <td>{{ item.senderName }}</td>
+              <td>{{ item.receiverName }}</td>
+              <td>{{ item.toTalPackages }}</td>
+              <td>{{ item.totalCharge || 0 }}</td>
+              <td>{{ item.doorPickupCharges || 0 }}</td>
+              <td>{{ item.otherCharges || 0 }}</td>
+              <td>{{ item.grandTotal || 0 }}</td>
+            </tr>
+      
+            <!-- Totals Row -->
+            <tr class="table-success fw-bold" *ngIf="branchReportData?.totals?.toPay">
+              <td colspan="7">Total</td>
+              <td>{{ branchReportData?.totals?.toPay?.totalParcels || 0 }}</td>
+              <td>{{ branchReportData?.totals?.toPay?.totalCharge || 0 }}</td>
+              <td>{{ branchReportData?.totals?.toPay?.doorPickupCharges || 0 }}</td>
+              <td>{{ branchReportData?.totals?.toPay?.otherCharges || 0 }}</td>
+              <td>{{ branchReportData?.totals?.toPay?.totalgrandTotal || 0 }}</td>
+            </tr>
+      
+            <!-- No Data Row -->
+            <tr *ngIf="!branchReportData?.BookingTypes?.paid?.length">
+              <td colspan="12" class="text-center text-muted">No data available</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
+<!-- table-3 -->
+<div class="table-responsive">
+  <table class="table table-bordered table-sm text-center align-middle">
+    <thead class="table-secondary">
+      <!-- Custom Heading Row -->
+      <tr>
+        <th colspan="12" class="text-center">
+          Booked Credit Details
+        </th>
+      </tr>
 
-      <!-- table 3 -->
-      <table class="table table-bordered table-sm text-center align-middle">
-        <thead>
+      <!-- Column Headers -->
+      <tr class="table-secondary">
+        <th>No</th>
+        <th>LR No</th>
+        <th>Booking Date</th>
+        <th>Booked By</th>
+        <th>Destination</th>
+        <th>Consignor</th>
+        <th>Consignee</th>
+        <th>Pkgs</th>
+        <th>Freight</th>
+        <th>Door Pickup</th>
+        <th>Other</th>
+        <th>Net Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of branchReportData?.BookingTypes?.credit; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ item.lrNumber }}</td>
+        <td>{{ item.bookingDate | date:'dd-MM-yyyy, h:mm a' }}</td>
+        <td>{{ item.bookedBy }}</td>
+        <td>{{ item.toCity }}</td>
+        <td>{{ item.senderName }}</td>
+        <td>{{ item.receiverName }}</td>
+        <td>{{ item.toTalPackages }}</td>
+        <td>{{ item.totalCharge || 0 }}</td>
+        <td>{{ item.doorPickupCharges || 0 }}</td>
+        <td>{{ item.otherCharges || 0 }}</td>
+        <td>{{ item.grandTotal || 0 }}</td>
+      </tr>
+
+      <!-- Totals Row -->
+      <tr class="table-success fw-bold" *ngIf="branchReportData?.totals?.credit">
+        <td colspan="7">Total</td>
+        <td>{{ branchReportData?.totals?.credit?.totalParcels || 0 }}</td>
+        <td>{{ branchReportData?.totals?.credit?.totalCharge || 0 }}</td>
+        <td>{{ branchReportData?.totals?.credit?.doorPickupCharges || 0 }}</td>
+        <td>{{ branchReportData?.totals?.credit?.otherCharges || 0 }}</td>
+        <td>{{ branchReportData?.totals?.credit?.totalgrandTotal || 0 }}</td>
+      </tr>
+
+      <!-- No Data Row -->
+      <tr *ngIf="!branchReportData?.BookingTypes?.paid?.length">
+        <td colspan="12" class="text-center text-muted">No data available</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+     
+      <!-- table-4 -->
+      <div class="table-responsive">
+        <table class="table table-bordered table-sm text-center align-middle">
+          <thead class="table-secondary">
           <!-- Custom Heading Row -->
+
           <tr>
             <th colspan="15" class="  text-center">
               Deliver ToPay Details
@@ -181,7 +254,7 @@ background-color: #fff;">
         </thead>
         <tbody>
 
-          <tr *ngFor="let item of branchReportData.deliveredToPayDetails let i = index">
+          <tr *ngFor="let item of branchReportData.deliverToPayDetails let i = index">
             <td>{{ i + 1 }}</td>
             <td>{{ item.grnNo }}</td>
             <td>{{ item.deliveryDate| date:'dd-MM-yyyy, h:mm a' }}</td>
@@ -204,7 +277,7 @@ background-color: #fff;">
           </tr>
         </tbody>
       </table>
-
+      </div>
 
       <div class="table-responsive">
         <table class="table table-bordered table-sm text-center align-middle">
@@ -226,26 +299,41 @@ background-color: #fff;">
               <th>Total Net Amount</th>
             </tr>
           </thead>
-          <tbody>
-            <tr *ngFor="let item of branchReportData.
-                    branchWiseBookingDetails">
+          <tbody >
+            <tr *ngFor="let item of branchReportData.cityWiseBookingDetails">
 
-              <td>{{ item.fromToCity }}</td>
-              <td>{{ item.noOfParcels }}</td>
-              <td>{{ item.paid }}</td>
-              <td>{{ item.toPay }}</td>
-              <td>{{ item.FOC }}</td>
-              <td>{{ item.credit }}</td>
-              <td>{{ item.totalBooking }}</td>
-              <td>0</td> <!-- Total Cancel Amount (not in your data, adjust if needed) -->
-              <td>{{ item.totalAmount }}</td>
-              <td>{{ item.refundAmount }}</td>
-              <td>{{ (item.totalAmount || 0) - (item.refundAmount || 0) }}</td>
+              <td>{{ item.cities }}</td>
+              <td>{{ item.noOfParcels || 0 }}</td>
+              <td>{{ item.PaidAmount || 0 }}</td>
+              <td>{{ item.ToPayAmount || 0 }}</td>
+              <td>{{ item.FOCAmount || 0 }}</td>
+              <td>{{ item.credit || 0 }}</td>
+              <td>{{ item.totalBooking || 0 }}</td>
+              <td>0</td> <!-- Total Cancel Amount (static or update if needed) -->
+              <td>{{ item.netAmount || 0 }}</td>
+              <td>{{ item.refundAmount || 0 }}</td>
+              <td>{{ item.grandTotal  }}</td>
             </tr>
 
           </tbody>
+          <tfoot class="fw-bold text-center table-success" *ngIf="branchReportData?.cityWiseTotal">
+            <tr>
+              <td>Total:</td>
+              <td>{{ branchReportData.cityWiseTotal.noOfParcels }}</td>
+              <td>{{ branchReportData.cityWiseTotal.PaidAmount }}</td>
+              <td>{{ branchReportData.cityWiseTotal.ToPayAmount }}</td>
+              <td>{{ branchReportData.cityWiseTotal.FOCAmount }}</td>
+              <td>{{ branchReportData.cityWiseTotal.credit || 0 }}</td>
+              <td>{{ getTotal('totalBooking') }}</td>
+              <td>0</td>
+              <td>{{ branchReportData.cityWiseTotal.totalNetAmount }}</td>
+              <td>{{ branchReportData.cityWiseTotal.refundAmount }}</td>
+              <td>{{ branchReportData.cityWiseTotal.grandTotal }}</td>
+            </tr>
+          </tfoot>
         </table>
       </div>
+
 
 
       <div class="table-responsive">
@@ -268,37 +356,42 @@ background-color: #fff;">
               <th>Total Net Amount</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody >
             <tr *ngFor="let item of branchReportData.cityWiseDeliveryDetails">
-              <td>{{ item.deliveryCity }}</td>
-              <td>{{ item.noOfParcels }}</td>
-              <td>{{ item.paid }}</td>
-              <td>{{ item.toPay }}</td>
-              <td>{{ item.FOC }}</td>
-              <td>{{ item.credit }}</td>
-              <td>{{ item.totalBooking }}</td>
-              <td>0</td> <!-- Total Cancel Amount (not in your data, adjust if needed) -->
-              <td>{{ item.totalAmount }}</td>
-              <td>{{ item.refundAmount }}</td>
-              <td>{{ (item.totalAmount || 0) - (item.refundAmount || 0) }}</td>
+              <td>{{ item.cities }}</td>
+              <td>{{ item.noOfParcels || 0 }}</td>
+              <td>{{ item.PaidAmount || 0 }}</td>
+              <td>{{ item.ToPayAmount || 0 }}</td>
+              <td>{{ item.FOCAmount || 0 }}</td>
+              <td>{{ item.credit || 0 }}</td>
+              <td>{{ item.totalBooking || 0 }}</td>
+              <td>0</td> <!-- Total Cancel Amount (static or update if needed) -->
+              <td>{{ item.netAmount || 0 }}</td>
+              <td>{{ item.refundAmount || 0 }}</td>
+              <td>{{ item.grandTotal  }}</td>
             </tr>
-            <!-- <tr class="fw-bold">
+          </tbody>
+          
+          <!-- Total Row (outside tbody) -->
+          <tfoot class="fw-bold text-center table-success" *ngIf="branchReportData?.cityWiseDeliveryTotals">
+            <tr>
               <td>Total:</td>
-              <td>{{ getTotal('noOfParcels') }}</td>
-              <td>{{ getTotal('paid') }}</td>
-              <td>{{ getTotal('toPay') }}</td>
-              <td>{{ getTotal('FOC') }}</td>
-              <td>{{ getTotal('credit') }}</td>
+              <td>{{ branchReportData.cityWiseDeliveryTotals.totalParcels }}</td>
+              <td>{{ branchReportData.cityWiseDeliveryTotals.totalPaidAmount }}</td>
+              <td>{{ branchReportData.cityWiseDeliveryTotals.totalToPayAmount }}</td>
+              <td>{{ branchReportData.cityWiseDeliveryTotals.totalFOCAmount }}</td>
+              <td>{{ branchReportData.cityWiseDeliveryTotals.credit || 0 }}</td>
               <td>{{ getTotal('totalBooking') }}</td>
               <td>0</td>
-              <td>{{ getTotal('totalAmount') }}</td>
-              <td>{{ getTotal('refundAmount') }}</td>
-              <td>{{ getTotal('totalAmount') - getTotal('refundAmount') }}</td>
-            </tr> -->
-          </tbody>
+              <td>{{ branchReportData.cityWiseDeliveryTotals.totalNetAmount }}</td>
+              <td>{{ branchReportData.cityWiseDeliveryTotals.totalRefundAmount }}</td>
+              <td>{{ branchReportData.cityWiseDeliveryTotals.totalGrandTotal }}</td>
+            </tr>
+          </tfoot>
+          
+          
         </table>
       </div>
-
       <div class="table-responsive">
         <table class="table table-bordered table-sm text-center align-middle">
           <thead class="table-secondary">
@@ -313,116 +406,93 @@ background-color: #fff;">
               <th>Door Pickup</th>
               <th>Service Charge</th>
               <th>Door Delivery</th>
-              <th>Handling</th>
-              <th>Express</th>
               <th>Other Charge</th>
-              <th>Refund Charge</th>
               <th>Amount</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>Paid</td>
-              <td>{{ branchReportData?.categoryWiseBookingDetails?.paid?.noOfPackages || 0 }}</td>
-              <td>-</td>
-              <td>-</td>
-              <td>{{ branchReportData?.categoryWiseBookingDetails?.paid?.doorPickupCharges || 0 }}</td>
-              <td>{{ branchReportData?.categoryWiseBookingDetails?.paid?.serviceCharges || 0 }}</td>
-              <td>{{ branchReportData?.categoryWiseBookingDetails?.paid?.doorDeliveryCharges || 0 }}</td>
-              <td>-</td>
-              <td>-</td>
-              <td>{{ branchReportData?.categoryWiseBookingDetails?.paid?.otherCharges || 0 }}</td>
-              <td>-</td>
-              <td class="fw-bold">{{ branchReportData?.categoryWiseBookingDetails?.paid?.grandTotal || 0 }}</td>
+              <td>{{ branchReportData?.CategoryWiseBookingDetails?.paid?.noOfPackages || 0 }}</td>
+              <td>{{ branchReportData?.CategoryWiseBookingDetails?.paid?.totalAmount || 0 }}</td>
+
+              <td>{{ branchReportData?.CategoryWiseBookingDetails?.paid?.hamaliCharges || 0 }}</td>
+              <td>{{ branchReportData?.CategoryWiseBookingDetails?.paid?.doorPickupCharges || 0 }}</td>
+              <td>{{ branchReportData?.CategoryWiseBookingDetails?.paid?.serviceCharges || 0 }}</td>
+              <td>{{ branchReportData?.CategoryWiseBookingDetails?.paid?.doorDeliveryCharges || 0 }}</td>
+         
+              <td>{{ branchReportData?.CategoryWiseBookingDetails?.paid?.otherCharges || 0 }}</td>
+              <td class="fw-bold">{{ branchReportData?.CategoryWiseBookingDetails?.paid?.grandTotal || 0 }}</td>
             </tr>
 
             <tr>
               <td>To Pay</td>
-              <td>{{ branchReportData?.categoryWiseBookingDetails?.toPay?.noOfPackages || 0 }}</td>
-              <td>-</td>
-              <td>-</td>
-              <td>{{ branchReportData?.categoryWiseBookingDetails?.toPay?.doorPickupCharges || 0 }}</td>
-              <td>{{ branchReportData?.categoryWiseBookingDetails?.toPay?.serviceCharges || 0 }}</td>
-              <td>{{ branchReportData?.categoryWiseBookingDetails?.toPay?.doorDeliveryCharges || 0 }}</td>
-              <td>-</td>
-              <td>-</td>
-              <td>{{ branchReportData?.categoryWiseBookingDetails?.toPay?.otherCharges || 0 }}</td>
-              <td>-</td>
-              <td class="fw-bold">{{ branchReportData?.categoryWiseBookingDetails?.toPay?.grandTotal || 0 }}</td>
+              <td>{{ branchReportData?.CategoryWiseBookingDetails?.toPay?.noOfPackages || 0 }}</td>
+              <td>{{ branchReportData?.CategoryWiseBookingDetails?.toPay?.totalAmount || 0 }}</td>
+              <td>{{ branchReportData?.CategoryWiseBookingDetails?.toPay?.hamaliCharges || 0 }}</td>
+              <td>{{ branchReportData?.CategoryWiseBookingDetails?.toPay?.doorPickupCharges || 0 }}</td>
+              <td>{{ branchReportData?.CategoryWiseBookingDetails?.toPay?.serviceCharges || 0 }}</td>
+              <td>{{ branchReportData?.CategoryWiseBookingDetails?.toPay?.doorDeliveryCharges || 0 }}</td>
+             
+              <td>{{ branchReportData?.CategoryWiseBookingDetails?.toPay?.otherCharges || 0 }}</td>
+              <td class="fw-bold">{{ branchReportData?.CategoryWiseBookingDetails?.toPay?.grandTotal || 0 }}</td>
             </tr>
 
             <tr>
               <td>ToPay Delivery</td>
-              <td>{{ branchReportData?.categoryWiseBookingDetails?.toPayDeliveredAmount?.noOfPackages || 0 }}</td>
-              <td>-</td>
-              <td>-</td>
-              <td>{{ branchReportData?.categoryWiseBookingDetails?.toPayDeliveredAmount?.doorPickupCharges || 0 }}</td>
-              <td>{{ branchReportData?.categoryWiseBookingDetails?.toPayDeliveredAmount?.serviceCharges || 0 }}</td>
-              <td>{{ branchReportData?.categoryWiseBookingDetails?.toPayDeliveredAmount?.doorDeliveryCharges || 0 }}
+              <td>{{ branchReportData?.CategoryWiseBookingDetails?.toPayDeliveredAmount?.noOfPackages || 0 }}</td>
+              <td>{{ branchReportData?.CategoryWiseBookingDetails?.toPayDeliveredAmount?.totalAmount || 0 }}</td>
+              <td>{{ branchReportData?.CategoryWiseBookingDetails?.toPayDeliveredAmount?.hamaliCharges || 0 }}</td>
+              <td>{{ branchReportData?.CategoryWiseBookingDetails?.toPayDeliveredAmount?.doorPickupCharges || 0 }}</td>
+              <td>{{ branchReportData?.CategoryWiseBookingDetails?.toPayDeliveredAmount?.serviceCharges || 0 }}</td>
+              <td>{{ branchReportData?.CategoryWiseBookingDetails?.toPayDeliveredAmount?.doorDeliveryCharges || 0 }}
               </td>
-              <td>-</td>
-              <td>-</td>
-              <td>{{ branchReportData?.categoryWiseBookingDetails?.toPayDeliveredAmount?.otherCharges || 0 }}</td>
-              <td>-</td>
-              <td class="fw-bold">{{ branchReportData?.categoryWiseBookingDetails?.toPayDeliveredAmount?.grandTotal || 0
+           
+              <td>{{ branchReportData?.CategoryWiseBookingDetails?.toPayDeliveredAmount?.otherCharges || 0 }}</td>
+              <td class="fw-bold">{{ branchReportData?.CategoryWiseBookingDetails?.toPayDeliveredAmount?.grandTotal || 0
                 }}</td>
             </tr>
 
-            <!-- <tr class="fw-bold table-light">
-              <td>Total:</td>
-              <td>
-                {{
-                (branchReportData?.categoryWiseBookingDetails?.paid?.noOfPackages || 0) +
-                (branchReportData?.categoryWiseBookingDetails?.toPay?.noOfPackages || 0) +
-                (branchReportData?.categoryWiseBookingDetails?.toPayDeliveredAmount?.noOfPackages || 0)
-                }}
+            <tr>
+              <td>Credit</td>
+              <td>{{ branchReportData?.CategoryWiseBookingDetails?.credit
+                ?.noOfPackages || 0 }}</td>
+                 <td>{{ branchReportData?.CategoryWiseBookingDetails?.credit
+                  ?.totalAmount || 0 }}</td>
+                                <td>{{ branchReportData?.CategoryWiseBookingDetails?.credit?.hamaliCharges || 0 }}</td>
+
+              
+              <td>{{ branchReportData?.CategoryWiseBookingDetails?.credit
+                ?.doorPickupCharges || 0 }}</td>
+              <td>{{ branchReportData?.CategoryWiseBookingDetails?.credit
+                ?.serviceCharges || 0 }}</td>
+              <td>{{ branchReportData?.CategoryWiseBookingDetails?.credit
+                ?.doorDeliveryCharges || 0 }}
               </td>
-              <td>-</td>
-              <td>-</td>
-              <td>
-                {{
-                (branchReportData?.categoryWiseBookingDetails?.paid?.doorPickupCharges || 0) +
-                (branchReportData?.categoryWiseBookingDetails?.toPay?.doorPickupCharges || 0) +
-                (branchReportData?.categoryWiseBookingDetails?.toPayDeliveredAmount?.doorPickupCharges || 0)
-                }}
-              </td>
-              <td>
-                {{
-                (branchReportData?.categoryWiseBookingDetails?.paid?.serviceCharges || 0) +
-                (branchReportData?.categoryWiseBookingDetails?.toPay?.serviceCharges || 0) +
-                (branchReportData?.categoryWiseBookingDetails?.toPayDeliveredAmount?.serviceCharges || 0)
-                }}
-              </td>
-              <td>
-                {{
-                (branchReportData?.categoryWiseBookingDetails?.paid?.doorDeliveryCharges || 0) +
-                (branchReportData?.categoryWiseBookingDetails?.toPay?.doorDeliveryCharges || 0) +
-                (branchReportData?.categoryWiseBookingDetails?.toPayDeliveredAmount?.doorDeliveryCharges || 0)
-                }}
-              </td>
-              <td>-</td>
-              <td>-</td>
-              <td>
-                {{
-                (branchReportData?.categoryWiseBookingDetails?.paid?.otherCharges || 0) +
-                (branchReportData?.categoryWiseBookingDetails?.toPay?.otherCharges || 0) +
-                (branchReportData?.categoryWiseBookingDetails?.toPayDeliveredAmount?.otherCharges || 0)
-                }}
-              </td>
-              <td>-</td>
-              <td class="fw-bold">
-                {{
-                (branchReportData?.categoryWiseBookingDetails?.paid?.grandTotal || 0) +
-                (branchReportData?.categoryWiseBookingDetails?.toPay?.grandTotal || 0) +
-                (branchReportData?.categoryWiseBookingDetails?.toPayDeliveredAmount?.grandTotal || 0)
-                }}
-              </td>
-            </tr> -->
+             
+              <td>{{ branchReportData?.CategoryWiseBookingDetails?.credit
+                ?.otherCharges || 0 }}</td>
+              <td class="fw-bold">{{ branchReportData?.CategoryWiseBookingDetails?.credit
+                ?.grandTotal || 0
+                }}</td>
+            </tr>
+            <tr class="table-success fw-bold" *ngIf="branchReportData?.CategoryWiseBookingTotals">
+              <td>Total</td>
+              <td>{{ branchReportData?.CategoryWiseBookingTotals?.noOfPackages || 0 }}</td>
+              <td>{{ branchReportData?.CategoryWiseBookingTotals?.totalAmount || 0 }}</td>
+              <td>{{ branchReportData?.CategoryWiseBookingTotals?.hamaliCharges || 0 }}</td>
+              <td>{{ branchReportData?.CategoryWiseBookingTotals?.doorPickupCharges || 0 }}</td>
+              <td>{{ branchReportData?.CategoryWiseBookingTotals?.serviceCharges || 0 }}</td>
+              <td>{{ branchReportData?.CategoryWiseBookingTotals?.doorDeliveryCharges || 0 }}</td>
+              <td>{{ branchReportData?.CategoryWiseBookingTotals?.otherCharges || 0 }}</td>
+              <td>{{ branchReportData?.CategoryWiseBookingTotals?.grandTotal || 0 }}</td>
+            </tr>
+            
+      
+          
           </tbody>
         </table>
       </div>
-
-
       <div class="table-responsive">
         <table class="table table-bordered table-sm text-center align-middle">
           <thead class=" d-flex justify-content-center" style="border: 2px solid black;">
@@ -434,7 +504,7 @@ background-color: #fff;">
 
             <tr>
               <th colspan="4" class="  text-center">
-                6660
+                
               </th>
             </tr>
 

@@ -61,8 +61,7 @@
                     <th>Source</th>
                     <th>Destination</th>
                     <th>Detail</th>
-                    <th>Packages</th>
-                    <!-- <th>Freight</th> -->
+                    <th>Quantity</th>
                     <th>GST Amt</th>
                     <th>Weight</th>
                     <th>Amount</th>
@@ -77,18 +76,21 @@
                     <td>{{ items.toCity }}</td>
                     <td>
                         <div *ngFor="let detail of items.packageDetails">
-                            {{ detail.packageType }}
+                            {{ detail.contains }}
                         </div>
                     </td>
                     <td>
                         <div *ngFor="let detail of items.packageDetails">
-                            {{ detail.unitPrice }}
+                            {{ detail.quantity }}
                         </div>
                     </td>
 
-                    <!-- <td>{{ items.grandTotal }}</td> -->
                     <td>{{ items.parcelGstAmount }}</td>
-                    <td>{{ items.totalWeight }}</td>
+                    <td>
+                        <div *ngFor="let detail of items.packageDetails">
+                            {{ detail.weight }}
+                        </div>
+                    </td>
                     <td>{{ items.grandTotal }}</td>
                 </tr>
             </tbody>
@@ -100,13 +102,13 @@
                 </tr>
             </tfoot>
         </table>
-    </div>
+    </div> 
 
 
+      
 
 
 
 
 
 </div>
-<!--  -->

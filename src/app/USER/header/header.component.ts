@@ -153,7 +153,7 @@ export class HeaderComponent implements OnInit {
             { label: 'Parcel Unloading', routerLink: ['/employee-unloading'] },
             { label: 'Branch to Branch Loading', routerLink: ['/employee-branch-loading'] },
             { label: 'Parcel Delivery', routerLink: ['/employee-parcel-devlivery'] },
-            { label: 'Cancel Booking', routerLink: ['/employee-parcel-cancel'] },
+            // { label: 'Cancel Booking', routerLink: ['/employee-parcel-cancel'] },
             { label: 'Parcel Status Details', routerLink: ['/employee-status'] },
             { label: 'Branch to Branch Unloading', routerLink: ['/employee-branch-unloading'] },
             { label: 'Vouchers List Offline', routerLink: ['/employee-voucherdetails'] },

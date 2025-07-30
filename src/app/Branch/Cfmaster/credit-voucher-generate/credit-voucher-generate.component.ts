@@ -38,7 +38,6 @@ export class CreditVoucherGenerateComponent {
   }
 
   ngOnInit(){
-
   }
   getTodayDateString(): string {
     const today = new Date();
@@ -47,7 +46,6 @@ export class CreditVoucherGenerateComponent {
     const day = ('0' + today.getDate()).slice(-2);
     return `${year}-${month}-${day}`; // yyyy-MM-dd
   }
-
   VoucherLoad() {
     const payload = {
       fromDate: this.form.value.fromDate,
@@ -87,41 +85,7 @@ export class CreditVoucherGenerateComponent {
       },
     });
   }
-
-  // VoucherGenerate() {
-  //   const payload = {
-  //     fromDate: this.form1.value.fromDate,
-  //     toDate: this.form1.value.toDate,
-  //     grnNo: this.form1.value.grnNo,
-  //     creditForAgent: this.form1.value.creditForAgent,
-  //     fromBranch: this.form1.value.fromBranch,
-  //     toBranch: this.form1.value.toBranch,
-  //     consignor: this.form1.value.consignor,
-  //     bookingStatus: this.form1.value.bookingStatus,
-  //     charge: this.form1.value.charge,
-  //   };
-  
-  //   console.log('Final Payload:', payload);
-  //   this.api.VoucherGenerate(payload).subscribe({
-  //     next: (response: any) => {
-  //       console.log('Parcel loaded successfully:', response);
-  //       this.toast.success('Credit Voucher Successfully Generated','Success')
-  //       setTimeout(() => {
-  //         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-  //           this.router.navigate(['/creditvouchergenerate']);
-  //         });
-  //       }, 1000);
-  //     },
-  //     error: (error: any) => {
-  //       console.error('Parcel loading failed:', error);
-  //       this.toast.error('Parcel Loading Failed. Please try again', 'Error')
-
-  //     },
-  //   });
-  // }
-
   VoucherGenerate() {
-    // Extract all GRN numbers (lrNumber) from vldata
     const allGRNs = this.vldata.map((item: any) => item.grnNo);
   
     const payload = {

@@ -65,10 +65,24 @@
                         <label class="form-label">Company Name</label>
                         <input type="text" class="form-control form-select-sm " formControlName="name">
                     </div>
-                    <div class="col-md-4 col-sm-12">
+                    <!-- <div class="col-md-4 col-sm-12">
                         <label class="form-label">Phone</label>
                         <input type="text" class="form-control form-select-sm " formControlName="phone">
-                    </div>
+                    </div> -->
+                    <div class="col-md-4 col-sm-12">
+                        <label class="form-label">Phone</label>
+                        <input type="tel"
+                               class="form-control form-select-sm"
+                               maxlength="10"
+                               pattern="[0-9]*"
+                               inputmode="numeric"
+                               formControlName="phone"
+                               (keypress)="allowOnlyNumbers($event)">
+                      
+                        <div class="text-danger" *ngIf="form.get('phone')?.touched && form.get('phone')?.invalid">
+                          Must be exactly 10 digits.
+                        </div>
+                      </div>
                     <div class="col-md-4 col-sm-12">
                         <label class="form-label">Email</label>
                         <input type="email" class="form-control form-select-sm " formControlName="email">
@@ -81,10 +95,27 @@
                         <label class="form-label">Sender Name</label>
                         <input type="text" class="form-control form-select-sm " formControlName="senderName">
                     </div>
-                    <div class="col-md-4 col-sm-12">
+                    <!-- <div class="col-md-4 col-sm-12">
                         <label class="form-label">Sender Mobile No</label>
                         <input type="text" class="form-control form-select-sm " formControlName="senderMobile">
-                    </div>
+                    </div> -->
+                    <div class="col-md-4 col-sm-12">
+                        <label class="form-label">Sender Mobile No</label>
+                        <input type="tel"
+                               class="form-control form-select-sm"
+                               maxlength="10"
+                               pattern="[0-9]*"
+                               inputmode="numeric"
+                               formControlName="senderMobile"
+                               (keypress)="allowOnlyNumbers($event)">
+                      
+                        <div class="text-danger" *ngIf="form.get('senderMobile')?.touched && form.get('senderMobile')?.invalid">
+                          Must be exactly 10 digits.
+                        </div>
+                      </div>
+                      
+                     
+                      
                     <div class="col-md-4 col-sm-12">
                         <label class="form-label">Credit Limit</label>
                         <input type="number" class="form-control form-select-sm " formControlName="creditDaysLimit">
