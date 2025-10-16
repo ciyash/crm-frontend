@@ -1,4 +1,4 @@
-<div class="top-header" *ngIf="data">
+<!-- <div class="top-header" *ngIf="data">
   Company: <strong class="fw-bold">{{ data.companyId?.name }}</strong>
   * Branch: {{ data.branchId?.name  }}
   * User: <strong>{{ data.username  }}</strong>
@@ -32,7 +32,6 @@
         </li>
       </ul>
 
-      <!-- ✅ Right-aligned section -->
       <ul class="navbar-nav ms-auto d-flex align-items-center">
         <li *ngIf="data" class="nav-item text-white">
           <span>{{ data.companyId?.name }}</span>
@@ -46,4 +45,88 @@
 
     </div>
   </div>
+</nav> -->
+
+<!-- 🌈 Top Header -->
+<div class="top-header" *ngIf="data; else welcomeText">
+  <div class="container d-flex justify-content-between align-items-center flex-wrap">
+    <div class="header-info">
+      <i class="bi bi-building me-1"></i> <strong>{{ data.companyId?.name }}</strong>
+      <span class="mx-2">|</span>
+      <i class="bi bi-geo-alt me-1"></i> {{ data.branchId?.name }}
+      <span class="mx-2">|</span>
+      <i class="bi bi-person-circle me-1"></i> {{ data.username }}
+    </div>
+  </div>
+</div>
+
+<ng-template #welcomeText>
+  <div class="top-header">
+    <div class="container text-center fw-semibold">
+      🌟 WELCOME TO CRM SYSTEM 🌟
+    </div>
+  </div>
+</ng-template>
+
+<!-- 🧭 Navbar -->
+<nav class="navbar navbar-expand-lg main-navbar">
+  <div class="container">
+    <a class="navbar-brand text-white fw-bold d-flex align-items-center" routerLink="/">
+      <i class="bi bi-grid-fill me-2"></i> CRM PANEL
+    </a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarMenu"
+      aria-controls="navbarMenu"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <i class="bi bi-list text-white fs-3"></i>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarMenu">
+      <ul class="layout-menu d-flex align-items-center flex-wrap" (keydown)="onKeydown($event)">
+        <!-- Menu Items -->
+        <li *ngFor="let item of model" class="layout-menuitem-category" [attr.role]="item.items ? 'menu' : null">
+          <!-- 🌐 Main Link -->
+          <a
+            *ngIf="!item.items"
+            [routerLink]="item.routerLink"
+            routerLinkActive="active-link"
+            class="layout-menuitem-root-text"
+          >
+            <i class="pi pi-fw" [ngClass]="item.icon"></i> {{ item.label }}
+          </a>
+
+          <!-- 📦 Dropdown Label -->
+          <div *ngIf="item.items" class="layout-menuitem-root-text">
+            <i class="pi pi-fw" [ngClass]="item.icon"></i> {{ item.label }}
+            <i class="bi bi-caret-down-fill ms-1"></i>
+          </div>
+
+          <!-- 📂 Submenu -->
+          <ul *ngIf="item.items" class="submenu no-style">
+            <li *ngFor="let child of item.items">
+              <a
+                [routerLink]="child.routerLink"
+                routerLinkActive="active-sub-link"
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
+                <i class="pi pi-angle-right me-1"></i> {{ child.label }}
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- 🔴 Logout -->
+        <li class="logout-btn" (click)="logout()">
+          <i class="bi bi-box-arrow-right"></i> Logout
+        </li>
+      </ul>
+    </div>
+  </div>
 </nav>
+

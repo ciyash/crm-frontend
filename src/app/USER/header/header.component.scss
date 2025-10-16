@@ -1,77 +1,218 @@
+// .top-header {
+//   background: linear-gradient(to right, #034F92, #056bb5);
+//   color: #fff;
+//   text-align: center;
+//   padding: 10px 0;
+//   font-size: 14px;
+//   font-family: 'Poppins', sans-serif;
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   z-index: 1050;
+//   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+// }
+
+
+// .navbar {
+//   background-color: #034f92;
+//   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+//   padding: 0.5rem 1rem;
+//   position: fixed;
+//   top: 40px; /* Push navbar below top-header */
+//   width: 100%;
+//   z-index: 1000;
+
+//   .layout-menu {
+//     list-style: none;
+//     padding: 0;
+//     margin: 0;
+//     display: flex;
+//     align-items: center;
+//     gap: 20px;
+
+//     .layout-menuitem-category {
+//       position: relative;
+
+//       .layout-menuitem-root-text, a {
+//         padding: 12px;
+//         font-size: 14px;
+//         font-weight: 500;
+//         color: #ffffff;
+//         cursor: pointer;
+//         text-decoration: none;
+//         transition: background-color 0.3s, color 0.3s;
+
+//         &:hover {
+//           background-color: #056bb5;
+//           border-radius: 6px;
+//         }
+//       }
+
+//       .submenu {
+//         display: none;
+//         position: absolute;
+//         top: 100%;
+//         left: 0;
+//         background-color: #056bb5;
+//         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+//         border-radius: 0 0 6px 6px;
+//         z-index: 999;
+//         width: 300px;
+
+//         li {
+//           a {
+//             padding: 4px;
+//             color: #ffffff;
+//             text-decoration: none;
+//             display: block;
+//             font-size: 14px;
+//             transition: background-color 0.3s;
+
+//             &:hover {
+//               background-color: #045b99;
+//             }
+//           }
+//         }
+//       }
+
+//       &:hover .submenu {
+//         display: block;
+//       }
+//     }
+//   }
+// }
+
+// .no-style {
+//   list-style: none;
+// }
+
+// /* 🧼 Add padding so body content doesn't go under navbar */
+// body {
+//   padding-top: 90px; /* top-header (40px) + navbar (~50px) */
+// }
+
+/* 🌈 Top Header */
 .top-header {
-  background: linear-gradient(to right, #034F92, #056bb5);
+  background: linear-gradient(90deg, #0052d4, #4364f7, #6fb1fc);
   color: #fff;
-  text-align: center;
-  padding: 10px 0;
-  font-size: 14px;
   font-family: 'Poppins', sans-serif;
+  padding: 8px 0;
   position: fixed;
   top: 0;
-  left: 0;
   width: 100%;
   z-index: 1050;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+  .header-info {
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
 }
 
-
-.navbar {
-  background-color: #034f92;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 0.5rem 1rem;
+/* 🧭 Main Navbar */
+.main-navbar {
+  background: linear-gradient(90deg, #034f92, #0d72cf);
+  padding: 0.75rem 1rem;
   position: fixed;
-  top: 40px; /* Push navbar below top-header */
+  top: 38px;
   width: 100%;
   z-index: 1000;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+
+  .navbar-brand {
+    font-size: 18px;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+  }
 
   .layout-menu {
     list-style: none;
-    padding: 0;
     margin: 0;
+    padding: 0;
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
+    flex-wrap: wrap;
 
     .layout-menuitem-category {
       position: relative;
 
-      .layout-menuitem-root-text, a {
-        padding: 12px;
+      .layout-menuitem-root-text {
+        padding: 10px 14px;
         font-size: 14px;
         font-weight: 500;
         color: #ffffff;
         cursor: pointer;
         text-decoration: none;
-        transition: background-color 0.3s, color 0.3s;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.3s ease;
 
         &:hover {
-          background-color: #056bb5;
-          border-radius: 6px;
+          background: rgba(255, 255, 255, 0.15);
+          transform: translateY(-2px);
+        }
+
+        /* ✨ Active route underline */
+        &.active-link {
+          background: rgba(255, 255, 255, 0.15);
+          position: relative;
+          font-weight: 600;
+        }
+
+        &.active-link::after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: 10%;
+          width: 80%;
+          height: 3px;
+          background: #ffce00;
+          border-radius: 2px;
+          box-shadow: 0 0 8px #ffce00;
         }
       }
 
+      /* Dropdown submenu */
       .submenu {
         display: none;
         position: absolute;
         top: 100%;
         left: 0;
-        background-color: #056bb5;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        border-radius: 0 0 6px 6px;
-        z-index: 999;
-        width: 300px;
+        background: #0d72cf;
+        border-radius: 0 0 8px 8px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+        min-width: 220px;
+        animation: fadeIn 0.25s ease-in;
 
-        li {
-          a {
-            padding: 4px;
-            color: #ffffff;
-            text-decoration: none;
-            display: block;
-            font-size: 14px;
-            transition: background-color 0.3s;
+        li a {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          color: #fff;
+          padding: 8px 12px;
+          font-size: 13px;
+          text-decoration: none;
+          transition: 0.3s;
 
-            &:hover {
-              background-color: #045b99;
-            }
+          &:hover {
+            background: rgba(255, 255, 255, 0.2);
+          }
+
+          /* 💡 Active submenu highlight */
+          &.active-sub-link {
+            background: rgba(255, 255, 255, 0.25);
+            font-weight: 600;
+            border-left: 4px solid #ffce00;
           }
         }
       }
@@ -80,14 +221,61 @@
         display: block;
       }
     }
+
+    /* Logout Button */
+    .logout-btn {
+      color: #fff;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 10px 12px;
+      border-radius: 6px;
+      background: linear-gradient(90deg, #f12711, #f5af19);
+      transition: 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      &:hover {
+        background: linear-gradient(90deg, #f12711, #f7797d);
+        transform: scale(1.05);
+      }
+    }
   }
 }
 
-.no-style {
-  list-style: none;
+/* 📱 Responsive */
+@media (max-width: 992px) {
+  .layout-menu {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .submenu {
+    position: static !important;
+    box-shadow: none;
+  }
+
+  .top-header {
+    text-align: center;
+  }
 }
 
-/* 🧼 Add padding so body content doesn't go under navbar */
+/* 🧼 Spacing Fix */
 body {
-  padding-top: 90px; /* top-header (40px) + navbar (~50px) */
+  padding-top: 95px;
+  background-color: #f8fafc;
+}
+
+/* ✨ Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

@@ -5,10 +5,10 @@ import { Observable } from 'rxjs';
 // chandu api 
 const AUTH_API = 'https://cargo-logistics-zsqp.onrender.com/';
 const login_API = 'https://cargo-logistics-zsqp.onrender.com/';
+
                       // new api
 // const login_API = 'https://cargobackend-9kxq.onrender.com/';
 // const AUTH_API = 'https://cargobackend-9kxq.onrender.com/';
-
 
 // const AUTH_API = 'http://3.109.182.152:4000/';
 // const login_API = 'http://3.109.182.152:4000/';
