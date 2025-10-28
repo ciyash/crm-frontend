@@ -12,14 +12,12 @@ import { TokenService } from 'src/app/service/token.service';
 export class CompanyLoginComponent implements OnInit {
   loginForm!: FormGroup;
   errorMessage: string = '';
-
   constructor(
     private fb: FormBuilder,
     private api: AuthService,
     private router: Router,
     private token: TokenService
   ) {}
-
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -45,9 +43,7 @@ export class CompanyLoginComponent implements OnInit {
         this.errorMessage = err?.error?.message || 'Login failed. Please try again.';
       }
     });
-    
-    
-    
+
   }
 
  

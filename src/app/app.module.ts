@@ -134,6 +134,9 @@ import { TopayReportComponent } from './Branch/Reports/topay-report/topay-report
 import { AllReportComponent } from './Branch/Reports/all-report/all-report.component';
 import { BookingTypeWiseReportComponent } from './Branch/Reports/booking-type-wise-report/booking-type-wise-report.component';
 import { BranchwiseBookingdetailsComponent } from './Branch/Reports/branchwise-bookingdetails/branchwise-bookingdetails.component';
+import { RegisterCompanyComponent } from './USER/register-company/register-company.component';
+import { VendorComponent } from './USER/vendor/vendor.component';
+import { SubscriptionComponent } from './USER/subscription/subscription.component';
 @NgModule({
   declarations: [
     // reports
@@ -261,6 +264,9 @@ import { BranchwiseBookingdetailsComponent } from './Branch/Reports/branchwise-b
     AllReportComponent,
     BookingTypeWiseReportComponent,
     BranchwiseBookingdetailsComponent,
+    RegisterCompanyComponent,
+    VendorComponent,
+    SubscriptionComponent,
    
    
   ],

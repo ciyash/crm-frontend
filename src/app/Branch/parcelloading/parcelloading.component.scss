@@ -1,31 +1,132 @@
 
-.form-control, .btn {
-    border-radius: 5px;
-}
-@media (max-width: 768px) {
-    .container {
-        max-width: 100%;
-        padding: 15px;
+// .form-control, .btn {
+//     border-radius: 5px;
+// }
+// @media (max-width: 768px) {
+//     .container {
+//         max-width: 100%;
+//         padding: 15px;
+//     }
+//     .btn {
+//         width: 100%;
+//     }
+// }
+
+// .btn-primary {
+//     background-color: #143374 !important;
+//     border-color: #143374 !important;
+// }
+
+
+// .select2-container .select2-selection--single{
+//     height:24px !important;
+// }
+// .select2-container--default .select2-selection--single{
+//          border: 1px solid #ccc !important; 
+//      border-radius: 0px !important; 
+// }
+
+
+/* 🌈 Corporate Gradient Background */
+body {
+    background: linear-gradient(135deg, #e8f0ff 0%, #f5f9ff 40%, #e3ecff 100%);
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  /* 📦 Card Styling */
+  .card {
+    background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+    border: none;
+    border-radius: 12px;
+  }
+  
+  /* 📋 Form Labels */
+  .form-label {
+    color: #143374;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  
+  /* ✨ Input Fields */
+  .form-control, .form-select {
+    border: 1px solid #cfd8f3;
+    border-radius: 8px;
+    background-color: #f9fbff;
+    transition: all 0.2s ease;
+  }
+  .form-control:focus, .form-select:focus {
+    border-color: #143374;
+    box-shadow: 0 0 0 2px rgba(20, 51, 116, 0.2);
+  }
+  
+  /* 🌟 Table Design */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .table thead tr {
+    background: linear-gradient(to right, #143374, #2b478b);
+    color: white;
+    text-transform: uppercase;
+  }
+  
+  .table tbody tr:nth-child(odd) {
+    background-color: #eef3ff;
+  }
+  
+  .table tbody tr:nth-child(even) {
+    background-color: #f8faff;
+  }
+  
+  .table tbody td {
+    color: #1e2d5a;
+    font-weight: 500;
+  }
+  
+  .table input.form-control {
+    background-color: #fff;
+    border: 1px solid #cfd8f3;
+    color: #333;
+  }
+  
+  /* ✅ Buttons */
+  .btn-primary {
+    background: linear-gradient(to right, #143374, #2b478b);
+    border: none;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  .btn-primary:hover {
+    background: linear-gradient(to right, #2b478b, #143374);
+    transform: translateY(-1px);
+  }
+  
+  /* ✅ Success Button */
+  .btn-success {
+    background: linear-gradient(to right, #0ba360, #3cba92);
+    border: none;
+  }
+  
+  /* ✅ Secondary Button */
+  .btn-secondary {
+    background: linear-gradient(to right, #6c757d, #868e96);
+    border: none;
+  }
+  
+  /* 📱 Responsive */
+  @media (max-width: 768px) {
+    .card {
+      padding: 20px;
     }
     .btn {
-        width: 100%;
+      width: 100%;
     }
-}
-
-.btn-primary {
-    background-color: #143374 !important;
-    border-color: #143374 !important;
-}
-
-
-.select2-container .select2-selection--single{
-    height:24px !important;
-}
-.select2-container--default .select2-selection--single{
-         border: 1px solid #ccc !important; 
-     border-radius: 0px !important; 
-}
-
-
-
+  }
+  
 

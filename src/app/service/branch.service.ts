@@ -6,16 +6,8 @@ import { environment } from 'src/environments/environment';
 import { TokenService } from './token.service';
 
 // const AUTH_API = 'https://cargo-backend-bpq4.onrender.com/'
-
-
 const AUTH_API = 'https://cargo-logistics-zsqp.onrender.com/'
-
-
-
 // const AUTH_API = 'http://3.109.182.152:4000/'
-
-
-
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +32,7 @@ export class BranchService {
     const apiUrl = `${this.baseUrl}/${endpoint}`;
     return this.http.post(apiUrl, data);
   }
-//
+
   GetProfileData(){
     const token1 = this.token.getToken();
     const httpOptions = {
@@ -67,9 +59,6 @@ export class BranchService {
     }
       return this.http.get(AUTH_API + 'multi-router/cities', httpOptions);
   }
-
-
-  
   GetBranch(){
     const token1 = this.token.getToken();
     const httpOptions = {
@@ -80,8 +69,6 @@ export class BranchService {
     }
       return this.http.get(AUTH_API + 'branch', httpOptions);
   }
-
-  
     GetBranchbyCity(cityName: any) {
       const token1 = this.token.getToken();
       const httpOptions = {
@@ -93,11 +80,6 @@ export class BranchService {
       return this.http.get(AUTH_API + 'branch/city/' + encodeURIComponent(cityName), httpOptions);
       
     }
-  
-
-
-
-
   FilterBookingServiceCharges(value: { fromCity: string; toCity: string }) {
     const token1 = this.token.getToken();
     const httpOptions = {
@@ -128,16 +110,6 @@ export class BranchService {
       httpOptions
     );
   }
-
-
-  
-
-
-
-
-
-
-
   createBooking(value:{
     bookedBy: string;
     fromCity: string;

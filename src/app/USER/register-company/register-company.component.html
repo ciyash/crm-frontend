@@ -1,0 +1,175 @@
+<!--   
+
+  <div class="container">
+    <div class="form-container mt-5">
+        <h2 class="text-center mb-4 text-dark fw-bold">Company Registration </h2>
+        <form [formGroup]="Form" (ngSubmit)="createCompany()">
+          <div class="mb-3">
+            <label for="name" class="form-label">Company Name</label>
+            <input type="text" class="form-control" id="name" formControlName="name"
+              [class.is-invalid]="Form.get('name')?.touched && Form.get('name')?.invalid">
+            <div class="invalid-feedback" *ngIf="Form.get('name')?.touched && Form.get('name')?.invalid">
+              Please enter your name.
+            </div>
+          </div>
+        
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" formControlName="email"
+              [class.is-invalid]="Form.get('email')?.touched && Form.get('email')?.invalid">
+            <div class="invalid-feedback" *ngIf="Form.get('email')?.touched && Form.get('email')?.invalid">
+              <span *ngIf="Form.get('email')?.errors?.['required']">Please enter an email.</span>
+              <span *ngIf="Form.get('email')?.errors?.['email']">Please enter a valid email address.</span>
+            </div>
+          </div>
+        
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" formControlName="password"
+              [class.is-invalid]="Form.get('password')?.touched && Form.get('password')?.invalid">
+            <div class="invalid-feedback" *ngIf="Form.get('password')?.touched && Form.get('password')?.invalid">
+              Please enter a password.
+            </div>
+          </div>
+        
+          <div class="mb-3">
+            <label for="parentCompanyId" class="form-label">Parent Company ID</label>
+            <input type="text" class="form-control" id="parentCompanyId" formControlName="parentCompanyId"
+              [class.is-invalid]="Form.get('parentCompanyId')?.touched && Form.get('parentCompanyId')?.invalid">
+            <div class="invalid-feedback" *ngIf="Form.get('parentCompanyId')?.touched && Form.get('parentCompanyId')?.invalid">
+              Please enter a Parent Company ID.
+            </div>
+          </div>
+        
+          <div class="mb-3">
+            <label for="phone" class="form-label">Phone</label>
+            <input type="tel" class="form-control" id="phone" formControlName="phone"
+              [class.is-invalid]="Form.get('phone')?.touched && Form.get('phone')?.invalid">
+            <div class="invalid-feedback" *ngIf="Form.get('phone')?.touched && Form.get('phone')?.invalid">
+              Please enter a phone number.
+            </div>
+          </div>
+        
+          <div class="mb-3">
+            <label for="address" class="form-label">Address</label>
+            <input type="text" class="form-control" id="address" formControlName="address"
+              [class.is-invalid]="Form.get('address')?.touched && Form.get('address')?.invalid">
+            <div class="invalid-feedback" *ngIf="Form.get('address')?.touched && Form.get('address')?.invalid">
+              Please enter an address.
+            </div>
+          </div>
+        
+          <div class="mb-3">
+            <label for="state" class="form-label">State</label>
+            <input type="text" class="form-control" id="state" formControlName="state"
+              [class.is-invalid]="Form.get('state')?.touched && Form.get('state')?.invalid">
+            <div class="invalid-feedback" *ngIf="Form.get('state')?.touched && Form.get('state')?.invalid">
+              Please enter a state.
+            </div>
+          </div>
+        
+          <div class="mb-3">
+            <label for="customerName" class="form-label">Customer Name</label>
+            <input type="text" class="form-control" id="customerName" formControlName="customerName"
+              [class.is-invalid]="Form.get('customerName')?.touched && Form.get('customerName')?.invalid">
+            <div class="invalid-feedback" *ngIf="Form.get('customerName')?.touched && Form.get('customerName')?.invalid">
+              Please enter the customer name.
+            </div>
+          </div>
+        
+          <button type="submit" class="btn btn-primary w-100">Submit</button>
+        </form>
+        
+        
+      </div>
+  </div>
+         -->
+         <div class="register-container d-flex justify-content-center align-items-center">
+            <div class="form-card shadow-lg p-4 rounded-4 bg-white">
+              <h2 class="text-center mb-4 fw-bold text-primary">🏢 Company Registration</h2>
+          
+              <form [formGroup]="Form" (ngSubmit)="createCompany()">
+          
+                <!-- Company Name -->
+                <div class="mb-3">
+                  <label class="form-label fw-semibold">Company Name</label>
+                  <input type="text" class="form-control form-control-lg" placeholder="Enter company name"
+                    formControlName="name"
+                    [class.is-invalid]="Form.get('name')?.touched && Form.get('name')?.invalid">
+                  <div class="invalid-feedback">Please enter company name.</div>
+                </div>
+          
+                <!-- Email -->
+                <div class="mb-3">
+                  <label class="form-label fw-semibold">Email</label>
+                  <input type="email" class="form-control form-control-lg" placeholder="Enter company email"
+                    formControlName="email"
+                    [class.is-invalid]="Form.get('email')?.touched && Form.get('email')?.invalid">
+                  <div class="invalid-feedback">
+                    <span *ngIf="Form.get('email')?.errors?.['required']">Please enter an email.</span>
+                    <span *ngIf="Form.get('email')?.errors?.['email']">Enter a valid email address.</span>
+                  </div>
+                </div>
+          
+                <!-- Password -->
+                <div class="mb-3">
+                  <label class="form-label fw-semibold">Password</label>
+                  <input type="password" class="form-control form-control-lg" placeholder="Enter password"
+                    formControlName="password"
+                    [class.is-invalid]="Form.get('password')?.touched && Form.get('password')?.invalid">
+                  <div class="invalid-feedback">Please enter a password.</div>
+                </div>
+          
+                <!-- Parent Company ID -->
+                <div class="mb-3">
+                  <label class="form-label fw-semibold">Parent Company ID</label>
+                  <input type="text" class="form-control form-control-lg" placeholder="Enter parent company ID"
+                    formControlName="parentCompanyId"
+                    [class.is-invalid]="Form.get('parentCompanyId')?.touched && Form.get('parentCompanyId')?.invalid">
+                  <div class="invalid-feedback">Please enter Parent Company ID.</div>
+                </div>
+          
+                <!-- Phone -->
+                <div class="mb-3">
+                  <label class="form-label fw-semibold">Phone</label>
+                  <input type="tel" class="form-control form-control-lg" placeholder="Enter phone number"
+                    formControlName="phone"
+                    [class.is-invalid]="Form.get('phone')?.touched && Form.get('phone')?.invalid">
+                  <div class="invalid-feedback">Please enter a phone number.</div>
+                </div>
+          
+                <!-- Address -->
+                <div class="mb-3">
+                  <label class="form-label fw-semibold">Address</label>
+                  <input type="text" class="form-control form-control-lg" placeholder="Enter address"
+                    formControlName="address"
+                    [class.is-invalid]="Form.get('address')?.touched && Form.get('address')?.invalid">
+                  <div class="invalid-feedback">Please enter an address.</div>
+                </div>
+          
+                <!-- State -->
+                <div class="mb-3">
+                  <label class="form-label fw-semibold">State</label>
+                  <input type="text" class="form-control form-control-lg" placeholder="Enter state"
+                    formControlName="state"
+                    [class.is-invalid]="Form.get('state')?.touched && Form.get('state')?.invalid">
+                  <div class="invalid-feedback">Please enter a state.</div>
+                </div>
+          
+                <!-- Customer Name -->
+                <div class="mb-4">
+                  <label class="form-label fw-semibold">Customer Name</label>
+                  <input type="text" class="form-control form-control-lg" placeholder="Enter customer name"
+                    formControlName="customerName"
+                    [class.is-invalid]="Form.get('customerName')?.touched && Form.get('customerName')?.invalid">
+                  <div class="invalid-feedback">Please enter customer name.</div>
+                </div>
+          
+                <!-- Submit -->
+                <button type="submit" class="btn btn-gradient w-100 py-2 fw-semibold">
+                  Register Company
+                </button>
+              </form>
+            </div>
+          </div>
+          

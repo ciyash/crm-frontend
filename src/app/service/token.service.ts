@@ -84,6 +84,8 @@
 //   }
   
 // }
+
+
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -102,7 +104,7 @@ export class TokenService {
     this.getUser(); // Load user if stored (optional)
     this.token = localStorage.getItem(TOKEN_KEY);
   }
-
+  
   // ✅ Token methods
   public saveToken(token: string): void {
     window.localStorage.setItem(TOKEN_KEY, token);
@@ -115,6 +117,7 @@ export class TokenService {
   }
 
   // ✅ Optional user storage (skip if not using)
+
   public saveUser(user: any): void {
     window.localStorage.setItem(USER_KEY, JSON.stringify(user));
     this.user = user;

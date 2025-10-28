@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 const AUTH_API = 'https://cargo-logistics-zsqp.onrender.com/';
 const login_API = 'https://cargo-logistics-zsqp.onrender.com/';
 
+
+
                       // new api
 // const login_API = 'https://cargobackend-9kxq.onrender.com/';
 // const AUTH_API = 'https://cargobackend-9kxq.onrender.com/';
@@ -13,10 +15,6 @@ const login_API = 'https://cargo-logistics-zsqp.onrender.com/';
 // const AUTH_API = 'http://3.109.182.152:4000/';
 // const login_API = 'http://3.109.182.152:4000/';
 
-
-
-
- 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
@@ -46,8 +44,7 @@ export class AuthService {
       httpOptions
     );
   }
- 
- 
- 
- 
+
+  
+
 }

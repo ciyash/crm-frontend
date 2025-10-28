@@ -108,9 +108,18 @@ import { TopayReportComponent } from './Branch/Reports/topay-report/topay-report
 import { AllReportComponent } from './Branch/Reports/all-report/all-report.component';
 import { BookingTypeWiseReportComponent } from './Branch/Reports/booking-type-wise-report/booking-type-wise-report.component';
 import { BranchwiseBookingdetailsComponent } from './Branch/Reports/branchwise-bookingdetails/branchwise-bookingdetails.component';
+import { RegisterCompanyComponent } from './USER/register-company/register-company.component';
+import { VendorComponent } from './USER/vendor/vendor.component';
+import { SubscriptionComponent } from './USER/subscription/subscription.component';
 const routes: Routes = [
   {path:"login",component:LoginComponent },
    {path:"clogin",component:CompanyLoginComponent },
+   {path:"register-company",component:RegisterCompanyComponent },
+   {path:"vendor",component:VendorComponent },
+   {path:"subcrition",component:SubscriptionComponent },
+
+
+
   {path:"",component:LoginComponent },
   {path:"signup",component:SignupComponent, canActivate: [authGuard] },
   {path:"dashboard",component:DashboardComponent, canActivate: [authGuard], },

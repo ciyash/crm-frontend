@@ -279,3 +279,14 @@ body {
     transform: translateY(0);
   }
 }
+/* Remove bullet dots from submenu items */
+.submenu {
+  list-style: none; /* removes default bullets */
+  padding-left: 0; /* removes left indent */
+  margin: 0; /* ensures alignment */
+}
+
+.submenu li {
+  list-style-type: none; /* removes dot symbols */
+}
+

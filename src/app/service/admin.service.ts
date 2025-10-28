@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core';
 import { TokenService } from './token.service';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 const AUTH_API = 'https://cargo-backend-bpq4.onrender.com/'
 
 // const AUTH_API = 'http://3.109.182.152:4000/'
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -737,7 +736,6 @@ export class AdminService {
     );
   }
 
-  
 
   StatusWiseSummary(){
     const token1 = this.token.getToken();
@@ -805,6 +803,103 @@ ACpartyData(value:{date:string}){
       httpOptions 
     );
 }
+AddCompany(value:{
+  phone: number;
+  address: string;
+  state: string;
+  customerName: string;
+  name: string;
+  email: string;
+  password: string;
+  parentCompanyId: string;
+
+}){
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+  return this.http.post(
+    AUTH_API + 'company/subsidiary/register',  { 
+      phone: value.phone,
+      address: value.address,
+      state: value.state,
+      customerName: value.customerName,
+      name: value.name,
+      email: value.email,
+      password: value.password,
+      parentCompanyId: value.parentCompanyId,
+    },
+     httpOptions 
+  );
+}
+vendorCreation(value: {
+  name: string;
+  companyName: string;
+  displayName: string;
+  address: string;
+  workPhone: number;
+  mobile: number;
+  bankDetails: {
+    accountNumber: number;
+    accountName: string;
+    bankName: string;
+    branchName: string;
+    ifscCode: string;
+  };
+}) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+
+  return this.http.post(
+    AUTH_API + 'vendor/create',
+    {
+      name: value.name,
+      companyName: value.companyName,
+      displayName: value.displayName,
+      address: value.address,
+      workPhone: value.workPhone,
+      mobile: value.mobile,
+      bankDetails: {
+        accountNumber: value.bankDetails.accountNumber,
+        accountName: value.bankDetails.accountName,
+        bankName: value.bankDetails.bankName,
+        branchName: value.bankDetails.branchName,
+        ifscCode: value.bankDetails.ifscCode
+      }
+    },
+    httpOptions
+  );
+}
+addSubscription(value: {
+  plan: string;
+  bookingLimit: number;
+}) {
+  const token1 = this.token.getToken();
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token1
+    })
+  };
+
+  return this.http.post(
+    AUTH_API + 'company/subscription',
+    {
+      plan: value.plan,
+      bookingLimit: value.bookingLimit
+    },
+    httpOptions
+  );
+}
+
 
 
 }

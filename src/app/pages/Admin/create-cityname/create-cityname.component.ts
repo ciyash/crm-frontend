@@ -115,8 +115,8 @@ export class CreateCitynameComponent {
         }
 
         Delete(id:any) {
+
           console.log("id:",id);
-          
           this.api.DeleteCityname(id).subscribe(
             (a: any) => {
               if (a) {
