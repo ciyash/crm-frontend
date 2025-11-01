@@ -4,9 +4,17 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-const AUTH_API = 'https://cargo-backend-bpq4.onrender.com/'
+// const AUTH_API = 'https://cargo-backend-bpq4.onrender.com/'
+
+
+const AUTH_API = 'https://cargo-logistics-zsqp.onrender.com/'
+
+
+
 
 // const AUTH_API = 'http://3.109.182.152:4000/'
+
+
 @Injectable({
   providedIn: 'root'
 })
