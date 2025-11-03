@@ -114,6 +114,7 @@ getbranchemployees(id:any){
 }
 
   Add() {
+    debugger;
     const payload = {
       name: this.form.value.name,
       branchType: this.form.value.branchType,

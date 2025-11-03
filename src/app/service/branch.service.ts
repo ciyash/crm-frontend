@@ -190,6 +190,7 @@ export class BranchService {
   
   //   return this.http.get(apiUrl, { params });
   // }
+  
   getData(endpoint: string, paramsObj?: any): Observable<any> {
     const token1 = this.token.getToken();
     const apiUrl = `${this.baseUrl}/${endpoint.replace(/^\/+/, '')}`;
