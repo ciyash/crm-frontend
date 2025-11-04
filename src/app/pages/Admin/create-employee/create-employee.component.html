@@ -118,9 +118,9 @@ font-weight: 500; text-decoration: underline; word-wrap: break-word;">Create Emp
         </thead>
 
         <tbody>
-          <ng-container *ngFor="let row of edata; let i = index">
+          <!-- <ng-container *ngFor="let row of edata; let i = index">
             <tr *ngIf="row.role !== 'admin'">
-              <td>{{ i + 1 }}</td>
+              <td >{{ i + 1 }}</td>
               <td>{{ row.name }}</td>
               <td>{{ row.companyId?.name }}</td>
               <td>{{ row.phone }}</td>
@@ -139,7 +139,30 @@ font-weight: 500; text-decoration: underline; word-wrap: break-word;">Create Emp
                 <i class="fa fa-edit"></i>
               </td>
             </tr>
+          </ng-container> -->
+          <ng-container *ngFor="let row of edata">
+            <tr>
+              <td>{{ row.serialNo }}</td>
+              <td>{{ row.name }}</td>
+              <td>{{ row.companyId?.name }}</td>
+              <td>{{ row.phone }}</td>
+              <td>{{ row.email }}</td>
+              <td>{{ row.location }}</td>
+              <td>{{ row.role }}</td>
+              <td>{{ row.username }}</td>
+              <td>
+                {{ row.showPassword ? row.password : '******' }}
+                <button type="button" (click)="togglePassword(row.serialNo - 1)" class="btn btn-sm">
+                  <i class="fa" [ngClass]="row.showPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                </button>
+              </td>
+              <td>{{ row.branchId?.name || 'N/A' }}</td>
+              <td (click)="showDialog(row)" data-bs-toggle="modal" data-bs-target="#exampleModal" style="cursor: pointer;">
+                <i class="fa fa-edit"></i>
+              </td>
+            </tr>
           </ng-container>
+          
         </tbody>
       </table>
     </div>

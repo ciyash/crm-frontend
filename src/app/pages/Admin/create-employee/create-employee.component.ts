@@ -75,20 +75,41 @@ export class CreateEmployeeComponent implements OnInit {
   ngOnInit(): void {
     this.branchData();
 
+    // this.api.GetEmployees().subscribe({
+    //   next: (res: any) => {
+    //     console.log('API Response:', res);
+    //     this.edata = res.map((employee: any) => {
+    //       return { ...employee, showPassword: false };
+    //     });
+    //     this.loading = false;
+    //     console.log("emplo:",this.edata)
+    //   },
+    //   error: (err: any) => {
+    //     console.error('API Error:', err);
+    //     this.loading = false;
+    //   }
+    // });
+
     this.api.GetEmployees().subscribe({
       next: (res: any) => {
         console.log('API Response:', res);
-        this.edata = res.map((employee: any) => {
-          return { ...employee, showPassword: false };
-        });
+    
+        // Only keep non-admin employees
+        this.edata = res
+          .filter((employee: any) => employee.role !== 'admin')
+          .map((employee: any, index: number) => {
+            return { ...employee, showPassword: false, serialNo: index + 1 };
+          });
+    
         this.loading = false;
+        console.log("emplo:", this.edata);
       },
       error: (err: any) => {
         console.error('API Error:', err);
         this.loading = false;
       }
     });
-
+    
 
   }
 
@@ -159,16 +180,11 @@ export class CreateEmployeeComponent implements OnInit {
       this.toastr.error('No employee selected for update.', 'Error');
       return;
     }
-
     const payload = {
       _id: this.repd._id,
-
       ...this.form1.value
     };
-
     console.log("payload:",payload);
-    
-
     this.api.UpdateEmployee(payload).subscribe({
       next: (res) => {
         this.updatedemployeee=res
