@@ -214,7 +214,7 @@ const routes: Routes = [
 
 
     
-  { path: 'employee-dashboard', component: EmployeeDashboardComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
+  // { path: 'employee-dashboard', component: EmployeeDashboardComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
   { path: 'employee-booking/:grnNo', component: BookingComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
   { path: 'employee-booking', component: BookingComponent, canActivate: [authGuard],data: { roles: ['employee'] }},
 

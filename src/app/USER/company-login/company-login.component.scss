@@ -1,80 +1,140 @@
 .login-container {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+}
+
+.background-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.55);
+}
+
+/* Login Box */
+.loginBox {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 360px;
+  padding: 40px;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* Title */
+.loginBox h2 {
+  text-align: center;
+  color: #ff9f1c;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #ccc;
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+/* Form */
+.form-group {
+  margin-bottom: 18px;
+}
+
+label {
+  color: #fff;
+  font-size: 14px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+input {
+  width: 100%;
+  height: 42px;
+  padding: 0 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  outline: none;
+  font-size: 14px;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+input:focus {
+  border-color: #ff9f1c;
+}
+
+/* Password */
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper i {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #ccc;
+  font-size: 18px;
+}
+
+/* Errors */
+.error {
+  color: #ff6b6b;
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
+}
+
+.api-error {
+  color: #ff6b6b;
+  text-align: center;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+/* Button */
+.login-btn {
+  width: 100%;
+  height: 44px;
+  border: none;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #ff8c00, #ffb347);
+  color: #000;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.login-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Spinner */
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 3px solid rgba(0, 0, 0, 0.3);
+  border-top: 3px solid #000;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
-  
-  .background-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .loginBox {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 350px;
-    padding: 70px 40px;
-    box-sizing: border-box;
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-  }
-  
-  h2 {
-    margin: 0 0 26px;
-    color: #ff8c00;
-    text-align: center;
-  }
-  
-  .loginBox p {
-    margin: 0;
-    padding: 0;
-    font-weight: bold;
-    color: #fff;
-  }
-  
-  .loginBox input[type="email"],
-  .loginBox input[type="password"] {
-    width: 100%;
-    margin-bottom: 20px;
-    border: none;
-    border-bottom: 1px solid #fff;
-    background: transparent;
-    outline: none;
-    height: 40px;
-    color: #fff;
-    font-size: 16px;
-  }
-  
-  ::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-  }
-  
-  .loginBox input[type="submit"] {
-    width: 100%;
-    border: none;
-    outline: none;
-    height: 40px;
-    color: #eee;
-    font-size: 16px;
-    background-color: #FF8C00;
-    cursor: pointer;
-    border-radius: 20px;
-    margin: 12px 0 18px;
-  }
-  
-  .loginBox input[type="submit"]:hover {
-    background-color: #ff9719;
-    color: #fff;
-  }
-  
-  .loginBox a {
-    color: #fff;
-    font-size: 14px;
-    font-weight: bold;
-    text-decoration: none;
-  }
-  
+}

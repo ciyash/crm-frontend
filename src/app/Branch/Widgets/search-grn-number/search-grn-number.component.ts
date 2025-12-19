@@ -91,8 +91,6 @@ printlr() {
 
   }
 }
-
-
 searchUser(): void {
   if (this.searchTerm && this.searchTerm.trim() !== '' && this.searchField) {
     const searchPayload = {

@@ -4,6 +4,9 @@
 </div>
 
 
+
+<!-- <h1>lkushdiausdhiausdhgausihdg</h1> -->
+
 <h4 class="text-center  " style="color: #3C3C3C;
 font-size: 20px;
 font-family: Poppins;
@@ -103,8 +106,6 @@ word-wrap: break-word">Parcel Booking</h4>
               <option *ngFor="let row of companyList" [value]="row.name">{{ row.name }}</option>
             </select>
           </div>
-
-
         </div>
       </div>
 
@@ -148,16 +149,15 @@ word-wrap: break-word">Parcel Booking</h4>
                                     <a class="text-white" style="cursor: pointer;" (click)="removeBarcodeData(i)"> <i class="fa fa-trash"></i> </a>
 
                                 </td> -->
+                    
                 <td>
                   <button *ngIf="i === 0" type="button" class="btn btn-success btn-sm" (click)="addOrderItem()">
                     Add +
                   </button>
-
-                  <a *ngIf="i > 0" class="text-white" style="cursor: pointer;" (click)="removeBarcodeData(i)">
+                  <a *ngIf="i > 0" class="text-danger" style="cursor: pointer;" (click)="removeBarcodeData(i)">
                     <i class="fa fa-trash"></i>
                   </a>
                 </td>
-
               </tr>
             </tbody>
           </table>
